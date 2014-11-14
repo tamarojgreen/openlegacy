@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.annotations.rpc;
 
+import org.openlegacy.annotations.screen.ScreenField;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

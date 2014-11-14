@@ -1,1 +1,6 @@
-var olConfig = {baseUrl:"/openlegacy-rest-new/",hostUrl:"http://host.name/application.name"};
+var olConfig = {
+		baseUrl:"/openlegacy-rest-new/",
+		hostUrl:"http://host.name/application.name",
+		showSystemMessages: true,
+		expiration: 30
+	};

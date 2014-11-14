@@ -15,6 +15,7 @@ public class SimpleHierarchyRpcPojoFieldAccessor implements HierarchyRpcPojoFiel
 	 * 
 	 * @see org.openlegacy.rpc.utils.HierarchyRpcPojoFieldAccessor#getPartAccessor(java.lang.String)
 	 */
+	@Override
 	public RpcPojoFieldAccessor getPartAccessor(String fullPath) {
 		RpcPojoFieldAccessor result = topLevelAccessor;
 		while (fullPath.indexOf('.') > 0) {

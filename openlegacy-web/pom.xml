@@ -12,7 +12,7 @@
 	<description>OpenLegacy web components provides a set of tools for building web,REST and mobile application using OpenLegacy API</description>	
 
 	<properties>
-		<org.slf4j-version>1.5.10</org.slf4j-version>
+		<org.slf4j-version>1.7.7</org.slf4j-version>
 	</properties>
 
 	<dependencies>
@@ -155,7 +155,7 @@
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
-			<version>2.3.14</version>
+			<version>2.3.21</version>
 		</dependency>
 		<dependency>
 			<groupId>org.neo4j</groupId>
@@ -171,6 +171,16 @@
 			<groupId>org.javassist</groupId>
 			<artifactId>javassist</artifactId>
 			<version>3.18.1-GA</version>
+		</dependency>
+		<dependency>
+			<groupId>net.wimpi</groupId>
+			<artifactId>telnetd-x</artifactId>
+			<version>2.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cassandra</groupId>
+			<artifactId>cassandra-thrift</artifactId>
+			<version>2.0.6</version>
 		</dependency>
 	</dependencies>
 </project>

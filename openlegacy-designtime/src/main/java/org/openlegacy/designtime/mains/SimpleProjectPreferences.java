@@ -30,6 +30,7 @@ public class SimpleProjectPreferences implements ProjectPreferences {
 		load(file);
 	}
 
+	@Override
 	public String get(String key) {
 		Object value = properties.get(key);
 		if (value == null) {
@@ -39,6 +40,7 @@ public class SimpleProjectPreferences implements ProjectPreferences {
 		return (String)value;
 	}
 
+	@Override
 	public void put(String key, String value) {
 		properties.put(key, value);
 		save();

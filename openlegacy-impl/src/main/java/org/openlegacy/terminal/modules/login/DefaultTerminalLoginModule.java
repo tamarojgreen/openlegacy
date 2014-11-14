@@ -74,6 +74,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 
 	private static final String LOGIN_FAILED = "Login failed";
 
+	@Override
 	public void login(String user, String password) throws LoginException {
 		if (loggedInUser != null) {
 			return;
@@ -100,6 +101,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 
 	}
 
+	@Override
 	public void login(Object loginEntity) throws LoginException, RegistryException {
 		if (loggedInUser != null) {
 			throw (new LoginException("User is already logged in"));
@@ -169,10 +171,12 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 		loginMetadata.initCache();
 	}
 
+	@Override
 	public boolean isLoggedIn() {
 		return loggedInUser != null;
 	}
 
+	@Override
 	public void logoff() {
 
 		logoffOnly();
@@ -258,6 +262,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 		this.loginTimeout = loginTimeout;
 	}
 
+	@Override
 	public User getLoggedInUser() {
 		return loggedInUser;
 	}

@@ -66,14 +66,17 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 		this.displayName = displayName;
 	}
 
+	@Override
 	public SessionAction<? extends Session> getAction() {
 		return action;
 	}
 
+	@Override
 	public String getActionName() {
 		return actionName;
 	}
 
+	@Override
 	public String getDisplayName() {
 		if (displayName == null) {
 			displayName = StringUtil.toDisplayName(getActionName().toLowerCase());
@@ -81,6 +84,7 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 		return displayName;
 	}
 
+	@Override
 	public String getAlias() {
 		if (alias == null) {
 			alias = getActionName().toLowerCase();
@@ -96,6 +100,7 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 		this.action = action;
 	}
 
+	@Override
 	public boolean isDefaultAction() {
 		return defaultAction;
 	}
@@ -112,6 +117,7 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 		this.targetEntityName = targetEntityName;
 	}
 
+	@Override
 	public boolean isGlobal() {
 		return global;
 	}
@@ -132,6 +138,7 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 		this.targetEntityDefinition = targetEntityDefinition;
 	}
 
+	@Override
 	public Class<?> getTargetEntity() {
 		return targetEntity;
 	}

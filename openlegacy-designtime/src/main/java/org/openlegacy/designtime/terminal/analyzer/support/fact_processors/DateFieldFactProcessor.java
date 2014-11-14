@@ -28,10 +28,12 @@ public class DateFieldFactProcessor implements ScreenFactProcessor {
 
 	private final static Log logger = LogFactory.getLog(DateFieldFactProcessor.class);
 
+	@Override
 	public boolean accept(ScreenFact screenFact) {
 		return screenFact instanceof DateFieldFact;
 	}
 
+	@Override
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 		DateFieldFact dateFieldFact = (DateFieldFact)screenFact;
 

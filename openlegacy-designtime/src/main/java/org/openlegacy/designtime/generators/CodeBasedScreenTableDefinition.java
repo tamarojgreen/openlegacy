@@ -57,25 +57,30 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 		throw (new NotImplementedException("Code based table has not implemented this method"));
 	}
 
+	@Override
 	public Class<?> getTableClass() {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public String getTableEntityName() {
 		return codeModel.getEntityName();
 	}
 
+	@Override
 	public int getEndRow() {
 		return codeModel.getEndRow();
 	}
 
+	@Override
 	public List<ScreenColumnDefinition> getColumnDefinitions() {
 		Collection<Field> fields = codeModel.getFields();
 		List<ScreenColumnDefinition> columnDefinitions = new ArrayList<ScreenColumnDefinition>();
 		List<Field> sortedFields = new ArrayList<Field>(fields);
 		Collections.sort(sortedFields, new Comparator<Field>() {
 
+			@Override
 			public int compare(Field field1, Field field2) {
 				return field1.getColumn() - field2.getColumn();
 			}
@@ -118,62 +123,75 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 		return columnDefinitions;
 	}
 
+	@Override
 	public ScreenColumnDefinition getColumnDefinition(String fieldName) {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public List<String> getKeyFieldNames() {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public int getMaxRowsCount() {
 		throwNotImplemented();
 		return 0;
 	}
 
+	@Override
 	public boolean isScrollable() {
 		return codeModel.isScrollable();
 	}
 
+	@Override
 	public int getStartRow() {
 		return codeModel.getStartRow();
 	}
 
+	@Override
 	public TerminalAction getNextScreenAction() {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public TerminalAction getPreviousScreenAction() {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public DrilldownDefinition getDrilldownDefinition() {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public Class<? extends TableCollector> getTableCollector() {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public void setTableCollector(Class<? extends TableCollector> tableCollector) {
 		throwNotImplemented();
 	}
 
+	@Override
 	public String getRowSelectionField() {
 		return ScrollableTableUtil.getRowSelectionField(this);
 	}
 
+	@Override
 	public List<String> getMainDisplayFields() {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public List<ActionDefinition> getActions() {
 		if (actions == null) {
 			List<Action> actionsFromCodeModel = codeModel.getActions();
@@ -197,31 +215,38 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 		return actions;
 	}
 
+	@Override
 	public void setWidth(int width) {
 		this.width = width;
 	}
 
+	@Override
 	public void setPartPosition(TerminalPosition partPosition) {
 		this.partPosition = partPosition;
 	}
 
+	@Override
 	public TerminalPosition getPartPosition() {
 		return partPosition;
 	}
 
+	@Override
 	public int getWidth() {
 		return width;
 	}
 
+	@Override
 	public ActionDefinition getDefaultAction() {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public int getRowGaps() {
 		return codeModel.getRowGaps();
 	}
 
+	@Override
 	public ScreenColumnDefinition getSelectionColumn() {
 		throwNotImplemented();
 		return null;
@@ -247,20 +272,31 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 		return codeModel.getClassName();
 	}
 
+	@Override
 	public List<String> getSortedByFieldNames() {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public int getScreensCount() {
 		return codeModel.getScreensCount();
 	}
 
+	@Override
 	public List<ScreenTableReferenceDefinition> getTableReferenceDefinitions() {
 		return null;
 	}
 
+	@Override
 	public String getFilterExpression() {
 		return codeModel.getFilterExpression();
 	}
+
+	@Override
+	public boolean isRtlDirection() {
+		throwNotImplemented();
+		return false;
+	}
+
 }

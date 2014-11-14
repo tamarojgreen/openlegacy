@@ -80,6 +80,7 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 	@XmlAttribute
 	private Boolean rightToLeft = false;
 
+	@Override
 	public SnapshotType getSnapshotType() {
 		return snapshotType;
 	}
@@ -88,6 +89,7 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 		this.snapshotType = snapshotType;
 	}
 
+	@Override
 	public List<TerminalRow> getRows() {
 		// initialize row length (not persisted as part of row)
 		for (TerminalRow terminalRow : rows) {
@@ -96,6 +98,7 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 		return rows;
 	}
 
+	@Override
 	public ScreenSize getSize() {
 		return size;
 	}
@@ -107,11 +110,13 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 		this.size = tempSize;
 	}
 
+	@Override
 	public List<TerminalPosition> getFieldSeperators() {
 		initContent();
 		return fieldPositions;
 	}
 
+	@Override
 	public TerminalPosition getCursorPosition() {
 		return cursorPosition;
 	}
@@ -128,6 +133,7 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 		this.cursorPosition = newCursorPosition;
 	}
 
+	@Override
 	public List<TerminalField> getFields() {
 		if (fields == null) {
 			fields = FieldsQuery.queryFields(getRows(), AllFieldsCriteria.instance());
@@ -135,14 +141,17 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 		return fields;
 	}
 
+	@Override
 	public TerminalField getField(TerminalPosition position) {
 		return SnapshotUtils.getField(this, position);
 	}
 
+	@Override
 	public Object getDelegate() {
 		return null;
 	}
 
+	@Override
 	public String getText() {
 		initContent();
 		return screenText;
@@ -155,11 +164,13 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 		}
 	}
 
+	@Override
 	public String getText(TerminalPosition position, int length) {
 		initContent();
 		return SnapshotUtils.getText(screenText, getSize(), position, length);
 	}
 
+	@Override
 	public TerminalRow getRow(int rowNumber) {
 		initContent();
 		// persisted snapshot rows may not be fully populated
@@ -173,6 +184,7 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 		return row;
 	}
 
+	@Override
 	public Integer getSequence() {
 		return sequence;
 	}
@@ -181,6 +193,7 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 		this.sequence = sequence;
 	}
 
+	@Override
 	public String getCommand() {
 		return command;
 	}
@@ -189,6 +202,7 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 		this.command = command;
 	}
 
+	@Override
 	public TerminalSendAction getTerminalSendAction() {
 		if (getSnapshotType() != SnapshotType.OUTGOING) {
 			return null;
@@ -222,10 +236,12 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 		return TerminalEqualsHashcodeUtil.snapshotsEquals(this, (TerminalSnapshot)obj);
 	}
 
+	@Override
 	public TerminalField getField(int row, int column) {
 		return getField(SimpleTerminalPosition.newInstance(row, column));
 	}
 
+	@Override
 	public String getLogicalText(TerminalPosition position, int length) {
 		String text = getText(position, length);
 		if (FeatureChecker.isSupportBidi()) {
@@ -234,6 +250,7 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 		return text;
 	}
 
+	@Override
 	public boolean isRightToLeft() {
 		if (rightToLeft == null) {
 			return false;

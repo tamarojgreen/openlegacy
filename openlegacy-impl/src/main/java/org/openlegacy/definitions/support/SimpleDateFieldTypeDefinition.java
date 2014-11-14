@@ -44,26 +44,32 @@ public class SimpleDateFieldTypeDefinition implements DateFieldTypeDefinition, S
 		this.pattern = pattern;
 	}
 
+	@Override
 	public String getTypeName() {
 		return "date";
 	}
 
+	@Override
 	public Integer getYearColumn() {
 		return yearColumn;
 	}
 
+	@Override
 	public Integer getMonthColumn() {
 		return monthColumn;
 	}
 
+	@Override
 	public Integer getDayColumn() {
 		return dayColumn;
 	}
 
+	@Override
 	public String getPattern() {
 		return pattern;
 	}
 
+	@Override
 	public String getLocale() {
 		return locale;
 	}

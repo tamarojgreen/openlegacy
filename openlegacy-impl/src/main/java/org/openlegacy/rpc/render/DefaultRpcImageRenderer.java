@@ -41,6 +41,7 @@ public class DefaultRpcImageRenderer implements RpcImageRenderer {
 	private int heightProportion = 16;
 	private int fontType = Font.BOLD;
 
+	@Override
 	public void render(String source, OutputStream output) {
 
 		BufferedImage buffer;

@@ -18,4 +18,6 @@ public interface DbEntityDefinition extends EntityDefinition<DbFieldDefinition> 
 
 	Map<String, DbFieldDefinition> getColumnFieldsDefinitions();
 
+	DbNavigationDefinition getNavigationDefinition();
+
 }

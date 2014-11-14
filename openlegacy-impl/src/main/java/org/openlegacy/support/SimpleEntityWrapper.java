@@ -26,6 +26,8 @@ public class SimpleEntityWrapper implements EntityWrapper {
 
 	private List<ActionDefinition> actions;
 
+	private Integer pageCount;
+
 	public SimpleEntityWrapper() {
 		// for de-serialization
 	}
@@ -38,6 +40,16 @@ public class SimpleEntityWrapper implements EntityWrapper {
 		this.actions = actions;
 	}
 
+	public SimpleEntityWrapper(Object entity, List<EntityDescriptor> paths, List<ActionDefinition> actions, Integer pageCount) {
+		this.entity = entity;
+
+		this.entityName = entity.getClass().getSimpleName();
+		this.paths = paths;
+		this.actions = actions;
+		this.pageCount = pageCount;
+	}
+
+	@Override
 	public Object getEntity() {
 		return entity;
 	}
@@ -46,11 +58,16 @@ public class SimpleEntityWrapper implements EntityWrapper {
 		return entityName;
 	}
 
+	@Override
 	public List<EntityDescriptor> getPaths() {
 		return paths;
 	}
 
 	public List<ActionDefinition> getActions() {
 		return actions;
+	}
+
+	public Integer getPageCount() {
+		return pageCount;
 	}
 }

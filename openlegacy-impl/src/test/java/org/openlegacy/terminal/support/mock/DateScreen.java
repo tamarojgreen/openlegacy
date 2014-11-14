@@ -63,12 +63,15 @@ public class DateScreen implements org.openlegacy.terminal.ScreenEntity {
 		this.dateField4 = dateField4;
 	}
 
+	@Override
 	public String getFocusField() {
 		return null;
 	}
 
+	@Override
 	public void setFocusField(String focusField) {}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<TerminalActionDefinition> getActions() {
 		return Collections.EMPTY_LIST;

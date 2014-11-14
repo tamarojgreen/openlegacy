@@ -90,11 +90,13 @@ public class CobolNumberInformation implements FieldInformation {
 		return exponentDigits;
 	}
 
+	@Override
 	public int getLength() {
 
 		return digitBeforeDot;
 	}
 
+	@Override
 	public Class<?> getJavaType() {
 		if (digitAfterDot > 0) {
 			return Double.class;
@@ -106,6 +108,7 @@ public class CobolNumberInformation implements FieldInformation {
 		}
 	}
 
+	@Override
 	public FieldTypeDefinition getType() {
 		double maxVal = Math.pow(10, scale + digitBeforeDot) - 1;
 		if (digitAfterDot > 0) {

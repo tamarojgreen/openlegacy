@@ -55,6 +55,7 @@ public class DefaultRegistryLoader implements RegistryLoader {
 
 	private ConfigurableListableBeanFactory beanFactory;
 
+	@Override
 	public void load(EntitiesRegistry<?, ?, ?> entitiesRegistry) {
 		entitiesRegistry.clear();
 
@@ -94,9 +95,10 @@ public class DefaultRegistryLoader implements RegistryLoader {
 		fillEntitiesReferences(entitiesRegistry);
 	}
 
+	@Override
 	public void loadSingleClass(EntitiesRegistry<?, ?, ?> entitiesRegistry, Class<?> beanClass, Boolean loadReferences) {
 
-		if (org.openlegacy.utils.ClassUtils.isAbstract(beanClass)) {
+		if (org.openlegacy.utils.ClassUtils.isAbstract(beanClass) || beanClass.getSimpleName().contains("_Aspect")) {
 			return;
 		}
 		if (entitiesRegistry.contains(beanClass)) {
@@ -165,6 +167,7 @@ public class DefaultRegistryLoader implements RegistryLoader {
 
 			ReflectionUtils.doWithFields(part.getPartClass(), new FieldCallback() {
 
+				@Override
 				public void doWith(Field field) {
 					FieldDefinition fieldDefinition = part.getFieldsDefinitions().get(
 							MessageFormat.format("{0}.{1}", part.getPartName(), field.getName()));
@@ -182,6 +185,7 @@ public class DefaultRegistryLoader implements RegistryLoader {
 		}
 		ReflectionUtils.doWithFields(entityDefinition.getEntityClass(), new FieldCallback() {
 
+			@Override
 			public void doWith(Field field) {
 				FieldDefinition fieldDefinition = entityDefinition.getFieldsDefinitions().get(field.getName());
 				assignFieldWithValues(entitiesRegistry, fieldDefinition, field);
@@ -252,6 +256,7 @@ public class DefaultRegistryLoader implements RegistryLoader {
 
 		ReflectionUtils.doWithFields(beanClass, new FieldCallback() {
 
+			@Override
 			public void doWith(Field field) {
 				loadDefinitionFromAnnotations(entitiesRegistry, beanClass, fieldAnnotationLoaders, field);
 				counterContainer.counter++;
@@ -285,6 +290,7 @@ public class DefaultRegistryLoader implements RegistryLoader {
 
 		ReflectionUtils.doWithFields(beanClass, new FieldCallback() {
 
+			@Override
 			public void doWith(Field field) {
 				loadDefinition(entitiesRegistry, beanClass, fieldLoaders, field);
 				// If the direction is NONE, do not increment the field order counter

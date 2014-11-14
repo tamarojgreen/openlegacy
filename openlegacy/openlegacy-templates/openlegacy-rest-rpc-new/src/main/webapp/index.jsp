@@ -20,15 +20,24 @@
         async: false
     };
 
+    function createOption(optionText, parentId){
+    	var option=document.createElement("option");
+    	option.text = optionText;
+    	dojo.byId(parentId).add(option);
+    }
+
     function loadData(data){
     	if (dojo.byId("requestType").value == "json"){
     		if (data != null){
     			dojo.byId('result').value = JSON.stringify(data);
     			if (data.model != null){
-    				for(var i=0;i<data.model.entity.actions.length;i++){
-    					var option=document.createElement("option");
-    					option.text = data.model.entity.actions[i].alias;
-    					dojo.byId("actionType").add(option);
+    				var actions = data.model.entity != null && data.model.entity.actions != null ? data.model.entity.actions : data.model.actions;
+    				dojo.byId("actionType").innerHTML = "";
+    				createOption("Submit","actionType");
+    				if(actions != null){
+    					for(var i=0;i<actions.length;i++){
+    						createOption(actions[i].alias,"actionType");
+    					}
     				}
     				data.model.entity.actions = null;
     				dojo.byId('postData').innerHTML = JSON.stringify(data.model.entity);
@@ -44,10 +53,12 @@
     			var start = data.indexOf("<entity");
     			dojo.byId('postData').innerHTML = data.substr(start,data.indexOf("</entity>")+9-start);
     			var actions = data.match(/<alias>\w+<\/alias>/g);
-    			for(var i=0;i<actions.length;i++){
-    				var option=document.createElement("option");
-    				option.text = actions[i].substr(7,actions[i].indexOf("</")-7);
-    				dojo.byId("actionType").add(option);
+    			dojo.byId("actionType").innerHTML = "";
+    			createOption("Submit","actionType");
+    			if(actions != null){
+    				for(var i=0;i<actions.length;i++){
+    					createOption(actions[i].substr(7,actions[i].indexOf("</")-7),"actionType");
+    				}
     			}
     		}
     		else{
@@ -135,7 +146,6 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 				out.write("<option>" + definition.getEntityName() + keyStr + "</option>");
 			}
 			%>
-			<option>emulation?keyboardKey=ENTER</option>
 			<option>messages</option>
 			<option>logoff</option>
 		</select> 

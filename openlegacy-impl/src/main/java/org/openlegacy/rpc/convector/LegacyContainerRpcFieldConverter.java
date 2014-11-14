@@ -10,6 +10,7 @@ import java.util.List;
 
 public class LegacyContainerRpcFieldConverter implements RpcFieldConverter {
 
+	@Override
 	public void toLegacy(List<RpcField> fields) {
 		List<RpcField> result = new ArrayList<RpcField>();
 		for (RpcField rpcField : fields) {
@@ -29,6 +30,7 @@ public class LegacyContainerRpcFieldConverter implements RpcFieldConverter {
 
 	}
 
+	@Override
 	public void toApi(List<RpcField> fields) {
 		List<RpcField> result = new ArrayList<RpcField>();
 		for (RpcField rpcField : fields) {

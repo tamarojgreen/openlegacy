@@ -33,6 +33,7 @@ public class ScreenEntitySpaGenerator extends AbstractEntitySpaGenerator impleme
 	@Inject
 	private ScreenPageBuilder screenPageBuilder;
 
+	@Override
 	public void generatePage(PageDefinition pageDefinition, OutputStream output, String templateDirectoryPrefix)
 			throws GenerationException {
 		String typeName = MessageFormat.format("{0}{1}", templateDirectoryPrefix,

@@ -5,7 +5,7 @@ import org.openlegacy.annotations.rpc.RpcActions;
 import org.openlegacy.annotations.rpc.RpcBooleanField;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
-import org.openlegacy.rpc.RpcActions.READ;
+import org.openlegacy.rpc.actions.RpcActions.READ;
 
 @RpcEntity(name = "BooleanEntity")
 @RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/BOOLTEST.PGM") })

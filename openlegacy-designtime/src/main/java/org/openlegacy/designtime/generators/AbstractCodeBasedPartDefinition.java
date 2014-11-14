@@ -26,16 +26,20 @@ public abstract class AbstractCodeBasedPartDefinition<F extends FieldDefinition,
 		this.packageDir = packageDir;
 	}
 
+	@Override
 	public Class<?> getPartClass() {
 		throw (new UnsupportedOperationException("Code based part does not support this method"));
 	}
 
+	@Override
 	public abstract Map<String, F> getFieldsDefinitions();
 
+	@Override
 	public String getPartName() {
 		return getCodeModel().getEntityName();
 	}
 
+	@Override
 	public String getDisplayName() {
 		return getCodeModel().getDisplayName();
 	}

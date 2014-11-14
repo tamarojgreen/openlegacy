@@ -33,6 +33,7 @@ public class DefaultTerminalActionMapper implements TerminalActionMapper, Serial
 
 	private Map<TerminalAction, Object> actionMappings = new HashMap<TerminalAction, Object>();
 
+	@Override
 	public Object getCommand(TerminalAction terminalAction) {
 		Object command = null;
 
@@ -64,6 +65,7 @@ public class DefaultTerminalActionMapper implements TerminalActionMapper, Serial
 	 * Reverse lookup. Find the action which is mapped to the given command. If 2 actions are mapped to the same command, the 1st
 	 * one is picked
 	 */
+	@Override
 	public TerminalAction getAction(Object command) {
 		if (command == null) {
 			return null;

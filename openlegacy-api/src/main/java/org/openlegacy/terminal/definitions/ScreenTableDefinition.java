@@ -70,6 +70,8 @@ public interface ScreenTableDefinition extends TableDefinition<ScreenColumnDefin
 	 */
 	String getFilterExpression();
 
+	boolean isRtlDirection();
+
 	public interface ScreenColumnDefinition extends TableDefinition.ColumnDefinition {
 
 		boolean isSelectionField();

@@ -15,6 +15,7 @@ import org.openlegacy.terminal.TerminalField;
 
 public class ByWordsCountFieldComparator implements BestEntityNameFieldComparator {
 
+	@Override
 	public int compare(TerminalField field1, TerminalField field2) {
 		int word1Count = field1.getValue().trim().split(" ").length;
 		int word2Count = field2.getValue().trim().split(" ").length;

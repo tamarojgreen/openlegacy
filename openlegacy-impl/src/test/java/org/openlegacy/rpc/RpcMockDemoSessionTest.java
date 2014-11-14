@@ -8,6 +8,7 @@ import org.openlegacy.Snapshot;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.modules.trail.TrailWriter;
+import org.openlegacy.rpc.actions.RpcActions;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.mock.ItemDetails;
 import org.openlegacy.rpc.definitions.mock.Items;
@@ -105,6 +106,7 @@ public class RpcMockDemoSessionTest {
 
 	}
 
+	@SuppressWarnings("unused")
 	@Test
 	public void rpcTableTest() {
 		RpcSession rpcSession = applicationContext.getBean(RpcSession.class);

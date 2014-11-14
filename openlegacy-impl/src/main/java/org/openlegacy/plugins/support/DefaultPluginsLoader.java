@@ -41,6 +41,7 @@ public class DefaultPluginsLoader implements PluginsLoader {
 		this.pluginsRegistry = new DefaultPluginsRegistry();
 	}
 
+	@Override
 	public PluginsLoader load() {
 		try {
 			findAndProcessPluginsXmlFiles();
@@ -50,6 +51,7 @@ public class DefaultPluginsLoader implements PluginsLoader {
 		return this;
 	}
 
+	@Override
 	public PluginsRegistry getPluginsRegistry() {
 		return this.pluginsRegistry;
 	}

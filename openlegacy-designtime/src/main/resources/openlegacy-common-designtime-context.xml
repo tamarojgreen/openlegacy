@@ -17,11 +17,7 @@
 	<bean id="xmlRenderer" class="org.openlegacy.terminal.render.DefaultTerminalSnapshotXmlRenderer" />
 		
 	<import resource="classpath:/META-INF/default-actions-context.xml" />
-
-	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry" />
-	<bean id="rpcRegistry" class="org.openlegacy.rpc.support.DefaultRpcEntitiesRegistry" />
-	<bean id="dbRegistry" class="org.openlegacy.db.support.DefaultDbEntitiesRegistry" />
-			
+		
 	<bean class="org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsOrganizer" p:matchingPercent="93" />
 
 	<bean id="screenEntityDefinitionsBuilder" class="org.openlegacy.designtime.terminal.analyzer.support.DefaultScreenEntityDefinitionsBuilder">
@@ -82,6 +78,7 @@
 	 
 	<!-- Service Generator -->
 	<bean id="serviceServiceGenerator" class="org.openlegacy.designtime.terminal.generators.ScreenEntityWsGenerator" />
+	<bean id="rpcServiceGenerator" class="org.openlegacy.designtime.rpc.generators.RpcEntityWsGenerator"/>
 	
 	<!-- RPC beans -->
 	<bean id="codeParserFactory" class="org.openlegacy.designtime.rpc.source.SimpleCodeParserFactory">

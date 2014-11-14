@@ -49,16 +49,19 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 
 	private final static Log logger = LogFactory.getLog(TerminalSnapshotsAnalyzerContext.class);
 
+	@Override
 	public Collection<TerminalSnapshot> getActiveSnapshots() {
 		return activeSnapshots;
 	}
 
+	@Override
 	public void setActiveSnapshots(Collection<TerminalSnapshot> snapshots) {
 		clear();
 		activeSnapshots = snapshots;
 
 	}
 
+	@Override
 	public void addEntityDefinition(String desiredEntityName, ScreenEntityDesigntimeDefinition screenEntityDefinition) {
 
 		if (desiredEntityName == null) {
@@ -95,6 +98,7 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 		return tempEntityName;
 	}
 
+	@Override
 	public Map<String, ScreenEntityDefinition> getEntitiesDefinitions() {
 		return entitiesDefinitionsResult;
 	}
@@ -104,6 +108,7 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 	 * name.
 	 * 
 	 */
+	@Override
 	public void finalizeEntitiesDefinitions() {
 		Set<Entry<String, List<ScreenEntityDesigntimeDefinition>>> entitiesByNameDefiniton = entitiesDefinitions.entrySet();
 		entitiesDefinitionsResult = new HashMap<String, ScreenEntityDefinition>();
@@ -133,6 +138,7 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 	 * Pick the snapshots which was accessed from each incoming snapshot. The active snapshots holds all the provided snapshot to
 	 * the snapshots analyzer
 	 */
+	@Override
 	public Collection<TerminalSnapshot> getAccessedFromSnapshots(Collection<TerminalSnapshot> incomingSnapshots) {
 
 		List<TerminalSnapshot> outgoingSnapshots = new ArrayList<TerminalSnapshot>();
@@ -164,6 +170,7 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 			return instance;
 		}
 
+		@Override
 		public int compare(ScreenEntityDefinition o1, ScreenEntityDefinition o2) {
 			Integer sequence1 = o1.getSnapshot().getSequence();
 			Integer sequence2 = o2.getSnapshot().getSequence();
@@ -175,6 +182,7 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 
 	}
 
+	@Override
 	public TerminalSnapshot getOutgoingSnapshot(TerminalSnapshot incomingSnapshot) {
 		if (incomingSnapshot.getSequence() == null) {
 			logger.debug("Ignoring outgoing snapshot since it has no sequence");

@@ -38,6 +38,7 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 
 	private String accessedFromEntityName;
 
+	@Override
 	public String getAccessedFromEntityName() {
 		return accessedFromEntityName;
 	}
@@ -46,6 +47,7 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 		this.accessedFromEntityName = accessedFromEntityName;
 	}
 
+	@Override
 	public Class<?> getAccessedFrom() {
 		return accessedFrom;
 	}
@@ -54,6 +56,7 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 		this.accessedFrom = accessedFrom;
 	}
 
+	@Override
 	public List<FieldAssignDefinition> getAssignedFields() {
 		return assignedFields;
 	}
@@ -62,6 +65,7 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 		this.assignedFields = fields;
 	}
 
+	@Override
 	public TerminalAction getTerminalAction() {
 		return terminalAction;
 	}
@@ -70,6 +74,7 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 		this.terminalAction = terminalAction;
 	}
 
+	@Override
 	public TerminalAction getExitAction() {
 		if (exitAction == null) {
 			exitAction = TerminalActions.F3();
@@ -81,6 +86,7 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 		this.exitAction = exitAction;
 	}
 
+	@Override
 	public boolean isRequiresParameters() {
 		return requiresParameters;
 	}
@@ -89,6 +95,7 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 		this.requiresParameters = requiresParameters;
 	}
 
+	@Override
 	public Class<?> getTargetEntity() {
 		return targetEntity;
 	}
@@ -97,6 +104,7 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 		this.targetEntity = targetEntity;
 	}
 
+	@Override
 	public String getDrilldownValue() {
 		return drilldownValue;
 	}
@@ -105,6 +113,7 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 		this.drilldownValue = drilldownValue;
 	}
 
+	@Override
 	public AdditionalKey getAdditionalKey() {
 		if (additionalKey == null) {
 			additionalKey = AdditionalKey.NONE;
@@ -116,6 +125,7 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 		this.additionalKey = additionalKey;
 	}
 
+	@Override
 	public AdditionalKey getExitAdditionalKey() {
 		if (exitAdditionalKey == null) {
 			exitAdditionalKey = AdditionalKey.NONE;
@@ -127,6 +137,7 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 		this.exitAdditionalKey = exitAdditionalKey;
 	}
 
+	@Override
 	public String getTerminalActionName() {
 		return terminalActionName;
 	}
@@ -135,6 +146,7 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 		this.terminalActionName = terminalActionName;
 	}
 
+	@Override
 	public String getExitActionName() {
 		return exitActionName;
 	}

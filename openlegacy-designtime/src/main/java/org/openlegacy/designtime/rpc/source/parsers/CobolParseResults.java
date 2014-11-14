@@ -50,6 +50,7 @@ public class CobolParseResults implements org.openlegacy.designtime.rpc.source.p
 		this.isCopyBook = isCopyBook;
 	}
 
+	@Override
 	public RpcEntityDefinition getEntityDefinition() {
 		List<ParameterStructure> parameters = organize();
 		RpcEntityDefinition rpcEntityDefinition = new SimpleRpcEntityDesigntimeDefinition();
@@ -126,7 +127,6 @@ public class CobolParseResults implements org.openlegacy.designtime.rpc.source.p
 		return interfaceParamtersNodes;
 	}
 
-	@SuppressWarnings("static-method")
 	private List<String> getParameterNames(ParseResults parseResults) {
 
 		CommonTree rootNode = parseResults.getTree();
@@ -175,6 +175,7 @@ public class CobolParseResults implements org.openlegacy.designtime.rpc.source.p
 		return paramtersNames;
 	}
 
+	@Override
 	public List<String> getErrors() {
 		List<String> errors = new ArrayList<String>();
 		for (int i = 0; i < parseResults.getErrorCount(); i++) {
@@ -184,6 +185,7 @@ public class CobolParseResults implements org.openlegacy.designtime.rpc.source.p
 		return errors;
 	}
 
+	@Override
 	public List<String> getWarnings() {
 		List<String> warnings = new ArrayList<String>();
 		for (int i = 0; i < parseResults.getWarningCount(); i++) {

@@ -10,6 +10,7 @@ public class DefaultCobolNameRecognizer implements CobolNameRecognizer {
 
 	private final static Pattern programIDPattern = Pattern.compile("PROGRAM-ID\\.\\s*(.*)\\.");
 
+	@Override
 	public String getEntityName(String source, String filename) {
 		String result;
 		Matcher matcherStart = programIDPattern.matcher(source);

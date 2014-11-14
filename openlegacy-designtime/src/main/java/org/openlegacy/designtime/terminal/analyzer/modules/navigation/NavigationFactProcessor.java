@@ -57,6 +57,7 @@ public class NavigationFactProcessor implements ScreenFactProcessor {
 
 	private final static Log logger = LogFactory.getLog(NavigationFactProcessor.class);
 
+	@Override
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 
 		NavigationFact navigationFact = (NavigationFact)screenFact;
@@ -177,6 +178,7 @@ public class NavigationFactProcessor implements ScreenFactProcessor {
 	private static boolean abortWhenHasPasswordFields(TerminalSnapshot accessedFromSnapshot) {
 		List<TerminalField> passwordFields = FieldsQuery.queryFields(accessedFromSnapshot, new FieldsCriteria() {
 
+			@Override
 			public boolean match(TerminalField terminalField) {
 				return terminalField.isPassword();
 			}
@@ -222,6 +224,7 @@ public class NavigationFactProcessor implements ScreenFactProcessor {
 		return null;
 	}
 
+	@Override
 	public boolean accept(ScreenFact screenFact) {
 		return (screenFact instanceof NavigationFact);
 	}

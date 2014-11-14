@@ -71,6 +71,7 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 
 	private final static Log logger = LogFactory.getLog(DefaultSessionNavigator.class);
 
+	@Override
 	public void navigate(TerminalSession terminalSession, Class<?> targetScreenEntityClass, Object... keys)
 			throws ScreenEntityNotAccessibleException {
 
@@ -184,6 +185,7 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 			}
 			Collections.sort(assignedFields, new Comparator<FieldAssignDefinition>() {
 
+				@Override
 				public int compare(FieldAssignDefinition o1, FieldAssignDefinition o2) {
 					// make sure fields with roles are set last
 					return o1.getRole() == null ? -1 : 1;

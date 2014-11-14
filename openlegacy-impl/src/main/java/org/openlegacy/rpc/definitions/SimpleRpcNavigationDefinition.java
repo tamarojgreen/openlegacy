@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.rpc.definitions;
 
-import org.openlegacy.rpc.definitions.RpcNavigationDefinition;
-
 import java.io.Serializable;
 
 public class SimpleRpcNavigationDefinition implements RpcNavigationDefinition, Serializable {
@@ -19,6 +17,7 @@ public class SimpleRpcNavigationDefinition implements RpcNavigationDefinition, S
 	private static final long serialVersionUID = 1L;
 	private String category;
 
+	@Override
 	public String getCategory() {
 		return category;
 	}

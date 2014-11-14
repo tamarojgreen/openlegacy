@@ -27,15 +27,18 @@ public class SimpleRpcFields implements RpcFields {
 			@XmlElement(name = "structure-list", type = SimpleRpcStructureListField.class) })
 	List<RpcField> fields = new ArrayList<RpcField>();
 
+	@Override
 	public List<RpcField> getFields() {
 		return fields;
 	}
 
+	@Override
 	public void add(RpcField rpcField) {
 		fields.add(rpcField);
 
 	}
 
+	@Override
 	public void sort() {
 		Collections.sort(fields, new RpcOrderFieldComparator());
 

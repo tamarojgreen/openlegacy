@@ -62,6 +62,7 @@ public class DefaultTerminalMenuModule extends TerminalSessionModuleAdapter impl
 		}
 	}
 
+	@Override
 	public MenuItem getMenuTree() {
 		if (userMenus == null) {
 			MenuItem rootMenu = menuBuilder.getMenuTree(currentMainMenu);
@@ -70,6 +71,7 @@ public class DefaultTerminalMenuModule extends TerminalSessionModuleAdapter impl
 		return userMenus;
 	}
 
+	@Override
 	public List<MenuItem> getFlatMenuEntries() {
 		if (userFlatMenus == null) {
 			List<MenuItem> flatMenuEntries = menuBuilder.getFlatMenuEntries(currentMainMenu);

@@ -26,6 +26,7 @@ public class DefaultRpcEntitiesRegistry extends AbstractEntitiesRegistry<RpcEnti
 	private static final long serialVersionUID = 1L;
 	private Map<String, RpcEntityDefinition> rpcDefinitionsByProgram;
 
+	@Override
 	public RpcEntityDefinition match(RpcSnapshot rpcSnapshot) {
 
 		if (rpcDefinitionsByProgram == null) {

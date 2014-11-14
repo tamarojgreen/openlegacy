@@ -26,5 +26,6 @@ public interface RpcInvokeAction extends RemoteAction<RpcField> {
 
 	String getRpcPath();
 
+	@Override
 	List<RpcField> getFields();
 }

@@ -29,6 +29,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 public class DefaultHtmlTableWriter implements TableWriter {
 
+	@Override
 	public void writeTable(List<? extends Object> records, TableDefinition<ColumnDefinition> tableDefinition,
 			OutputStream outputStream) {
 		DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();

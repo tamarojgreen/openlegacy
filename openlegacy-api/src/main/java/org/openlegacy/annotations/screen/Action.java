@@ -51,12 +51,12 @@ public @interface Action {
 	String displayName() default "";
 
 	/**
-	 * Not mandatory
+	 * Along with column, length, when - specify content in row,column in given length which matched when regex
 	 */
 	int row() default 0;
 
 	/**
-	 * Not mandatory
+	 * Along with row, length, when - specify content in row,column in given length which matched when regex
 	 */
 	int column() default 0;
 
@@ -87,6 +87,9 @@ public @interface Action {
 		WINDOW
 	}
 
+	/**
+	 * Along with row, column, when - specify content in row,column in given length which matched when regex
+	 */
 	int length() default 0;
 
 	/**

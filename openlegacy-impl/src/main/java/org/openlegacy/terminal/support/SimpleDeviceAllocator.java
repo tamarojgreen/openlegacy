@@ -17,6 +17,7 @@ public class SimpleDeviceAllocator implements DeviceAllocator {
 
 	private String deviceName;
 
+	@Override
 	public String allocate(String pullName, SessionProperties newSessionProperties) {
 		return deviceName;
 	}

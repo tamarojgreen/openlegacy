@@ -25,14 +25,17 @@ public class SimpleParseResults implements ParseResults {
 		this.entityDefinition = entityDefinition;
 	}
 
+	@Override
 	public List<String> getErrors() {
 		return errors;
 	}
 
+	@Override
 	public List<String> getWarnings() {
 		return warnings;
 	}
 
+	@Override
 	public RpcEntityDefinition getEntityDefinition() {
 		return entityDefinition;
 	}

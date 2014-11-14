@@ -18,6 +18,7 @@ import org.openlegacy.Session;
 import org.openlegacy.Snapshot;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -28,6 +29,8 @@ import java.util.Calendar;
 import javax.inject.Inject;
 
 public class TrailUtil {
+
+	private String testTrail = "test.trail";
 
 	private final static Log logger = LogFactory.getLog(TrailUtil.class);
 
@@ -45,7 +48,7 @@ public class TrailUtil {
 			return;
 		}
 
-		if (!session.isConnected()) {
+		if (session == null || !session.isConnected()) {
 			return;
 		}
 
@@ -67,5 +70,36 @@ public class TrailUtil {
 		} finally {
 			IOUtils.closeQuietly(trailOut);
 		}
+	}
+
+	public void saveTestTrail(Session session) {
+		if (!session.isConnected()) {
+			return;
+		}
+		FileOutputStream out = null;
+		try {
+			String testClass = Thread.currentThread().getStackTrace()[2].getClassName();
+			Class<?> clazz = Class.forName(testClass);
+			String classLocation = clazz.getResource(".").getFile();
+			File parentFile = new File(classLocation);
+			while (!parentFile.getName().equals("target")) {
+				parentFile = parentFile.getParentFile();
+			}
+			parentFile = parentFile.getParentFile();
+			out = new FileOutputStream(parentFile + "/" + testTrail);
+			trailWriter.write(session.getModule(Trail.class).getSessionTrail(), out);
+		} catch (FileNotFoundException e) {
+			throw (new RuntimeException(e));
+		} catch (ClassNotFoundException e) {
+			throw (new RuntimeException(e));
+		} finally {
+			IOUtils.closeQuietly(out);
+
+		}
+		logger.info(MessageFormat.format("A new trail file for test {0} was created in project root", testTrail));
+	}
+
+	public void setTestTrail(String testTrail) {
+		this.testTrail = testTrail;
 	}
 }

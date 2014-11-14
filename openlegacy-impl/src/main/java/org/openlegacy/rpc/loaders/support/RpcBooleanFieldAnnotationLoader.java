@@ -19,10 +19,12 @@ import java.text.MessageFormat;
 @Component
 public class RpcBooleanFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 
+	@Override
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == RpcBooleanField.class;
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass,
 			int fieldOrder) {

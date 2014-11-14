@@ -32,10 +32,12 @@ public class EnumFieldFactProcessor implements ScreenFactProcessor {
 	@Inject
 	private TextTranslator textTranslator;
 
+	@Override
 	public boolean accept(ScreenFact screenFact) {
 		return screenFact instanceof EnumFieldFact;
 	}
 
+	@Override
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 		EnumFieldFact enumFieldFact = (EnumFieldFact)screenFact;
 

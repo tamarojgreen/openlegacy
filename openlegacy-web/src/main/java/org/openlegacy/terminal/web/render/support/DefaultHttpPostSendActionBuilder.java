@@ -30,6 +30,7 @@ public class DefaultHttpPostSendActionBuilder implements TerminalSendActionBuild
 	@Inject
 	private TerminalActionMapper terminalActionMapper;
 
+	@Override
 	public TerminalSendAction buildSendAction(TerminalSnapshot terminalSnapshot, HttpServletRequest httpRequest) {
 		Object command = getCommand(httpRequest);
 		TerminalSendAction sendAction = new SimpleTerminalSendAction(command);

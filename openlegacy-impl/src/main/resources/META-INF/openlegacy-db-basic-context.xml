@@ -34,6 +34,20 @@
 	<bean id="sessionPropertiesProvider" class="org.openlegacy.support.SimpleSessionPropertiesProvider" />
 	<bean id="fieldFormatter" class="org.openlegacy.support.SimpleFieldFormatter" p:trim="true" />
 	
+	<bean id="abstractDbSession" class="org.openlegacy.db.support.DefaultDbSession" abstract="true">
+		<property name="sessionModules">
+			<bean class="org.openlegacy.support.SessionModules">
+				<property name="modules">
+					<list>
+						<bean class="org.openlegacy.db.modules.menu.DefaultDbMenuModule"/>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="menuBuilder" class="org.openlegacy.db.modules.menu.DefaultMenuBuilder"/>
+	
 	<context:annotation-config />
 
 </beans>

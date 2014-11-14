@@ -17,10 +17,12 @@ public class SimpleOpenLegacyProperties implements OpenLegacyProperties {
 	private boolean rightToLeft;
 	private boolean uppercaseInput;
 
+	@Override
 	public String getProperty(String propertyName) {
 		return System.getProperty(propertyName);
 	}
 
+	@Override
 	public boolean isRightToLeft() {
 		return rightToLeft;
 	}
@@ -29,18 +31,22 @@ public class SimpleOpenLegacyProperties implements OpenLegacyProperties {
 		this.rightToLeft = rightToLeft;
 	}
 
+	@Override
 	public boolean isDesigntime() {
 		return StringConstants.TRUE.equals(getProperty(OpenLegacyProperties.DESIGN_TIME));
 	}
 
+	@Override
 	public String getTrailPath() {
 		return getProperty(OpenLegacyProperties.TRAIL_FOLDER_PATH);
 	}
 
+	@Override
 	public String getVersion() {
 		return getClass().getPackage().getImplementationVersion();
 	}
 
+	@Override
 	public boolean isUppercaseInput() {
 		return uppercaseInput;
 	}

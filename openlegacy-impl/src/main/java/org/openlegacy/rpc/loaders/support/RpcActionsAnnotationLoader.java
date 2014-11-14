@@ -36,10 +36,12 @@ public class RpcActionsAnnotationLoader extends AbstractClassAnnotationLoader {
 
 	private final static Log logger = LogFactory.getLog(RpcActionsAnnotationLoader.class);
 
+	@Override
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == RpcActions.class;
 	}
 
+	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 

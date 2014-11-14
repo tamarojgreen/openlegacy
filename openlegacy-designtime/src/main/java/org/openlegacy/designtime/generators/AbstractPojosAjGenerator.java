@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 
 public abstract class AbstractPojosAjGenerator implements PojosAjGenerator {
 
+	@Override
 	public boolean generate(File javaFile) throws GenerationException {
 		try {
 			FileInputStream input = new FileInputStream(javaFile);

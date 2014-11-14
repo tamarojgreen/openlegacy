@@ -28,14 +28,17 @@ public class SimpleNumericFieldTypeDefinition implements NumericFieldTypeDefinit
 		this.maximumValue = maximumValue;
 	}
 
+	@Override
 	public double getMinimumValue() {
 		return minimumValue;
 	}
 
+	@Override
 	public double getMaximumValue() {
 		return maximumValue;
 	}
 
+	@Override
 	public String getTypeName() {
 		return "number";
 	}

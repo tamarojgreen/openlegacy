@@ -44,6 +44,7 @@ public class RpcPartFieldsLoader implements FieldLoader {
 		return fieldType;
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public boolean match(EntitiesRegistry entitiesRegistry, Field field) {
 		RpcEntitiesRegistry rpcEntitiesRegistry = (RpcEntitiesRegistry)entitiesRegistry;
@@ -51,6 +52,7 @@ public class RpcPartFieldsLoader implements FieldLoader {
 		return (rpcEntitiesRegistry.getPart(fieldJavaType) != null);
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public void load(EntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass, int fieldOrder) {
 		RpcEntitiesRegistry rpcEntitiesRegistry = (RpcEntitiesRegistry)entitiesRegistry;

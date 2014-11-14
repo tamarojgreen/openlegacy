@@ -20,6 +20,7 @@ public abstract class AbstractClassAnnotationLoader implements ClassAnnotationsL
 
 	private ConfigurableListableBeanFactory beanFactory;
 
+	@Override
 	public int compareTo(ClassAnnotationsLoader o) {
 		Order order1 = AnnotationUtils.findAnnotation(getClass(), Order.class);
 		Order order2 = AnnotationUtils.findAnnotation(o.getClass(), Order.class);

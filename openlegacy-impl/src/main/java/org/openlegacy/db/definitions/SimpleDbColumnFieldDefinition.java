@@ -34,6 +34,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.fieldTypeArgs = fieldTypeArgs;
 	}
 
+	@Override
 	public int compareTo(FieldDefinition o) {
 		return 0;
 	}
@@ -118,6 +119,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.scale = scale;
 	}
 
+	@Override
 	public DbOneToManyDefinition getOneToManyDefinition() {
 		return oneToManyDefinition;
 	}
@@ -130,10 +132,12 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		return fieldTypeArgs;
 	}
 
+	@Override
 	public String getExpression() {
 		return null;
 	}
 	
+	@Override
 	public int getKeyIndex() {
 		return 1;
 	}

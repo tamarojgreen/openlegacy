@@ -19,6 +19,7 @@ public interface ScreenEntityDesigntimeDefinition extends ScreenEntityDefinition
 
 	void setDisplayName(String displayName);
 
+	@Override
 	TerminalSnapshot getSnapshot();
 
 	void setSnapshot(TerminalSnapshot terminalSnapshot);
@@ -31,6 +32,7 @@ public interface ScreenEntityDesigntimeDefinition extends ScreenEntityDefinition
 
 	void setAllSnapshots(Collection<TerminalSnapshot> allSnapshots);
 
+	@Override
 	String getPackageName();
 
 	void setPackageName(String packageName);
@@ -46,6 +48,7 @@ public interface ScreenEntityDesigntimeDefinition extends ScreenEntityDefinition
 
 	List<SimpleScreenTableDefinition> getTemporaryTableDefinitions();
 
+	@Override
 	List<ScreenFieldDefinition> getSortedFields();
 
 	List<String> getReferredClasses();
@@ -54,6 +57,7 @@ public interface ScreenEntityDesigntimeDefinition extends ScreenEntityDefinition
 
 	void setAccessedFromSnapshot(TerminalSnapshot accessedFromSnapshot);
 
+	@Override
 	ScreenEntityDefinition getAccessedFromScreenDefinition();
 
 	void setAccessedFromScreenDefinition(ScreenEntityDefinition screenEntityDefinition);

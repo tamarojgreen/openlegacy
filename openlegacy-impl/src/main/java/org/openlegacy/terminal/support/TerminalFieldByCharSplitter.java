@@ -27,6 +27,7 @@ public class TerminalFieldByCharSplitter implements TerminalFieldSplitter {
 	private String ch = " ";
 	private int charCount = 2;
 
+	@Override
 	public List<TerminalField> split(TerminalField terminalField, ScreenSize screenSize) {
 		if (!terminalField.getValue().contains(ch)) {
 			return null;

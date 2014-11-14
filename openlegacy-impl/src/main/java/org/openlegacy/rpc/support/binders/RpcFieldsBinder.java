@@ -34,6 +34,7 @@ public class RpcFieldsBinder implements RpcEntityBinder {
 	@Inject
 	private RpcEntitiesRegistry rpcEntitiesRegistry;
 
+	@Override
 	public void populateEntity(Object entity, RpcResult result) {
 		RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(entity.getClass());
 
@@ -53,6 +54,7 @@ public class RpcFieldsBinder implements RpcEntityBinder {
 
 	}
 
+	@Override
 	public void populateAction(RpcInvokeAction sendAction, Object entity) {
 		SimpleRpcPojoFieldAccessor fieldAccesor = new SimpleRpcPojoFieldAccessor(entity);
 
@@ -97,6 +99,7 @@ public class RpcFieldsBinder implements RpcEntityBinder {
 		return rpcField;
 	}
 
+	@Override
 	public boolean fieldMatch(RpcFieldDefinition rpcFieldDefinition) {
 		if (rpcFieldDefinition.getJavaType() == Boolean.class || rpcFieldDefinition.getJavaType() == java.util.Date.class
 				|| rpcFieldDefinition.getJavaType().isEnum()) {
@@ -108,11 +111,13 @@ public class RpcFieldsBinder implements RpcEntityBinder {
 		return true;
 	}
 
+	@Override
 	public Object toApi(RpcFieldDefinition rpcFieldDefinition, Object legacyFieldValue) {
 		// no conversion
 		return legacyFieldValue;
 	}
 
+	@Override
 	public Object toLegacy(RpcFieldDefinition rpcFieldDefinition, Object apiFieldValue, RpcFlatField booleanField) {
 		// no conversion
 		return apiFieldValue;

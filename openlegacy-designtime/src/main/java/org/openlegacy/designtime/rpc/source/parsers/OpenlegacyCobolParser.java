@@ -104,6 +104,7 @@ public class OpenlegacyCobolParser implements CodeParser {
 		return name.substring(2, length - 2);
 	}
 
+	@Override
 	public ParseResults parse(String source, Map<String, InputStream> streamMap) throws IOException {
 		copyBookPath = CobolParserUtils.createTmpDir("CopyBookDir");
 		CobolParserUtils.copyStreamsToFile(copyBookPath, streamMap);
@@ -128,6 +129,7 @@ public class OpenlegacyCobolParser implements CodeParser {
 		return result;
 	}
 
+	@Override
 	public ParseResults parse(String source, String fileName) {
 
 		String tempFileName = "";

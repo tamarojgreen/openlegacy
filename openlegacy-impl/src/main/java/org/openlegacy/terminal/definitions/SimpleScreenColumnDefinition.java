@@ -33,6 +33,7 @@ public class SimpleScreenColumnDefinition extends AbstractColumnDefinition imple
 		super(name);
 	}
 
+	@Override
 	public int getStartColumn() {
 		return startColumn;
 	}
@@ -41,6 +42,7 @@ public class SimpleScreenColumnDefinition extends AbstractColumnDefinition imple
 		this.startColumn = startColumn;
 	}
 
+	@Override
 	public int getEndColumn() {
 		return endColumn;
 	}
@@ -49,6 +51,7 @@ public class SimpleScreenColumnDefinition extends AbstractColumnDefinition imple
 		this.endColumn = endColumn;
 	}
 
+	@Override
 	public boolean isSelectionField() {
 		return selectionField;
 	}
@@ -57,6 +60,7 @@ public class SimpleScreenColumnDefinition extends AbstractColumnDefinition imple
 		this.selectionField = selectionField;
 	}
 
+	@Override
 	public int getLength() {
 		return getEndColumn() - getStartColumn() + 1;
 	}
@@ -71,6 +75,7 @@ public class SimpleScreenColumnDefinition extends AbstractColumnDefinition imple
 		return getStartColumn() - otherColumn.getStartColumn();
 	}
 
+	@Override
 	public FieldAttributeType getAttribute() {
 		return attribute;
 	}
@@ -79,6 +84,7 @@ public class SimpleScreenColumnDefinition extends AbstractColumnDefinition imple
 		this.attribute = attribute;
 	}
 
+	@Override
 	public String getExpression() {
 		return expression;
 	}

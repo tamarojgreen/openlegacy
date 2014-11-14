@@ -65,7 +65,7 @@
 			<value>[pf12]</value>
 		</entry>
 		<entry>
-			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGEDOWN" /></key>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGE_DOWN" /></key>
 			<value>[pgdown]</value>
 		</entry>
 		<entry>
@@ -124,13 +124,14 @@
 	-->
 	
 	<!-- Default H3270 keyboard mappings
+	 -->		
 	<util:map id="actionMappings">
 		<entry>
 			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.ENTER" /></key>
 			<value>enter</value>
 		</entry>
 		<entry>
-			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.ESC" /></key>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.ESCAPE" /></key>
 			<value>clear</value>
 		</entry>
 		<entry>
@@ -182,11 +183,11 @@
 			<value>pf12</value>
 		</entry>
 		<entry>
-			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGEDOWN" /></key>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGE_DOWN" /></key>
 			<value>pf8</value>
 		</entry>
 		<entry>
-			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGEUP" /></key>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGE_UP" /></key>
 			<value>pf7</value>
 		</entry>
 		<entry>
@@ -237,6 +238,9 @@
 			<key><bean parent="combinedAction" p:additionalKey="SHIFT" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F12" /></key>
 			<value>pf24</value>
 		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="CTRL" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F12" /></key>
+			<value>pa24</value>
+		</entry>
 	</util:map>		
-	 -->		
 </beans>

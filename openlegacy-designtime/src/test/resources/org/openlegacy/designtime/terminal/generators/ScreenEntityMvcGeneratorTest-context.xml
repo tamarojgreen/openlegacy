@@ -5,8 +5,30 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
+ 	<bean class="org.openlegacy.terminal.support.ScreenAnnotationProccesor">
+	    <property name="loadersPackages">
+	        <list>
+	            <value>org.openlegacy.terminal.loaders.support</value>
+            </list>
+	    </property>
+ 	</bean>
+ 
+	<context:component-scan base-package="org.openlegacy"
+		use-default-filters="false">
+		<context:include-filter expression="org.springframework.stereotype.Component"
+			type="annotation" />
+		<context:exclude-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
+ 			
+	<bean id="openLegacyProperties" class="org.openlegacy.utils.SimpleOpenLegacyProperties" />
+	<bean id="registryLoader" class="org.openlegacy.terminal.support.DefaultScreensRegistryLoader"/>
+	<bean id="defaultScreenRecordsProvider" class="org.openlegacy.terminal.support.DefaultScreenRecordsProvider">
+	</bean>	
+	
 	<import resource="classpath:/test-designtime-context.xml" />
 
+ 	
 	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
 	    <property name="packages">
 	        <list>

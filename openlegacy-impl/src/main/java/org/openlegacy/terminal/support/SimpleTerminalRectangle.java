@@ -26,14 +26,17 @@ public class SimpleTerminalRectangle implements TerminalRectangle {
 		this.buttomRightPosition = buttomRightPosition;
 	}
 
+	@Override
 	public TerminalPosition getTopLeftPosition() {
 		return topLeftPosition;
 	}
 
+	@Override
 	public TerminalPosition getButtomRightPosition() {
 		return buttomRightPosition;
 	}
 
+	@Override
 	public boolean contains(TerminalPosition position, boolean includeBorder) {
 		if (includeBorder) {
 			return topLeftPosition.getRow() <= position.getRow() && topLeftPosition.getColumn() <= position.getColumn()

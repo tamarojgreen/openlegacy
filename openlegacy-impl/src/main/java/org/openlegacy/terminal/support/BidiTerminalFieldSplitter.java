@@ -22,6 +22,7 @@ import java.util.List;
 
 public class BidiTerminalFieldSplitter implements TerminalFieldSplitter {
 
+	@Override
 	public List<TerminalField> split(TerminalField terminalField, ScreenSize screenSize) {
 		Assert.notNull(terminalField);
 		String visualValue = terminalField.getVisualValue();

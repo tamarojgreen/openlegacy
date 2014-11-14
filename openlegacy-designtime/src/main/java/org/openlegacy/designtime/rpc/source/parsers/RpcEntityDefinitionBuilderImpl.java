@@ -96,6 +96,7 @@ public class RpcEntityDefinitionBuilderImpl implements RpcEntityDefinitionBuilde
 	 * 
 	 * @see org.openlegacy.designtime.rpc.source.parsers.RpcEntityDefinitionBuilder#build(java.lang.String, java.util.List)
 	 */
+	@Override
 	public void build(List<ParameterStructure> paramtersNodes, RpcEntityDefinition entityDefinition) {
 
 		for (int parameterOrder = 0; parameterOrder < paramtersNodes.size(); parameterOrder++) {

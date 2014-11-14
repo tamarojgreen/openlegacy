@@ -21,6 +21,7 @@ import java.util.List;
  */
 public class DefaultRowFinder<T> implements RowFinder<T> {
 
+	@Override
 	public Integer findRow(RowComparator<T> rowComparator, List<T> tableRows, Object... rowKeys) {
 		int rowCount = 0;
 

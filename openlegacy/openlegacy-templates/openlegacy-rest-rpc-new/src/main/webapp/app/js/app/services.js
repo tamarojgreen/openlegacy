@@ -33,7 +33,11 @@
 				.success(function(data, status, headers, config) {
 					callback(data);
 				}).error(function(data, status, headers, config) {
-					alert(data.error);
+					if(data.error){
+						alert('Error: ' + data.error);
+					} else {
+						alert(data);
+					}
 				});
 				
 			},
@@ -44,7 +48,7 @@
 				$http(
 						{
 							method : 'POST',
-							data : angular.toJson(model),
+							data : encodeURIComponent(angular.toJson(model)),
 							url : olConfig.baseUrl + url,
 							headers : {
 								'Content-Type' : 'application/json',
@@ -54,7 +58,11 @@
 				.success(function(data, status, headers, config) {
 					callback(data);
 				}).error(function(data, status, headers, config) {					
-					alert(data.error);
+					if(data.error){
+						alert('Error: ' + data.error);
+					} else {
+						alert(data);
+					}
 				});
 			}
 		
@@ -82,7 +90,11 @@
 				getMenuString(data.simpleMenuItem.menuItems);
 				callback(menuArray);
 			}).error(function(data, status, headers, config) {
-				alert(data);
+				if(data.error){
+					alert('Error: ' + data.error);
+				} else {
+					alert(data);
+				}
 			});
 		};
 	})

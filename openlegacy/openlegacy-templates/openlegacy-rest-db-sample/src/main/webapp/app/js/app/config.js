@@ -1,1 +1,1 @@
-var olConfig = {baseUrl:"/openlegacy-rest-rpc-sample/"};
+var olConfig = {baseUrl:"/openlegacy-rest-db-sample/"};

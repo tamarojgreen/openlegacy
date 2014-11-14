@@ -27,14 +27,17 @@ public class SimpleSessionProperties implements SessionProperties, Serializable,
 
 	private Date lastActivity;
 
+	@Override
 	public String getId() {
 		return id;
 	}
 
+	@Override
 	public Object getProperty(String propertyName) {
 		return properties.get(propertyName);
 	}
 
+	@Override
 	public void setProperty(String propertyName, Object propertyValue) {
 		properties.put(propertyName, propertyValue);
 
@@ -58,6 +61,7 @@ public class SimpleSessionProperties implements SessionProperties, Serializable,
 				&& id.equals(((SimpleSessionProperties)obj).id);
 	}
 
+	@Override
 	public Date getStartedOn() {
 		return startedOn;
 	}
@@ -66,6 +70,7 @@ public class SimpleSessionProperties implements SessionProperties, Serializable,
 		this.startedOn = startedOn;
 	}
 
+	@Override
 	public int compareTo(SessionProperties other) {
 		if (startedOn == null) {
 			return -1;
@@ -73,6 +78,7 @@ public class SimpleSessionProperties implements SessionProperties, Serializable,
 		return startedOn.compareTo(other.getStartedOn());
 	}
 
+	@Override
 	public Date getLastActivity() {
 		return lastActivity;
 	}
@@ -81,6 +87,7 @@ public class SimpleSessionProperties implements SessionProperties, Serializable,
 		this.lastActivity = lastActivity;
 	}
 
+	@Override
 	public Map<String, Object> getProperties() {
 		return properties;
 	}

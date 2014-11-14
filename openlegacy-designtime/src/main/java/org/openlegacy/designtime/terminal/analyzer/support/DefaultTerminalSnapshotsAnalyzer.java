@@ -71,6 +71,7 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 
 	private static final Logger logger = Logger.getLogger(DefaultTerminalSnapshotsAnalyzer.class);
 
+	@Override
 	public Map<String, ScreenEntityDefinition> analyzeTrail(InputStream inputStream) {
 		TerminalSessionTrail trail;
 		try {
@@ -81,10 +82,12 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 		return analyzeTrail(trail);
 	}
 
+	@Override
 	public Map<String, ScreenEntityDefinition> analyzeTrail(TerminalSessionTrail trail) {
 		return analyzeSnapshots(trail.getSnapshots());
 	}
 
+	@Override
 	public Map<String, ScreenEntityDefinition> analyzeSnapshots(List<TerminalSnapshot> snapshots) {
 
 		snapshotsOrganizer.clear();
@@ -169,6 +172,7 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 		}
 	}
 
+	@Override
 	public void afterPropertiesSet() throws Exception {
 		initialize();
 		getKnowledgeBase();

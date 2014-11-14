@@ -10,3 +10,21 @@
 .row {
 	margin-top: 10px;
 }
+
+.panel-tree {
+	padding-left: 15px;
+}
+
+.panel-tree .angular-ui-tree-nodes li > a {
+	margin-left: -18px;
+	display: inline-block;
+}
+
+.tree-table {
+	width: 100%;
+	table-layout: fixed;	
+}
+
+.tree-table td {
+	vertical-align: top;
+}

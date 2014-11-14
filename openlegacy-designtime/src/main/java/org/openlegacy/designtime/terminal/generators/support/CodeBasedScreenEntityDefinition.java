@@ -88,6 +88,7 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 		return fields;
 	}
 
+	@Override
 	public Map<String, ScreenFieldDefinition> getAllFieldsDefinitions() {
 		// TODO include parts
 		return getFieldsDefinitions();
@@ -97,15 +98,18 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 		throw (new NotImplementedException("Code based screen entity has not implemented this method"));
 	}
 
+	@Override
 	public ScreenIdentification getScreenIdentification() {
 		// @author: Ivan Bort, refs assembla #112
 		return (getCodeModel()).getScreenIdentification();
 	}
 
+	@Override
 	public NavigationDefinition getNavigationDefinition() {
 		return (getCodeModel()).getNavigationDefinition();
 	}
 
+	@Override
 	public Map<String, ScreenTableDefinition> getTableDefinitions() {
 		return tableDefinitions;
 	}
@@ -118,30 +122,36 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 		return actions;
 	}
 
+	@Override
 	public TerminalSnapshot getSnapshot() {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public TerminalSnapshot getOriginalSnapshot() {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public boolean isWindow() {
 		return (getCodeModel()).isWindow();
 	}
 
+	@Override
 	public ScreenEntityDefinition getAccessedFromScreenDefinition() {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public TerminalSnapshot getAccessedFromSnapshot() {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public ScreenSize getScreenSize() {
 		return (getCodeModel()).getScreenSize();
 	}
@@ -159,6 +169,7 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 		return childScreens;
 	}
 
+	@Override
 	public boolean isChild() {
 		return getCodeModel().isChildScreen();
 	}
@@ -167,6 +178,7 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 		((DefaultScreenPojoCodeModel)getCodeModel()).setChildScreen(child);
 	}
 
+	@Override
 	public Set<EntityDefinition<?>> getAllChildEntitiesDefinitions() {
 		if (allChildScreens == null) {
 			allChildScreens = ScreenCodeBasedDefinitionUtils.getAllChildScreensDefinitions(getCodeModel(), getPackageDir());
@@ -174,6 +186,7 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 		return allChildScreens;
 	}
 
+	@Override
 	public List<ScreenFieldDefinition> getSortedFields() {
 		Collection<ScreenFieldDefinition> fields = getFieldsDefinitions().values();
 		List<ScreenFieldDefinition> sortedFields = new ArrayList<ScreenFieldDefinition>(fields);
@@ -181,11 +194,13 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 		return sortedFields;
 	}
 
+	@Override
 	public List<ScreenEntityBinder> getBinders() {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public boolean isPerformDefaultBinding() {
 		throwNotImplemented();
 		return false;
@@ -201,11 +216,13 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 		return this.getCodeModel().isSupportTerminalData();
 	}
 
+	@Override
 	public boolean isValidateKeys() {
 		return getCodeModel().isValidateKeys();
 		// return true;
 	}
 
+	@Override
 	public boolean isRightToLeft() {
 		return getCodeModel().isRightToLeft();
 		// return false;
@@ -216,6 +233,7 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 		return getCodeModel().getRoles();
 	}
 
+	@Override
 	public boolean isAutoMapKeyboardActions() {
 		return getCodeModel().isAutoMapKeyboardActions();
 	}

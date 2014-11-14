@@ -22,6 +22,7 @@ import javax.xml.bind.JAXBException;
 
 public class DefaultTerminalSnapshotXmlRenderer implements TerminalSnapshotXmlRenderer {
 
+	@Override
 	public void render(TerminalSnapshot terminalSnapshot, OutputStream outputStream) {
 		TerminalPersistedSnapshot persistedSnapshot = null;
 		if (terminalSnapshot instanceof TerminalPersistedSnapshot) {
@@ -36,6 +37,7 @@ public class DefaultTerminalSnapshotXmlRenderer implements TerminalSnapshotXmlRe
 		}
 	}
 
+	@Override
 	public String getFileFormat() {
 		return "xml";
 	}

@@ -61,6 +61,8 @@
 										
 
 <#macro pagePart entity part>
+<div class="panel panel-default">
+<div class="panel-body">
 	<#if part.hasTable>
 		<#list entity.partsDefinitions?keys as key>
 			<#if key == part.tableDefinition.tableEntityName?uncap_first>
@@ -93,13 +95,13 @@
 												<#if entityDefinition.allFieldsDefinitionsSorted[0]??>	
 													<#if entityDefinition.allFieldsDefinitionsSorted[0].sortedFields[0]??>
 														<a href="#/${action.targetEntity.simpleName}/{{${entityDefinition.allFieldsDefinitionsSorted[0].sortedFields[0].shortName}}}" class="${action.alias}">													
-															<@actionButton actionAlias=action.alias/>												
+															<@actionButton action=action/>												
 														</a>
 													</#if>
 												</#if>
 											<#else>
 												<a href="" ng-click="doActionNoTargetEntity($index, '${action.action.actionValue}')">
-													<@actionButton actionAlias=action.alias/>
+													<@actionButton action=action/>
 												</a>
 											</#if>			                                        		                                        
                                         </#list>							
@@ -136,12 +138,14 @@
 				</div>				
 			</div>
 		</form>		
-	</#if>		
+	</#if>	
+</div>
+</div>	
 </#macro>
 
 <#macro fieldMacro field>
 	<div class="form-group">		
-		<label for="${field.name}" class="control-label">${field.displayName}:</label>		
+		<label for="${field.name}" class="control-label">${field.displayName}<#if field.displayName?length &gt; 0>:</#if></label> 		
 		<#if field.editable && field.fieldTypeDefinition??>
 			<#switch field.fieldTypeDefinition.typeName>
 				  <#case 'boolean'>
@@ -155,7 +159,18 @@
 				  	<#break>    
 			</#switch>
    		<#else>
-   			<div id="${field.name}" ng-model="model.${field.shortName}">{{model.${field.shortName}}}</div>   			
+   			<#if field.fieldTypeDefinition??>
+   				<#switch field.fieldTypeDefinition.typeName>
+					<#case 'boolean'>
+				 		<input type="checkbox" class="form-control" id="${field.name}" disabled="disabled" ng-checked="model.${field.shortName}">
+					<#break>
+					<#default>
+				  		<div id="${field.name}" ng-model="model.${field.shortName}">{{model.${field.shortName}}}</div>
+				  	<#break>    
+				</#switch>
+   			<#else>
+   				<div id="${field.name}" ng-model="model.${field.shortName}">{{model.${field.shortName}}}</div>
+   			</#if>	   			
    		</#if>		
 	</div>
 </#macro>
@@ -175,8 +190,8 @@
 	</nav>    
 </#macro>
 
-<#macro actionButton actionAlias>
-	<#switch actionAlias>
+<#macro actionButton action>
+	<#switch action.alias>
 	  <#case 'edit'>
 	   <span class="label label-primary">
 	   	 <span class="glyphicon glyphicon-repeat"></span>
@@ -193,6 +208,6 @@
 	  	</span>
 	    <#break>
 	  <#default>
-	  	<span>${actionAlias}</span>    
+	  	<span>${action.displayName}</span>    
 	</#switch>					
 </#macro>

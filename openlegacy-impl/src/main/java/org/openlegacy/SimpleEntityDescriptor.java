@@ -30,18 +30,22 @@ public class SimpleEntityDescriptor implements EntityDescriptor, Serializable {
 		this.requiresParameters = requiresParameters;
 	}
 
+	@Override
 	public Class<?> getEntityClass() {
 		return entityClass;
 	}
 
+	@Override
 	public String getEntityName() {
 		return entityName;
 	}
 
+	@Override
 	public String getDisplayName() {
 		return displayName;
 	}
 
+	@Override
 	public boolean isCurrent() {
 		return current;
 	}
@@ -50,6 +54,7 @@ public class SimpleEntityDescriptor implements EntityDescriptor, Serializable {
 		this.current = current;
 	}
 
+	@Override
 	public boolean isRequiresParameters() {
 		return requiresParameters;
 	}

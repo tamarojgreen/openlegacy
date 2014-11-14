@@ -34,6 +34,7 @@ public class RegistryBasedFieldMappingsProvider implements ScreenFieldsDefinitio
 	@Inject
 	private transient ApplicationContext applicationContext;
 
+	@Override
 	public Collection<ScreenFieldDefinition> getFieldsMappingDefinitions(TerminalSnapshot terminalSnapshot, Class<?> screenEntity) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(screenEntity);

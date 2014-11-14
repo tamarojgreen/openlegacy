@@ -4,34 +4,19 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <dependent-module archiveName="openlegacy-mvc-entities-sample-1.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-mvc-entities-sample/openlegacy-mvc-entities-sample">
+        <dependent-module archiveName="openlegacy-mvc-entities-sample-2.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-mvc-entities-sample/openlegacy-mvc-entities-sample">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="openlegacy-utils-1.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-utils/openlegacy-utils">
+        <dependent-module archiveName="openlegacy-utils-2.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-utils/openlegacy-utils">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="openlegacy-impl-1.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-impl/openlegacy-impl">
+        <dependent-module archiveName="openlegacy-impl-2.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-impl/openlegacy-impl">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="openlegacy-web-1.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-web/openlegacy-web">
+        <dependent-module archiveName="openlegacy-web-2.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-web/openlegacy-web">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="openlegacy-web-resources-1.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-web-resources/openlegacy-web-resources">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="openlegacy-themes-night-1.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-themes-night/openlegacy-themes-night">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="openlegacy-themes-cloud-1.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-themes-cloud/openlegacy-themes-cloud">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="openlegacy-themes-red-1.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-themes-red/openlegacy-themes-red">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="openlegacy-themes-cloudm-1.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-themes-cloudm/openlegacy-themes-cloudm">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="openlegacy-api-1.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-api/openlegacy-api">
+        <dependent-module archiveName="openlegacy-api-2.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-api/openlegacy-api">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="context-root" value="openlegacy-mvc-frontend-sample"/>

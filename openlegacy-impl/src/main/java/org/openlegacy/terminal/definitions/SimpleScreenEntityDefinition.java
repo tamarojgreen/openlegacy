@@ -70,6 +70,7 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 		super(entityName, entityClass);
 	}
 
+	@Override
 	public ScreenIdentification getScreenIdentification() {
 		return screenIdentification;
 	}
@@ -78,6 +79,7 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 		this.screenIdentification = screenIdentification;
 	}
 
+	@Override
 	public NavigationDefinition getNavigationDefinition() {
 		return navigationDefinition;
 	}
@@ -86,10 +88,12 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 		this.navigationDefinition = navigationDefinition;
 	}
 
+	@Override
 	public Map<String, ScreenTableDefinition> getTableDefinitions() {
 		return tableDefinitions;
 	}
 
+	@Override
 	public TerminalSnapshot getSnapshot() {
 		return this.snapshot;
 	}
@@ -98,6 +102,7 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 		this.snapshot = snapshot;
 	}
 
+	@Override
 	public boolean isWindow() {
 		return window;
 	}
@@ -106,10 +111,12 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 		this.window = window;
 	}
 
+	@Override
 	public TerminalSnapshot getOriginalSnapshot() {
 		return getSnapshot();
 	}
 
+	@Override
 	public TerminalSnapshot getAccessedFromSnapshot() {
 		return accessedFromSnapshot;
 	}
@@ -118,6 +125,7 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 		this.accessedFromSnapshot = accessedFromSnapshot;
 	}
 
+	@Override
 	public ScreenEntityDefinition getAccessedFromScreenDefinition() {
 		return this.accessedFromScreenDefinition;
 	}
@@ -126,6 +134,7 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 		this.accessedFromScreenDefinition = accessedFromScreenDefinition;
 	}
 
+	@Override
 	public ScreenSize getScreenSize() {
 		return screenSize;
 	}
@@ -138,6 +147,7 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 		this.child = child;
 	}
 
+	@Override
 	public boolean isChild() {
 		return child;
 	}
@@ -158,6 +168,7 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 		return childs;
 	}
 
+	@Override
 	public List<ScreenFieldDefinition> getSortedFields() {
 		Collection<ScreenFieldDefinition> fields = getFieldsDefinitions().values();
 
@@ -166,6 +177,7 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 		return sortedFields;
 	}
 
+	@Override
 	public List<ScreenEntityBinder> getBinders() {
 		return binders;
 	}
@@ -174,6 +186,7 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 		this.binders = binders;
 	}
 
+	@Override
 	public boolean isPerformDefaultBinding() {
 		return performDefaultBinding;
 	}
@@ -199,6 +212,7 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 		}
 		Collections.sort(keyFields, new Comparator<ScreenFieldDefinition>() {
 
+			@Override
 			public int compare(ScreenFieldDefinition o1, ScreenFieldDefinition o2) {
 				return o1.getKeyIndex() - o2.getKeyIndex();
 			}
@@ -211,6 +225,7 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 		return getEntityClass().getPackage().getName();
 	}
 
+	@Override
 	public boolean isRightToLeft() {
 		return rightToLeft;
 	}
@@ -224,6 +239,7 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 		return super.isEmpty() && getTableDefinitions().isEmpty();
 	}
 
+	@Override
 	public boolean isAutoMapKeyboardActions() {
 		return autoMapKeyboardActions;
 	}

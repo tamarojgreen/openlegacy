@@ -30,10 +30,12 @@ public class ReplaceTextDefinitionFormatter implements DefinitionFormatter {
 
 	private List<ReplaceTextConfiguration> replaceTextConfigurations;
 
+	@Override
 	public void format(FieldDefinition fieldDefinition) {
 		formatInner(fieldDefinition);
 	}
 
+	@Override
 	public void format(PartEntityDefinition<?> partDefinition) {
 		formatInner(partDefinition);
 		String name = partDefinition.getPartName().toLowerCase();

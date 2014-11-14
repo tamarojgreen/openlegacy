@@ -38,6 +38,7 @@ import org.openlegacy.designtime.newproject.model.ProjectTheme;
 import org.openlegacy.designtime.rpc.GenerateRpcModelRequest;
 import org.openlegacy.designtime.rpc.ImportSourceRequest;
 import org.openlegacy.designtime.rpc.generators.RpcEntityPageGenerator;
+import org.openlegacy.designtime.rpc.generators.RpcEntityServiceGenerator;
 import org.openlegacy.designtime.rpc.generators.RpcPojosAjGenerator;
 import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.RpcCodeBasedDefinitionUtils;
@@ -62,8 +63,8 @@ import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
-import org.openlegacy.rpc.RpcActions;
 import org.openlegacy.rpc.SourceFetcher;
+import org.openlegacy.rpc.actions.RpcActions;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.SimpleRpcActionDefinition;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -157,6 +158,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static final String INDEX_JSP_PATH = "src/main/webapp/app/index.jsp";
 
+	@Override
 	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException {
 		ITemplateFetcher templateFetcher = projectCreationRequest.getTemplateFetcher();
 
@@ -179,7 +181,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (projectCreationRequest.isSupportTheme()) {
 			renameThemeInPOM(projectCreationRequest.getProjectTheme(), targetPath);
 			renameThemeInAppProperties(projectCreationRequest.getProjectTheme(), targetPath);
-			renameThemeInIndexJSP(projectCreationRequest.getProjectTheme(), targetPath);
+			renameThemeInIndexJSP(projectCreationRequest.getProjectTheme(), projectCreationRequest.isRightTotLeft(), targetPath);
 		}
 
 		// spring files
@@ -198,6 +200,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		savePreference(targetPath, PreferencesConstants.WEB_PACKAGE, projectCreationRequest.getDefaultPackageName() + ".web");
 		savePreference(targetPath, PreferencesConstants.DESIGNTIME_CONTEXT, "default");
 		savePreference(targetPath, PreferencesConstants.USE_AJ, "1");
+		savePreference(targetPath, PreferencesConstants.BACKEND_SOLUTION,
+				projectCreationRequest.getBackendSolution() != null ? projectCreationRequest.getBackendSolution() : "SCREEN");
 
 		if (projectCreationRequest.isRightTotLeft()) {
 			handleRightToLeft(targetPath);
@@ -219,6 +223,18 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void handleRightToLeft(File targetPath) throws FileNotFoundException, IOException {
+		File designtimeContext = new File(targetPath, DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH);
+
+		if (designtimeContext.exists()) {
+			String designtimeContextFileContent = IOUtils.toString(new FileInputStream(designtimeContext));
+
+			designtimeContextFileContent = designtimeContextFileContent.replaceFirst("openlegacy-default-designtime-context",
+					"openlegacy-rtl-designtime-context");
+			FileUtils.write(designtimeContextFileContent, designtimeContext);
+		} else {
+			logger.error(MessageFormat.format("Unable to find openlegacy-designtime-context.xml within {0}", targetPath));
+		}
+
 		removeComment(new File(targetPath, "pom.xml"), bidiCommentStart, bidiCommentEnd);
 		removeComment(new File(targetPath, DEFAULT_SPRING_CONTEXT_FILE), bidiCommentStart, bidiCommentEnd);
 		removeComment(new File(targetPath, DEFAULT_SPRING_TEST_CONTEXT_FILE), bidiCommentStart, bidiCommentEnd);
@@ -333,6 +349,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			IOException {
 		targetPath.listFiles(new FileFilter() {
 
+			@Override
 			public boolean accept(File pathname) {
 				if (pathname.getName().endsWith(".launch")) {
 					try {
@@ -503,8 +520,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
-	private static void renameThemeInIndexJSP(ProjectTheme projectTheme, File targetPath) throws FileNotFoundException,
-			IOException {
+	private static void renameThemeInIndexJSP(ProjectTheme projectTheme, boolean rightToLeft, File targetPath)
+			throws FileNotFoundException, IOException {
 		File indexJspFile = new File(targetPath, INDEX_JSP_PATH);
 
 		if (!indexJspFile.exists()) {
@@ -514,8 +531,19 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		String IndexJspFileContent = IOUtils.toString(new FileInputStream(indexJspFile));
 
+		String bootstrapRtlSuffix = "";
+		if (rightToLeft) {
+			bootstrapRtlSuffix = "-rtl";
+		}
+		IndexJspFileContent = IndexJspFileContent.replaceAll("#rtlSuffix#", bootstrapRtlSuffix);
+
 		if (projectTheme != null) {
-			IndexJspFileContent = IndexJspFileContent.replaceAll("#projectTheme#", projectTheme.getDisplayName().toLowerCase());
+			String theme = projectTheme.getDisplayName().toLowerCase();
+			IndexJspFileContent = IndexJspFileContent.replaceAll("#projectThemeRoot#", theme);
+			if (rightToLeft) {
+				theme = theme + "_rtl";
+			}
+			IndexJspFileContent = IndexJspFileContent.replaceAll("#projectTheme#", theme);
 			FileUtils.write(IndexJspFileContent, indexJspFile);
 		}
 
@@ -551,6 +579,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		FileUtils.write(fileContent, webXmlFile);
 	}
 
+	@Override
 	public void generateScreenModel(GenerateScreenModelRequest generateModelRequest) throws GenerationException {
 		// initialize application context
 
@@ -589,6 +618,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
+	@Override
 	public boolean generateScreenEntityDefinition(GenerateScreenModelRequest generateScreenModelRequest,
 			ScreenEntityDefinition entityDefinition) {
 
@@ -659,6 +689,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
+	@Override
 	public boolean generateRpcEntityDefinition(GenerateRpcModelRequest generateRpcModelRequest,
 			RpcEntityDefinition entityDefinition) {
 
@@ -723,6 +754,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		screenDefinitions.addAll(screenEntitiesDefinitions.values());
 		Collections.sort(screenDefinitions, new Comparator<ScreenEntityDefinition>() {
 
+			@Override
 			public int compare(ScreenEntityDefinition o1, ScreenEntityDefinition o2) {
 				if (o2.getSnapshot().getSequence() == null) {
 					return -1;
@@ -883,6 +915,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
+	@Override
 	public boolean generateAspect(File javaFile) {
 
 		File projectPath = getProjectPath(javaFile);
@@ -920,6 +953,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
+	@Override
 	public void initialize(File projectPath) {
 		// initialize application context & analyzer
 		if (projectPath != null) {
@@ -932,6 +966,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	/**
 	 * Generates all required view files for a Spring MVC framework
 	 */
+	@Override
 	public void generateView(GenerateViewRequest generateViewRequest) throws GenerationException {
 
 		EntityDefinition<?> entityDefinition = initEntityDefinition(generateViewRequest.getEntitySourceFile());
@@ -951,6 +986,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	/**
 	 * Generates all required view files for a Spring MVC framework
 	 */
+	@Override
 	public void generateController(GenerateControllerRequest generateControllerRequest) throws GenerationException {
 
 		EntityDefinition<?> entityDefinition = initEntityDefinition(generateControllerRequest.getEntitySourceFile());
@@ -970,23 +1006,25 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
+	@Override
 	public boolean isSupportControllerGeneration(File entityFile) {
 		return getOrCreateApplicationContext(getProjectPath(entityFile)).getBean(ScreenEntityPageGenerator.class).isSupportControllerGeneration();
 	}
 
+	@Override
 	public boolean isSupportServiceGeneration(File projectPath) {
 		return getOrCreateApplicationContext(projectPath).getBean(ScreenEntityServiceGenerator.class).isSupportServiceGeneration(
 				projectPath);
 	}
 
+	@Override
 	public void generateService(GenerateServiceRequest generateServiceRequest) {
 		File projectPath = generateServiceRequest.getProjectPath();
 		EntityServiceGenerator entityServiceGenerator = null;
 		if (generateServiceRequest.getServiceType() == ServiceType.SCREEN) {
 			entityServiceGenerator = getOrCreateApplicationContext(projectPath).getBean(ScreenEntityServiceGenerator.class);
 		} else {
-			// TODO generated RPC service
-			// entityPageGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityServiceGenerator.class);
+			entityServiceGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityServiceGenerator.class);
 		}
 
 		if (entityServiceGenerator.isSupportServiceGeneration(generateServiceRequest.getProjectPath())) {
@@ -997,6 +1035,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
+	@Override
 	public EntityDefinition<?> initEntityDefinition(File sourceFile) {
 		EntityDefinition<?> entityDefinition = null;
 		try {
@@ -1020,6 +1059,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		return entityDefinition;
 	}
 
+	@Override
 	public void copyCodeGenerationTemplates(File projectPath) {
 		File templatesDir = new File(projectPath, TEMPLATES_DIR);
 		templatesDir.mkdirs();
@@ -1044,11 +1084,13 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
+	@Override
 	public String getPreferences(File projectPath, String key) {
 		ProjectPreferences perferences = getPreferences(projectPath);
 		return perferences.get(key);
 	}
 
+	@Override
 	public void savePreference(File projectPath, String key, String value) {
 		ProjectPreferences perferences = getPreferences(projectPath);
 		perferences.put(key, value);
@@ -1069,12 +1111,14 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		return preferences;
 	}
 
+	@Override
 	public void reloadPreferences(File projectPath) {
 		projectsPreferences.remove(projectPath);
 		projectsDesigntimeAplicationContexts.remove(projectPath.getAbsolutePath());
 		getOrCreateApplicationContext(projectPath);
 	}
 
+	@Override
 	public void copyDesigntimeContext(File projectPath) {
 		File customDesigntimeFile = new File(projectPath, DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH);
 		customDesigntimeFile.getParentFile().mkdirs();
@@ -1140,6 +1184,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		return javaFiles;
 	}
 
+	@Override
 	public void generateRpcModel(GenerateRpcModelRequest generateRpcModelRequest) {
 		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(generateRpcModelRequest.getProjectPath());
 
@@ -1206,6 +1251,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
+	@Override
 	public void importSourceFile(ImportSourceRequest importSourceRequest) throws OpenLegacyException {
 
 		byte[] source = getImportUtil().fetch(importSourceRequest.getHost(), importSourceRequest.getUser(),
@@ -1239,6 +1285,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
+	@Override
 	public void addServiceOutputAnnotation(File javaEntityFile) {
 		String fileContent;
 		try {
@@ -1254,6 +1301,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
+	@Override
 	public void generateScreenEntityResources(String entityName, GenerateScreenModelRequest generateScreenModelRequest) {
 
 		File packageDir = new File(generateScreenModelRequest.getSourceDirectory(),
@@ -1286,6 +1334,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
+	@Override
 	public void renameViews(String fileNoExtension, String newName, File javaFile, String fileExtension) {
 		File projectPath = getProjectPath(javaFile);
 		File renamedJavaFile = new File(javaFile.getParentFile(), MessageFormat.format("{0}.{1}", newName, fileExtension));
@@ -1301,12 +1350,22 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		entityWebGenerator.renameMatchesInJava(fileNoExtension, newName, projectPath, sourceFolder);
 	}
 
+	@Override
 	public String translate(String text, File projectPath) {
 		TextTranslator translator = getOrCreateApplicationContext(projectPath).getBean(TextTranslator.class);
 		if (translator != null) {
 			return translator.translate(text);
 		}
 		return text;
+	}
+
+	@Override
+	public ServiceType getServiceType(File projectPath) {
+		String backendSolution = getPreferences(projectPath).get(PreferencesConstants.BACKEND_SOLUTION);
+		if (!StringUtils.isEmpty(backendSolution) && StringUtils.equalsIgnoreCase(backendSolution, ServiceType.RPC.toString())) {
+			return ServiceType.RPC;
+		}
+		return ServiceType.SCREEN;
 	}
 
 }

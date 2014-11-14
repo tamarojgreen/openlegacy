@@ -14,10 +14,11 @@
 			}
 			$scope.login = function(username, password) {				
 				
-				$olHttp.get('login?user=' + username + '&password='+ password, 
+				var data = {"user":username,"password":password}
+				$olHttp.post('login',data, 
 						function() {
 							var $expiration = new Date();
-							var minutes = 30;
+							var minutes = olConfig.expiration;
 							$expiration.setTime($expiration.getTime() + minutes*60*1000)
 							
 							$.cookie('loggedInUser', username, {expires: $expiration, path: '/'});

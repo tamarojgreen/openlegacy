@@ -111,10 +111,12 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 		return packageName;
 	}
 
+	@Override
 	public void setPackageName(String packageName) {
 		this.packageName = packageName;
 	}
 
+	@Override
 	public TerminalRectangle getSnapshotBorders() {
 		if (snapshotBorders == null) {
 			TerminalPosition topLeft = new SimpleTerminalPosition(1, 1);
@@ -125,6 +127,7 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 		return snapshotBorders;
 	}
 
+	@Override
 	public void setSnapshotBorders(TerminalRectangle snapshotBorders) {
 		this.snapshotBorders = snapshotBorders;
 		setWindow(true);
@@ -133,10 +136,12 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 		setScreenSize(new SimpleScreenSize(height, width));
 	}
 
+	@Override
 	public void addTemporaryTable(SimpleScreenTableDefinition tableDefinition) {
 		temporaryTableDefinitions.add(tableDefinition);
 	}
 
+	@Override
 	public List<SimpleScreenTableDefinition> getTemporaryTableDefinitions() {
 		return temporaryTableDefinitions;
 	}
@@ -146,30 +151,37 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 		return getSnapshot().toString();
 	}
 
+	@Override
 	public List<String> getReferredClasses() {
 		return imports;
 	}
 
+	@Override
 	public TerminalSnapshot getOutgoingSnapshot() {
 		return outgoingSnapshot;
 	}
 
+	@Override
 	public void setOutgoingSnapshot(TerminalSnapshot outgoingSnapshot) {
 		this.outgoingSnapshot = outgoingSnapshot;
 	}
 
+	@Override
 	public Collection<TerminalSnapshot> getAllSnapshots() {
 		return allSnapshots;
 	}
 
+	@Override
 	public void setAllSnapshots(Collection<TerminalSnapshot> allSnapshots) {
 		this.allSnapshots = allSnapshots;
 	}
 
+	@Override
 	public boolean isGenerateAspect() {
 		return generateAspect;
 	}
 
+	@Override
 	public void setGenerateAspect(boolean generateAspect) {
 		this.generateAspect = generateAspect;
 	}

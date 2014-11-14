@@ -31,16 +31,19 @@ public class DefaultSessionsManager<S extends Session> implements SessionsManage
 	@Inject
 	private transient SessionsRegistry<S> sessionsRegistry;
 
+	@Override
 	public Set<SessionProperties> getSessionsProperties() {
 		Set<SessionProperties> set = new TreeSet<SessionProperties>();
 		set.addAll(sessionsRegistry.getSessionsProperties());
 		return set;
 	}
 
+	@Override
 	public void disconnect(String sessionId) {
 		getSession(sessionId).disconnect();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public <SN extends Snapshot> SessionTrail<SN> getTrail(String sessionId) {
 		return (SessionTrail<SN>)getSession(sessionId).getModule(Trail.class).getSessionTrail();
@@ -50,6 +53,7 @@ public class DefaultSessionsManager<S extends Session> implements SessionsManage
 		return sessionsRegistry.getSession(sessionId);
 	}
 
+	@Override
 	public SessionProperties getSessionProperties(String sessionId) {
 		return getSession(sessionId).getProperties();
 	}

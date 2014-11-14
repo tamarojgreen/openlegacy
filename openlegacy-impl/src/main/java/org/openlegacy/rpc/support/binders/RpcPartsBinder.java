@@ -50,6 +50,7 @@ public class RpcPartsBinder implements RpcEntityBinder {
 	@Inject
 	private List<RpcEntityBinder> rpcEntityBinders;
 
+	@Override
 	public void populateEntity(Object entity, RpcResult result) {
 
 		RpcEntityDefinition rpcEntityDefinition = rpcEntitiesRegistry.get(entity.getClass());
@@ -148,6 +149,7 @@ public class RpcPartsBinder implements RpcEntityBinder {
 
 		Collections.sort(emptyObjectsIndex, new Comparator<Integer>() {
 
+			@Override
 			public int compare(Integer o1, Integer o2) {
 				return o2.compareTo(o1);
 			}
@@ -158,6 +160,7 @@ public class RpcPartsBinder implements RpcEntityBinder {
 		fieldAccesor.setPartFieldValue(namespace, partName, objects);
 	}
 
+	@Override
 	public void populateAction(RpcInvokeAction sendAction, Object entity) {
 
 		RpcEntityDefinition rpcEntityDefinition = rpcEntitiesRegistry.get(entity.getClass());
@@ -241,6 +244,7 @@ public class RpcPartsBinder implements RpcEntityBinder {
 		return fieldsInLevel;
 	}
 
+	@Override
 	public boolean fieldMatch(RpcFieldDefinition rpcFieldDefinition) {
 		// only flat fields
 		return false;
@@ -266,11 +270,13 @@ public class RpcPartsBinder implements RpcEntityBinder {
 		return null;
 	}
 
+	@Override
 	public Object toApi(RpcFieldDefinition rpcFieldDefinition, Object fiieldValue) {
 
 		throw (new IllegalStateException("Should not arrive"));
 	}
 
+	@Override
 	public Object toLegacy(RpcFieldDefinition rpcFieldDefinition, Object apiFieldValue, RpcFlatField booleanField) {
 		throw (new IllegalStateException("Should not arrive"));
 	}

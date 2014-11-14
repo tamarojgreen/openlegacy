@@ -27,6 +27,7 @@ import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
  */
 public interface TerminalActionDefinition extends ActionDefinition, TerminalPositionContainer {
 
+	@Override
 	TerminalPosition getPosition();
 
 	AdditionalKey getAdditionalKey();

@@ -62,10 +62,13 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 
 	private String filterExpression;
 
+	private boolean rtlDirection = false;
+
 	public SimpleScreenTableDefinition(Class<?> rowClass) {
 		super(rowClass);
 	}
 
+	@Override
 	public int getStartRow() {
 		return startRow;
 	}
@@ -74,6 +77,7 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 		this.startRow = startRow;
 	}
 
+	@Override
 	public int getEndRow() {
 		return endRow;
 	}
@@ -82,6 +86,7 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 		this.endRow = endRow;
 	}
 
+	@Override
 	public TerminalAction getNextScreenAction() {
 		return nextScreenAction;
 	}
@@ -90,6 +95,7 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 		this.nextScreenAction = nextScreenAction;
 	}
 
+	@Override
 	public TerminalAction getPreviousScreenAction() {
 		return previousScreenAction;
 	}
@@ -98,6 +104,7 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 		this.previousScreenAction = previousScreenAction;
 	}
 
+	@Override
 	public ScreenColumnDefinition getSelectionColumn() {
 		for (ScreenColumnDefinition columnDefinition : getColumnDefinitions()) {
 			if (columnDefinition.isSelectionField()) {
@@ -107,6 +114,7 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 		return null;
 	}
 
+	@Override
 	public int getMaxRowsCount() {
 		return (getEndRow() - getStartRow() + 1) / getRowGaps();
 	}
@@ -121,6 +129,7 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 		return null;
 	}
 
+	@Override
 	public DrilldownDefinition getDrilldownDefinition() {
 		return drilldownDefinition;
 	}
@@ -135,10 +144,12 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 		this.scrollable = scrollable;
 	}
 
+	@Override
 	public Class<? extends TableCollector> getTableCollector() {
 		return tableCollectorClass;
 	}
 
+	@Override
 	public void setTableCollector(Class<? extends TableCollector> tableCollectorClass) {
 		this.tableCollectorClass = tableCollectorClass;
 	}
@@ -159,50 +170,62 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 
 		private Class<? extends TableDrilldownPerformer> drilldownPerformer = TableDrilldownPerformer.class;
 
+		@Override
 		public Class<? extends RowFinder> getRowFinder() {
 			return rowFinder;
 		}
 
+		@Override
 		public Class<? extends RowSelector> getRowSelector() {
 			return rowSelector;
 		}
 
+		@Override
 		public Class<? extends RowComparator> getRowComparator() {
 			return rowComparator;
 		}
 
+		@Override
 		public Class<? extends TableScroller> getTableScroller() {
 			return tableScroller;
 		}
 
+		@Override
 		public Class<? extends TableScrollStopConditions> getTableScrollStopCondition() {
 			return tableScrollStopConditions;
 		}
 
+		@Override
 		public Class<? extends TableDrilldownPerformer> getDrilldownPerformer() {
 			return drilldownPerformer;
 		}
 
+		@Override
 		public void setRowFinder(Class<? extends RowFinder> rowFinder) {
 			this.rowFinder = rowFinder;
 		}
 
+		@Override
 		public void setRowComparator(Class<? extends RowComparator> rowComparator) {
 			this.rowComparator = rowComparator;
 		}
 
+		@Override
 		public void setRowSelector(Class<? extends RowSelector> rowSelector) {
 			this.rowSelector = rowSelector;
 		}
 
+		@Override
 		public void setTableScroller(Class<? extends TableScroller> tableScroller) {
 			this.tableScroller = tableScroller;
 		}
 
+		@Override
 		public void setTableScrollStopConditions(Class<? extends TableScrollStopConditions> tableScrollStopConditions) {
 			this.tableScrollStopConditions = tableScrollStopConditions;
 		}
 
+		@Override
 		public void setDrilldownPerformer(Class<? extends TableDrilldownPerformer> drilldownPerformer) {
 			this.drilldownPerformer = drilldownPerformer;
 		}
@@ -218,6 +241,7 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 		this.tableEntityName = tableEntityName;
 	}
 
+	@Override
 	public String getRowSelectionField() {
 		return ScrollableTableUtil.getRowSelectionField(this);
 	}
@@ -232,22 +256,27 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 		return actions;
 	}
 
+	@Override
 	public void setWidth(int width) {
 		this.width = width;
 	}
 
+	@Override
 	public void setPartPosition(TerminalPosition partPosition) {
 		this.partPosition = partPosition;
 	}
 
+	@Override
 	public TerminalPosition getPartPosition() {
 		return partPosition;
 	}
 
+	@Override
 	public int getWidth() {
 		return width;
 	}
 
+	@Override
 	public int getScreensCount() {
 		return screensCount;
 	}
@@ -256,10 +285,12 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 		this.screensCount = screensCount;
 	}
 
+	@Override
 	public List<ScreenTableReferenceDefinition> getTableReferenceDefinitions() {
 		return tableReferenceDefinitions;
 	}
 
+	@Override
 	public String getFilterExpression() {
 		return filterExpression;
 	}
@@ -267,4 +298,14 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 	public void setFilterExpression(String filterExpression) {
 		this.filterExpression = filterExpression;
 	}
+
+	@Override
+	public boolean isRtlDirection() {
+		return rtlDirection;
+	}
+
+	public void setRtlDirection(boolean rtlDirection) {
+		this.rtlDirection = rtlDirection;
+	}
+
 }

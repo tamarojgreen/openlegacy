@@ -28,10 +28,12 @@ public class SimpleFieldAssignDefinition implements FieldAssignDefinition, Seria
 		this.value = value;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public String getValue() {
 		return value;
 	}
@@ -44,6 +46,7 @@ public class SimpleFieldAssignDefinition implements FieldAssignDefinition, Seria
 		this.value = value;
 	}
 
+	@Override
 	public String getRole() {
 		return role;
 	}
@@ -52,6 +55,7 @@ public class SimpleFieldAssignDefinition implements FieldAssignDefinition, Seria
 		this.role = role;
 	}
 
+	@Override
 	public String getMenuText() {
 		return menuText;
 	}

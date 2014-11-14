@@ -18,6 +18,7 @@ import java.util.Set;
 
 public class LowestSequenceSnapshotPickerStrategy implements SnapshotPickerStrategy<TerminalSnapshot> {
 
+	@Override
 	public TerminalSnapshot pickRepresenter(Set<TerminalSnapshot> group) {
 		TerminalSnapshot[] snapshots = group.toArray(new TerminalSnapshot[group.size()]);
 

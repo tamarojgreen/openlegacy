@@ -24,6 +24,7 @@ public class SimpleTypeComparator implements Comparator {
 		return instance;
 	}
 
+	@Override
 	public int compare(Object o1, Object o2) {
 		if (o1.getClass() != o2.getClass()) {
 			throw (new IllegalArgumentException(MessageFormat.format("Cannot compare 2 different types:{0},{1}", o1, o2)));

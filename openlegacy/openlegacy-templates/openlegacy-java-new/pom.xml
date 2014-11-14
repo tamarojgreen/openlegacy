@@ -7,10 +7,11 @@
 	<version>2.1.0-SNAPSHOT</version>
 	<name>OpenLegacy new Java application</name>
 	<properties>
+		<java-version>1.6</java-version>
 		<openlegacy-version>2.1.0-SNAPSHOT</openlegacy-version>
 		<aspectj.version>1.6.11</aspectj.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
 	<pluginRepositories>
@@ -48,9 +49,9 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-			<version>1.0</version>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.0-api</artifactId>
+			<version>1.0.1.Final</version>
 			<scope>provided</scope>
 		</dependency>
 <!-- Uncomment for OpenLegacy enterprise managemenent plugin
@@ -114,8 +115,8 @@ End Uncomment for OpenLegacy enterprise managemenent plugin -->
 							<artifactId>spring-aspects</artifactId>
 						</aspectLibrary>
 					</aspectLibraries>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>${java-version}</source>
+					<target>${java-version}</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -143,6 +144,10 @@ End Uncomment for OpenLegacy enterprise managemenent plugin -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.5.1</version>
+				<configuration>
+					<source>${java-version}</source>
+					<target>${java-version}</target>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

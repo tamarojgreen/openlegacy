@@ -20,14 +20,17 @@ public class AbstractScreenEntity implements ScreenEntity {
 
 	private String focusField;
 
+	@Override
 	public String getFocusField() {
 		return focusField;
 	}
 
+	@Override
 	public void setFocusField(String focusField) {
 		this.focusField = focusField;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<TerminalActionDefinition> getActions() {
 		return Collections.EMPTY_LIST;

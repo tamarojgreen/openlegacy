@@ -28,6 +28,7 @@ public class WaitForNonEmptyField extends WaitCoditionAdapter {
 
 	}
 
+	@Override
 	public boolean continueWait(TerminalSession terminalSession) {
 
 		ScreenEntity currentEntity = terminalSession.getEntity();

@@ -16,6 +16,7 @@ import org.openlegacy.terminal.TerminalField;
 
 public class ByMostCenteredFieldComparator implements BestEntityNameFieldComparator {
 
+	@Override
 	public int compare(TerminalField field1, TerminalField field2) {
 
 		int column1 = field1.getPosition().getColumn();

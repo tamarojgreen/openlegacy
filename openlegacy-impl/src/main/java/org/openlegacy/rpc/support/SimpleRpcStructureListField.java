@@ -42,10 +42,12 @@ public class SimpleRpcStructureListField extends AbstractRpcStructure implements
 	@XmlElements({ @XmlElement(name = "record", type = SimpleRpcFields.class) })
 	private List<RpcFields> childrens = new ArrayList<RpcFields>();
 
+	@Override
 	public Integer count() {
 		return childrens.size();
 	}
 
+	@Override
 	public Integer getLength() {
 
 		if (length != null) {
@@ -63,6 +65,7 @@ public class SimpleRpcStructureListField extends AbstractRpcStructure implements
 		return length * childrens.size();
 	}
 
+	@Override
 	public Direction getDirection() {
 		if (direction != null) {
 			return direction;
@@ -97,15 +100,18 @@ public class SimpleRpcStructureListField extends AbstractRpcStructure implements
 		return direction;
 	}
 
+	@Override
 	public Class<?> getType() {
 
 		return SimpleRpcStructureListField.class;
 	}
 
+	@Override
 	public List<RpcField> getChildren(int i) {
 		return childrens.get(i).getFields();
 	}
 
+	@Override
 	public List<RpcFields> getChildrens() {
 		return childrens;
 	}
@@ -124,6 +130,7 @@ public class SimpleRpcStructureListField extends AbstractRpcStructure implements
 		return ToStringBuilder.reflectionToString(this);
 	}
 
+	@Override
 	public int depth(int level, int maxDef) throws RpcStructureNotMappedException {
 		if (level >= maxDef) {
 			throw (new RpcStructureNotMappedException("Field: " + getName() + "excided max depth" + maxDef));
@@ -135,11 +142,13 @@ public class SimpleRpcStructureListField extends AbstractRpcStructure implements
 		return maxtField + 1;
 	}
 
+	@Override
 	public boolean isContainer() {
 		// Only simple structure can have container
 		return false;
 	}
 
+	@Override
 	public Boolean isVirtual() {
 		// only simple structure can be virtual
 		return null;

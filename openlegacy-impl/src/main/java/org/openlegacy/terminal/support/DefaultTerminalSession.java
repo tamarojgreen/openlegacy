@@ -114,6 +114,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	private boolean forceAuthorization = true;
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public synchronized <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
 
@@ -203,6 +204,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		}
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public synchronized <R extends ScreenEntity> R getEntity() {
 		checkRegistryDirty();
@@ -223,11 +225,13 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		return (R)entity;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public synchronized <R extends ScreenEntity> R doAction(TerminalAction action, WaitCondition... waitConditions) {
 		return (R)doAction(action, null, waitConditions);
 	}
 
+	@Override
 	public synchronized <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction,
 			S screenEntity, Class<R> expectedEntity) {
 		try {
@@ -240,6 +244,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public synchronized <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction,
 			S screenEntity, WaitCondition... waitConditions) {
@@ -299,6 +304,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		}
 	}
 
+	@Override
 	public synchronized TerminalSnapshot getSnapshot() {
 		boolean newSession = false;
 		if (!terminalConnection.isConnected()) {
@@ -313,6 +319,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		return snapshot;
 	}
 
+	@Override
 	public Object getDelegate() {
 		return terminalConnection.getDelegate();
 	}
@@ -321,6 +328,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		this.terminalConnection = terminalConnection;
 	}
 
+	@Override
 	public void disconnect() {
 		List<? extends SessionModule> sessionModulesList = getSessionModules().getModules();
 		for (SessionModule sessionModule : sessionModulesList) {
@@ -331,6 +339,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		terminalConnection.disconnect();
 	}
 
+	@Override
 	public boolean isConnected() {
 		return terminalConnection.isConnected();
 	}
@@ -345,6 +354,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		interceptor.setTerminalSession(this);
 	}
 
+	@Override
 	public synchronized void doAction(TerminalSendAction sendAction, WaitCondition... waitConditions) {
 
 		doTerminalAction(sendAction, waitConditions);
@@ -425,6 +435,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		}
 	}
 
+	@Override
 	public synchronized TerminalSnapshot fetchSnapshot() {
 		return terminalConnection.fetchSnapshot();
 	}
@@ -438,6 +449,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		return screensRecognizer;
 	}
 
+	@Override
 	public synchronized Object getEntity(String entityName, Object... keys) throws EntityNotFoundException {
 		Class<?> entityClass = getScreenEntitiesRegistry().getEntityClass(entityName);
 		if (entityClass == null) {
@@ -459,6 +471,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		return screenEntitiesRegistry;
 	}
 
+	@Override
 	public Integer getSequence() {
 		Integer seq = terminalConnection.getSequence();
 		return seq;
@@ -476,10 +489,12 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		this.useProxyForEntities = useProxyForEntities;
 	}
 
+	@Override
 	public ConnectionProperties getConnectionProperties() {
 		if (connectionProperties == null) {
 			connectionProperties = new ConnectionProperties() {
 
+				@Override
 				public String getDeviceName() {
 					String device = (String)getProperties().getProperty(TerminalSessionPropertiesConsts.DEVICE_NAME);
 					// treat the result property device as pool name
@@ -495,6 +510,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		return connectionProperties;
 	}
 
+	@Override
 	public void flip() {
 		terminalConnection.flip();
 		// force update

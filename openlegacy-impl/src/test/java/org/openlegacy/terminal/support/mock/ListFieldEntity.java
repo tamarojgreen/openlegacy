@@ -33,14 +33,17 @@ public class ListFieldEntity implements org.openlegacy.terminal.ScreenEntity {
 	@ScreenField(row = 9, column = 25)
 	private String[] toysArray;
 
+	@Override
 	public String getFocusField() {
 		return null;
 	}
 
+	@Override
 	public void setFocusField(String focusField) {
 
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<TerminalActionDefinition> getActions() {
 		return Collections.EMPTY_LIST;

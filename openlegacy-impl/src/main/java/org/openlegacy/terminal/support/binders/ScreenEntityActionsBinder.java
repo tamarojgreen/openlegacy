@@ -29,6 +29,7 @@ public class ScreenEntityActionsBinder implements ScreenEntityBinder {
 	@Inject
 	private ScreenEntitiesRegistry entitiesRegistry;
 
+	@Override
 	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) {
 
 		ScreenEntityDefinition entityDefinition = entitiesRegistry.get(screenEntity.getClass());
@@ -52,6 +53,7 @@ public class ScreenEntityActionsBinder implements ScreenEntityBinder {
 		((ScreenEntity)screenEntity).getActions().addAll(entityActions);
 	}
 
+	@Override
 	public void populateAction(TerminalSendAction remoteAction, TerminalSnapshot snapshot, Object entity) {
 		// do nothing
 

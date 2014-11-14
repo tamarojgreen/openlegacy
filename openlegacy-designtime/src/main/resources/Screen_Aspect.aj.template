@@ -35,6 +35,9 @@ privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
 		<#if field.hasDescription>
     private String ${className}.${field.name}Description;
 		</#if>
+		<#if field.type?starts_with("List<")>
+    private List<TerminalActionDefinition> ${className}.${field.name}Actions = new ArrayList<TerminalActionDefinition>();
+		</#if>
 	</#list>	
     
 	<#if supportTerminalData  && !superClass>
@@ -74,8 +77,11 @@ privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
     	return this.${field.name}Description;
     }
 		</#if>
-
-
+		<#if field.type?starts_with("List<")>
+    public List<TerminalActionDefinition> ${className}.get${field.name?cap_first}Actions(){
+    	return this.${field.name}Actions;
+    }
+		</#if>
 	</#list>	
 
 <#if !superClass>

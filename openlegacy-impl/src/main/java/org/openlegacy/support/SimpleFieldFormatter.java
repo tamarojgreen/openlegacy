@@ -41,6 +41,7 @@ public class SimpleFieldFormatter implements FieldFormatter, Serializable {
 
 	private final static Log logger = LogFactory.getLog(SimpleFieldFormatter.class);
 
+	@Override
 	public String format(String s) {
 
 		if (StringUtils.isEmpty(s)) {

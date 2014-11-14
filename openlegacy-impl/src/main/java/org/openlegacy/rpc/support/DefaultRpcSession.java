@@ -21,7 +21,6 @@ import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.modules.SessionModule;
 import org.openlegacy.rpc.RpcActionNotMappedException;
-import org.openlegacy.rpc.RpcActions;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcEntityBinder;
@@ -32,6 +31,7 @@ import org.openlegacy.rpc.RpcPojoFieldAccessor;
 import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.RpcSession;
 import org.openlegacy.rpc.actions.RpcAction;
+import org.openlegacy.rpc.actions.RpcActions;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.openlegacy.rpc.support.binders.RpcFieldsExpressionBinder;
@@ -68,10 +68,12 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 	@Inject
 	private RpcFieldsExpressionBinder rpcExpressionBinder;
 
+	@Override
 	public Object getDelegate() {
 		return rpcConnection;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T getEntity(Class<T> entityClass, Object... keys) throws EntityNotFoundException {
 		T entity = ReflectionUtil.newInstance(entityClass);
@@ -101,15 +103,18 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		return (T)doAction(RpcActions.READ(), (RpcEntity)entity);
 	}
 
+	@Override
 	public Object getEntity(String entityName, Object... keys) throws EntityNotFoundException {
 		RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(entityName);
 		return getEntity(rpcDefinition.getEntityClass(), keys);
 	}
 
+	@Override
 	public void disconnect() {
 		rpcConnection.disconnect();
 	}
 
+	@Override
 	public boolean isConnected() {
 		return rpcConnection.isConnected();
 	}
@@ -129,6 +134,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		Assert.notNull(rpcConnection, "RPC connection bean has not been found");
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public RpcEntity doAction(RpcAction action, RpcEntity rpcEntity) {
 		RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(rpcEntity.getClass());
@@ -213,6 +219,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		rpcExpressionBinder.populateEntity(rpcEntity, rpcResult);
 	}
 
+	@Override
 	public void login(String user, String password) {
 		rpcConnection.login(user, password);
 	}

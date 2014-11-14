@@ -24,6 +24,7 @@ public class ContentDifferentFieldComparator implements FieldComparator, Seriali
 	@Inject
 	private FieldFormatter fieldFormatter;
 
+	@Override
 	public boolean isFieldModified(Object screenPojo, String fieldName, Object oldValue, Object newValue) {
 		if (newValue == null) {
 			return false;

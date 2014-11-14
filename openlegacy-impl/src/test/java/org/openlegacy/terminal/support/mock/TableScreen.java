@@ -54,12 +54,15 @@ public class TableScreen implements org.openlegacy.terminal.ScreenEntity {
 		return tableScreenRecords;
 	}
 
+	@Override
 	public String getFocusField() {
 		return null;
 	}
 
+	@Override
 	public void setFocusField(String focusField) {}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<TerminalActionDefinition> getActions() {
 		return Collections.EMPTY_LIST;

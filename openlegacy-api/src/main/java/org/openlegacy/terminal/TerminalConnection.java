@@ -17,10 +17,13 @@ import org.openlegacy.ApplicationConnection;
  */
 public interface TerminalConnection extends ApplicationConnection<TerminalSnapshot, TerminalSendAction> {
 
+	@Override
 	TerminalSnapshot getSnapshot();
 
+	@Override
 	TerminalSnapshot fetchSnapshot();
 
+	@Override
 	void doAction(TerminalSendAction terminalSendAction);
 
 	void flip();

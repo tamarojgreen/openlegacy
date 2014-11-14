@@ -29,6 +29,7 @@ public class TerminalPositionContainerComparator implements Comparator<TerminalP
 		return instance;
 	}
 
+	@Override
 	public int compare(TerminalPositionContainer o1, TerminalPositionContainer o2) {
 		TerminalPosition position1 = o1.getPosition();
 		TerminalPosition position2 = o2.getPosition();

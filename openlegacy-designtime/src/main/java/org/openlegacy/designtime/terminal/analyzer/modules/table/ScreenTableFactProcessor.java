@@ -47,10 +47,12 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 
 	private final static Log logger = LogFactory.getLog(ScreenTableFactProcessor.class);
 
+	@Override
 	public boolean accept(ScreenFact screenFact) {
 		return screenFact instanceof ScreenTableFact;
 	}
 
+	@Override
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 		ScreenTableFact screenTableFact = (ScreenTableFact)screenFact;
 

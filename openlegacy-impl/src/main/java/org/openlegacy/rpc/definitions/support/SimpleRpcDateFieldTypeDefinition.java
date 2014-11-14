@@ -18,14 +18,17 @@ public class SimpleRpcDateFieldTypeDefinition implements Serializable, RpcDateFi
 		this.locale = locale;
 	}
 
+	@Override
 	public String getTypeName() {
 		return "date";
 	}
 
+	@Override
 	public String getPattern() {
 		return pattern;
 	}
 
+	@Override
 	public String getLocale() {
 		return locale;
 	}

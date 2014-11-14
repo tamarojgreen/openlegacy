@@ -48,6 +48,7 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 
 	protected abstract void init();
 
+	@Override
 	public S getSession() {
 		logger.debug("New session requested");
 		if (blockingQueue.size() == 0 && actives.size() < maxConnections) {
@@ -76,6 +77,7 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 		return actives;
 	}
 
+	@Override
 	public void afterPropertiesSet() throws Exception {
 		init();
 	}
@@ -104,10 +106,12 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 		this.returnSessionsInterval = returnSessionsInterval;
 	}
 
+	@Override
 	public void destroy() throws Exception {
 		stopThreads = true;
 	}
 
+	@Override
 	public void returnSession(final S session) {
 		if (cleanupAction != null) {
 			logger.debug(MessageFormat.format("Adding session {0} to dirties for async recycling", session));

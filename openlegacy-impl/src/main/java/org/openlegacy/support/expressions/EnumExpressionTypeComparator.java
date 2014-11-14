@@ -30,7 +30,7 @@ public class EnumExpressionTypeComparator extends StandardTypeComparator {
 	 * @param right
 	 * @return true if one object is enum and the other is string
 	 */
-	private boolean isEnumAndString(Object left, Object right) {
+	private static boolean isEnumAndString(Object left, Object right) {
 		if (left == null || right == null) {
 			return false;
 		} else if (left.getClass().isEnum() || right.getClass().equals(String.class)) {

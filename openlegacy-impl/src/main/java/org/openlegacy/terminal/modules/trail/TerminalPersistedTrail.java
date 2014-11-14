@@ -30,10 +30,12 @@ public class TerminalPersistedTrail implements TerminalSessionTrail {
 	@XmlElement(name = "snapshot", type = TerminalPersistedSnapshot.class)
 	private List<TerminalSnapshot> snapshots = new ArrayList<TerminalSnapshot>();
 
+	@Override
 	public List<TerminalSnapshot> getSnapshots() {
 		return snapshots;
 	}
 
+	@Override
 	public void appendSnapshot(TerminalSnapshot snapshot) {
 		TerminalPersistedSnapshot transformSnapshot = SnapshotPersistanceDTO.transformSnapshot(snapshot);
 		if (snapshots.size() > 0) {
@@ -47,14 +49,17 @@ public class TerminalPersistedTrail implements TerminalSessionTrail {
 		snapshots.add(transformSnapshot);
 	}
 
+	@Override
 	public void clear() {
 		snapshots.clear();
 	}
 
+	@Override
 	public TerminalSnapshot getCurrent() {
 		return getSnapshots().get(snapshots.size() - 1);
 	}
 
+	@Override
 	public void advanceCurrent(int steps) {
 		// do nothing
 

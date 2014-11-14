@@ -5,12 +5,16 @@ import org.openlegacy.ApplicationConnection;
 import org.openlegacy.RemoteAction;
 import org.openlegacy.Snapshot;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.TerminalActionMapper;
+import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class ResetMessagesModule extends TerminalSessionModuleAdapter {
 
@@ -25,21 +29,26 @@ public class ResetMessagesModule extends TerminalSessionModuleAdapter {
 	private boolean resetBefore = true;
 	private boolean resetAfter = false;
 
+	@Inject
+	private TerminalActionMapper terminalActionMapper;
+
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void beforeAction(ApplicationConnection<?, ?> connection, RemoteAction action) {
 		if (resetBefore) {
-			resetMessages();
+			resetMessages((TerminalSendAction)action);
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result) {
 		if (resetAfter) {
-			resetMessages();
+			resetMessages((TerminalSendAction)action);
 		}
 	}
 
-	private void resetMessages() {
+	private void resetMessages(TerminalSendAction action) {
 		ScreenEntity entity = getSession().getEntity();
 		if (entity == null) {
 			return;
@@ -55,6 +64,11 @@ public class ResetMessagesModule extends TerminalSessionModuleAdapter {
 		}
 		String error = (String)fieldAccessor.getFieldValue(messageField);
 		if (StringUtils.isEmpty(error)) {
+			return;
+		}
+
+		Object command = terminalActionMapper.getCommand(terminalAction);
+		if (command != null && action.getCommand().equals(command)) {
 			return;
 		}
 

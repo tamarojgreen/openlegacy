@@ -46,14 +46,17 @@ public abstract class AbstractTableDefinition<C extends ColumnDefinition> implem
 		this.rowClass = rowClass;
 	}
 
+	@Override
 	public Class<?> getTableClass() {
 		return rowClass;
 	}
 
+	@Override
 	public List<C> getColumnDefinitions() {
 		return columnDefinitions;
 	}
 
+	@Override
 	public List<String> getKeyFieldNames() {
 		if (keyFields == null) {
 			keyFields = getNewKeyFieldNames();
@@ -72,6 +75,7 @@ public abstract class AbstractTableDefinition<C extends ColumnDefinition> implem
 		return keyFields;
 	}
 
+	@Override
 	public C getColumnDefinition(String fieldName) {
 		for (C columnDefinition : columnDefinitions) {
 			if (columnDefinition.getName().equals(fieldName)) {
@@ -81,6 +85,7 @@ public abstract class AbstractTableDefinition<C extends ColumnDefinition> implem
 		return null;
 	}
 
+	@Override
 	public boolean isScrollable() {
 		return scrollable;
 	}
@@ -89,6 +94,7 @@ public abstract class AbstractTableDefinition<C extends ColumnDefinition> implem
 		this.scrollable = scrollable;
 	}
 
+	@Override
 	public String getTableEntityName() {
 		return tableEntityName;
 	}
@@ -97,14 +103,17 @@ public abstract class AbstractTableDefinition<C extends ColumnDefinition> implem
 		this.tableEntityName = tableEntityName;
 	}
 
+	@Override
 	public List<String> getMainDisplayFields() {
 		return mainDisplayFields;
 	}
 
+	@Override
 	public List<ActionDefinition> getActions() {
 		return actions;
 	}
 
+	@Override
 	public ActionDefinition getDefaultAction() {
 		if (defaultAction != null) {
 			return defaultAction;
@@ -128,11 +137,13 @@ public abstract class AbstractTableDefinition<C extends ColumnDefinition> implem
 		this.rowGaps = rowGaps;
 	}
 
+	@Override
 	public List<String> getSortedByFieldNames() {
 		// copy the list for sorting
 		List<ColumnDefinition> columns = new ArrayList<ColumnDefinition>(getColumnDefinitions());
 		Collections.sort(columns, new Comparator<ColumnDefinition>() {
 
+			@Override
 			public int compare(org.openlegacy.definitions.TableDefinition.ColumnDefinition column1,
 					org.openlegacy.definitions.TableDefinition.ColumnDefinition column2) {
 				return column1.getSortIndex() - column2.getSortIndex();

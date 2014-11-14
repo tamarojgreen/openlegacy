@@ -30,6 +30,7 @@ public class PersistedUser implements User {
 		this.userName = userName;
 	}
 
+	@Override
 	public String getUserName() {
 		return userName;
 	}
@@ -38,6 +39,7 @@ public class PersistedUser implements User {
 		this.userName = userName;
 	}
 
+	@Override
 	public Map<String, Object> getProperties() {
 		if (properties == null) {
 			properties = new HashMap<String, Object>();

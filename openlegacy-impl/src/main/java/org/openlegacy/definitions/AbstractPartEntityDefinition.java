@@ -30,14 +30,17 @@ public abstract class AbstractPartEntityDefinition<F extends FieldDefinition> im
 		this.partClass = partClass;
 	}
 
+	@Override
 	public Class<?> getPartClass() {
 		return partClass;
 	}
 
+	@Override
 	public Map<String, F> getFieldsDefinitions() {
 		return fieldsDefinitions;
 	}
 
+	@Override
 	public String getPartName() {
 		return partName;
 	}
@@ -46,6 +49,7 @@ public abstract class AbstractPartEntityDefinition<F extends FieldDefinition> im
 		this.partName = partName;
 	}
 
+	@Override
 	public String getDisplayName() {
 		return displayName;
 	}

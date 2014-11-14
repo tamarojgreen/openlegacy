@@ -17,12 +17,15 @@ import java.util.Map;
 public class SimpleDbEntityDefinition extends AbstractEntityDefinition<DbFieldDefinition> implements DbEntityDefinition {
 
 	private static final long serialVersionUID = 1L;
+
 	private boolean window;
+	private DbNavigationDefinition navigationDefinition = new SimpleDbNavigationDefinition();
 
 	public SimpleDbEntityDefinition(String entityName, Class<?> containingClass) {
 		super(entityName, containingClass);
 	}
 
+	@Override
 	public boolean isWindow() {
 		return window;
 	}
@@ -31,8 +34,14 @@ public class SimpleDbEntityDefinition extends AbstractEntityDefinition<DbFieldDe
 		this.window = window;
 	}
 
+	@Override
 	public Map<String, DbFieldDefinition> getColumnFieldsDefinitions() {
 		return null;
+	}
+
+	@Override
+	public DbNavigationDefinition getNavigationDefinition() {
+		return navigationDefinition;
 	}
 
 }

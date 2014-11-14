@@ -31,18 +31,22 @@ public class SimpleScreenPartEntityDefinition extends AbstractPartEntityDefiniti
 		super(partClass);
 	}
 
+	@Override
 	public TerminalPosition getPartPosition() {
 		return partPosition;
 	}
 
+	@Override
 	public void setPartPosition(TerminalPosition partPosition) {
 		this.partPosition = partPosition;
 	}
 
+	@Override
 	public int getWidth() {
 		return width;
 	}
 
+	@Override
 	public void setWidth(int width) {
 		this.width = width;
 	}
@@ -57,6 +61,7 @@ public class SimpleScreenPartEntityDefinition extends AbstractPartEntityDefiniti
 		this.displayName = displayName;
 	}
 
+	@Override
 	public int getTopRow() {
 		Collection<ScreenFieldDefinition> fields = getFieldsDefinitions().values();
 		int topRow = 999;

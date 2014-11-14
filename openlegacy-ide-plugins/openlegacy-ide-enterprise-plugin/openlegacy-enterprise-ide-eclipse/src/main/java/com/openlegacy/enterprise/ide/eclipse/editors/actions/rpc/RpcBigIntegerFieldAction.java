@@ -1,0 +1,18 @@
+package com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc;
+
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
+
+import java.util.UUID;
+
+/**
+ * @author Ivan Bort
+ * 
+ */
+public class RpcBigIntegerFieldAction extends RpcIntegerFieldAction {
+
+	public RpcBigIntegerFieldAction(UUID uuid, NamedObject namedObject, ActionType actionType, int kind, String key, Object value) {
+		super(uuid, namedObject, actionType, kind, key, value);
+	}
+
+}

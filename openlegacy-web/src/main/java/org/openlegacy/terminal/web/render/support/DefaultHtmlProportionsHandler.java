@@ -23,10 +23,12 @@ public class DefaultHtmlProportionsHandler implements HtmlProportionsHandler {
 	private Integer inputHeight;
 	private int letterSpacing = 0;
 
+	@Override
 	public int toWidth(int column) {
 		return (column) * columnProportion;
 	}
 
+	@Override
 	public int toHeight(int row) {
 		return (row - 1) * rowProportion;
 	}
@@ -39,6 +41,7 @@ public class DefaultHtmlProportionsHandler implements HtmlProportionsHandler {
 		this.rowProportion = rowProportion;
 	}
 
+	@Override
 	public int getFontSize() {
 		return fontSize;
 	}
@@ -47,6 +50,7 @@ public class DefaultHtmlProportionsHandler implements HtmlProportionsHandler {
 		this.fontSize = fontSize;
 	}
 
+	@Override
 	public Integer getInputHeight() {
 		if (inputHeight == null) {
 			inputHeight = getFontSize() + 2;
@@ -58,6 +62,7 @@ public class DefaultHtmlProportionsHandler implements HtmlProportionsHandler {
 		this.inputHeight = inputHeight;
 	}
 
+	@Override
 	public int getInputAdditionalWidth() {
 		return inputAdditionalWidth;
 	}
@@ -66,6 +71,7 @@ public class DefaultHtmlProportionsHandler implements HtmlProportionsHandler {
 		this.inputAdditionalWidth = inputAdditionalWidth;
 	}
 
+	@Override
 	public int getLetterSpacing() {
 		return letterSpacing;
 	}

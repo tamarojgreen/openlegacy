@@ -25,6 +25,7 @@ public class RequestBasedSessionPropertiesFiller implements SessionPropertiesFil
 	@Inject
 	private HttpServletRequest request;
 
+	@Override
 	public void fillProperties(SessionProperties sessionProperties) {
 		// Get an UserAgentStringParser and analyze the requesting client
 		UserAgentStringParser parser = UADetectorServiceFactory.getResourceModuleParser();

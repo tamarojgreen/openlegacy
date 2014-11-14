@@ -26,16 +26,19 @@ public class CobolTextInformation implements FieldInformation {
 		length = flatPicture.length();
 	}
 
+	@Override
 	public int getLength() {
 
 		return length;
 	}
 
+	@Override
 	public Class<?> getJavaType() {
 
 		return String.class;
 	}
 
+	@Override
 	public FieldTypeDefinition getType() {
 		return new SimpleTextFieldTypeDefinition();
 	}

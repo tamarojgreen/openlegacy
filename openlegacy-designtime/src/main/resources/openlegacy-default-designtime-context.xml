@@ -220,7 +220,7 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="labelRegex" value="\s*[\w\p{L}]+[\w\p{L} /-\\'\&quot;]*[\.: ]*[\.:]+" />
+										<entry key="labelRegex" value="\s*[\w\p{L}]+[\w\p{L} /-\\'\`\&quot;]*[\.: ]*[\.:]+" />
 										<entry key="maximumLabelLength" value="50" />
 										<entry key="maxDistance" value="6" />
 										<entry key="fieldRegex" value="\s*[\w\p{L}\*\+\-]+[\d\.,\+\-]*[\w\p{L}\*/ ]*" />

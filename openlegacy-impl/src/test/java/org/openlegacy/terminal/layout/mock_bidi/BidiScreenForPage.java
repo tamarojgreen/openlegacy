@@ -31,12 +31,15 @@ public class BidiScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 		return fldCol2;
 	}
 
+	@Override
 	public String getFocusField() {
 		return null;
 	}
 
+	@Override
 	public void setFocusField(String focusField) {}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<TerminalActionDefinition> getActions() {
 		return Collections.EMPTY_LIST;

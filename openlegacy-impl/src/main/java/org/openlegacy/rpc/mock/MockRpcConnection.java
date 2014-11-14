@@ -39,20 +39,24 @@ public class MockRpcConnection implements RpcConnection {
 		snapshots = rpcSnapshots;
 	}
 
+	@Override
 	public Object getDelegate() {
 		return this;
 	}
 
+	@Override
 	public boolean isConnected() {
 		return connected;
 	}
 
+	@Override
 	public void disconnect() {
 
 		connected = false;
 		lastSnapshpot = null;
 	}
 
+	@Override
 	public RpcResult invoke(RpcInvokeAction rpcInvokeAction) {
 		if (lastSnapshpot == null || lastSnapshpot.getSequence() > snapshots.size()) {
 			lastSnapshpot = snapshots.get(0);
@@ -66,6 +70,7 @@ public class MockRpcConnection implements RpcConnection {
 		return lastSnapshpot.getRpcResult();
 	}
 
+	@Override
 	public Integer getSequence() {
 		if (lastSnapshpot == null) {
 			return 0;
@@ -73,20 +78,24 @@ public class MockRpcConnection implements RpcConnection {
 		return lastSnapshpot.getSequence();
 	}
 
+	@Override
 	public RpcSnapshot getSnapshot() {
 		return lastSnapshpot;
 	}
 
+	@Override
 	public RpcSnapshot fetchSnapshot() {
 		return lastSnapshpot;
 	}
 
+	@Override
 	public void doAction(RpcInvokeAction sendAction) {
 		currentIndex = currentIndex++ % snapshots.size();
 		lastSnapshpot = snapshots.get(currentIndex);
 
 	}
 
+	@Override
 	public void login(String user, String password) {
 		connected = true;
 		currentIndex = 0;

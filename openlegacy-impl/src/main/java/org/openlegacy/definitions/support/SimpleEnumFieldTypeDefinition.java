@@ -26,10 +26,12 @@ public class SimpleEnumFieldTypeDefinition implements EnumFieldTypeDefinition, S
 	private Map<Object, DisplayItem> map = new TreeMap<Object, DisplayItem>();
 	private TreeMap<Object, Object> displayValues;
 
+	@Override
 	public String getTypeName() {
 		return "enum";
 	}
 
+	@Override
 	public Class<? extends Enum<?>> getEnumClass() {
 		return enumClass;
 	}
@@ -38,6 +40,7 @@ public class SimpleEnumFieldTypeDefinition implements EnumFieldTypeDefinition, S
 		this.enumClass = enumClass;
 	}
 
+	@Override
 	public Map<Object, DisplayItem> getEnums() {
 		return map;
 	}
@@ -45,6 +48,7 @@ public class SimpleEnumFieldTypeDefinition implements EnumFieldTypeDefinition, S
 	/**
 	 * Comfort method for display purposes
 	 */
+	@Override
 	public Map<Object, Object> getDisplayValues() {
 		if (displayValues != null) {
 			return displayValues;

@@ -94,12 +94,22 @@
 	            	</#if>
 				</div>
 			</div>
+			<a data-toggle="modal" data-target=".ol-screenshot" class="clickable">Show screenshot</a>
+			<div class="modal fade ol-screenshot" tabindex="-1" role="dialog" aria-labelledby="screenshotModal" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <img src="{{baseUrl}}sessionViewer/image?random=${entityDefinition.entityName}" class="img-thumbnail">
+                    </div>
+                </div>
+            </div>                       		
 		</div><!--  /main   -->
 	</div>
 </div>									
 										
 
-<#macro pagePart entity part>		
+<#macro pagePart entity part>	
+<div class="panel panel-default">
+<div class="panel-body">	
 	<#if part.hasTable>
 		<div class="table-responsive">
 			<table class="table">
@@ -128,9 +138,9 @@
 										  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 										    <#list part.tableDefinition.actions as action>
 											    <#if action.targetEntity??>
-											    	<li><a href="#/${action.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">${action.alias}</a></li>
+											    	<li><a href="#/${action.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">${action.displayName}</a></li>
 											    <#else>
-											    	<li><a href="" ng-click="noTargetScreenEntityAlert()">${action.alias}</a></li>
+											    	<li><a href="" ng-click="noTargetScreenEntityAlert()">${action.displayName}</a></li>
 											    </#if>																		                                        		                                        
 	                                        </#list>		                                        
 										  </ul>
@@ -155,8 +165,30 @@
                                         </#list>		                              
 									</#if>											
                             	</td>
-							<#else>										
-								<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>											
+							<#else>																								
+								<#if part.tableDefinition.actions?size == 1>
+									<#if part.tableDefinition.actions?first.targetEntity??>
+								    	<td class="td-link"><a href="#/${part.tableDefinition.actions?first.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">${part.tableDefinition.actions?first.displayName}</a></td>
+								    <#else>
+								    	<td class="td-link"><a href="" ng-click="noTargetScreenEntityAlert()">${part.tableDefinition.actions?first.displayName}</a></td>
+								    </#if>	
+								<#elseif (part.tableDefinition.actions?size > 1 )>
+									<#list part.tableDefinition.actions as action>
+										<#if action.defaultAction == true>
+											<#assign defaultAction = action>									    	
+										</#if>
+									</#list>
+									
+									<#if defaultAction?? && defaultAction.targetEntity??>											    	
+							    		<td class="td-link"><a href="#/${defaultAction.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">
+							    			{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}
+							    		</a></td>
+								    <#else>
+								    	<td class="td-link"><a href="" ng-click="noTargetScreenEntityAlert()">{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</a></td>
+								    </#if>	
+								<#else>
+									<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>
+								</#if>										
 							</#if>										
 				  		</#list>							  		
 					</tr>                            
@@ -175,23 +207,50 @@
             </button>
         </div>                
 	<#else>
-		<form role="form">
-			<div class="row">
-				<div class="col-sm-6">
-					<#list part.partRows as partRow>					
-						<#list partRow.fields as field>										
-							<@fieldMacro field=field/>
-						</#list>				
-					</#list>
-				</div>				
-			</div>
+<form role="form">			
+			<#list part.partRows as partRow>
+				<#assign result = []>
+				<@filterFields field=partRow.fields[0] fieldsArray=partRow.fields/>				
+				
+				<#list result as rowFields>
+					<div class="row">
+						<#assign colWidth = (6/rowFields?size)?ceiling>
+						<#list rowFields as field>
+							<div class="col-sm-${colWidth}">
+								<@fieldMacro field=field/>
+							</div>
+						</#list>
+					</div>
+				</#list>								
+			</#list>
 		</form>		
-	</#if>		
+	</#if>
+</div>
+</div>		
+</#macro>
+
+<#macro filterFields field fieldsArray>
+	<#assign rowArray = [field]>
+	<#assign arrayToFilter = []>
+	<#list fieldsArray as el>
+		<#if field != el>
+			<#if field.position.row == el.position.row>
+				<#assign rowArray = rowArray + [el]>
+			<#else>
+				<#assign arrayToFilter = arrayToFilter + [el]>
+			</#if>
+		</#if>
+	</#list>
+	<#assign result = result + [rowArray]>
+	
+	<#if arrayToFilter?size != 0>
+		<@filterFields field=arrayToFilter[0] fieldsArray=arrayToFilter/>
+	</#if>	
 </#macro>
 
 <#macro fieldMacro field>
 	<div class="form-group">		
-		<label for="${field.name}" class="control-label">${field.displayName}:</label>		
+		<label for="${field.name}" class="control-label">${field.displayName}<#if field.displayName?length &gt; 0>:</#if></label> 		
 		<#if field.editable>
 			<#if field.fieldTypeDefinition.typeName == 'date'>
 				<input type="text" id="${field.name}" class="form-control" placeholder="mm/dd/yyyy" ng-model="model.${field.name}" datepicker />
@@ -207,11 +266,17 @@
 					  </ul>
 				  </div>
 				</div>														
+			<#elseif field.fieldTypeDefinition.typeName == 'boolean'>
+				<input type="checkbox" class="form-control" id="${field.name}" ng-checked="model.${field.name}">											
 			<#else>
 				<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
 			</#if>
    		<#else>
-   			<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>   			
+   			<#if field.fieldTypeDefinition.typeName == 'boolean'>
+				<input type="checkbox" disabled="disabled" class="form-control" id="${field.name}" ng-checked="model.${field.name}">											
+			<#else>
+   				<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>
+   			</#if>   			
    		</#if>		
 	</div>
 </#macro>

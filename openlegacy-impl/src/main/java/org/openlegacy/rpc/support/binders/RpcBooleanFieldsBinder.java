@@ -30,6 +30,7 @@ public class RpcBooleanFieldsBinder implements RpcEntityBinder, Serializable {
 	@Inject
 	private RpcEntitiesRegistry rpcEntitiesRegistry;
 
+	@Override
 	public void populateEntity(Object rpcEntity, RpcResult result) {
 
 		RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(rpcEntity.getClass());
@@ -56,6 +57,7 @@ public class RpcBooleanFieldsBinder implements RpcEntityBinder, Serializable {
 
 	}
 
+	@Override
 	public boolean fieldMatch(RpcFieldDefinition rpcFieldDefinition) {
 		if (rpcFieldDefinition.getJavaType() != Boolean.class) {
 			return false;
@@ -63,6 +65,7 @@ public class RpcBooleanFieldsBinder implements RpcEntityBinder, Serializable {
 		return true;
 	}
 
+	@Override
 	public void populateAction(RpcInvokeAction sendAction, Object entity) {
 
 		SimpleRpcPojoFieldAccessor fieldAccessor = null;
@@ -89,6 +92,7 @@ public class RpcBooleanFieldsBinder implements RpcEntityBinder, Serializable {
 		}
 	}
 
+	@Override
 	public Object toLegacy(RpcFieldDefinition rpcFieldDefinition, Object apiFieldValue, RpcFlatField booleanField) {
 		Object legacyFieldValue = null;
 		BooleanFieldTypeDefinition fieldTypeDefinition = (BooleanFieldTypeDefinition)rpcFieldDefinition.getFieldTypeDefinition();
@@ -110,6 +114,7 @@ public class RpcBooleanFieldsBinder implements RpcEntityBinder, Serializable {
 		return legacyFieldValue;
 	}
 
+	@Override
 	public Object toApi(RpcFieldDefinition rpcFieldDefinition, Object fiieldValue) {
 
 		BooleanFieldTypeDefinition fieldTypeDefinition = (BooleanFieldTypeDefinition)rpcFieldDefinition.getFieldTypeDefinition();

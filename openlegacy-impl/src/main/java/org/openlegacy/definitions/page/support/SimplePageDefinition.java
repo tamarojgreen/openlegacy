@@ -29,18 +29,22 @@ public class SimplePageDefinition implements PageDefinition {
 		this.entityDefinition = entityDefinition;
 	}
 
+	@Override
 	public List<PagePartDefinition> getPageParts() {
 		return pageParts;
 	}
 
+	@Override
 	public EntityDefinition<?> getEntityDefinition() {
 		return entityDefinition;
 	}
 
+	@Override
 	public List<ActionDefinition> getActions() {
 		return actions;
 	}
 
+	@Override
 	public String getPackageName() {
 		return packageName;
 	}

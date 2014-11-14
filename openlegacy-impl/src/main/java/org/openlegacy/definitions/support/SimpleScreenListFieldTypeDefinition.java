@@ -30,6 +30,7 @@ public class SimpleScreenListFieldTypeDefinition extends AbstractListFieldTypeDe
 		this.gaps = gaps;
 	}
 
+	@Override
 	public int[] getGaps() {
 		return gaps;
 	}

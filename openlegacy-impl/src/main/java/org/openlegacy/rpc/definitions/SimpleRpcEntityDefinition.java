@@ -15,7 +15,7 @@ import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.definitions.support.AbstractEntityDefinition;
-import org.openlegacy.rpc.RpcActions;
+import org.openlegacy.rpc.actions.RpcActions;
 import org.openlegacy.rpc.support.RpcOrderFieldComparator;
 
 import java.util.ArrayList;
@@ -40,6 +40,7 @@ public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcField
 		super(entityName, entityClass);
 	}
 
+	@Override
 	public Languages getLanguage() {
 		return language;
 	}
@@ -48,10 +49,12 @@ public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcField
 		this.language = language;
 	}
 
+	@Override
 	public boolean isWindow() {
 		return false;
 	}
 
+	@Override
 	public RpcNavigationDefinition getNavigationDefinition() {
 		return navigationDefinition;
 	}
@@ -81,6 +84,7 @@ public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcField
 		return result;
 	}
 
+	@Override
 	public String getSourceCode() {
 		return sourceCode;
 	}
@@ -89,6 +93,7 @@ public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcField
 		this.sourceCode = sourceCode;
 	}
 
+	@Override
 	public String getIdentification() {
 
 		RpcActionDefinition actionDefinition = (RpcActionDefinition)getAction(RpcActions.READ.class);
@@ -113,6 +118,7 @@ public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcField
 			}
 			Collections.sort(keyFields, new Comparator<RpcFieldDefinition>() {
 
+				@Override
 				public int compare(RpcFieldDefinition o1, RpcFieldDefinition o2) {
 					return o1.getKeyIndex() - o2.getKeyIndex();
 				}

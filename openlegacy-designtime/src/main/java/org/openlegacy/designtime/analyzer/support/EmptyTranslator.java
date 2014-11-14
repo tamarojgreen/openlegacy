@@ -18,6 +18,7 @@ import org.openlegacy.designtime.analyzer.TextTranslator;
  */
 public class EmptyTranslator implements TextTranslator {
 
+	@Override
 	public String translate(String text) {
 		return text;
 	}

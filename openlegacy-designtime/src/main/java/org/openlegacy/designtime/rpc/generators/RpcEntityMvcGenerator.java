@@ -67,6 +67,7 @@ public class RpcEntityMvcGenerator extends AbstractEntityMvcGenerator implements
 	/**
 	 * Generate all web page related content: jspx, controller, controller aspect file, and views.xml file
 	 */
+	@Override
 	public void generateView(GenerateViewRequest generatePageRequest, EntityDefinition<?> entityDefinition)
 			throws GenerationException {
 		generateView(generatePageRequest, entityDefinition, false);
@@ -77,6 +78,7 @@ public class RpcEntityMvcGenerator extends AbstractEntityMvcGenerator implements
 		// TODO implement
 	}
 
+	@Override
 	public void generateController(GenerateControllerRequest generateControllerRequest, EntityDefinition<?> entityDefinition)
 			throws GenerationException {
 

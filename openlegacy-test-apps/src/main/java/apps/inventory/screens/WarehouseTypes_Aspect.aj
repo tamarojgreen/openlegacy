@@ -3,9 +3,13 @@
 
 package apps.inventory.screens;
 
-import java.util.*;
+import apps.inventory.screens.WarehouseTypes.WarehouseTypeRow;
+
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
+
+import java.util.ArrayList;
+import java.util.List;
 
 privileged @SuppressWarnings("unused") aspect WarehouseTypes_Aspect {
 

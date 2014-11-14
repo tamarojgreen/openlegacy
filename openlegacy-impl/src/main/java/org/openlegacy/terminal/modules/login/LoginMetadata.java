@@ -91,6 +91,7 @@ public class LoginMetadata implements SessionModuleMetadata, InitializingBean, S
 		loginClass = clazz;
 	}
 
+	@Override
 	public void afterPropertiesSet() throws Exception {
 		initCache();
 	}

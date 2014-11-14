@@ -14,10 +14,12 @@ public class MenuScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 	@ScreenField(row = 6, column = 22, endColumn = 31, editable = true)
 	private String fld1;
 
+	@Override
 	public String getFocusField() {
 		return null;
 	}
 
+	@Override
 	public void setFocusField(String focusField) {}
 
 	public String getFld1() {
@@ -28,6 +30,7 @@ public class MenuScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 		this.fld1 = fld1;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<TerminalActionDefinition> getActions() {
 		return Collections.EMPTY_LIST;

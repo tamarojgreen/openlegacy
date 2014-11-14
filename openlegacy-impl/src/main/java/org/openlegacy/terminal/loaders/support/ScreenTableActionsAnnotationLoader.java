@@ -19,11 +19,13 @@ import org.openlegacy.annotations.screen.TableAction;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.loaders.support.AbstractClassAnnotationLoader;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.table.TerminalDrilldownAction;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.StringUtil;
@@ -37,10 +39,12 @@ public class ScreenTableActionsAnnotationLoader extends AbstractClassAnnotationL
 
 	private final static Log logger = LogFactory.getLog(ScreenTableActionsAnnotationLoader.class);
 
+	@Override
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == ScreenTableActions.class;
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 
@@ -59,9 +63,18 @@ public class ScreenTableActionsAnnotationLoader extends AbstractClassAnnotationL
 				Class<? extends TerminalDrilldownAction> theAction = action.action();
 				TerminalDrilldownAction drilldownAction = ReflectionUtil.newInstance(theAction);
 				drilldownAction.setActionValue(action.actionValue());
+				
+				TerminalPosition position = null;
+				if (action.row() > 0 && action.column() > 0){
+					position = new SimpleTerminalPosition(action.row(),action.column());
+				}
 				SimpleTerminalActionDefinition actionDefinition = new SimpleTerminalActionDefinition(drilldownAction,
-						AdditionalKey.NONE, action.displayName(), null);
+						AdditionalKey.NONE, action.displayName(), position);
 
+				if (position != null){
+					actionDefinition.setLength(action.length());
+					actionDefinition.setWhen(action.when());
+				}
 				if (StringUtils.isEmpty(action.alias())) {
 					actionDefinition.setAlias(StringUtil.toJavaFieldName(action.displayName()));
 				} else {

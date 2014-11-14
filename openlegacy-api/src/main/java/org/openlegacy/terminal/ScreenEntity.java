@@ -34,12 +34,15 @@ public interface ScreenEntity {
 
 	public class NONE implements ScreenEntity {
 
+		@Override
 		public String getFocusField() {
 			return null;
 		}
 
+		@Override
 		public void setFocusField(String focusField) {}
 
+		@Override
 		@SuppressWarnings("unchecked")
 		public List<TerminalActionDefinition> getActions() {
 			return Collections.EMPTY_LIST;

@@ -33,6 +33,7 @@ public class DefaultTableScrollStopConditions<T> implements TableScrollStopCondi
 	/**
 	 * Check if the screen after the scroll contains all the rows in the screen before
 	 */
+	@Override
 	public boolean shouldStop(T beforeScrollEntity, T afterScrollEntity) {
 		List<?> beforeScrollRows = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, beforeScrollEntity);
 		List<?> afterScrollRows = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, afterScrollEntity);
@@ -42,6 +43,7 @@ public class DefaultTableScrollStopConditions<T> implements TableScrollStopCondi
 		return false;
 	}
 
+	@Override
 	public boolean shouldStop(T currentEntity) {
 		Entry<String, ScreenTableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
 				tablesDefinitionProvider, currentEntity.getClass());

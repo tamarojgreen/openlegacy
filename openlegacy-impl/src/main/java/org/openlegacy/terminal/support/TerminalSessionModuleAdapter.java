@@ -31,6 +31,7 @@ public abstract class TerminalSessionModuleAdapter extends SessionModuleAdapter<
 	 */
 	public TerminalSessionModuleAdapter() {}
 
+	@Override
 	public void destroy() {
 		// allow override
 	}

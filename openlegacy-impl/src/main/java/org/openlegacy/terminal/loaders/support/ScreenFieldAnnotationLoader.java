@@ -52,10 +52,12 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 
 	private final static Log logger = LogFactory.getLog(ScreenFieldAnnotationLoader.class);
 
+	@Override
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == ScreenField.class;
 	}
 
+	@Override
 	@SuppressWarnings({ "rawtypes" })
 	public void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass,
 			int fieldOrder) {

@@ -14,8 +14,8 @@ import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.definitions.support.SimpleTextFieldTypeDefinition;
 import org.openlegacy.designtime.rpc.model.support.SimpleRpcEntityDesigntimeDefinition;
 import org.openlegacy.designtime.rpc.source.CodeParser;
-import org.openlegacy.rpc.RpcActions;
-import org.openlegacy.rpc.RpcActions.READ;
+import org.openlegacy.rpc.actions.RpcActions;
+import org.openlegacy.rpc.actions.RpcActions.READ;
 import org.openlegacy.rpc.definitions.RpcFieldDefinition;
 import org.openlegacy.rpc.definitions.SimpleRpcActionDefinition;
 import org.openlegacy.rpc.definitions.SimpleRpcFieldDefinition;
@@ -36,6 +36,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 public class PcmlParser implements CodeParser {
 
+	@Override
 	public ParseResults parse(String source, String fileName) {
 		DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
 		domFactory.setNamespaceAware(true); // never forget this!
@@ -108,6 +109,7 @@ public class PcmlParser implements CodeParser {
 		return fieldDefinition;
 	}
 
+	@Override
 	public ParseResults parse(String source, Map<String, InputStream> streamMap) throws IOException {
 		return null;
 	}

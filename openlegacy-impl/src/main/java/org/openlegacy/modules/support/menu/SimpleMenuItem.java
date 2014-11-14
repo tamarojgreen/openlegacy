@@ -36,22 +36,27 @@ public class SimpleMenuItem implements MenuItem, Serializable, Cloneable {
 		this.depth = depth;
 	}
 
+	@Override
 	public Class<?> getTargetEntity() {
 		return targetEntity;
 	}
 
+	@Override
 	public String getTargetEntityName() {
 		return targetEntityName;
 	}
 
+	@Override
 	public List<MenuItem> getMenuItems() {
 		return menuItems;
 	}
 
+	@Override
 	public String getDisplayName() {
 		return displayName;
 	}
 
+	@Override
 	public int getDepth() {
 		return depth;
 	}

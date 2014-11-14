@@ -37,6 +37,7 @@ public class SimpleRpcResult implements RpcResult, Serializable {
 			@XmlElement(name = "structure-list", type = SimpleRpcStructureListField.class) })
 	private List<RpcField> rpcFields;
 
+	@Override
 	public List<RpcField> getRpcFields() {
 		return rpcFields;
 	}

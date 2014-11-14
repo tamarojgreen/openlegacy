@@ -57,6 +57,7 @@ public class DateFieldsBinder implements ScreenEntityBinder, Serializable {
 
 	private String centuryPrefix = "20";
 
+	@Override
 	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) throws EntityNotFoundException,
 			ScreenEntityNotAccessibleException {
 
@@ -124,6 +125,7 @@ public class DateFieldsBinder implements ScreenEntityBinder, Serializable {
 		}
 	}
 
+	@Override
 	public void populateAction(TerminalSendAction sendAction, TerminalSnapshot terminalSnapshot, Object entity) {
 
 		if (entity == null) {

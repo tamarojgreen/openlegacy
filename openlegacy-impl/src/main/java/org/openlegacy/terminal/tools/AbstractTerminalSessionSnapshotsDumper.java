@@ -38,6 +38,7 @@ public abstract class AbstractTerminalSessionSnapshotsDumper implements Terminal
 
 	private List<TerminalSnapshotDumper> dumpers = new ArrayList<TerminalSnapshotDumper>();
 
+	@Override
 	public void dumpSession(File baseDir, boolean cleanupFolder, String springContext) throws Exception {
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext(springContext);
 
@@ -50,10 +51,12 @@ public abstract class AbstractTerminalSessionSnapshotsDumper implements Terminal
 		if (cleanupFolder) {
 			FileCommandExecuter.execute(baseDir, new FileCommand() {
 
+				@Override
 				public void doCommand(File file) {
 					file.delete();
 				}
 
+				@Override
 				public boolean accept(File file) {
 					String ext = FilenameUtils.getExtension(file.getName());
 					for (TerminalSnapshotDumper terminalSnapshotDumper : dumpers) {

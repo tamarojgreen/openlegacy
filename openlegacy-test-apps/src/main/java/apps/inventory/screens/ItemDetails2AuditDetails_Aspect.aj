@@ -3,9 +3,9 @@
 
 package apps.inventory.screens;
 
-import java.util.*;
-import org.openlegacy.terminal.TerminalField;
 import apps.inventory.screens.ItemDetails2.AuditDetails;
+
+import org.openlegacy.terminal.TerminalField;
 
 privileged @SuppressWarnings("unused") aspect AuditDetailsPart_Aspect {
     private TerminalField AuditDetails.createdDateField;

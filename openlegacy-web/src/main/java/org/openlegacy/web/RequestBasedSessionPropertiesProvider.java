@@ -27,6 +27,7 @@ public class RequestBasedSessionPropertiesProvider implements SessionPropertiesP
 	@Inject
 	private HttpServletRequest request;
 
+	@Override
 	public SessionProperties getSessionProperties() {
 		SimpleSessionProperties sessionProperties = new SimpleSessionProperties();
 

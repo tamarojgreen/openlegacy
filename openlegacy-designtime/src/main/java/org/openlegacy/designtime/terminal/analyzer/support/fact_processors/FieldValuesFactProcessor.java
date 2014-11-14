@@ -20,10 +20,12 @@ import org.openlegacy.utils.ClassUtils;
 
 public class FieldValuesFactProcessor implements ScreenFactProcessor {
 
+	@Override
 	public boolean accept(ScreenFact screenFact) {
 		return screenFact instanceof FieldValuesFact;
 	}
 
+	@Override
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 		FieldValuesFact fieldValuesFact = (FieldValuesFact)screenFact;
 

@@ -51,14 +51,17 @@ public class SimpleRpcInvokeAction implements RpcInvokeAction, Serializable {
 		this.rpcPath = rpcName;
 	}
 
+	@Override
 	public List<RpcField> getFields() {
 		return rpcFields;
 	}
 
+	@Override
 	public String getAction() {
 		return action;
 	}
 
+	@Override
 	public String getRpcPath() {
 		return rpcPath;
 	}

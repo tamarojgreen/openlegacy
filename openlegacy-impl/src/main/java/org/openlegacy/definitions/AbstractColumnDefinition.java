@@ -39,10 +39,12 @@ public abstract class AbstractColumnDefinition implements ColumnDefinition, Seri
 		this.name = name;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public boolean isKey() {
 		return key;
 	}
@@ -51,6 +53,7 @@ public abstract class AbstractColumnDefinition implements ColumnDefinition, Seri
 		this.key = key;
 	}
 
+	@Override
 	public boolean isEditable() {
 		return editable;
 	}
@@ -59,6 +62,7 @@ public abstract class AbstractColumnDefinition implements ColumnDefinition, Seri
 		this.editable = editable;
 	}
 
+	@Override
 	public String getSampleValue() {
 		return sampleValue;
 	}
@@ -67,6 +71,7 @@ public abstract class AbstractColumnDefinition implements ColumnDefinition, Seri
 		this.sampleValue = sampleValue;
 	}
 
+	@Override
 	public String getDisplayName() {
 		return displayName;
 	}
@@ -75,6 +80,7 @@ public abstract class AbstractColumnDefinition implements ColumnDefinition, Seri
 		this.displayName = displayName;
 	}
 
+	@Override
 	public Class<?> getJavaType() {
 		return javaType;
 	}
@@ -90,6 +96,7 @@ public abstract class AbstractColumnDefinition implements ColumnDefinition, Seri
 		this.javaType = javaType;
 	}
 
+	@Override
 	public int getRowsOffset() {
 		return rowsOffset;
 	}
@@ -98,6 +105,7 @@ public abstract class AbstractColumnDefinition implements ColumnDefinition, Seri
 		this.rowsOffset = rowsOffset;
 	}
 
+	@Override
 	public String getHelpText() {
 		return helpText;
 	}
@@ -114,6 +122,7 @@ public abstract class AbstractColumnDefinition implements ColumnDefinition, Seri
 		this.mainDisplayField = mainDisplayField;
 	}
 
+	@Override
 	public int getSortIndex() {
 		return sortIndex;
 	}
@@ -122,6 +131,7 @@ public abstract class AbstractColumnDefinition implements ColumnDefinition, Seri
 		this.sortIndex = sortIndex;
 	}
 
+	@Override
 	public Class<?> getTargetEntity() {
 		return targetEntity;
 	}
@@ -138,11 +148,13 @@ public abstract class AbstractColumnDefinition implements ColumnDefinition, Seri
 		this.targetEntityClassName = targetEntityClassName;
 	}
 
+	@Override
 	public int compareTo(ColumnDefinition arg0) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public int getColSpan() {
 		return colSpan;
 	}

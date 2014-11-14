@@ -44,6 +44,7 @@ public class AbstractSessionRegistryModule extends SessionModuleAdapter implemen
 		setLastActivity();
 	}
 
+	@Override
 	public void destroy() {
 		sessionsRegistry.unregister(getSession());
 	}

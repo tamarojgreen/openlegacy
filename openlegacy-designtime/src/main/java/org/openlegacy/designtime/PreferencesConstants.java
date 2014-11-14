@@ -34,4 +34,6 @@ public class PreferencesConstants {
 	public static final String USER_NAME = "USER_NAME";
 	public static final String HOST_NAME = "HOST_NAME";
 	public static final String LEGACY_FILENAME = "LEGACY_FILENAME";
+
+	public static final String BACKEND_SOLUTION = "BACKEND_SOLUTION";
 }

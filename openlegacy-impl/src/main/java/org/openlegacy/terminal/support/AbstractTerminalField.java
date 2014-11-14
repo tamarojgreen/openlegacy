@@ -26,6 +26,7 @@ public abstract class AbstractTerminalField implements ModifiableTerminalField, 
 	private TerminalPosition endPosition;
 	private Integer length;
 
+	@Override
 	public String getValue() {
 		if (getModifiedValue() != null) {
 			return getModifiedValue();
@@ -33,6 +34,7 @@ public abstract class AbstractTerminalField implements ModifiableTerminalField, 
 		return getOriginalValue();
 	}
 
+	@Override
 	public String getOriginalValue() {
 		if (value == null) {
 			value = initValue();
@@ -40,6 +42,7 @@ public abstract class AbstractTerminalField implements ModifiableTerminalField, 
 		return value;
 	}
 
+	@Override
 	public void setValue(String value, boolean modified) {
 		if (modified) {
 			modifiedValue = value;
@@ -48,6 +51,7 @@ public abstract class AbstractTerminalField implements ModifiableTerminalField, 
 		}
 	}
 
+	@Override
 	public int getLength() {
 		if (length == null) {
 			length = initLength();
@@ -55,18 +59,22 @@ public abstract class AbstractTerminalField implements ModifiableTerminalField, 
 		return length;
 	}
 
+	@Override
 	public void setLength(int length) {
 		this.length = length;
 	}
 
+	@Override
 	public void setPosition(TerminalPosition position) {
 		this.position = position;
 	}
 
+	@Override
 	public void setEndPosition(TerminalPosition endPosition) {
 		this.endPosition = endPosition;
 	}
 
+	@Override
 	public TerminalPosition getPosition() {
 		if (position == null) {
 			position = initPosition();
@@ -74,6 +82,7 @@ public abstract class AbstractTerminalField implements ModifiableTerminalField, 
 		return position;
 	}
 
+	@Override
 	public TerminalPosition getEndPosition() {
 		if (endPosition == null) {
 			endPosition = initEndPosition();
@@ -100,14 +109,17 @@ public abstract class AbstractTerminalField implements ModifiableTerminalField, 
 		return SnapshotUtils.fieldToString(this);
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return StringUtil.isEmpty(getValue());
 	}
 
+	@Override
 	public boolean isPassword() {
 		return isEditable() && isHidden();
 	}
 
+	@Override
 	public void setValue(String value) {
 		if (isEditable()) {
 			modifiedValue = value;
@@ -116,6 +128,7 @@ public abstract class AbstractTerminalField implements ModifiableTerminalField, 
 		}
 	}
 
+	@Override
 	public boolean isModified() {
 		return modifiedValue != null;
 	}
@@ -135,10 +148,12 @@ public abstract class AbstractTerminalField implements ModifiableTerminalField, 
 
 	protected abstract TerminalPosition initEndPosition();
 
+	@Override
 	public boolean isUppercase() {
 		return false;
 	}
 
+	@Override
 	public boolean isMultyLine() {
 		if (getEndPosition() == null) {
 			return false;
@@ -146,6 +161,7 @@ public abstract class AbstractTerminalField implements ModifiableTerminalField, 
 		return getEndPosition().getRow() > getPosition().getRow();
 	}
 
+	@Override
 	public int compareTo(TerminalField other) {
 		return getPosition().compareTo(other.getPosition());
 	}

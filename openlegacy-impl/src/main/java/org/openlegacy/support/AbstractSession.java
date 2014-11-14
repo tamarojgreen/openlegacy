@@ -47,6 +47,7 @@ public abstract class AbstractSession implements Session, InitializingBean, Disp
 
 	private SessionProperties sessionProperties;
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public <M extends SessionModule> M getModule(Class<M> module) {
 		if (sessionModules == null) {
@@ -94,6 +95,7 @@ public abstract class AbstractSession implements Session, InitializingBean, Disp
 		}
 	}
 
+	@Override
 	public SessionProperties getProperties() {
 		if (sessionProperties == null) {
 			sessionProperties = sessionPropertiesProvider.getSessionProperties();
@@ -108,6 +110,7 @@ public abstract class AbstractSession implements Session, InitializingBean, Disp
 	/**
 	 * Pass the session to all the modules
 	 */
+	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void afterPropertiesSet() throws Exception {
 		List<? extends SessionModule> modules = sessionModules.getModules();
@@ -118,6 +121,7 @@ public abstract class AbstractSession implements Session, InitializingBean, Disp
 		}
 	}
 
+	@Override
 	public void destroy() throws Exception {
 		disconnect();
 	}

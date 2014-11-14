@@ -23,6 +23,7 @@ public class SimpleRpcListFieldTypeDefinition extends AbstractListFieldTypeDefin
 	 * 
 	 * @see org.openlegacy.rpc.definitions.RpcListFieldTypeDefinition#getItemFieldTypeDefinition()
 	 */
+	@Override
 	public FieldTypeDefinition getItemTypeDefinition() {
 		return itemTypeDefinition;
 	}
@@ -49,10 +50,12 @@ public class SimpleRpcListFieldTypeDefinition extends AbstractListFieldTypeDefin
 	 * 
 	 * @see org.openlegacy.rpc.definitions.RpcListFieldTypeDefinition#getItemJavaType()
 	 */
+	@Override
 	public Class<?> getItemJavaType() {
 		return itemJavaType;
 	}
 
+	@Override
 	public String getItemJavaName() {
 		return itemJavaType.getSimpleName();
 	}

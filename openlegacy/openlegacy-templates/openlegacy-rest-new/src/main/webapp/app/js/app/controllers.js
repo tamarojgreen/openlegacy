@@ -4,7 +4,7 @@
 
 	/* Controllers */
 
-	var module = angular.module('controllers', []);
+	var module = angular.module('controllers', ["ui.bootstrap"]);
 
 	module = module.controller(
 		'loginController',
@@ -14,10 +14,11 @@
 			}
 			$scope.login = function(username, password) {				
 				
-				$olHttp.get('login?user=' + username + '&password='+ password, 
+				var data = {"user":username,"password":password}
+				$olHttp.post('login',data, 
 						function() {
 							var $expiration = new Date();
-							var minutes = 30;
+							var minutes = olConfig.expiration;
 							$expiration.setTime($expiration.getTime() + minutes*60*1000)
 							
 							$.cookie('loggedInUser', username, {expires: $expiration, path: '/'});
@@ -38,7 +39,7 @@
 		});
 	
 	module = module.controller('HeaderCtrl',
-		function ($rootScope, $scope, $http, $location, $themeService) {    
+		function ($rootScope, $scope, $http, $location, $themeService, $olHttp, $modal) {    
 			$rootScope.$on("olApp:login:authorized", function(e, value) {
 				$scope.username = value;
 			});
@@ -56,8 +57,40 @@
 			$scope.changeTheme = function() {
 				$themeService.changeTheme();
 			};
+			
+			$scope.showMessages = false;
+			$olHttp.get("messages", function(data){			
+				if (data.model != null && data.model != undefined && data.model != "") {				
+					$scope.showMessages = true;
+					
+					$scope.messages = function() {
+						var modalInstance = $modal.open({
+							templateUrl: "views/messages.html",
+							controller: "messagesModalCtrl",
+							resolve:{
+								messages: function() {
+									return data.model;
+								} 
+							}
+						});
+					};
+					
+					if (olConfig.showSystemMessages) {				
+						$scope.messages();
+					}
+				}		
+			});
+	});	
+	
+	module = module.controller('messagesModalCtrl', ['$scope', '$modalInstance','messages', function($scope, $modalInstance, messages) {
+		console.log(messages);
+		$scope.messages = messages;	
+		$scope.close = function() {
+			$modalInstance.close();
+		};
 		
-	});
+	}]);
+	
 	
 	module = module.controller(
 		'menuCtrl',
@@ -84,12 +117,18 @@
 							
 							$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {					
 								$scope.model.actions=null;
-								$scope.model.itemsRecords[rowIndex].action_ = actionValue;
+								<#list entityDefinition.tableDefinitions?keys as key> 
+								$scope.model.${entityDefinition.tableDefinitions[key].tableEntityName}s[rowIndex][columnName] = actionValue;
+							    </#list>	
 								
 								$olHttp.post('${entityDefinition.entityName}/', $scope.model, function(data) {
-									$scope.model = data.model.entity;									
+									if (data.model.entityName == '${entityDefinition.entityName}'){
+										$scope.model = data.model.entity;								
+									}
+									else{					
+										$location.path("/" + data.model.entityName);
+									}
 								});
-										
 							};
 						}							
 					);
@@ -191,12 +230,18 @@
 							
 							$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {					
 								$scope.model.actions=null;
-								$scope.model.itemsRecords[rowIndex].action_ = actionValue;
+								<#list entityDefinition.tableDefinitions?keys as key> 
+								$scope.model.${entityDefinition.tableDefinitions[key].tableEntityName}s[rowIndex][columnName] = actionValue;
+							    </#list>	
 								
-								$olHttp.post('${entityName}/', $scope.model, function(data) {
-									$scope.model = data.model.entity;									
+								$olHttp.post('${entityDefinition.entityName}/', $scope.model, function(data) {
+									if (data.model.entityName == '${entityDefinition.entityName}'){
+										$scope.model = data.model.entity;								
+									}
+									else{					
+										$location.path("/" + data.model.entityName);
+									}
 								});
-										
 							};
 						}
 					);

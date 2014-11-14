@@ -42,6 +42,7 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 		}
 	}
 
+	@Override
 	public Integer getLength() {
 		return length;
 	}
@@ -50,6 +51,7 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 		this.length = length;
 	}
 
+	@Override
 	public Direction getDirection() {
 		return direction;
 	}
@@ -58,6 +60,7 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 		this.direction = direction;
 	}
 
+	@Override
 	public String getOriginalName() {
 		return originalName;
 	}
@@ -66,6 +69,7 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 		this.originalName = originalName;
 	}
 
+	@Override
 	public int getOrder() {
 		return order;
 	}
@@ -89,6 +93,7 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 		return ToStringBuilder.reflectionToString(this);
 	}
 
+	@Override
 	public Integer getDecimalPlaces() {
 
 		Integer result = new Integer(0);
@@ -99,6 +104,7 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 		return result;
 	}
 
+	@Override
 	public int compareTo(FieldDefinition o) {
 		return 0;
 	}
@@ -129,6 +135,7 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 		this.nullValue = nullValue;
 	}
 
+	@Override
 	public String getShortName() {
 		return shortName;
 	}

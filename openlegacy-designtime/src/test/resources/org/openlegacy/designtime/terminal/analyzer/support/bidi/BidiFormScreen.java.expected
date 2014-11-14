@@ -5,7 +5,7 @@ import org.openlegacy.annotations.screen.*;
 @ScreenEntity(displayName="מסך בעברית")
 @ScreenIdentifiers(identifiers = { 
 				@Identifier(row = 1, column = 40, value = "מסך בעברית"), 
-				@Identifier(row = 4, column = 23, value = ":שדה א"), 
+				@Identifier(row = 4, column = 23, value = ":א שדה"), 
 				@Identifier(row = 5, column = 20, value = ":שדה ב") 
 				})
 public class MscBabrit {
@@ -16,6 +16,7 @@ public class MscBabrit {
 	
 	@ScreenField(row = 5, column = 13, endColumn= 18 ,labelColumn= 20 ,displayName = "שדה ב", sampleValue = "בגדה")
     private String sdeB;
+
 
     
 

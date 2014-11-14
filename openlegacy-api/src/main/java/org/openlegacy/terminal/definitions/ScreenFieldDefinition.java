@@ -28,6 +28,7 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 	/**
 	 * Gets the field position (row, column)
 	 */
+	@Override
 	TerminalPosition getPosition();
 
 	/**
@@ -110,6 +111,7 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 
 	boolean isForceUpdate();
 
+	@Override
 	String getExpression();
 
 }

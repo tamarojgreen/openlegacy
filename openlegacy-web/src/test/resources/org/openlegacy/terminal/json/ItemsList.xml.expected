@@ -3,6 +3,19 @@
     <entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:java="http://java.sun.com" xsi:type="java:apps.inventory.screens.ItemsList">
         <positionTo></positionTo>
+        <itemsListRowsActions length="8" sleep="0" defaultAction="false"
+            global="false" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
+            <position column="4" row="5" xsi:type="java:org.openlegacy.terminal.support.SimpleTerminalPosition"/>
+            <when>2.*</when>
+            <additionalKey>NONE</additionalKey>
+            <actionName>EnterDrilldownAction</actionName>
+            <displayName>Revise</displayName>
+            <alias>revise</alias>
+            <action macro="false" xsi:type="java:org.openlegacy.terminal.modules.table.TerminalDrilldownActions$EnterDrilldownAction">
+                <actionValue xsi:type="java:java.lang.String">2</actionValue>
+                <actionName>EnterDrilldownAction</actionName>
+            </action>
+        </itemsListRowsActions>
         <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
             <alphaSearch>APPLE</alphaSearch>
             <itemDescription>Red apple - FRT</itemDescription>

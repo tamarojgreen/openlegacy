@@ -133,9 +133,9 @@ End Uncomment for OpenLegacy enterprise managemenent plugin -->
 		</dependency>
 		<!-- Javax -->
 		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-			<version>1.0</version>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.0-api</artifactId>
+			<version>1.0.1.Final</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>

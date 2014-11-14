@@ -13,9 +13,11 @@ package org.openlegacy.designtime.db.generators.support;
 import static org.openlegacy.designtime.utils.JavaParserUtil.getAnnotationValue;
 
 import org.apache.commons.lang.StringUtils;
+import org.openlegacy.db.definitions.DbNavigationDefinition;
 import org.openlegacy.db.definitions.DbOneToManyDefinition;
 import org.openlegacy.db.definitions.DbTableDefinition;
 import org.openlegacy.db.definitions.DbTableDefinition.UniqueConstraintDefinition;
+import org.openlegacy.db.definitions.SimpleDbNavigationDefinition;
 import org.openlegacy.db.definitions.SimpleDbOneToManyDefinition;
 import org.openlegacy.db.definitions.SimpleDbTableDefinition;
 import org.openlegacy.db.definitions.SimpleDbTableUniqueConstraintDefinition;
@@ -257,5 +259,20 @@ public class DbAnnotationsParserUtils {
 			list.add(split[split.length - 1]);
 		}
 		return list;
+	}
+
+	public static DbNavigationDefinition populateNavigation(AnnotationExpr annotationExpr) {
+		SimpleDbNavigationDefinition navigationDefinition = new SimpleDbNavigationDefinition();
+
+		if (annotationExpr instanceof NormalAnnotationExpr) {
+			List<MemberValuePair> navigationAttributes = ((NormalAnnotationExpr)annotationExpr).getPairs();
+			for (MemberValuePair memberValuePair : navigationAttributes) {
+				String attributeValue = memberValuePair.getValue().toString();
+				if (memberValuePair.getName().equals(DbAnnotationConstants.CATEGORY)) {
+					navigationDefinition.setCategory(StringUtil.stripQuotes(attributeValue));
+				}
+			}
+		}
+		return navigationDefinition;
 	}
 }

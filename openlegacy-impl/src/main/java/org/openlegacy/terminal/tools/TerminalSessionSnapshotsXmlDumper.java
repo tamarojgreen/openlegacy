@@ -22,6 +22,7 @@ import javax.xml.bind.JAXBException;
 
 public class TerminalSessionSnapshotsXmlDumper implements TerminalSnapshotDumper {
 
+	@Override
 	public byte[] getDumpContent(TerminalSnapshot snapshot) {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -34,6 +35,7 @@ public class TerminalSessionSnapshotsXmlDumper implements TerminalSnapshotDumper
 		return baos.toByteArray();
 	}
 
+	@Override
 	public String getDumpFileExtension() {
 		return "xml";
 	}

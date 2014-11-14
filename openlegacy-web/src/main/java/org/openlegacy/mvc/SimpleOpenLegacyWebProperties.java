@@ -16,6 +16,7 @@ public class SimpleOpenLegacyWebProperties implements OpenLegacyWebProperties {
 	private boolean fallbackUrlOnError;
 	private boolean treeMenu;
 
+	@Override
 	public String getFallbackUrl() {
 		return fallbackUrl;
 	}
@@ -24,6 +25,7 @@ public class SimpleOpenLegacyWebProperties implements OpenLegacyWebProperties {
 		this.fallbackUrl = fallbackUrl;
 	}
 
+	@Override
 	public boolean isFallbackUrlOnError() {
 		return fallbackUrlOnError;
 	}
@@ -33,6 +35,7 @@ public class SimpleOpenLegacyWebProperties implements OpenLegacyWebProperties {
 	}
 
 	
+	@Override
 	public boolean isTreeMenu() {
 		return treeMenu;
 	}

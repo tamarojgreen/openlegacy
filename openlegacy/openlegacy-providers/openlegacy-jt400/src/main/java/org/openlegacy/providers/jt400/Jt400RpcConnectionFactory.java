@@ -29,6 +29,7 @@ public class Jt400RpcConnectionFactory implements RpcConnectionFactory, Initiali
 	@Inject
 	private ApplicationContext applicationContext;
 
+	@Override
 	public RpcConnection getConnection() {
 		AS400 as400 = applicationContext.getBean(AS400.class);
 		Jt400RpcConnection rpcConnection = new Jt400RpcConnection();
@@ -36,11 +37,13 @@ public class Jt400RpcConnectionFactory implements RpcConnectionFactory, Initiali
 		return rpcConnection;
 	}
 
+	@Override
 	public void disconnect(RpcConnection rpcConnection) {
 		rpcConnection.disconnect();
 
 	}
 
+	@Override
 	public void afterPropertiesSet() throws Exception {
 		if (logger.isTraceEnabled()) {
 			Trace.setTraceOn(true);

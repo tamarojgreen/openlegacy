@@ -40,10 +40,12 @@ public class TerminalDrilldownActions implements Serializable {
 
 		public EnterDrilldownAction() {}
 
+		@Override
 		public Object getActionValue() {
 			return actionValue;
 		}
 
+		@Override
 		public void setActionValue(Object actionValue) {
 			this.actionValue = actionValue;
 		}

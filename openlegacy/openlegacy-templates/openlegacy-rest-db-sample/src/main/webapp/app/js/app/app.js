@@ -10,7 +10,7 @@
 	}]);
 	
 	olApp.config(function($stateProvider, $urlRouterProvider) {
-		$urlRouterProvider.otherwise("/items");
+		$urlRouterProvider.otherwise("/stockItem");
 		$stateProvider
 			.state('login', {
 				url: "/login",
@@ -22,8 +22,8 @@
 				templateUrl: "views/logoff.html",
 				controller: "logoffCtrl"			    
 		    })
-		    .state('items', {
-		    	url: "/items",
+		    .state('stockItem', {
+		    	url: "/stockItem",
 	    		templateUrl: "views/items.html",
 		    	controller: "itemsCtrl"		    	    	 
 		    })
@@ -36,9 +36,14 @@
 	    		templateUrl: "views/inventoryMenu.html"		    	    	    	 
 		    })
 			.state('itemDetails', {
-		    	url: "/itemDetails/:id",
+		    	url: "/StockItem/:id",
 	    		templateUrl: "views/itemDetails.html",
 	    		controller: "itemDetailsCtrl"
+		    })
+		    .state('productTree', {
+				url: "/productTree",
+				templateUrl: "views/productTree.html",
+				controller: "productTreeCtrl"			    
 		    });
 	});
 } )();
@@ -54,7 +59,7 @@ function appOnLoad($cookies,$rootScope,$location,$olHttp){
 	$cookies.loggedInUser = null;
 	if ($cookies.loggedInUser != null){
 		$rootScope.loggedInUser = $cookies.loggedInUser;
-		$location.path("/items");
+		$location.path("/stockItem");
 	}
 //	$olHttp.get("menu",function(data){
 	//	$rootScope.menus = data.simpleMenuItem.menuItems;

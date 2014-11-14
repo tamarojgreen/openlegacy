@@ -22,6 +22,7 @@ public class DefaultAuthorizationService implements AuthorizationService {
 
 	private boolean allowNullUser = true;
 
+	@Override
 	public MenuItem filterMenu(User user, MenuItem rootMenu) {
 		if (rootMenu == null) {
 			return null;
@@ -46,6 +47,7 @@ public class DefaultAuthorizationService implements AuthorizationService {
 		}
 	}
 
+	@Override
 	public List<MenuItem> filterMenus(User user, List<MenuItem> flatMenus) {
 		checkNullUser(user);
 		List<MenuItem> userFlatMenus1 = clone(flatMenus);
@@ -82,6 +84,7 @@ public class DefaultAuthorizationService implements AuthorizationService {
 		return userFlatMenus;
 	}
 
+	@Override
 	public boolean isAuthorized(User user, Class<?> entityClass) {
 		checkNullUser(user);
 
@@ -99,6 +102,7 @@ public class DefaultAuthorizationService implements AuthorizationService {
 		return true;
 	}
 
+	@Override
 	public boolean canAssignField(User user, FieldAssignDefinition fieldAssignDefinition) {
 		checkNullUser(user);
 		boolean doAssign = true;

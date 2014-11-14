@@ -65,11 +65,11 @@
 			<value>[pf12]</value>
 		</entry>
 		<entry>
-			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGEDOWN" /></key>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGE_DOWN" /></key>
 			<value>[pgdown]</value>
 		</entry>
 		<entry>
-			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.pgup" /></key>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGE_UP" /></key>
 			<value>[pgup]</value>
 		</entry>
 		<entry>
@@ -130,7 +130,7 @@
 			<value>enter</value>
 		</entry>
 		<entry>
-			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.ESC" /></key>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.ESCAPE" /></key>
 			<value>clear</value>
 		</entry>
 		<entry>
@@ -182,11 +182,11 @@
 			<value>pf12</value>
 		</entry>
 		<entry>
-			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGEDOWN" /></key>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGE_DOWN" /></key>
 			<value>pf8</value>
 		</entry>
 		<entry>
-			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGEUP" /></key>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGE_UP" /></key>
 			<value>pf7</value>
 		</entry>
 		<entry>

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.designtime.db.generators;
 
+import org.openlegacy.db.definitions.DbNavigationDefinition;
 import org.openlegacy.db.definitions.DbTableDefinition;
 import org.openlegacy.designtime.db.generators.support.DefaultDbPojoCodeModel.Action;
 import org.openlegacy.designtime.db.generators.support.DefaultDbPojoCodeModel.ColumnField;
@@ -36,4 +37,6 @@ public interface DbPojoCodeModel extends PojoCodeModel {
 	DbTableDefinition getTableDefinition();
 
 	Map<String, ColumnField> getColumnFields();
+
+	DbNavigationDefinition getNavigationDefinition();
 }

@@ -17,10 +17,12 @@ import org.openlegacy.designtime.terminal.model.support.SimpleScreenEntityDesign
 
 public class ChildScreenFactProcessor implements ScreenFactProcessor {
 
+	@Override
 	public boolean accept(ScreenFact screenFact) {
 		return screenFact instanceof ChildScreenFact;
 	}
 
+	@Override
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 		ChildScreenFact childScreenFact = (ChildScreenFact)screenFact;
 

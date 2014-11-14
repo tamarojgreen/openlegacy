@@ -8,7 +8,7 @@ import org.openlegacy.annotations.rpc.RpcNavigation;
 import org.openlegacy.annotations.rpc.RpcNumericField;
 import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.annotations.rpc.RpcPartList;
-import org.openlegacy.rpc.RpcActions.READ;
+import org.openlegacy.rpc.actions.RpcActions.READ;
 
 import java.util.List;
 

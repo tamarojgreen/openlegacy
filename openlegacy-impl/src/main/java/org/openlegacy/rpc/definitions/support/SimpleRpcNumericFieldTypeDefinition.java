@@ -30,6 +30,7 @@ public class SimpleRpcNumericFieldTypeDefinition extends SimpleNumericFieldTypeD
 		this.decimalPlaces = decimalPlaces;
 	}
 
+	@Override
 	public Integer getDecimalPlaces() {
 		return decimalPlaces;
 	}

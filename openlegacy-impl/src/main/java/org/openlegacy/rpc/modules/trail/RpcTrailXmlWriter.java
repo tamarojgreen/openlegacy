@@ -21,6 +21,7 @@ import java.util.List;
 
 public class RpcTrailXmlWriter implements TrailWriter {
 
+	@Override
 	public void write(SessionTrail<? extends Snapshot> trail, OutputStream out) {
 
 		RpcPersistedTrail persistedTrail = new RpcPersistedTrail();

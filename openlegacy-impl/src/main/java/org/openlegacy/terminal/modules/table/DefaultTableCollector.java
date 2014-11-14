@@ -36,10 +36,12 @@ public class DefaultTableCollector<T> implements ScreenTableCollector<T> {
 	private transient ApplicationContext applicationContext;
 	private int maxScreens = 50;
 
+	@Override
 	public List<T> collectAll(TerminalSession terminalSession, Class<?> screenEntityClass, Class<T> rowClass) {
 		return collectAllInner(terminalSession, screenEntityClass, rowClass, maxScreens);
 	}
 
+	@Override
 	public List<T> collectOne(TerminalSession terminalSession, Class<?> screenEntityClass, Class<T> rowClass) {
 		return collectAllInner(terminalSession, screenEntityClass, rowClass, 1);
 	}
@@ -108,6 +110,7 @@ public class DefaultTableCollector<T> implements ScreenTableCollector<T> {
 		return allRows;
 	}
 
+	@Override
 	public List<T> collect(TerminalSession terminalSession, Class<?> screenEntityClass, Class<T> rowClass, int numberOfScreens) {
 		return collectAllInner(terminalSession, screenEntityClass, rowClass, numberOfScreens);
 	}

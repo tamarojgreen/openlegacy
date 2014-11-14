@@ -27,10 +27,12 @@ public abstract class AbstractSessionTrail<S extends Snapshot> implements Sessio
 
 	private Integer current = null;
 
+	@Override
 	public List<S> getSnapshots() {
 		return snapshots;
 	}
 
+	@Override
 	public void appendSnapshot(S snapshot) {
 		snapshots.add(snapshot);
 
@@ -48,10 +50,12 @@ public abstract class AbstractSessionTrail<S extends Snapshot> implements Sessio
 		this.historyCount = historyCount;
 	}
 
+	@Override
 	public void clear() {
 		snapshots.clear();
 	}
 
+	@Override
 	public S getCurrent() {
 		if (current == null) {
 			current = snapshots.size() - 1;
@@ -59,6 +63,7 @@ public abstract class AbstractSessionTrail<S extends Snapshot> implements Sessio
 		return snapshots.get(current);
 	}
 
+	@Override
 	public void advanceCurrent(int steps) {
 		if (current == null) {
 			current = snapshots.size() - 1;

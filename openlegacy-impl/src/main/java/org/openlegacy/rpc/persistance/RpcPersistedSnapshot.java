@@ -51,6 +51,7 @@ public class RpcPersistedSnapshot implements RpcSnapshot {
 		this.entityName = entityName;
 	}
 
+	@Override
 	public RpcInvokeAction getRpcInvokeAction() {
 		return rpcInvokeAction;
 	}
@@ -59,6 +60,7 @@ public class RpcPersistedSnapshot implements RpcSnapshot {
 		this.rpcInvokeAction = rpcInvokeAction;
 	}
 
+	@Override
 	public RpcResult getRpcResult() {
 		return rpcResult;
 	}
@@ -67,6 +69,7 @@ public class RpcPersistedSnapshot implements RpcSnapshot {
 		this.rpcResult = rpcResult;
 	}
 
+	@Override
 	public Integer getSequence() {
 		return sequence;
 	}
@@ -75,6 +78,7 @@ public class RpcPersistedSnapshot implements RpcSnapshot {
 		this.sequence = sequence;
 	}
 
+	@Override
 	public String getEntityName() {
 
 		return entityName;

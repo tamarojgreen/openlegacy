@@ -110,6 +110,7 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 		this.defaultActionAliasToAction = actionAliasToAction;
 	}
 
+	@Override
 	public void afterPropertiesSet() throws Exception {
 		if (defaultActionAliasToAction == null) {
 			// initialize with default mapping if not set from bean

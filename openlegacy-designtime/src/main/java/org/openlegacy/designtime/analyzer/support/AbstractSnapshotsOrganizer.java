@@ -37,10 +37,12 @@ public abstract class AbstractSnapshotsOrganizer<S extends Snapshot> implements 
 
 	private final static Log logger = LogFactory.getLog(AbstractSnapshotsOrganizer.class);
 
+	@Override
 	public Collection<Set<S>> getGroups() {
 		return Collections.unmodifiableCollection(snapshotGroups);
 	}
 
+	@Override
 	public Collection<S> getGroupsRepresenters(SnapshotPickerStrategy<S> snapshotPickerStrategy) {
 		Collection<Set<S>> groups = getGroups();
 		List<S> result = new ArrayList<S>();
@@ -53,6 +55,7 @@ public abstract class AbstractSnapshotsOrganizer<S extends Snapshot> implements 
 		return result;
 	}
 
+	@Override
 	public void add(Collection<S> snapshots) {
 		for (S snapshot : snapshots) {
 			addSnapshotToGroup(snapshot);
@@ -88,6 +91,7 @@ public abstract class AbstractSnapshotsOrganizer<S extends Snapshot> implements 
 		this.matchingPercent = matchingPercent;
 	}
 
+	@Override
 	public void clear() {
 		snapshotGroups.clear();
 	}

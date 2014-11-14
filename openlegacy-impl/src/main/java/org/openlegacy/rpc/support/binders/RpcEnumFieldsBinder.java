@@ -31,6 +31,7 @@ public class RpcEnumFieldsBinder implements RpcEntityBinder, Serializable {
 	@Inject
 	private RpcEntitiesRegistry rpcEntitiesRegistry;
 
+	@Override
 	public void populateEntity(Object rpcEntity, RpcResult result) {
 		RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(rpcEntity.getClass());
 		Collection<RpcFieldDefinition> fieldsDefinitions = rpcDefinition.getFieldsDefinitions().values();
@@ -54,6 +55,7 @@ public class RpcEnumFieldsBinder implements RpcEntityBinder, Serializable {
 
 	}
 
+	@Override
 	public void populateAction(RpcInvokeAction remoteAction, Object entity) {
 		SimpleRpcPojoFieldAccessor fieldAccessor = null;
 
@@ -81,6 +83,7 @@ public class RpcEnumFieldsBinder implements RpcEntityBinder, Serializable {
 		}
 	}
 
+	@Override
 	public boolean fieldMatch(RpcFieldDefinition rpcFieldDefinition) {
 		if (rpcFieldDefinition.getJavaType().isEnum()) {
 			return true;
@@ -88,6 +91,7 @@ public class RpcEnumFieldsBinder implements RpcEntityBinder, Serializable {
 		return false;
 	}
 
+	@Override
 	public Object toApi(RpcFieldDefinition rpcFieldDefinition, Object fieldValue) {
 
 		EnumFieldTypeDefinition fieldTypeDefinition = (EnumFieldTypeDefinition)rpcFieldDefinition.getFieldTypeDefinition();
@@ -104,6 +108,7 @@ public class RpcEnumFieldsBinder implements RpcEntityBinder, Serializable {
 		return null;
 	}
 
+	@Override
 	public Object toLegacy(RpcFieldDefinition rpcFieldDefinition, Object apiFieldValue, RpcFlatField rpcFlatField) {
 		EnumFieldTypeDefinition enumFieldTypeDefinition = (EnumFieldTypeDefinition)rpcFieldDefinition.getFieldTypeDefinition();
 		EnumGetValue enumGetValue = (EnumGetValue)apiFieldValue;

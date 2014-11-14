@@ -22,6 +22,7 @@ public class ColumnComparator implements Comparator<TableColumnFact> {
 		return instance;
 	}
 
+	@Override
 	public int compare(TableColumnFact o1, TableColumnFact o2) {
 		return o1.getFields().get(0).getPosition().getColumn() - o2.getFields().get(0).getPosition().getColumn();
 	}

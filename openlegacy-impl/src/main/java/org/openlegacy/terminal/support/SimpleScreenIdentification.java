@@ -37,14 +37,17 @@ public class SimpleScreenIdentification implements ScreenIdentification, Seriali
 
 	private int minimumIdentifications = 0;
 
+	@Override
 	public List<ScreenIdentifier> getScreenIdentifiers() {
 		return screenIdentifiers;
 	}
 
+	@Override
 	public void addIdentifier(ScreenIdentifier screenIdentifier) {
 		screenIdentifiers.add(screenIdentifier);
 	}
 
+	@Override
 	public boolean match(TerminalSnapshot terminalSnapshot) {
 		List<ScreenIdentifier> identifiers = screenIdentifiers;
 

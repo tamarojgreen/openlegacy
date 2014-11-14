@@ -17,6 +17,7 @@ import org.springframework.core.annotation.Order;
 
 public abstract class AbstractFieldAnnotationLoader implements FieldAnnotationsLoader {
 
+	@Override
 	public int compareTo(FieldAnnotationsLoader o) {
 		Order order1 = AnnotationUtils.findAnnotation(getClass(), Order.class);
 		Order order2 = AnnotationUtils.findAnnotation(o.getClass(), Order.class);

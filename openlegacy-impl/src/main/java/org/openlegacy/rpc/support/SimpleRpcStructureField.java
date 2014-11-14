@@ -55,6 +55,7 @@ public class SimpleRpcStructureField extends AbstractRpcStructure implements Rpc
 	@XmlTransient
 	private Map<Integer, Integer> orderCorelator;
 
+	@Override
 	public Direction getDirection() {
 		if (direction != null) {
 			return direction;
@@ -86,6 +87,7 @@ public class SimpleRpcStructureField extends AbstractRpcStructure implements Rpc
 		return direction;
 	}
 
+	@Override
 	public List<RpcField> getChildrens() {
 		return childrens;
 	}
@@ -109,6 +111,7 @@ public class SimpleRpcStructureField extends AbstractRpcStructure implements Rpc
 		return ToStringBuilder.reflectionToString(this);
 	}
 
+	@Override
 	public Integer getLength() {
 		if (length != null) {
 			return length;
@@ -123,10 +126,12 @@ public class SimpleRpcStructureField extends AbstractRpcStructure implements Rpc
 
 	}
 
+	@Override
 	public Class<?> getType() {
 		return SimpleRpcStructureField.class;
 	}
 
+	@Override
 	public boolean isContainer() {
 		return isContainer;
 	}
@@ -135,6 +140,7 @@ public class SimpleRpcStructureField extends AbstractRpcStructure implements Rpc
 		this.isContainer = isContainer;
 	}
 
+	@Override
 	public int depth(int now, int maxDef) throws RpcStructureNotMappedException {
 
 		if (now >= maxDef) {
@@ -147,6 +153,7 @@ public class SimpleRpcStructureField extends AbstractRpcStructure implements Rpc
 		return maxtField + 1;
 	}
 
+	@Override
 	public Boolean isVirtual() {
 		return virtual;
 	}
@@ -156,6 +163,7 @@ public class SimpleRpcStructureField extends AbstractRpcStructure implements Rpc
 
 	}
 
+	@Override
 	public int getFieldRelativeOrder(int order) {
 		if (virtual == false) {
 			return order;

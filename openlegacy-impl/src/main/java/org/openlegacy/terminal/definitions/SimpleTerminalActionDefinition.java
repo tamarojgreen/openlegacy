@@ -53,14 +53,17 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 		this.position = position;
 	}
 
+	@Override
 	public TerminalPosition getPosition() {
 		return position;
 	}
 
+	@Override
 	public AdditionalKey getAdditionalKey() {
 		return additionalKey;
 	}
 
+	@Override
 	public String getFocusField() {
 		return focusField;
 	}
@@ -81,6 +84,7 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 		this.type = type;
 	}
 
+	@Override
 	public int getLength() {
 		return length;
 	}
@@ -89,6 +93,7 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 		this.length = length;
 	}
 
+	@Override
 	public String getWhen() {
 		return when;
 	}
@@ -97,6 +102,7 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 		this.when = when;
 	}
 
+	@Override
 	public int getSleep() {
 		return sleep;
 	}
@@ -105,6 +111,7 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 		this.sleep = sleep;
 	}
 
+	@Override
 	public Class<? extends SimpleTerminalMappedAction> getKeyboardKey() {
 		return keyboardKey;
 	}

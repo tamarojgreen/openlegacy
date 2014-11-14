@@ -36,6 +36,7 @@ public class ScreenEntityMethodInterceptor implements MethodInterceptor, Seriali
 
 	private List<ScreenEntityProxyHandler> proxyHandlers;
 
+	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 
 		Class<?> returnType = invocation.getMethod().getReturnType();

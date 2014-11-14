@@ -55,6 +55,7 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 
 	private boolean hidePasswordFields = true;
 
+	@Override
 	public void render(TerminalSnapshot terminalSnapshot, OutputStream output) {
 
 		BufferedImage buffer;
@@ -181,6 +182,7 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 		return column * widthProportion;
 	}
 
+	@Override
 	public String getFileFormat() {
 		return "jpg";
 	}

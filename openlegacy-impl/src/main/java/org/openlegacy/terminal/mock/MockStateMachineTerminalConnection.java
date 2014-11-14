@@ -33,11 +33,13 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 		this.snapshotsGraph = snapshotsGraph;
 	}
 
+	@Override
 	public TerminalSnapshot getSnapshot() {
 		TerminalSnapshot clonedSnapshot = (TerminalSnapshot)SerializationUtils.clone(currentSnapshot);
 		return clonedSnapshot;
 	}
 
+	@Override
 	public void doAction(TerminalSendAction terminalSendAction) {
 		SnapshotAndSendAction graphKey = new SnapshotAndSendAction(currentSnapshot, terminalSendAction);
 		TerminalSnapshot targetSnapshot = snapshotsGraph.get(graphKey);
@@ -47,6 +49,7 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 		currentSnapshot = targetSnapshot;
 	}
 
+	@Override
 	public Object getDelegate() {
 		return null;
 	}
@@ -55,18 +58,22 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 		this.currentSnapshot = currentSnapshot;
 	}
 
+	@Override
 	public TerminalSnapshot fetchSnapshot() {
 		return getSnapshot();
 	}
 
+	@Override
 	public boolean isConnected() {
 		return true;
 	}
 
+	@Override
 	public void disconnect() {
 		// do nothing (mock)
 	}
 
+	@Override
 	public Integer getSequence() {
 		return currentSnapshot.getSequence();
 	}

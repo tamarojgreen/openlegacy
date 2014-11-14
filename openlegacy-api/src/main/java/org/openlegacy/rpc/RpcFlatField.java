@@ -66,6 +66,7 @@ public interface RpcFlatField extends RpcField {
 	 * 
 	 * @return the field Java type
 	 */
+	@Override
 	Class<?> getType();
 
 	/**

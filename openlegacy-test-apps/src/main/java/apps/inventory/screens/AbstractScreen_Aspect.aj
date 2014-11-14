@@ -3,11 +3,7 @@
 
 package apps.inventory.screens;
 
-import java.util.*;
-import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.TerminalSnapshot;
 
 privileged @SuppressWarnings("unused") aspect AbstractScreen_Aspect {
 

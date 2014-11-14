@@ -36,10 +36,12 @@ public class ScreenEntityAnnotationLoader extends AbstractClassAnnotationLoader 
 
 	private final static Log logger = LogFactory.getLog(ScreenEntityAnnotationLoader.class);
 
+	@Override
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == ScreenEntity.class;
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 

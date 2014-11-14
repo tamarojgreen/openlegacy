@@ -41,10 +41,12 @@ public class DefaultGlobalsModule extends TerminalSessionModuleAdapter implement
 	@Inject
 	private transient ApplicationContext applicationContext;
 
+	@Override
 	public Map<String, Object> getGlobals() {
 		return globals;
 	}
 
+	@Override
 	public Object getGlobal(String name) {
 		return globals.get(name);
 	}
@@ -54,16 +56,19 @@ public class DefaultGlobalsModule extends TerminalSessionModuleAdapter implement
 		collectGlobals(null);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void beforeAction(ApplicationConnection<?, ?> cconnection, RemoteAction action) {
 		collectGlobals(action);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result) {
 		collectGlobals(action);
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void collectGlobals(RemoteAction action) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		if (!getSession().isConnected()) {

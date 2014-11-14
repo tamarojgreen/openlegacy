@@ -47,10 +47,12 @@ public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<
 		return fields;
 	}
 
+	@Override
 	public int getOrder() {
 		return 0;
 	}
 
+	@Override
 	public int getCount() {
 		return count;
 	}
@@ -59,10 +61,12 @@ public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<
 		this.count = count;
 	}
 
+	@Override
 	public Map<String, RpcPartEntityDefinition> getInnerPartsDefinitions() {
 		return innerParts;
 	}
 
+	@Override
 	public String getRuntimeName() {
 		return runtimeName;
 	}
@@ -71,6 +75,7 @@ public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<
 		this.runtimeName = runtimeName;
 	}
 
+	@Override
 	public List<ActionDefinition> getActions() {
 		if (actions == null) {
 			actions = RpcCodeBasedDefinitionUtils.getActionsFromCodeModel(getCodeModel(), getPackageDir());
@@ -78,6 +83,7 @@ public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<
 		return actions;
 	}
 
+	@Override
 	public List<RpcFieldDefinition> getKeys() {
 		if (keys != null) {
 			return keys;
@@ -97,21 +103,25 @@ public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<
 		this.keys = keys;
 	}
 
+	@Override
 	public String getLegacyContainerName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public String getHelpText() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Boolean isVirtual() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public String getPartFullName() {
 		// TODO Auto-generated method stub
 		return null;

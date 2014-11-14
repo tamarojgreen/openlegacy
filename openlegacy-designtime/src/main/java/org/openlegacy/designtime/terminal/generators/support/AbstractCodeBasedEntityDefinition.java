@@ -39,55 +39,68 @@ public abstract class AbstractCodeBasedEntityDefinition<F extends FieldDefinitio
 		this.packageDir = packageDir;
 	}
 
+	@Override
 	public String getEntityName() {
 		return getCodeModel().getEntityName();
 	}
 
+	@Override
 	public String getPackageName() {
 		return getCodeModel().getPackageName();
 	}
 
+	@Override
 	public String getDisplayName() {
 		return getCodeModel().getDisplayName();
 	}
 
+	@Override
 	public Class<?> getEntityClass() {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public String getEntityClassName() {
 		return getCodeModel().getClassName();
 	}
 
+	@Override
 	public Class<? extends EntityType> getType() {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public abstract Map<String, F> getFieldsDefinitions();
 
 	private static void throwNotImplemented() throws UnsupportedOperationException {
 		throw (new NotImplementedException("Code based entity has not implemented this method"));
 	}
 
+	@Override
 	public F getFirstFieldDefinition(Class<? extends FieldType> fieldType) {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public Map<String, PartEntityDefinition<F>> getPartsDefinitions() {
 		return partDefinitions;
 	}
 
+	@Override
 	public abstract List<ActionDefinition> getActions();
 
+	@Override
 	public String getTypeName() {
 		return getCodeModel().getTypeName();
 	}
 
+	@Override
 	public abstract List<EntityDefinition<?>> getChildEntitiesDefinitions();
 
+	@Override
 	public List<? extends FieldDefinition> getKeys() {
 		if (keyFields != null) {
 			return keyFields;
@@ -104,11 +117,13 @@ public abstract class AbstractCodeBasedEntityDefinition<F extends FieldDefinitio
 		return keyFields;
 	}
 
+	@Override
 	public List<? extends FieldDefinition> getFieldDefinitions(Class<? extends FieldType> fieldType) {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public ActionDefinition getAction(Class<?> actionClass) {
 		throwNotImplemented();
 		return null;
@@ -122,6 +137,7 @@ public abstract class AbstractCodeBasedEntityDefinition<F extends FieldDefinitio
 		return packageDir;
 	}
 
+	@Override
 	public List<String> getRoles() {
 		return Collections.emptyList();
 	}
@@ -130,6 +146,7 @@ public abstract class AbstractCodeBasedEntityDefinition<F extends FieldDefinitio
 		return getCodeModel().isServiceInOut();
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return false;
 	}

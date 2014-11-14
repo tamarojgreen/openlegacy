@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.terminal.loaders.support;
 
-import java.lang.annotation.Annotation;
-import java.text.MessageFormat;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
@@ -34,16 +31,21 @@ import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import java.lang.annotation.Annotation;
+import java.text.MessageFormat;
+
 @Component
 public class SimpleScreenIdentifiersAnnotationLoader extends AbstractClassAnnotationLoader {
 
 	private final static Log logger = LogFactory.getLog(SimpleScreenIdentifiersAnnotationLoader.class);
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
+	@Override
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == ScreenIdentifiers.class;
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public void load(EntitiesRegistry screenEntitiesRegistry, Annotation annotation, Class<?> containingClass) {
 		this.screenEntitiesRegistry = (ScreenEntitiesRegistry)screenEntitiesRegistry;

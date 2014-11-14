@@ -36,6 +36,7 @@ public class TerminalActions {
 
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public void perform(TerminalSession terminalSession, Object entity, Object... keys) {
 			// if we got here it means the actions is not mapped...
 			throw (new TerminalActionNotMappedException(MessageFormat.format(
@@ -56,6 +57,7 @@ public class TerminalActions {
 			return obj.getClass().equals(getClass());
 		}
 
+		@Override
 		public boolean isMacro() {
 			return false;
 		}
@@ -96,11 +98,32 @@ public class TerminalActions {
 		return new ENTER();
 	}
 
+	public static class ESCAPE extends SimpleTerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
+	}
+
+	public static ESCAPE ESCAPE() {
+		return new ESCAPE();
+	}
+
+	/**
+	 * @deprecated Use ESCAPE instead
+	 * @author Roi
+	 * 
+	 */
+	@Deprecated
 	public static class ESC extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
 
+	/**
+	 * @deprecated Use ESCAPE instead
+	 * @author Roi
+	 * 
+	 */
+	@Deprecated
 	public static ESC ESC() {
 		return new ESC();
 	}
@@ -213,22 +236,64 @@ public class TerminalActions {
 		return new F12();
 	}
 
+	/**
+	 * @deprecated Use PAGE_DOWN instead
+	 * @author Roi
+	 * 
+	 */
+	@Deprecated
 	public static class PAGEDOWN extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
 
+	/**
+	 * @deprecated Use PAGE_DOWN instead
+	 * @author Roi
+	 * 
+	 */
+	@Deprecated
 	public static PAGEDOWN PAGEDOWN() {
 		return new PAGEDOWN();
 	}
 
+	public static class PAGE_DOWN extends SimpleTerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
+	}
+
+	public static PAGE_DOWN PAGE_DOWN() {
+		return new PAGE_DOWN();
+	}
+
+	/**
+	 * @deprecated Use PAGE_UP instead
+	 * @author Roi
+	 * 
+	 */
+	@Deprecated
 	public static class PAGEUP extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
 
+	/**
+	 * @deprecated Use PAGE_UP instead
+	 * @author Roi
+	 * 
+	 */
+	@Deprecated
 	public static PAGEUP PAGEUP() {
 		return new PAGEUP();
+	}
+
+	public static class PAGE_UP extends SimpleTerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
+	}
+
+	public static PAGE_UP PAGE_UP() {
+		return new PAGE_UP();
 	}
 
 	/**

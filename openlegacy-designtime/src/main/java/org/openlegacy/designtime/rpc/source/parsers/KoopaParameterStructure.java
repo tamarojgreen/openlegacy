@@ -67,6 +67,7 @@ public class KoopaParameterStructure implements ParameterStructure {
 	 * 
 	 * @see org.openlegacy.designtime.rpc.source.parsers.ParameterStructure#getvariableDeclartion()
 	 */
+	@Override
 	public String getVariableDeclaration() {
 		return variableDeclartion;
 	}
@@ -124,6 +125,7 @@ public class KoopaParameterStructure implements ParameterStructure {
 	 * 
 	 * @see org.openlegacy.designtime.rpc.source.parsers.ParameterStructure#getLevel()
 	 */
+	@Override
 	public int getLevel() {
 		return fieldLevel;
 	}
@@ -133,10 +135,12 @@ public class KoopaParameterStructure implements ParameterStructure {
 	 * 
 	 * @see org.openlegacy.designtime.rpc.source.parsers.ParameterStructure#getFieldName()
 	 */
+	@Override
 	public String getFieldName() {
 		return fieldName;
 	}
 
+	@Override
 	public int getCount() {
 		return count;
 	}
@@ -146,6 +150,7 @@ public class KoopaParameterStructure implements ParameterStructure {
 	 * 
 	 * @see org.openlegacy.designtime.rpc.source.parsers.ParameterStructure#getSubFieldsList()
 	 */
+	@Override
 	public List<ParameterStructure> getSubFields() {
 		return subFieldsList;
 	}
@@ -155,6 +160,7 @@ public class KoopaParameterStructure implements ParameterStructure {
 	 * 
 	 * @see org.openlegacy.designtime.rpc.source.parsers.ParameterStructure#isSimple()
 	 */
+	@Override
 	public boolean isSimple() {
 		return (subFieldsList == null);
 	}

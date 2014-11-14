@@ -82,6 +82,7 @@ public class DefaultSessionsManagerTest {
 
 	public static class TestSessionPropertiesProvider implements SessionPropertiesProvider {
 
+		@Override
 		public SessionProperties getSessionProperties() {
 			SimpleSessionProperties properties = new SimpleSessionProperties();
 			properties.setId("some-session-id" + System.currentTimeMillis());

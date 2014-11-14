@@ -43,6 +43,7 @@ public class ListFieldsBinder implements ScreenEntityBinder {
 	@Inject
 	private FieldFormatter fieldFormatter;
 
+	@Override
 	public void populateEntity(Object screenEntity, TerminalSnapshot snapshot) {
 
 		ScreenPojoFieldAccessor fieldAccessor = null;
@@ -85,6 +86,7 @@ public class ListFieldsBinder implements ScreenEntityBinder {
 
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public void populateAction(TerminalSendAction sendAction, TerminalSnapshot snapshot, Object entity) {
 		if (entity == null) {

@@ -13,6 +13,7 @@ import java.util.Map;
 
 public class VirtualRpcConverter implements RpcFieldConverter {
 
+	@Override
 	public void toLegacy(List<RpcField> fields) {
 		List<RpcField> result = new ArrayList<RpcField>();
 		for (RpcField rpcField : fields) {
@@ -44,6 +45,7 @@ public class VirtualRpcConverter implements RpcFieldConverter {
 
 	}
 
+	@Override
 	public void toApi(List<RpcField> fields) {
 		List<RpcField> result = new ArrayList<RpcField>();
 		Map<String, Map<String, RpcField>> fieldCollector = new HashMap<String, Map<String, RpcField>>();
@@ -63,7 +65,7 @@ public class VirtualRpcConverter implements RpcFieldConverter {
 		}
 
 		for (String virtualGroupName : fieldCollector.keySet()) {
-			if (virtualGroupName.equals("")) {
+			if (virtualGroupName == null || virtualGroupName.equals("")) {
 				result.addAll(fieldCollector.get(virtualGroupName).values());
 			} else {
 				// only simple structures can be virtual

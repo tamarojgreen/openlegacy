@@ -3,7 +3,6 @@ package org.openlegacy.recognizers;
 import apps.inventory.screens.InventoryManagement;
 import apps.inventory.screens.MainMenu;
 import apps.inventory.screens.SignOn;
-import apps.inventory.screens.WarehouseDetails;
 
 import org.junit.Assert;
 import org.junit.Test;
