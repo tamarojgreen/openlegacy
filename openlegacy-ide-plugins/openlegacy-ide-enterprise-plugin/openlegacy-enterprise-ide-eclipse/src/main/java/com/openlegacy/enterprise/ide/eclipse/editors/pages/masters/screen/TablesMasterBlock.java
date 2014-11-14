@@ -591,11 +591,16 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 				newTableName = getUniqueTableClassName(entity, 1, newTableName);
 
 				ScreenTableModel newModel = new ScreenTableModel(newTableName);
-				fillNewModel(newModel);
 
 				entity.addScreenTableModel(newModel);
+				// fill after adding to entity
+				fillNewModel(newModel);
+
 				entity.addAction(new ScreenTableAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.TYPE_DECLARATION,
 						newModel.getClassName(), null));
+
+				// generate actions
+				ScreenEntityUtils.ActionGenerator.generateScreenTableActions(entity, newModel);
 
 				tableViewer.setInput(entity);
 				tableViewerSetSelectionByModelUUID(tableViewer, newModel.getUUID());
