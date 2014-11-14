@@ -143,6 +143,12 @@ public class ModelUpdater {
 		}
 		RpcEntityUtils.ActionGenerator.generateRpcPartAction(entity, model);
 		RpcEntityUtils.ActionGenerator.generateRpcPartListAction(entity, model);
+		if (model.getCount() > 1) {
+			model.restorePartActions();
+		} else {
+			model.resetPartActions();
+		}
+		RpcEntityUtils.ActionGenerator.generateRpcPartActionsAction(entity, model.getActionsModel());
 	}
 
 	public static void updateRpcActionsModel(RpcEntity entity, RpcActionsModel actionsModel) {

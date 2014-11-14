@@ -29,6 +29,8 @@ public class RpcPartModel extends RpcNamedObject {
 
 	private RpcActionsModel actionsModel;
 
+	private List<ActionModel> actionsForRestore = new ArrayList<ActionModel>();
+
 	// annotation attributes
 	private String displayName = "";
 	private String name = "";
@@ -182,6 +184,18 @@ public class RpcPartModel extends RpcNamedObject {
 
 	public void setActionsModel(RpcActionsModel actionsModel) {
 		this.actionsModel = actionsModel;
+	}
+
+	public void restorePartActions() {
+		actionsModel.getActions().clear();
+		actionsModel.getActions().addAll(actionsForRestore);
+		actionsForRestore.clear();
+	}
+
+	public void resetPartActions() {
+		actionsForRestore.clear();
+		actionsForRestore.addAll(actionsModel.getActions());
+		actionsModel.getActions().clear();
 	}
 
 }
