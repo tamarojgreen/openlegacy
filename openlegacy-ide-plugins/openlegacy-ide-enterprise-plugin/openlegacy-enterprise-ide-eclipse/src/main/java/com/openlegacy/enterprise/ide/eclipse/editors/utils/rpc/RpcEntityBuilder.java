@@ -200,7 +200,7 @@ public class RpcEntityBuilder extends AbstractEntityBuilder {
 									model.getDisplayName()));
 				}
 				// 'alias' attribute
-				if (model.getAlias().isEmpty()) {
+				if (!model.getAlias().isEmpty()) {
 					newAnnotation.values().add(
 							RpcEntityASTUtils.INSTANCE.createStringPair(ast, AnnotationConstants.ALIAS, model.getAlias()));
 				}
@@ -311,10 +311,15 @@ public class RpcEntityBuilder extends AbstractEntityBuilder {
 
 	@SuppressWarnings("unchecked")
 	public void addEntityTopLevelAnnotations(AST ast, CompilationUnit cu, ASTRewrite rewriter, ListRewrite listRewriter,
-			List<AbstractAction> list) {
+			List<AbstractAction> list, Class<?> ownerClass) {
 
 		for (AbstractAction action : list) {
-			if (!action.getAnnotationClass().equals(RpcActions.class) && !action.getAnnotationClass().equals(RpcNavigation.class)) {
+			boolean skipAction = !action.getAnnotationClass().equals(RpcActions.class)
+					&& !action.getAnnotationClass().equals(RpcNavigation.class);
+			skipAction = skipAction && ownerClass != null && action.getNamedObject().getParent() != null
+					&& !action.getNamedObject().getParent().getClass().isAssignableFrom(ownerClass);
+			skipAction = skipAction || ((ownerClass == null) ^ (action.getNamedObject().getParent() == null));
+			if (skipAction) {
 				continue;
 			}
 			if (action.getActionType().equals(ActionType.ADD) && (action.getTarget() == ASTNode.NORMAL_ANNOTATION)) {
@@ -335,11 +340,16 @@ public class RpcEntityBuilder extends AbstractEntityBuilder {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void removeEntityTopLevelAnnotations(ListRewrite listRewriter, List<AbstractAction> list) {
+	public void removeEntityTopLevelAnnotations(ListRewrite listRewriter, List<AbstractAction> list, Class<?> ownerClass) {
 		List<ASTNode> nodeList = listRewriter.getOriginalList();
 
 		for (AbstractAction action : list) {
-			if (!action.getAnnotationClass().equals(RpcActions.class) && !action.getAnnotationClass().equals(RpcNavigation.class)) {
+			boolean skipAction = !action.getAnnotationClass().equals(RpcActions.class)
+					&& !action.getAnnotationClass().equals(RpcNavigation.class);
+			skipAction = skipAction && ownerClass != null && action.getNamedObject().getParent() != null
+					&& !action.getNamedObject().getParent().getClass().isAssignableFrom(ownerClass);
+			skipAction = skipAction || ((ownerClass == null) ^ (action.getNamedObject().getParent() == null));
+			if (skipAction) {
 				continue;
 			}
 			if (action.getActionType().equals(ActionType.REMOVE) && (action.getTarget() == ASTNode.NORMAL_ANNOTATION)) {
@@ -364,7 +374,7 @@ public class RpcEntityBuilder extends AbstractEntityBuilder {
 
 	@SuppressWarnings("unchecked")
 	public void processRpcActionsAnnotation(AST ast, CompilationUnit cu, ASTRewrite rewriter, ListRewrite listRewriter,
-			NormalAnnotation annotation, List<RpcActionsAction> list) {
+			NormalAnnotation annotation, List<? extends RpcActionsAction> list) {
 
 		NormalAnnotation newAnnotation = null;
 
@@ -393,6 +403,10 @@ public class RpcEntityBuilder extends AbstractEntityBuilder {
 							for (ActionModel model : (List<ActionModel>)val) {
 								if (model.getAction() != null) {
 									ASTUtils.addImport(ast, cu, rewriter, model.getAction().getClass());
+								}
+								if (model.getTargetEntity() != null
+										&& !model.getTargetEntity().equals(model.getDefaultTargetEntity())) {
+									ASTUtils.addImport(ast, cu, rewriter, model.getTargetEntity().getClass());
 								}
 							}
 							ASTUtils.addImport(ast, cu, rewriter, Action.class);

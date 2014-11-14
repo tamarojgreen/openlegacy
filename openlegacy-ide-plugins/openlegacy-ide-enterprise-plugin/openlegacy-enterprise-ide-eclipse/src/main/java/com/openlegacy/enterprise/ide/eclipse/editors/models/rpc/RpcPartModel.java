@@ -3,12 +3,9 @@ package com.openlegacy.enterprise.ide.eclipse.editors.models.rpc;
 import com.openlegacy.enterprise.ide.eclipse.editors.support.rpc.RpcFieldModelNameComparator;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.rpc.RpcEntityUtils;
 
-import org.openlegacy.EntityDefinition;
 import org.openlegacy.annotations.rpc.RpcPart;
-import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.designtime.rpc.generators.support.CodeBasedRpcPartDefinition;
 import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
-import org.openlegacy.rpc.definitions.SimpleRpcActionDefinition;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +27,7 @@ public class RpcPartModel extends RpcNamedObject {
 	private Map<UUID, RpcPartModel> parts = new HashMap<UUID, RpcPartModel>();
 	private List<RpcPartModel> sortedParts = new ArrayList<RpcPartModel>();
 
-	private List<ActionModel> actions = new ArrayList<ActionModel>();
+	private RpcActionsModel actionsModel;
 
 	// annotation attributes
 	private String displayName = "";
@@ -64,22 +61,10 @@ public class RpcPartModel extends RpcNamedObject {
 		this.fields = RpcEntityUtils.getRpcFieldsModels(this, partDefinition.getFieldsDefinitions(), this.sortedFields);
 		this.parts = RpcEntityUtils.<RpcPartEntityDefinition> getRpcPartsModels(this, partDefinition.getInnerPartsDefinitions(),
 				this.sortedParts);
-		List<ActionDefinition> list = partDefinition.getActions();
-		for (ActionDefinition actionDefinition : list) {
-			if (actionDefinition instanceof SimpleRpcActionDefinition) {
-				EntityDefinition<?> targetEntityDefinition = ((SimpleRpcActionDefinition)actionDefinition).getTargetEntityDefinition();
-				if (targetEntityDefinition != null) {
-					String targetEntityName = targetEntityDefinition.getEntityName();
-					this.actions.add(new ActionModel(actionDefinition.getActionName(), actionDefinition.getDisplayName(),
-							actionDefinition.getAlias(), ((SimpleRpcActionDefinition)actionDefinition).getProgramPath(),
-							actionDefinition.isGlobal(), targetEntityName));
-				} else {
-					this.actions.add(new ActionModel(actionDefinition.getActionName(), actionDefinition.getDisplayName(),
-							actionDefinition.getAlias(), ((SimpleRpcActionDefinition)actionDefinition).getProgramPath(),
-							actionDefinition.isGlobal()));
-				}
-			}
-		}
+
+		actionsModel = new RpcActionsModel(this);
+		actionsModel.init(partDefinition);
+
 		this.className = partDefinition.getClassName();
 		this.previousClassName = this.className;
 	}
@@ -99,13 +84,8 @@ public class RpcPartModel extends RpcNamedObject {
 		model.setDisplayName(this.displayName);
 		model.setName(this.name);
 		model.setCount(this.count);
-		List<ActionModel> list = new ArrayList<ActionModel>();
-		for (ActionModel item : this.actions) {
-			ActionModel newAction = new ActionModel(item.getActionName(), item.getDisplayName(), item.getAlias(),
-					item.getProgramPath(), item.isGlobal(), item.getTargetEntityClassName());
-			list.add(newAction);
-		}
-		model.setActions(list);
+		model.setActionsModel(this.actionsModel.clone());
+
 		for (RpcFieldModel field : this.sortedFields) {
 			RpcFieldModel clone = field.clone();
 			model.getFields().put(clone.getUUID(), clone);
@@ -196,12 +176,12 @@ public class RpcPartModel extends RpcNamedObject {
 		return sortedParts;
 	}
 
-	public List<ActionModel> getActions() {
-		return actions;
+	public RpcActionsModel getActionsModel() {
+		return actionsModel;
 	}
 
-	public void setActions(List<ActionModel> actions) {
-		this.actions = actions;
+	public void setActionsModel(RpcActionsModel actionsModel) {
+		this.actionsModel = actionsModel;
 	}
 
 }

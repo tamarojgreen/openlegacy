@@ -43,8 +43,8 @@ public class ActionsPageTableContentProvider implements IStructuredContentProvid
 			}
 		} else if (inputElement instanceof RpcPartModel) {
 			RpcPartModel model = (RpcPartModel)inputElement;
-			if (!model.getActions().isEmpty()) {
-				return model.getActions().toArray();
+			if (!model.getActionsModel().getActions().isEmpty()) {
+				return model.getActionsModel().getActions().toArray();
 			}
 		}
 		return new Object[] {};

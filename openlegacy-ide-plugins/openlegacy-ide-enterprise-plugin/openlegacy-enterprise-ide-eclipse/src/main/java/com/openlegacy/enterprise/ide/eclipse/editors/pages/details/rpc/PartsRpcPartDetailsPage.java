@@ -2,6 +2,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc;
 
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.Messages;
+import com.openlegacy.enterprise.ide.eclipse.editors.RpcEntityEditor;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcPartModel;
@@ -15,6 +16,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ModelUpda
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.rpc.ActionsPageTableContentProvider;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.CellLabelProvider;
@@ -23,12 +25,14 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
@@ -62,6 +66,8 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 	private TextValidator countValidator;
 
 	private TableViewer tableViewer;
+	private Button addButton;
+	private Button removeButton;
 
 	public PartsRpcPartDetailsPage(AbstractMasterBlock master) {
 		super(master);
@@ -179,8 +185,12 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 	 */
 	@Override
 	protected void doUpdateModel(String key) throws MalformedURLException, CoreException {
-		Map<String, Object> map = getValuesOfControlsForKey(key);
-		ModelUpdater.updateRpcPartModel(getEntity(), partModel, key, (String)map.get(Constants.TEXT_VALUE));
+		if (!StringUtils.equals(key, Constants.RPC_PART_ACTIONS)) {
+			Map<String, Object> map = getValuesOfControlsForKey(key);
+			ModelUpdater.updateRpcPartModel(getEntity(), partModel, key, (String)map.get(Constants.TEXT_VALUE));
+		} else {
+			ModelUpdater.updateRpcPartActionsModel(getEntity(), partModel.getActionsModel());
+		}
 	}
 
 	/*
@@ -276,7 +286,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 		return isValid;
 	}
 
-	private static boolean validateCountControl(TextValidator validator, UUID uuid) {
+	private boolean validateCountControl(TextValidator validator, UUID uuid) {
 		String text = validator.getControl().getText();
 		boolean isValid = text.isEmpty();
 		int value = isValid ? 1 : Integer.valueOf(text).intValue();
@@ -284,6 +294,9 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 		if (!isValid) {
 			validator.addMessage(
 					Messages.getString("validation.should.be.null.or.greater.than.one"), IMessageProvider.ERROR, uuid);//$NON-NLS-1$
+		}
+		if (isValid) {
+			setEnabledActionsTableViewer(value > 1);
 		}
 		return isValid;
 	}
@@ -300,12 +313,26 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 
 		FormRowCreator.createSpacer(toolkit, client, 2);
 
-		Table t = toolkit.createTable(client, SWT.FULL_SELECTION | SWT.H_SCROLL);
+		Label descriptionLabel = toolkit.createLabel(client, Messages.getString("rpc.part.actions.table.description"));
+		gd = new GridData();
+		gd.horizontalSpan = 2;
+		descriptionLabel.setLayoutData(gd);
+
+		ScrolledComposite scrolledComposite = new ScrolledComposite(client, SWT.NONE);
 		gd = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gd.heightHint = 200;
-		t.setLayoutData(gd);
+		gd.widthHint = 600;
+		scrolledComposite.setLayoutData(gd);
+
+		Table t = toolkit.createTable(scrolledComposite, SWT.FULL_SELECTION);
 		t.setHeaderVisible(true);
 		t.setLinesVisible(true);
+
+		scrolledComposite.setContent(t);
+		scrolledComposite.setExpandHorizontal(true);
+		scrolledComposite.setExpandVertical(true);
+		scrolledComposite.setMinSize(500, 200);
+
 		// add buttons
 		addPanelWithButtons(toolkit, client);
 
@@ -328,24 +355,22 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 		GridData gd = new GridData(GridData.FILL_VERTICAL);
 		gd.widthHint = 100;
 		panel.setLayoutData(gd);
-		// add button
-		Button addButton = toolkit.createButton(panel, Messages.getString("Button.add"), SWT.PUSH);//$NON-NLS-1$
+		addButton = toolkit.createButton(panel, Messages.getString("Button.add"), SWT.PUSH);
 		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		addButton.setLayoutData(gd);
 		addButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				partModel.getActions().add(new ActionModel("", "", "", "", true));//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				partModel.getActionsModel().getActions().add(new ActionModel("", "", "", "", true));//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				tableViewer.setInput(partModel);
-				// updateModel();
+				updateModel(Constants.RPC_PART_ACTIONS);
 				tableViewer.getTable().select(tableViewer.getTable().getItemCount() - 1);
 			}
 
 		});
 
-		// remove button
-		Button removeButton = toolkit.createButton(panel, Messages.getString("Button.remove"), SWT.PUSH);//$NON-NLS-1$
+		removeButton = toolkit.createButton(panel, Messages.getString("Button.remove"), SWT.PUSH);
 		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		removeButton.setLayoutData(gd);
 		removeButton.addSelectionListener(new SelectionAdapter() {
@@ -355,9 +380,9 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 				IStructuredSelection structuredSelection = (IStructuredSelection)tableViewer.getSelection();
 				if (structuredSelection.size() == 1) {
 					ActionModel model = (ActionModel)structuredSelection.getFirstElement();
-					partModel.getActions().remove(model);
+					partModel.getActionsModel().getActions().remove(model);
 					tableViewer.setInput(partModel);
-					// updateModel();
+					updateModel(Constants.RPC_PART_ACTIONS);
 					tableViewer.getTable().select(tableViewer.getTable().getItemCount() - 1);
 				}
 			}
@@ -380,7 +405,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 			public void update(ViewerCell cell) {
 				ActionDefinition action = (ActionDefinition)cell.getElement();
 				cell.setText(action.getActionName());
-				// updateModel();
+				updateModel(Constants.RPC_PART_ACTIONS);
 			}
 		});
 
@@ -398,7 +423,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 			public void update(ViewerCell cell) {
 				ActionDefinition action = (ActionDefinition)cell.getElement();
 				cell.setText(action.getDisplayName());
-				// updateModel();
+				updateModel(Constants.RPC_PART_ACTIONS);
 			}
 		});
 
@@ -416,7 +441,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 			public void update(ViewerCell cell) {
 				ActionDefinition action = (ActionDefinition)cell.getElement();
 				cell.setText(action.getAlias());
-				// updateModel();
+				updateModel(Constants.RPC_PART_ACTIONS);
 			}
 		});
 
@@ -434,7 +459,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 			public void update(ViewerCell cell) {
 				RpcActionDefinition action = (RpcActionDefinition)cell.getElement();
 				cell.setText(action.getProgramPath());
-				// updateModel();
+				updateModel(Constants.RPC_PART_ACTIONS);
 			}
 		});
 
@@ -456,7 +481,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 			public void update(ViewerCell cell) {
 				RpcActionDefinition action = (RpcActionDefinition)cell.getElement();
 				cell.setText(String.valueOf(action.isGlobal()));
-				// updateModel();
+				updateModel(Constants.RPC_PART_ACTIONS);
 			}
 		});
 
@@ -474,7 +499,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 			public void update(ViewerCell cell) {
 				ActionModel action = (ActionModel)cell.getElement();
 				cell.setText(action.getTargetEntityClassName());
-				// updateModel();
+				updateModel(Constants.RPC_PART_ACTIONS);
 				validateTargetEntityColumn(action);
 			}
 		});
@@ -490,17 +515,30 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 			}
 		}
 		String validationMarkerKey = MessageFormat.format("{0}-{1}", model.getUuid(), "targetEntity");//$NON-NLS-1$ //$NON-NLS-2$
-		// RpcEntityEditor editor = (RpcEntityEditor)getEntityEditor();
+		RpcEntityEditor editor = (RpcEntityEditor)master.getAbstractPage().getEntityEditor();
 		if (isRpcEntity || targetEntity.getName().equals(org.openlegacy.rpc.RpcEntity.NONE.class.getName())) {
 			// remove validation marker
 			managedForm.getMessageManager().removeMessage(validationMarkerKey);
-			// editor.removeValidationMarker(validationMarkerKey);
+			editor.removeValidationMarker(validationMarkerKey);
 		} else {
 			// add validation marker
 			String message = MessageFormat.format("Target entity: {0} \n {1}", targetEntity.getName(),//$NON-NLS-1$
 					Messages.getString("validation.selected.class.is.not.rpc.entity"));//$NON-NLS-1$
 			managedForm.getMessageManager().addMessage(validationMarkerKey, message, null, IMessageProvider.ERROR);
-			// editor.addValidationMarker(validationMarkerKey, message);
+			editor.addValidationMarker(validationMarkerKey, message);
 		}
 	}
+
+	private void setEnabledActionsTableViewer(boolean enabled) {
+		if (tableViewer != null) {
+			tableViewer.getTable().setEnabled(enabled);
+		}
+		if (addButton != null) {
+			addButton.setEnabled(enabled);
+		}
+		if (removeButton != null) {
+			removeButton.setEnabled(enabled);
+		}
+	}
+
 }

@@ -148,4 +148,8 @@ public class ModelUpdater {
 	public static void updateRpcActionsModel(RpcEntity entity, RpcActionsModel actionsModel) {
 		RpcEntityUtils.ActionGenerator.generateRpcActionsAction(entity, actionsModel);
 	}
+
+	public static void updateRpcPartActionsModel(RpcEntity entity, RpcActionsModel actionsModel) {
+		RpcEntityUtils.ActionGenerator.generateRpcPartActionsAction(entity, actionsModel);
+	}
 }

@@ -23,8 +23,10 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -100,12 +102,22 @@ public class ActionsPage extends AbstractPage {
 		gl.numColumns = 2;
 		client.setLayout(gl);
 
-		Table t = toolkit.createTable(client, SWT.FULL_SELECTION);
+		ScrolledComposite scrolledComposite = new ScrolledComposite(client, SWT.NONE);
 		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
-		gd.heightHint = 300;
-		t.setLayoutData(gd);
+		gd.heightHint = 200;
+		Point size = client.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		gd.widthHint = size.x;
+		scrolledComposite.setLayoutData(gd);
+
+		Table t = toolkit.createTable(scrolledComposite, SWT.FULL_SELECTION);
 		t.setHeaderVisible(true);
 		t.setLinesVisible(true);
+
+		scrolledComposite.setContent(t);
+		scrolledComposite.setExpandHorizontal(true);
+		scrolledComposite.setExpandVertical(true);
+		scrolledComposite.setMinSize(t.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+
 		// add buttons
 		addPanelWithButtons(toolkit, client);
 
@@ -311,17 +323,17 @@ public class ActionsPage extends AbstractPage {
 			}
 		}
 		String validationMarkerKey = MessageFormat.format("{0}-{1}", model.getUuid(), "targetEntity");//$NON-NLS-1$ //$NON-NLS-2$
-		// RpcEntityEditor editor = (RpcEntityEditor)getEntityEditor();
+		RpcEntityEditor editor = (RpcEntityEditor)getEntityEditor();
 		if (isRpcEntity || targetEntity.getName().equals(org.openlegacy.rpc.RpcEntity.NONE.class.getName())) {
 			// remove validation marker
 			managedForm.getMessageManager().removeMessage(validationMarkerKey);
-			// editor.removeValidationMarker(validationMarkerKey);
+			editor.removeValidationMarker(validationMarkerKey);
 		} else {
 			// add validation marker
 			String message = MessageFormat.format("Target entity: {0} \n {1}", targetEntity.getName(),//$NON-NLS-1$
 					Messages.getString("validation.selected.class.is.not.rpc.entity"));//$NON-NLS-1$
 			managedForm.getMessageManager().addMessage(validationMarkerKey, message, null, IMessageProvider.ERROR);
-			// editor.addValidationMarker(validationMarkerKey, message);
+			editor.addValidationMarker(validationMarkerKey, message);
 		}
 	}
 
