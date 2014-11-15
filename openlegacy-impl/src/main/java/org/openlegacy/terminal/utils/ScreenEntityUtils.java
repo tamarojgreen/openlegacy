@@ -115,8 +115,8 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 		if (defaultActionAliasToAction == null) {
 			// initialize with default mapping if not set from bean
 			defaultActionAliasToAction = new HashMap<String, TerminalAction>();
-			defaultActionAliasToAction.put(NEXT, TerminalActions.PAGEDOWN());
-			defaultActionAliasToAction.put(PREVIOUS, TerminalActions.PAGEUP());
+			defaultActionAliasToAction.put(NEXT, TerminalActions.PAGE_DOWN());
+			defaultActionAliasToAction.put(PREVIOUS, TerminalActions.PAGE_UP());
 		}
 	}
 }

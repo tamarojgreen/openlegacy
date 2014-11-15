@@ -175,7 +175,7 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 	public ResponseEntity<String> more(@PathVariable("screen") String entityName) {
 		// sync the current entity
 		ScreenEntity screenBefore = (ScreenEntity)getSession().getEntity(entityName);
-		ScreenEntity nextScreen = getSession().doAction(TerminalActions.PAGEDOWN());
+		ScreenEntity nextScreen = getSession().doAction(TerminalActions.PAGE_DOWN());
 
 		TableScrollStopConditions tableScrollStopConditions = SpringUtil.getDefaultBean(applicationContext,
 				TableScrollStopConditions.class);
