@@ -282,6 +282,10 @@
 				</#switch>
 			<#else>
 				<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>
+				<#if field.descriptionFieldDefinition??>
+   				<span id="${field.name}Description" ng-model="model.${field.name}Description" class="readonly">{{model.${field.name}Description}}</span>
+   				-
+   				</#if>
 			</#if>
 		</#if>
 	</div>
