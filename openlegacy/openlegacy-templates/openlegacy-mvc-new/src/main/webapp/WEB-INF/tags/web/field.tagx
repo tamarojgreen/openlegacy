@@ -19,6 +19,8 @@
 	<jsp:directive.attribute name="editable" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set field editable" />
 	<jsp:directive.attribute name="url" type="java.lang.String" required="false" rtexprvalue="true" description="Set field url" />
 	<jsp:directive.attribute name="required" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set field required" />
+	<jsp:directive.attribute name="colors" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the field should reflect column colors. Needs to enable support terminal data in the API entity" />
+	<jsp:directive.attribute name="backColors" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the field should reflect column colors. Needs to enable support terminal data in the API entity" />
 	
 	<c:choose>
 		<c:when test="${fn:contains(name,'.')}">
@@ -42,6 +44,13 @@
 	<c:if test="${empty rightToLeft}">
 		<c:set var="rightToLeft" value="${openLegacyProperties.rightToLeft}" />
 	</c:if>
+	<c:if test="${empty colors}">
+		<c:set var="colors" value="true" />
+	</c:if>
+	<c:if test="${empty backColors}">
+		<c:set var="backColors" value="true" />
+	</c:if>
+	
 	<c:if test="${empty editable}">
 		<c:set var="editable" value="${fieldDefinition.editable}" />
 		<c:set var="entity" value="${requestScope[olf:uncapFirst(definitions.entityName)]}"/>
@@ -54,12 +63,21 @@
 			<c:set var="fieldName" value="${fieldNameParts[1]}Field"/>
 			<c:if test="${olf:hasProperty(part,fieldName) and editable}">
 				<c:set var="field" value="${part[fieldName]}"/>
-				<c:set var="editable" value="${field.editable}" />
 			</c:if>
 		</c:if> 
 		<c:if test="${part == null and olf:hasProperty(entity,fieldName) and editable}">
 			<c:set var="field" value="${entity[fieldName]}"/>
+		</c:if>
+		<c:if test="${field != null}">
 			<c:set var="editable" value="${field.editable}" />
+			<c:set var="color" value="${field.color}" />
+			<c:set var="backColor" value="${field.backColor}" />
+			<c:if test="${colors and color != 'GREEN'}">
+				<c:set var="cssClass" value="${cssClass} ${fn:toLowerCase(color)}" />
+			</c:if>
+			<c:if test="${backColors and backColor != 'BLACK'}">
+				<c:set var="cssClass" value="${cssClass} back_${fn:toLowerCase(backColor)}" />
+			</c:if>
 		</c:if>
 	</c:if>
 		
