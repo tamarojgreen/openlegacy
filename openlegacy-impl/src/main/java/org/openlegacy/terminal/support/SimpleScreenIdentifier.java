@@ -56,7 +56,7 @@ public class SimpleScreenIdentifier implements ScreenIdentifier, TerminalPositio
 
 	@Override
 	public boolean match(TerminalSnapshot terminalSnapshot) {
-		if (position.getColumn() + text.length() > terminalSnapshot.getSize().getColumns()) {
+		if ((position.getColumn() + text.length() - 1) > terminalSnapshot.getSize().getColumns()) {
 			logger.error(MessageFormat.format("Found illegal identifier {0} in position {1}", getText(), getPosition()));
 			return false;
 		}
