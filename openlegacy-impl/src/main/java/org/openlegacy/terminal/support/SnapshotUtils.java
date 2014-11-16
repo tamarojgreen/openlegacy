@@ -18,6 +18,7 @@ import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.utils.BidiUtil;
 
 import java.awt.Color;
 import java.text.MessageFormat;
@@ -223,7 +224,8 @@ public class SnapshotUtils {
 		List<TerminalField> fields = row.getFields();
 		for (TerminalField terminalField : fields) {
 			int startPosition = terminalField.getPosition().getColumn();
-			SnapshotUtils.placeContentOnBuffer(rowContent, startPosition - 1, terminalField.getValue());
+			String value = terminalField.getVisualValue() != null ? terminalField.getVisualValue() : terminalField.getValue();
+			SnapshotUtils.placeContentOnBuffer(rowContent, startPosition - 1, value);
 		}
 		String value = rowContent.toString();
 		return value;
@@ -233,7 +235,19 @@ public class SnapshotUtils {
 		if (row.getText() == null) {
 			return "";
 		}
-		return row.getText().substring(column - 1, column + length - 1);
+		String text = row.getText().substring(column - 1, column + length - 1);
+		boolean isVisual = false;
+		List<TerminalField> fields = row.getFields();
+		for (TerminalField terminalField : fields) {
+			if (terminalField.getVisualValue() != null) {
+				isVisual = true;
+				break;
+			}
+		}
+		if (isVisual) {
+			text = BidiUtil.convertToLogical(text, true);
+		}
+		return text;
 	}
 
 	public static Color convertColor(org.openlegacy.terminal.Color color) {
