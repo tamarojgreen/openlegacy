@@ -398,6 +398,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 				List<ScreenFieldDefinition> neighourFields = new ArrayList<ScreenFieldDefinition>();
 				neighourFields.add(screenFieldDefinition);
 				neighourFieldsGroups.add(neighourFields);
+				logger.debug(MessageFormat.format("New fields group created for field {0}", screenFieldDefinition));
 			}
 		}
 		return neighourFieldsGroups;
