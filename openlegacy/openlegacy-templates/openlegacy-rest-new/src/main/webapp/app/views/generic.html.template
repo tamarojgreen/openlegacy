@@ -68,17 +68,17 @@
 								</#list>
 								
 							  </div>
-							  <#list entityDefinition.childEntitiesDefinitions as childEntity>		            			
-		            			<div class="tab-pane" id="${childEntity.entityName}">			            					            				
-								    <@navMacro entity=childEntity showExcelBtn=hasTable?string/>
-								    <#if (childEntity.partsDefinitions?size > 0)>
-								    	<#list childEntity.partsDefinitions as part>											
+							  <#list childPagesDefinitions as childPage>		            			
+		            			<div class="tab-pane" id="${childPage.entityDefinition.entityName}">			            					            				
+								    <@navMacro entity=childPage.entityDefinition showExcelBtn=hasTable?string/>
+								    <#if (childPage.pageParts?size > 0)>
+								    	<#list childPage.pageParts as part>
 											<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>		
-											<@pagePart entity=childEntity part=part/>
+											<@pagePart entity=childPage.entityDefinition part=part/>
 										</#list>
 						    		<#else>						    			
 						    			<#list childEntity.fieldsDefinitions?keys as key>						    			
-								    		<@fieldMacro field=childEntity.fieldsDefinitions[key]/>
+								    		<@fieldMacro field=childPage.entityDefinition.fieldsDefinitions[key]/>
 						    			</#list>							    		
 								    </#if>
 		            			</div>
@@ -94,11 +94,10 @@
 	            	</#if>
 				</div>
 			</div>
-			<a data-toggle="modal" data-target=".ol-screenshot" class="clickable">Show screenshot</a>
 			<div class="modal fade ol-screenshot" tabindex="-1" role="dialog" aria-labelledby="screenshotModal" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <img src="{{baseUrl}}sessionViewer/image?random=${entityDefinition.entityName}" class="img-thumbnail">
+                        <img src="{{baseUrl}}sessionViewer/image" class="img-thumbnail">
                     </div>
                 </div>
             </div>                       		
@@ -165,30 +164,8 @@
                                         </#list>		                              
 									</#if>											
                             	</td>
-							<#else>																								
-								<#if part.tableDefinition.actions?size == 1>
-									<#if part.tableDefinition.actions?first.targetEntity??>
-								    	<td class="td-link"><a href="#/${part.tableDefinition.actions?first.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">${part.tableDefinition.actions?first.displayName}</a></td>
-								    <#else>
-								    	<td class="td-link"><a href="" ng-click="noTargetScreenEntityAlert()">${part.tableDefinition.actions?first.displayName}</a></td>
-								    </#if>	
-								<#elseif (part.tableDefinition.actions?size > 1 )>
-									<#list part.tableDefinition.actions as action>
-										<#if action.defaultAction == true>
-											<#assign defaultAction = action>									    	
-										</#if>
-									</#list>
-									
-									<#if defaultAction?? && defaultAction.targetEntity??>											    	
-							    		<td class="td-link"><a href="#/${defaultAction.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">
-							    			{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}
-							    		</a></td>
-								    <#else>
-								    	<td class="td-link"><a href="" ng-click="noTargetScreenEntityAlert()">{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</a></td>
-								    </#if>	
-								<#else>
-									<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>
-								</#if>										
+							<#else>										
+								<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>											
 							</#if>										
 				  		</#list>							  		
 					</tr>                            

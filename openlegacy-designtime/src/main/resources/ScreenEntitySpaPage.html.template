@@ -64,21 +64,23 @@
 										<@pagePart entity=entityDefinition part=part/>
 									</#list>
 								</div>
-								<#list entityDefinition.childEntitiesDefinitions as childEntity>
-								<div class="tab-pane" id="${childEntity.entityName}">
-									<@navMacro entity=childEntity showExcelBtn=hasTable?string/>
-									<#if (childEntity.partsDefinitions?size > 0)>
-										<#list childEntity.partsDefinitions as part>
-											<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>
-											<@pagePart entity=childEntity part=part/>
+								
+								
+							  <#list childPagesDefinitions as childPage>		            			
+		            			<div class="tab-pane" id="${childPage.entityDefinition.entityName}">			            					            				
+								    <@navMacro entity=childPage.entityDefinition showExcelBtn=hasTable?string/>
+								    <#if (childPage.pageParts?size > 0)>
+								    	<#list childPage.pageParts as part>
+											<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>		
+											<@pagePart entity=childPage.entityDefinition part=part/>
 										</#list>
-									<#else>
-										<#list childEntity.fieldsDefinitions?keys as key>
-											<@fieldMacro field=childEntity.fieldsDefinitions[key]/>
-										</#list>
-									</#if>
-								</div>
-								</#list>
+						    		<#else>						    			
+						    			<#list childEntity.fieldsDefinitions?keys as key>						    			
+								    		<@fieldMacro field=childPage.entityDefinition.fieldsDefinitions[key]/>
+						    			</#list>							    		
+								    </#if>
+		            			</div>
+		            		  </#list>						  
 							</div><!-- /Tab panes -->
 						</div>
 					<#else>

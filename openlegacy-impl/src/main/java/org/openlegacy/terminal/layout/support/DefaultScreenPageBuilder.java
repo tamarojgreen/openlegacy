@@ -12,6 +12,7 @@ package org.openlegacy.terminal.layout.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.definitions.page.support.SimplePageDefinition;
 import org.openlegacy.definitions.page.support.SimplePagePartDefinition;
 import org.openlegacy.definitions.page.support.SimplePagePartRowDefinition;
@@ -103,6 +104,12 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		for (String tableFieldName : tables) {
 			ScreenTableDefinition tableDefinition = entityDefinition.getTableDefinitions().get(tableFieldName);
 			pageDefinition.getPageParts().add(buildPagePartFromTable(tableFieldName, tableDefinition, entityDefinition));
+		}
+
+		List<EntityDefinition<?>> childEntities = entityDefinition.getChildEntitiesDefinitions();
+		for (EntityDefinition<?> childEntityDefinition : childEntities) {
+			PageDefinition childPageDefinition = build((ScreenEntityDefinition)childEntityDefinition);
+			pageDefinition.getChildPagesDefinitions().add(childPageDefinition);
 		}
 		return pageDefinition;
 	}
