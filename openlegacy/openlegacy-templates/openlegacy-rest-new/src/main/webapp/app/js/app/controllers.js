@@ -109,7 +109,7 @@
 					alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 				}; 
 				$scope.read = function(){
-					$olHttp.get('${entityDefinition.entityName}/' <#if entityDefinition.keys?size &gt; 0>+ $routeParams.${entityDefinition.keys[0].name?replace(".", "_")}</#if>,
+					$olHttp.get('${entityDefinition.entityName}?children=false' <#if entityDefinition.keys?size &gt; 0>+ $routeParams.${entityDefinition.keys[0].name?replace(".", "_")}</#if>,
 						function(data) {						
 							$scope.model = data.model.entity;
 							$scope.breadcrumbs = data.model.paths;
@@ -230,12 +230,12 @@
 							
 							$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {					
 								$scope.model.actions=null;
-								<#list entityDefinition.tableDefinitions?keys as key> 
-								$scope.model.${entityDefinition.tableDefinitions[key].tableEntityName}s[rowIndex][columnName] = actionValue;
+								<#list tableDefinitions?keys as key> 
+								$scope.model.${tableDefinitions[key].tableEntityName}s[rowIndex][columnName] = actionValue;
 							    </#list>	
 								
-								$olHttp.post('${entityDefinition.entityName}/', $scope.model, function(data) {
-									if (data.model.entityName == '${entityDefinition.entityName}'){
+								$olHttp.post('${entityName}/', $scope.model, function(data) {
+									if (data.model.entityName == '${entityName}'){
 										$scope.model = data.model.entity;								
 									}
 									else{					
