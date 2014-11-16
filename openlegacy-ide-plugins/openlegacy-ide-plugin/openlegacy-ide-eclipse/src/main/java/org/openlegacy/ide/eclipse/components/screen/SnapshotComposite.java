@@ -358,7 +358,7 @@ public class SnapshotComposite extends ImageComposite {
 				} else {
 					for (int i = fields.size() - 1; i >= 0; i--) {
 						field = fields.get(i);
-						if (StringUtils.isNotEmpty(field.getValue())) {
+						if (field.getPosition().getColumn() < fieldColumn && StringUtils.isNotEmpty(field.getValue())) {
 							break;
 						}
 					}
