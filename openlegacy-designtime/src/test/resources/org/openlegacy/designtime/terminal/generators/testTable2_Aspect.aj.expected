@@ -10,9 +10,9 @@ import com.someorg.examples.screens.TestClass.TableScreenRecord;
 
 privileged @SuppressWarnings("unused") aspect TableScreenRecord_Aspect {
 
-    
+
     private String focusField;
-	    
+
     public String TableScreenRecord.getColumn1(){
     	return this.column1;
     }

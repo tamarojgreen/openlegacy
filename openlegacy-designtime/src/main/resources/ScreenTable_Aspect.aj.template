@@ -15,6 +15,7 @@ privileged @SuppressWarnings("unused") aspect ${formattedClassName}_Aspect {
 
 	<#assign bSelectFieldExists=false>
 	<#list fields as field>
+	<#-- Note if focus field exists -->
 	<#if field.name == 'focusField'>
 	    <#assign bSelectFieldExists=true>
 	</#if>
@@ -22,11 +23,12 @@ privileged @SuppressWarnings("unused") aspect ${formattedClassName}_Aspect {
     private TerminalField ${className}.${field.name}Field;
 	</#if>
 	</#list>
-	
-    <#if bSelectFieldExists == false>
+
+    <#-- Add focus field if not present -->
+	<#if bSelectFieldExists == false>
     private String focusField;
 	</#if>
-	
+
 	<#list fields as field>
 		<#if !field.hasGetter && field.name != 'focusField'>
     public ${field.type} ${className}.get${field.name?cap_first}(){
@@ -56,6 +58,7 @@ privileged @SuppressWarnings("unused") aspect ${formattedClassName}_Aspect {
 		return EqualsBuilder.reflectionEquals(this,other);
     }
     
+    <#-- Add focus() method if not present -->	
     <#if !hasMethodName('focus')>
     public void focus(String... field) {
         if (field.length > 0) {
