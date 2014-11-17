@@ -11,13 +11,54 @@
 
 <div class="panel panel-default">
 	<div class="panel-body">
-		<@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>					
-		<#list pageParts as part>																	
-			<#if part.displayName??><div class="panel-heading"><h3>${part.displayName}</h3></div></#if>		
-			<@pagePart entity=entityDefinition part=part/>
-		</#list>
-			<a data-toggle="modal" data-target=".ol-screenshot" class="clickable">Show screenshot</a>
-                        <img src="{{baseUrl}}sessionViewer/image?random=${entityDefinition.entityName}" class="img-thumbnail">
+		<#if (entityDefinition.childEntitiesDefinitions?size > 0)>
+			<div class="tab-content top-margin-10">
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="/#${entityDefinition.entityName}" data-toggle="tab" ng-click="loadTab('${entityDefinition.entityName}')">${entityDefinition.displayName}</a></li>
+					<#list entityDefinition.childEntitiesDefinitions as childEntity>
+						<li><a href="/#${childEntity.entityName}" data-toggle="tab" ng-click="loadTab('${childEntity.entityName}')">${childEntity.displayName}</a></li>
+					</#list>
+				</ul>
+				<div class="tab-content"><!-- Tab panes -->
+					<div class="tab-pane active" id="${entityDefinition.entityName}">
+						<@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>
+						<#list pageParts as part>
+							<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>
+							<@pagePart entity=entityDefinition part=part/>
+						</#list>
+					</div>
+					<#list entityDefinition.childEntitiesDefinitions as childEntity>
+					<div class="tab-pane" id="${childEntity.entityName}">
+						<@navMacro entity=childEntity showExcelBtn=hasTable?string/>
+						<#if (childEntity.partsDefinitions?size > 0)>
+							<#list childEntity.partsDefinitions as part>
+								<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>
+								<@pagePart entity=childEntity part=part/>
+							</#list>
+						<#else>
+							<#list childEntity.fieldsDefinitions?keys as key>
+								<@fieldMacro field=childEntity.fieldsDefinitions[key]/>
+							</#list>
+						</#if>
+					</div>
+					</#list>
+				</div><!-- /Tab panes -->
+			</div>
+		<#else>
+			<@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>
+			<#list pageParts as part>
+				<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>
+				<@pagePart entity=entityDefinition part=part/>
+			</#list>
+		</#if>
+		<a data-toggle="modal" data-target=".ol-screenshot" class="clickable">Show screenshot</a>
+		<div class="modal fade ol-screenshot" tabindex="-1" role="dialog" aria-labelledby="screenshotModal" aria-hidden="true">
+        	<div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <img src="{{baseUrl}}sessionViewer/image?random=${.now?substring(.now?length-2)}" class="img-thumbnail">
+                </div>
+            </div>
+        </div> 
 	</div>
 </div>									
 										
@@ -163,33 +204,35 @@
 
 <#macro fieldMacro field>
 	<div class="form-group">		
-		<label for="${field.name}" class="control-label">${field.displayName}<#if field.displayName?length &gt; 0>:</#if></label> 		
-		<#if field.editable>
-			<#if field.fieldTypeDefinition.typeName == 'date'>
-				<input type="text" id="${field.name}" class="form-control" placeholder="mm/dd/yyyy" ng-model="model.${field.name}" datepicker />
-			<#elseif field.fieldTypeDefinition.typeName == 'fieldWithValues'>				
-				<div class="input-group">
-				  <input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
-				  <div class="input-group-btn">
-					  <button id="dropdownMenu" class="btn dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</button>
-					  <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu">
-					    <li class="animate-repeat" ng-repeat="${field.name} in ${field.name}s">
-					      <a ng-click="${field.name?cap_first}Click(${field.name})" href="">{{${field.name}.description}}</a>
-					    </li>
-					  </ul>
-				  </div>
-				</div>														
-			<#elseif field.fieldTypeDefinition.typeName == 'boolean'>
-				<input type="checkbox" class="form-control" id="${field.name}" ng-checked="model.${field.name}">											
-			<#else>
-				<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
-			</#if>
-   		<#else>
-   			<#if field.fieldTypeDefinition.typeName == 'boolean'>
-				<input type="checkbox" disabled="disabled" class="form-control" id="${field.name}" ng-checked="model.${field.name}">											
-			<#else>
-   				<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>
-   			</#if>   			
+		<label for="${field.name}" class="control-label">${field.displayName}<#if field.displayName?length &gt; 0>:</#if></label>
+		<#if field.fieldTypeDefinition??> 		
+			<#if field.editable>
+				<#if field.fieldTypeDefinition.typeName == 'date'>
+					<input type="text" id="${field.name}" class="form-control" placeholder="mm/dd/yyyy" ng-model="model.${field.name}" bdatepicker />
+				<#elseif field.fieldTypeDefinition.typeName == 'fieldWithValues'>				
+					<div class="input-group">
+					  <input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
+					  <div class="input-group-btn">
+						  <button id="dropdownMenu" class="btn dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</button>
+						  <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu">
+						    <li class="animate-repeat" ng-repeat="${field.name} in ${field.name}s">
+						      <a ng-click="${field.name?cap_first}Click(${field.name})" href="">{{${field.name}.description}}</a>
+						    </li>
+						  </ul>
+					  </div>
+					</div>														
+				<#elseif field.fieldTypeDefinition.typeName == 'boolean'>
+					<input type="checkbox" class="form-control" id="${field.name}" ng-checked="model.${field.name}">											
+				<#else>
+					<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
+				</#if>
+	   		<#else>
+	   			<#if field.fieldTypeDefinition.typeName == 'boolean'>
+					<input type="checkbox" disabled="disabled" class="form-control" id="${field.name}" ng-checked="model.${field.name}">											
+				<#else>
+	   				<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>
+	   			</#if>   			
+	   		</#if>
    		</#if>		
 	</div>
 </#macro>

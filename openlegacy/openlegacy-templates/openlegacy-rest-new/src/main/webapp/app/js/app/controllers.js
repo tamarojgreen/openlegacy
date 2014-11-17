@@ -38,7 +38,7 @@
 			});
 		
 		module = module.controller('headerCtrl',
-			function ($rootScope, $scope, $http, $location, $themeService, $olHttp, $modal) {			
+			function ($rootScope, $scope, $http, $themeService, $olHttp, $modal, $state) {			
 				$rootScope.$on("olApp:login:authorized", function(e, value) {
 					$scope.username = value;
 				});
@@ -50,7 +50,7 @@
 				
 				$scope.logout = function(){
 					delete $scope.username
-					$location.path("/logoff");
+					$state.go("logoff");
 				}
 				
 				$scope.changeTheme = function() {
@@ -97,20 +97,17 @@
 				});
 			});
 		
-		module = module.controller('breadcrumbsCtrl', function($scope, $rootScope, $olHttp, $state) {
-			var entityName = $state.current.name.replace("WithKey", "");
-				$olHttp.get(entityName + "/breadcrumbs", function(data) {				
-					if (data != null && data.breadcrumbs != null) {					
-						$scope.breadcrumbs = data.breadcrumbs;
-					}				
-				});
+		module = module.controller('breadcrumbsCtrl', function($scope, $rootScope, $olHttp, $state) {			
+			$rootScope.$on("olApp:breadcrumbs", function(e, value) {
+				$scope.breadcrumbs = value;
+			});
 		});
 
 		// template for all entities 
 		<#if entitiesDefinitions??>
 		<#list entitiesDefinitions as entityDefinition>	
 		module = module.controller('${entityDefinition.entityName}Ctrl',
-				function($scope, $location, $olHttp,$routeParams, flatMenu, $themeService) {
+				function($scope, $olHttp,$routeParams, flatMenu, $themeService, $rootScope, $state) {
 					$scope.noTargetScreenEntityAlert = function() {
 						alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 					}; 
@@ -119,6 +116,7 @@
 							function(data) {						
 								$scope.model = data.model.entity;							
 								$scope.baseUrl = olConfig.baseUrl;
+								$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
 								
 								$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {					
 									$scope.model.actions=null;
@@ -128,10 +126,11 @@
 									
 									$olHttp.post('${entityDefinition.entityName}/', $scope.model, function(data) {
 										if (data.model.entityName == '${entityDefinition.entityName}'){
-											$scope.model = data.model.entity;								
+											$scope.model = data.model.entity;
+											$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
 										}
 										else{					
-											$location.path("/" + data.model.entityName);
+											$state.go(data.model.entityName);
 										}
 									});
 								};
@@ -172,7 +171,7 @@
 								}
 								else{					
 									
-									$location.path("/" + data.model.entityName);
+									$state.go(data.model.entityName);
 								}
 							}
 						);
@@ -222,7 +221,7 @@
 		/* Controller code place-holder start
 		<#if entityName??>
 		module = module.controller('${entityName}Ctrl',
-					function($scope, $location, $olHttp,$routeParams, flatMenu) {
+					function($scope, $olHttp,$routeParams, flatMenu, $rootScope, $state) {
 					$scope.noTargetScreenEntityAlert = function() {
 						alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 					}; 
@@ -231,6 +230,8 @@
 							function(data) {						
 								$scope.model = data.model.entity;							
 								$scope.baseUrl = olConfig.baseUrl;
+								$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
+								
 								
 								$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {					
 									$scope.model.actions=null;
@@ -240,10 +241,11 @@
 									
 									$olHttp.post('${entityName}/', $scope.model, function(data) {
 										if (data.model.entityName == '${entityName}'){
-											$scope.model = data.model.entity;								
+											$scope.model = data.model.entity;
+											$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);								
 										}
 										else{					
-											$location.path("/" + data.model.entityName);
+											$state.go(data.model.entityName);
 										}
 									});
 								};
@@ -285,7 +287,7 @@
 								}
 								else{					
 									
-									$location.path("/" + data.model.entityName);
+									$state.go(data.model.entityName);
 								}
 							}
 						);

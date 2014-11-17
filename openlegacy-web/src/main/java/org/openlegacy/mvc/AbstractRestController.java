@@ -486,10 +486,4 @@ public abstract class AbstractRestController {
 		}
 
 	}
-
-	public ModelAndView getEntityBreadcrumbs(String entityName, HttpServletResponse response) throws IOException {
-		getSession().getEntity(entityName);
-		Navigation navigationModule = getSession().getModule(Navigation.class);
-		return new ModelAndView("breadcrumbs", "breadcrumbs", navigationModule != null ? navigationModule.getPaths() : null);
-	}
 }

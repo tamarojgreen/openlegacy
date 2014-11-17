@@ -161,13 +161,6 @@ public class DefaultScreensRestController extends AbstractRestController {
 	}
 
 	@Override
-	@RequestMapping(value = "/{entity}/breadcrumbs", method = RequestMethod.GET, consumes = { JSON, XML })
-	public ModelAndView getEntityBreadcrumbs(@PathVariable("entity") String entityName, HttpServletResponse response)
-			throws IOException {
-		return super.getEntityBreadcrumbs(entityName, response);
-	}
-
-	@Override
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntityJson(@PathVariable("entity") String entityName,
 			@RequestParam(value = ACTION, required = false) String action,
@@ -220,7 +213,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXmlWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-					throws IOException {
+			throws IOException {
 		return super.postEntityXmlWithKey(entityName, key, action, xml, response);
 	}
 
@@ -228,7 +221,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXml(@PathVariable("entity") String entityName,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-					throws IOException {
+			throws IOException {
 		return super.postEntityXml(entityName, action, xml, response);
 	}
 
