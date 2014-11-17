@@ -797,6 +797,22 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		checkHasGetterAndSetter(members);
 	}
 
+	public boolean hasMethodName(String name) {
+		if (name == null || name.trim().length() == 0) {
+			return false;
+		}
+		List<BodyDeclaration> members = mainType.getMembers();
+		for (BodyDeclaration bodyDeclaration : members) {
+			if (bodyDeclaration instanceof MethodDeclaration) {
+				MethodDeclaration methodDeclaration = (MethodDeclaration)bodyDeclaration;
+				if (name.equals(methodDeclaration.getName())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	@SuppressWarnings("unused")
 	private void checkHasGetterAndSetter(List<BodyDeclaration> members) {
 		int numberOfGetters = 0;

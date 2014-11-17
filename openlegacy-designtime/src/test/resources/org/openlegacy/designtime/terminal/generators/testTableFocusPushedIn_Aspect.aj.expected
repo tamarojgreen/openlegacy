@@ -11,8 +11,6 @@ import com.someorg.examples.screens.TestClass.TableScreenRecord;
 privileged @SuppressWarnings("unused") aspect TableScreenRecord_Aspect {
 
     
-    private String focusField;
-	    
     public String TableScreenRecord.getColumn1(){
     	return this.column1;
     }
@@ -33,11 +31,4 @@ privileged @SuppressWarnings("unused") aspect TableScreenRecord_Aspect {
 		return EqualsBuilder.reflectionEquals(this,other);
     }
     
-    public void focus(String... field) {
-        if (field.length > 0) {
-            focusField = field[0];
-        } else {
-            focusField = "column1";
-        }
-    }
 }

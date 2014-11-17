@@ -12,14 +12,23 @@ import org.openlegacy.terminal.TerminalField;
 import ${packageName}.${parentClassName}.${className};
 
 privileged @SuppressWarnings("unused") aspect ${formattedClassName}_Aspect {
+
+	<#assign bSelectFieldExists=false>
 	<#list fields as field>
+	<#if field.name == 'focusField'>
+	    <#assign bSelectFieldExists=true>
+	</#if>
 	<#if supportTerminalData && !field.hasGetterField && field.primitiveType>
     private TerminalField ${className}.${field.name}Field;
 	</#if>
-	</#list>	
-    
+	</#list>
+	
+    <#if bSelectFieldExists == false>
+    private String focusField;
+	</#if>
+	
 	<#list fields as field>
-		<#if !field.hasGetter>
+		<#if !field.hasGetter && field.name != 'focusField'>
     public ${field.type} ${className}.get${field.name?cap_first}(){
     	return this.${field.name};
     }
@@ -46,4 +55,14 @@ privileged @SuppressWarnings("unused") aspect ${formattedClassName}_Aspect {
     	// TODO exclude terminal fields
 		return EqualsBuilder.reflectionEquals(this,other);
     }
+    
+    <#if !hasMethodName('focus')>
+    public void focus(String... field) {
+        if (field.length > 0) {
+            focusField = field[0];
+        } else {
+            focusField = "column1";
+        }
+    }
+	</#if>
 }
