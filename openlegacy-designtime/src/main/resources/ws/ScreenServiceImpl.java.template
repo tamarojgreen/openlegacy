@@ -101,7 +101,6 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 		
 				<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
 				<#assign entityName = parameter.entityDefinition.entityName/>
-				<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
 				<#if isFieldParameter(parameter)>
 					<#if isPartParameter(parameter)>
 						${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class, ${serviceName?uncap_first}In.get${fieldName?cap_first}(), ${serviceName?uncap_first}In.get${partName}());
