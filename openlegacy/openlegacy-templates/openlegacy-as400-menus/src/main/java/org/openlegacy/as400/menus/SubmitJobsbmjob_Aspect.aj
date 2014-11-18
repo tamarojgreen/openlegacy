@@ -5,6 +5,7 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect SubmitJobsbmjob_Aspect {
@@ -41,8 +42,6 @@ privileged @SuppressWarnings("unused") aspect SubmitJobsbmjob_Aspect {
     	this.commandToRun = commandToRun;
     }
 
-
-
     public String SubmitJobsbmjob.getJobName(){
     	return this.jobName;
     }
@@ -50,8 +49,6 @@ privileged @SuppressWarnings("unused") aspect SubmitJobsbmjob_Aspect {
     public void SubmitJobsbmjob.setJobName(String jobName){
     	this.jobName = jobName;
     }
-
-
 
     public String SubmitJobsbmjob.getJobDescription(){
     	return this.jobDescription;
@@ -61,8 +58,6 @@ privileged @SuppressWarnings("unused") aspect SubmitJobsbmjob_Aspect {
     	this.jobDescription = jobDescription;
     }
 
-
-
     public String SubmitJobsbmjob.getLibrary1(){
     	return this.library1;
     }
@@ -70,8 +65,6 @@ privileged @SuppressWarnings("unused") aspect SubmitJobsbmjob_Aspect {
     public void SubmitJobsbmjob.setLibrary1(String library1){
     	this.library1 = library1;
     }
-
-
 
     public String SubmitJobsbmjob.getJobQueue(){
     	return this.jobQueue;
@@ -81,8 +74,6 @@ privileged @SuppressWarnings("unused") aspect SubmitJobsbmjob_Aspect {
     	this.jobQueue = jobQueue;
     }
 
-
-
     public String SubmitJobsbmjob.getLibrary(){
     	return this.library;
     }
@@ -90,8 +81,6 @@ privileged @SuppressWarnings("unused") aspect SubmitJobsbmjob_Aspect {
     public void SubmitJobsbmjob.setLibrary(String library){
     	this.library = library;
     }
-
-
 
     public String SubmitJobsbmjob.getJobPriorityonJobq(){
     	return this.jobPriorityonJobq;
@@ -101,8 +90,6 @@ privileged @SuppressWarnings("unused") aspect SubmitJobsbmjob_Aspect {
     	this.jobPriorityonJobq = jobPriorityonJobq;
     }
 
-
-
     public String SubmitJobsbmjob.getOutputPriorityonOutq(){
     	return this.outputPriorityonOutq;
     }
@@ -111,8 +98,6 @@ privileged @SuppressWarnings("unused") aspect SubmitJobsbmjob_Aspect {
     	this.outputPriorityonOutq = outputPriorityonOutq;
     }
 
-
-
     public String SubmitJobsbmjob.getPrintDevice(){
     	return this.printDevice;
     }
@@ -120,8 +105,6 @@ privileged @SuppressWarnings("unused") aspect SubmitJobsbmjob_Aspect {
     public void SubmitJobsbmjob.setPrintDevice(String printDevice){
     	this.printDevice = printDevice;
     }
-
-
 
 
     public String SubmitJobsbmjob.getFocusField(){

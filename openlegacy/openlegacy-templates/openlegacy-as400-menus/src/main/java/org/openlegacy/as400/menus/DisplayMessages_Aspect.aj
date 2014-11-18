@@ -5,6 +5,7 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect DisplayMessages_Aspect {
@@ -36,56 +37,40 @@ privileged @SuppressWarnings("unused") aspect DisplayMessages_Aspect {
     }
     
 
-
-
     public String DisplayMessages.getQueue(){
     	return this.queue;
     }
     
-
-
 
     public String DisplayMessages.getProgram(){
     	return this.program;
     }
     
 
-
-
     public String DisplayMessages.getLibrary1(){
     	return this.library1;
     }
     
-
-
 
     public String DisplayMessages.getLibrary(){
     	return this.library;
     }
     
 
-
-
     public Integer DisplayMessages.getSeverity(){
     	return this.severity;
     }
     
-
-
 
     public String DisplayMessages.getDelivery(){
     	return this.delivery;
     }
     
 
-
-
     public String DisplayMessages.getMessage(){
     	return this.message;
     }
     
-
-
 
 
     public String DisplayMessages.getFocusField(){

@@ -5,6 +5,7 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect WorkWithSubmittedJobs_Aspect {
@@ -17,6 +18,7 @@ privileged @SuppressWarnings("unused") aspect WorkWithSubmittedJobs_Aspect {
 
 	
 
+    private List<TerminalActionDefinition> WorkWithSubmittedJobs.WorkWithSubmittedJobsRecordsActions = new ArrayList<TerminalActionDefinition>();
     
 
     public String WorkWithSubmittedJobs.getSubmittedFrom(){
@@ -24,15 +26,14 @@ privileged @SuppressWarnings("unused") aspect WorkWithSubmittedJobs_Aspect {
     }
     
 
-
-
     public List<WorkWithSubmittedJobsRecord> WorkWithSubmittedJobs.getWorkWithSubmittedJobsRecords(){
     	return this.WorkWithSubmittedJobsRecords;
     }
     
 
-
-
+    public List<TerminalActionDefinition> WorkWithSubmittedJobs.getWorkWithSubmittedJobsRecordsActions(){
+    	return this.WorkWithSubmittedJobsRecordsActions;
+    }
 
     public String WorkWithSubmittedJobs.getFocusField(){
     	return focusField;

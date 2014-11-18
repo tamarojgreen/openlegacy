@@ -5,6 +5,7 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect ChangeProfilechgprf_Aspect {
@@ -37,8 +38,6 @@ privileged @SuppressWarnings("unused") aspect ChangeProfilechgprf_Aspect {
     	this.assistanceLevel = assistanceLevel;
     }
 
-
-
     public String ChangeProfilechgprf.getCurrentLibrary(){
     	return this.currentLibrary;
     }
@@ -46,8 +45,6 @@ privileged @SuppressWarnings("unused") aspect ChangeProfilechgprf_Aspect {
     public void ChangeProfilechgprf.setCurrentLibrary(String currentLibrary){
     	this.currentLibrary = currentLibrary;
     }
-
-
 
     public String ChangeProfilechgprf.getInitialProgramToCall(){
     	return this.initialProgramToCall;
@@ -57,8 +54,6 @@ privileged @SuppressWarnings("unused") aspect ChangeProfilechgprf_Aspect {
     	this.initialProgramToCall = initialProgramToCall;
     }
 
-
-
     public String ChangeProfilechgprf.getLibrary1(){
     	return this.library1;
     }
@@ -66,8 +61,6 @@ privileged @SuppressWarnings("unused") aspect ChangeProfilechgprf_Aspect {
     public void ChangeProfilechgprf.setLibrary1(String library1){
     	this.library1 = library1;
     }
-
-
 
     public String ChangeProfilechgprf.getInitialMenu(){
     	return this.initialMenu;
@@ -77,8 +70,6 @@ privileged @SuppressWarnings("unused") aspect ChangeProfilechgprf_Aspect {
     	this.initialMenu = initialMenu;
     }
 
-
-
     public String ChangeProfilechgprf.getLibrary(){
     	return this.library;
     }
@@ -87,8 +78,6 @@ privileged @SuppressWarnings("unused") aspect ChangeProfilechgprf_Aspect {
     	this.library = library;
     }
 
-
-
     public String ChangeProfilechgprf.getTextdescription(){
     	return this.textdescription;
     }
@@ -96,8 +85,6 @@ privileged @SuppressWarnings("unused") aspect ChangeProfilechgprf_Aspect {
     public void ChangeProfilechgprf.setTextdescription(String textdescription){
     	this.textdescription = textdescription;
     }
-
-
 
 
     public String ChangeProfilechgprf.getFocusField(){

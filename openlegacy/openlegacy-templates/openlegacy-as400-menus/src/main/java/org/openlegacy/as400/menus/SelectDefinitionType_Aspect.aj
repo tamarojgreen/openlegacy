@@ -5,6 +5,7 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect SelectDefinitionType_Aspect {
@@ -27,8 +28,6 @@ privileged @SuppressWarnings("unused") aspect SelectDefinitionType_Aspect {
     	this.definitionType = definitionType;
     }
 
-
-
     public String SelectDefinitionType.getDataDictionary(){
     	return this.dataDictionary;
     }
@@ -36,8 +35,6 @@ privileged @SuppressWarnings("unused") aspect SelectDefinitionType_Aspect {
     public void SelectDefinitionType.setDataDictionary(String dataDictionary){
     	this.dataDictionary = dataDictionary;
     }
-
-
 
 
     public String SelectDefinitionType.getFocusField(){

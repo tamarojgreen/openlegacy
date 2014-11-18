@@ -5,6 +5,7 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect ChangePassword_Aspect {
@@ -30,14 +31,10 @@ privileged @SuppressWarnings("unused") aspect ChangePassword_Aspect {
     }
     
 
-
-
     public String ChangePassword.getPasswordLastChanged(){
     	return this.passwordLastChanged;
     }
     
-
-
 
     public String ChangePassword.getCurrentPassword(){
     	return this.currentPassword;
@@ -47,8 +44,6 @@ privileged @SuppressWarnings("unused") aspect ChangePassword_Aspect {
     	this.currentPassword = currentPassword;
     }
 
-
-
     public String ChangePassword.getNewPassword(){
     	return this.newPassword;
     }
@@ -57,8 +52,6 @@ privileged @SuppressWarnings("unused") aspect ChangePassword_Aspect {
     	this.newPassword = newPassword;
     }
 
-
-
     public String ChangePassword.getNewPasswordtoVerify(){
     	return this.newPasswordtoVerify;
     }
@@ -66,8 +59,6 @@ privileged @SuppressWarnings("unused") aspect ChangePassword_Aspect {
     public void ChangePassword.setNewPasswordtoVerify(String newPasswordtoVerify){
     	this.newPasswordtoVerify = newPasswordtoVerify;
     }
-
-
 
 
     public String ChangePassword.getFocusField(){

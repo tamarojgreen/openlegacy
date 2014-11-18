@@ -5,6 +5,7 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect SendMessagesndmsg_Aspect {
@@ -27,8 +28,6 @@ privileged @SuppressWarnings("unused") aspect SendMessagesndmsg_Aspect {
     	this.messageText = messageText;
     }
 
-
-
     public String SendMessagesndmsg.getToUserProfile(){
     	return this.toUserProfile;
     }
@@ -36,8 +35,6 @@ privileged @SuppressWarnings("unused") aspect SendMessagesndmsg_Aspect {
     public void SendMessagesndmsg.setToUserProfile(String toUserProfile){
     	this.toUserProfile = toUserProfile;
     }
-
-
 
 
     public String SendMessagesndmsg.getFocusField(){
