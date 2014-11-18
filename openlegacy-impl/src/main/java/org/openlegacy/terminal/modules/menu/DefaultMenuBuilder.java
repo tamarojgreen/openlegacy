@@ -66,6 +66,9 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 
 		sortToMenus();
 		Integer subMenuDepth = allMenusDepths.get(ProxyUtil.getOriginalClass(menuEntityClass));
+		if (subMenuDepth == null) {
+			return new SimpleMenuItem(menuEntityClass, menuDefinition.getDisplayName(), 0);
+		}
 		return buildMenu(menuEntityClass, subMenuDepth);
 	}
 
