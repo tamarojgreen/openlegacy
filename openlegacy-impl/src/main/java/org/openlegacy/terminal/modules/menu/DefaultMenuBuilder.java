@@ -207,7 +207,7 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 		String displayName = screenEntityDefinition.getDisplayName();
 		MenuItem menuItem = new SimpleMenuItem(rootClass, displayName, depth);
 
-		if (!allMenusOptions.containsKey(rootClass)) {
+		if (!allMenusOptions.containsKey(ProxyUtil.getOriginalClass(rootClass))) {
 			return menuItem;
 		}
 
