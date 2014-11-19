@@ -6,7 +6,7 @@
 	angular.module( 'directives', [] )
 
 
-	.directive('datepicker', function() {		
+	.directive('bdatepicker', function() {		
 	    return {
 	        restrict: 'A',
 	        require : 'ngModel',
@@ -18,7 +18,7 @@
 	                });	            	
 	            	ngModelCtrl.$formatters.unshift(function (modelValue) {                		
 	            		if (modelValue != null && modelValue != "" ) {	            			
-	            			var date = new Date(modelValue);
+	            			var date = new Date(parseInt(modelValue));
 	            			element.datepicker("setValue", date);	            			
 	                		return ("0" + (date.getMonth() + 1)).slice(-2) + "/" + date.getDate() + "/" + date.getFullYear();            			
 	            		} else {

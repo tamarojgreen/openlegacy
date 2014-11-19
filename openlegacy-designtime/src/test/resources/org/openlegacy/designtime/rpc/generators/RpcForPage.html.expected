@@ -1,51 +1,17 @@
-<div class="container-fluid">
-	<div class="row">
-	
-		<!--      sidebar       -->
-		
-		<div class="col-sm-3 col-md-2 no-gutters-sm">
-			<div class="sidebar-nav">
-			    <div class="navbar" role="navigation">
-			        <div class="navbar-header">
-			            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".ol-sidebar-collapse">
-			                <span class="glyphicon glyphicon-chevron-down"></span>
-			            </button>
-			            <span class="visible-xs navbar-brand">Navigation</span>
-			        </div>
-			        <div class="navbar-collapse collapse ol-sidebar-collapse">
-			            <ul class="nav navbar-nav nav-pills nav-stacked top-margin-10">			            
-			            	<li ng-repeat="menu in menuArray">			            				            	
-			            		<h4 ng-show="menu.menuItems.length != 0">{{menu.displayName}}</h4>
-			            		<a ng-show="menu.menuItems.length == 0" ng-href="#/{{menu.targetEntityName}}">{{menu.displayName}}</a>			            		
-			            	</li>			                	                
-			            </ul>
-			        </div><!--/.nav-collapse -->
-			    </div>
-			</div>    
-		</div>
-		
-		 <!--/sidebar -->
-		 
-		<div class="col-sm-9 col-md-10"><!--  main   -->
-		
-			<ol class="breadcrumb hidden-xs">
-							<li><span class="active">XxolakkrParms</span></li>
-			</ol>
-			
-			
-				<h1>Xxolakkr Parms</h1>
-			
-			<div class="panel panel-default">
-				<div class="panel-body">
+	<h1>Xxolakkr Parms</h1>
+
+<div class="panel panel-default">
+	<div class="panel-body">
 	<nav class="navbar navbar-default hidden-xs" role="navigation">
 	    <form class="navbar-form xnavbar-left" role="navigation">
 					<button data-ng-click="doAction('XxolakkrParms', 'update')" class="btn btn-primary navbar-btn">Update</button>
-			<a ng-href="{{baseUrl}}XxolakkrParms{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="true">	        	
+			<a ng-href="{{baseUrl}}XxolakkrParms{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="true">
+			<span class="glyphicon glyphicon-export"></span>	        	
             	Excel
             </a>            
 	    </form>
 	</nav>    
-						<div class="panel-heading"><h3>Lk Customer</h3></div>		
+			<div class="panel-heading"><h3>Lk Customer</h3></div>		
 <div class="panel panel-default">
 <div class="panel-body">
 		<form role="form">
@@ -53,30 +19,30 @@
 				<div class="col-sm-6">
 	<div class="form-group">		
 		<label for="lkCustomer.lkCustInd" class="control-label">Lk Cust Ind:</label> 		
-   				<div id="lkCustomer.lkCustInd" ng-model="model.lkCustInd">{{model.lkCustInd}}</div>
+				<input type="text" class="form-control" id="lkCustomer.lkCustInd" ng-model="model.lkCustInd">	
 	</div>
 	<div class="form-group">		
 		<label for="lkCustomer.lkCustId" class="control-label">Lk Cust Id:</label> 		
-				  	<input type="text" class="form-control" id="lkCustomer.lkCustId" ng-model="model.lkCustId">
+				  	<input type="text" class="form-control" id="lkCustomer.lkCustId" ng-model="model.lkCustId">    
 	</div>
 	<div class="form-group">		
 		<label for="lkCustomer.lkCustName" class="control-label">Lk Cust Name:</label> 		
-   				<div id="lkCustomer.lkCustName" ng-model="model.lkCustName">{{model.lkCustName}}</div>
+				<input type="text" class="form-control" id="lkCustomer.lkCustName" ng-model="model.lkCustName">	
 	</div>
 	<div class="form-group">		
 		<label for="lkCustomer.lkCustAddress" class="control-label">Lk Cust Address:</label> 		
-   				<div id="lkCustomer.lkCustAddress" ng-model="model.lkCustAddress">{{model.lkCustAddress}}</div>
+				<input type="text" class="form-control" id="lkCustomer.lkCustAddress" ng-model="model.lkCustAddress">	
 	</div>
 	<div class="form-group">		
 		<label for="lkCustomer.lkCustPhone" class="control-label">Lk Cust Phone:</label> 		
-   				<div id="lkCustomer.lkCustPhone" ng-model="model.lkCustPhone">{{model.lkCustPhone}}</div>
+				<input type="text" class="form-control" id="lkCustomer.lkCustPhone" ng-model="model.lkCustPhone">	
 	</div>
 				</div>				
 			</div>
 		</form>		
 </div>
 </div>	
-								
+					
 <div class="panel panel-default">
 <div class="panel-body">
 		<div class="table-responsive">
@@ -112,8 +78,5 @@
         </div>                
 </div>
 </div>	
-				</div>
-			</div>
-		</div><!--  /main   -->
 	</div>
 </div>									
