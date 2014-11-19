@@ -4,6 +4,7 @@ import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Assert;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,19 +13,21 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 public class AssertUtils {
 
 	private final static Log logger = LogFactory.getLog(AssertUtils.class);
 
 	public static void assertContent(byte[] expectedContent, byte[] resultContent) {
-		if (!initTestString(expectedContent).equals(initTestString(resultContent))) {
+		final String expectedString = initTestString(expectedContent);
+		final String resultString = initTestString(resultContent);
+		if (!expectedString.equals(resultString)) {
 			logger.info("Expected content:\n" + new String(expectedContent));
 			logger.info("\nResult content:");
 			logger.info("************\n" + new String(resultContent) + "\n************");
 			logger.info("*** NOTE: If the result is correct copy the above result block into expected result file so test can pass next time\n");
-			throw new RuntimeException("Generated content don't match. See log");
-
+			Assert.assertEquals("Generated content don't match. See log", expectedString, resultString);
 		}
 	}
 
