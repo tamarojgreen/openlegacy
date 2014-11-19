@@ -33,6 +33,9 @@ privileged @SuppressWarnings("unused") aspect TableScreenRecord_Aspect {
 		return EqualsBuilder.reflectionEquals(this,other);
     }
     
+    /**
+    	Focus on the given field, or on the first field in the table if none is given
+    */
     public void focus(String... field) {
         if (field.length > 0) {
             focusField = field[0];

@@ -60,6 +60,9 @@ privileged @SuppressWarnings("unused") aspect ${formattedClassName}_Aspect {
     
     <#-- Add focus() method if not present -->	
     <#if !hasMethodName('focus')>
+    /**
+    	Focus on the given field, or on the first field in the table if none is given
+    */
     public void focus(String... field) {
         if (field.length > 0) {
             focusField = field[0];
