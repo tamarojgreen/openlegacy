@@ -3,7 +3,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-body">
-	<nav class="navbar navbar-default hidden-xs" role="navigation">
+	<nav class="navbar navbar-default" role="navigation">
 	    <form class="navbar-form xnavbar-left" role="navigation">
 	    	<button data-ng-click="doAction('ScreenForPage', '')" class="btn btn-primary navbar-btn">Submit</button>
 				<button data-ng-click="doAction('ScreenForPage', 'help')" class="btn btn-primary navbar-btn">Help</button>
@@ -123,12 +123,12 @@
 							<tr>
 									<th>Action</th>
 									<th>Column1</th>
-									<th class="hidden-xs">Column2</th>
+							     <th>Column2</th>
 							</tr>
 						</thead>
 						<tbody>                            	
 		                    <tr data-ng-repeat="screenForPageRow in model.screenForPageRows">                              
-										<td class="hidden-xs">
+										<td>
 														<a href="" ng-click="doActionNoTargetEntity($index, 'action', '1')">
 															View
 														</a>

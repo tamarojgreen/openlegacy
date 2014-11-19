@@ -76,7 +76,7 @@
 								<#if column_has_next>
 									<th>${column.displayName}</th>
 								<#else>
-									<th class="hidden-xs">${column.displayName}</th>
+							     <th>${column.displayName}</th>
 								</#if>
 					  		</#list>
 							</tr>
@@ -85,7 +85,7 @@
 		                    <tr data-ng-repeat="${part.tableDefinition.tableEntityName?uncap_first} in model.${part.tableDefinition.tableEntityName?uncap_first}s">                              
 								<#list part.tableDefinition.columnDefinitions as column>	
 									<#if column_index == 0>										
-										<td class="hidden-xs">
+										<td>
 											<#if (part.tableDefinition.actions?size > 3)>
 												<div class="dropdown">
 												  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
@@ -225,7 +225,7 @@
 </#macro>
 
 <#macro navMacro entity showExcelBtn>
-	<nav class="navbar navbar-default hidden-xs" role="navigation">
+	<nav class="navbar navbar-default" role="navigation">
 	    <form class="navbar-form xnavbar-left" role="navigation">
 	    	<button data-ng-click="doAction('${entity.entityName}', '')" class="btn btn-primary navbar-btn">Submit</button>
 	        <#list entity.actions as action>		
