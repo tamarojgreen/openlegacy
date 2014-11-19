@@ -4,17 +4,38 @@
     </div>
     <div class="row">
         
-        <div class="col-sm-3 col-md-2 no-gutters-sm"><!--      sidebar       -->
-            <div ng-include="'partials/sidebar.html'"></div>
-        </div> <!--/sidebar -->
+        <!--      sidebar       -->
+		
+		<div class="col-sm-3 col-md-2 no-gutters-sm">
+			<div class="sidebar-nav">
+			    <div class="navbar" role="navigation">
+			        <div class="navbar-header">
+			            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".ol-sidebar-collapse">
+			                <span class="glyphicon glyphicon-chevron-down"></span>
+			            </button>
+			            <span class="visible-xs navbar-brand">Navigation</span>
+			        </div>
+			        <div class="navbar-collapse collapse ol-sidebar-collapse">
+			            <ul class="nav navbar-nav nav-pills nav-stacked top-margin-10">			            
+			            	<li ng-repeat="menu in menuArray">			            				            	
+			            		<h4 ng-if="menu.menuItems.length != 0">{{menu.displayName}}</h4>
+			            		<a ng-if="menu.menuItems.length == 0" ng-href="#/{{menu.targetEntityName}}">{{menu.displayName}}</a>			            		
+			            	</li>			                	                
+			            </ul>
+			        </div><!--/.nav-collapse -->
+			    </div>
+			</div>    
+		</div>
+		
+		 <!--/sidebar -->
         
         <div class="col-sm-9 col-md-10"><!--      main       -->
             <ol class="breadcrumb hidden-xs">
-                <li><a href="#/MainMenu">Main Menu</a></li>
-                <li><a href="#/InventoryMenu">Inventory Menu</a></li>
-                 <li><a href="#/Items">Items</a></li>
-                <li class="active">Item Details</li>
-            </ol>
+				<li ng-repeat="bc in breadcrumbs" ng-class="{active : $last}" >
+					<a ng-if="!bc.current" data-ng-href="#/{{bc.entityName}}">{{bc.displayName}}</a>
+					<span ng-if="bc.current">{{bc.displayName}}</span>
+				</li>
+			</ol>
             
             
             <div class="panel panel-default">

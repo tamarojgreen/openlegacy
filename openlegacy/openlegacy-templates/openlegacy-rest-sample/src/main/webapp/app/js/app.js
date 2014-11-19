@@ -1,19 +1,11 @@
 var olApp = angular.module('olApp', [
     'ui.router',
     'ngTouch',
-    'olControllers',
-    'ngCookies'
+    'controllers',
+    'ngCookies',
+    'services',
+    "ui.bootstrap"
 ]).run(['$rootScope', '$state', '$themeService', function ($rootScope, $state, $themeService) {
-     
-    // here will be the code to pevent unauthorised access to pages
-    $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {        
-    	if ($rootScope.user == undefined && toState.name != 'logon') {
-        console.log('not logged in, forcing dashboard');
-            event.preventDefault(); 
-            $state.go("logon");
-      }
-    });
-    
     $rootScope.theme = $themeService.getCurrentTheme();
 }]);
  
@@ -22,175 +14,57 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/Items");
     // Now set up the states
     $stateProvider
+    .state('logoff', {
+    	url: '/logoff',    	 
+        templateUrl: "views/logoff.html",
+        controller: 'logoffController'
+    })
     .state('Items', {
-        url: "/Items",
-        views: {
-            "main": { 
-                templateUrl: "partials/Items.html",
-                controller: 'itemListCtrl'
-            },
-            //"sidebar": { 
-            //    templateUrl: "partials/sidebar.html",
-            //    controller: 'SidebarCtrl'                
-            //},            
-            "header": { 
-                templateUrl: "partials/header.html",
-                controller: 'HeaderCtrl'
-            }
-            //"footer": { 
-            //    templateUrl: "partials/footer.html",
-            //    controller: 'FooterCtrl'
-            //}
-        }
+        url: "/Items",         
+        templateUrl: "partials/Items.html",
+        controller: 'itemListCtrl'            
     })
     .state('ItemDetails', {
-        url: "/ItemDetails/",
-        views: {
-            "main": { 
-                templateUrl: "partials/ItemDetails.html",
-                controller: 'itemDetailsCtrl'
-            },
-            //"sidebar": { 
-            //    templateUrl: "partials/sidebar.html",
-            //    controller: 'SidebarCtrl'
-            //},                        
-            "header": { 
-                templateUrl: "partials/header.html",
-                controller: 'HeaderCtrl'
-            },
-            //"footer": { 
-            //    templateUrl: "partials/footer.html",
-            //    controller: 'FooterCtrl'
-            //}
-        }
+        url: "/ItemDetails/",         
+	    templateUrl: "partials/ItemDetails.html",
+	    controller: 'itemDetailsCtrl'
     })
     .state('ItemDetailsWithId', {
-        url: "/ItemDetails/:itemId",
-        views: {
-            "main": { 
-                templateUrl: "partials/ItemDetails.html",
-                controller: 'itemDetailsCtrl'
-            },
-            //"sidebar": { 
-            //    templateUrl: "partials/sidebar.html",
-            //    controller: 'SidebarCtrl'
-            //},                        
-            "header": { 
-                templateUrl: "partials/header.html",
-                controller: 'HeaderCtrl'
-            },
-            //"footer": { 
-            //    templateUrl: "partials/footer.html",
-            //    controller: 'FooterCtrl'
-            //}
-        }
+        url: "/ItemDetails/:itemId",         
+        templateUrl: "partials/ItemDetails.html",
+        controller: 'itemDetailsCtrl'            
     })
     .state('Warehouses', {
-        url: "/Warehouses",
-        views: {
-            "main": { 
-                templateUrl: "partials/Warehouses.html",
-                controller: 'warehouseListCtrl'
-            },
-            //"sidebar": { 
-            //    templateUrl: "partials/sidebar.html",
-            //    controller: 'SidebarCtrl'
-            //},                        
-            "header": { 
-                templateUrl: "partials/header.html",
-                controller: 'HeaderCtrl'
-            },
-            //"footer": { 
-            //    templateUrl: "partials/footer.html",
-            //    controller: 'FooterCtrl'
-            //}
-        }
+        url: "/Warehouses",         
+        templateUrl: "partials/Warehouses.html",
+        controller: 'warehouseListCtrl'            
     })
     .state('WarehouseDetails', {
-        url: "/WarehouseDetails/",
-        views: {
-            "main": { 
-                templateUrl: "partials/WarehouseDetails.html",
-                controller: 'warehouseDetailsCtrl'
-            },
-            //"sidebar": { 
-            //    templateUrl: "partials/sidebar.html",
-            //    controller: 'SidebarCtrl'
-            //},                        
-            "header": { 
-                templateUrl: "partials/header.html",
-                controller: 'HeaderCtrl'
-            },
-            //"footer": { 
-            //    templateUrl: "partials/footer.html",
-            //    controller: 'FooterCtrl'
-            //}
-        }
+        url: "/WarehouseDetails",         
+	    templateUrl: "partials/WarehouseDetails.html",
+	    controller: 'warehouseDetailsCtrl'
     })
     .state('WarehouseDetailsWithId', {
-        url: "/WarehouseDetails/:warehouseId",
-        views: {
-            "main": { 
-                templateUrl: "partials/WarehouseDetails.html",
-                controller: 'warehouseDetailsCtrl'
-            },
-            //"sidebar": { 
-            //    templateUrl: "partials/sidebar.html",
-            //    controller: 'SidebarCtrl'
-            //},                        
-            "header": { 
-                templateUrl: "partials/header.html",
-                controller: 'HeaderCtrl'
-            },
-            //"footer": { 
-            //    templateUrl: "partials/footer.html",
-            //    controller: 'FooterCtrl'
-            //}
-        }
+        url: "/WarehouseDetails/:warehouseId",         
+        templateUrl: "partials/WarehouseDetails.html",
+        controller: 'warehouseDetailsCtrl'            
     })
-    .state('logon', {
-        url: "/logon",
-        views: {
-            "main": { 
-                templateUrl: "partials/logon.html",
-                controller: 'logonCtrl'
-            },
-            //"sidebar": { 
-            //    templateUrl: "partials/sidebar.html",
-            //    controller: 'SidebarCtrl'
-            //},                        
-            "header": { 
-                templateUrl: "partials/header.html",
-                controller: 'HeaderCtrl'
-            },
-            //"footer": { 
-            //    templateUrl: "partials/footer.html",
-            //    controller: 'FooterCtrl'
-            //}
-        }
+    .state('WarehouseTypes', {
+        url: "/WarehouseTypes",         
+        templateUrl: "partials/WarehouseTypes.html",
+        controller: 'warehouseTypesCtrl'            
     })
-    .state('MainMenu', {
-    	url: "/MainMenu",
-    	views: {
-    		"main": {
-    			templateUrl: "partials/MainMenu.html"
-    		},
-    		"header": { 
-                templateUrl: "partials/header.html",
-                controller: 'HeaderCtrl'
-            }
-    	}
+    .state('login', {
+        url: "/login",         
+        templateUrl: "partials/login.html",
+        controller: 'loginController'            
+    })
+    .state('menu', {
+    	url: "/MainMenu",    	
+    	templateUrl: "partials/MainMenu.html"    		
     })
     .state('InventoryMenu', {
-    	url: "/InventoryMenu",
-    	views: {
-    		"main": {
-    			templateUrl: "partials/InventoryMenu.html"
-    		},
-    		"header": { 
-                templateUrl: "partials/header.html",
-                controller: 'HeaderCtrl'
-            }
-    	}
+    	url: "/InventoryMenu",    	
+		templateUrl: "partials/InventoryMenu.html"
     })    
 });

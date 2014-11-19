@@ -1,0 +1,108 @@
+<div class="container-fluid">
+	<div class="row text-center logo">
+        <img src="img/logo.png">
+    </div>
+	<div class="row">
+	
+        <!--      sidebar       -->
+		
+		<div class="col-sm-3 col-md-2 no-gutters-sm">
+			<div class="sidebar-nav">
+			    <div class="navbar" role="navigation">
+			        <div class="navbar-header">
+			            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".ol-sidebar-collapse">
+			                <span class="glyphicon glyphicon-chevron-down"></span>
+			            </button>
+			            <span class="visible-xs navbar-brand">Navigation</span>
+			        </div>
+			        <div class="navbar-collapse collapse ol-sidebar-collapse">
+			            <ul class="nav navbar-nav nav-pills nav-stacked top-margin-10">			            
+			            	<li ng-repeat="menu in menuArray">			            				            	
+			            		<h4 ng-if="menu.menuItems.length != 0">{{menu.displayName}}</h4>
+			            		<a ng-if="menu.menuItems.length == 0" ng-href="#/{{menu.targetEntityName}}">{{menu.displayName}}</a>			            		
+			            	</li>			                	                
+			            </ul>
+			        </div><!--/.nav-collapse -->
+			    </div>
+			</div>    
+		</div>
+		
+		 <!--/sidebar -->	
+				 
+		<div class="col-sm-9 col-md-10"><!--  main   -->
+			<ol class="breadcrumb hidden-xs">
+				<li ng-repeat="bc in breadcrumbs" ng-class="{active : $last}" >
+					<a ng-if="!bc.current" data-ng-href="#/{{bc.entityName}}">{{bc.displayName}}</a>
+					<span ng-if="bc.current">{{bc.displayName}}</span>
+				</li>
+			</ol>			
+						
+			<h1>Warehouse Types</h1>
+			
+			<div class="panel panel-default">
+				<div class="panel-body">
+
+
+                    <nav class="navbar navbar-default hidden-xs top-margin-10" role="navigation">
+                        <form class="navbar-form xnavbar-left" role="navigation">
+                            <button type="button" class="btn btn-primary navbar-btn" ng-click="doAction('')">
+                                <span class="glyphicon glyphicon-share-alt"></span>
+                                 Submit
+                            </button>
+                            
+                            <span ng-repeat="action in entity.actions">
+                            	<span ng-switch="action.alias">
+                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="help" ng-click="doAction(action.alias)">
+                            			<span class="glyphicon glyphicon-question-sign"></span>
+	                                	{{action.displayName}}
+                            		</button>
+                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="delete" ng-click="doAction(action.alias)">
+                            			<span class="glyphicon glyphicon-trash"></span>
+	                                	{{action.displayName}}
+                            		</button>
+                            	</span>
+                            </span>
+                            
+                            <a href="{{exportExcelUrl}}" class="btn btn-primary navbar-btn pull-right" >
+                    			<span class="glyphicon glyphicon-export"></span>
+                                 Excel
+							</a>                           
+                        </form>
+                    </nav> 
+									
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Action</th>
+									<th>Type</th>
+									<th class="hidden-xs">Description</th>
+								</tr>
+							</thead>
+							<tbody>                            	
+			                    <tr data-ng-repeat="warehouseTypesRecord in entity.warehouseTypesRecords">                              
+								<td class="hidden-xs"></td>
+								<td>{{warehouseTypesRecord.type}}</td>											
+								<td>{{warehouseTypesRecord.description}}</td>											
+								</tr>                            
+			                </tbody>
+				  		</table>
+			  		</div>
+  		
+  		 <div class="top-margin-50">
+            <button ng-click="doAction('next')" type="button" class="btn btn-default navbar-btn pull-right">
+                Next
+                <span class="glyphicon glyphicon-forward"></span>
+            </button>
+            <button ng-click="doAction('previous')" type="button" class="btn btn-default navbar-btn pull-left">
+                <span class="glyphicon glyphicon-backward"></span>
+                Prev
+            </button>
+        </div>                
+				</div>
+			</div>
+		</div><!--  /main   -->
+	</div>
+</div>									
+										
+
