@@ -173,10 +173,8 @@
 													Revise
 												</a>
 								</td>
-									
-								    	<td class="td-link"><a href="" ng-click="noTargetScreenEntityAlert()">{{screenForPageRow.column1}}</a></td>
-									
-								    	<td class="td-link"><a href="" ng-click="noTargetScreenEntityAlert()">{{screenForPageRow.column2}}</a></td>
+								<td>{{screenForPageRow.column1}}</td>
+								<td>{{screenForPageRow.column2}}</td>
 					</tr>
 				</tbody>
 			</table>
