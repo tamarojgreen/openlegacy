@@ -211,7 +211,7 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 			return menuItem;
 		}
 
-		List<Class<?>> menuOptions = allMenusOptions.get(rootClass);
+		List<Class<?>> menuOptions = allMenusOptions.get(ProxyUtil.getOriginalClass(rootClass));
 
 		Collections.sort(menuOptions, getMenuItemsComparator());
 		for (Class<?> menuOption : menuOptions) {
