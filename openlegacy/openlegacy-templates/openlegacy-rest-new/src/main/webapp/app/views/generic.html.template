@@ -55,7 +55,7 @@
 		<div class="modal fade ol-screenshot" tabindex="-1" role="dialog" aria-labelledby="screenshotModal" aria-hidden="true">
         	<div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <img src="{{baseUrl}}sessionViewer/image?random=${.now?substring(.now?length-2)}" class="img-thumbnail">
+                    <img src="{{baseUrl}}sessionViewer/image?random=${.now?time?substring(5,7)}" class="img-thumbnail">
                 </div>
             </div>
         </div> 
@@ -129,17 +129,21 @@
 								    	<td class="td-link"><a href="" ng-click="noTargetScreenEntityAlert()">${part.tableDefinition.actions?first.displayName}</a></td>
 								    </#if>	
 								<#elseif (part.tableDefinition.actions?size > 1 )>
-									<#list part.tableDefinition.actions as action>
+									<#list part.tableDefinition.actions as action>																			
 										<#if action.defaultAction == true>
-											<#if action.targetEntity??>											    	
-									    		<td class="td-link"><a href="#/${action.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">
-									    			{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}
-									    		</a></td>
-										    <#else>
-										    	<td class="td-link"><a href="" ng-click="noTargetScreenEntityAlert()">{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</a></td>
-										    </#if>	
+											<#assign defaultAction = action>
 										</#if>
 									</#list>
+									
+									<#if defaultAction?? && defaultAction.targetEntity??>											    	
+							    		<td class="td-link">
+							    			<a href="#/${defaultAction.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">
+							    				{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}
+							    			</a>
+							    		</td>
+								    <#else>
+								    	<td class="td-link"><a href="" ng-click="noTargetScreenEntityAlert()">{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</a></td>
+								    </#if>	
 								<#else>
 									<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>
 								</#if>												
@@ -205,8 +209,8 @@
 <#macro fieldMacro field>
 	<div class="form-group">		
 		<label for="${field.name}" class="control-label">${field.displayName}<#if field.displayName?length &gt; 0>:</#if></label>
-		<#if field.fieldTypeDefinition??> 		
-			<#if field.editable>
+		<#if field.editable>
+			<#if field.fieldTypeDefinition??>
 				<#if field.fieldTypeDefinition.typeName == 'date'>
 					<input type="text" id="${field.name}" class="form-control" placeholder="mm/dd/yyyy" ng-model="model.${field.name}" bdatepicker />
 				<#elseif field.fieldTypeDefinition.typeName == 'fieldWithValues'>				
@@ -227,12 +231,14 @@
 					<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
 				</#if>
 	   		<#else>
-	   			<#if field.fieldTypeDefinition.typeName == 'boolean'>
-					<input type="checkbox" disabled="disabled" class="form-control" id="${field.name}" ng-checked="model.${field.name}">											
-				<#else>
-	   				<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>
-	   			</#if>   			
+	   			<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">	   			   			
 	   		</#if>
+	   	<#else>
+			<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'boolean'>
+				<input type="checkbox" disabled="disabled" class="form-control" id="${field.name}" ng-checked="model.${field.name}">											
+			<#else>
+				<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>
+			</#if>		   	
    		</#if>		
 	</div>
 </#macro>
@@ -240,10 +246,12 @@
 <#macro navMacro entity showExcelBtn>
 	<nav class="navbar navbar-default hidden-xs" role="navigation">
 	    <form class="navbar-form xnavbar-left" role="navigation">
+	    	<button data-ng-click="doAction('${entity.entityName}', '')" class="btn btn-primary navbar-btn">Submit</button>
 	        <#list entity.actions as action>		
 				<button data-ng-click="doAction('${entity.entityName}', '${action.alias}')" class="btn btn-primary navbar-btn">${action.displayName}</button>
 			</#list>			
-			<a ng-href="{{baseUrl}}${entity.entityName}{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="${showExcelBtn}">	        	
+			<a ng-href="{{baseUrl}}${entity.entityName}{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="${showExcelBtn}">
+			<span class="glyphicon glyphicon-export"></span>	        	
             	Excel
             </a>            
 	    </form>

@@ -1,41 +1,4 @@
-<div class="container-fluid">
-	<div class="row">
 
-		<!--      sidebar       -->
-
-		<div class="col-sm-3 col-md-2 no-gutters-sm">
-			<div class="sidebar-nav">
-				<div class="navbar" role="navigation">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".ol-sidebar-collapse">
-							<span class="glyphicon glyphicon-chevron-down"></span>
-						</button>
-						<span class="visible-xs navbar-brand">Navigation</span>
-					</div>
-					<div class="navbar-collapse collapse ol-sidebar-collapse">
-						<ul class="nav navbar-nav nav-pills nav-stacked top-margin-10">
-							<li ng-repeat="menu in menuArray">
-								<h4 ng-show="menu.menuItems.length != 0">{{menu.displayName}}</h4>
-								<a ng-show="menu.menuItems.length == 0" ng-href="#/{{menu.targetEntityName}}">{{menu.displayName}}</a>
-							</li>
-						</ul>
-					</div><!--/.nav-collapse -->
-				</div>
-			</div>
-		</div>
-
-		 <!--/sidebar -->
-
-		<div class="col-sm-9 col-md-10"><!--  main   -->
-
-			<ol class="breadcrumb hidden-xs">
-				<li ng-repeat="bc in breadcrumbs" ng-class="{active : $last}" >
-					<a ng-show="!$last" data-ng-href="#/{{bc.entityName}}">{{bc.displayName}}</a>
-					<span ng-show="$last">{{bc.displayName}}</span>
-				</li>
-			</ol>
-
-			
 				<h1>Screen For Page</h1>
 
 			<div class="panel panel-default">
@@ -173,8 +136,10 @@
 													Revise
 												</a>
 								</td>
-								<td>{{screenForPageRow.column1}}</td>
-								<td>{{screenForPageRow.column2}}</td>
+								
+										<td class="td-link"><a href="" ng-click="noTargetScreenEntityAlert()">{{screenForPageRow.column1}}</a></td>
+													
+							    		<td class="td-link"><a href="" ng-click="noTargetScreenEntityAlert()">{{screenForPageRow.column2}}</a></td>								
 					</tr>
 				</tbody>
 			</table>
@@ -191,17 +156,14 @@
 			</button>
 		</div>
 </div>
-</div>
-				</div>
-			</div>
-			<a data-toggle="modal" data-target=".ol-screenshot" class="clickable">Show screenshot</a>
-			<div class="modal fade ol-screenshot" tabindex="-1" role="dialog" aria-labelledby="screenshotModal" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <img src="{{baseUrl}}sessionViewer/image?random=ScreenForPage" class="img-thumbnail">
-                    </div>
+</div>			
+		<a data-toggle="modal" data-target=".ol-screenshot" class="clickable">Show screenshot</a>
+		<div class="modal fade ol-screenshot" tabindex="-1" role="dialog" aria-labelledby="screenshotModal" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <img src="{{baseUrl}}sessionViewer/image?random=ScreenForPage" class="img-thumbnail">
                 </div>
-            </div>                        		
-		</div><!--  /main   -->
+            </div>
+        </div>                        		
 	</div>
 </div>
