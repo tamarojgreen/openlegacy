@@ -30,7 +30,7 @@
 		 <!--/sidebar -->	
 				 
 		<div class="col-sm-9 col-md-10"><!--  main   -->
-			<ol class="breadcrumb hidden-xs">
+			<ol class="breadcrumb">
 				<li ng-repeat="bc in breadcrumbs" ng-class="{active : $last}" >
 					<a ng-if="!bc.current" data-ng-href="#/{{bc.entityName}}">{{bc.displayName}}</a>
 					<span ng-if="bc.current">{{bc.displayName}}</span>
@@ -43,7 +43,7 @@
 				<div class="panel-body">
 
 
-                    <nav class="navbar navbar-default hidden-xs top-margin-10" role="navigation">
+                    <nav class="navbar navbar-default top-margin-10" role="navigation">
                         <form class="navbar-form xnavbar-left" role="navigation">
                             <button type="button" class="btn btn-primary navbar-btn" ng-click="doAction('')">
                                 <span class="glyphicon glyphicon-share-alt"></span>
@@ -76,12 +76,12 @@
 								<tr>
 									<th>Action</th>
 									<th>Type</th>
-									<th class="hidden-xs">Description</th>
+									<th>Description</th>
 								</tr>
 							</thead>
 							<tbody>                            	
 			                    <tr data-ng-repeat="warehouseTypesRecord in entity.warehouseTypesRecords">                              
-								<td class="hidden-xs"></td>
+								<td></td>
 								<td>{{warehouseTypesRecord.type}}</td>											
 								<td>{{warehouseTypesRecord.description}}</td>											
 								</tr>                            

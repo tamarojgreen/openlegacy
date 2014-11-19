@@ -28,7 +28,7 @@
 		 
 		<div class="col-sm-9 col-md-10"><!--  main   -->
 		
-			<ol class="breadcrumb hidden-xs">
+			<ol class="breadcrumb">
 			<#if entityDefinition.navigationDefinition.category??>
 				<li><a href="#/${entityDefinition.navigationDefinition.category}">${entityDefinition.navigationDefinition.category}</a></li>
 			</#if>
@@ -80,7 +80,7 @@
 							<#if column_has_next>
 								<th>${column.displayName}</th>
 							<#else>
-								<th class="hidden-xs">${column.displayName}</th>
+								<th>${column.displayName}</th>
 							</#if>
 				  		</#list>
 					</tr>
@@ -89,7 +89,7 @@
                     <tr data-ng-repeat="${part.tableDefinition.tableEntityName?uncap_first} in model.${part.tableDefinition.tableEntityName?uncap_first}">
                     	<#list entityDefinition.partsDefinitions?keys as key>                    	
 								<#if rowActions??>									
-									<td class="hidden-xs">
+									<td>
 										<#list rowActions as action>
 											<#if action.targetEntity??>												
 												<#if entityDefinition.allFieldsDefinitionsSorted[0]??>	
@@ -175,7 +175,7 @@
 </#macro>
 
 <#macro navMacro entity showExcelBtn>
-	<nav class="navbar navbar-default hidden-xs" role="navigation">
+	<nav class="navbar navbar-default" role="navigation">
 	    <form class="navbar-form xnavbar-left" role="navigation">
 	        <#list entity.actions as action>
 	        	<#if action.actionName != "READ">		

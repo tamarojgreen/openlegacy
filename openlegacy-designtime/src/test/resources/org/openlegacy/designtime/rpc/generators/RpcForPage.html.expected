@@ -28,7 +28,7 @@
 		 
 		<div class="col-sm-9 col-md-10"><!--  main   -->
 		
-			<ol class="breadcrumb hidden-xs">
+			<ol class="breadcrumb">
 							<li><span class="active">XxolakkrParms</span></li>
 			</ol>
 			
@@ -37,7 +37,7 @@
 			
 			<div class="panel panel-default">
 				<div class="panel-body">
-	<nav class="navbar navbar-default hidden-xs" role="navigation">
+	<nav class="navbar navbar-default" role="navigation">
 	    <form class="navbar-form xnavbar-left" role="navigation">
 					<button data-ng-click="doAction('XxolakkrParms', 'update')" class="btn btn-primary navbar-btn">Update</button>
 			<a ng-href="{{baseUrl}}XxolakkrParms{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="true">	        	
@@ -86,7 +86,7 @@
 								<th>Lk Card Ind</th>
 								<th>Lk Card Number</th>
 								<th>Lk Card Prefix</th>
-								<th class="hidden-xs">Lk Card Sug Sherut</th>
+								<th>Lk Card Sug Sherut</th>
 					</tr>
 				</thead>
 				<tbody>				
@@ -116,4 +116,4 @@
 			</div>
 		</div><!--  /main   -->
 	</div>
-</div>									
+</div>

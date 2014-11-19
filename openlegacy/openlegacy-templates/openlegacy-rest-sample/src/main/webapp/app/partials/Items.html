@@ -30,7 +30,7 @@
 		 <!--/sidebar -->
         
         <div class="col-sm-9 col-md-10"><!--      main       -->
-            <ol class="breadcrumb hidden-xs">
+            <ol class="breadcrumb">
 				<li ng-repeat="bc in breadcrumbs" ng-class="{active : $last}" >
 					<a ng-if="!bc.current" data-ng-href="#/{{bc.entityName}}">{{bc.displayName}}</a>
 					<span ng-if="bc.current">{{bc.displayName}}</span>
@@ -42,7 +42,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
 
-                    <nav class="navbar navbar-default hidden-xs" role="navigation">
+                    <nav class="navbar navbar-default" role="navigation">
                         <form class="navbar-form xnavbar-left" role="navigation">
                             <button type="button" class="btn btn-primary navbar-btn" ng-click="doAction('')">
                                 <span class="glyphicon glyphicon-share-alt"></span>
@@ -79,7 +79,7 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                	<th class="hidden-xs">Actions</th>
+                                	<th>Actions</th>
                                     <th>Alpha Search</th>
                                     <th>Item Description</th>
                                     <th>Item Number</th>                                    
@@ -87,7 +87,7 @@
                             </thead>
                             <tbody>
                             	<tr ng-repeat="item in entity.itemsRecords" >
-                            		<td class="hidden-xs">
+                            		<td>
                                         <a href="#/ItemDetails/{{item.itemNumber}}"><span class="label label-primary"><span class="glyphicon glyphicon-repeat"></span></span></a>
                                         <a href="#/ItemDetails/{{item.itemNumber}}"><span class="label label-danger"><span class="glyphicon glyphicon-remove-sign"></span></span></a>
                                         <a href="#/ItemDetails/{{item.itemNumber}}"><span class="label label-success"><span class="glyphicon glyphicon-share-alt"></span></span></a>
