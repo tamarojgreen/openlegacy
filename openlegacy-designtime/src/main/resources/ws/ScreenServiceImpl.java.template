@@ -103,6 +103,7 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 				<#assign entityName = parameter.entityDefinition.entityName/>
 				<#if isFieldParameter(parameter)>
 					<#if isPartParameter(parameter)>
+						<#assign partName = parameter.partEntityDefinition.partName?cap_first/>
 						${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class, ${serviceName?uncap_first}In.get${fieldName?cap_first}(), ${serviceName?uncap_first}In.get${partName}());
 					<#else>
 						${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class, ${serviceName?uncap_first}In.get${fieldName?cap_first}());
@@ -113,15 +114,6 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 					</#if>
 				<#else>
 					${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class);
-				</#if>
-			</#list>
-		
-			<#assign eNames = []/>
-			<#list inputParameters as parameter>
-				<#if parameter.entityDefinition?? && !eNames?seq_contains(parameter.entityDefinition.entityName)>
-					<#assign eName = parameter.entityDefinition.entityName/>
-					terminalSession.doAction(TerminalActions.ENTER(), (ScreenEntity)${eName?uncap_first});
-					<#assign eNames = eNames + [eName]/>
 				</#if>
 			</#list>
 			

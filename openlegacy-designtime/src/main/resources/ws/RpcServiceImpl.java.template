@@ -95,37 +95,25 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 				<#if parameter.entityDefinition??>
 					<#assign entityName = parameter.entityDefinition.entityName/>
 					<#if !addedEntities?seq_contains(entityName)>
-
-			${entityName} ${entityName?uncap_first} = rpcSession.getEntity(${entityName}.class);
 						<#assign addedEntities = addedEntities + [entityName]/>
 					</#if>
 				</#if>
+		
+				<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
+				<#assign entityName = parameter.entityDefinition.entityName/>
 				<#if isFieldParameter(parameter)>
-					<#assign entityName = parameter.entityDefinition.entityName/>
-					<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
+					<#if isPartParameter(parameter)>
+						<#assign partName = parameter.partEntityDefinition.partName?cap_first/>
+						${entityName} ${entityName?uncap_first} = rpcSession.getEntity(${entityName}.class, ${serviceName?uncap_first}In.get${fieldName?cap_first}(), ${serviceName?uncap_first}In.get${partName}());
+					<#else>
+						${entityName} ${entityName?uncap_first} = rpcSession.getEntity(${entityName}.class, ${serviceName?uncap_first}In.get${fieldName?cap_first}());
+					</#if>
 					<#assign fieldNames = fieldName?split(".")/>
 					<#if fieldNames?is_sequence && (fieldNames?size > 1)>
 						<#assign fieldName = fieldNames[1]/>
 					</#if>
-			${entityName?uncap_first}.set${fieldName?cap_first}(${serviceName?uncap_first}In.get${fieldName?cap_first}());	
-				</#if>
-				<#if isPartParameter(parameter)>
-					<#assign entityName = parameter.entityDefinition.entityName/>
-					<#assign partName = parameter.partEntityDefinition.partName?cap_first/>
-					<#if !addedEntities?seq_contains(entityName)>
-			${entityName} ${entityName?uncap_first} = rpcSession.getEntity(${entityName}.class);
-						<#assign addedEntities = addedEntities + [entityName]/>
-					</#if>
-			${entityName?uncap_first}.set${partName}(${serviceName?uncap_first}In.get${partName}());	
-				</#if>
-			</#list>
-			
-			<#assign eNames = []/>
-			<#list inputParameters as parameter>
-				<#if parameter.entityDefinition?? && !eNames?seq_contains(parameter.entityDefinition.entityName)>
-					<#assign eName = parameter.entityDefinition.entityName/>
-			rpcSession.doAction(RpcActions.READ(), (RpcEntity)${eName?uncap_first});
-					<#assign eNames = eNames + [eName]/>
+				<#else>
+					${entityName} ${entityName?uncap_first} = rpcSession.getEntity(${entityName}.class);
 				</#if>
 			</#list>
 			
