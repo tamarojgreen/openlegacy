@@ -239,7 +239,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			R object = (R)doAction(terminalAction, screenEntity);
 			return object;
 		} catch (ClassCastException e) {
-			throw (new ScreenEntityNotAccessibleException(e));
+			throw (new ScreenEntityNotAccessibleException(e, expectedEntity.getSimpleName()));
 		}
 
 	}
@@ -431,7 +431,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	protected void logScreenAfter() {
 		if (logger.isDebugEnabled()) {
-			logger.debug(MessageFormat.format("\n\nScreen after ([ abc ] indicates a input field):\nCursor: {0}\n\n{1}", getSnapshot().getCursorPosition(), getSnapshot()));
+			logger.debug(MessageFormat.format("\n\nScreen after ([ abc ] indicates a input field):\nCursor: {0}\n\n{1}",
+					getSnapshot().getCursorPosition(), getSnapshot()));
 		}
 	}
 

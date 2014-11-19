@@ -60,7 +60,7 @@ public class ChangePrinterOutput {
 	@ScreenField(row = 21, column = 48, endColumn = 57, labelColumn = 4, displayName = "Save printer output")
 	private String savePrinterOutput1;
 
-	@ScreenFieldValues(sourceScreenEntity = SelectPrinter.class)
+	@ScreenFieldValues(sourceScreenEntity = SelectPrinter.class, asWindow = true)
 	@ScreenField(row = 10, column = 46, endColumn = 55, labelColumn = 4, editable = true, endRow = 10, displayName = "Printer to use", sampleValue = "RMR2P1", helpText = "Name, F4 for list")
 	private String printerToUse;
 

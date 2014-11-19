@@ -1,15 +1,27 @@
 package org.openlegacy.terminal.support.binders;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openlegacy.RecordsProvider;
+import org.openlegacy.Session;
+import org.openlegacy.definitions.FieldWithValuesTypeDefinition;
 import org.openlegacy.modules.table.Table;
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenTableReferenceDefinition;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 
+import java.text.MessageFormat;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.inject.Inject;
@@ -18,6 +30,11 @@ public class MultyScreenTableBindUtil {
 
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
+
+	@Inject
+	private ScreenEntitiesRegistry screenEntitiesRegistry;
+
+	private final static Log logger = LogFactory.getLog(MultyScreenTableBindUtil.class);
 
 	@SuppressWarnings("rawtypes")
 	public Object bindCollectTable(TerminalSession session, Object entity) {
@@ -67,4 +84,37 @@ public class MultyScreenTableBindUtil {
 		return entity;
 
 	}
+
+	public Map<Object, Object> getRecords(TerminalSession terminalSession, String searchText, String entityName,
+			String propertyName) {
+		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(entityName);
+		ScreenFieldDefinition fieldDefinition = screenEntityDefinition.getFieldsDefinitions().get(propertyName);
+		if (fieldDefinition == null || !(fieldDefinition.getFieldTypeDefinition() instanceof FieldWithValuesTypeDefinition)) {
+			return null;
+		}
+		FieldWithValuesTypeDefinition fieldTypeDefinition = (FieldWithValuesTypeDefinition)fieldDefinition.getFieldTypeDefinition();
+		RecordsProvider<Session, Object> recordsProvider = fieldTypeDefinition.getRecordsProvider();
+
+		ScreenTableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
+				fieldTypeDefinition.getSourceEntityClass()).getValue();
+
+		String searchField = fieldTypeDefinition.getSearchField();
+		if (searchField != null) {
+			Class<?> sourceEntityClass = fieldTypeDefinition.getSourceEntityClass();
+			if (searchText == null) {
+				logger.warn(MessageFormat.format("Search field {0} for entity {1} has not recieved search paramters",
+						searchField, sourceEntityClass.getSimpleName()));
+			} else {
+				ScreenEntity sourceEntity = (ScreenEntity)terminalSession.getEntity(sourceEntityClass);
+				ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(sourceEntity);
+				fieldAccessor.setFieldValue(searchField, searchText);
+				terminalSession.doAction(TerminalActions.ENTER(), sourceEntity);
+			}
+		}
+		@SuppressWarnings("unchecked")
+		Map<Object, Object> records = recordsProvider.getRecords(terminalSession, fieldTypeDefinition.getSourceEntityClass(),
+				(Class<Object>)tableDefinition.getTableClass(), fieldTypeDefinition.isCollectAll(), null);
+		return records;
+	}
+
 }

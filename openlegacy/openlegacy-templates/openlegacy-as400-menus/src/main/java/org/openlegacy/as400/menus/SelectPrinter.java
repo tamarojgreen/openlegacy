@@ -9,6 +9,8 @@ import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.annotations.screen.ScreenTable;
+import org.openlegacy.annotations.screen.ScreenTableActions;
+import org.openlegacy.annotations.screen.TableAction;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.actions.TerminalActions.F12;
 import org.openlegacy.terminal.actions.TerminalActions.F4;
@@ -29,6 +31,7 @@ public class SelectPrinter {
 	private List<SelectPrinterRecord> selectPrinterRecords;
 
 	@ScreenTable(startRow = 9, endRow = 17)
+	@ScreenTableActions(actions = { @TableAction(displayName = "select", actionValue = "") })
 	public static class SelectPrinterRecord {
 
 		@ScreenColumn(startColumn = 10, endColumn = 19, key = true, displayName = "Printer", mainDisplayField = true, sampleValue = "#D")

@@ -63,6 +63,8 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 	private int additionalPartWidth = 0;
 
+	private Integer defaultColumns = null;
+
 	/**
 	 * Determine the max distance between to fields start, to consider them in a single panel column
 	 */
@@ -527,5 +529,9 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	 */
 	public void setAdditionalPartWidth(int additionalPartWidth) {
 		this.additionalPartWidth = additionalPartWidth;
+	}
+
+	public void setDefaultColumns(Integer defaultColumns) {
+		this.defaultColumns = defaultColumns;
 	}
 }

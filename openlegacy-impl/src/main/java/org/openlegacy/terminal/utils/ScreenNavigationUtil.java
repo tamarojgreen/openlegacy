@@ -29,8 +29,7 @@ public class ScreenNavigationUtil {
 		if (!ProxyUtil.isClassesMatch(matchedScreenEntity, expectedScreenEntity)) {
 			throw (new ScreenEntityNotAccessibleException(MessageFormat.format(
 					"Current screen entity {0} wasn''t matched to the requested screen entity:{1}", matchedScreenEntity,
-					expectedScreenEntity)));
+					expectedScreenEntity), expectedScreenEntity.getSimpleName()));
 		}
 	}
-
 }

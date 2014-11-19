@@ -22,6 +22,7 @@ import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.DrilldownDefinition;
+import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.table.ScreenTableDrilldownPerformer;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
@@ -80,7 +81,11 @@ public class DefaultTableDrilldownPerformer implements ScreenTableDrilldownPerfo
 		do {
 			fieldAccessor = new SimpleScreenPojoFieldAccessor(currentEntity);
 			List<?> tableRows = (List<?>)fieldAccessor.getFieldValue(tableFieldName);
-			rowNumber = rowFinder.findRow(rowComparator, tableRows, rowKeys);
+			try {
+				rowNumber = rowFinder.findRow(rowComparator, tableRows, rowKeys);
+			} catch (IllegalArgumentException e) {
+				throw (new ScreenEntityNotAccessibleException(e, targetEntityClass.getSimpleName()));
+			}
 			if (rowNumber == null) {
 				currentEntity = (ScreenEntity)tableScroller.scroll(session, sourceEntityClass, tableScrollStopConditions, rowKeys);
 			}

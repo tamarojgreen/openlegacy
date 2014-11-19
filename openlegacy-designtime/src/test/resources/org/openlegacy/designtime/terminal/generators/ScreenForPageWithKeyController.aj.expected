@@ -30,6 +30,8 @@ import java.util.Map.Entry;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
+import org.openlegacy.terminal.support.binders.MultyScreenTableBindUtil;
+import org.openlegacy.terminal.utils.ScreenEntityUtils;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,6 +58,9 @@ privileged @SuppressWarnings("unused") aspect ScreenForPagewithKeyController_Asp
 	@Inject
 	private ScreenEntitiesRegistry ScreenForPagewithKeyController.screenEntitiesRegistry;
 
+	
+	@Inject
+	private MultyScreenTableBindUtil tableBindUtil;
 	
 
 	// handle page with keys ajax call display

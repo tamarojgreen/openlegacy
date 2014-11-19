@@ -21,13 +21,20 @@ import org.openlegacy.exceptions.EntityNotAccessibleException;
 public class ScreenEntityNotAccessibleException extends EntityNotAccessibleException {
 
 	private static final long serialVersionUID = 1L;
+	private String targetEntity;
 
-	public ScreenEntityNotAccessibleException(Exception e) {
+	public ScreenEntityNotAccessibleException(Exception e, String targetEntity) {
 		super(e);
+		this.targetEntity = targetEntity;
 	}
 
-	public ScreenEntityNotAccessibleException(String s) {
+	public ScreenEntityNotAccessibleException(String s, String targetEntity) {
 		super(s);
+		this.targetEntity = targetEntity;
+	}
+
+	public String getTargetEntity() {
+		return targetEntity;
 	}
 
 }

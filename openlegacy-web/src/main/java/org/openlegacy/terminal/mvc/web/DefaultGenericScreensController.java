@@ -12,7 +12,6 @@ package org.openlegacy.terminal.mvc.web;
 
 import flexjson.JSONSerializer;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.definitions.ActionDefinition;
@@ -35,8 +34,8 @@ import org.openlegacy.terminal.json.JsonSerializationUtil;
 import org.openlegacy.terminal.modules.login.LoginMetadata;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
+import org.openlegacy.terminal.support.binders.MultyScreenTableBindUtil;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
-import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
@@ -91,6 +90,9 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 
 	@Inject
 	private ScreenBindUtils screenBindUtil;
+
+	@Inject
+	private MultyScreenTableBindUtil tableBindUtil;
 
 	@Override
 	protected String prepareView(Object entity, Model uiModel, boolean partial, HttpServletRequest request)
@@ -221,12 +223,10 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 	 * @param fieldName
 	 * @return JSON content
 	 */
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/{screen}/{field}Values", method = RequestMethod.GET, headers = "X-Requested-With=XMLHttpRequest")
 	@ResponseBody
 	public ResponseEntity<String> autoCompleteJson(@PathVariable("screen") String screenEntityName,
 			@PathVariable("field") String fieldName, @RequestParam(value = "name", required = false) String text) {
-		ScreenEntity screenEntity = (ScreenEntity)getSession().getEntity(screenEntityName);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/text; charset=utf-8");
@@ -235,14 +235,7 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 			text = text.replace("*", "");
 		}
 
-		Map<Object, Object> fieldValues = null;
-		if (text != null && text != "") {
-			fieldValues = (Map<Object, Object>)ReflectionUtil.invoke(screenEntity,
-					MessageFormat.format("get{0}Values", StringUtils.capitalize(fieldName)), text);
-		} else {
-			fieldValues = (Map<Object, Object>)ReflectionUtil.invoke(screenEntity,
-					MessageFormat.format("get{0}Values", StringUtils.capitalize(fieldName)));
-		}
+		Map<Object, Object> fieldValues = tableBindUtil.getRecords(getSession(), text, screenEntityName, fieldName);
 
 		String result = JsonSerializationUtil.toDojoFormat(fieldValues, text);
 		return new ResponseEntity<String>(result, headers, HttpStatus.OK);
