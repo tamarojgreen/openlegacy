@@ -63,9 +63,9 @@ privileged @SuppressWarnings("unused") aspect ${formattedClassName}_Aspect {
     public void focus(String... field) {
         if (field.length > 0) {
             focusField = field[0];
-        } else {
-            focusField = "column1";
-        }
+        }<#if (fields?size > 0)> else {
+            focusField = "${fields?first.getName()}";
+        }</#if>
     }
 	</#if>
 }
