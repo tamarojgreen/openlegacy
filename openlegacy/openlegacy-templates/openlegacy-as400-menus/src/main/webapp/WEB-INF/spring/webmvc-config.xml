@@ -62,13 +62,23 @@
  -->
  
 	<mvc:interceptors>
-		<!-- On pre-handle, resolve the device that originated the web request -->
-		<bean class="org.openlegacy.mvc.web.interceptors.OpenLegacyMobileViewSuffixingDeviceResolverHandlerInterceptor"/>
-		<!-- On pre-handle, manage the user's site preference -->
-		<bean class="org.springframework.mobile.device.site.SitePreferenceHandlerInterceptor" />
+		<bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor" 
+          p:cacheSeconds="0" p:useExpiresHeader="true" p:useCacheControlHeader="true" p:useCacheControlNoStore="true">
+           <property name="cacheMappings">
+        		<props>
+            		<!-- cache for one day -->
+    	        	<prop key="/**/*.css">86400</prop>
+    	        	<prop key="/**/*.js">86400</prop>
+    	        	<prop key="/**/*.jpg">86400</prop>
+    	        	<prop key="/**/*.gif">86400</prop>
+        		</props>
+    		</property>
+        </bean>
 
 		<bean class="org.openlegacy.mvc.web.interceptors.InsertPluginsDataInterceptor"/>
-
+		<bean class="org.openlegacy.mvc.web.interceptors.ManifestInterceptor"/>
+		
+		<bean class="org.openlegacy.terminal.mvc.web.interceptors.LoginInterceptor"/>
 		<bean class="org.openlegacy.terminal.mvc.web.interceptors.InsertEntityDefinitionsInterceptor" />
 		<bean class="org.openlegacy.terminal.mvc.web.interceptors.InsertMessagesInterceptor" />
 		<bean class="org.openlegacy.terminal.mvc.web.interceptors.InsertGlobalsInterceptor" />
@@ -117,7 +127,7 @@
 		class="org.springframework.format.support.FormattingConversionServiceFactoryBean"
 		id="applicationConversionService" />
 		
-	<bean class="org.springframework.js.ajax.AjaxUrlBasedViewResolver">
+	<bean class="org.openlegacy.mvc.web.OpenLegacyViewResolver">
 	   <property name="viewClass" value="org.springframework.js.ajax.tiles2.AjaxTilesView"/>
 	</bean>
 	
@@ -125,10 +135,8 @@
 		id="tilesConfigurer">
 		<property name="definitions">
 			<list>
-				<value>/WEB-INF/mobile/template/layouts.xml</value>
-				<value>/WEB-INF/web/template/layouts.xml</value>
 				<!-- Scan views directory for Tiles configurations -->
-				<value>/WEB-INF/mobile/views/**/views.xml</value>
+				<value>/WEB-INF/web/template/layouts.xml</value>
 				<value>/WEB-INF/web/views/**/views.xml</value>
 			</list>
 		</property>
