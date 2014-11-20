@@ -94,16 +94,22 @@
 												  </button>
 												  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 												    <#list part.tableDefinition.actions as action>
+													    <#if action.defaultAction == true>
+															<#assign defaultAction = action defaultActionIndex = action_index>
+														</#if>
 													    <#if action.targetEntity??>
 													    	<li><a href="#/${action.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">${action.displayName}</a></li>
 													    <#else>
-													    	<li><a href="" ng-click="noTargetScreenEntityAlert()">${action.displayName}</a></li>
+													    	<li><a href="" ng-click="doActionNoTargetEntity($index, '${column.name}', '${action.action.actionValue}')">${action.displayName}</a></li>
 													    </#if>																		                                        		                                        
 			                                        </#list>		                                        
 												  </ul>
 												</div>
 											<#else>													
 												<#list part.tableDefinition.actions as action>
+													<#if action.defaultAction == true>
+														<#assign defaultAction = action defaultActionIndex = action_index>
+													</#if>
 													<#if action.targetEntity??>
 														<#assign keyValues = "{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">
 														<#list part.tableDefinition.keyFieldNames as keyValue>
@@ -123,7 +129,25 @@
 											</#if>											
 		                            	</td>
 									<#else>	
-										<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>											
+										<#if (part.tableDefinition.actions?size > 1)>
+											<#if defaultAction??>											
+												<#if defaultAction.targetEntity??>
+													<td class="td-link"><a href="" ng-click="doAction('${entity.entityName}', '${defaultAction.alias}')">{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</a></td>
+												<#else>
+													<td class="td-link"><a href="" ng-click="doActionNoTargetEntity(${defaultActionIndex}, '${column.name}', '${defaultAction.action.actionValue}')">{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</a></td>
+												</#if>
+											<#else>
+												<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>
+											</#if>
+										<#elseif part.tableDefinition.actions?size == 1>											
+											<#if part.tableDefinition.actions[0].targetEntity??>
+												<td class="td-link"><a href="" ng-click="doAction('${entity.entityName}', '${part.tableDefinition.actions[0].alias}')">{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</a></td>
+											<#else>
+												<td class="td-link"><a href="" ng-click="doActionNoTargetEntity(1, '${column.name}', '${part.tableDefinition.actions[0].action.actionValue}')">{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</a></td>
+											</#if>											
+										<#else>
+											<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>
+										</#if>												
 									</#if>										
 						  		</#list>							  		
 							</tr>                            
