@@ -100,7 +100,7 @@
 													    <#if action.targetEntity??>
 													    	<li><a href="#/${action.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">${action.displayName}</a></li>
 													    <#else>
-													    	<li><a href="" ng-click="noTargetScreenEntityAlert()">${action.displayName}</a></li>
+													    	<li><a href="" ng-click="doActionNoTargetEntity($index, '${column.name}', '${action.action.actionValue}')">${action.displayName}</a></li>
 													    </#if>																		                                        		                                        
 			                                        </#list>		                                        
 												  </ul>
