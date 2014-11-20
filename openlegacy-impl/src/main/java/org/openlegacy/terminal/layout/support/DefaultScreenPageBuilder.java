@@ -240,12 +240,22 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 		// iterate through all the neighbor fields, and build row part rows upon row change, and find the end column
 		for (ScreenFieldDefinition screenFieldDefinition : fields) {
-			if (screenFieldDefinition.getPosition().getRow() != currentRow) {
+			if (screenFieldDefinition.getPosition().getRow() != currentRow
+			// create new line if defaultColumns is configured and row is full
+					|| (defaultColumns != null && currentPagePartRow.getFields().size() == defaultColumns)) {
+
+				// add empty fields
+				if (defaultColumns != null && currentPagePartRow != null) {
+					for (int i = currentPagePartRow.getFields().size(); i < defaultColumns; i++) {
+						currentPagePartRow.getFields().add(null);
+					}
+				}
 				currentPagePartRow = new SimplePagePartRowDefinition();
 				pagePart.getPartRows().add(currentPagePartRow);
 				currentRow = screenFieldDefinition.getPosition().getRow();
 			}
 			currentPagePartRow.getFields().add(screenFieldDefinition);
+
 			int fieldStartColumn = calculateStartColumn(screenFieldDefinition);
 			int fieldEndColumn = calculateEndColumn(screenFieldDefinition);
 			columnValues.add(getFieldLogicalStart(fieldStartColumn, fieldEndColumn));
@@ -258,9 +268,9 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 			}
 		}
 
-		columnValues = calculateNumberOfColumnsForPagePage(columnValues);
+		columnValues = calculateNumberOfColumnsForPagePart(columnValues);
 
-		pagePart.setColumns(columnValues.size());
+		pagePart.setColumns(defaultColumns != null ? defaultColumns : columnValues.size());
 
 		calculatePartPosition(fields, entityDefinition, pagePart, startColumn);
 		calculateWidth(entityDefinition, pagePart, endColumn - startColumn);
@@ -279,7 +289,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	 * @param columnValues
 	 * @return
 	 */
-	private Set<Integer> calculateNumberOfColumnsForPagePage(Set<Integer> columnValues) {
+	private Set<Integer> calculateNumberOfColumnsForPagePart(Set<Integer> columnValues) {
 		Integer[] columnValuesArr = columnValues.toArray(new Integer[columnValues.size()]);
 		// make sure columns are ordered
 		Arrays.sort(columnValuesArr);
@@ -531,6 +541,11 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		this.additionalPartWidth = additionalPartWidth;
 	}
 
+	/**
+	 * configure number of columns per row in views. Comment to use calculated for screen
+	 * 
+	 * @param defaultColumns
+	 */
 	public void setDefaultColumns(Integer defaultColumns) {
 		this.defaultColumns = defaultColumns;
 	}
