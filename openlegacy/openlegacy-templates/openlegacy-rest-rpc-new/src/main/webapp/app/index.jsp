@@ -27,8 +27,9 @@
 	<link ng-href="themes/#projectThemeRoot#/#projectTheme#.css" rel="stylesheet">
 	
 	<script src="js/jquery-1.10.2.min.js"></script>
-	<script src="js/angular-1.0.7/angular.min.js"></script>
-	<script src="js/angular-1.0.7/angular-cookies.min.js"></script>
+	<script src="lib/angular/angular.min.js"></script>
+	<script src="lib/angular/angular-route.min.js"></script>	
+	<script src="lib/angular/angular-ui-router.min.js"></script>
 	<script src="bootstrap/js/bootstrap.js"></script>
 	<script src="bootstrap/js/bootstrap-datepicker.js"></script>
 	<script src="lib/jquery.cookie.js"></script>
@@ -37,42 +38,20 @@
 	<script src="js/app/services.js" type="text/javascript"></script>
 	<script src="js/app/config.js" type="text/javascript"></script>
 </head>
-<body class="base" ng-class="theme">
-
-	<!-- header -->
-	<div class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="HeaderCtrl">
-	    <div class="container-fluid">
-	        <div class="navbar-header">
-	            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".ol-navbar-collapse">
-	                <span class="sr-only">Toggle navigation</span>
-	                <span class="icon-bar"></span>
-	                <span class="icon-bar"></span>
-	                <span class="icon-bar"></span>
-	            </button>
-	            <a class="navbar-brand ol-brand" href="#">OpenLegacy.org</a>
-	        </div>
-	        <div class="navbar-collapse collapse ol-navbar-collapse">
-	            <ul class="nav navbar-nav navbar-right">
-	                
-	                <!-- <li><a href ng-click="changeTheme()"><span class="glyphicon glyphicon-eye-open"></span> Theme</a></li> -->	                
-	                
-	                <li class="dropdown" ng-show="username">
-	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>
-	                    	
-	                    	<span ng-bind="username"></span> 
-	                    	<b class="caret"></b>
-	                    </a>
-	                    <ul class="dropdown-menu">
-	                        <li><a href="" ng-click="logout()"><span class="glyphicon glyphicon-off clickable"></span> Logout</a></li>
-	                        <li><a href="#"><span class="glyphicon glyphicon-envelope"></span> Messages</a></li>
-	                    </ul>
-	                </li> 
-	                
-	            </ul>
-	        </div>
-	    </div>
+<body class="main" ng-class="theme">	
+	<div ui-view="header" ng-cloak></div>	
+	<div class="container-fluid">    
+    	<div class="row">		  			  			
+			<div class="col-sm-3 col-md-2 no-gutters-sm">				
+				<div ui-view="sideMenu" ng-cloak></div>
+			</div>						
+			<div class="col-sm-9 col-md-10">								
+				<div ui-view="breadcrumbs" ng-cloak></div>
+				<!-- content view -->				
+				<div ui-view ng-cloak></div>
+				<!-- /content view -->
+			</div>
+			
+		</div>
 	</div>
-	<!-- /header --> 
-	<div class="main" ng-view="true" ng-cloak></div>
-	
 </body>

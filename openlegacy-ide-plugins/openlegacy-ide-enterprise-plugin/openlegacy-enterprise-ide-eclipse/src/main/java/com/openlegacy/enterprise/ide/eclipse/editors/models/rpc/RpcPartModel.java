@@ -27,6 +27,10 @@ public class RpcPartModel extends RpcNamedObject {
 	private Map<UUID, RpcPartModel> parts = new HashMap<UUID, RpcPartModel>();
 	private List<RpcPartModel> sortedParts = new ArrayList<RpcPartModel>();
 
+	private RpcActionsModel actionsModel;
+
+	private List<ActionModel> actionsForRestore = new ArrayList<ActionModel>();
+
 	// annotation attributes
 	private String displayName = "";
 	private String name = "";
@@ -59,6 +63,10 @@ public class RpcPartModel extends RpcNamedObject {
 		this.fields = RpcEntityUtils.getRpcFieldsModels(this, partDefinition.getFieldsDefinitions(), this.sortedFields);
 		this.parts = RpcEntityUtils.<RpcPartEntityDefinition> getRpcPartsModels(this, partDefinition.getInnerPartsDefinitions(),
 				this.sortedParts);
+
+		actionsModel = new RpcActionsModel(this);
+		actionsModel.init(partDefinition);
+
 		this.className = partDefinition.getClassName();
 		this.previousClassName = this.className;
 	}
@@ -78,6 +86,8 @@ public class RpcPartModel extends RpcNamedObject {
 		model.setDisplayName(this.displayName);
 		model.setName(this.name);
 		model.setCount(this.count);
+		model.setActionsModel(this.actionsModel.clone());
+
 		for (RpcFieldModel field : this.sortedFields) {
 			RpcFieldModel clone = field.clone();
 			model.getFields().put(clone.getUUID(), clone);
@@ -166,6 +176,26 @@ public class RpcPartModel extends RpcNamedObject {
 
 	public List<RpcPartModel> getSortedParts() {
 		return sortedParts;
+	}
+
+	public RpcActionsModel getActionsModel() {
+		return actionsModel;
+	}
+
+	public void setActionsModel(RpcActionsModel actionsModel) {
+		this.actionsModel = actionsModel;
+	}
+
+	public void restorePartActions() {
+		actionsModel.getActions().clear();
+		actionsModel.getActions().addAll(actionsForRestore);
+		actionsForRestore.clear();
+	}
+
+	public void resetPartActions() {
+		actionsForRestore.clear();
+		actionsForRestore.addAll(actionsModel.getActions());
+		actionsModel.getActions().clear();
 	}
 
 }

@@ -5,6 +5,7 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect ProgrammingDevelopmentManagerpdm_Aspect {
@@ -13,11 +14,7 @@ privileged @SuppressWarnings("unused") aspect ProgrammingDevelopmentManagerpdm_A
     private String ProgrammingDevelopmentManagerpdm.focusField;
     private List<TerminalActionDefinition> ProgrammingDevelopmentManagerpdm.actions = new ArrayList<TerminalActionDefinition>();
     
-	
-
     
-
-
 
 
     public String ProgrammingDevelopmentManagerpdm.getFocusField(){

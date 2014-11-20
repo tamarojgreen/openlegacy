@@ -322,11 +322,11 @@ public class SnapshotComposite extends ImageComposite {
 
 			List<RowPart> rowParts = terminalSnapshotCopy.getRow(selectedObject.getFieldRectangle().getRow()).getRowParts();
 			SimpleRowPart rowPart = null;
+			int fieldColumn = selectedObject.getFieldRectangle().getColumn();
 			for (RowPart rowPartItem : rowParts) {
 				if (!(rowPartItem instanceof SimpleRowPart)) {
 					continue;
 				}
-				int fieldColumn = selectedObject.getFieldRectangle().getColumn();
 				int rightBorder = rowPartItem.getPosition().getColumn() + ((SimpleRowPart)rowPartItem).getLength();
 				if ((fieldColumn >= rowPartItem.getPosition().getColumn()) && (fieldColumn <= rightBorder)) {
 					int index = rowParts.indexOf(rowPartItem);
@@ -346,16 +346,30 @@ public class SnapshotComposite extends ImageComposite {
 			}
 			if (rowPart != null) {
 				List<TerminalField> fields = rowPart.getFields();
-				for (int i = fields.size() - 1; i >= 0; i--) {
-					TerminalField field = fields.get(i);
-					if ((field.getValue() != null) && !field.getValue().trim().isEmpty()) {
-						selectedObject.setLabelColumn(field.getPosition().getColumn());
-						selectedObject.setDisplayName(StringUtil.toDisplayName(field.getValue().trim()));
-						selectedObject.setFieldName(StringUtil.toJavaFieldName(EclipseDesignTimeExecuter.instance().translate(
-								field.getValue().trim(), projectPath)));
-						break;
+				TerminalField field = null;
+				if (isRtl) {
+					for (int i = 0; i < fields.size(); i++) {
+						field = fields.get(i);
+						if (field.getPosition().getColumn() > fieldColumn && StringUtils.isNotEmpty(field.getValue())) {
+							break;
+						}
+
+					}
+				} else {
+					for (int i = fields.size() - 1; i >= 0; i--) {
+						field = fields.get(i);
+						if (field.getPosition().getColumn() < fieldColumn && StringUtils.isNotEmpty(field.getValue())) {
+							break;
+						}
 					}
 				}
+				if (field != null) {
+					selectedObject.setLabelColumn(field.getPosition().getColumn());
+					selectedObject.setDisplayName(StringUtil.toDisplayName(field.getValue().trim()));
+					selectedObject.setFieldName(StringUtil.toJavaFieldName(EclipseDesignTimeExecuter.instance().translate(
+							field.getValue().trim(), projectPath)));
+				}
+
 			}
 		}
 	}

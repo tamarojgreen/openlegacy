@@ -1,64 +1,23 @@
-<div class="container-fluid">
-	<div class="row">
-	
-		<!--      sidebar       -->
-		
-		<div class="col-sm-3 col-md-2 no-gutters-sm">
-			<div class="sidebar-nav">
-			    <div class="navbar" role="navigation">
-			        <div class="navbar-header">
-			            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".ol-sidebar-collapse">
-			                <span class="glyphicon glyphicon-chevron-down"></span>
-			            </button>
-			            <span class="visible-xs navbar-brand">Navigation</span>
-			        </div>
-			        <div class="navbar-collapse collapse ol-sidebar-collapse">
-			            <ul class="nav navbar-nav nav-pills nav-stacked top-margin-10">			            
-			            	<li ng-repeat="menu in menuArray">			            				            	
-			            		<h4 ng-show="menu.menuItems.length != 0">{{menu.displayName}}</h4>
-			            		<a ng-show="menu.menuItems.length == 0" ng-href="#/{{menu.targetEntityName}}">{{menu.displayName}}</a>			            		
-			            	</li>			                	                
-			            </ul>
-			        </div><!--/.nav-collapse -->
-			    </div>
-			</div>    
-		</div>
-		
-		 <!--/sidebar -->
-		 
-		<div class="col-sm-9 col-md-10"><!--  main   -->
-		
-			<ol class="breadcrumb hidden-xs">
-			<#if entityDefinition.navigationDefinition?? && entityDefinition.navigationDefinition.category??>
-				<li><a href="#/${entityDefinition.navigationDefinition.category}">${entityDefinition.navigationDefinition.category}</a></li>
-			</#if>
-				<li><span class="active">${entityDefinition.entityName}</span></li>
-			</ol>
-			
-			<#assign hasTable = false>			
-			<#list pageParts as part>			
-				<#if part.hasTable>
-					<#assign hasTable = true>												
-				</#if>
-			</#list>			
-			
-			<#if (entityDefinition.childEntitiesDefinitions?size == 0)>
-				<h1>${entityDefinition.displayName}</h1>
-			</#if>
-			
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>										
-					<#list pageParts as part>																	
-						<#if part.displayName??><div class="panel-heading"><h3>${part.displayName}</h3></div></#if>		
-						<@pagePart entity=entityDefinition part=part/>
-					</#list>
-				</div>
-			</div>
-		</div><!--  /main   -->
+<#assign hasTable = false>			
+<#list pageParts as part>			
+	<#if part.hasTable>
+		<#assign hasTable = true>												
+	</#if>
+</#list>			
+
+<#if (entityDefinition.childEntitiesDefinitions?size == 0)>
+	<h1>${entityDefinition.displayName}</h1>
+</#if>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+		<@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>					
+		<#list pageParts as part>																	
+			<#if part.displayName??><div class="panel-heading"><h3>${part.displayName}</h3></div></#if>		
+			<@pagePart entity=entityDefinition part=part/>
+		</#list>
 	</div>
 </div>									
-										
 
 <#macro pagePart entity part>
 <div class="panel panel-default">
@@ -80,7 +39,7 @@
 							<#if column_has_next>
 								<th>${column.displayName}</th>
 							<#else>
-								<th class="hidden-xs">${column.displayName}</th>
+								<th>${column.displayName}</th>
 							</#if>
 				  		</#list>
 					</tr>
@@ -89,7 +48,7 @@
                     <tr data-ng-repeat="${part.tableDefinition.tableEntityName?uncap_first} in model.${part.tableDefinition.tableEntityName?uncap_first}">
                     	<#list entityDefinition.partsDefinitions?keys as key>                    	
 								<#if rowActions??>									
-									<td class="hidden-xs">
+									<td>
 										<#list rowActions as action>
 											<#if action.targetEntity??>												
 												<#if entityDefinition.allFieldsDefinitionsSorted[0]??>	
@@ -138,7 +97,7 @@
 				</div>				
 			</div>
 		</form>		
-	</#if>	
+	</#if>
 </div>
 </div>	
 </#macro>
@@ -146,8 +105,9 @@
 <#macro fieldMacro field>
 	<div class="form-group">		
 		<label for="${field.name}" class="control-label">${field.displayName}<#if field.displayName?length &gt; 0>:</#if></label> 		
-		<#if field.editable && field.fieldTypeDefinition??>
-			<#switch field.fieldTypeDefinition.typeName>
+		<#if field.editable>
+			<#if field.fieldTypeDefinition??>	
+				<#switch field.fieldTypeDefinition.typeName>
 				  <#case 'boolean'>
 				   <input type="checkbox" class="form-control" id="${field.name}" ng-checked="model.${field.shortName}">
 				  <#break>
@@ -155,9 +115,11 @@
 				   <input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}" datepicker/>
 				  <#break>
 				  <#default>
-				  	<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}">
-				  	<#break>    
-			</#switch>
+				  	<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}">    
+				</#switch>
+			<#else>
+				<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}">	
+			</#if>
    		<#else>
    			<#if field.fieldTypeDefinition??>
    				<#switch field.fieldTypeDefinition.typeName>
@@ -170,20 +132,21 @@
 				</#switch>
    			<#else>
    				<div id="${field.name}" ng-model="model.${field.shortName}">{{model.${field.shortName}}}</div>
-   			</#if>	   			
+   			</#if>  			
    		</#if>		
 	</div>
 </#macro>
 
 <#macro navMacro entity showExcelBtn>
-	<nav class="navbar navbar-default hidden-xs" role="navigation">
+	<nav class="navbar navbar-default" role="navigation">
 	    <form class="navbar-form xnavbar-left" role="navigation">
 	        <#list entity.actions as action>
 	        	<#if action.actionName != "READ">		
 					<button data-ng-click="doAction('${entity.entityName}', '${action.alias}')" class="btn btn-primary navbar-btn">${action.displayName}</button>
 				</#if>
 			</#list>			
-			<a ng-href="{{baseUrl}}${entity.entityName}{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="${showExcelBtn}">	        	
+			<a ng-href="{{baseUrl}}${entity.entityName}{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="${showExcelBtn}">
+			<span class="glyphicon glyphicon-export"></span>	        	
             	Excel
             </a>            
 	    </form>

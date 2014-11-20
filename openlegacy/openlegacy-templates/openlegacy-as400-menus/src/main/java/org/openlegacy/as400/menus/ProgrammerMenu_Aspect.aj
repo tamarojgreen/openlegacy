@@ -5,6 +5,7 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect ProgrammerMenu_Aspect {
@@ -40,8 +41,6 @@ privileged @SuppressWarnings("unused") aspect ProgrammerMenu_Aspect {
     }
     
 
-
-
     public Integer ProgrammerMenu.getSelection(){
     	return this.selection;
     }
@@ -49,8 +48,6 @@ privileged @SuppressWarnings("unused") aspect ProgrammerMenu_Aspect {
     public void ProgrammerMenu.setSelection(Integer selection){
     	this.selection = selection;
     }
-
-
 
     public String ProgrammerMenu.getParm(){
     	return this.parm;
@@ -60,8 +57,6 @@ privileged @SuppressWarnings("unused") aspect ProgrammerMenu_Aspect {
     	this.parm = parm;
     }
 
-
-
     public String ProgrammerMenu.getType(){
     	return this.type;
     }
@@ -69,8 +64,6 @@ privileged @SuppressWarnings("unused") aspect ProgrammerMenu_Aspect {
     public void ProgrammerMenu.setType(String type){
     	this.type = type;
     }
-
-
 
     public String ProgrammerMenu.getParm2(){
     	return this.parm2;
@@ -80,8 +73,6 @@ privileged @SuppressWarnings("unused") aspect ProgrammerMenu_Aspect {
     	this.parm2 = parm2;
     }
 
-
-
     public String ProgrammerMenu.getCommand(){
     	return this.command;
     }
@@ -89,8 +80,6 @@ privileged @SuppressWarnings("unused") aspect ProgrammerMenu_Aspect {
     public void ProgrammerMenu.setCommand(String command){
     	this.command = command;
     }
-
-
 
     public String ProgrammerMenu.getSourceFile(){
     	return this.sourceFile;
@@ -100,8 +89,6 @@ privileged @SuppressWarnings("unused") aspect ProgrammerMenu_Aspect {
     	this.sourceFile = sourceFile;
     }
 
-
-
     public String ProgrammerMenu.getSourceLibrary(){
     	return this.sourceLibrary;
     }
@@ -109,8 +96,6 @@ privileged @SuppressWarnings("unused") aspect ProgrammerMenu_Aspect {
     public void ProgrammerMenu.setSourceLibrary(String sourceLibrary){
     	this.sourceLibrary = sourceLibrary;
     }
-
-
 
     public String ProgrammerMenu.getObjectLibrary(){
     	return this.objectLibrary;
@@ -120,8 +105,6 @@ privileged @SuppressWarnings("unused") aspect ProgrammerMenu_Aspect {
     	this.objectLibrary = objectLibrary;
     }
 
-
-
     public String ProgrammerMenu.getJobDescription(){
     	return this.jobDescription;
     }
@@ -129,8 +112,6 @@ privileged @SuppressWarnings("unused") aspect ProgrammerMenu_Aspect {
     public void ProgrammerMenu.setJobDescription(String jobDescription){
     	this.jobDescription = jobDescription;
     }
-
-
 
 
     public String ProgrammerMenu.getFocusField(){

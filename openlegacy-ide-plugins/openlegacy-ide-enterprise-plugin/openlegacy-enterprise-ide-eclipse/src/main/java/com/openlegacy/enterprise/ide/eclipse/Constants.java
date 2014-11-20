@@ -43,4 +43,6 @@ public class Constants {
 	public static final String TYPE_DECLARATION = "typeDeclaration";
 
 	public static final String LIST_TYPE_ARG = "listTypeArg";
+
+	public static final String RPC_PART_ACTIONS = "rpcPartActions";
 }

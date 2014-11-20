@@ -5,6 +5,7 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect CopyFromPcDocumentcpyfrmpcd_Aspect {
@@ -45,8 +46,6 @@ privileged @SuppressWarnings("unused") aspect CopyFromPcDocumentcpyfrmpcd_Aspect
     	this.fromFolder = fromFolder;
     }
 
-
-
     public String CopyFromPcDocumentcpyfrmpcd.getToFile(){
     	return this.toFile;
     }
@@ -54,8 +53,6 @@ privileged @SuppressWarnings("unused") aspect CopyFromPcDocumentcpyfrmpcd_Aspect
     public void CopyFromPcDocumentcpyfrmpcd.setToFile(String toFile){
     	this.toFile = toFile;
     }
-
-
 
     public String CopyFromPcDocumentcpyfrmpcd.getLibrary1(){
     	return this.library1;
@@ -65,8 +62,6 @@ privileged @SuppressWarnings("unused") aspect CopyFromPcDocumentcpyfrmpcd_Aspect
     	this.library1 = library1;
     }
 
-
-
     public String CopyFromPcDocumentcpyfrmpcd.getFromDocument(){
     	return this.fromDocument;
     }
@@ -74,8 +69,6 @@ privileged @SuppressWarnings("unused") aspect CopyFromPcDocumentcpyfrmpcd_Aspect
     public void CopyFromPcDocumentcpyfrmpcd.setFromDocument(String fromDocument){
     	this.fromDocument = fromDocument;
     }
-
-
 
     public String CopyFromPcDocumentcpyfrmpcd.getToMember(){
     	return this.toMember;
@@ -85,8 +78,6 @@ privileged @SuppressWarnings("unused") aspect CopyFromPcDocumentcpyfrmpcd_Aspect
     	this.toMember = toMember;
     }
 
-
-
     public String CopyFromPcDocumentcpyfrmpcd.getReplaceOrAddRecords(){
     	return this.replaceOrAddRecords;
     }
@@ -94,8 +85,6 @@ privileged @SuppressWarnings("unused") aspect CopyFromPcDocumentcpyfrmpcd_Aspect
     public void CopyFromPcDocumentcpyfrmpcd.setReplaceOrAddRecords(String replaceOrAddRecords){
     	this.replaceOrAddRecords = replaceOrAddRecords;
     }
-
-
 
     public String CopyFromPcDocumentcpyfrmpcd.getTranslateTable(){
     	return this.translateTable;
@@ -105,8 +94,6 @@ privileged @SuppressWarnings("unused") aspect CopyFromPcDocumentcpyfrmpcd_Aspect
     	this.translateTable = translateTable;
     }
 
-
-
     public String CopyFromPcDocumentcpyfrmpcd.getLibrary(){
     	return this.library;
     }
@@ -114,8 +101,6 @@ privileged @SuppressWarnings("unused") aspect CopyFromPcDocumentcpyfrmpcd_Aspect
     public void CopyFromPcDocumentcpyfrmpcd.setLibrary(String library){
     	this.library = library;
     }
-
-
 
     public String CopyFromPcDocumentcpyfrmpcd.getFormatOfPcData(){
     	return this.formatOfPcData;
@@ -125,8 +110,6 @@ privileged @SuppressWarnings("unused") aspect CopyFromPcDocumentcpyfrmpcd_Aspect
     	this.formatOfPcData = formatOfPcData;
     }
 
-
-
     public String CopyFromPcDocumentcpyfrmpcd.getDbcsCodePage(){
     	return this.dbcsCodePage;
     }
@@ -135,8 +118,6 @@ privileged @SuppressWarnings("unused") aspect CopyFromPcDocumentcpyfrmpcd_Aspect
     	this.dbcsCodePage = dbcsCodePage;
     }
 
-
-
     public String CopyFromPcDocumentcpyfrmpcd.getInsertDbcsSosi(){
     	return this.insertDbcsSosi;
     }
@@ -144,8 +125,6 @@ privileged @SuppressWarnings("unused") aspect CopyFromPcDocumentcpyfrmpcd_Aspect
     public void CopyFromPcDocumentcpyfrmpcd.setInsertDbcsSosi(String insertDbcsSosi){
     	this.insertDbcsSosi = insertDbcsSosi;
     }
-
-
 
 
     public String CopyFromPcDocumentcpyfrmpcd.getFocusField(){

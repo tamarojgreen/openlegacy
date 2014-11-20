@@ -16,6 +16,8 @@
 	<jsp:directive.attribute name="paging" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the table has paging" />
 	<jsp:directive.attribute name="alternate" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the table has alternate color for every 2nd row" />
 	<jsp:directive.attribute name="fixedFont" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the table should use fixed font" />
+	<jsp:directive.attribute name="colors" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the table should reflect column colors. Needs to enable support terminal data in the API table" />
+	<jsp:directive.attribute name="backColors" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the table should reflect column colors. Needs to enable support terminal data in the API table" />
 
 	<jsp:output omit-xml-declaration="yes" />
 
@@ -23,10 +25,14 @@
 		${ol:throwException("formName not found. Probably ol:table tag is not within ol:form")}
 	</c:if>
 
-	<c:if test="${empty alternate}">
-		<c:set var="alternate" value="true" />
+	<c:if test="${empty colors}">
+		<c:set var="colors" value="true" />
 	</c:if>
 
+	<c:if test="${empty backColors}">
+		<c:set var="backColors" value="true" />
+	</c:if>
+	
 	<c:set var="actionsCss" value="" />
 	<c:if test="${actionsAsIcons}">
 		<c:set var="actionsCss" value="rbtn" />
@@ -201,15 +207,28 @@
 												<input name="${column.name}_${rowIndex.index}" maxlength="${column.length}" size="${column.length}" value="${columnValue}" />
 											</c:when>
 											<c:otherwise>
+												<c:set var="columnFieldName" value="${column.name}Field"/>
+												<c:if test="${olf:hasProperty(item,columnFieldName)}">
+													<c:set var="field" value="${item[columnFieldName]}"/>
+													<c:set var="color" value="${field.color}"/>
+													<c:set var="backColor" value="${field.backColor}"/>
+												</c:if>
 												<c:if test="${fixedFont}">
 													<c:set var="style" value="white-space: pre;font-family: Courier New;" />
+												</c:if>
+												<c:set var="cssClass" value="" />
+												<c:if test="${colors and color != 'GREEN'}">
+													<c:set var="cssClass" value="${fn:toLowerCase(color)}" />
+												</c:if>
+												<c:if test="${backColors and backColor != 'BLACK'}">
+													<c:set var="cssClass" value="${cssClass} back_${fn:toLowerCase(backColor)}" />
 												</c:if>
 												<c:choose>
 													<c:when test="${column.targetEntity != null}">
 														<a href="${pageContext.request.contextPath}/${column.targetEntity.simpleName}/${columnValue}">${columnValue}</a>
 													</c:when>
 													<c:otherwise>
-														<span style="${style}">${columnValue}</span>
+														<span style="${style}" class="${cssClass}">${columnValue}</span>
 													</c:otherwise>
 												</c:choose>
 											</c:otherwise>

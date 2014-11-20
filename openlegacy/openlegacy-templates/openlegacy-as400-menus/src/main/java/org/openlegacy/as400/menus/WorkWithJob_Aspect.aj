@@ -5,6 +5,7 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect WorkWithJob_Aspect {
@@ -30,28 +31,20 @@ privileged @SuppressWarnings("unused") aspect WorkWithJob_Aspect {
     }
     
 
-
-
     public String WorkWithJob.getJob(){
     	return this.job;
     }
     
-
-
 
     public String WorkWithJob.getUser(){
     	return this.user;
     }
     
 
-
-
     public Integer WorkWithJob.getNumber(){
     	return this.number;
     }
     
-
-
 
     public String WorkWithJob.getMenuSelection(){
     	return this.menuSelection;
@@ -60,8 +53,6 @@ privileged @SuppressWarnings("unused") aspect WorkWithJob_Aspect {
     public void WorkWithJob.setMenuSelection(String menuSelection){
     	this.menuSelection = menuSelection;
     }
-
-
 
 
     public String WorkWithJob.getFocusField(){

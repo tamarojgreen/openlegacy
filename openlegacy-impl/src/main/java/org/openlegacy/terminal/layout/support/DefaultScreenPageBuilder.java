@@ -12,6 +12,7 @@ package org.openlegacy.terminal.layout.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.definitions.page.support.SimplePageDefinition;
 import org.openlegacy.definitions.page.support.SimplePagePartDefinition;
 import org.openlegacy.definitions.page.support.SimplePagePartRowDefinition;
@@ -62,6 +63,8 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 	private int additionalPartWidth = 0;
 
+	private Integer defaultColumns = null;
+
 	/**
 	 * Determine the max distance between to fields start, to consider them in a single panel column
 	 */
@@ -103,6 +106,12 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		for (String tableFieldName : tables) {
 			ScreenTableDefinition tableDefinition = entityDefinition.getTableDefinitions().get(tableFieldName);
 			pageDefinition.getPageParts().add(buildPagePartFromTable(tableFieldName, tableDefinition, entityDefinition));
+		}
+
+		List<EntityDefinition<?>> childEntities = entityDefinition.getChildEntitiesDefinitions();
+		for (EntityDefinition<?> childEntityDefinition : childEntities) {
+			PageDefinition childPageDefinition = build((ScreenEntityDefinition)childEntityDefinition);
+			pageDefinition.getChildPagesDefinitions().add(childPageDefinition);
 		}
 		return pageDefinition;
 	}
@@ -391,6 +400,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 				List<ScreenFieldDefinition> neighourFields = new ArrayList<ScreenFieldDefinition>();
 				neighourFields.add(screenFieldDefinition);
 				neighourFieldsGroups.add(neighourFields);
+				logger.debug(MessageFormat.format("New fields group created for field {0}", screenFieldDefinition));
 			}
 		}
 		return neighourFieldsGroups;
@@ -519,5 +529,9 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	 */
 	public void setAdditionalPartWidth(int additionalPartWidth) {
 		this.additionalPartWidth = additionalPartWidth;
+	}
+
+	public void setDefaultColumns(Integer defaultColumns) {
+		this.defaultColumns = defaultColumns;
 	}
 }

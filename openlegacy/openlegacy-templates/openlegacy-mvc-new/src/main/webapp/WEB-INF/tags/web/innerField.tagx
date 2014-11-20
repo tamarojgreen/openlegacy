@@ -19,7 +19,6 @@
 	<jsp:directive.attribute name="editable" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set field editable" />
 	<jsp:directive.attribute name="url" type="java.lang.String" required="false" rtexprvalue="true" description="Set field url" />
 	<jsp:directive.attribute name="required" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set field required" />
-
 	<c:choose>
 		<c:when test="${fn:contains(name,'.')}">
 			<c:set var="fieldNameParts" value="${fn:split(name,'.')}" />

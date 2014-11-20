@@ -200,6 +200,11 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 			}
 			TerminalAction terminalAction = navigationDefinition.getTerminalAction();
 			if (terminalAction instanceof DrilldownAction) {
+				if (keys.length == 0) {
+					String entityName = navigationDefinition.getTargetEntity().getSimpleName();
+					throw (new ScreenEntityNotAccessibleException(MessageFormat.format(
+							"Cannot perform drilldown navigation to {0} when no keys specified", entityName), entityName));
+				}
 				terminalSession.getModule(Table.class).drillDown(navigationDefinition.getTargetEntity(),
 						(TerminalDrilldownAction)terminalAction, keys);
 			} else if (terminalAction instanceof TerminalMappedAction) {

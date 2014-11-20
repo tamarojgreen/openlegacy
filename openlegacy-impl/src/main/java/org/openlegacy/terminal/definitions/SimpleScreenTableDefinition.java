@@ -11,7 +11,6 @@
 package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.definitions.AbstractTableDefinition;
-import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.modules.table.TableCollector;
 import org.openlegacy.modules.table.drilldown.RowComparator;
 import org.openlegacy.modules.table.drilldown.RowFinder;
@@ -48,7 +47,7 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 
 	private List<String> mainDisplayFields = new ArrayList<String>();
 
-	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
+	// private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
 
 	private TerminalPosition partPosition;
 
@@ -251,10 +250,10 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 		return mainDisplayFields;
 	}
 
-	@Override
-	public List<ActionDefinition> getActions() {
-		return actions;
-	}
+	// @Override
+	// public List<ActionDefinition> getActions() {
+	// return actions;
+	// }
 
 	@Override
 	public void setWidth(int width) {

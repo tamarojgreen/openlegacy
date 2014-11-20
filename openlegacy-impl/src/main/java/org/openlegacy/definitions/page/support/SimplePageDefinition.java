@@ -24,6 +24,7 @@ public class SimplePageDefinition implements PageDefinition {
 	private EntityDefinition<?> entityDefinition;
 	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
 	private String packageName;
+	private List<PageDefinition> childPagesDefinitions = new ArrayList<PageDefinition>();
 
 	public SimplePageDefinition(EntityDefinition<?> entityDefinition) {
 		this.entityDefinition = entityDefinition;
@@ -51,5 +52,10 @@ public class SimplePageDefinition implements PageDefinition {
 
 	public void setPackageName(String packageName) {
 		this.packageName = packageName;
+	}
+
+	@Override
+	public List<PageDefinition> getChildPagesDefinitions() {
+		return childPagesDefinitions;
 	}
 }

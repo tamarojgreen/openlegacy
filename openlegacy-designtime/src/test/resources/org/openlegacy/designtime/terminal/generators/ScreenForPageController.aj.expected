@@ -30,6 +30,8 @@ import java.util.Map.Entry;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
+import org.openlegacy.terminal.support.binders.MultyScreenTableBindUtil;
+import org.openlegacy.terminal.utils.ScreenEntityUtils;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,6 +62,9 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 	private TableWriter ScreenForPageController.tableWriter;
 	@Inject
 	private TablesDefinitionProvider ScreenForPageController.tablesDefinitionProvider;
+	
+	@Inject
+	private MultyScreenTableBindUtil tableBindUtil;
 	
 	// handle page ajax call display
     @RequestMapping(method = RequestMethod.GET, headers = "X-Requested-With=XMLHttpRequest")
@@ -227,16 +232,13 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
     	
 		HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/text; charset=utf-8");
-        if (text != null){
-        	text = text.replace("*", "");
-        }
-		Map<Object,Object> fldRow10Values = null;
-		if (text != null){
-			fldRow10Values  = screenForPage.getFldRow10Values(text);
+
+		if (text != null) {
+			text = text.replace("*", "");
 		}
-		else{
-			fldRow10Values  = screenForPage.getFldRow10Values();
-		}
+
+		Map<Object, Object> fieldValues = tableBindUtil.getRecords(getSession(), text, screenEntityName, fieldName);
+
 		
 		String result = JsonSerializationUtil.toDojoFormat(fldRow10Values,text);
         return new ResponseEntity<String>(result, headers, HttpStatus.OK);

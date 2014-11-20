@@ -30,6 +30,8 @@ import java.util.Map.Entry;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
+import org.openlegacy.terminal.support.binders.MultyScreenTableBindUtil;
+import org.openlegacy.terminal.utils.ScreenEntityUtils;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,6 +64,9 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	@Inject
 	private TablesDefinitionProvider ${entityDefinition.entityClassName}Controller.tablesDefinitionProvider;
 	</#if>
+	
+	@Inject
+	private MultyScreenTableBindUtil tableBindUtil;
 	
 	<#if entityDefinition.keys?size == 0>
 	// handle page ajax call display
@@ -157,16 +162,13 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
     	
 		HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/text; charset=utf-8");
-        if (text != null){
-        	text = text.replace("*", "");
-        }
-		Map<Object,Object> ${field.name}Values = null;
-		if (text != null){
-			${field.name}Values  = ${entityDefinition.entityClassName?uncap_first}.get${field.name?cap_first}Values(text);
+
+		if (text != null) {
+			text = text.replace("*", "");
 		}
-		else{
-			${field.name}Values  = ${entityDefinition.entityClassName?uncap_first}.get${field.name?cap_first}Values();
-		}
+
+		Map<Object, Object> fieldValues = tableBindUtil.getRecords(getSession(), text, screenEntityName, fieldName);
+
 		
 		String result = JsonSerializationUtil.toDojoFormat(${field.name}Values,text);
         return new ResponseEntity<String>(result, headers, HttpStatus.OK);

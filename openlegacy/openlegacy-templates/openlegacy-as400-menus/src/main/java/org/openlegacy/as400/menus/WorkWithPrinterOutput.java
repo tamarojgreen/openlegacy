@@ -45,10 +45,10 @@ public class WorkWithPrinterOutput {
 	@ScreenTableActions(actions = { @TableAction(actionValue = "2", displayName = "Change", defaultAction = true) })
 	public static class WorkWithPrinterOutputRecord {
 
-		@ScreenColumn(endColumn = 3, startColumn = 2, key = true)
+		@ScreenColumn(endColumn = 3, startColumn = 2, editable = true, selectionField = true)
 		private String opt;
 
-		@ScreenColumn(endColumn = 18, startColumn = 7)
+		@ScreenColumn(endColumn = 18, startColumn = 7, key = true)
 		private String output;
 
 		@ScreenColumn(endColumn = 66, startColumn = 21)

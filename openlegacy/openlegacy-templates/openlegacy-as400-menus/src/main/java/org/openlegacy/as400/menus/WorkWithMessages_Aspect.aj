@@ -5,6 +5,7 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect WorkWithMessages_Aspect {
@@ -17,6 +18,7 @@ privileged @SuppressWarnings("unused") aspect WorkWithMessages_Aspect {
 
 	
 
+    private List<TerminalActionDefinition> WorkWithMessages.workWithMessagesRecordsActions = new ArrayList<TerminalActionDefinition>();
     
 
     public String WorkWithMessages.getMessagesFor(){
@@ -24,15 +26,14 @@ privileged @SuppressWarnings("unused") aspect WorkWithMessages_Aspect {
     }
     
 
-
-
     public List<WorkWithMessagesRecord> WorkWithMessages.getWorkWithMessagesRecords(){
     	return this.workWithMessagesRecords;
     }
     
 
-
-
+    public List<TerminalActionDefinition> WorkWithMessages.getWorkWithMessagesRecordsActions(){
+    	return this.workWithMessagesRecordsActions;
+    }
 
     public String WorkWithMessages.getFocusField(){
     	return focusField;

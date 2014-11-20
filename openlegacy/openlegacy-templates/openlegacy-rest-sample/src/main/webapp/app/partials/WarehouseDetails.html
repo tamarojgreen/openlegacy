@@ -4,50 +4,63 @@
     </div>
     <div class="row">
         
-        <div class="col-sm-3 col-md-2 no-gutters-sm"><!--      sidebar       -->
-            <div ng-include="'partials/sidebar.html'"></div>
-        </div> <!--/sidebar -->
+        <!--      sidebar       -->
+		
+		<div class="col-sm-3 col-md-2 no-gutters-sm">
+			<div class="sidebar-nav">
+			    <div class="navbar" role="navigation">
+			        <div class="navbar-header">
+			            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".ol-sidebar-collapse">
+			                <span class="glyphicon glyphicon-chevron-down"></span>
+			            </button>
+			            <span class="visible-xs navbar-brand">Navigation</span>
+			        </div>
+			        <div class="navbar-collapse collapse ol-sidebar-collapse">
+			            <ul class="nav navbar-nav nav-pills nav-stacked top-margin-10">			            
+			            	<li ng-repeat="menu in menuArray">			            				            	
+			            		<h4 ng-if="menu.menuItems.length != 0">{{menu.displayName}}</h4>
+			            		<a ng-if="menu.menuItems.length == 0" ng-href="#/{{menu.targetEntityName}}">{{menu.displayName}}</a>			            		
+			            	</li>			                	                
+			            </ul>
+			        </div><!--/.nav-collapse -->
+			    </div>
+			</div>    
+		</div>
+		
+		 <!--/sidebar -->
         
         <div class="col-sm-9 col-md-10"><!--      main       -->
-            <ol class="breadcrumb hidden-xs">
-                <li><a href="#/MainMenu">Main Menu</a></li>
-                <li><a href="#/InventoryMenu">Inventory Menu</a></li>
-                <li><a href="#/Warehouses">Warehouses</a></li>
-                <li class="active">Warehouse Details</li>
-            </ol>
+            <ol class="breadcrumb">
+				<li ng-repeat="bc in breadcrumbs" ng-class="{active : $last}" >
+					<a ng-if="!bc.current" data-ng-href="#/{{bc.entityName}}">{{bc.displayName}}</a>
+					<span ng-if="bc.current">{{bc.displayName}}</span>
+				</li>
+			</ol>
             
             
             <div class="panel panel-default">
                 <div class="panel-body">
 
 
-                    <nav class="navbar navbar-default hidden-xs top-margin-10" role="navigation">
+                    <nav class="navbar navbar-default top-margin-10" role="navigation">
                         <form class="navbar-form xnavbar-left" role="navigation">
-                            <button type="button" class="btn btn-primary navbar-btn" ng-click="postAction('')">
+                            <button type="button" class="btn btn-primary navbar-btn" ng-click="doAction('')">
                                 <span class="glyphicon glyphicon-share-alt"></span>
                                  Submit
                             </button>
                             
-                            <span ng-repeat="action in actions">
+                            <span ng-repeat="action in entity.actions">
                             	<span ng-switch="action.alias">
-                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="help" ng-click="postAction(action.alias)">
+                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="help" ng-click="doAction(action.alias)">
                             			<span class="glyphicon glyphicon-question-sign"></span>
 	                                	{{action.displayName}}
                             		</button>
-                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="delete" ng-click="postAction(action.alias)">
+                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="delete" ng-click="doAction(action.alias)">
                             			<span class="glyphicon glyphicon-trash"></span>
 	                                	{{action.displayName}}
                             		</button>
                             	</span>
-                            </span>
-                            <!-- <button type="button" class="btn btn-primary navbar-btn">
-                                <span class="glyphicon glyphicon-question-sign"></span>
-                                 Help
-                            </button>
-                           <button type="button" class="btn btn-primary navbar-btn">
-                                <span class="glyphicon glyphicon-trash"></span>
-                                 Delete
-                            </button> -->                            
+                            </span>                          
                         </form>
                     </nav>                
                 
@@ -59,18 +72,16 @@
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="warehouseNumber" class="control-label">Warehouse Number:</label>
-									<input type="text" class="form-control" id="warehouseNumber" placeholder="Enter Warehouse Number" ng-model="warehouseDetails.warehouseNumber">
+									<input type="text" class="form-control" id="warehouseNumber" placeholder="Enter Warehouse Number" ng-model="entity.warehouseNumber">
 								</div>							
 								<div class="form-group">
 									<label for="warehouseDescription" class="control-label">Warehouse Description:</label>
-									<input type="text" class="form-control" id="warehouseDescription" placeholder="Enter Warehouse Description" ng-model="warehouseDetails.warehouseDescription">
+									<input type="text" class="form-control" id="warehouseDescription" placeholder="Enter Warehouse Description" ng-model="entity.warehouseDescription">
 								</div>													
 								<div class="form-group">
-									<label for="warehouseType" class="control-label">Warehouse Type:</label>
-									<!-- <input type="text" class="form-control" id="warehouseType" placeholder="Enter Warehouse Type" ng-model="warehouseDetails.warehouseType"> -->
-									<!-- <i class="glyphicon glyphicon-glass"></i> -->																									
+									<label for="warehouseType" class="control-label">Warehouse Type:</label>										
 									<div class="input-group">
-									  <input type="text" class="form-control" id="warehouseType" placeholder="Enter Warehouse Type" ng-model="warehouseDetails.warehouseType">
+									  <input type="text" class="form-control" id="warehouseType" placeholder="Enter Warehouse Type" ng-model="entity.warehouseType">
 									  <div class="input-group-btn">
 										  <button id="dropdownMenu" class="dropdown-toggle btn" data-toggle="dropdown"><span class="caret"></span></button>
 										  <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu">
@@ -84,32 +95,32 @@
 								
 								<div class="form-group">
 									<label for="costingType" class="control-label">Costing Type:</label>
-									<input type="text" class="form-control" id="costingType" placeholder="Enter Costing Type" ng-model="warehouseDetails.costingType">
+									<input type="text" class="form-control" id="costingType" placeholder="Enter Costing Type" ng-model="entity.costingType">
 								</div>																					
 								<div class="form-group">
 									<label for="replenishmentCycleFlag" class="control-label">Replenishment Cycle Flag:</label>
-									<input type="text" class="form-control" id="replenishmentCycleFlag" placeholder="Enter Replenishment Cycle Flag" ng-model="warehouseDetails.replenishmentCycleFlag">
+									<input type="text" class="form-control" id="replenishmentCycleFlag" placeholder="Enter Replenishment Cycle Flag" ng-model="entity.replenishmentCycleFlag">
 								</div>																					
 								<div class="form-group">
 									<label for="address" class="control-label">Address:</label>
-									<input type="text" class="form-control" id="address" placeholder="Enter Address" ng-model="warehouseDetails.address">
+									<input type="text" class="form-control" id="address" placeholder="Enter Address" ng-model="entity.address">
 								</div>																					
 								<div class="form-group">
 									<label for="phone" class="control-label">Phone:</label>
-									<input type="text" class="form-control" id="phone" placeholder="Enter Phone" ng-model="warehouseDetails.phone">
+									<input type="text" class="form-control" id="phone" placeholder="Enter Phone" ng-model="entity.phone">
 								</div>																					
 								<div class="form-group">
 									<label for="email" class="control-label">Email:</label>
-									<input type="text" class="form-control" id="email" placeholder="Enter Email" ng-model="warehouseDetails.email">
+									<input type="text" class="form-control" id="email" placeholder="Enter Email" ng-model="entity.email">
 								</div>								
 								<div class="form-group">
 									<label for="amendedDate" class="control-label">Amended Date:</label>																											
-									<input type="text" id="amendedDate" class="form-control" placeholder="mm/dd/yyyy" ng-model="warehouseDetails.amendedDate" datepicker />
+									<input type="text" id="amendedDate" class="form-control" placeholder="mm/dd/yyyy" ng-model="entity.amendedDate" bdatepicker />
 								</div>																			
 								
 
 								<div>
-									<p>Created by {{warehouseDetails.createdBy}} on {{warehouseDetails.createdDate}}</p>									
+									<p>Created by {{entity.createdBy}} on {{entity.createdDate}}</p>									
 								</div>							
 							
 							

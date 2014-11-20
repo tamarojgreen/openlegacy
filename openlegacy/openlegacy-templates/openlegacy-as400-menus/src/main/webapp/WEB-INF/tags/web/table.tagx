@@ -1,10 +1,13 @@
-<jsp:root xmlns:ol="http://www.openlegacy.org/tags"
-	xmlns:olt="urn:jsptagdir:/WEB-INF/tags/web"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-	xmlns:spring="http://www.springframework.org/tags"
-	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<jsp:root xmlns:ol="http://www.openlegacy.org/tags" 
+	xmlns:olt="urn:jsptagdir:/WEB-INF/tags/web" 
+	xmlns:olf="http://www.openlegacy.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
+	xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:form="http://www.springframework.org/tags/form" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" 
+	version="2.0">
+	
 	<jsp:directive.attribute name="data" type="java.util.Collection" required="true" rtexprvalue="true" description="The collection to be displayed in the table" />
 	<jsp:directive.attribute name="property" type="java.lang.String" required="true" rtexprvalue="true" description="The table name" />
 	<jsp:directive.attribute name="actionsAsIcons" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether to show table actions as icons (using CSS which matches the action alias)" />
@@ -13,15 +16,21 @@
 	<jsp:directive.attribute name="paging" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the table has paging" />
 	<jsp:directive.attribute name="alternate" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the table has alternate color for every 2nd row" />
 	<jsp:directive.attribute name="fixedFont" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the table should use fixed font" />
-	
+	<jsp:directive.attribute name="colors" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the table should reflect column colors. Needs to enable support terminal data in the API table" />
+	<jsp:directive.attribute name="backColors" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the table should reflect column colors. Needs to enable support terminal data in the API table" />
+
 	<jsp:output omit-xml-declaration="yes" />
-	
+
 	<c:if test="${empty formName}">
 		${ol:throwException("formName not found. Probably ol:table tag is not within ol:form")}
 	</c:if>
 
-	<c:if test="${empty alternate}">
-		<c:set var="alternate" value="true" />
+	<c:if test="${empty colors}">
+		<c:set var="colors" value="true" />
+	</c:if>
+
+	<c:if test="${empty backColors}">
+		<c:set var="backColors" value="true" />
 	</c:if>
 	
 	<c:set var="actionsCss" value="" />
@@ -30,103 +39,239 @@
 	</c:if>
 
 	<c:set var="contentPaneId" value="container" />
-	<c:if test="${window == true}">
+	<c:if test="${fn:length(definitions.childEntitiesDefinitions) &gt; 0 or definitions.child}">
+		<c:set var="contentPaneId" value="${definitions.entityName}" />
+	</c:if>
+	<c:if test="${definitions.window}">
 		<c:set var="contentPaneId" value="window_container" />
 	</c:if>
-	
-	<c:set var="tableDefinition"
-		value="${definitions.tableDefinitions[property]}" />
-	<div class="table"  style="${style}">
-		<table id="${property}">
-			<tr>
-				<c:if test="${fn:length(tableDefinition.actions) &gt; 0 || fn:length(tableDefinition.keyFieldNames) &gt; 0}">
-				<th><!--  --></th>
-				</c:if>
-				<c:forEach items="${tableDefinition.columnDefinitions}" var="column">
-					<th>${column.displayName}</th>
-				</c:forEach>
-			</tr>
-			<c:forEach items="${data}" var="item" varStatus="i">
-				<tr class="${i.index % 2 == 0 or !alternate ? '' : 'alt'}">
-					<c:if test="${fn:length(tableDefinition.actions) &gt; 0 || fn:length(tableDefinition.keyFieldNames) &gt; 0}">
-					<td>
-						<c:choose>
-							<c:when test="${fn:length(tableDefinition.actions) == 0 and fn:length(tableDefinition.keyFieldNames) &gt; 0}">
-								<a href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}','${item[tableDefinition.mainDisplayField]}');" class="${actionsCss}" title="Select ">Select</a>
-							</c:when>
-							<c:when test="${fn:length(tableDefinition.actions) &gt; 3}">
-			      				<select onchange="eval(this.value)" name="${column.name}">
-			      					<option value="">- Select -</option>
-			      					<c:forEach items="${tableDefinition.actions}" var="action">
-									<c:set var="target" value="location.href='${pageContext.request.contextPath}/${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}'" />
-			      					<c:if test="${action.targetEntity == null}">
-										<c:set var="target" value="alert('No target entity specified for table action in table class @ScreenTableActions annotation')" />
-			      					</c:if>
-			      					<option value="${target}">${action.displayName}</option>
-			      					</c:forEach>
-			      				</select>
-							</c:when>
-							<c:otherwise>
-								<c:forEach items="${tableDefinition.actions}" var="action" varStatus="counter">
-									<c:set var="target" value="${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}" />
-									<c:if test="${action.targetEntity == null}">
-										<c:set var="target" value="javascript:alert('No target entity specified for table action in table class @ScreenTableActions annotation');" />
-									</c:if>
-									<a href="${pageContext.request.contextPath}/${target}"
-										class="${actionsCss} ${action.alias}" title="${action.displayName}">${action.displayName}</a>
-									<c:if test="${(counter.index+1) != fn:length(tableDefinition.actions) and not actionsAsIcons}">
-										<span class="actions_separator"> | </span>
-									</c:if>
-								</c:forEach>
-								</c:otherwise>
-						</c:choose>
-					</td>
+
+	<c:set var="dir" value="ltr"/>
+	<c:if test="${openLegacyProperties.rightToLeft}">
+		<c:set var="dir" value="rtl"/>
+	</c:if>
+
+	<c:set var="tableDefinition" value="${definitions.tableDefinitions[property]}" />
+	<c:if test="${fn:length(data) &gt; 0}">
+		<div class="table" style="${style}">
+			<table>
+				<tr>
+					<c:forEach items="${tableDefinition.columnDefinitions}" var="column">
+						<c:if test="${column.selectionField}">
+							<c:set var="selectionColumn" value="${column}" />
+						</c:if>
+					</c:forEach>
+					<c:if test="${selectionColumn == null}">
+						<th>
+							<!--  -->
+						</th>
 					</c:if>
-					<c:forEach items="${tableDefinition.columnDefinitions}"
-						var="column">
-						<spring:eval var="columnValue" expression="item[column.name]" />
-						<td>
-							<c:choose>
-								<c:when test="${column.selectionField}">
-									<!-- Skip -->
-								</c:when>
-								<c:when test="${column.editable}">
-									<input name="${column.name}" maxlength="${column.length}" size="${column.length}" value="${columnValue}" />
-								</c:when>
-								<c:otherwise>
-									<c:if test="${fixedFont}">
-										<c:set var="style" value="white-space: pre;font-family: Courier New;" />
-									</c:if>
-						      		<span style="${style}" dir="ltr">${columnValue}</span>
-				      			</c:otherwise>
-							</c:choose>
-						</td>
+					<c:forEach items="${tableDefinition.columnDefinitions}" var="column" varStatus="columnIndex">
+						<c:if test="${column.rowsOffset == 0}">
+							<th>${column.displayName}</th>
+						</c:if>
 					</c:forEach>
 				</tr>
-			</c:forEach>
-		</table>
-		<c:if test="${paging == null}">
-			<c:set var="paging" value="true" />
-		</c:if>
-		<c:if test="${paging}">
-		<div class="paging">
-			<div class="previous">
-				<a
-					href="javascript:doAjaxPost('${formName}','container','previous','body')">
-					<span class="arrow">
-						<!---->
-					</span> <span>Previous</span>
-				</a>
-			</div>
-			<div class="next">
-				<a
-					href="javascript:doAjaxPost('${formName}','${contentPaneId}','next','body')">
-					<span class="arrow">
-						<!---->
-					</span> <span>Next</span>
-				</a>
-			</div>
+				<c:set var="model" value="${requestScope[ol:uncapFirst(definitions.entityName)]}" />
+				<c:set var="tableActionsProperty" value="${tableDefinition.tableEntityName}sActions" />
+				<c:set var="tableActions" value="${model[tableActionsProperty]}" />
+				<c:forEach items="${tableActions}" var="action" varStatus="counter">
+					<c:if test="${action.defaultAction}">
+						<c:set var="defaultAction" value="${action}" />
+					</c:if>
+				</c:forEach>
+				<c:forEach items="${data}" var="item" varStatus="rowIndex">
+					<c:if test="${defaultAction != null}">
+						<c:set var="rowClick" value="location.href='${pageContext.request.contextPath}/${defaultAction.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}'" />
+						<c:if test="${action.targetEntity == null}">
+							<c:set var="selectionColumnName" value="${selectionColumn.name}" />
+							<c:set var="rowClick" value="document.getElementById('${selectionColumnName}_${rowIndex.index}').value='${defaultAction.action.actionValue}';doPost()" />
+						</c:if>
+					</c:if>
+					<c:forEach begin="0" end="${tableDefinition.rowGaps-1}" var="rowGap">
+						<tr class="${rowIndex.index % 2 == 0 or !alternate ? '' : 'alt'}" onclick="${rowClick}">
+							<c:if test="${selectionColumn == null}">
+								<td><c:forEach items="${tableActions}" var="action" varStatus="counter">
+										<c:choose>
+											<c:when test="${ol:hasProperty(item,tableDefinition.keyFieldNames[0])}">
+												<c:set var="keysValues" value="${item[tableDefinition.keyFieldNames[0]]}" />
+											</c:when>
+											<c:otherwise>
+												<c:set var="keysValues" value="${model[tableDefinition.keyFieldNames[0]]}" />
+											</c:otherwise>
+										</c:choose>
+										<c:forEach items="${tableDefinition.keyFieldNames}" var="key" varStatus="i">
+											<c:if test="${i.index gt 0}">
+												<c:choose>
+													<c:when test="${ol:hasProperty(item,tableDefinition.keyFieldNames[0])}">
+														<c:set var="keysValues" value="${keysValues}+${item[tableDefinition.keyFieldNames[i.index]]}" />
+													</c:when>
+													<c:otherwise>
+														<c:set var="model" value="${requestScope[ol:uncapFirst(definitions.entityName)]}" />
+														<c:set var="keysValues" value="${keysValues}+${model[tableDefinition.keyFieldNames[i.index]]}" />
+													</c:otherwise>
+												</c:choose>
+											</c:if>
+										</c:forEach>
+
+										<c:set var="target" value="${pageContext.request.contextPath}/${action.targetEntity.simpleName}/${keysValues}" />
+										<c:if test="${action.targetEntity == null}">
+											<c:set var="target" value="javascript:document.getElementById('${column.name}_${rowIndex.index}').value='${action.action.actionValue}';doPost()" />
+										</c:if>
+										<a href="${target}" class="${actionsCss}" title="${action.displayName}">${action.displayName} <span> <!--  -->
+										</span>
+										</a>
+										<c:if test="${(counter.index+1) != fn:length(tableActions) and not actionsAsIcons}">
+											<span class="actions_separator"> | </span>
+										</c:if>
+									</c:forEach></td>
+							</c:if>
+
+							<c:forEach items="${tableDefinition.columnDefinitions}" var="column">
+								<spring:eval var="columnValue" expression="item[column.name]" />
+								<c:if test="${column.rowsOffset == rowGap}">
+									<spring:message code="label_select" var="label_select" htmlEscape="false" />
+									<td colspan="${column.colSpan}"><c:choose>
+											<c:when test="${column.selectionField}">
+												<input type="hidden" name="${column.name}_${rowIndex.index}" id="${column.name}_${rowIndex.index}" />
+												<c:set var="selectionColumn" value="${column}" />
+												<c:set var="columnFieldName" value="${column.name}Field"/>
+												<c:set var="editable" value="true" />
+												<c:if test="${olf:hasProperty(item,columnFieldName)}">
+													<c:set var="field" value="${item[columnFieldName]}"/>
+													<c:set var="editable" value="${field.editable}" />
+												</c:if>
+												<c:if test="${editable}">
+												<c:choose>
+													<c:when test="${fn:length(tableActions) == 0 and fn:length(tableDefinition.keyFieldNames) &gt; 0}">
+														<c:if test="${fn:length(tableDefinition.mainDisplayFields) &gt; 0 and definitions.window}">
+															<a href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}','${item[tableDefinition.mainDisplayFields[0]]}');" class="${actionsCss}" title="${label_select}">${label_select}</a>
+														</c:if>
+														<c:if test="${fn:length(tableDefinition.mainDisplayFields) == 0 and definitions.window}">
+															<a href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}');" class="${actionsCss}" title="${label_select}">${label_select}</a>
+														</c:if>
+													</c:when>
+													<c:when test="${fn:length(tableActions) &gt; 4}">
+														<select onchange="eval(this.value)" name="${column.name}" data-dojo-type="dijit/form/FilteringSelect" dir="${dir}">
+															<option value="">- Select -</option>
+															<c:forEach items="${tableActions}" var="action">
+																<c:set var="target" value="location.href='${pageContext.request.contextPath}/${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}'" />
+																<c:if test="${action.targetEntity == null}">
+																	<c:set var="target" value="document.getElementById('${column.name}_${rowIndex.index}').value='${action.action.actionValue}';doPost()" />
+																</c:if>
+																<option value="${target}">${action.displayName}</option>
+															</c:forEach>
+														</select>
+													</c:when>
+													<c:otherwise>
+														<c:forEach items="${tableActions}" var="action" varStatus="counter">
+															<c:choose>
+																<c:when test="${ol:hasProperty(item,tableDefinition.keyFieldNames[0])}">
+																	<c:set var="keysValues" value="${item[tableDefinition.keyFieldNames[0]]}" />
+																</c:when>
+																<c:otherwise>
+																	<c:set var="model" value="${requestScope[ol:uncapFirst(definitions.entityName)]}" />
+																	<c:set var="keysValues" value="${model[tableDefinition.keyFieldNames[0]]}" />
+																</c:otherwise>
+															</c:choose>
+															<c:forEach items="${tableDefinition.keyFieldNames}" var="key" varStatus="i">
+																<c:if test="${i.index gt 0}">
+																	<c:choose>
+																		<c:when test="${ol:hasProperty(item,tableDefinition.keyFieldNames[0])}">
+																			<c:set var="keysValues" value="${keysValues}+${item[tableDefinition.keyFieldNames[i.index]]}" />
+																		</c:when>
+																		<c:otherwise>
+																			<c:set var="model" value="${requestScope[ol:uncapFirst(definitions.entityName)]}" />
+																			<c:set var="keysValues" value="${keysValues}+${model[tableDefinition.keyFieldNames[i.index]]}" />
+																		</c:otherwise>
+																	</c:choose>
+																</c:if>
+															</c:forEach>
+
+															<c:set var="target" value="${pageContext.request.contextPath}/${action.targetEntity.simpleName}/${keysValues}" />
+															<c:if test="${action.targetEntity == null}">
+																<c:set var="target" value="javascript:document.getElementById('${column.name}_${rowIndex.index}').value='${action.action.actionValue}';doPost()" />
+															</c:if>
+															<a href="${target}" class="${actionsCss} ${action.alias}" title="${action.displayName}">${action.displayName} <span> <!--  -->
+															</span>
+															</a>
+															<c:if test="${(counter.index+1) != fn:length(tableActions) and not actionsAsIcons}">
+																<span class="actions_separator"> | </span>
+															</c:if>
+														</c:forEach>
+													</c:otherwise>
+												</c:choose>
+												</c:if>
+											</c:when>
+											<c:when test="${column.editable}">
+												<input name="${column.name}_${rowIndex.index}" maxlength="${column.length}" size="${column.length}" value="${columnValue}" />
+											</c:when>
+											<c:otherwise>
+												<c:set var="columnFieldName" value="${column.name}Field"/>
+												<c:if test="${olf:hasProperty(item,columnFieldName)}">
+													<c:set var="field" value="${item[columnFieldName]}"/>
+													<c:set var="color" value="${field.color}"/>
+													<c:set var="backColor" value="${field.backColor}"/>
+												</c:if>
+												<c:if test="${fixedFont}">
+													<c:set var="style" value="white-space: pre;font-family: Courier New;" />
+												</c:if>
+												<c:set var="cssClass" value="" />
+												<c:if test="${colors and color != 'GREEN'}">
+													<c:set var="cssClass" value="${fn:toLowerCase(color)}" />
+												</c:if>
+												<c:if test="${backColors and backColor != 'BLACK'}">
+													<c:set var="cssClass" value="${cssClass} back_${fn:toLowerCase(backColor)}" />
+												</c:if>
+												<c:choose>
+													<c:when test="${column.targetEntity != null}">
+														<a href="${pageContext.request.contextPath}/${column.targetEntity.simpleName}/${columnValue}">${columnValue}</a>
+													</c:when>
+													<c:otherwise>
+														<span style="${style}" class="${cssClass}">${columnValue}</span>
+													</c:otherwise>
+												</c:choose>
+											</c:otherwise>
+										</c:choose></td>
+								</c:if>
+							</c:forEach>
+						</tr>
+					</c:forEach>
+				</c:forEach>
+			</table>
+			<c:if test="${paging == null}">
+				<c:set var="paging" value="true" />
+			</c:if>
+			<c:if test="${paging}">
+				<spring:message code="label_next" var="label_next" htmlEscape="false" />
+				<spring:message code="label_prev" var="label_prev" htmlEscape="false" />
+				<div class="paging">
+					<div>
+						<a id="next" class="next" href="javascript:doAjaxPost('${formName}','${contentPaneId}','next','body',window.runOnloads)">
+							<c:choose>
+								<c:when test="${openLegacyProperties.rightToLeft}">
+									<span>&lt; ${label_next}</span>
+								</c:when>
+								<c:otherwise>
+									<span>${label_next} &gt;</span>
+								</c:otherwise>
+							</c:choose> 
+						</a>
+					</div>
+					<div>
+						<a id="previous" class="previous" href="javascript:doAjaxPost('${formName}','${contentPaneId}','previous','body',window.runOnloads)">
+							<c:choose>
+								<c:when test="${openLegacyProperties.rightToLeft}">
+									<span>${label_prev} &gt;</span> 
+								</c:when>
+								<c:otherwise>
+									<span> &lt; ${label_prev}</span> 
+								</c:otherwise>
+							</c:choose> 
+						</a>
+					</div>
+				</div>
+			</c:if>
 		</div>
-		</c:if>
-	</div>
+	</c:if>
 </jsp:root>

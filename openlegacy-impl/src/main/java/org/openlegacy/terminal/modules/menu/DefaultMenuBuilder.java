@@ -66,6 +66,9 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 
 		sortToMenus();
 		Integer subMenuDepth = allMenusDepths.get(ProxyUtil.getOriginalClass(menuEntityClass));
+		if (subMenuDepth == null) {
+			return new SimpleMenuItem(menuEntityClass, menuDefinition.getDisplayName(), 0);
+		}
 		return buildMenu(menuEntityClass, subMenuDepth);
 	}
 
@@ -204,11 +207,11 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 		String displayName = screenEntityDefinition.getDisplayName();
 		MenuItem menuItem = new SimpleMenuItem(rootClass, displayName, depth);
 
-		if (!allMenusOptions.containsKey(rootClass)) {
+		if (!allMenusOptions.containsKey(ProxyUtil.getOriginalClass(rootClass))) {
 			return menuItem;
 		}
 
-		List<Class<?>> menuOptions = allMenusOptions.get(rootClass);
+		List<Class<?>> menuOptions = allMenusOptions.get(ProxyUtil.getOriginalClass(rootClass));
 
 		Collections.sort(menuOptions, getMenuItemsComparator());
 		for (Class<?> menuOption : menuOptions) {

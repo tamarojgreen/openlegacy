@@ -30,4 +30,6 @@ public interface PageDefinition {
 	List<ActionDefinition> getActions();
 
 	String getPackageName();
+
+	List<PageDefinition> getChildPagesDefinitions();
 }

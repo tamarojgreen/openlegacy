@@ -5,6 +5,7 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect IbmIAccessTasks_Aspect {
@@ -24,8 +25,6 @@ privileged @SuppressWarnings("unused") aspect IbmIAccessTasks_Aspect {
     }
     
 
-
-
     public String IbmIAccessTasks.getMenuSelection(){
     	return this.menuSelection;
     }
@@ -33,8 +32,6 @@ privileged @SuppressWarnings("unused") aspect IbmIAccessTasks_Aspect {
     public void IbmIAccessTasks.setMenuSelection(String menuSelection){
     	this.menuSelection = menuSelection;
     }
-
-
 
 
     public String IbmIAccessTasks.getFocusField(){

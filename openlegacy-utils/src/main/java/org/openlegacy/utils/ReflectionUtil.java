@@ -91,8 +91,9 @@ public class ReflectionUtil {
 			Method[] methods = object.getClass().getMethods();
 			Method method = null;
 			for (Method method1 : methods) {
-				if (method1.getName().equals(methodName)) {
+				if (method1.getName().equals(methodName) && method1.getParameterTypes().length == args.length) {
 					method = method1;
+					break;
 				}
 			}
 			Assert.notNull("Method not found:" + methodName, methodName);

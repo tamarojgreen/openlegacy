@@ -14,6 +14,9 @@ privileged @SuppressWarnings("unused") aspect WorkWithPrinterOutputRecord_Aspect
     	return this.opt;
     }
     
+    public void WorkWithPrinterOutputRecord.setOpt(String opt){
+    	this.opt = opt;
+    }
 
     public String WorkWithPrinterOutputRecord.getOutput(){
     	return this.output;

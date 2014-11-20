@@ -5,6 +5,7 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect WorkWithPrinterOutput_Aspect {
@@ -19,6 +20,7 @@ privileged @SuppressWarnings("unused") aspect WorkWithPrinterOutput_Aspect {
 
 	
 
+    private List<TerminalActionDefinition> WorkWithPrinterOutput.workWithPrinterOutputRecordsActions = new ArrayList<TerminalActionDefinition>();
     
 
     public String WorkWithPrinterOutput.getSystem(){
@@ -26,22 +28,19 @@ privileged @SuppressWarnings("unused") aspect WorkWithPrinterOutput_Aspect {
     }
     
 
-
-
     public String WorkWithPrinterOutput.getUser(){
     	return this.user;
     }
     
-
-
 
     public List<WorkWithPrinterOutputRecord> WorkWithPrinterOutput.getWorkWithPrinterOutputRecords(){
     	return this.workWithPrinterOutputRecords;
     }
     
 
-
-
+    public List<TerminalActionDefinition> WorkWithPrinterOutput.getWorkWithPrinterOutputRecordsActions(){
+    	return this.workWithPrinterOutputRecordsActions;
+    }
 
     public String WorkWithPrinterOutput.getFocusField(){
     	return focusField;

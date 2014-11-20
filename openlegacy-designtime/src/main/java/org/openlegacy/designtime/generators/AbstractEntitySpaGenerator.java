@@ -12,6 +12,7 @@ package org.openlegacy.designtime.generators;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,6 +38,7 @@ import javax.inject.Inject;
  */
 public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator {
 
+	private static final String SETTINGS_ORG_ECLIPSE_CORE_RESOURCES_PREFS = ".settings/org.eclipse.core.resources.prefs";
 	private static final String CONTROLLER_CODE_PLACE_HOLDER_START = "/* Controller code place-holder start";
 	private static final String CONTROLLER_CODE_PLACE_HOLDER_END = "Controller code place-holder end */";
 
@@ -71,11 +73,24 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 			// generate web view
 			generateView(generateViewRequest, pageDefinition, SpaGenerateUtil.VIEWS_DIR, userInteraction, false);
 
+			generatEclipseEncodingSettings(generateViewRequest, entityDefinition);
+
 		} catch (Exception e) {
 			throw (new GenerationException(e));
 		} finally {
 			IOUtils.closeQuietly(fos);
 		}
+	}
+
+	private static void generatEclipseEncodingSettings(GenerateViewRequest generateViewRequest,
+			EntityDefinition<?> entityDefinition) throws IOException {
+		File encodingFile = new File(generateViewRequest.getProjectPath(), SETTINGS_ORG_ECLIPSE_CORE_RESOURCES_PREFS);
+		String fileContent = FileUtils.readFileToString(encodingFile, CharEncoding.UTF_8);
+		if (!fileContent.contains(encodingFile.getName())) {
+			fileContent = MessageFormat.format("{0}\nencoding//src/main/webapp/app/views/{1}.html=UTF8", fileContent,
+					entityDefinition.getEntityName());
+		}
+		FileUtils.write(encodingFile, fileContent);
 	}
 
 	private void generateView(GenerateViewRequest generatePageRequest, PageDefinition pageDefinition, String viewsDir,

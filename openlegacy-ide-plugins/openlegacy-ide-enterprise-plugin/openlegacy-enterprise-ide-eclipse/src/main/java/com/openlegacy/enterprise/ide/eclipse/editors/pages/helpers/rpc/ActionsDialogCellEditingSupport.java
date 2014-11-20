@@ -29,7 +29,10 @@ public class ActionsDialogCellEditingSupport extends AbstractActionsDialogCellEd
 
 	@Override
 	public AbstractViewerFilter getViewerFilter() {
-		return new RpcActionViewerFilter();
+		if (fieldName.equals(AnnotationConstants.ACTION)) {
+			return new RpcActionViewerFilter();
+		}
+		return null;
 	}
 
 	/*
@@ -51,6 +54,8 @@ public class ActionsDialogCellEditingSupport extends AbstractActionsDialogCellEd
 	protected Object getValue(Object element) {
 		if (this.fieldName.equals(AnnotationConstants.ACTION)) {
 			return ((ActionModel)element).getActionName();
+		} else if (fieldName.equals(AnnotationConstants.TARGET_ENTITY)) {
+			return ((ActionModel)element).getTargetEntityClassName();
 		}
 		return Messages.getString("unknown.field");//$NON-NLS-1$
 	}
@@ -67,16 +72,22 @@ public class ActionsDialogCellEditingSupport extends AbstractActionsDialogCellEd
 			ActionModel model = (ActionModel)element;
 			try {
 				if (res.isClass()) {
-					model.setActionName(res.getElementName());
-					RpcAction action = RpcActions.newAction(model.getActionName().toUpperCase());
-					if (action != null) {
-						model.setAction(action);
-					} else {
-						// Class<?> clazz = Utils.getClazz(res.getFullyQualifiedName('.'));
+					if (this.fieldName.equals(AnnotationConstants.ACTION)) {
+						model.setActionName(res.getElementName());
+						RpcAction action = RpcActions.newAction(model.getActionName().toUpperCase());
+						if (action != null) {
+							model.setAction(action);
+						} else {
+							// Class<?> clazz = Utils.getClazz(res.getFullyQualifiedName('.'));
+							Class<?> clazz = Utils.getClazz(res.getFullyQualifiedName());
+							model.setAction((RpcAction)clazz.newInstance());
+						}
+						((ActionModel)element).setActionName(((IType)value).getElementName());
+					} else if (this.fieldName.equals(AnnotationConstants.TARGET_ENTITY)) {
+						model.setTargetEntityClassName(res.getElementName());
 						Class<?> clazz = Utils.getClazz(res.getFullyQualifiedName());
-						model.setAction((RpcAction)clazz.newInstance());
+						model.setTargetEntity(clazz);
 					}
-					((ActionModel)element).setActionName(((IType)value).getElementName());
 				}
 			} catch (JavaModelException e) {
 			} catch (MalformedURLException e) {

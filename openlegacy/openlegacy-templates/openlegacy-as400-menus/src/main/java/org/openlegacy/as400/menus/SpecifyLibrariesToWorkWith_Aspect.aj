@@ -5,6 +5,7 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect SpecifyLibrariesToWorkWith_Aspect {
@@ -29,8 +30,6 @@ privileged @SuppressWarnings("unused") aspect SpecifyLibrariesToWorkWith_Aspect 
     	this.library = library;
     }
 
-
-
     public String SpecifyLibrariesToWorkWith.getAspNumber(){
     	return this.aspNumber;
     }
@@ -39,8 +38,6 @@ privileged @SuppressWarnings("unused") aspect SpecifyLibrariesToWorkWith_Aspect 
     	this.aspNumber = aspNumber;
     }
 
-
-
     public String SpecifyLibrariesToWorkWith.getAspDevice(){
     	return this.aspDevice;
     }
@@ -48,8 +45,6 @@ privileged @SuppressWarnings("unused") aspect SpecifyLibrariesToWorkWith_Aspect 
     public void SpecifyLibrariesToWorkWith.setAspDevice(String aspDevice){
     	this.aspDevice = aspDevice;
     }
-
-
 
 
     public String SpecifyLibrariesToWorkWith.getFocusField(){
