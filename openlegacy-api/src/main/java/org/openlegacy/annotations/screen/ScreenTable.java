@@ -44,9 +44,9 @@ public @interface ScreenTable {
 
 	String name() default "";
 
-	Class<? extends TerminalAction> nextScreenAction() default TerminalActions.PAGEDOWN.class;
+	Class<? extends TerminalAction> nextScreenAction() default TerminalActions.PAGE_DOWN.class;
 
-	Class<? extends TerminalAction> previousScreenAction() default TerminalActions.PAGEUP.class;
+	Class<? extends TerminalAction> previousScreenAction() default TerminalActions.PAGE_UP.class;
 
 	boolean supportTerminalData() default false;
 

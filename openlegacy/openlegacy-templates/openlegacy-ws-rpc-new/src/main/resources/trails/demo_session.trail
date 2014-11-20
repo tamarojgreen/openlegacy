@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <rpc-trail>
-    <snapshot sequence="1">
+    <snapshot sequence="1" entityName="Items">
         <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/ITEMS.PGM">
             <rpcFields>
                 <structure order="0" name="Top" isContainer="true">
@@ -68,7 +68,7 @@
             </rpcFields>
         </result>
     </snapshot>
-    <snapshot sequence="2">
+    <snapshot sequence="2" entityName="Itemdetails">
         <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM">
             <rpcFields>
                 <field value="1000" length="8" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="ITEM-NUM" order="0"/>
@@ -76,6 +76,8 @@
                     <field length="16" direction="INPUT_OUTPUT" name="ITEM-NAME" order="0"/>
                     <field length="28" direction="INPUT_OUTPUT" name="DESCRIPTION" order="1"/>
                     <field length="4" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
+                    <field length="10" direction="INPUT_OUTPUT" name="CREATED-DATE" order="3"/>                  
+                    <field length="5" direction="INPUT_OUTPUT" name="AVAILABILITY" order="4"/> 
                 </structure>
                 <structure order="2" name="shipping">
                     <field length="10" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
@@ -98,7 +100,7 @@
             </rpcFields>
         </result>
     </snapshot>
-    <snapshot sequence="3">
+    <snapshot sequence="3" entityName="Itemdetails">
         <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM">
             <rpcFields>
                 <field value="1001" length="8" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="ITEM-NUM" order="0"/>
@@ -106,6 +108,8 @@
                     <field length="16" direction="INPUT_OUTPUT" name="ITEM-NAME" order="0"/>
                     <field length="28" direction="INPUT_OUTPUT" name="DESCRIPTION" order="1"/>
                     <field length="4" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
+                    <field length="10" direction="INPUT_OUTPUT" name="CREATED-DATE" order="3"/>                  
+                    <field length="5" direction="INPUT_OUTPUT" name="AVAILABILITY" order="4"/> 
                 </structure>
                 <structure order="2" name="shipping">
                     <field length="10" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
@@ -128,7 +132,7 @@
             </rpcFields>
         </result>
     </snapshot>
-    <snapshot sequence="4">
+    <snapshot sequence="4" entityName="Itemdetails">
         <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM">
             <rpcFields>
                 <field value="1002" length="8" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="ITEM-NUM" order="0"/>
@@ -136,6 +140,8 @@
                     <field length="16" direction="INPUT_OUTPUT" name="ITEM-NAME" order="0"/>
                     <field length="28" direction="INPUT_OUTPUT" name="DESCRIPTION" order="1"/>
                     <field length="4" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
+                    <field length="10" direction="INPUT_OUTPUT" name="CREATED-DATE" order="3"/>                  
+                    <field length="5" direction="INPUT_OUTPUT" name="AVAILABILITY" order="4"/> 
                 </structure>
                 <structure order="2" name="shipping">
                     <field length="10" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
@@ -158,7 +164,7 @@
             </rpcFields>
         </result>
     </snapshot>
-    <snapshot sequence="5">
+    <snapshot sequence="5" entityName="Itemdetails">
         <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM">
             <rpcFields>
                 <field value="1003" length="8" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="ITEM-NUM" order="0"/>
@@ -166,6 +172,8 @@
                     <field length="16" direction="INPUT_OUTPUT" name="ITEM-NAME" order="0"/>
                     <field length="28" direction="INPUT_OUTPUT" name="DESCRIPTION" order="1"/>
                     <field length="4" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
+                    <field length="10" direction="INPUT_OUTPUT" name="CREATED-DATE" order="3"/>                  
+                    <field length="5" direction="INPUT_OUTPUT" name="AVAILABILITY" order="4"/> 
                 </structure>
                 <structure order="2" name="shipping">
                     <field length="10" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
@@ -188,7 +196,7 @@
             </rpcFields>
         </result>
     </snapshot>
-    <snapshot sequence="6">
+    <snapshot sequence="6" entityName="Itemdetails">
         <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM">
             <rpcFields>
                 <field value="1004" length="8" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="ITEM-NUM" order="0"/>
@@ -196,6 +204,8 @@
                     <field length="16" direction="INPUT_OUTPUT" name="ITEM-NAME" order="0"/>
                     <field length="28" direction="INPUT_OUTPUT" name="DESCRIPTION" order="1"/>
                     <field length="4" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
+                    <field length="10" direction="INPUT_OUTPUT" name="CREATED-DATE" order="3"/>                  
+                    <field length="5" direction="INPUT_OUTPUT" name="AVAILABILITY" order="4"/> 
                 </structure>
                 <structure order="2" name="shipping">
                     <field length="10" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
