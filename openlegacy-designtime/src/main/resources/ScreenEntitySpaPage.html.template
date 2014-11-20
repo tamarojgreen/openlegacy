@@ -148,8 +148,7 @@
 										<#else>
 											<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>
 										</#if>												
-									</#if>																							
-									</#if>										
+									</#if>								
 						  		</#list>							  		
 							</tr>                            
 		                </tbody>
