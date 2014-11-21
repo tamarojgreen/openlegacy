@@ -135,6 +135,23 @@
 										}
 									});
 								};
+								
+								<#if (entityDefinition.childEntitiesDefinitions?size > 0)>
+									var tabsContent = {};						
+									tabsContent["${entityDefinition.entityName}"] = $scope.model;
+									$scope.loadTab = function(entityName) {
+										if (tabsContent[entityName] == null) { 
+											$scope.model.actions=null;
+											$olHttp.get(entityName + '/' <#if (entityDefinition.keys?size > 0)>+ $stateParams.${entityDefinition.keys[0].name}</#if> + "?children=false", 
+												function(data) {													
+													$scope.model = data.model.entity;
+													tabsContent[entityName] = data.model.entity; 
+												});
+										} else {
+											$scope.model = tabsContent[entityName];
+										}					
+									};
+								</#if>
 							}							
 						);
 					};		
@@ -191,28 +208,6 @@
 						</#list>
 					</#if>
 					
-					<#if (entityDefinition.childEntitiesDefinitions?size > 0)>
-					$scope.loadTab = function(entityName) {
-						$scope.model.actions=null;
-						$olHttp.get(entityName + '/' <#if (entityDefinition.keys?size > 0)>+ $stateParams.${entityDefinition.keys[0].name}</#if>, 
-							function(data) {
-								$scope.model = data.model.entity;																
-							});					
-					};
-					</#if>
-					
-
-					
-					<#if (entityDefinition.childEntitiesDefinitions?size > 0)>
-					$scope.loadTab = function(entityName) {
-						$scope.model.actions=null;
-						$olHttp.get(entityName + '/' <#if (entityDefinition.keys?size > 0)>+ $stateParams.${entityDefinition.keys[0].name}</#if>, 
-							function(data) {
-								$scope.model = data.model.entity;																
-							});					
-					};
-					</#if>				
-					
 					$scope.read();
 				});
 		
@@ -236,8 +231,8 @@
 								
 								$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {					
 									$scope.model.actions=null;
-								<#list tableDefinitions?keys as key> 
-								$scope.model.${tableDefinitions[key].tableEntityName}s[rowIndex][columnName] = actionValue;
+									<#list tableDefinitions?keys as key> 
+										$scope.model.${tableDefinitions[key].tableEntityName}s[rowIndex][columnName] = actionValue;
 								    </#list>	
 									
 									$olHttp.post('${entityName}/', $scope.model, function(data) {
@@ -250,6 +245,23 @@
 										}
 									});
 								};
+								
+								<#if (childEntitiesDefinitions?size > 0)>
+									var tabsContent = {};						
+									tabsContent["${entityName}"] = $scope.model;
+									$scope.loadTab = function(entityName) {
+										if (tabsContent[entityName] == null) { 
+											$scope.model.actions=null;
+											$olHttp.get(entityName + '/' <#if (keys?size > 0)>+ $stateParams.${keys[0].name}</#if> + "?children=false", 
+												function(data) {													
+													$scope.model = data.model.entity;
+													tabsContent[entityName] = data.model.entity; 
+												});
+										} else {
+											$scope.model = tabsContent[entityName];
+										}					
+									};
+								</#if>
 							}
 						);
 					};		
@@ -305,17 +317,7 @@
 							});
 							</#if>						
 						</#list>
-					</#if>
-					
-					<#if (childEntitiesDefinitions?size > 0)>
-					$scope.loadTab = function(entityName) {
-						$scope.model.actions=null;
-						$olHttp.get(entityName + '/' <#if (keys?size > 0)>+ $stateParams.${keys[0].name}</#if>, 
-							function(data) {
-								$scope.model = data.model.entity;																
-							});					
-					};
-					</#if>
+					</#if>				
 					
 					$scope.read();
 				});
