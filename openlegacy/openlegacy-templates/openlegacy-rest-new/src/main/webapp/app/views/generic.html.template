@@ -130,15 +130,7 @@
 		                            	</td>
 									<#else>	
 										<#if (part.tableDefinition.actions?size > 1)>
-											<#if defaultAction??>											
-												<#if defaultAction.targetEntity??>
-													<td class="td-link"><a href="" ng-click="doAction('${entity.entityName}', '${defaultAction.alias}')">{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</a></td>
-												<#else>
-													<td class="td-link"><a href="" ng-click="doActionNoTargetEntity(${defaultActionIndex}, '${column.name}', '${defaultAction.action.actionValue}')">{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</a></td>
-												</#if>
-											<#else>
-												<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>
-											</#if>
+											<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>
 										<#elseif part.tableDefinition.actions?size == 1>											
 											<#if part.tableDefinition.actions[0].targetEntity??>
 												<td class="td-link"><a href="" ng-click="doAction('${entity.entityName}', '${part.tableDefinition.actions[0].alias}')">{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</a></td>
@@ -168,19 +160,17 @@
 			<#else>
 				<form role="form">			
 					<#list part.partRows as partRow>
-						<#assign result = []>
-						<@filterFields field=partRow.fields[0] fieldsArray=partRow.fields/>				
-						
-						<#list result as rowFields>
 							<div class="row">
-								<#assign colWidth = (6/rowFields?size)?ceiling>
-								<#list rowFields as field>
-									<div class="col-sm-${colWidth}">
-										<@fieldMacro field=field/>
-									</div>
-								</#list>
+							<#assign colWidth = (6/partRow.fields?size)?ceiling>
+							<#list partRow.fields as field>
+								<div class="col-sm-${colWidth}">
+									<#if field??>
+									<@fieldMacro field=field/>
+									</#if>
+								</div>
+							</#list>
+
 							</div>
-						</#list>								
 					</#list>
 				</form>		
 			</#if>
