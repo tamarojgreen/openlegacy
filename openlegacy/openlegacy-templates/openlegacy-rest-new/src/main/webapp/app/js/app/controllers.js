@@ -160,28 +160,12 @@
 					});
 					
 					$scope.doAction = function(entityName, actionAlias) {
-						var findAndClearActions = function(data) {						
-							if (data.actions != null && data.actions != undefined) {
-								data.actions = null;
-							}			
-							for (var key in data) {
-							  if (typeof data[key] == "object" && data[key] != null) {
-								if (data[key].actions != null && data[key].actions != undefined) {
-									data[key].actions = null;
-								}
-								
-								findAndClearActions(data[key]);
-							  }
-							}
-							
-							return data;
-						};
 						if (actionAlias == "") {
 				    		var url = entityName + actionAlias;
 				    	} else {
 				    		var url = entityName + "?action=" + actionAlias;
 				    	}  
-						$olHttp.post(url,findAndClearActions($scope.model), 
+						$olHttp.post(url,$scope.model, 
 							function(data) {
 								if (data.model.entityName == '${entityDefinition.entityName}'){
 									$scope.model = data.model.entity;								
@@ -230,8 +214,8 @@
 								
 								$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {					
 									$scope.model.actions=null;
-									<#list tableDefinitions?keys as key> 
-										$scope.model.${tableDefinitions[key].tableEntityName}s[rowIndex][columnName] = actionValue;
+									<#list entityDefinition.tableDefinitions?keys as key> 
+									$scope.model.${entityDefinition.tableDefinitions[key].tableEntityName?uncap_first}sActions=null;
 								    </#list>	
 									
 									$olHttp.post('${entityName}/', $scope.model, function(data) {
@@ -271,28 +255,12 @@
 		
 					
 					$scope.doAction = function(entityName, actionAlias) {					
-						var findAndClearActions = function(data) {						
-							if (data.actions != null && data.actions != undefined) {
-								data.actions = null;
-							}			
-							for (var key in data) {
-							  if (typeof data[key] == "object" && data[key] != null) {
-								if (data[key].actions != null && data[key].actions != undefined) {
-									data[key].actions = null;
-								}
-								
-								findAndClearActions(data[key]);
-							  }
-							}
-							
-							return data;
-						};
 						if (actionAlias == "") {
 				    		var url = entityName + actionAlias;
 				    	} else {
 				    		var url = entityName + "?action=" + actionAlias;
 				    	}					
-						$olHttp.post(url,findAndClearActions($scope.model), 
+						$olHttp.post(url,$scope.model, 
 							function(data) {
 								if (data.model.entityName == '${entityName}'){
 									$scope.model = data.model.entity;								
