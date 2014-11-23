@@ -118,11 +118,10 @@
 								$scope.baseUrl = olConfig.baseUrl;
 								$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
 								
-								$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {					
+								$scope.doActionNoTargetEntity = function() {					
 									$scope.model.actions=null;
 									<#list entityDefinition.tableDefinitions?keys as key> 
-									$scope.model.${entityDefinition.tableDefinitions[key].tableEntityName}sActions=null;
-									$scope.model.${entityDefinition.tableDefinitions[key].tableEntityName}s[rowIndex][columnName] = actionValue;
+									$scope.model.${entityDefinition.tableDefinitions[key].tableEntityName?uncap_first}sActions=null;
 								    </#list>	
 									
 									$olHttp.post('${entityDefinition.entityName}/', $scope.model, function(data) {
