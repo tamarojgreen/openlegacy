@@ -99,7 +99,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 		});
 
 		if (tableDefinition.getSelectionColumn() != null && tableDefinition.getKeyFieldNames().size() == 0) {
-			throw (new RegistryException("No key column/s defined for table " + containingClass.getSimpleName()));
+			// throw (new RegistryException("No key column/s defined for table " + containingClass.getSimpleName()));
 		}
 		screenEntitiesRegistry.addTable(tableDefinition);
 
