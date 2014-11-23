@@ -73,6 +73,8 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 
 	private final static Log logger = LogFactory.getLog(DefaultGenericScreensController.class);
 
+	private static final String TARGET = "target";
+
 	@Inject
 	private ScreenEntityUtils screenEntityUtils;
 
@@ -105,7 +107,8 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST)
 	public String postEntity(@PathVariable("entity") String screenEntityName,
 			@RequestParam(defaultValue = "", value = ACTION) String action,
-			@RequestParam(value = "partial", required = false) String partial, HttpServletRequest request,
+			@RequestParam(value = "partial", required = false) String partial,
+			@RequestParam(value = TARGET, required = false) String target, HttpServletRequest request,
 			HttpServletResponse response, Model uiModel) throws IOException {
 
 		Class<?> entityClass = findAndHandleNotFound(screenEntityName, response);
@@ -145,7 +148,11 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 				urlPrefix = MvcConstants.REDIRECT;
 			}
 		}
-		return handleEntity(request, uiModel, resultEntity, urlPrefix);
+		if (target != null) {
+			return urlPrefix + target;
+		} else {
+			return handleEntity(request, uiModel, resultEntity, urlPrefix);
+		}
 	}
 
 	@Override
@@ -157,7 +164,8 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 			if (getSession().getEntity() != null) {
 				ScreenEntityDefinition definition = (ScreenEntityDefinition)getEntitiesRegistry().get(
 						getSession().getEntity().getClass());
-				return MvcConstants.REDIRECT + definition.getEntityName();
+				return MessageFormat.format("{0}{1}?{2}={3}", MvcConstants.REDIRECT, definition.getEntityName(), TARGET,
+						((ScreenEntityNotAccessibleException)e).getTargetEntity());
 			} else {
 				return super.handleFallbackUrl(e);
 			}
