@@ -56,13 +56,16 @@
     <link ng-href="themes/{{theme}}/{{theme}}.css" rel="stylesheet">
     
   </head>
-  <body class="base" ng-class="theme">	  
-	<!-- this is the header -->
-	<div ng-include="'partials/header.html'" ng-controller="HeaderController"></div>
-	<!-- <div ui-view="header"></div> -->	
-    <!-- this is the sidebar -->
-	<div class="main" ui-view></div>
-	<!-- this is the footer -->
-	<div ng-include="'partials/footer.html'"></div>
+  <body class="base" ng-class="theme">
+  	<img src="img/loading_normal.gif" class="preloader">
+  	<div class="content-wrapper">	  
+		<!-- this is the header -->
+		<div ng-include="'partials/header.html'" ng-controller="HeaderController"></div>
+		<!-- <div ui-view="header"></div> -->	
+	    <!-- this is the sidebar -->
+		<div class="main" ui-view></div>
+		<!-- this is the footer -->
+		<div ng-include="'partials/footer.html'"></div>
+	</div>
   </body>
 </html>

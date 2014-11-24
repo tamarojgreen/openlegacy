@@ -1,6 +1,15 @@
 ( function() {
 
 	'use strict';
+	
+	var hidePreloader = function() {
+		if (allowHidePreloader = true) {			
+			$(".preloader").hide();
+			$(".content-wrapper").show();
+		} else {
+			allowHidePreloader = true;
+		}		
+	};
 
 	/* Services */
 	angular.module( 'services', [] )
@@ -22,9 +31,11 @@
 		        	if (data != "" && data != null && data != undefined) {
 		        		data = angular.fromJson(data);
 		        	}		        	
+		        	
 		        	callback(data);
 		        })
 		        .error(function(data, status, headers, config){
+		        	hidePreloader();
 		            alert(data)
 		        });
 	        },
@@ -55,10 +66,11 @@
 		                'Content-Type' : 'application/json',
 		                'Accept' : 'application/json'
 		            }
-		    	}).success(function(data, status, headers, config) {    		
+		    	}).success(function(data, status, headers, config) {		    		
 		    		callback(angular.fromJson(data));    		
 		    	})
 		    	.error(function(data, status, headers, config){
+		    		hidePreloader();
 		            alert(data)
 		        });
 			}				
@@ -86,6 +98,7 @@
 				getMenuString(data.simpleMenuItemList);
 				callback(menuArray);
 			}).error(function(data, status, headers, config) {
+				hidePreloader();
 				if(data.error){
 					alert('Error: ' + data.error);
 				} else {
