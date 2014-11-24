@@ -172,7 +172,7 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 	@Override
 	public void createContent(IManagedForm managedForm) {
 		super.createContent(managedForm);
-		this.sashForm.setWeights(new int[] { 30, 70 });
+		this.sashForm.setWeights(new int[] { 40, 60 });
 		int itemCount = this.tableViewer.getTable().getItemCount();
 		if (itemCount > 0) {
 			this.tableViewer.getTable().select(0);
