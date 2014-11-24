@@ -3,6 +3,20 @@
 	'use strict';
 
 	/* Controllers */
+	
+	var showPreloader = function() {
+		$(".preloader").show();
+		$(".content-wrapper").hide();
+	};
+
+	var hidePreloader = function() {
+		if (allowHidePreloader = true) {			
+			$(".preloader").hide(0);
+			$(".content-wrapper").show(0);
+		} else {
+			allowHidePreloader = true;
+		}		
+	};
 
 	var module = angular.module('controllers', ["ui.bootstrap"]);
 
@@ -12,7 +26,7 @@
 				if ($.cookie('loggedInUser') != undefined) {
 					$state.go("menu");
 				}
-				$scope.login = function(username, password) {
+				$scope.login = function(username, password) {				
 				var data = {"user":username,"password":password}
 				$olHttp.post('login',data, 
 							function() {
@@ -29,9 +43,10 @@
 			});
 		module = module.controller(
 			'logoffCtrl',
-			function($scope, $olHttp, $rootScope) {
+			function($scope, $olHttp, $rootScope) {				
 				$olHttp.get('logoff', 
 					function() {
+						$rootScope.hidePreloader();
 						$.removeCookie("loggedInUser", {path: '/'});
 					}
 				);
@@ -49,6 +64,7 @@
 				
 				
 				$scope.logout = function(){
+					$rootScope.allowHidePreloader = false;
 					delete $scope.username
 					$state.go("logoff");
 				}
@@ -111,14 +127,15 @@
 					$scope.noTargetScreenEntityAlert = function() {
 						alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 					}; 
-					$scope.read = function(){
+					$scope.read = function(){						  
 					      $olHttp.get('${entityDefinition.entityName}/' <#if entityDefinition.keys?size &gt; 0>+ $stateParams.${entityDefinition.keys[0].name?replace(".", "_")}</#if> + "?children=false",
-							function(data) {						
+							function(data) {
+					    	  	$rootScope.hidePreloader();
 								$scope.model = data.model.entity;							
 								$scope.baseUrl = olConfig.baseUrl;
 								$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
 								
-								$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {					
+								$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {									
 									$scope.model.actions=null;
 									<#list entityDefinition.tableDefinitions?keys as key> 
 									$scope.model.${entityDefinition.tableDefinitions[key].tableEntityName}sActions=null;
@@ -129,8 +146,10 @@
 										if (data.model.entityName == '${entityDefinition.entityName}'){
 											$scope.model = data.model.entity;
 											$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
+											$rootScope.hidePreloader();
 										}
-										else{					
+										else{
+											$rootScope.allowHidePreloader = false;
 											$state.go(data.model.entityName);
 										}
 									});
@@ -141,9 +160,10 @@
 									tabsContent["${entityDefinition.entityName}"] = $scope.model;
 									$scope.loadTab = function(entityName) {
 										if (tabsContent[entityName] == null) { 
-											$scope.model.actions=null;
+											$scope.model.actions=null;											
 											$olHttp.get(entityName + '/' <#if (entityDefinition.keys?size > 0)>+ $stateParams.${entityDefinition.keys[0].name}</#if> + "?children=false", 
-												function(data) {													
+												function(data) {
+													$rootScope.hidePreloader();
 													$scope.model = data.model.entity;
 													tabsContent[entityName] = data.model.entity; 
 												});
@@ -160,7 +180,7 @@
 						$scope.menuArray = data;
 					});
 					
-					$scope.doAction = function(entityName, actionAlias) {
+					$scope.doAction = function(entityName, actionAlias) {						
 						var findAndClearActions = function(data) {						
 							if (data.actions != null && data.actions != undefined) {
 								data.actions = null;
@@ -185,10 +205,11 @@
 						$olHttp.post(url,findAndClearActions($scope.model), 
 							function(data) {
 								if (data.model.entityName == '${entityDefinition.entityName}'){
+									$rootScope.hidePreloader();
 									$scope.model = data.model.entity;								
 								}
 								else{					
-									
+									$rootScope.allowHidePreloader = false;
 									$state.go(data.model.entityName);
 								}
 							}
@@ -221,15 +242,16 @@
 					$scope.noTargetScreenEntityAlert = function() {
 						alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 					}; 
-					$scope.read = function(){
+					$scope.read = function(){						
 						$olHttp.get('${entityName}/'  <#if keys?size &gt; 0>+ $stateParams.${keys[0].name?replace(".", "_")}</#if> + "?children=false",
-							function(data) {						
+							function(data) {
+								$rootScope.hidePreloader();						
 								$scope.model = data.model.entity;							
 								$scope.baseUrl = olConfig.baseUrl;
 								$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
 								
 								
-								$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {					
+								$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {														
 									$scope.model.actions=null;
 									<#list tableDefinitions?keys as key> 
 										$scope.model.${tableDefinitions[key].tableEntityName}s[rowIndex][columnName] = actionValue;
@@ -238,9 +260,11 @@
 									$olHttp.post('${entityName}/', $scope.model, function(data) {
 										if (data.model.entityName == '${entityName}'){
 											$scope.model = data.model.entity;
-											$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);								
+											$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
+											$rootScope.hidePreloader();								
 										}
 										else{					
+											$rootScope.allowHidePreloader = false;;
 											$state.go(data.model.entityName);
 										}
 									});
@@ -251,11 +275,12 @@
 									tabsContent["${entityName}"] = $scope.model;
 									$scope.loadTab = function(entityName) {
 										if (tabsContent[entityName] == null) { 
-											$scope.model.actions=null;
+											$scope.model.actions=null;											
 											$olHttp.get(entityName + '/' <#if (keys?size > 0)>+ $stateParams.${keys[0].name}</#if> + "?children=false", 
 												function(data) {													
 													$scope.model = data.model.entity;
-													tabsContent[entityName] = data.model.entity; 
+													tabsContent[entityName] = data.model.entity;
+													$rootScope.hidePreloader(); 
 												});
 										} else {
 											$scope.model = tabsContent[entityName];
@@ -271,7 +296,7 @@
 					});	
 		
 					
-					$scope.doAction = function(entityName, actionAlias) {					
+					$scope.doAction = function(entityName, actionAlias) {											
 						var findAndClearActions = function(data) {						
 							if (data.actions != null && data.actions != undefined) {
 								data.actions = null;
@@ -296,10 +321,11 @@
 						$olHttp.post(url,findAndClearActions($scope.model), 
 							function(data) {
 								if (data.model.entityName == '${entityName}'){
-									$scope.model = data.model.entity;								
+									$scope.model = data.model.entity;
+									$rootScope.hidePreloader();								
 								}
 								else{					
-									
+									$rootScope.allowHidePreloader = false;
 									$state.go(data.model.entityName);
 								}
 							}

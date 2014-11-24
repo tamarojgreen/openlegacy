@@ -41,20 +41,23 @@
 		<script src="js/app/directives.js" type="text/javascript"></script>	
 		<script src="js/app/config.js" type="text/javascript"></script>
 	</head>
-	<body class="main" ng-class="theme">	
-		<div ui-view="header" ng-cloak></div>	
-		<div class="container-fluid">    
-	    	<div class="row">		  			  			
-				<div class="col-sm-3 col-md-2 no-gutters-sm">				
-					<div ui-view="sideMenu" ng-cloak></div>
-				</div>						
-				<div class="col-sm-9 col-md-10">								
-					<div ui-view="breadcrumbs" ng-cloak></div>
-					<!-- content view -->				
-					<div ui-view ng-cloak></div>
-					<!-- /content view -->
+	<body class="main" ng-class="theme">
+		<img src="img/preloader.gif" class="preloader">
+		<div class="content-wrapper">	
+			<div ui-view="header" ng-cloak></div>	
+			<div class="container-fluid">    
+		    	<div class="row">		  			  			
+					<div class="col-sm-3 col-md-2 no-gutters-sm">				
+						<div ui-view="sideMenu" ng-cloak></div>
+					</div>						
+					<div class="col-sm-9 col-md-10">								
+						<div ui-view="breadcrumbs" ng-cloak></div>
+						<!-- content view -->				
+						<div ui-view ng-cloak></div>
+						<!-- /content view -->
+					</div>
+					
 				</div>
-				
 			</div>
 		</div>
 	</body>

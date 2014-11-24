@@ -2,21 +2,13 @@
 
 	'use strict';
 	
-	var hidePreloader = function() {
-		if (allowHidePreloader = true) {			
-			$(".preloader").hide();
-			$(".content-wrapper").show();
-		} else {
-			allowHidePreloader = true;
-		}		
-	};
-
 	/* Services */
 	angular.module( 'services', [] )
 	
-	.factory('$olHttp', function( $http ) {
+	.factory('$olHttp', function( $http, $rootScope ) {		
 		return {
-			get:function(url, callback) {				
+			get:function(url, callback) {
+				$rootScope.showPreloader();
 				$http({
 		                method : 'GET',
 		                data : '',
@@ -35,12 +27,13 @@
 		        	callback(data);
 		        })
 		        .error(function(data, status, headers, config){
-		        	hidePreloader();
+		        	$rootScope.hidePreloader();
 		            alert(data)
 		        });
 	        },
 		        
 			post: function(url, data, callback) {
+				$rootScope.showPreloader();
 				var findAndClearActions = function(data) {						
 					if (data.actions != null && data.actions != undefined) {
 						data.actions = null;
@@ -70,7 +63,7 @@
 		    		callback(angular.fromJson(data));    		
 		    	})
 		    	.error(function(data, status, headers, config){
-		    		hidePreloader();
+		    		$rootScope.hidePreloader();
 		            alert(data)
 		        });
 			}				

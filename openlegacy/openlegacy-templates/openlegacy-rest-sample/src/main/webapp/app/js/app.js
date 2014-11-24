@@ -6,20 +6,33 @@ var olApp = angular.module('olApp', [
     'services',
     "ui.bootstrap"
 ]).run(['$rootScope', '$state', '$themeService', function ($rootScope, $state, $themeService) {
-	var allowHidePreloader = true;
+	$rootScope.allowHidePreloader = true;
+	$rootScope.allowShowPreloader = true;
+	
+	$rootScope.showPreloader = function() {
+		if ($rootScope.allowShowPreloader == true) {			
+			$(".preloader").show();
+			$(".content-wrapper").hide();
+			$rootScope.allowShowPreloader = false;
+		}		
+	}
+	
+	$rootScope.hidePreloader = function() {		
+		if ($rootScope.allowHidePreloader == true) {			
+			$(".preloader").hide();
+			$(".content-wrapper").show();
+			$rootScope.allowShowPreloader = true;
+		} else {
+			$rootScope.allowHidePreloader = true;
+		}		
+	}
 	
 	$rootScope.$on("$locationChangeStart", function(){		
-		$(".preloader").show();
-		$(".content-wrapper").hide();
+		$rootScope.showPreloader();
 	});
 	
-	$rootScope.$on("$locationChangeSuccess", function(){
-		if (allowHidePreloader = true) {			
-			$(".preloader").hide(0);
-			$(".content-wrapper").show(0);
-		} else {
-			allowHidePreloader = true;
-		}		
+	$rootScope.$on("$locationChangeSuccess", function(){		
+		$rootScope.hidePreloader();
 	});
 	
     $rootScope.theme = $themeService.getCurrentTheme();

@@ -1,18 +1,3 @@
-
-var showPreloader = function() {
-	$(".preloader").show();
-	$(".content-wrapper").hide();
-};
-
-var hidePreloader = function() {
-	if (allowHidePreloader = true) {			
-		$(".preloader").hide(0);
-		$(".content-wrapper").show(0);
-	} else {
-		allowHidePreloader = true;
-	}		
-};
-
 var olControllers = angular.module('controllers', []);
 
 olControllers.controller('loginController', function ($rootScope, $state, $scope, $olHttp) {			
@@ -20,8 +5,7 @@ olControllers.controller('loginController', function ($rootScope, $state, $scope
 		$state.go('menu');
 	}
 	
-	$scope.login = function(username, password) {
-		showPreloader();
+	$scope.login = function(username, password) {		
 		$olHttp.get('login?user=' + username + '&password='+ password,	function() {
 				var $expiration = new Date();				
 				$expiration.setTime($expiration.getTime() + loginExpirationTime*60*1000);
@@ -36,8 +20,8 @@ olControllers.controller('loginController', function ($rootScope, $state, $scope
 
 olControllers.controller('logoffController', function ($rootScope, $state, $scope, $olHttp) {	
 	$olHttp.get('logoff', 
-		function() {
-			hidePreloader();
+		function() {			
+			$rootScope.hidePreloader();
 			$.removeCookie("loggedInUser", {path: '/'});
 		}
 	);
@@ -53,8 +37,7 @@ olControllers.controller('HeaderController', function ($rootScope, $state, $scop
 	}
 	
 	$scope.logout = function() {
-		showPreloader();
-		allowHidePreloader = false;
+		$rootScope.allowHidePreloader = false;
 		delete $scope.username
 		$state.go("logoff")			
 	}
@@ -91,17 +74,17 @@ olControllers.controller('HeaderController', function ($rootScope, $state, $scop
 	
 });
 
-olControllers.controller('messagesModalCtrl', ['$scope', '$modalInstance','messages', function($scope, $modalInstance, messages) {	
+olControllers.controller('messagesModalCtrl', function($scope, $modalInstance, messages) {	
 	$scope.messages = messages;	
 	$scope.close = function() {
 		$modalInstance.close();
 	};
 	
-}]);
+});
 
-olControllers.controller('warehouseListCtrl', ['$scope', '$state', '$olHttp', 'flatMenu',  function ($scope, $state, $olHttp, flatMenu) {    
+olControllers.controller('warehouseListCtrl', function ($rootScope, $scope, $state, $olHttp, flatMenu) {    
     $olHttp.get("Warehouses", function(data) {
-    	hidePreloader();    	
+    	$rootScope.hidePreloader();    	
     	$scope.model = data.model;
         $scope.entity = data.model.entity;        
         $scope.breadcrumbs = data.model.paths;
@@ -110,8 +93,7 @@ olControllers.controller('warehouseListCtrl', ['$scope', '$state', '$olHttp', 'f
 			$scope.menuArray = data;
 		});
         
-        $scope.doAction = function(actionAlias) {
-        	showPreloader();
+        $scope.doAction = function(actionAlias) {        	
         	if (actionAlias == "") {
         		var url = data.model.entityName + actionAlias;
         	} else {
@@ -120,10 +102,10 @@ olControllers.controller('warehouseListCtrl', ['$scope', '$state', '$olHttp', 'f
         	
         	$olHttp.post(url, data.model.entity, function(data) {        		
         		if (data.model.entityName == $scope.model.entityName) {
-        			hidePreloader();
+        			$rootScope.hidePreloader();
         			$scope.entity = data.model.entity;
         		} else {
-        			allowHidePreloader = false;
+        			$rootScope.allowHidePreloader = false;
         			$state.go(data.model.entityName);
         		}        		
         	});
@@ -131,11 +113,11 @@ olControllers.controller('warehouseListCtrl', ['$scope', '$state', '$olHttp', 'f
         
         $scope.exportExcelUrl = olConfig.baseURL + "/" + data.model.entityName + "/excel"; 
     });
-}]);
+});
 
-olControllers.controller('warehouseDetailsCtrl', ['$scope', '$stateParams', '$state', '$olHttp', 'flatMenu', function ($scope, $stateParams, $state, $olHttp, flatMenu) {
+olControllers.controller('warehouseDetailsCtrl', function ($rootScope, $scope, $stateParams, $state, $olHttp, flatMenu) {
 	$olHttp.get("WarehouseDetails/" + $stateParams.warehouseId, function(data){
-		hidePreloader();
+		$rootScope.hidePreloader();
 		$scope.model = data.model;
         $scope.entity = data.model.entity;        
         $scope.breadcrumbs = data.model.paths;
@@ -144,8 +126,7 @@ olControllers.controller('warehouseDetailsCtrl', ['$scope', '$stateParams', '$st
 			$scope.menuArray = data;
 		});
 		
-		$scope.doAction = function(actionAlias) {
-			showPreloader();
+		$scope.doAction = function(actionAlias) {			
 			if (actionAlias == "") {
         		var url = data.model.entityName + actionAlias;
         	} else {
@@ -154,11 +135,11 @@ olControllers.controller('warehouseDetailsCtrl', ['$scope', '$stateParams', '$st
 			
 	    	$olHttp.post(url, data.model.entity, function(data) {
 	    		if (data.model.entityName == $scope.model.entityName){
-	    			hidePreloader();
+	    			$rootScope.hidePreloader();
 	    			$scope.entity = data.model.entity;								
 				}
 				else {
-					allowHidePreloader = false;
+					$rootScope.allowHidePreloader = false;
 					$state.go(data.model.entityName);
 				}	    		
 	    	});
@@ -171,11 +152,11 @@ olControllers.controller('warehouseDetailsCtrl', ['$scope', '$stateParams', '$st
 			$scope.entity.warehouseType = type.type;			
 		}
 	});
-}]);
+});
 
-olControllers.controller('warehouseTypesCtrl', ['$scope', '$state', '$olHttp', 'flatMenu', function ($scope, $state, $olHttp, flatMenu) {
+olControllers.controller('warehouseTypesCtrl', function ($rootScope, $scope, $state, $olHttp, flatMenu) {
 	$olHttp.get("WarehouseTypes", function(data) {
-		hidePreloader();
+		$rootScope.hidePreloader();
 		$scope.model = data.model;
         $scope.entity = data.model.entity;        
         $scope.breadcrumbs = data.model.paths;
@@ -184,8 +165,7 @@ olControllers.controller('warehouseTypesCtrl', ['$scope', '$state', '$olHttp', '
 			$scope.menuArray = data;
 		});
         
-		$scope.doAction = function(actionAlias) {
-			showPreloader();
+		$scope.doAction = function(actionAlias) {			
 			if (actionAlias == "") {
         		var url = data.model.entityName + actionAlias;
         	} else {
@@ -194,25 +174,25 @@ olControllers.controller('warehouseTypesCtrl', ['$scope', '$state', '$olHttp', '
 			
 	    	$olHttp.post(url, data.model.entity, function(data) {	    		
 	    		if (data.model.entityName == $scope.model.entityName){
-	    			hidePreloader();
+	    			$rootScope.hidePreloader();
 	    			$scope.entity = data.model.entity;								
 				}
 				else {
-					allowHidePreloader = false;
+					$rootScope.allowHidePreloader = false;
 					$state.go(data.model.entityName);
 				}	    		
 	    	});
 	    };
 	    $scope.exportExcelUrl = olConfig.baseURL + "/" + data.model.entityName + "/excel";
 	});
-}]);
+});
 
 
 
 
-olControllers.controller('itemListCtrl', ['$scope', '$state', '$olHttp', 'flatMenu', function ($scope, $state, $olHttp, flatMenu) {	
+olControllers.controller('itemListCtrl', function ($rootScope, $scope, $state, $olHttp, flatMenu) {	
 	$olHttp.get("Items", function(data){
-		hidePreloader();
+		$rootScope.hidePreloader();
 		$scope.model = data.model;
         $scope.entity = data.model.entity;        
         $scope.breadcrumbs = data.model.paths;
@@ -221,8 +201,7 @@ olControllers.controller('itemListCtrl', ['$scope', '$state', '$olHttp', 'flatMe
 			$scope.menuArray = data;
 		});
         
-    	$scope.doAction = function(actionAlias) {
-			showPreloader();
+    	$scope.doAction = function(actionAlias) {    		
 			if (actionAlias == "") {
         		var url = data.model.entityName + actionAlias;
         	} else {
@@ -231,11 +210,11 @@ olControllers.controller('itemListCtrl', ['$scope', '$state', '$olHttp', 'flatMe
 			
 	    	$olHttp.post(url, data.model.entity, function(data) {	    		
 	    		if (data.model.entityName == $scope.model.entityName){
-	    			hidePreloader();
+	    			$rootScope.hidePreloader();
 	    			$scope.entity = data.model.entity;								
 				}
 				else {
-					allowHidePreloader = false;
+					$rootScope.allowHidePreloader = false;
 					$state.go(data.model.entityName);
 				}	    		
 	    	});
@@ -243,13 +222,13 @@ olControllers.controller('itemListCtrl', ['$scope', '$state', '$olHttp', 'flatMe
         
         $scope.exportExcelUrl = olConfig.baseURL + "/" + data.model.entityName + "/excel";        
     });
-}]);
+});
 
 
 
-olControllers.controller('itemDetailsCtrl', ['$scope', '$stateParams', '$state', '$olHttp', 'flatMenu', function ($scope, $stateParams, $state, $olHttp, flatMenu) {
+olControllers.controller('itemDetailsCtrl', function ($rootScope, $scope, $stateParams, $state, $olHttp, flatMenu) {
 	$olHttp.get("ItemDetails/" + $stateParams.itemId,function(data){
-		hidePreloader();
+		$rootScope.hidePreloader();
 		$scope.model = data.model;
         $scope.entity = data.model.entity;        
         $scope.breadcrumbs = data.model.paths;
@@ -258,8 +237,7 @@ olControllers.controller('itemDetailsCtrl', ['$scope', '$stateParams', '$state',
 			$scope.menuArray = data;
 		});
         
-        $scope.doAction = function(actionAlias) {
-			showPreloader();
+        $scope.doAction = function(actionAlias) {        	
 			if (actionAlias == "") {
         		var url = data.model.entityName + actionAlias;
         	} else {
@@ -268,11 +246,11 @@ olControllers.controller('itemDetailsCtrl', ['$scope', '$stateParams', '$state',
 			
 	    	$olHttp.post(url, data.model.entity, function(data) {	    		
 	    		if (data.model.entityName == $scope.model.entityName){
-	    			hidePreloader();
+	    			$rootScope.hidePreloader();
 	    			$scope.entity = data.model.entity;								
 				}
 				else {
-					hidePreloader();
+					$rootScope.hidePreloader();
 					//$state.go(data.model.entityName);
 				}	    		
 	    	});
@@ -387,5 +365,5 @@ olControllers.controller('itemDetailsCtrl', ['$scope', '$stateParams', '$state',
             }]    		    			
     	}, //end of sales chart in items options
     } //end of chartOptions 
-}]);
+});
 
