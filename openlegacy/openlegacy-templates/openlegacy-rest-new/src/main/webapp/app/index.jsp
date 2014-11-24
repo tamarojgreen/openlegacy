@@ -10,7 +10,7 @@
 			
 		
 		<!-- Bootstrap core CSS -->
-	<link href="bootstrap/css/bootstrap#rtlSuffix#.min.css" media="all" type="text/css" rel="stylesheet">	
+	<link href="bootstrap/css/bootstrap.min.css" media="all" type="text/css" rel="stylesheet">	
 		
 	    <!-- Bootstrap extention CSS -->
 	    <link href="bootstrap/css/font-awesome.min.css" rel="stylesheet">	
