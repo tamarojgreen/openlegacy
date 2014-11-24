@@ -81,6 +81,11 @@ public class DateFieldsPatternBinder implements ScreenEntityBinder, Serializable
 			SimpleDateFormat dateFormater = new SimpleDateFormat(pattern, new Locale(fieldTypeDefinition.getLocale()));
 
 			try {
+				if (dateField.isHidden()) {
+					logger.debug("A hidden field was not bound " + fieldDefinition.getName());
+					return;
+				}
+
 				String value = dateField.getValue();
 				if (StringUtils.isBlank(value)) {
 					continue;

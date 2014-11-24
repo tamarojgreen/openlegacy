@@ -63,6 +63,11 @@ public class ScreenBinderLogic implements Serializable {
 			TerminalPosition position = fieldMappingDefinition.getPosition();
 			TerminalField terminalField = terminalSnapshot.getField(position);
 			if (terminalField == null) {
+				logger.debug("A field mapping was not found " + fieldMappingDefinition.getName());
+				continue;
+			}
+			if (terminalField.isHidden() && !terminalField.isEditable()) {
+				logger.debug("A hidden field was not bound " + fieldMappingDefinition.getName());
 				continue;
 			}
 
