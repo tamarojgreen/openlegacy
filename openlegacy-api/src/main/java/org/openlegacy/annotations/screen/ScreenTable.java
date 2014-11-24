@@ -75,5 +75,5 @@ public @interface ScreenTable {
 	/**
 	 * Determines an order of table columns
 	 */
-	boolean rtlDirection() default false;
+	boolean rightToLeft() default false;
 }

@@ -4,6 +4,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenColumnAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenTableAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.ActionsComparator;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.IEntityActionsSorter;
 
@@ -42,6 +43,13 @@ public class ScreenEntityActionsSorter implements IEntityActionsSorter {
 			ScreenAnnotationConstants.COL_SPAN, ScreenAnnotationConstants.SORT_INDEX, ScreenAnnotationConstants.ATTRIBUTE,
 			ScreenAnnotationConstants.TARGET_ENTITY, ScreenAnnotationConstants.EXPRESSION);
 
+	private static final List<String> SCREEN_TABLE_ORDER = Arrays.asList(ScreenAnnotationConstants.START_ROW,
+			ScreenAnnotationConstants.END_ROW, AnnotationConstants.NAME, ScreenAnnotationConstants.NEXT_SCREEN_ACTION,
+			ScreenAnnotationConstants.PREV_SCREEN_ACTION, ScreenAnnotationConstants.SUPPORT_TERMINAL_DATA,
+			ScreenAnnotationConstants.SCROLLABLE, ScreenAnnotationConstants.TABLE_COLLECTOR, ScreenAnnotationConstants.ROW_GAPS,
+			ScreenAnnotationConstants.SCREENS_COUNT, ScreenAnnotationConstants.FILTER_EXPRESSION,
+			ScreenAnnotationConstants.RIGHT_TO_LEFT);
+
 	public List<AbstractAction> sort(List<AbstractAction> actions) {
 		if ((actions == null) || actions.isEmpty()) {
 			return actions;
@@ -53,6 +61,8 @@ public class ScreenEntityActionsSorter implements IEntityActionsSorter {
 			Collections.sort(actions, ActionsComparator.getInstance(SCREEN_FIELD_ORDER));
 		} else if (abstractAction instanceof ScreenColumnAction) {
 			Collections.sort(actions, ActionsComparator.getInstance(SCREEN_COLUMN_ORDER));
+		} else if (abstractAction instanceof ScreenTableAction) {
+			Collections.sort(actions, ActionsComparator.getInstance(SCREEN_TABLE_ORDER));
 		}
 		return actions;
 	}
@@ -65,6 +75,8 @@ public class ScreenEntityActionsSorter implements IEntityActionsSorter {
 			return SCREEN_FIELD_ORDER.contains(action.getKey()) ? SCREEN_FIELD_ORDER.indexOf(action.getKey()) : defaultIndex;
 		} else if (action instanceof ScreenColumnAction) {
 			return SCREEN_COLUMN_ORDER.contains(action.getKey()) ? SCREEN_COLUMN_ORDER.indexOf(action.getKey()) : defaultIndex;
+		} else if (action instanceof ScreenTableAction) {
+			return SCREEN_TABLE_ORDER.contains(action.getKey()) ? SCREEN_TABLE_ORDER.indexOf(action.getKey()) : defaultIndex;
 		}
 		return defaultIndex;
 	}
