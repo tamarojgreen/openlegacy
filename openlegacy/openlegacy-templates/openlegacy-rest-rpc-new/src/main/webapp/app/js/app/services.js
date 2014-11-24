@@ -16,10 +16,11 @@
 		return $http.get( 'js/contacts.json' );
 	} )
 
-	.factory( '$olHttp', function( $http ) {
+	.factory( '$olHttp', function( $http, $rootScope ) {
 		
 		return{
 			get:function(url,callback){
+				$rootScope.showPreloader();
 				$http(
 						{
 							method : 'GET',
@@ -33,6 +34,7 @@
 				.success(function(data, status, headers, config) {
 					callback(data);
 				}).error(function(data, status, headers, config) {
+					$rootScope.hidePreloader();
 					if(data.error){
 						alert('Error: ' + data.error);
 					} else {
@@ -43,8 +45,7 @@
 			},
 
 			post:function(url,model,callback){
-				console.log(url);
-				console.log(model);
+				$rootScope.showPreloader();
 				$http(
 						{
 							method : 'POST',
@@ -57,7 +58,8 @@
 						})
 				.success(function(data, status, headers, config) {
 					callback(data);
-				}).error(function(data, status, headers, config) {					
+				}).error(function(data, status, headers, config) {
+					$rootScope.hidePreloader();
 					if(data.error){
 						alert('Error: ' + data.error);
 					} else {

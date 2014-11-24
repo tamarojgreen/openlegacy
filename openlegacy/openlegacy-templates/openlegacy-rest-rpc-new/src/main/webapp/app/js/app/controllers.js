@@ -32,6 +32,7 @@
 		function($scope, $olHttp, $rootScope) {
 			$olHttp.get('logoff', 
 				function() {
+					$rootScope.hidePreloader();
 					$.removeCookie("loggedInUser", {path: '/'});
 				}
 			);
@@ -48,6 +49,7 @@
 			}
 			
 			$scope.logout = function(){
+				$rootScope.allowHidePreloader = false;
 				delete $scope.username
 				$state.go("logoff");
 			}
@@ -80,13 +82,14 @@
 	<#if entitiesDefinitions??>	
 	<#list entitiesDefinitions as entityDefinition>
 		module = module.controller('${entityDefinition.entityName}Ctrl',
-			function($scope, $olHttp,$routeParams, flatMenu, $state) {			
+			function($rootScope, $scope, $olHttp,$routeParams, flatMenu, $state) {			
 				$scope.noTargetScreenEntityAlert = function() {
 					alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 				}; 
 				$scope.read = function(){					
 					$olHttp.get('${entityDefinition.entityName}/' <#if entityDefinition.keys?size &gt; 0>+ $routeParams.${entityDefinition.keys[0].name?replace(".", "_")}</#if>,					
 						function(data) {
+							$rootScope.hidePreloader();
 							$scope.model = data.model.entity;							
 							$scope.baseUrl = olConfig.baseUrl;
 							
@@ -95,6 +98,7 @@
 								$scope.model.itemsRecords[rowIndex].action_ = actionValue;
 								
 								$olHttp.post('${entityDefinition.entityName}/', $scope.model, function(data) {
+									$rootScope.hidePreloader();
 									$scope.model = data.model.entity;									
 								});
 										
@@ -112,10 +116,12 @@
 					delete $scope.model.actions;					
 					$olHttp.post(entityName + "?action=" + actionAlias,$scope.model, 
 						function(data) {						
-							if (data.model.entityName == '${entityDefinition.entityName}'){								
+							if (data.model.entityName == '${entityDefinition.entityName}'){
+								$rootScope.hidePreloader();
 								$scope.model = data.model.entity;								
 							}
-							else{					
+							else{
+								$rootScope.allowHidePreloader = false;
 								$state.go(data.model.entityName);								
 							}
 						}
@@ -132,13 +138,14 @@
 /* Controller code place-holder start
 	<#if entityName??>
 	module = module.controller('${entityName}Ctrl',
-			function($scope, $olHttp,$routeParams, flatMenu, $state) {
+			function($rootScope, $scope, $olHttp,$routeParams, flatMenu, $state) {
 				$scope.noTargetScreenEntityAlert = function() {
 					alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 				}; 
 				$scope.read = function(){					
 					$olHttp.get('${entityName}/' <#if keys?size &gt; 0>+ $routeParams.${keys[0].name?replace(".", "_")}</#if>,					
 						function(data) {
+							$rootScope.hidePreloader();
 							$scope.model = data.model.entity;							
 							$scope.baseUrl = olConfig.baseUrl;
 							
@@ -147,6 +154,7 @@
 								$scope.model.itemsRecords[rowIndex].action_ = actionValue;
 								
 								$olHttp.post('${entityName}/', $scope.model, function(data) {
+									$rootScope.hidePreloader();
 									$scope.model = data.model.entity;									
 								});
 										
@@ -164,10 +172,12 @@
 					delete $scope.model.actions;					
 					$olHttp.post(entityName + "?action=" + actionAlias,$scope.model, 
 						function(data) {						
-							if (data.model.entityName == '${entityName}'){								
+							if (data.model.entityName == '${entityName}'){
+								$rootScope.hidePreloader();								
 								$scope.model = data.model.entity;								
 							}
-							else{					
+							else{
+								$rootScope.allowHidePreloader = false;					
 								$state.go(data.model.entityName);
 							}
 						}
