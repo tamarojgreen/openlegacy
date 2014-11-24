@@ -172,6 +172,10 @@
 				    	} else {
 				    		var url = entityName + "?action=" + actionAlias;
 				    	}  
+						$scope.model.actions=null;
+						<#list entityDefinition.tableDefinitions?keys as key> 
+						$scope.model.${entityDefinition.tableDefinitions[key].tableEntityName?uncap_first}sActions=null;
+					    </#list>	
 						$olHttp.post(url,$scope.model, 
 							function(data) {
 								if (data.model.entityName == '${entityDefinition.entityName}'){
