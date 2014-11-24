@@ -932,9 +932,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		window = windowFlagFromAnnotation != null ? Boolean.valueOf(windowFlagFromAnnotation) : false;
 
 		nextScreenActionName = nextScreenActionNameFromAnnotation != null ? StringUtil.toClassName(nextScreenActionNameFromAnnotation)
-				: TerminalActions.PAGEDOWN().getActionName();
+				: TerminalActions.PAGE_DOWN().getActionName();
 		previousScreenActionName = previousScreenActionNameFromAnnotation != null ? StringUtil.toClassName(previousScreenActionNameFromAnnotation)
-				: TerminalActions.PAGEUP().getActionName();
+				: TerminalActions.PAGE_UP().getActionName();
 		tableCollectorName = tableCollectorNameFromAnnotation != null ? StringUtil.toClassName(tableCollectorNameFromAnnotation)
 				: ScreenTableCollector.class.getSimpleName();
 		scrollable = scrollableFromAnnotation != null ? Boolean.valueOf(scrollableFromAnnotation) : true;
