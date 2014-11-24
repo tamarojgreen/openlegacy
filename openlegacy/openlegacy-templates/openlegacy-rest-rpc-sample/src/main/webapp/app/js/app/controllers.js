@@ -33,15 +33,16 @@
 		function($scope, $location, $olHttp, $rootScope, $cookies) {
 			$olHttp.get('logoff', 
 				function() {
+					$rootScope.hidePreloader();
 					$.removeCookie("loggedInUser", {path: '/'});
 				}
 			);
 		})
 	.controller('itemsCtrl',
-		function($state, $scope, $location, $olHttp) {
+		function($rootScope, $state, $scope, $location, $olHttp) {
 			$olHttp.get('Items', 
 				function(data) {
-				
+					$rootScope.hidePreloader();
 					$scope.items = data.model.entity.innerRecord;
 			        
 			        var actions = []; 
@@ -56,9 +57,11 @@
 			        $scope.postAction = function(actionAlias) {			        	
 			        	$olHttp.post(data.model.entityName + "?action=" + actionAlias, data.model.entity, function(data) {
 			        		if ($state.current.name == data.model.entityName.toLowerCase()) {
+			        			$rootScope.hidePreloader();
 			        			$scope.items = data.model.entity.innerRecord;
 			        			console.log("OK");
 			        		} else {
+			        			$rootScope.allowHidePreloader = false;
 			        			$state.go(data.model.entityName.toLowerCase());
 			        		}
 			        		
@@ -70,8 +73,9 @@
 				});			
 		})
 	.controller('itemDetailsCtrl',
-			function($scope, $location, $olHttp,$routeParams, $state) {
+			function($rootScope, $scope, $location, $olHttp,$routeParams, $state) {
 				$olHttp.get("ItemDetails/" + $routeParams.id, function(data) {
+					$rootScope.hidePreloader();
 					$scope.itemDetails = data.model.entity;					
 					var actions = []; 
 			        angular.forEach(data.model.actions, function(value, key) {
@@ -86,10 +90,12 @@
 						$olHttp.post(data.model.entityName + "?action=" + actionAlias, $scope.itemDetails, function(data) {
 							var entityName = data.model.entityName[0].toLowerCase() + data.model.entityName.substring(1);
 							if ($state.current.name == entityName) {
+								$rootScope.hidePreloader();
 			        			$scope.items = data.model.entity.innerRecord;
 			        			$scope.itemDetails = data.model.entity;
 			        			console.log("OK");
 			        		} else {
+			        			$rootScope.allowHidePreloader = false;
 			        			$state.go(entityName);
 			        		}
 						});				    	
@@ -109,6 +115,7 @@
 			
 			
 			$scope.logout = function(){
+				$rootScope.allowHidePreloader = false;
 				delete $scope.username
 				$state.go("logoff");
 			}

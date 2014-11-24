@@ -122,3 +122,19 @@ body{
 	outline:none;
 	border:none;
 }
+
+.preloader {
+	position: absolute;
+	margin: auto;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	-moz-transform:scale(0.5);
+    -webkit-transform:scale(0.5);
+    transform:scale(0.5);
+}
+
+.content-wrapper {
+	display:none;
+}
