@@ -24,7 +24,7 @@ public class ResetMessagesModule extends TerminalSessionModuleAdapter {
 
 	private String messageField;
 
-	private TerminalAction terminalAction = TerminalActions.ESC();
+	private TerminalAction terminalAction = TerminalActions.ESCAPE();
 
 	private boolean resetBefore = true;
 	private boolean resetAfter = false;

@@ -178,9 +178,9 @@ public class FieldsScreenFieldValuesDetailsPage extends AbstractScreenFieldDetai
 	private static String[] getTerminalActions() {
 		List<String> list = new ArrayList<String>();
 		list.add(TerminalActions.ENTER.class.getSimpleName());
-		list.add(TerminalActions.ESC.class.getSimpleName());
-		list.add(TerminalActions.PAGEDOWN.class.getSimpleName());
-		list.add(TerminalActions.PAGEUP.class.getSimpleName());
+		list.add(TerminalActions.ESCAPE.class.getSimpleName());
+		list.add(TerminalActions.PAGE_DOWN.class.getSimpleName());
+		list.add(TerminalActions.PAGE_UP.class.getSimpleName());
 		list.add(TerminalActions.F1.class.getSimpleName());
 		list.add(TerminalActions.F2.class.getSimpleName());
 		list.add(TerminalActions.F3.class.getSimpleName());
