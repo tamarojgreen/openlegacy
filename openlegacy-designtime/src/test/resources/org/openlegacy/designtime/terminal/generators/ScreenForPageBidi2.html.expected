@@ -129,15 +129,15 @@
 						<tbody>                            	
 		                    <tr data-ng-repeat="screenForPageRow in model.screenForPageRows">                              
 										<td>
-														<a href="" ng-click="doActionNoTargetEntity($index, 'action', '1')">
+														<a href="" ng-click="screenForPageRow.action='1';doActionNoTargetEntity()">
 															View
 														</a>
-														<a href="" ng-click="doActionNoTargetEntity($index, 'action', '2')">
+														<a href="" ng-click="screenForPageRow.action='2';doActionNoTargetEntity()">
 															Revise
 														</a>
 		                            	</td>
-										<td>{{screenForPageRow.column1}}</td>																			
-										<td>{{screenForPageRow.column2}}</td>																			
+												<td>{{screenForPageRow.column1}}</td>
+												<td>{{screenForPageRow.column2}}</td>
 							</tr>                            
 		                </tbody>
 			  		</table>

@@ -914,12 +914,12 @@ public class ScreenEntityUtils {
 			isDefault = model.getName().isEmpty();
 			PrivateMethods.addRemoveScreenTableAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.NAME, model.getName());
-			// @ScreenTable.nextScreenAction: default TerminalActions.PAGEDOWN.class;
+			// @ScreenTable.nextScreenAction: default TerminalActions.PAGE_DOWN.class;
 			isPrevious = entityModel.getNextScreenActionName().equals(model.getNextScreenActionName());
 			isDefault = model.getNextScreenActionName().equals(TerminalActions.PAGE_DOWN.class.getSimpleName());
 			PrivateMethods.addRemoveScreenTableAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, ScreenAnnotationConstants.NEXT_SCREEN_ACTION, model.getNextScreenAction());
-			// @ScreenTable.previousScreenAction: default TerminalActions.PAGEUP.class;
+			// @ScreenTable.previousScreenAction: default TerminalActions.PAGE_UP.class;
 			isPrevious = entityModel.getPreviousScreenActionName().equals(model.getPreviousScreenActionName());
 			isDefault = model.getPreviousScreenActionName().equals(TerminalActions.PAGE_UP.class.getSimpleName());
 			PrivateMethods.addRemoveScreenTableAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
@@ -954,6 +954,11 @@ public class ScreenEntityUtils {
 			isDefault = StringUtils.isEmpty(model.getFilterExpression());
 			PrivateMethods.addRemoveScreenTableAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, ScreenAnnotationConstants.FILTER_EXPRESSION, model.getFilterExpression());
+			// @ScreenTable.rightToLeft: default false
+			isPrevious = entityModel.isRightToLeft() == model.isRightToLeft();
+			isDefault = !model.isRightToLeft();
+			PrivateMethods.addRemoveScreenTableAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, ScreenAnnotationConstants.RIGHT_TO_LEFT, model.isRightToLeft());
 		}
 
 		/**

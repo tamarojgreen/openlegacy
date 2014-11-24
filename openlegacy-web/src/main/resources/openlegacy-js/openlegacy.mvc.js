@@ -24,10 +24,41 @@ function doPost(formName, actionName) {
 	if (actionName != null && actionName.length > 0) {
 		form.action = form.action + "?action=" + actionName;
 	}
+	if (QueryString.target != null){
+		var seperator = "?"
+		if (form.action.indexOf("?") > 0){
+			seperator = "&"
+		}
+		form.action = form.action + seperator + "target=" + QueryString.target;
+	}
 	
 	form.submit();
 }
 
+
+var QueryString = function () {
+	  // This function is anonymous, is executed immediately and 
+	  // the return value is assigned to QueryString!
+	  var query_string = {};
+	  var query = window.location.search.substring(1);
+	  var vars = query.split("&");
+	  for (var i=0;i<vars.length;i++) {
+	    var pair = vars[i].split("=");
+	    	// If first entry with this name
+	    if (typeof query_string[pair[0]] === "undefined") {
+	      query_string[pair[0]] = pair[1];
+	    	// If second entry with this name
+	    } else if (typeof query_string[pair[0]] === "string") {
+	      var arr = [ query_string[pair[0]], pair[1] ];
+	      query_string[pair[0]] = arr;
+	    	// If third or later entry with this name
+	    } else {
+	      query_string[pair[0]].push(pair[1]);
+	    }
+	  } 
+	    return query_string;
+	} ();
+	
 /**
  * Submit the given <entityName>Form in ajax post, and loads the result into the
  * given entity name panel

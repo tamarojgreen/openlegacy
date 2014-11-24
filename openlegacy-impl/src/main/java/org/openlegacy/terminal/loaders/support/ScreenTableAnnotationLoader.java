@@ -68,7 +68,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 		if (screenTableAnnotation.filterExpression().length() > 0) {
 			tableDefinition.setFilterExpression(screenTableAnnotation.filterExpression());
 		}
-		tableDefinition.setRtlDirection(screenTableAnnotation.rtlDirection());
+		tableDefinition.setRightToLeft(screenTableAnnotation.rightToLeft());
 
 		tableDefinition.setNextScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.nextScreenAction()));
 		tableDefinition.setPreviousScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.previousScreenAction()));
@@ -82,7 +82,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 		collectTablesReferenceMetadata(containingClass, tableDefinition);
 
 		final OpenLegacyProperties olProperties = getBeanFactory().getBean(OpenLegacyProperties.class);
-		final boolean tableRtlDirection = tableDefinition.isRtlDirection();
+		final boolean tableRightToLeft = tableDefinition.isRightToLeft();
 
 		Collections.sort(tableDefinition.getColumnDefinitions(), new Comparator<ScreenColumnDefinition>() {
 
@@ -91,7 +91,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 				if (column1.getRowsOffset() != column2.getRowsOffset()) {
 					return column1.getRowsOffset() - column2.getRowsOffset();
 				}
-				if ((olProperties.isRightToLeft() && !tableRtlDirection) || (!olProperties.isRightToLeft() && tableRtlDirection)) {
+				if ((olProperties.isRightToLeft() && !tableRightToLeft) || (!olProperties.isRightToLeft() && tableRightToLeft)) {
 					return column2.getStartColumn() - column1.getStartColumn();
 				}
 				return column1.getStartColumn() - column2.getStartColumn();
@@ -99,7 +99,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 		});
 
 		if (tableDefinition.getSelectionColumn() != null && tableDefinition.getKeyFieldNames().size() == 0) {
-			throw (new RegistryException("No key column/s defined for table " + containingClass.getSimpleName()));
+			// throw (new RegistryException("No key column/s defined for table " + containingClass.getSimpleName()));
 		}
 		screenEntitiesRegistry.addTable(tableDefinition);
 

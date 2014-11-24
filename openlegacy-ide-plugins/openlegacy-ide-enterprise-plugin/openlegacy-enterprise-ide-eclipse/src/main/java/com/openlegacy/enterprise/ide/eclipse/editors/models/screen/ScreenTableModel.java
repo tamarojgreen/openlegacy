@@ -43,6 +43,7 @@ public class ScreenTableModel extends ScreenNamedObject {
 	private int rowGaps = 1;
 	private int screensCount = 1;
 	private String filterExpression = "";
+	private boolean rightToLeft = false;
 	// other
 	private Map<UUID, ScreenColumnModel> columns = new HashMap<UUID, ScreenColumnModel>();
 	private Map<UUID, TableActionModel> actions = new HashMap<UUID, TableActionModel>();
@@ -122,6 +123,7 @@ public class ScreenTableModel extends ScreenNamedObject {
 			sortedActions.add(model.clone());
 		}
 		this.filterExpression = tableDefinition.getFilterExpression();
+		this.rightToLeft = tableDefinition.isRightToLeft();
 
 		this.nextScreenActionName = tableDefinition.getNextScreenActionName();
 		this.previousScreenActionName = tableDefinition.getPreviousScreenActionName();
@@ -146,6 +148,7 @@ public class ScreenTableModel extends ScreenNamedObject {
 		model.setRowGaps(this.rowGaps);
 		model.setScreensCount(this.screensCount);
 		model.setFilterExpression(this.filterExpression);
+		model.setRightToLeft(this.rightToLeft);
 
 		model.setNextScreenActionName(this.nextScreenActionName);
 		model.setPreviousScreenActionName(this.previousScreenActionName);
@@ -339,6 +342,14 @@ public class ScreenTableModel extends ScreenNamedObject {
 
 	public void setFilterExpression(String filterExpression) {
 		this.filterExpression = filterExpression;
+	}
+
+	public boolean isRightToLeft() {
+		return rightToLeft;
+	}
+
+	public void setRightToLeft(boolean rightToLeft) {
+		this.rightToLeft = rightToLeft;
 	}
 
 	public boolean isInitialized() {
