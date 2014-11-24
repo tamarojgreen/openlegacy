@@ -3,20 +3,6 @@
 	'use strict';
 
 	/* Controllers */
-	
-	var showPreloader = function() {
-		$(".preloader").show();
-		$(".content-wrapper").hide();
-	};
-
-	var hidePreloader = function() {
-		if (allowHidePreloader = true) {			
-			$(".preloader").hide(0);
-			$(".content-wrapper").show(0);
-		} else {
-			allowHidePreloader = true;
-		}		
-	};
 
 	var module = angular.module('controllers', ["ui.bootstrap"]);
 
@@ -75,6 +61,7 @@
 				
 				$scope.showMessages = false;
 				$olHttp.get("messages", function(data){
+					$rootScope.hidePreloader();
 					if (data.model != null && data.model != undefined && data.model != "") {						
 						$scope.showMessages = true;
 						
