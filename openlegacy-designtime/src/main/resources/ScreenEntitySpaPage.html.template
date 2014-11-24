@@ -29,7 +29,7 @@
 					</div>
 					
 					<#list childPagesDefinitions as childPage>		            			
-		    			<div class="tab-pane" id="${childPage.entityDefinition.entityName}">			            					            				
+	        			<div class="tab-pane" id="${childPage.entityDefinition.entityName}">			            					            				
 						    <@navMacro entity=childPage.entityDefinition showExcelBtn=hasTable?string/>
 						    <#if (childPage.pageParts?size > 0)>
 						    	<#list childPage.pageParts as part>
@@ -41,7 +41,7 @@
 						    		<@fieldMacro field=childPage.entityDefinition.fieldsDefinitions[key]/>
 				    			</#list>							    		
 						    </#if>
-		    			</div>
+	        			</div>
         		    </#list>						  
 				</div><!-- /Tab panes -->
 			</div>
@@ -73,10 +73,13 @@
 						<thead>
 							<tr>
 							<#list part.tableDefinition.columnDefinitions as column>									
+								<#if column.selectionField>
+									<#assign selectionColumn = column>
+								</#if>
 								<#if column_has_next>
 									<th>${column.displayName}</th>
 								<#else>
-							     <th>${column.displayName}</th>
+								<th>${column.displayName}</th>
 								</#if>
 					  		</#list>
 							</tr>
@@ -100,12 +103,12 @@
 													    <#if action.targetEntity??>
 													    	<li><a href="#/${action.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">${action.displayName}</a></li>
 													    <#else>
-													    	<li><a href="" ng-click="${part.tableDefinition.tableEntityName?uncap_first}.${column.name}='${action.action.actionValue}';doActionNoTargetEntity()">${action.displayName}</a></li>
+													    	<li><a href="" ng-click="${part.tableDefinition.tableEntityName?uncap_first}.${selectionColumn.name}='${action.action.actionValue}';doActionNoTargetEntity()">${action.displayName}</a></li>
 													    </#if>																		                                        		                                        
 			                                        </#list>		                                        
 												  </ul>
 												</div>
-											<#else>													
+											<#else>
 												<#list part.tableDefinition.actions as action>
 													<#if action.defaultAction == true>
 														<#assign defaultAction = action defaultActionIndex = action_index>
@@ -121,34 +124,22 @@
 															${action.displayName}												
 														</a>
 													<#else>
-														<a href="" ng-click="${part.tableDefinition.tableEntityName?uncap_first}.${column.name}='${action.action.actionValue}';doActionNoTargetEntity()">
+														<a href="" ng-click="${part.tableDefinition.tableEntityName?uncap_first}.${selectionColumn.name}='${action.action.actionValue}';doActionNoTargetEntity()">
 															${action.displayName}
 														</a>
 													</#if>			                                        		                                        
 		                                        </#list>		                              
 											</#if>											
 		                            	</td>
-									<#else>
-										<#if (part.tableDefinition.actions?size > 1)>
-											<#if defaultAction??>											
-												<#if defaultAction.targetEntity??>
-													<td class="td-link"><a href="" ng-click="doAction('${entity.entityName}', '${defaultAction.alias}')">{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</a></td>
-												<#else>
-													<td class="td-link"><a href="" ng-click="doActionNoTargetEntity(${defaultActionIndex}, '${column.name}', '${defaultAction.action.actionValue}')">{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</a></td>
-												</#if>
-											<#else>
-												<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>
-											</#if>
-										<#elseif part.tableDefinition.actions?size == 1>											
-											<#if part.tableDefinition.actions[0].targetEntity??>
-												<td class="td-link"><a href="" ng-click="doAction('${entity.entityName}', '${part.tableDefinition.actions[0].alias}')">{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</a></td>
-											<#else>
-												<td class="td-link"><a href="" ng-click="doActionNoTargetEntity(1, '${column.name}', '${part.tableDefinition.actions[0].action.actionValue}')">{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</a></td>
-											</#if>											
+									<#else>	
+										<td>
+										<#if (column.editable)>
+											<input type="text" size="${column.length}" value="{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}" />
 										<#else>
-											<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>
-										</#if>												
-									</#if>								
+											{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}
+										</#if>
+										</td>
+									</#if>										
 						  		</#list>							  		
 							</tr>                            
 		                </tbody>
@@ -168,43 +159,22 @@
 			<#else>
 				<form role="form">			
 					<#list part.partRows as partRow>
-						<#assign result = []>
-						<@filterFields field=partRow.fields[0] fieldsArray=partRow.fields/>				
-						
-						<#list result as rowFields>
 							<div class="row">
-								<#assign colWidth = (6/rowFields?size)?ceiling>
-								<#list rowFields as field>
-									<div class="col-sm-${colWidth}">
-										<@fieldMacro field=field/>
-									</div>
-								</#list>
+							<#assign colWidth = (6/partRow.fields?size)?ceiling>
+							<#list partRow.fields as field>
+								<div class="col-sm-${colWidth}">
+									<#if field??>
+									<@fieldMacro field=field/>
+									</#if>
+								</div>
+							</#list>
+
 							</div>
-						</#list>								
 					</#list>
 				</form>		
 			</#if>
 		</div>
 	</div>		
-</#macro>
-
-<#macro filterFields field fieldsArray>
-	<#assign rowArray = [field]>
-	<#assign arrayToFilter = []>
-	<#list fieldsArray as el>
-		<#if field != el>
-			<#if field.position.row == el.position.row>
-				<#assign rowArray = rowArray + [el]>
-			<#else>
-				<#assign arrayToFilter = arrayToFilter + [el]>
-			</#if>
-		</#if>
-	</#list>
-	<#assign result = result + [rowArray]>
-	
-	<#if arrayToFilter?size != 0>
-		<@filterFields field=arrayToFilter[0] fieldsArray=arrayToFilter/>
-	</#if>	
 </#macro>
 
 <#macro fieldMacro field>
@@ -253,7 +223,7 @@
 	    <form class="navbar-form xnavbar-left" role="navigation">
 	    	<button data-ng-click="doAction('${entity.entityName}', '')" class="btn btn-primary navbar-btn">Submit</button>
 	        <#list entity.actions as action>		
-				<button data-ng-click="doAction('${entity.entityName}', '${action.alias}')" class="btn btn-primary navbar-btn">${action.displayName}</button>
+				<button data-ng-show="isActionAvailable('${action.alias}')" data-ng-click="doAction('${entity.entityName}', '${action.alias}')" class="btn btn-primary navbar-btn">${action.displayName}</button>
 			</#list>			
 			<a ng-href="{{baseUrl}}${entity.entityName}{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="${showExcelBtn}">
 			<span class="glyphicon glyphicon-export"></span>	        	

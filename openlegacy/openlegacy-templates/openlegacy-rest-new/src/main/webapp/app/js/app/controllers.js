@@ -114,6 +114,17 @@
 					$scope.noTargetScreenEntityAlert = function() {
 						alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 					}; 
+					$scope.isActionAvailable = function(alias){
+						if ($scope.model == null){
+							return false;
+						}
+						for (var i=0;i<$scope.model.actions.length;i++){
+							if ($scope.model.actions[i].alias == alias){
+								return true;
+							}
+						}
+						return false;
+					};
 					$scope.read = function(){						  
 					      $olHttp.get('${entityDefinition.entityName}/' <#if entityDefinition.keys?size &gt; 0>+ $stateParams.${entityDefinition.keys[0].name?replace(".", "_")}</#if> + "?children=false",
 							function(data) {
