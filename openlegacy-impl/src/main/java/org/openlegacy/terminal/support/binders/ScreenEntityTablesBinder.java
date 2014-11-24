@@ -91,6 +91,9 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 							currentRow + columnDefinition.getRowsOffset(), columnDefinition.getStartColumn());
 					final TerminalField terminalField = terminalSnapshot.getField(position);
 					if (columnDefinition.getAttribute() == FieldAttributeType.Value) {
+						if (terminalField != null && terminalField.isHidden()) {
+							continue;
+						}
 						final String cellText = getCellContent(terminalSnapshot, position, columnDefinition);
 						if (columnDefinition.isKey()) {
 							if (cellText.length() == 0) {
