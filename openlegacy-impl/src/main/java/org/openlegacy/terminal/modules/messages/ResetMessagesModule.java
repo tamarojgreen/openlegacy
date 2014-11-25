@@ -73,7 +73,7 @@ public class ResetMessagesModule extends TerminalSessionModuleAdapter {
 		}
 
 		for (String message : messages) {
-			if (error.contains(message)) {
+			if (error.contains(message) || error.matches(message)) {
 				getSession().doAction(terminalAction);
 				break;
 			}
