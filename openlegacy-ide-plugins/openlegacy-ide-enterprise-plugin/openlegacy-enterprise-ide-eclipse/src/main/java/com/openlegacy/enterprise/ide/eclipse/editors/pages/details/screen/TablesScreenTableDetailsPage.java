@@ -6,6 +6,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.TableCollec
 import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.TerminalActionViewerFilter;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenColumnModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenTableModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
@@ -291,6 +292,11 @@ public class TablesScreenTableDetailsPage extends AbstractScreenDetailsPage {
 			endRowValidator.removeValidationMarker();
 			classNameValidator.removeValidationMarker();
 		}
+	}
+
+	@Override
+	public ScreenNamedObject getPageScreenNamedObject() {
+		return null;
 	}
 
 	private static void setScreenPreviewDrawingRectangle(ScreenTableModel model) {

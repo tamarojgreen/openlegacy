@@ -5,6 +5,8 @@ import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.SimpleScreenIdentifier;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 
+import java.util.UUID;
+
 /**
  * Represents @Identifier annotation
  * 
@@ -18,6 +20,8 @@ public class IdentifierModel extends SimpleScreenIdentifier {
 	private int row;
 	private int column;
 	private String text;
+
+	private UUID uuid = UUID.randomUUID();
 
 	private FieldAttributeType defaultAttribute = FieldAttributeType.Value;
 
@@ -83,4 +87,9 @@ public class IdentifierModel extends SimpleScreenIdentifier {
 	public FieldAttributeType getDefaultAttribute() {
 		return defaultAttribute;
 	}
+
+	public UUID getUuid() {
+		return uuid;
+	}
+
 }
