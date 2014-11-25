@@ -200,5 +200,6 @@ public class ScreenEntityEditor extends AbstractEditor {
 
 	private void performSubscription() {
 		identifiersPage.performSubscription();
+		actionsPage.performSubscription();
 	}
 }

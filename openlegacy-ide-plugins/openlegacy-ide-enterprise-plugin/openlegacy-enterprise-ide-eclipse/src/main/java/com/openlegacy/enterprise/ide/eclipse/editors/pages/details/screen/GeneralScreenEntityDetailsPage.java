@@ -188,6 +188,9 @@ public class GeneralScreenEntityDetailsPage extends AbstractScreenDetailsPage {
 				(Boolean)map.get(Constants.BOOL_VALUE), (String)map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
 		// revalidate all subscribers
 		List<IOpenLegacyPage> subscribers = getPage().getSubscribers(key);
+		if (subscribers == null) {
+			return;
+		}
 		for (IOpenLegacyPage subscriber : subscribers) {
 			subscriber.revalidatePage(key);
 		}
