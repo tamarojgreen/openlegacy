@@ -5,6 +5,7 @@ import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.FieldTypeViewerFilter;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
@@ -64,6 +65,11 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 
 	public AbstractScreenFieldDetailsPage(AbstractMasterBlock master) {
 		super(master);
+	}
+
+	@Override
+	public ScreenNamedObject getPageScreenNamedObject() {
+		return null;
 	}
 
 	protected abstract ScreenFieldModel getFieldModel();

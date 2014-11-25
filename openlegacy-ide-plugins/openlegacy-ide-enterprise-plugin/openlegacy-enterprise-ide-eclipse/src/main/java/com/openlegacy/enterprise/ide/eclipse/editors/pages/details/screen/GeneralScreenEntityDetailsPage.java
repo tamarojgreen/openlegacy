@@ -5,7 +5,9 @@ import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.ScreenTypeViewerFilter;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEntityModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.IOpenLegacyPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ControlsUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ModelUpdater;
@@ -184,6 +186,14 @@ public class GeneralScreenEntityDetailsPage extends AbstractScreenDetailsPage {
 		Map<String, Object> map = getValuesOfControlsForKey(key);
 		ModelUpdater.updateScreenEntityModel(getEntity(), entityModel, key, (String)map.get(Constants.TEXT_VALUE),
 				(Boolean)map.get(Constants.BOOL_VALUE), (String)map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
+		// revalidate all subscribers
+		List<IOpenLegacyPage> subscribers = getPage().getSubscribers(key);
+		if (subscribers == null) {
+			return;
+		}
+		for (IOpenLegacyPage subscriber : subscribers) {
+			subscriber.revalidatePage(key);
+		}
 	}
 
 	@Override
@@ -220,6 +230,11 @@ public class GeneralScreenEntityDetailsPage extends AbstractScreenDetailsPage {
 
 	@Override
 	public void revalidate() {}
+
+	@Override
+	public ScreenNamedObject getPageScreenNamedObject() {
+		return entityModel;
+	}
 
 	// *************************** PRIVATE **************************************
 
