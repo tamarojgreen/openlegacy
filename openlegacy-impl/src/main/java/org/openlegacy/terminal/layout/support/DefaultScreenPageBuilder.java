@@ -240,6 +240,9 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 		// iterate through all the neighbor fields, and build row part rows upon row change, and find the end column
 		for (ScreenFieldDefinition screenFieldDefinition : fields) {
+			if (screenFieldDefinition.isInternal()) {
+				continue;
+			}
 			if (screenFieldDefinition.getPosition().getRow() != currentRow
 			// create new line if defaultColumns is configured and row is full
 					|| (defaultColumns != null && currentPagePartRow.getFields().size() == defaultColumns)) {
