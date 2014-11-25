@@ -134,7 +134,7 @@
 									<#else>	
 										<td>
 										<#if (column.editable)>
-											<input data-ng-class="readOnlyCss(${part.tableDefinition.tableEntityName?uncap_first},'${column.name}')" data-ng-readonly="isReadOnly(${part.tableDefinition.tableEntityName?uncap_first},'${column.name}')" type="text" size="${column.length}" value="{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}" />
+											<input data-ng-class="readOnlyCss(${part.tableDefinition.tableEntityName?uncap_first},'${column.name}')" data-ng-readonly="isReadOnly(${part.tableDefinition.tableEntityName?uncap_first},'${column.name}')" type="text" size="${column.length}" ng-model="${part.tableDefinition.tableEntityName?uncap_first}.${column.name}" />
 										<#else>
 											{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}
 										</#if>
