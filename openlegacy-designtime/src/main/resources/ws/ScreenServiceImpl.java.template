@@ -90,38 +90,58 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 			<#if !generatePool>
 			terminalSession.getModule(Login.class).login("USER","PASSWORD");
 			</#if>
-			<#assign addedEntities = [] />
+			<#assign addedEntities = [] />			
+			<#assign groupHash = {} />
+			<#list inputParameters as parameter>
+				<#if isFieldParameter(parameter) && parameter.fieldDefinition.key>
+				<#assign entityName = parameter.entityDefinition.entityName/>
+					<#if !groupHash?keys?seq_contains(entityName)>
+						<#assign groupHash = groupHash + {entityName:[parameter]}>
+					<#else>
+						<#assign keys = groupHash[entityName] + [parameter]>
+						<#assign groupHash = groupHash + {entityName:keys}>
+					</#if>
+				</#if>
+			</#list>
+			
+			<#list groupHash?keys as hashKey>				
+			${hashKey} ${hashKey?uncap_first} = terminalSession.getEntity(${hashKey}.class, <#list groupHash[hashKey] as key>${serviceName?uncap_first}In.get${key.fieldDefinition.name?cap_first}()<#if key_has_next>, </#if></#list>);
+				<#assign addedEntities = addedEntities + [hashKey]/>
+			</#list>
+			
 			<#list inputParameters as parameter>
 				<#if parameter.entityDefinition??>
 					<#assign entityName = parameter.entityDefinition.entityName/>
 					<#if !addedEntities?seq_contains(entityName)>
-
-			${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class);
-						<#assign addedEntities = addedEntities + [entityName]/>
+						<#if isFieldParameter(parameter)>
+							<#if !parameter.fieldDefinition.key>
+			${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class);						
+								<#assign addedEntities = addedEntities + [entityName]/>
+							</#if>
+						<#else>
+			${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class);						
+							<#assign addedEntities = addedEntities + [entityName]/>
+						</#if>
 					</#if>
-				</#if>
+				</#if>				
 				<#if isFieldParameter(parameter)>
-					<#assign entityName = parameter.entityDefinition.entityName/>
 					<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
 					<#assign fieldNames = fieldName?split(".")/>
 					<#if fieldNames?is_sequence && (fieldNames?size > 1)>
 						<#assign fieldName = fieldNames[1]/>
 					</#if>
-					<#if parameter.fieldDefinition.key>
-						${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class, ${serviceName?uncap_first}In.get${fieldName?cap_first}());
-					<#else>
-						${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class);
-						${entityName?uncap_first}.set${fieldName?cap_first}(${serviceName?uncap_first}In.get${fieldName?cap_first}());
-					</#if>
+					<#if !parameter.fieldDefinition.key>
+			${entityName?uncap_first}.set${fieldName?cap_first}(${serviceName?uncap_first}In.get${fieldName?cap_first}());
+					</#if>				
 				</#if>
-				<#if isPartParameter(parameter)>
+				<#if isPartParameter(parameter)>					
+					<#assign partName = parameter.partEntityDefinition.partName?cap_first/>					
 					<#assign entityName = parameter.entityDefinition.entityName/>
-					<#assign partName = parameter.partEntityDefinition.partName?cap_first/>
-					<#if !addedEntities?seq_contains(entityName)>
-			${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class);
+					<#if !addedEntities?seq_contains(entityName)>						
+						${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class);
 						<#assign addedEntities = addedEntities + [entityName]/>
-					</#if>
-			${entityName?uncap_first}.set${partName}(${serviceName?uncap_first}In.get${partName}());	
+					</#if>					
+			${entityName?uncap_first}.set${partName}(${serviceName?uncap_first}In.get${partName}());
 				</#if>
 			</#list>
 			
@@ -129,8 +149,15 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 			<#list inputParameters as parameter>
 				<#if parameter.entityDefinition?? && !eNames?seq_contains(parameter.entityDefinition.entityName)>
 					<#assign eName = parameter.entityDefinition.entityName/>
+					<#if isFieldParameter(parameter)>
+						<#if !parameter.fieldDefinition.key>
 			terminalSession.doAction(TerminalActions.ENTER(), (ScreenEntity)${eName?uncap_first});
-					<#assign eNames = eNames + [eName]/>
+							<#assign eNames = eNames + [eName]/>
+						</#if>
+					<#else>	
+			terminalSession.doAction(TerminalActions.ENTER(), (ScreenEntity)${eName?uncap_first});
+						<#assign eNames = eNames + [eName]/>
+					</#if>
 				</#if>
 			</#list>
 			
@@ -138,21 +165,20 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 			<#list outputParameters as parameter>
 				<#if parameter.entityDefinition??>
 					<#assign entityName = parameter.entityDefinition.entityName/>
-					<#if !addedEntities?seq_contains(entityName)>
-					
+					<#if !addedEntities?seq_contains(entityName)>						
 			${entityName?cap_first} ${entityName?uncap_first} = terminalSession.getEntity(${entityName?cap_first}.class);
 						<#assign addedEntities = addedEntities + [entityName]/>
 					</#if>
 				</#if>
 				<#if isEntityParameter(parameter)>
-					<#assign entityName = parameter.entityDefinition.entityName/>
+					<#assign entityName = parameter.entityDefinition.entityName/>					
 			${serviceName?uncap_first}Out.set${entityName?cap_first}(${entityName?uncap_first});
 				</#if>
 				<#if isFieldParameter(parameter)>
 					<#assign entityName = parameter.entityDefinition.entityName/>
 					<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
 					<#assign fieldNames = fieldName?split(".")/>
-					<#if !addedEntities?seq_contains(entityName)>
+					<#if !addedEntities?seq_contains(entityName)>						
 			${entityName?cap_first} ${entityName?uncap_first} = terminalSession.getEntity(${entityName?cap_first}.class);
 						<#assign addedEntities = addedEntities + [entityName]/>
 					</#if>
@@ -166,7 +192,7 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 				<#if isPartParameter(parameter)>
 					<#assign entityName = parameter.entityDefinition.entityName/>
 					<#assign partName = parameter.partEntityDefinition.partName?cap_first/>
-					<#if !addedEntities?seq_contains(entityName)>
+					<#if !addedEntities?seq_contains(entityName)>						
 			${entityName?cap_first} ${entityName?uncap_first} = terminalSession.getEntity(${entityName?cap_first}.class);
 						<#assign addedEntities = addedEntities + [entityName]/>
 					</#if>
