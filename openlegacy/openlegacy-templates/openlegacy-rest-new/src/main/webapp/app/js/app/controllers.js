@@ -114,6 +114,24 @@
 					$scope.noTargetScreenEntityAlert = function() {
 						alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 					}; 
+					
+					$scope.isReadOnly = function(data,column){
+						if (data == null) data = $scope.model;
+						if (data == null) return true;
+						var dataField = data[column + "Field"];
+						if (dataField != null){
+							return !dataField.editable;
+						}
+						return false;
+					}
+					$scope.readOnlyCss = function(data,column){
+						if (data == null) return "";
+						var dataField = data[column + "Field"];
+						if (dataField != null && !dataField.editable){
+							return "readonly";
+						}
+						return "";
+					}
 					$scope.isActionAvailable = function(alias){
 						if ($scope.model == null || $scope.model.actions == null){
 							return false;
@@ -247,6 +265,59 @@
 					$scope.noTargetScreenEntityAlert = function() {
 						alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 					}; 
+					
+					$scope.isReadOnly = function(data,column){
+						var dataField = data[column + "Field"];
+						if (dataField != null){
+							return !dataField.editable;
+						}
+						return false;
+					}
+					$scope.readOnlyCss = function(data,column){
+						var dataField = data[column + "Field"];
+						if (dataField != null && !dataField.editable){
+							return "readonly";
+						}
+						return "";
+					}
+					$scope.isActionAvailable = function(alias){
+						if ($scope.model == null || $scope.model.actions == null){
+							return false;
+						}
+						for (var i=0;i<$scope.model.actions.length;i++){
+							if ($scope.model.actions[i].alias == alias){
+								return true;
+							}
+						}
+						return false;
+					};
+					
+					// clean JSON fields end with "Field" suffix created when activating "support terminal data" in the screen API editor 
+					var clearObjectsFromPost = function(data){
+						if (data == null) return;
+						for (var key in data) {
+							  if (data.hasOwnProperty(key)) {
+					  			  if (key.indexOf("Field") > 0 || key.toLowerCase().indexOf("actions") >= 0 || key.indexOf("Snapshot") >= 0){
+							    	data[key] = null;
+								  }
+							  }
+						}
+						for (var key in data) {
+							if (Array.isArray(data[key])){
+								for (var i=0;i<data[key].length;i++){
+									clearObjectsFromPost(data[key][i]);
+								}
+							}
+							else{
+								if (typeof data[key] == 'object'){
+									if (data[key] != null){
+										clearObjectsFromPost(data[key]);
+									}
+								}
+							}
+						}
+						return data;
+					}
 					$scope.read = function(){						
 						$olHttp.get('${entityName}/'  <#if keys?size &gt; 0>+ $stateParams.${keys[0].name?replace(".", "_")}</#if> + "?children=false",
 							function(data) {
@@ -256,44 +327,6 @@
 								$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
 								
 								
-								$scope.isActionAvailable = function(alias){
-									if ($scope.model == null || $scope.model.actions == null){
-										return false;
-									}
-									for (var i=0;i<$scope.model.actions.length;i++){
-										if ($scope.model.actions[i].alias == alias){
-											return true;
-										}
-									}
-									return false;
-								};
-								
-								// clean JSON fields end with "Field" suffix created when activating "support terminal data" in the screen API editor 
-								var clearObjectsFromPost = function(data){
-									if (data == null) return;
-									for (var key in data) {
-										  if (data.hasOwnProperty(key)) {
-								  			  if (key.indexOf("Field") > 0 || key.toLowerCase().indexOf("actions") >= 0 || key.indexOf("Snapshot") >= 0){
-										    	data[key] = null;
-											  }
-										  }
-									}
-									for (var key in data) {
-										if (Array.isArray(data[key])){
-											for (var i=0;i<data[key].length;i++){
-												clearObjectsFromPost(data[key][i]);
-											}
-										}
-										else{
-											if (typeof data[key] == 'object'){
-												if (data[key] != null){
-													clearObjectsFromPost(data[key]);
-												}
-											}
-										}
-									}
-									return data;
-								}
 								$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {														
 									
 									$olHttp.post('${entityName}/', clearObjectsFromPost($scope.model), function(data) {

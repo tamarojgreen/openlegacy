@@ -134,7 +134,7 @@
 									<#else>	
 										<td>
 										<#if (column.editable)>
-											<input type="text" size="${column.length}" value="{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}" />
+											<input data-ng-class="readOnlyCss(${part.tableDefinition.tableEntityName?uncap_first},'${column.name}')" data-ng-readonly="isReadOnly(${part.tableDefinition.tableEntityName?uncap_first},'${column.name}')" type="text" size="${column.length}" value="{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}" />
 										<#else>
 											{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}
 										</#if>
@@ -199,10 +199,10 @@
 				<#elseif field.fieldTypeDefinition.typeName == 'boolean'>
 					<input type="checkbox" class="form-control" id="${field.name}" ng-checked="model.${field.name}">											
 				<#else>
-					<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
+					<input data-ng-class="readOnlyCss(model,'${field.name}')" data-ng-readonly="isReadOnly(model,'${field.name}')" type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
 				</#if>
 	   		<#else>
-	   			<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">	   			   			
+	   			<input data-ng-class="readOnlyCss(model,'${field.name}')" data-ng-readonly="isReadOnly(model,'${field.name}')" type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">	   			   			
 	   		</#if>
 	   	<#else>
 			<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'boolean'>
