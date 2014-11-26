@@ -8,18 +8,26 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.db.definitions;
 
-import org.openlegacy.EntityDefinition;
+package org.openlegacy.annotations.db;
 
-import java.util.Map;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public interface DbEntityDefinition extends EntityDefinition<DbFieldDefinition> {
+/**
+ * @author Ivan Bort
+ * 
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface DbEntity {
 
-	Map<String, DbFieldDefinition> getColumnFieldsDefinitions();
+	String displayName() default "";
 
-	DbNavigationDefinition getNavigationDefinition();
+	boolean window() default false;
 
-	boolean isChild();
+	boolean child() default false;
 
 }

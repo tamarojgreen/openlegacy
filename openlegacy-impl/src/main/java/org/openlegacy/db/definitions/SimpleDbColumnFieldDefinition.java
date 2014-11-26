@@ -25,6 +25,8 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 	private DbOneToManyDefinition oneToManyDefinition = null;
 	private String fieldTypeArgs = null;
 
+	private boolean mainDisplayField = false;
+
 	public SimpleDbColumnFieldDefinition(String name, Class<? extends FieldType> type) {
 		super(name, type);
 	}
@@ -47,6 +49,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.nameAttr = nameAttr;
 	}
 
+	@Override
 	public boolean isUnique() {
 		return unique;
 	}
@@ -55,6 +58,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.unique = unique;
 	}
 
+	@Override
 	public boolean isNullable() {
 		return nullable;
 	}
@@ -63,6 +67,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.nullable = nullable;
 	}
 
+	@Override
 	public boolean isInsertable() {
 		return insertable;
 	}
@@ -71,6 +76,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.insertable = insertable;
 	}
 
+	@Override
 	public boolean isUpdatable() {
 		return updatable;
 	}
@@ -79,6 +85,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.updatable = updatable;
 	}
 
+	@Override
 	public String getColumnDefinition() {
 		return columnDefinition;
 	}
@@ -87,6 +94,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.columnDefinition = columnDefinition;
 	}
 
+	@Override
 	public String getTable() {
 		return table;
 	}
@@ -95,6 +103,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.table = table;
 	}
 
+	@Override
 	public int getLength() {
 		return length;
 	}
@@ -103,6 +112,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.length = length;
 	}
 
+	@Override
 	public int getPrecision() {
 		return precision;
 	}
@@ -111,6 +121,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.precision = precision;
 	}
 
+	@Override
 	public int getScale() {
 		return scale;
 	}
@@ -136,9 +147,19 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 	public String getExpression() {
 		return null;
 	}
-	
+
 	@Override
 	public int getKeyIndex() {
 		return 1;
 	}
+
+	@Override
+	public boolean isMainDisplayField() {
+		return mainDisplayField;
+	}
+
+	public void setMainDisplayField(boolean mainDisplayField) {
+		this.mainDisplayField = mainDisplayField;
+	}
+
 }

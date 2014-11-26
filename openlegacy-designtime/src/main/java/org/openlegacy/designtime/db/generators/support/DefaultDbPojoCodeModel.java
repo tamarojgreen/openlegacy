@@ -465,7 +465,8 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		}
 		for (AnnotationExpr annotationExpr : annotations) {
 			String annotationName = annotationExpr.getName().getName();
-			if (annotationName.equals(DbAnnotationConstants.DB_ENTITY_ANNOTATION)
+			if (annotationName.equals(DbAnnotationConstants.DB_JPA_ENTITY_ANNOTATION)
+					|| annotationName.equals(DbAnnotationConstants.DB_ENTITY_ANNOTATION)
 					|| annotationName.equals(DbAnnotationConstants.DB_ENTITY_SUPER_CLASS_ANNOTATION)) {
 				enabled = true;
 				populateEntityAttributes(annotationExpr);
@@ -551,7 +552,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 					if (fieldAnnotations != null && !fieldAnnotations.isEmpty()) {
 						for (AnnotationExpr annotationExpr : fieldAnnotations) {
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
-									DbAnnotationConstants.DB_COLUMN_ANNOTATION)) {
+									DbAnnotationConstants.DB_JPA_COLUMN_ANNOTATION, DbAnnotationConstants.DB_COLUMN_ANNOTATION)) {
 								DbAnnotationsParserUtils.loadDbColumnAnnotation(annotationExpr, columnField);
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,

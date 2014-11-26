@@ -45,11 +45,13 @@ public class DbCodeBasedDefinitionUtils {
 			}
 			for (AnnotationExpr annotationExpr : annotations) {
 				DbPojoCodeModel dbPojoCodeModel = null;
-				if (JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_ENTITY_ANNOTATION)
+				if (JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_JPA_ENTITY_ANNOTATION)
+						|| JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_ENTITY_ANNOTATION)
 						|| JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_ENTITY_SUPER_CLASS_ANNOTATION)) {
 					dbPojoCodeModel = new DefaultDbPojoCodeModel(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration,
 							typeDeclaration.getName(), null);
 					entityDefinition = new CodeBasedDbEntityDefinition(dbPojoCodeModel, packageDir);
+					return entityDefinition;
 				}
 			}
 		}

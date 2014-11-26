@@ -129,4 +129,10 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 		return getCodeModel().getNavigationDefinition();
 	}
 
+	@Override
+	public boolean isChild() {
+		throwNotImplemented();
+		return false;
+	}
+
 }
