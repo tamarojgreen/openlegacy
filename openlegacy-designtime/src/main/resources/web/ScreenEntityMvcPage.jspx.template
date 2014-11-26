@@ -16,8 +16,10 @@
 					<ol:field name="${pagePart.singleField.name}" />
 				</ol:row>
 			</ol:pagePart>
-			<#else>
-			<ol:pagePart title="">
+			<#else>		
+			
+			
+			<ol:pagePart title="<#if pagePart.displayName??>${pagePart.displayName?replace("'", "\\\'")}</#if>">			
 				<#list pagePart.partRows as partRow>
 				<ol:row columns="${partRow.fields?size}">
 					<#list partRow.fields as field>

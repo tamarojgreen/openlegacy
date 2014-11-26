@@ -12,7 +12,9 @@
 		<c:set var="model" value="${olf:uncapFirst(definitions.entityName)}" />
 		<ol:form model="${model}">
 			<c:if test="${fn:length(definitions.fieldsDefinitions) >0}">
-				<ol:pagePart title="${definitions.displayName}">
+				<c:set var="search" value="'" />
+           		<c:set var="replace" value="\'" />
+				<ol:pagePart title="${fn:replace(definitions.displayName, search, replace)}">				
 					<c:forEach items="${definitions.fieldsDefinitions}" var="field">
 						<ol:field name="${field.key}" />		
 					</c:forEach>

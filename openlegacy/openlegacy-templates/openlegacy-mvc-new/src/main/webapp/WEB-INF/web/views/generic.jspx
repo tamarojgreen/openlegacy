@@ -33,7 +33,9 @@
 							<c:set var="showPart" value="${fn:length(tableData) &gt; 0}" />
 					</c:if>
 					<c:if test="${showPart}">
-					<ol:pagePart title="${pagePart.displayName}">
+					<c:set var="search" value="'" />
+            		<c:set var="replace" value="\'" />
+					<ol:pagePart title="${fn:replace(pagePart.displayName, search, replace)}">
 						<c:choose>
 							<c:when test="${not pagePart.hasTable}">
 								<c:forEach items="${pagePart.partRows}" var="partRow">
