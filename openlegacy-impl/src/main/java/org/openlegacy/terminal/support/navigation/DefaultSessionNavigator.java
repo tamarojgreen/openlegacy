@@ -33,6 +33,7 @@ import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
+import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.services.SessionNavigator;
 import org.openlegacy.terminal.table.TerminalDrilldownAction;
@@ -158,7 +159,11 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 			}
 		}
 		if (navigationSteps != null) {
-			performDirectNavigation(terminalSession, currentEntityClass, navigationSteps, keys);
+			try {
+				performDirectNavigation(terminalSession, currentEntityClass, navigationSteps, keys);
+			} catch (TerminalActionException e) {
+				throw (new ScreenEntityNotAccessibleException(e, targetEntityDefinition.getEntityName()));
+			}
 			ScreenEntity entity = terminalSession.getEntity();
 			if (entity != null) {
 				ScreenNavigationUtil.validateCurrentScreen(targetScreenEntityClass, entity.getClass());
@@ -275,10 +280,10 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 						if (!sourceScreenFields.containsKey(assignDefinition.getName())) {
 							logger.debug(MessageFormat.format("Assigned field {0} wasnt found in the source screen entity {1}",
 									assignDefinition.getName(), sourceEntityDefinition.getEntityName()));
+							navigationSteps.clear();
 							return null;
 						}
 					}
-					navigationSteps.add(navigationDefinition);
 					return navigationSteps;
 				} else {
 					logger.debug(MessageFormat.format(
