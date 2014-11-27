@@ -174,6 +174,7 @@ public abstract class AbstractEditor extends FormEditor implements IOpenLegacyEd
 				String templateContent = FileUtils.readFileToString(templateFile);
 				htmlPreviewPage.setPageDefinition(getPageDefinitionForHtmlPreview());
 				htmlPreviewPage.setContainerPathes(getProject());
+				htmlPreviewPage.setRightToLeft(getProject());
 
 				String generated = GenerateUtil.generate(htmlPreviewPage, new StringReader(templateContent));
 
