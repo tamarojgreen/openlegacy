@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.terminal.mvc;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuItem;
@@ -20,8 +22,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.io.IOException;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Handles requests for dijit.Tree widget
@@ -33,6 +39,8 @@ import javax.inject.Inject;
 @RequestMapping("/menu/*")
 public class MenuController {
 
+	private final static Log logger = LogFactory.getLog(MenuController.class);
+
 	@Inject
 	private TerminalSession terminalSession;
 
@@ -42,16 +50,22 @@ public class MenuController {
 	private MenuItem menus = null;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public @ResponseBody String getMenuId(@PathVariable("id") String id) {
+	public @ResponseBody
+	String getMenuId(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
 
-		if (menus == null || openLegacyProperties.isDesigntime()) {
-			menus = terminalSession.getModule(Menu.class).getMenuTree();
+		try {
+			if (menus == null || openLegacyProperties.isDesigntime()) {
+				menus = terminalSession.getModule(Menu.class).getMenuTree();
+			}
+			if (menus == null) {
+				return "{}";
+			}
+			MenuItem item = findByTreeId(menus, id);
+			return generateJson(item, id, null, false);
+		} catch (RuntimeException e) {
+			handleException(response, e);
 		}
-		if (menus == null) {
-			return "{}";
-		}
-		MenuItem item = findByTreeId(menus, id);
-		return generateJson(item, id, null, false);
+		return null;
 	}
 
 	private MenuItem findByTreeId(MenuItem menuItem, String id) {
@@ -98,8 +112,20 @@ public class MenuController {
 	}
 
 	@RequestMapping(value = "/flatMenu", method = RequestMethod.GET, consumes = AbstractRestController.JSON)
-	public Object getFlatMenuEntries() {
-		Menu menus = terminalSession.getModule(Menu.class);
-		return menus.getFlatMenuEntries();
+	public Object getFlatMenuEntries(HttpServletResponse response) throws IOException {
+		try {
+			Menu menus = terminalSession.getModule(Menu.class);
+			return menus.getFlatMenuEntries();
+		} catch (RuntimeException e) {
+			handleException(response, e);
+		}
+		return null;
+	}
+
+	private static ModelAndView handleException(HttpServletResponse response, RuntimeException e) throws IOException {
+		response.setStatus(500);
+		response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
+		logger.fatal(e.getMessage(), e);
+		return null;
 	}
 }

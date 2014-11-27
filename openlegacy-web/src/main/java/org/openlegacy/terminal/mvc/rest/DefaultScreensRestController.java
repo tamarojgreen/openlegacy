@@ -157,8 +157,8 @@ public class DefaultScreensRestController extends AbstractRestController {
 
 	@Override
 	@RequestMapping(value = "/menu", method = RequestMethod.GET, consumes = { JSON, XML })
-	public Object getMenu() {
-		return super.getMenu();
+	public Object getMenu(HttpServletResponse response) throws IOException {
+		return super.getMenu(response);
 	}
 
 	@Override
@@ -262,14 +262,14 @@ public class DefaultScreensRestController extends AbstractRestController {
 		} catch (LoginException e) {
 			return null;
 		}
-		return getMenu();
+		return getMenu(response);
 	}
 
 	@Override
 	@RequestMapping(value = "/login", consumes = { JSON }, method = RequestMethod.POST)
 	public Object loginPostJson(@RequestBody String json, HttpServletResponse response) throws IOException {
 		super.loginPostJson(json, response);
-		return getMenu();
+		return getMenu(response);
 	}
 
 	@Override
