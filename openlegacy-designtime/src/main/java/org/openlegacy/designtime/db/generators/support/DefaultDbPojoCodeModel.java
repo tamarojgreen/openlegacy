@@ -279,7 +279,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		private String fieldName;
 		private String fieldType;
 		private String fieldTypeArgs;
-		// annotation properties
+		// @Column annotation properties
 		private String name = "";
 		private boolean unique = false;
 		private boolean nullable = true;
@@ -290,6 +290,17 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		private int length = 255;
 		private int precision = 0;
 		private int scale = 0;
+		// @DbColumn annotation properties
+		private String displayName = "";
+		private boolean editable = false;
+		private boolean password = false;
+		private String sampleValue = "";
+		private String defaultValue = "";
+		private String helpText = "";
+		private boolean rightToLeft = false;
+		private boolean internal = false;
+		private boolean mainDisplayField = false;
+
 		private boolean key = false;
 		private DbOneToManyDefinition oneToManyDefinition;
 
@@ -413,6 +424,78 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 
 		public String getFieldTypeArgs() {
 			return fieldTypeArgs;
+		}
+
+		public String getDisplayName() {
+			return displayName;
+		}
+
+		public void setDisplayName(String displayName) {
+			this.displayName = displayName;
+		}
+
+		public boolean isEditable() {
+			return editable;
+		}
+
+		public void setEditable(boolean editable) {
+			this.editable = editable;
+		}
+
+		public boolean isPassword() {
+			return password;
+		}
+
+		public void setPassword(boolean password) {
+			this.password = password;
+		}
+
+		public String getSampleValue() {
+			return sampleValue;
+		}
+
+		public void setSampleValue(String sampleValue) {
+			this.sampleValue = sampleValue;
+		}
+
+		public String getDefaultValue() {
+			return defaultValue;
+		}
+
+		public void setDefaultValue(String defaultValue) {
+			this.defaultValue = defaultValue;
+		}
+
+		public String getHelpText() {
+			return helpText;
+		}
+
+		public void setHelpText(String helpText) {
+			this.helpText = helpText;
+		}
+
+		public boolean isRightToLeft() {
+			return rightToLeft;
+		}
+
+		public void setRightToLeft(boolean rightToLeft) {
+			this.rightToLeft = rightToLeft;
+		}
+
+		public boolean isInternal() {
+			return internal;
+		}
+
+		public void setInternal(boolean internal) {
+			this.internal = internal;
+		}
+
+		public boolean isMainDisplayField() {
+			return mainDisplayField;
+		}
+
+		public void setMainDisplayField(boolean mainDisplayField) {
+			this.mainDisplayField = mainDisplayField;
 		}
 
 	}
@@ -558,7 +641,11 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 					if (fieldAnnotations != null && !fieldAnnotations.isEmpty()) {
 						for (AnnotationExpr annotationExpr : fieldAnnotations) {
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
-									DbAnnotationConstants.DB_JPA_COLUMN_ANNOTATION, DbAnnotationConstants.DB_COLUMN_ANNOTATION)) {
+									DbAnnotationConstants.DB_JPA_COLUMN_ANNOTATION)) {
+								DbAnnotationsParserUtils.loadJpaColumnAnnotation(annotationExpr, columnField);
+							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
+									DbAnnotationConstants.DB_COLUMN_ANNOTATION)) {
 								DbAnnotationsParserUtils.loadDbColumnAnnotation(annotationExpr, columnField);
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,

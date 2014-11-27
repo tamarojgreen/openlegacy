@@ -2,6 +2,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.utils.jpa;
 
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbColumnAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaFieldAction;
@@ -21,6 +22,7 @@ import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
+import org.openlegacy.annotations.db.DbColumn;
 import org.openlegacy.annotations.db.DbEntity;
 
 import java.util.List;
@@ -45,7 +47,7 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 		// process top level class annotations: @Entity, @Table, @DbEntity
 		processEntityTopLevelAnnotations(ast, cu, rewriter, root, (JpaEntity)entity);
 		// process annotations that located inside root:
-		// @Column, @OneToMany, @Id
+		// @Column, @OneToMany, @Id, @DbColumn
 		processEntityInnerAnnotations(ast, cu, rewriter, root, (JpaEntity)entity);
 	}
 
@@ -165,6 +167,9 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 						} else if (fullyQualifiedName.equals(OneToMany.class.getSimpleName())) {
 							JpaEntityBuilder.INSTANCE.processJpaFieldAnnotation(ast, cu, rewriter, fieldListRewrite, field,
 									fieldAnnotation, rootName, JpaEntityUtils.getActionList(entity, JpaListFieldAction.class));
+						} else if (fullyQualifiedName.equals(DbColumn.class.getSimpleName())) {
+							JpaEntityBuilder.INSTANCE.processJpaFieldAnnotation(ast, cu, rewriter, fieldListRewrite, field,
+									fieldAnnotation, rootName, JpaEntityUtils.getActionList(entity, JpaDbColumnAction.class));
 						}
 					}
 				}

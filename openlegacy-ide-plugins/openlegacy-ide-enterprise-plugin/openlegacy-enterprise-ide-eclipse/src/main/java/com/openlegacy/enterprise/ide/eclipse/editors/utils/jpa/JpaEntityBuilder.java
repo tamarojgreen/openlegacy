@@ -36,6 +36,7 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
+import org.openlegacy.annotations.db.DbColumn;
 import org.openlegacy.annotations.db.DbEntity;
 import org.openlegacy.db.definitions.DbTableDefinition.UniqueConstraintDefinition;
 
@@ -155,7 +156,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 			FieldDeclaration field, List<AbstractAction> list) {
 		for (AbstractAction action : list) {
 			if (!action.getAnnotationClass().equals(Column.class) && !action.getAnnotationClass().equals(OneToMany.class)
-					&& !action.getAnnotationClass().equals(Id.class)) {
+					&& !action.getAnnotationClass().equals(Id.class) && !action.getAnnotationClass().equals(DbColumn.class)) {
 				continue;
 			}
 			if (action.getActionType().equals(ActionType.ADD) && (action.getTarget() == ASTNode.NORMAL_ANNOTATION)
@@ -205,7 +206,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 
 		for (AbstractAction action : list) {
 			if (!action.getAnnotationClass().equals(Column.class) && !action.getAnnotationClass().equals(OneToMany.class)
-					&& !action.getAnnotationClass().equals(Id.class)) {
+					&& !action.getAnnotationClass().equals(Id.class) && !action.getAnnotationClass().equals(DbColumn.class)) {
 				continue;
 			}
 			if (action.getActionType().equals(ActionType.REMOVE) && (action.getTarget() == ASTNode.NORMAL_ANNOTATION)
@@ -225,6 +226,13 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 						if (node.getNodeType() == ASTNode.NORMAL_ANNOTATION) {
 							NormalAnnotation normalAnnotation = (NormalAnnotation)node;
 							if (StringUtils.equals(normalAnnotation.getTypeName().getFullyQualifiedName(),
+									action.getAnnotationClass().getSimpleName())) {
+								listRewrite.remove(node, null);
+								break;
+							}
+						} else if (node.getNodeType() == ASTNode.MARKER_ANNOTATION) {
+							MarkerAnnotation markerAnnotation = (MarkerAnnotation)node;
+							if (StringUtils.equals(markerAnnotation.getTypeName().getFullyQualifiedName(),
 									action.getAnnotationClass().getSimpleName())) {
 								listRewrite.remove(node, null);
 								break;

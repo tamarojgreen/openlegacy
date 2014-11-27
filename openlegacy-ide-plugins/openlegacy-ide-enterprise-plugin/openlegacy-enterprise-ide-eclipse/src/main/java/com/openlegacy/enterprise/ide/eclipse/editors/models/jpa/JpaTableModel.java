@@ -61,7 +61,7 @@ public class JpaTableModel extends JpaNamedObject {
 		return model;
 	}
 
-	public boolean isModelEqual(JpaTableModel model) {
+	public boolean equalsTableAttrs(JpaTableModel model) {
 		boolean isConstraintsEqual = isConstraintsEqual(model.getConstraints());
 		return StringUtils.equals(name, model.getName()) && StringUtils.equals(catalog, model.getCatalog())
 				&& StringUtils.equals(schema, model.getSchema()) && isConstraintsEqual;
@@ -89,7 +89,7 @@ public class JpaTableModel extends JpaNamedObject {
 		return true;
 	}
 
-	public boolean isDefaultModel() {
+	public boolean isDefaultTableAttrs() {
 		return StringUtils.isEmpty(name) && StringUtils.isEmpty(catalog) && StringUtils.isEmpty(schema) && constraints.isEmpty();
 	}
 

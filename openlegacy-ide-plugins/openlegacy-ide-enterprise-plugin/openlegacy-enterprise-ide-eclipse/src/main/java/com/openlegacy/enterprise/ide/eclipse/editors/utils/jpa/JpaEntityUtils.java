@@ -3,6 +3,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.utils.jpa;
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbColumnAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaFieldAction;
@@ -74,7 +75,7 @@ public class JpaEntityUtils {
 			if (entityModel.equalsDbEntityAttrs(model)) {
 				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_ENTITY_ANNOTATION);
 			}
-			// if ediatable model is not equal to default then delete remove @DbEntity annotation action
+			// if attrs are not default in editable model then delete "remove @DbEntity" action
 			if (!model.isDefaultDbEntityAttrs()) {
 				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_ENTITY_ANNOTATION, ActionType.REMOVE);
 			}
@@ -101,17 +102,21 @@ public class JpaEntityUtils {
 			boolean isDefault = true;
 			JpaTableModel entityModel = entity.getTableModel();
 			// add @Table annotation
-			if (entityModel.isDefaultModel() && !model.isDefaultModel()) {
+			if (entityModel.isDefaultTableAttrs() && !model.isDefaultTableAttrs()) {
 				entity.addAction(new JpaTableAction(model.getUUID(), model, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
 						DbAnnotationConstants.DB_TABLE_ANNOTATION, null));
 			}
 			// remove @Table annotation
-			if (!entityModel.isDefaultModel() && model.isDefaultModel()) {
+			if (!entityModel.isDefaultTableAttrs() && model.isDefaultTableAttrs()) {
 				entity.addAction(new JpaTableAction(model.getUUID(), model, ActionType.REMOVE, ASTNode.NORMAL_ANNOTATION,
 						DbAnnotationConstants.DB_TABLE_ANNOTATION, null));
 			}
-			if (entityModel.isModelEqual(model)) {
+			if (entityModel.equalsTableAttrs(model)) {
 				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_TABLE_ANNOTATION);
+			}
+			// if attrs are not default in editable model then delete "remove @Table" action
+			if (!model.isDefaultTableAttrs()) {
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_TABLE_ANNOTATION, ActionType.REMOVE);
 			}
 
 			// @Table.name: default ""
@@ -142,18 +147,22 @@ public class JpaEntityUtils {
 			boolean isDefault = true;
 			JpaFieldModel entityModel = entity.getFields().get(model.getUUID());
 			// add @Column annotation
-			if (entityModel.isDefaultModel() && !model.isDefaultModel()) {
+			if (entityModel.isDefaultColumnAttrs() && !model.isDefaultColumnAttrs()) {
 				entity.addAction(new JpaFieldAction(model.getUUID(), model, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
-						DbAnnotationConstants.DB_COLUMN_ANNOTATION, null));
+						DbAnnotationConstants.DB_JPA_COLUMN_ANNOTATION, null));
 			}
 			// remove @Column annotation
-			if (!entityModel.isDefaultModel() && model.isDefaultModel()) {
+			if (!entityModel.isDefaultColumnAttrs() && model.isDefaultColumnAttrs()) {
 				entity.addAction(new JpaFieldAction(model.getUUID(), model, ActionType.REMOVE, ASTNode.NORMAL_ANNOTATION,
-						DbAnnotationConstants.DB_COLUMN_ANNOTATION, null));
+						DbAnnotationConstants.DB_JPA_COLUMN_ANNOTATION, null));
 			}
 			// remove add/remove @Column action
-			if (entityModel.isModelEqual(model)) {
-				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_COLUMN_ANNOTATION);
+			if (entityModel.equalsColumnAttrs(model)) {
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_JPA_COLUMN_ANNOTATION);
+			}
+			// if attrs are not default in editable model then delete "remove @Column" action
+			if (!model.isDefaultColumnAttrs()) {
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_JPA_COLUMN_ANNOTATION, ActionType.REMOVE);
 			}
 			// add @Id annotation
 			if (!entityModel.isKey() && model.isKey()) {
@@ -224,6 +233,72 @@ public class JpaEntityUtils {
 			isDefault = model.isUpdatable();
 			PrivateMethods.addRemoveJpaFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.UPDATABLE, model.isUpdatable());
+
+			// --------------- @DbColumn --------------------
+			// add @DbColumn annotation
+			if (entityModel.isDefaultDbColumnAttrs() && !model.isDefaultDbColumnAttrs()) {
+				entity.addAction(new JpaDbColumnAction(model.getUUID(), model, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
+						DbAnnotationConstants.DB_COLUMN_ANNOTATION, null));
+			}
+			// remove @DbColumn annotation
+			if (!entityModel.isDefaultDbColumnAttrs() && model.isDefaultDbColumnAttrs()) {
+				entity.addAction(new JpaDbColumnAction(model.getUUID(), model, ActionType.REMOVE, ASTNode.NORMAL_ANNOTATION,
+						DbAnnotationConstants.DB_COLUMN_ANNOTATION, null));
+			}
+			// remove add/remove @DbColumn action
+			if (entityModel.equalsDbColumnAttrs(model)) {
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_COLUMN_ANNOTATION);
+			}
+			// if attrs are not default in editable model then delete "remove @DbColumn" action
+			if (!model.isDefaultDbColumnAttrs()) {
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_COLUMN_ANNOTATION, ActionType.REMOVE);
+			}
+
+			// @DbColumn.displayName: default ""
+			isPrevious = StringUtils.equals(entityModel.getDisplayName(), model.getDisplayName());
+			isDefault = StringUtils.isEmpty(model.getDisplayName());
+			PrivateMethods.addRemoveJpaDbColumnAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.DISPLAY_NAME, model.getDisplayName());
+			// @DbColumn.editable: default false
+			isPrevious = entityModel.isEditable() == model.isEditable();
+			isDefault = !model.isEditable();
+			PrivateMethods.addRemoveJpaDbColumnAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.EDITABLE, model.isEditable());
+			// @DbColumn.password: default false
+			isPrevious = entityModel.isPassword() == model.isPassword();
+			isDefault = !model.isPassword();
+			PrivateMethods.addRemoveJpaDbColumnAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.PASSWORD, model.isPassword());
+			// @DbColumn.sampleValue: default ""
+			isPrevious = StringUtils.equals(entityModel.getSampleValue(), model.getSampleValue());
+			isDefault = StringUtils.isEmpty(model.getSampleValue());
+			PrivateMethods.addRemoveJpaDbColumnAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.SAMPLE_VALUE, model.getSampleValue());
+			// @DbColumn.defaultValue: default ""
+			isPrevious = StringUtils.equals(entityModel.getDefaultValue(), model.getDefaultValue());
+			isDefault = StringUtils.isEmpty(model.getDefaultValue());
+			PrivateMethods.addRemoveJpaDbColumnAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.DEFAULT_VALUE, model.getDefaultValue());
+			// @DbColumn.helpText: default ""
+			isPrevious = StringUtils.equals(entityModel.getHelpText(), model.getHelpText());
+			isDefault = StringUtils.isEmpty(model.getHelpText());
+			PrivateMethods.addRemoveJpaDbColumnAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.HELP_TEXT, model.getHelpText());
+			// @DbColumn.rightToLeft: default false
+			isPrevious = entityModel.isRightToLeft() == model.isRightToLeft();
+			isDefault = !model.isRightToLeft();
+			PrivateMethods.addRemoveJpaDbColumnAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.RIGHT_TO_LEFT, model.isRightToLeft());
+			// @DbColumn.internal: default false
+			isPrevious = entityModel.isInternal() == model.isInternal();
+			isDefault = !model.isInternal();
+			PrivateMethods.addRemoveJpaDbColumnAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.INTERNAL, model.isInternal());
+			// @DbColumn.mainDisplayField: default false
+			isPrevious = entityModel.isMainDisplayFiled() == model.isMainDisplayFiled();
+			isDefault = !model.isMainDisplayFiled();
+			PrivateMethods.addRemoveJpaDbColumnAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.MAIN_DISPLAY_FIELD, model.isMainDisplayFiled());
 		}
 
 		public static void generateJpaListFieldActions(JpaEntity entity, JpaListFieldModel model) {
@@ -231,18 +306,22 @@ public class JpaEntityUtils {
 			boolean isDefault = true;
 			JpaListFieldModel entityModel = (JpaListFieldModel)entity.getFields().get(model.getUUID());
 			// add @OneToMany annotation
-			if (entityModel.isDefaultModel() && !model.isDefaultModel()) {
+			if (entityModel.isDefaultOneToManyAttrs() && !model.isDefaultOneToManyAttrs()) {
 				entity.addAction(new JpaListFieldAction(model.getUUID(), model, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
 						DbAnnotationConstants.DB_ONE_TO_MANY_ANNOTATION, null));
 			}
 			// remove @OneToMany annotation
-			if (!entityModel.isDefaultModel() && model.isDefaultModel()) {
+			if (!entityModel.isDefaultOneToManyAttrs() && model.isDefaultOneToManyAttrs()) {
 				entity.addAction(new JpaListFieldAction(model.getUUID(), model, ActionType.REMOVE, ASTNode.NORMAL_ANNOTATION,
 						DbAnnotationConstants.DB_ONE_TO_MANY_ANNOTATION, null));
 			}
 			// remove add/remove action
-			if (entityModel.isModelEqual(model)) {
+			if (entityModel.equalsOneToManyAttrs(model)) {
 				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_ONE_TO_MANY_ANNOTATION);
+			}
+			// if attrs are not default in editable model then delete "remove @OneToMany" action
+			if (!model.isDefaultOneToManyAttrs()) {
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_ONE_TO_MANY_ANNOTATION, ActionType.REMOVE);
 			}
 			// List<?> parameter: default List<Object>
 			isPrevious = StringUtils.equals(entityModel.getFieldTypeArgs(), model.getFieldTypeArgs());
@@ -331,6 +410,17 @@ public class JpaEntityUtils {
 				entity.addAction(new JpaListFieldAction(model.getUUID(), model, ActionType.MODIFY, target, key, value));
 			} else if (!isPrevious && isDefault) {
 				entity.addAction(new JpaListFieldAction(model.getUUID(), model, ActionType.REMOVE, target, key, null));
+			} else {
+				entity.removeAction(model.getUUID(), key);
+			}
+		}
+
+		public static void addRemoveJpaDbColumnAction(JpaEntity entity, JpaFieldModel model, boolean isPrevious,
+				boolean isDefault, int target, String key, Object value) {
+			if (!isPrevious && !isDefault) {
+				entity.addAction(new JpaDbColumnAction(model.getUUID(), model, ActionType.MODIFY, target, key, value));
+			} else if (!isPrevious && isDefault) {
+				entity.addAction(new JpaDbColumnAction(model.getUUID(), model, ActionType.REMOVE, target, key, null));
 			} else {
 				entity.removeAction(model.getUUID(), key);
 			}

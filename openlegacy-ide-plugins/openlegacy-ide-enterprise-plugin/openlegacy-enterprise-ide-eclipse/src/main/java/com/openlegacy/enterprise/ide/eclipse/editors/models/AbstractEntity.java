@@ -58,11 +58,15 @@ public abstract class AbstractEntity {
 
 	public void removeAction(UUID uuid, String key, ActionType actionType) {
 		if (this.actions.containsKey(uuid)) {
+			Set<String> keysToRemove = new HashSet<String>();
 			Map<String, AbstractAction> map = this.actions.get(uuid);
 			for (String mapKey : map.keySet()) {
 				if (StringUtils.equals(key, mapKey) && map.get(mapKey).getActionType().equals(actionType)) {
-					map.remove(mapKey);
+					keysToRemove.add(mapKey);
 				}
+			}
+			for (String keyToRemove : keysToRemove) {
+				map.remove(keyToRemove);
 			}
 			if (this.actions.get(uuid).isEmpty()) {
 				this.actions.remove(uuid);
@@ -80,17 +84,17 @@ public abstract class AbstractEntity {
 
 	public void removeActionsForTypes(UUID uuid, ActionType[] types) {
 		if (this.actions.containsKey(uuid)) {
-			Set<String> keyToRemove = new HashSet<String>();
+			Set<String> keysToRemove = new HashSet<String>();
 			Map<String, AbstractAction> map = this.actions.get(uuid);
 
 			for (String key : map.keySet()) {
 				for (ActionType type : types) {
 					if (type.equals(map.get(key).getActionType())) {
-						keyToRemove.add(key);
+						keysToRemove.add(key);
 					}
 				}
 			}
-			for (String key : keyToRemove) {
+			for (String key : keysToRemove) {
 				map.remove(key);
 			}
 		}

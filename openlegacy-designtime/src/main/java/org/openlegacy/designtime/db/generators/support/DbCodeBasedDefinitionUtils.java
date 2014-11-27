@@ -79,6 +79,16 @@ public class DbCodeBasedDefinitionUtils {
 			definition.setOneToManyDefinition(javaColumnField.getOneToManyDefinition());
 			definition.setKey(javaColumnField.isKey());
 
+			definition.setDisplayName(javaColumnField.getDisplayName());
+			definition.setEditable(javaColumnField.isEditable());
+			definition.setPassword(javaColumnField.isPassword());
+			definition.setSampleValue(javaColumnField.getSampleValue());
+			definition.setDefaultValue(javaColumnField.getDefaultValue());
+			definition.setHelpText(javaColumnField.getHelpText());
+			definition.setRightToLeft(javaColumnField.isRightToLeft());
+			definition.setInternal(javaColumnField.isInternal());
+			definition.setMainDisplayField(javaColumnField.isMainDisplayField());
+
 			fieldDefinitions.put(javaColumnField.getFieldName(), definition);
 		}
 
