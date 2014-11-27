@@ -13,6 +13,7 @@ package org.openlegacy.designtime.db.generators.support;
 import static org.openlegacy.designtime.utils.JavaParserUtil.findAnnotationAttribute;
 
 import org.apache.commons.lang.StringUtils;
+import org.openlegacy.annotations.db.DbEntity;
 import org.openlegacy.annotations.rpc.Languages;
 import org.openlegacy.db.definitions.DbNavigationDefinition;
 import org.openlegacy.db.definitions.DbOneToManyDefinition;
@@ -43,6 +44,8 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.persistence.Entity;
 
 /**
  * 
@@ -421,7 +424,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 	private Map<String, Field> fields = new LinkedHashMap<String, Field>();
 	private boolean enabled;
 	private boolean superClass = false;
-	private String displayName;
+	private String displayName = "";
 
 	private String entityName;
 	private String parentClassName;
@@ -439,6 +442,9 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 	private Map<String, ColumnField> columnFields = new LinkedHashMap<String, ColumnField>();
 
 	private DbNavigationDefinition navigationDefinition;
+
+	private boolean window = false;
+	private boolean child = false;
 
 	public DefaultDbPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
@@ -620,14 +626,31 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 
 	private void populateEntityAttributes(AnnotationExpr annotationExpr) {
 		String nameFromAnnotation = null;
+		String displayNameFromAnnotation = null;
+		String windowFromAnnotation = null;
+		String childFromAnnotation = null;
 
-		if (annotationExpr instanceof NormalAnnotationExpr) {
+		if (annotationExpr instanceof NormalAnnotationExpr
+				&& annotationExpr.getName().getName().equals(Entity.class.getSimpleName())) {
 			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
 
 			nameFromAnnotation = findAnnotationAttribute(DbAnnotationConstants.NAME, normalAnnotationExpr.getPairs());
-		}
-		name = nameFromAnnotation != null ? StringUtil.stripQuotes(nameFromAnnotation) : "";
 
+			name = nameFromAnnotation != null ? StringUtil.stripQuotes(nameFromAnnotation) : "";
+		}
+		if (annotationExpr instanceof NormalAnnotationExpr
+				&& annotationExpr.getName().getName().equals(DbEntity.class.getSimpleName())) {
+			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
+
+			displayNameFromAnnotation = findAnnotationAttribute(DbAnnotationConstants.DISPLAY_NAME,
+					normalAnnotationExpr.getPairs());
+			windowFromAnnotation = findAnnotationAttribute(DbAnnotationConstants.WINDOW, normalAnnotationExpr.getPairs());
+			childFromAnnotation = findAnnotationAttribute(DbAnnotationConstants.CHILD, normalAnnotationExpr.getPairs());
+
+			displayName = displayNameFromAnnotation != null ? StringUtil.stripQuotes(displayNameFromAnnotation) : "";
+			window = windowFromAnnotation != null ? Boolean.valueOf(windowFromAnnotation) : false;
+			child = childFromAnnotation != null ? Boolean.valueOf(childFromAnnotation) : false;
+		}
 	}
 
 	/*
@@ -734,6 +757,16 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 	@Override
 	public DbNavigationDefinition getNavigationDefinition() {
 		return navigationDefinition;
+	}
+
+	@Override
+	public boolean isWindow() {
+		return window;
+	}
+
+	@Override
+	public boolean isChild() {
+		return child;
 	}
 
 }

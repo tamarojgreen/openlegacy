@@ -71,4 +71,7 @@ public class DbAnnotationConstants {
 	public static final String GLOBAL = "global";
 	public static final String ALIAS = "alias";
 
+	public static final String WINDOW = "window";
+	public static final String CHILD = "child";
+
 }

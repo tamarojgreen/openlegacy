@@ -2,6 +2,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.utils.jpa;
 
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaListFieldAction;
@@ -20,6 +21,7 @@ import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
+import org.openlegacy.annotations.db.DbEntity;
 
 import java.util.List;
 
@@ -40,7 +42,7 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 
 	@Override
 	protected void doSave(AST ast, CompilationUnit cu, ASTRewrite rewriter, AbstractTypeDeclaration root, AbstractEntity entity) {
-		// process top level class annotations: @Entity, @Table
+		// process top level class annotations: @Entity, @Table, @DbEntity
 		processEntityTopLevelAnnotations(ast, cu, rewriter, root, (JpaEntity)entity);
 		// process annotations that located inside root:
 		// @Column, @OneToMany, @Id
@@ -76,6 +78,10 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 					// @Table
 					JpaEntityBuilder.INSTANCE.processJpaTableAnnotation(ast, cu, rewriter, listRewriter, annotation,
 							JpaEntityUtils.getActionList(entity, JpaTableAction.class));
+				} else if (DbEntity.class.getSimpleName().equals(fullyQualifiedName)) {
+					// @DbEntity
+					JpaEntityBuilder.INSTANCE.processJpaDbEntityAnnotation(ast, cu, rewriter, listRewriter, annotation,
+							JpaEntityUtils.getActionList(entity, JpaDbEntityAction.class));
 				}
 			}
 		}

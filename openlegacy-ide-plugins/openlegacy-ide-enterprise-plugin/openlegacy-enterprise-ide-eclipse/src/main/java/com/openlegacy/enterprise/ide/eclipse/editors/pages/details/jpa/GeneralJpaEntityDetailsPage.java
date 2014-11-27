@@ -80,6 +80,15 @@ public class GeneralJpaEntityDetailsPage extends AbstractJpaDetailsPage {
 		// create row for "name"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("jpa.entity.name"), "", DbAnnotationConstants.NAME);//$NON-NLS-1$ //$NON-NLS-2$
+		// create row for "displayName"
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("jpa.entity.displayName"), "", DbAnnotationConstants.DISPLAY_NAME);//$NON-NLS-1$ //$NON-NLS-2$
+		// create row for "window"
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("jpa.entity.window"), false, DbAnnotationConstants.WINDOW);//$NON-NLS-1$
+		// create row for "child"
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("jpa.entity.child"), false, DbAnnotationConstants.CHILD);//$NON-NLS-1$
 
 		toolkit.paintBordersFor(section);
 		section.setClient(client);
@@ -110,7 +119,7 @@ public class GeneralJpaEntityDetailsPage extends AbstractJpaDetailsPage {
 	 */
 	@Override
 	protected void updateControls() {
-		ControlsUpdater.updateJpaEntityDetailsControls(entityModel, mapTexts);
+		ControlsUpdater.updateJpaEntityDetailsControls(entityModel, mapTexts, mapCheckBoxes);
 	}
 
 	/*
@@ -121,7 +130,8 @@ public class GeneralJpaEntityDetailsPage extends AbstractJpaDetailsPage {
 	@Override
 	protected void doUpdateModel(String key) throws MalformedURLException, CoreException {
 		Map<String, Object> map = getValuesOfControlsForKey(key);
-		ModelUpdater.updateJpaEntityModel(getEntity(), entityModel, key, (String)map.get(Constants.TEXT_VALUE));
+		ModelUpdater.updateJpaEntityModel(getEntity(), entityModel, key, (String)map.get(Constants.TEXT_VALUE),
+				(Boolean)map.get(Constants.BOOL_VALUE));
 	}
 
 	/*

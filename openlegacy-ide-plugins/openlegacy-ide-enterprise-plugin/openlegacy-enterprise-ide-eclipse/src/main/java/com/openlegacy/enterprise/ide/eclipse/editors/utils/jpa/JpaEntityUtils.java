@@ -3,6 +3,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.utils.jpa;
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaIdFieldAction;
@@ -53,11 +54,46 @@ public class JpaEntityUtils {
 		public static void generateJpaEntityActions(JpaEntity entity, JpaEntityModel model) {
 			boolean isPrevious = true;
 			boolean isDefault = true;
+			JpaEntityModel entityModel = entity.getEntityModel();
 			// @Entity.name: default ""
-			isPrevious = entity.getEntityModel().getName().equals(model.getName());
+			isPrevious = entityModel.getName().equals(model.getName());
 			isDefault = StringUtils.isEmpty(model.getName());
 			PrivateMethods.addRemoveJpaEntityAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.NAME, model.getName());
+
+			// add @DbEntity annotation
+			if (entityModel.isDefaultDbEntityAttrs() && !model.isDefaultDbEntityAttrs()) {
+				entity.addAction(new JpaDbEntityAction(model.getUUID(), model, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
+						DbAnnotationConstants.DB_ENTITY_ANNOTATION, null));
+			}
+			// remove @DbEntity annotation
+			if (!entityModel.isDefaultDbEntityAttrs() && model.isDefaultDbEntityAttrs()) {
+				entity.addAction(new JpaDbEntityAction(model.getUUID(), model, ActionType.REMOVE, ASTNode.NORMAL_ANNOTATION,
+						DbAnnotationConstants.DB_ENTITY_ANNOTATION, null));
+			}
+			if (entityModel.equalsDbEntityAttrs(model)) {
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_ENTITY_ANNOTATION);
+			}
+			// if ediatable model is not equal to default then delete remove @DbEntity annotation action
+			if (!model.isDefaultDbEntityAttrs()) {
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_ENTITY_ANNOTATION, ActionType.REMOVE);
+			}
+
+			// @DbEntity.displayName: default ""
+			isPrevious = StringUtils.equals(entityModel.getDisplayName(), model.getDisplayName());
+			isDefault = StringUtils.isEmpty(model.getDisplayName());
+			PrivateMethods.addRemoveJpaDbEntityAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.DISPLAY_NAME, model.getDisplayName());
+			// @DbEntity.window: default false
+			isPrevious = entityModel.isWindow() == model.isWindow();
+			isDefault = !model.isWindow();
+			PrivateMethods.addRemoveJpaDbEntityAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.WINDOW, model.isWindow());
+			// @DbEntity.child: default false
+			isPrevious = entityModel.isChild() == model.isChild();
+			isDefault = !model.isChild();
+			PrivateMethods.addRemoveJpaDbEntityAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.CHILD, model.isChild());
 		}
 
 		public static void generateJpaTableActions(JpaEntity entity, JpaTableModel model) {
@@ -251,6 +287,17 @@ public class JpaEntityUtils {
 				entity.addAction(new JpaEntityAction(model.getUUID(), model, ActionType.MODIFY, target, key, value));
 			} else if (!isPrevious && isDefault) {
 				entity.addAction(new JpaEntityAction(model.getUUID(), model, ActionType.REMOVE, target, key, null));
+			} else {
+				entity.removeAction(model.getUUID(), key);
+			}
+		}
+
+		public static void addRemoveJpaDbEntityAction(JpaEntity entity, JpaEntityModel model, boolean isPrevious,
+				boolean isDefault, int target, String key, Object value) {
+			if (!isPrevious && !isDefault) {
+				entity.addAction(new JpaDbEntityAction(model.getUUID(), model, ActionType.MODIFY, target, key, value));
+			} else if (!isPrevious && isDefault) {
+				entity.addAction(new JpaDbEntityAction(model.getUUID(), model, ActionType.REMOVE, target, key, null));
 			} else {
 				entity.removeAction(model.getUUID(), key);
 			}

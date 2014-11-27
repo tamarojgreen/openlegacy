@@ -3,6 +3,8 @@ package com.openlegacy.enterprise.ide.eclipse.editors.models;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -47,6 +49,21 @@ public abstract class AbstractEntity {
 	public void removeAction(UUID uuid, String key) {
 		if (this.actions.containsKey(uuid)) {
 			this.actions.get(uuid).remove(key);
+			if (this.actions.get(uuid).isEmpty()) {
+				this.actions.remove(uuid);
+			}
+		}
+		this.setDirty(!this.actions.isEmpty());
+	}
+
+	public void removeAction(UUID uuid, String key, ActionType actionType) {
+		if (this.actions.containsKey(uuid)) {
+			Map<String, AbstractAction> map = this.actions.get(uuid);
+			for (String mapKey : map.keySet()) {
+				if (StringUtils.equals(key, mapKey) && map.get(mapKey).getActionType().equals(actionType)) {
+					map.remove(mapKey);
+				}
+			}
 			if (this.actions.get(uuid).isEmpty()) {
 				this.actions.remove(uuid);
 			}

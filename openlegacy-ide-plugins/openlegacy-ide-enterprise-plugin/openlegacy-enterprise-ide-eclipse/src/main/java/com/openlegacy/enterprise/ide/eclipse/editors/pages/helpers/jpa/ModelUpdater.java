@@ -24,12 +24,22 @@ import javax.persistence.FetchType;
  */
 public class ModelUpdater {
 
-	public static void updateJpaEntityModel(JpaEntity entity, JpaEntityModel model, String key, String text) {
+	public static void updateJpaEntityModel(JpaEntity entity, JpaEntityModel model, String key, String text, Boolean selection) {
 		if (text != null) {
 			if (key.equals(DbAnnotationConstants.NAME)) {
 				model.setName(text);
+			} else if (key.equals(DbAnnotationConstants.DISPLAY_NAME)) {
+				model.setDisplayName(text);
 			}
 		}
+		if (selection != null) {
+			if (key.equals(DbAnnotationConstants.WINDOW)) {
+				model.setWindow(selection);
+			} else if (key.equals(DbAnnotationConstants.CHILD)) {
+				model.setChild(selection);
+			}
+		}
+
 		JpaEntityUtils.ActionGenerator.generateJpaEntityActions(entity, model);
 	}
 

@@ -23,7 +23,8 @@ import java.util.Set;
  */
 public class ControlsUpdater {
 
-	public static void updateJpaEntityDetailsControls(JpaEntityModel model, Map<String, Text> mapTexts) {
+	public static void updateJpaEntityDetailsControls(JpaEntityModel model, Map<String, Text> mapTexts,
+			Map<String, Button> mapCheckBoxes) {
 		if (model == null) {
 			return;
 		}
@@ -33,6 +34,20 @@ public class ControlsUpdater {
 			Text text = mapTexts.get(key);
 			if (key.equals(DbAnnotationConstants.NAME)) {
 				text.setText(model.getName());
+			}
+			if (key.equals(DbAnnotationConstants.DISPLAY_NAME)) {
+				text.setText(model.getDisplayName());
+			}
+		}
+
+		// update CheckBox controls
+		mapKeys = mapCheckBoxes.keySet();
+		for (String key : mapKeys) {
+			Button button = mapCheckBoxes.get(key);
+			if (key.equals(DbAnnotationConstants.WINDOW)) {
+				button.setSelection(model.isWindow());
+			} else if (key.equals(DbAnnotationConstants.CHILD)) {
+				button.setSelection(model.isChild());
 			}
 		}
 	}
