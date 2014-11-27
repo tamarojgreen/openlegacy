@@ -38,17 +38,20 @@ public class RpcPartModel extends RpcNamedObject {
 
 	public RpcPartModel(RpcNamedObject parent) {
 		super(RpcPart.class.getSimpleName(), parent);
+		actionsModel = new RpcActionsModel(this);
 	}
 
 	public RpcPartModel(UUID uuid, RpcNamedObject parent) {
 		super(RpcPart.class.getSimpleName(), parent);
 		this.uuid = uuid;
+		actionsModel = new RpcActionsModel(this);
 	}
 
 	public RpcPartModel(String className, RpcNamedObject parent) {
 		super(RpcPart.class.getSimpleName(), parent);
 		this.className = className;
 		this.previousClassName = className;
+		actionsModel = new RpcActionsModel(this);
 	}
 
 	@Override
@@ -64,7 +67,6 @@ public class RpcPartModel extends RpcNamedObject {
 		this.parts = RpcEntityUtils.<RpcPartEntityDefinition> getRpcPartsModels(this, partDefinition.getInnerPartsDefinitions(),
 				this.sortedParts);
 
-		actionsModel = new RpcActionsModel(this);
 		actionsModel.init(partDefinition);
 
 		this.className = partDefinition.getClassName();
