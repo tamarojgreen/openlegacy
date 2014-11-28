@@ -198,6 +198,13 @@
 					</div>														
 				<#elseif field.fieldTypeDefinition.typeName == 'boolean'>
 					<input type="checkbox" class="form-control" id="${field.name}" ng-checked="model.${field.name}">											
+				<#elseif field.fieldTypeDefinition.typeName == 'enum'>
+					<select class="form-control" id="${field.name}" ng-model="model.${field.name}">
+						<option value="">-- Select --</option>
+				        <#list field.fieldTypeDefinition.enums?keys as key>		
+							<option value="${key}">${field.fieldTypeDefinition.enums[key]}</option>
+						</#list>			
+					</select>											
 				<#else>
 					<input data-ng-class="readOnlyCss(model,'${field.name}')" data-ng-readonly="isReadOnly(model,'${field.name}')" type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
 				</#if>
@@ -208,10 +215,10 @@
 			<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'boolean'>
 				<input type="checkbox" disabled="disabled" class="form-control" id="${field.name}" ng-checked="model.${field.name}">											
 			<#else>
-				<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>
+				<span id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</span>
 				<#if field.descriptionFieldDefinition??>
-   				<span id="${field.name}Description" ng-model="model.${field.name}Description" class="readonly">{{model.${field.name}Description}}</span>
    				-
+   				<span id="${field.name}Description" ng-model="model.${field.name}Description" class="readonly">{{model.${field.name}Description}}</span>
    				</#if>
 			</#if>		   	
    		</#if>		
