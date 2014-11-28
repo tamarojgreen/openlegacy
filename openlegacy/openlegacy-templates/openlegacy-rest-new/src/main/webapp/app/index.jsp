@@ -18,8 +18,8 @@
 		<link href="bootstrap/css/datepicker.css" rel="stylesheet">
 		
 		<!-- custom style for this project -->
+		<link ng-href="themes/#projectThemeRoot#/#projectTheme#.css" rel="stylesheet">
 		<link type="text/css" rel="stylesheet" href="css/project.css" />	
-	<link ng-href="themes/#projectThemeRoot#/#projectTheme#.css" rel="stylesheet">
 			
 		<script src="lib/jquery/jquery-2.1.0.min.js" type="text/javascript"></script>
 		<script src="lib/jquery/jquery.cookie.js" type="text/javascript"></script>

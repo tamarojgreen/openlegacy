@@ -23,8 +23,8 @@
 		  display: none !important;
 		}
 	</style>
-	<link type="text/css" rel="stylesheet" href="css/project.css" />
 	<link ng-href="themes/#projectThemeRoot#/#projectTheme#.css" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="css/project.css" />
 	
 	<script src="js/jquery-1.10.2.min.js"></script>
 	<script src="lib/angular/angular.min.js"></script>
