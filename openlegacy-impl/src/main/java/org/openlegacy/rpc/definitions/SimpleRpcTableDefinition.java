@@ -28,6 +28,7 @@ public class SimpleRpcTableDefinition extends AbstractTableDefinition<ColumnDefi
 
 		private String name;
 		private String displayName;
+		private String sampleValue;
 
 		@Override
 		public int compareTo(org.openlegacy.definitions.TableDefinition.ColumnDefinition o) {
@@ -64,7 +65,11 @@ public class SimpleRpcTableDefinition extends AbstractTableDefinition<ColumnDefi
 
 		@Override
 		public String getSampleValue() {
-			return null;
+			return sampleValue;
+		}
+
+		public void setSampleValue(String sampleValue) {
+			this.sampleValue = sampleValue;
 		}
 
 		@Override

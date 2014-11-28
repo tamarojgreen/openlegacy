@@ -6,6 +6,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.mains.DesignTimeExecuterImpl;
 import org.openlegacy.layout.PageDefinition;
@@ -29,6 +30,8 @@ public class HtmlPreviewPage extends Composite {
 	private String cssContainerPath = null;
 
 	private String jsContainerPath = null;
+
+	private boolean rightToLeft = false;
 
 	private DesignTimeExecuter designTimeExecuter = new DesignTimeExecuterImpl();
 
@@ -71,6 +74,10 @@ public class HtmlPreviewPage extends Composite {
 		return jsContainerPath;
 	}
 
+	public boolean isRightToLeft() {
+		return rightToLeft;
+	}
+
 	public void setContainerPathes(IProject project) {
 		String projectPath = project.getLocation().toOSString();
 		String cssPath = designTimeExecuter.getPreferences(new File(project.getLocation().toOSString()),
@@ -81,6 +88,14 @@ public class HtmlPreviewPage extends Composite {
 		String jsPath = designTimeExecuter.getPreferences(new File(project.getLocation().toOSString()), Constants.JS_FOLDER_PATH);
 		if (!StringUtil.isEmpty(jsPath)) {
 			this.jsContainerPath = MessageFormat.format("{0}/{1}", projectPath, jsPath);//$NON-NLS-1$
+		}
+	}
+
+	public void setRightToLeft(IProject project) {
+		String designContext = designTimeExecuter.getPreferences(new File(project.getLocation().toOSString()),
+				PreferencesConstants.DESIGNTIME_CONTEXT);
+		if (!StringUtil.isEmpty(designContext) && designContext.equalsIgnoreCase("rtl")) {
+			this.rightToLeft = true;
 		}
 	}
 }
