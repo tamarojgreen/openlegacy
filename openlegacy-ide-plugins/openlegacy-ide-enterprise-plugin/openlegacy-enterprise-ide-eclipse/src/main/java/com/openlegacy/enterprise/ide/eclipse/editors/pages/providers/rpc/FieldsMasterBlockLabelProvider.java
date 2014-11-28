@@ -3,6 +3,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.rpc;
 import com.openlegacy.enterprise.ide.eclipse.Activator;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBigIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBooleanFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcDateFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcPartModel;
@@ -25,6 +26,8 @@ public class FieldsMasterBlockLabelProvider extends LabelProvider {
 			return Activator.getDefault().getImage(Activator.ICON_BIG_INTEGER);
 		} else if (element instanceof RpcIntegerFieldModel) {
 			return Activator.getDefault().getImage(Activator.ICON_INTEGER);
+		} else if (element instanceof RpcDateFieldModel) {
+			return Activator.getDefault().getImage(Activator.ICON_DATE);
 		} else if (element instanceof RpcPartModel) {
 			return Activator.getDefault().getImage(Activator.ICON_PART);
 		} else if (element instanceof RpcFieldModel) {

@@ -12,6 +12,7 @@ package org.openlegacy.designtime.rpc.generators.support;
 
 import org.openlegacy.annotations.rpc.RpcActions;
 import org.openlegacy.annotations.rpc.RpcBooleanField;
+import org.openlegacy.annotations.rpc.RpcDateField;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcEntitySuperClass;
 import org.openlegacy.annotations.rpc.RpcField;
@@ -51,6 +52,7 @@ public class RpcAnnotationConstants {
 
 	public static final String RPC_BOOLEAN_FIELD_ANNOTATION = RpcBooleanField.class.getSimpleName();
 	public static final String RPC_NUMERIC_ANNOTATION = RpcNumericField.class.getSimpleName();
+	public static final String RPC_DATE_FIELD_ANNOTATION = RpcDateField.class.getSimpleName();
 
 	// @Action
 	public static final String PATH = "path";

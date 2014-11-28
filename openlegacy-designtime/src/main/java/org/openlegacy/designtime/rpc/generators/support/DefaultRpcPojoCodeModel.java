@@ -427,6 +427,10 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 									RpcAnnotationConstants.RPC_NUMERIC_ANNOTATION)) {
 								field.setFieldTypeDefinition(AnnotationsParserUtils.loadNumericField(annotationExpr));
 							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
+									RpcAnnotationConstants.RPC_DATE_FIELD_ANNOTATION)) {
+								field.setFieldTypeDefinition(AnnotationsParserUtils.loadDateField(annotationExpr));
+							}
 						}
 					}
 					fields.put(fieldName, field);

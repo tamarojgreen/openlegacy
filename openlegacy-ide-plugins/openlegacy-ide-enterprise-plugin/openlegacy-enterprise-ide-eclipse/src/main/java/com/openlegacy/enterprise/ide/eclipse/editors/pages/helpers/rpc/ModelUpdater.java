@@ -3,6 +3,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc;
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcActionsModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBooleanFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcDateFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
@@ -157,5 +158,14 @@ public class ModelUpdater {
 
 	public static void updateRpcPartActionsModel(RpcEntity entity, RpcActionsModel actionsModel) {
 		RpcEntityUtils.ActionGenerator.generateRpcPartActionsAction(entity, actionsModel);
+	}
+
+	public static void updateRpcDateFieldModel(RpcEntity entity, RpcDateFieldModel model, String key, String text) {
+		if (text != null) {
+			if (key.equals(AnnotationConstants.PATTERN)) {
+				model.setPattern(text);
+			}
+		}
+		RpcEntityUtils.ActionGenerator.generateRpcDateFieldActions(entity, model);
 	}
 }

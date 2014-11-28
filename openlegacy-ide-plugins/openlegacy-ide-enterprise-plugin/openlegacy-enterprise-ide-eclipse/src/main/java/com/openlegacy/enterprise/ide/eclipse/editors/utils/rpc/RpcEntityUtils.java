@@ -5,6 +5,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcActionsAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcBooleanFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcDateFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcNavigationAction;
@@ -16,6 +17,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcActionsModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBigIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBooleanFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcDateFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
@@ -30,6 +32,7 @@ import org.openlegacy.FieldType;
 import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.annotations.rpc.Languages;
 import org.openlegacy.definitions.BooleanFieldTypeDefinition;
+import org.openlegacy.definitions.DateFieldTypeDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.CodeBasedRpcEntityDefinition;
@@ -317,6 +320,21 @@ public class RpcEntityUtils {
 			PrivateMethods.addRemoveRpcPartActionsAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.ACTIONS, model.getActions());
 		}
+
+		public static void generateRpcDateFieldActions(RpcEntity entity, RpcDateFieldModel model) {
+			boolean isPrevious = true;
+			boolean isDefault = true;
+			RpcDateFieldModel entityModel = (RpcDateFieldModel)entity.getFields().get(model.getUUID());
+			if (entityModel == null) {
+				entityModel = (RpcDateFieldModel)entity.getPartByUUID(model.getParent().getUUID()).getFields().get(
+						model.getUUID());
+			}
+			// @RpcDateField.pattern: default none;
+			isPrevious = StringUtils.equals(entityModel.getPattern(), model.getPattern());
+			isDefault = false;
+			PrivateMethods.addRemoveRpcDateFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.PATTERN, model.getPattern());
+		}
 	}
 
 	private final static class PrivateMethods {
@@ -420,6 +438,17 @@ public class RpcEntityUtils {
 			}
 		}
 
+		private static void addRemoveRpcDateFieldAction(RpcEntity entity, RpcDateFieldModel model, boolean isPrevious,
+				boolean isDefault, int target, String key, Object value) {
+			if (!isPrevious && !isDefault) {
+				entity.addAction(new RpcDateFieldAction(model.getUUID(), model, ActionType.MODIFY, target, key, value));
+			} else if (!isPrevious && isDefault) {
+				entity.addAction(new RpcDateFieldAction(model.getUUID(), model, ActionType.REMOVE, target, key, null));
+			} else {
+				entity.removeAction(model.getUUID(), key);
+			}
+		}
+
 		private static boolean compareActionsModels(List<ActionModel> a, List<ActionModel> b) {
 			if (a.size() != b.size()) {
 				return false;
@@ -463,6 +492,8 @@ public class RpcEntityUtils {
 			RpcFieldDefinition fieldDefinition = fieldsDefinitions.get(key);
 			if (fieldDefinition.getFieldTypeDefinition() instanceof BooleanFieldTypeDefinition) {
 				model = new RpcBooleanFieldModel(parent);
+			} else if (fieldDefinition.getFieldTypeDefinition() instanceof DateFieldTypeDefinition) {
+				model = new RpcDateFieldModel(parent);
 			} else {
 				if (((SimpleRpcFieldDefinition)fieldDefinition).getJavaTypeName().equalsIgnoreCase(Integer.class.getSimpleName())) {
 					model = new RpcIntegerFieldModel(parent);

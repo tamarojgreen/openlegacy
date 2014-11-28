@@ -4,6 +4,7 @@ import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcBigIntegerFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcBooleanFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcDateFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcIntegerFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcPartAction;
@@ -11,6 +12,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.button.SplitButton;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBigIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBooleanFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcDateFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
@@ -21,6 +23,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.IOpenLegacyDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc.FieldsRpcBigIntegerFieldDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc.FieldsRpcBooleanFieldDetailsPage;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc.FieldsRpcDateFieldDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc.FieldsRpcIntegerFieldDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc.FieldsRpcStringFieldDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc.PartsRpcPartDetailsPage;
@@ -120,6 +123,7 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 		detailsPages.add(new FieldsRpcBooleanFieldDetailsPage(this));
 		detailsPages.add(new FieldsRpcIntegerFieldDetailsPage(this));
 		detailsPages.add(new FieldsRpcBigIntegerFieldDetailsPage(this));
+		detailsPages.add(new FieldsRpcDateFieldDetailsPage(this));
 		detailsPages.add(new PartsRpcPartDetailsPage(this));
 		for (IDetailsPage page : detailsPages) {
 			detailsPart.registerPage(((IOpenLegacyDetailsPage)page).getDetailsModel(), page);
@@ -237,6 +241,7 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 		addNewBooleanFieldMenuItem(splitButton.getMenu());
 		addNewIntegerFieldMenuItem(splitButton.getMenu());
 		addNewBigIntegerFieldMenuItem(splitButton.getMenu());
+		addNewDateFieldMenuItem(splitButton.getMenu());
 		addNewRpcPartMenuItem(splitButton.getMenu());
 
 		createRemoveButton(toolkit, composite);
@@ -425,6 +430,35 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 		});
 	}
 
+	private void addNewDateFieldMenuItem(Menu menu) {
+		MenuItem item = new MenuItem(menu, SWT.PUSH);
+		item.setText(Messages.getString("Button.add.date.field"));//$NON-NLS-1$
+		item.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				NamedObject parent = getParentOfSelectedModel();
+				RpcDateFieldModel newModel = new RpcDateFieldModel((RpcNamedObject)parent);
+				newModel.setNew(true);
+
+				RpcEntity entity = getEntity();
+				if (parent instanceof RpcEntityModel) {
+					entity.addRpcFieldModel(newModel);
+				} else if (parent instanceof RpcPartModel) {
+					entity.addRpcFieldModelToPart((RpcPartModel)parent, newModel);
+				}
+				fillNewModel(newModel);
+				entity.addAction(new RpcDateFieldAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.FIELD_DECLARATION,
+						newModel.getFieldName(), null));
+				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
+				RpcEntityUtils.ActionGenerator.generateRpcDateFieldActions(entity, newModel);
+
+				reassignTreeViewerInput(newModel.getUUID());
+			}
+
+		});
+	}
+
 	private void addNewStringFieldMenuItem(Menu menu) {
 		MenuItem item = new MenuItem(menu, SWT.PUSH);
 		item.setText(Messages.getString("Button.add.string.field"));
@@ -477,6 +511,8 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 		if (model instanceof RpcBooleanFieldModel) {
 			((RpcBooleanFieldModel)model).setTrueValue("");//$NON-NLS-1$
 			((RpcBooleanFieldModel)model).setFalseValue("");//$NON-NLS-1$
+		} else if (model instanceof RpcDateFieldModel) {
+			((RpcDateFieldModel)model).setPattern("");//$NON-NLS-1$
 		}
 	}
 

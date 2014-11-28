@@ -5,6 +5,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcActionsAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcBigIntegerFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcBooleanFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcDateFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcIntegerFieldAction;
@@ -44,6 +45,7 @@ import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
 import org.openlegacy.annotations.rpc.Action;
 import org.openlegacy.annotations.rpc.RpcActions;
 import org.openlegacy.annotations.rpc.RpcBooleanField;
+import org.openlegacy.annotations.rpc.RpcDateField;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcNavigation;
 import org.openlegacy.annotations.rpc.RpcNumericField;
@@ -56,6 +58,7 @@ import org.openlegacy.utils.StringUtil;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -519,6 +522,15 @@ public class RpcEntityBuilder extends AbstractEntityBuilder {
 					intAnnotation.setTypeName(ast.newSimpleName(RpcNumericField.class.getSimpleName()));
 					field.modifiers().add(intAnnotation);
 					ASTUtils.addImport(ast, cu, rewriter, RpcNumericField.class);
+				}
+				// add @RpcDateField annotation
+				if (action instanceof RpcDateFieldAction) {
+					field.setType(ast.newSimpleType(ast.newSimpleName(Date.class.getSimpleName())));
+					ASTUtils.addImport(ast, cu, rewriter, Date.class);
+					NormalAnnotation boolAnnotation = ast.newNormalAnnotation();
+					boolAnnotation.setTypeName(ast.newSimpleName(RpcDateField.class.getSimpleName()));
+					field.modifiers().add(boolAnnotation);
+					ASTUtils.addImport(ast, cu, rewriter, RpcDateField.class);
 				}
 				// add @RpcField annotation
 				NormalAnnotation annotation = ast.newNormalAnnotation();

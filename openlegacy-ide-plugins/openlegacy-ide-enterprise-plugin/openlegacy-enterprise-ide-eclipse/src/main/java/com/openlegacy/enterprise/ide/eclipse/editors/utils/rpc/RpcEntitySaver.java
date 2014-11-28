@@ -4,6 +4,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcActionsAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcBooleanFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcDateFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcNavigationAction;
@@ -29,6 +30,7 @@ import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
 import org.openlegacy.annotations.rpc.RpcActions;
 import org.openlegacy.annotations.rpc.RpcBooleanField;
+import org.openlegacy.annotations.rpc.RpcDateField;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcNavigation;
 import org.openlegacy.annotations.rpc.RpcNumericField;
@@ -220,6 +222,9 @@ public class RpcEntitySaver extends AbstractEntitySaver {
 						} else if (fullyQualifiedName.equals(RpcPartList.class.getSimpleName())) {
 							RpcEntityBuilder.INSTANCE.processRpcPartListAnnotation(ast, cu, rewriter, fieldListRewrite, field,
 									fieldAnnotation, rootName, RpcEntityUtils.getActionList(entity, RpcPartListAction.class));
+						} else if (fullyQualifiedName.equals(RpcDateField.class.getSimpleName())) {
+							RpcEntityBuilder.INSTANCE.processRpcFieldAnnotation(ast, cu, rewriter, fieldListRewrite, field,
+									fieldAnnotation, rootName, RpcEntityUtils.getActionList(entity, RpcDateFieldAction.class));
 						}
 					}
 				}

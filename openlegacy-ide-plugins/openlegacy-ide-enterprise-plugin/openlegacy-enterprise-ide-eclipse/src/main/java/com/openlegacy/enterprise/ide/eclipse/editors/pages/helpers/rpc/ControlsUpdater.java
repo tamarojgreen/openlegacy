@@ -2,6 +2,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc;
 
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBooleanFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcDateFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcIntegerFieldModel;
@@ -180,6 +181,20 @@ public class ControlsUpdater {
 				text.setText(partModel.getClassName());
 			} else if (key.equals(RpcAnnotationConstants.COUNT)) {
 				text.setText((partModel.getCount() != 0) ? String.valueOf(partModel.getCount()) : "");//$NON-NLS-1$
+			}
+		}
+	}
+
+	public static void updateRpcDateFieldDetailsControls(RpcDateFieldModel fieldModel, Map<String, Text> mapTexts) {
+		if (fieldModel == null) {
+			return;
+		}
+		// update Text controls
+		Set<String> mapKeys = mapTexts.keySet();
+		for (String key : mapKeys) {
+			Text text = mapTexts.get(key);
+			if (key.equals(AnnotationConstants.PATTERN)) {
+				text.setText(fieldModel.getPattern());
 			}
 		}
 	}
