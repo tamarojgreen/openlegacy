@@ -121,6 +121,35 @@ public abstract class AbstractJpaFieldDetailsPage extends AbstractJpaDetailsPage
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
 				Messages.getString("jpa.field.scale"), 0, DbAnnotationConstants.SCALE);//$NON-NLS-1$
 
+		// ----------------- @DbColumn ---------------------
+		// create row for "displayName"
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("jpa.field.display.name"), "", DbAnnotationConstants.DISPLAY_NAME);//$NON-NLS-1$ //$NON-NLS-2$
+		// create row for "editable"
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("jpa.field.editable"), false, DbAnnotationConstants.EDITABLE);//$NON-NLS-1$ 
+		// create row for "password"
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("jpa.field.password"), false, DbAnnotationConstants.PASSWORD);//$NON-NLS-1$ 
+		// create row for "sampleValue"
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("jpa.field.sample.value"), "", DbAnnotationConstants.SAMPLE_VALUE);//$NON-NLS-1$ //$NON-NLS-2$
+		// create row for "defaultValue"
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("jpa.field.default.value"), "", DbAnnotationConstants.DEFAULT_VALUE);//$NON-NLS-1$ //$NON-NLS-2$
+		// create row for "helpText"
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("jpa.field.help.text"), "", DbAnnotationConstants.HELP_TEXT);//$NON-NLS-1$ //$NON-NLS-2$
+		// create row for "rightToLeft"
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("jpa.field.right.to.left"), false, DbAnnotationConstants.RIGHT_TO_LEFT);//$NON-NLS-1$
+		// create row for "internal"
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("jpa.field.internal"), false, DbAnnotationConstants.INTERNAL);//$NON-NLS-1$
+		// create row for "mainDisplayField"
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("jpa.field.main.display.field"), false, DbAnnotationConstants.MAIN_DISPLAY_FIELD);//$NON-NLS-1$
+
 		addContent(toolkit, client);
 
 		toolkit.paintBordersFor(section);

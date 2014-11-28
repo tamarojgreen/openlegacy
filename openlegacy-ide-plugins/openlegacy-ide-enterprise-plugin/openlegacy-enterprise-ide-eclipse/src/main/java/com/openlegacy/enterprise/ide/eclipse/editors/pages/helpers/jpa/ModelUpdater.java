@@ -24,12 +24,22 @@ import javax.persistence.FetchType;
  */
 public class ModelUpdater {
 
-	public static void updateJpaEntityModel(JpaEntity entity, JpaEntityModel model, String key, String text) {
+	public static void updateJpaEntityModel(JpaEntity entity, JpaEntityModel model, String key, String text, Boolean selection) {
 		if (text != null) {
 			if (key.equals(DbAnnotationConstants.NAME)) {
 				model.setName(text);
+			} else if (key.equals(DbAnnotationConstants.DISPLAY_NAME)) {
+				model.setDisplayName(text);
 			}
 		}
+		if (selection != null) {
+			if (key.equals(DbAnnotationConstants.WINDOW)) {
+				model.setWindow(selection);
+			} else if (key.equals(DbAnnotationConstants.CHILD)) {
+				model.setChild(selection);
+			}
+		}
+
 		JpaEntityUtils.ActionGenerator.generateJpaEntityActions(entity, model);
 	}
 
@@ -58,6 +68,16 @@ public class ModelUpdater {
 				model.setUpdatable(selection);
 			} else if (key.equals(DbAnnotationConstants.DB_ID_ANNOTATION)) {
 				model.setKey(selection);
+			} else if (key.equals(DbAnnotationConstants.EDITABLE)) {
+				model.setEditable(selection);
+			} else if (key.equals(DbAnnotationConstants.PASSWORD)) {
+				model.setPassword(selection);
+			} else if (key.equals(DbAnnotationConstants.RIGHT_TO_LEFT)) {
+				model.setRightToLeft(selection);
+			} else if (key.equals(DbAnnotationConstants.INTERNAL)) {
+				model.setInternal(selection);
+			} else if (key.equals(DbAnnotationConstants.MAIN_DISPLAY_FIELD)) {
+				model.setMainDisplayFiled(selection);
 			}
 		}
 		if (text != null) {
@@ -75,6 +95,14 @@ public class ModelUpdater {
 				model.setScale(StringUtils.isEmpty(text) ? 0 : Integer.valueOf(text));
 			} else if (key.equals(Constants.FIELD_NAME)) {
 				model.setFieldName(StringUtils.uncapitalize(text));
+			} else if (key.equals(DbAnnotationConstants.DISPLAY_NAME)) {
+				model.setDisplayName(text);
+			} else if (key.equals(DbAnnotationConstants.SAMPLE_VALUE)) {
+				model.setSampleValue(text);
+			} else if (key.equals(DbAnnotationConstants.DEFAULT_VALUE)) {
+				model.setDefaultValue(text);
+			} else if (key.equals(DbAnnotationConstants.HELP_TEXT)) {
+				model.setHelpText(text);
 			}
 		}
 		JpaEntityUtils.ActionGenerator.generateJpaFieldActions(entity, model);

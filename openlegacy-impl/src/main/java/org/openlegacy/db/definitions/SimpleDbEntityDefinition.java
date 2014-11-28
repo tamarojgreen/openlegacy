@@ -12,6 +12,7 @@ package org.openlegacy.db.definitions;
 
 import org.openlegacy.definitions.support.AbstractEntityDefinition;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class SimpleDbEntityDefinition extends AbstractEntityDefinition<DbFieldDefinition> implements DbEntityDefinition {
@@ -20,6 +21,9 @@ public class SimpleDbEntityDefinition extends AbstractEntityDefinition<DbFieldDe
 
 	private boolean window;
 	private DbNavigationDefinition navigationDefinition = new SimpleDbNavigationDefinition();
+	private boolean child;
+
+	private final Map<String, DbFieldDefinition> columnsDefinitions = new LinkedHashMap<String, DbFieldDefinition>();
 
 	public SimpleDbEntityDefinition(String entityName, Class<?> containingClass) {
 		super(entityName, containingClass);
@@ -36,12 +40,21 @@ public class SimpleDbEntityDefinition extends AbstractEntityDefinition<DbFieldDe
 
 	@Override
 	public Map<String, DbFieldDefinition> getColumnFieldsDefinitions() {
-		return null;
+		return columnsDefinitions;
 	}
 
 	@Override
 	public DbNavigationDefinition getNavigationDefinition() {
 		return navigationDefinition;
+	}
+
+	@Override
+	public boolean isChild() {
+		return child;
+	}
+
+	public void setChild(boolean child) {
+		this.child = child;
 	}
 
 }

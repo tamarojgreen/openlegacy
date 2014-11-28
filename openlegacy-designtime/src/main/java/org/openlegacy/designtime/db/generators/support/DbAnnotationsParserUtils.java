@@ -169,7 +169,7 @@ public class DbAnnotationsParserUtils {
 		return definition;
 	}
 
-	public static void loadDbColumnAnnotation(AnnotationExpr annotationExpr, ColumnField columnField) {
+	public static void loadJpaColumnAnnotation(AnnotationExpr annotationExpr, ColumnField columnField) {
 		String nameValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.NAME);
 		String uniqueValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.UNIQUE);
 		String nullableValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.NULLABLE);
@@ -210,6 +210,46 @@ public class DbAnnotationsParserUtils {
 		}
 		if (scaleValue != null) {
 			columnField.setScale(Integer.valueOf(scaleValue));
+		}
+	}
+
+	public static void loadDbColumnAnnotation(AnnotationExpr annotationExpr, ColumnField columnField) {
+		String displayNameValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.DISPLAY_NAME);
+		String editableValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.EDITABLE);
+		String passwordValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.PASSWORD);
+		String sampleValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.SAMPLE_VALUE);
+		String defaultValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.DEFAULT_VALUE);
+		String helpTextValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.HELP_TEXT);
+		String rightToLeftValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.RIGHT_TO_LEFT);
+		String internalValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.INTERNAL);
+		String mainDisplayFieldValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.MAIN_DISPLAY_FIELD);
+
+		if (displayNameValue != null) {
+			columnField.setDisplayName(displayNameValue);
+		}
+		if (StringConstants.TRUE.equals(editableValue)) {
+			columnField.setEditable(true);
+		}
+		if (StringConstants.TRUE.equals(passwordValue)) {
+			columnField.setPassword(true);
+		}
+		if (sampleValue != null) {
+			columnField.setSampleValue(sampleValue);
+		}
+		if (defaultValue != null) {
+			columnField.setDefaultValue(defaultValue);
+		}
+		if (helpTextValue != null) {
+			columnField.setHelpText(helpTextValue);
+		}
+		if (StringConstants.TRUE.equals(rightToLeftValue)) {
+			columnField.setRightToLeft(true);
+		}
+		if (StringConstants.TRUE.equals(internalValue)) {
+			columnField.setInternal(true);
+		}
+		if (StringConstants.TRUE.equals(mainDisplayFieldValue)) {
+			columnField.setMainDisplayField(true);
 		}
 	}
 

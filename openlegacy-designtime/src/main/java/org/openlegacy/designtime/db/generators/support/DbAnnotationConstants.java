@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.designtime.db.generators.support;
 
+import org.openlegacy.annotations.db.DbColumn;
+import org.openlegacy.annotations.db.DbEntity;
 import org.openlegacy.annotations.db.DbNavigation;
 
 import javax.persistence.Column;
@@ -21,14 +23,16 @@ import javax.persistence.Table;
 
 public class DbAnnotationConstants {
 
-	public static final String DB_ENTITY_ANNOTATION = Entity.class.getSimpleName();
+	public static final String DB_JPA_ENTITY_ANNOTATION = Entity.class.getSimpleName();
+	public static final String DB_ENTITY_ANNOTATION = DbEntity.class.getSimpleName();
 	public static final String DB_ENTITY_SUPER_CLASS_ANNOTATION = MappedSuperclass.class.getSimpleName();
 	// TODO
 	public static final String DB_ACTIONS_ANNOTATION = null;
 	public static final String DB_FIELD_ANNOTATION = null;
 
 	public static final String DB_TABLE_ANNOTATION = Table.class.getSimpleName();
-	public static final String DB_COLUMN_ANNOTATION = Column.class.getSimpleName();
+	public static final String DB_JPA_COLUMN_ANNOTATION = Column.class.getSimpleName();
+	public static final String DB_COLUMN_ANNOTATION = DbColumn.class.getSimpleName();
 	public static final String DB_ONE_TO_MANY_ANNOTATION = OneToMany.class.getSimpleName();
 	public static final String DB_ID_ANNOTATION = Id.class.getSimpleName();
 
@@ -66,5 +70,17 @@ public class DbAnnotationConstants {
 	public static final String DISPLAY_NAME = "displayName";
 	public static final String GLOBAL = "global";
 	public static final String ALIAS = "alias";
+
+	public static final String WINDOW = "window";
+	public static final String CHILD = "child";
+
+	public static final String SAMPLE_VALUE = "sampleValue";
+	public static final String DEFAULT_VALUE = "defaultValue";
+	public static final String HELP_TEXT = "helpText";
+	public static final String EDITABLE = "editable";
+	public static final String PASSWORD = "password";
+	public static final String RIGHT_TO_LEFT = "rightToLeft";
+	public static final String INTERNAL = "internal";
+	public static final String MAIN_DISPLAY_FIELD = "mainDisplayField";
 
 }

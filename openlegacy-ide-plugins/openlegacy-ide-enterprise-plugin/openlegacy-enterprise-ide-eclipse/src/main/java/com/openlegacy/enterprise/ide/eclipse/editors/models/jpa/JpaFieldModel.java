@@ -33,6 +33,16 @@ public class JpaFieldModel extends JpaNamedObject {
 	private int scale = 0;
 	// @Id annotation
 	private boolean key = false;
+	// @DbColumn annotation
+	private String displayName = "";
+	private boolean editable = false;
+	private boolean password = false;
+	private String sampleValue = "";
+	private String defaultValue = "";
+	private String helpText = "";
+	private boolean rightToLeft = false;
+	private boolean internal = false;
+	private boolean mainDisplayFiled = false;
 
 	// other
 	private String fieldName = Messages.getString("Field.new");//$NON-NLS-1$
@@ -73,6 +83,16 @@ public class JpaFieldModel extends JpaNamedObject {
 			length = definition.getLength();
 			precision = definition.getPrecision();
 			scale = definition.getScale();
+
+			displayName = definition.getDisplayName();
+			editable = definition.isEditable();
+			password = definition.isPassword();
+			sampleValue = definition.getSampleValue();
+			defaultValue = definition.getDefaultValue();
+			helpText = definition.getHelpText();
+			rightToLeft = definition.isRightToLeft();
+			internal = definition.isInternal();
+			mainDisplayFiled = definition.isMainDisplayField();
 		}
 		initialized = true;
 	}
@@ -95,22 +115,45 @@ public class JpaFieldModel extends JpaNamedObject {
 		model.setPrecision(precision);
 		model.setScale(scale);
 		model.setKey(key);
+
+		model.setDisplayName(displayName);
+		model.setEditable(editable);
+		model.setPassword(password);
+		model.setSampleValue(sampleValue);
+		model.setDefaultValue(defaultValue);
+		model.setHelpText(helpText);
+		model.setRightToLeft(rightToLeft);
+		model.setInternal(internal);
+		model.setMainDisplayFiled(mainDisplayFiled);
+
 		model.initialized = initialized;
 		return model;
 	}
 
-	public boolean isDefaultModel() {
+	public boolean isDefaultColumnAttrs() {
 		return StringUtils.isEmpty(name) && !unique && nullable && insertable && updatable
 				&& StringUtils.isEmpty(columnDefinition) && StringUtils.isEmpty(table) && (length == 255) && (precision == 0)
 				&& (scale == 0);
 	}
 
-	public boolean isModelEqual(JpaFieldModel model) {
+	public boolean isDefaultDbColumnAttrs() {
+		return StringUtils.isEmpty(displayName) && StringUtils.isEmpty(sampleValue) && StringUtils.isEmpty(defaultValue)
+				&& StringUtils.isEmpty(helpText) && !editable && !password && !rightToLeft && !internal && !mainDisplayFiled;
+	}
+
+	public boolean equalsColumnAttrs(JpaFieldModel model) {
 		return StringUtils.equals(name, model.getName()) && unique == model.isUnique() && nullable == model.isNullable()
 				&& insertable == model.isInsertable() && updatable == model.isUpdatable()
 				&& StringUtils.equals(columnDefinition, model.getColumnDefinition())
 				&& StringUtils.equals(table, model.getTable()) && length == model.getLength()
 				&& precision == model.getPrecision() && scale == model.getScale();
+	}
+
+	public boolean equalsDbColumnAttrs(JpaFieldModel model) {
+		return StringUtils.equals(displayName, model.getDisplayName()) && StringUtils.equals(sampleValue, model.getSampleValue())
+				&& StringUtils.equals(defaultValue, model.getDefaultValue()) && StringUtils.equals(helpText, model.getHelpText())
+				&& editable == model.isEditable() && password == model.isPassword() && rightToLeft == model.isRightToLeft()
+				&& internal == model.isInternal() && mainDisplayFiled == model.isMainDisplayFiled();
 	}
 
 	public String getName() {
@@ -219,6 +262,78 @@ public class JpaFieldModel extends JpaNamedObject {
 
 	public boolean isInitialized() {
 		return initialized;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+
+	public boolean isPassword() {
+		return password;
+	}
+
+	public void setPassword(boolean password) {
+		this.password = password;
+	}
+
+	public String getSampleValue() {
+		return sampleValue;
+	}
+
+	public void setSampleValue(String sampleValue) {
+		this.sampleValue = sampleValue;
+	}
+
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+
+	public String getHelpText() {
+		return helpText;
+	}
+
+	public void setHelpText(String helpText) {
+		this.helpText = helpText;
+	}
+
+	public boolean isRightToLeft() {
+		return rightToLeft;
+	}
+
+	public void setRightToLeft(boolean rightToLeft) {
+		this.rightToLeft = rightToLeft;
+	}
+
+	public boolean isInternal() {
+		return internal;
+	}
+
+	public void setInternal(boolean internal) {
+		this.internal = internal;
+	}
+
+	public boolean isMainDisplayFiled() {
+		return mainDisplayFiled;
+	}
+
+	public void setMainDisplayFiled(boolean mainDisplayFiled) {
+		this.mainDisplayFiled = mainDisplayFiled;
 	}
 
 }

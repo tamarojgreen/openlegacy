@@ -56,8 +56,7 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 	 */
 	@Override
 	public boolean isWindow() {
-		throwNotImplemented();
-		return false;
+		return getCodeModel().isWindow();
 	}
 
 	/*
@@ -127,6 +126,11 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 	@Override
 	public DbNavigationDefinition getNavigationDefinition() {
 		return getCodeModel().getNavigationDefinition();
+	}
+
+	@Override
+	public boolean isChild() {
+		return getCodeModel().isChild();
 	}
 
 }

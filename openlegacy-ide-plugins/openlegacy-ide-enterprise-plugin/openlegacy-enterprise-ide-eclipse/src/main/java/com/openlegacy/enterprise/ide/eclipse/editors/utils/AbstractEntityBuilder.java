@@ -73,6 +73,7 @@ public abstract class AbstractEntityBuilder {
 					}
 					if (val instanceof CascadeType[]) {
 						pairs.add(index, astUtils.createArrayPair(ast, action.getKey(), (CascadeType[])val));
+						ASTUtils.addImport(ast, cu, rewriter, CascadeType.class);
 					}
 					continue;
 				}

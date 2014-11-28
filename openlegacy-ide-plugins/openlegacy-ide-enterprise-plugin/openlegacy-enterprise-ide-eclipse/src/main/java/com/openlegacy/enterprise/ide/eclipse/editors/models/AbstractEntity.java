@@ -3,6 +3,8 @@ package com.openlegacy.enterprise.ide.eclipse.editors.models;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -54,6 +56,25 @@ public abstract class AbstractEntity {
 		this.setDirty(!this.actions.isEmpty());
 	}
 
+	public void removeAction(UUID uuid, String key, ActionType actionType) {
+		if (this.actions.containsKey(uuid)) {
+			Set<String> keysToRemove = new HashSet<String>();
+			Map<String, AbstractAction> map = this.actions.get(uuid);
+			for (String mapKey : map.keySet()) {
+				if (StringUtils.equals(key, mapKey) && map.get(mapKey).getActionType().equals(actionType)) {
+					keysToRemove.add(mapKey);
+				}
+			}
+			for (String keyToRemove : keysToRemove) {
+				map.remove(keyToRemove);
+			}
+			if (this.actions.get(uuid).isEmpty()) {
+				this.actions.remove(uuid);
+			}
+		}
+		this.setDirty(!this.actions.isEmpty());
+	}
+
 	public void removeActionsSet(UUID uuid) {
 		if (this.actions.containsKey(uuid)) {
 			this.actions.remove(uuid);
@@ -63,17 +84,17 @@ public abstract class AbstractEntity {
 
 	public void removeActionsForTypes(UUID uuid, ActionType[] types) {
 		if (this.actions.containsKey(uuid)) {
-			Set<String> keyToRemove = new HashSet<String>();
+			Set<String> keysToRemove = new HashSet<String>();
 			Map<String, AbstractAction> map = this.actions.get(uuid);
 
 			for (String key : map.keySet()) {
 				for (ActionType type : types) {
 					if (type.equals(map.get(key).getActionType())) {
-						keyToRemove.add(key);
+						keysToRemove.add(key);
 					}
 				}
 			}
-			for (String key : keyToRemove) {
+			for (String key : keysToRemove) {
 				map.remove(key);
 			}
 		}
