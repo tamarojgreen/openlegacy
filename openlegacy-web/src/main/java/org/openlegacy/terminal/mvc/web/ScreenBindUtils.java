@@ -26,8 +26,9 @@ import org.openlegacy.utils.ProxyUtil;
 import org.springframework.ui.Model;
 
 import java.text.MessageFormat;
-import java.util.Collection;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -67,12 +68,13 @@ public class ScreenBindUtils {
 	 */
 	public void bindTables(HttpServletRequest request, Class<?> entityClass, ScreenEntity screenEntity) {
 		ScreenEntityDefinition entityDefinition = entitiesRegistry.get(entityClass);
-		Collection<ScreenTableDefinition> tableDefinitions = entityDefinition.getTableDefinitions().values();
+		Set<Entry<String, ScreenTableDefinition>> tableDefinitions = entityDefinition.getTableDefinitions().entrySet();
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 
-		for (ScreenTableDefinition tableDefinition : tableDefinitions) {
-			List<ScreenColumnDefinition> columnDefinitions = tableDefinition.getColumnDefinitions();
-			String fieldName = StringUtils.uncapitalize(tableDefinition.getTableEntityName()) + "s";
+		for (Entry<String, ScreenTableDefinition> tableDefinition : tableDefinitions) {
+			ScreenTableDefinition tableDefinitionValue = tableDefinition.getValue();
+			List<ScreenColumnDefinition> columnDefinitions = tableDefinitionValue.getColumnDefinitions();
+			String fieldName = tableDefinition.getKey();
 			if (!fieldAccessor.isExists(fieldName)) {
 				logger.warn(MessageFormat.format("Unable to find field named:{0} for binding http request", fieldName));
 				continue;
@@ -94,8 +96,8 @@ public class ScreenBindUtils {
 				if (StringUtils.isNotEmpty(focus)) {
 					if (rowFieldAccessor.isExists(focus)) {
 						// TODO Ryan, integrate here row focus method
-						int focusPosition = (tableDefinition.getStartRow() - 1 + rowNumber) * 80
-								+ tableDefinition.getColumnDefinition(focus).getStartColumn();
+						int focusPosition = (tableDefinitionValue.getStartRow() - 1 + rowNumber) * 80
+								+ tableDefinitionValue.getColumnDefinition(focus).getStartColumn();
 						screenEntity.setFocusField(String.valueOf(focusPosition));
 					}
 				}
