@@ -247,12 +247,8 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 			// create new line if defaultColumns is configured and row is full
 					|| (defaultColumns != null && currentPagePartRow.getFields().size() == defaultColumns)) {
 
-				// add empty fields
-				if (defaultColumns != null && currentPagePartRow != null) {
-					for (int i = currentPagePartRow.getFields().size(); i < defaultColumns; i++) {
-						currentPagePartRow.getFields().add(null);
-					}
-				}
+				fillinRow(currentPagePartRow);
+
 				currentPagePartRow = new SimplePagePartRowDefinition();
 				pagePart.getPartRows().add(currentPagePartRow);
 				currentRow = screenFieldDefinition.getPosition().getRow();
@@ -271,6 +267,8 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 			}
 		}
 
+		// add empty fields
+		fillinRow(currentPagePartRow);
 		columnValues = calculateNumberOfColumnsForPagePart(columnValues);
 
 		pagePart.setColumns(defaultColumns != null ? defaultColumns : columnValues.size());
@@ -279,6 +277,14 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		calculateWidth(entityDefinition, pagePart, endColumn - startColumn);
 
 		return pagePart;
+	}
+
+	private void fillinRow(PagePartRowDefinition currentPagePartRow) {
+		if (defaultColumns != null && currentPagePartRow != null) {
+			for (int i = currentPagePartRow.getFields().size(); i < defaultColumns; i++) {
+				currentPagePartRow.getFields().add(null);
+			}
+		}
 	}
 
 	protected Integer getFieldLogicalStart(int fieldStartColumn, int fieldEndColumn) {
