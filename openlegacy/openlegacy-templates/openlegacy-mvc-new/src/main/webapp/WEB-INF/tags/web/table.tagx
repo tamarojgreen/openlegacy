@@ -73,7 +73,7 @@
 					</c:forEach>
 				</tr>
 				<c:set var="model" value="${requestScope[ol:uncapFirst(definitions.entityName)]}" />
-				<c:set var="tableActionsProperty" value="${tableDefinition.tableEntityName}sActions" />
+				<c:set var="tableActionsProperty" value="${ol:uncapFirst(tableDefinition.tableEntityName)}sActions" />
 				<c:set var="tableActions" value="${model[tableActionsProperty]}" />
 				<c:forEach items="${tableActions}" var="action" varStatus="counter">
 					<c:if test="${action.defaultAction}">
@@ -89,7 +89,7 @@
 						</c:if>
 					</c:if>
 					<c:forEach begin="0" end="${tableDefinition.rowGaps-1}" var="rowGap">
-						<tr class="${rowIndex.index % 2 == 0 or !alternate ? '' : 'alt'}" onclick="${rowClick}">
+						<tr class="${rowIndex.index % 2 == 0 or !alternate ? '' : 'alt'}">
 							<td>
 								<c:set var="editable" value="true" />
 								<c:set var="selectionHidden" value="${selectionColumn.name}" />
@@ -118,7 +118,7 @@
 											</c:if>
 										</c:when>
 										<c:when test="${fn:length(tableActions) &gt; 4}">
-											<select onchange="eval(this.value)" name="${column.name}" data-dojo-type="dijit/form/FilteringSelect" dir="${dir}">
+											<select onchange="eval(this.value)" name="${selectionColumn.name}" dir="${dir}">
 												<option value="">- Select -</option>
 												<c:forEach items="${tableActions}" var="action">
 													<c:set var="target" value="location.href='${pageContext.request.contextPath}/${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}'" />
