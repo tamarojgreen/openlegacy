@@ -16,12 +16,12 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.FileEditorInput;
-import org.openlegacy.definitions.page.support.SimplePageDefinition;
 import org.openlegacy.designtime.rpc.generators.support.RpcCodeBasedDefinitionUtils;
 import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.ide.eclipse.preview.rpc.RpcPreview;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
 import org.openlegacy.layout.PageDefinition;
+import org.openlegacy.rpc.layout.support.DefaultRpcPageBuilder;
 
 import japa.parser.JavaParser;
 import japa.parser.ast.CompilationUnit;
@@ -116,8 +116,9 @@ public class RpcEntityEditor extends AbstractEditor {
 
 	@Override
 	protected PageDefinition getPageDefinitionForHtmlPreview() {
-		SimplePageDefinition definition = new SimplePageDefinition(entity.getEntityDefinition());
-		return definition;
+		DefaultRpcPageBuilder rpcPageBuilder = new DefaultRpcPageBuilder();
+		PageDefinition pageDefinition = rpcPageBuilder.build(entity.getEntityDefinition());
+		return pageDefinition;
 	}
 
 	public void removeValidationMarker(String key) {

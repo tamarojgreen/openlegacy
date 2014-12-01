@@ -5,6 +5,7 @@ import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.ScreenEntityEditor;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.IdentifierModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEntity;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenIdentifiersModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.AttributesComboBoxCellEditingSupport;
@@ -15,6 +16,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.screen.Iden
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -45,6 +47,7 @@ import org.openlegacy.ide.eclipse.preview.screen.ScreenPreview;
 import org.openlegacy.ide.eclipse.preview.screen.SelectedObject;
 import org.openlegacy.terminal.FieldAttributeType;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -134,6 +137,25 @@ public class IdentifiersPage extends AbstractPage {
 		}
 	}
 
+	@Override
+	public void revalidatePage(String key) {
+		if (identifiersModel == null) {
+			return;
+		}
+		for (IdentifierModel identifierModel : identifiersModel.getIdentifiers()) {
+			validateModel(identifierModel);
+		}
+
+	}
+
+	@Override
+	public void performSubscription() {
+		ScreenEntityEditor editor = (ScreenEntityEditor)getEntityEditor();
+
+		GeneralPage generalPage = (GeneralPage)editor.findPage(GeneralPage.PAGE_ID);
+		generalPage.addSubscriber(ScreenAnnotationConstants.COLUMNS, this);
+	}
+
 	private void addPanelWithButtons(FormToolkit toolkit, Composite parent) {
 		Composite panel = toolkit.createComposite(parent);
 		GridLayout gl = new GridLayout();
@@ -158,6 +180,7 @@ public class IdentifiersPage extends AbstractPage {
 				tableViewer.setInput(identifiersModel);
 				updateModel();
 				tableViewer.getTable().select(tableViewer.getTable().getItemCount() - 1);
+				validateModel(identifier);
 			}
 
 		});
@@ -217,6 +240,7 @@ public class IdentifiersPage extends AbstractPage {
 				IdentifierModel identifier = (IdentifierModel)cell.getElement();
 				cell.setText(Integer.toString(identifier.getColumn()));
 				updateModel();
+				validateModel(identifier);
 			}
 		});
 
@@ -235,6 +259,7 @@ public class IdentifiersPage extends AbstractPage {
 				IdentifierModel identifier = (IdentifierModel)cell.getElement();
 				cell.setText(identifier.getText());
 				updateModel();
+				validateModel(identifier);
 			}
 		});
 
@@ -295,6 +320,29 @@ public class IdentifiersPage extends AbstractPage {
 					model.setText(selectedObject.getFieldRectangle().getValue());
 				}
 			}
+		}
+	}
+
+	private void validateModel(IdentifierModel model) {
+		if (managedForm == null) {
+			// NOTE: managedForm can equal to NULL if user not visited Identifiers page yet
+			return;
+		}
+		String validationMarkerKey = MessageFormat.format("{0}-{1}", model.getUuid(), "screenBounds");//$NON-NLS-1$ //$NON-NLS-2$
+		ScreenEntityEditor editor = (ScreenEntityEditor)getEntityEditor();
+
+		GeneralPage generalPage = (GeneralPage)editor.findPage(GeneralPage.PAGE_ID);
+		ScreenEntityModel entityModel = (ScreenEntityModel)generalPage.getEditableNamedObject(ScreenEntityModel.class);
+
+		if (model.getColumn() + model.getText().length() > entityModel.getColumns()) {
+			// add validation marker
+			managedForm.getMessageManager().addMessage(validationMarkerKey,
+					Messages.getString("validation.identifier.exceeds.screen.bounds"), null, IMessageProvider.ERROR);//$NON-NLS-1$
+			editor.addValidationMarker(validationMarkerKey, Messages.getString("validation.identifier.exceeds.screen.bounds"));//$NON-NLS-1$
+		} else {
+			// remove validation markers
+			managedForm.getMessageManager().removeMessage(validationMarkerKey);
+			editor.removeValidationMarker(validationMarkerKey);
 		}
 	}
 }

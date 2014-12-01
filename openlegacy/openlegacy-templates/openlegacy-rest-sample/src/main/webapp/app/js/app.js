@@ -6,6 +6,35 @@ var olApp = angular.module('olApp', [
     'services',
     "ui.bootstrap"
 ]).run(['$rootScope', '$state', '$themeService', function ($rootScope, $state, $themeService) {
+	$rootScope.allowHidePreloader = true;
+	$rootScope.allowShowPreloader = true;
+	
+	$rootScope.showPreloader = function() {
+		if ($rootScope.allowShowPreloader == true) {			
+			$(".preloader").show();
+			$(".content-wrapper").hide();
+			$rootScope.allowShowPreloader = false;
+		}		
+	}
+	
+	$rootScope.hidePreloader = function() {		
+		if ($rootScope.allowHidePreloader == true) {			
+			$(".preloader").hide();
+			$(".content-wrapper").show();
+			$rootScope.allowShowPreloader = true;
+		} else {
+			$rootScope.allowHidePreloader = true;
+		}		
+	}
+	
+	$rootScope.$on("$locationChangeStart", function(){		
+		$rootScope.showPreloader();
+	});
+	
+	$rootScope.$on("$locationChangeSuccess", function(){		
+		$rootScope.hidePreloader();
+	});
+	
     $rootScope.theme = $themeService.getCurrentTheme();
 }]);
  

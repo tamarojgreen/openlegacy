@@ -16,4 +16,28 @@ public interface DbFieldDefinition extends FieldDefinition {
 
 	DbOneToManyDefinition getOneToManyDefinition();
 
+	boolean isEditable();
+
+	boolean isPassword();
+
+	boolean isMainDisplayField();
+
+	boolean isUnique();
+
+	boolean isNullable();
+
+	boolean isInsertable();
+
+	boolean isUpdatable();
+
+	String getColumnDefinition();
+
+	String getTable();
+
+	int getLength();
+
+	int getPrecision();
+
+	int getScale();
+
 }

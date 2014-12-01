@@ -1,16 +1,20 @@
 package apps.position.screens;
 
+import org.openlegacy.annotations.screen.Action;
 import org.openlegacy.annotations.screen.Identifier;
+import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.annotations.screen.ScreenTableDrilldown;
+import org.openlegacy.terminal.actions.TerminalActions;
 
 import java.util.List;
 
 @ScreenEntity(validateKeys = false)
+@ScreenActions(actions = { @Action(action = TerminalActions.F2.class, displayName = "Save", alias = "save") })
 @ScreenIdentifiers(identifiers = { @Identifier(row = 1, column = 23, value = "DISPLAY THE LOADALL SUBFILE") })
 public class PositionDrillDownMenu {
 
@@ -20,6 +24,7 @@ public class PositionDrillDownMenu {
 	private List<DisplayTheLoadallSubfileRecord> displayTheLoadallSubfileRecords;
 
 	@ScreenTable(startRow = 8, endRow = 12)
+	// @ScreenActions(actions = { @Action(action = TerminalActions.F2.class, displayName = "Save", alias = "save") })
 	@ScreenTableDrilldown()
 	public static class DisplayTheLoadallSubfileRecord {
 

@@ -80,6 +80,8 @@ public class ScreenEntityEditor extends AbstractEditor {
 		addPage(tablesPage);
 		addPage(childEntitiesPage);
 		addSourcePage();
+
+		performSubscription();
 	}
 
 	@Override
@@ -196,4 +198,8 @@ public class ScreenEntityEditor extends AbstractEditor {
 		return builder.build(entity.getEntityDefinition());
 	}
 
+	private void performSubscription() {
+		identifiersPage.performSubscription();
+		actionsPage.performSubscription();
+	}
 }

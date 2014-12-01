@@ -18,7 +18,7 @@
 						${label_user}:
 					</div>
 					<div class="field">
-						<input name="user" style="width:350px"/>
+						<input name="user" style="width:350px;direction: ltr"/>
 					</div>
 				</div>
 				<div class="field_row">
@@ -27,7 +27,7 @@
 						${label_password}:
 					</div>
 					<div class="field">
-						<input name="password" type="password" style="width:350px" />
+						<input name="password" type="password" style="width:350px;direction: ltr" />
 					</div>
 				</div>
 				<div class="field_row">

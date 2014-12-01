@@ -6,6 +6,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.ScreenEntityEditor;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenActionsModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEntity;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ActionsComboBoxCellEditingSupport;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ActionsDialogCellEditingSupport;
@@ -132,6 +133,29 @@ public class ActionsPage extends AbstractPage {
 		actionsModel = ((ScreenEntityEditor)getEntityEditor()).getEntity().getActionsModel().clone();
 		if (tableViewer != null) {
 			tableViewer.setInput(actionsModel);
+		}
+	}
+
+	@Override
+	public void performSubscription() {
+		ScreenEntityEditor editor = (ScreenEntityEditor)getEntityEditor();
+
+		GeneralPage generalPage = (GeneralPage)editor.findPage(GeneralPage.PAGE_ID);
+		generalPage.addSubscriber(ScreenAnnotationConstants.COLUMNS, this);
+		generalPage.addSubscriber(ScreenAnnotationConstants.ROWS, this);
+	}
+
+	@Override
+	public void revalidatePage(String key) {
+		if (actionsModel == null) {
+			return;
+		}
+		for (ActionModel actionModel : actionsModel.getActions()) {
+			if (StringUtils.equals(key, ScreenAnnotationConstants.COLUMNS)) {
+				validateColumns(actionModel);
+			} else if (StringUtils.equals(key, ScreenAnnotationConstants.ROWS)) {
+				validateRows(actionModel);
+			}
 		}
 	}
 
@@ -286,6 +310,7 @@ public class ActionsPage extends AbstractPage {
 				cell.setText(Integer.toString(action.getRow()));
 				updateModel();
 				validateAttributes(action);
+				validateRows(action);
 			}
 		});
 
@@ -305,6 +330,7 @@ public class ActionsPage extends AbstractPage {
 				cell.setText(Integer.toString(action.getColumn()));
 				updateModel();
 				validateAttributes(action);
+				validateColumns(action);
 			}
 		});
 
@@ -324,6 +350,7 @@ public class ActionsPage extends AbstractPage {
 				cell.setText(Integer.toString(action.getLength()));
 				updateModel();
 				validateAttributes(action);
+				validateColumns(action);
 			}
 		});
 
@@ -509,6 +536,52 @@ public class ActionsPage extends AbstractPage {
 					Messages.getString("validation.action.attributes.must.be.specified.together"), null, IMessageProvider.ERROR);//$NON-NLS-1$
 			editor.addValidationMarker(validationMarkerKey,
 					Messages.getString("validation.action.attributes.must.be.specified.together"));//$NON-NLS-1$
+		}
+	}
+
+	private void validateColumns(ActionModel model) {
+		if (managedForm == null) {
+			// NOTE: managedForm can equal to NULL if user not visited Identifiers page yet
+			return;
+		}
+		String validationMarkerKey = MessageFormat.format("{0}-{1}", model.getUuid(), "screenBoundsColumns");//$NON-NLS-1$ //$NON-NLS-2$
+		ScreenEntityEditor editor = (ScreenEntityEditor)getEntityEditor();
+
+		GeneralPage generalPage = (GeneralPage)editor.findPage(GeneralPage.PAGE_ID);
+		ScreenEntityModel entityModel = (ScreenEntityModel)generalPage.getEditableNamedObject(ScreenEntityModel.class);
+
+		if (model.getColumn() + model.getLength() > entityModel.getColumns()) {
+			// add validation marker
+			managedForm.getMessageManager().addMessage(validationMarkerKey,
+					Messages.getString("validation.action.exceeds.screen.bounds"), null, IMessageProvider.ERROR);//$NON-NLS-1$
+			editor.addValidationMarker(validationMarkerKey, Messages.getString("validation.action.exceeds.screen.bounds"));//$NON-NLS-1$
+		} else {
+			// remove validation markers
+			managedForm.getMessageManager().removeMessage(validationMarkerKey);
+			editor.removeValidationMarker(validationMarkerKey);
+		}
+	}
+
+	private void validateRows(ActionModel model) {
+		if (managedForm == null) {
+			// NOTE: managedForm can equal to NULL if user not visited Identifiers page yet
+			return;
+		}
+		String validationMarkerKey = MessageFormat.format("{0}-{1}", model.getUuid(), "screenBoundsRows");//$NON-NLS-1$ //$NON-NLS-2$
+		ScreenEntityEditor editor = (ScreenEntityEditor)getEntityEditor();
+
+		GeneralPage generalPage = (GeneralPage)editor.findPage(GeneralPage.PAGE_ID);
+		ScreenEntityModel entityModel = (ScreenEntityModel)generalPage.getEditableNamedObject(ScreenEntityModel.class);
+
+		if (model.getRow() > entityModel.getRows()) {
+			// add validation marker
+			managedForm.getMessageManager().addMessage(validationMarkerKey,
+					Messages.getString("validation.action.exceeds.screen.bounds"), null, IMessageProvider.ERROR);//$NON-NLS-1$
+			editor.addValidationMarker(validationMarkerKey, Messages.getString("validation.action.exceeds.screen.bounds"));//$NON-NLS-1$
+		} else {
+			// remove validation markers
+			managedForm.getMessageManager().removeMessage(validationMarkerKey);
+			editor.removeValidationMarker(validationMarkerKey);
 		}
 	}
 

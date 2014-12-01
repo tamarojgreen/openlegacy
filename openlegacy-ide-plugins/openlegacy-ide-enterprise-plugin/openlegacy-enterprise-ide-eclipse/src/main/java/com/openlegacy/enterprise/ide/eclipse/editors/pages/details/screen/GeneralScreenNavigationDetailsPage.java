@@ -5,6 +5,7 @@ import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.TerminalActionViewerFilter;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNavigationModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
@@ -216,6 +217,11 @@ public class GeneralScreenNavigationDetailsPage extends AbstractScreenDetailsPag
 		if (accessedFromValidator != null) {
 			accessedFromValidator.setModelUUID(uuid);
 		}
+	}
+
+	@Override
+	public ScreenNamedObject getPageScreenNamedObject() {
+		return navigationModel;
 	}
 
 	private void createAssignedFieldsSection(final ScrolledForm form, FormToolkit toolkit, Composite parent, final String key) {

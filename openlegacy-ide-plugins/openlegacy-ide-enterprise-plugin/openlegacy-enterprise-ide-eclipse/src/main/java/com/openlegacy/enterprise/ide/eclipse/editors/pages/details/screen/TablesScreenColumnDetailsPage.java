@@ -4,6 +4,7 @@ import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenColumnModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenTableModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
@@ -175,6 +176,11 @@ public class TablesScreenColumnDetailsPage extends AbstractScreenDetailsPage {
 
 		toolkit.paintBordersFor(section);
 		section.setClient(client);
+	}
+
+	@Override
+	public ScreenNamedObject getPageScreenNamedObject() {
+		return null;
 	}
 
 	/**

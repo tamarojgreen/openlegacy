@@ -94,6 +94,7 @@ public class DefaultRpcPageBuilder implements RpcPageBuilder {
 			String columnName = nameParts.length > 0 ? nameParts[nameParts.length - 1] : rpcFieldDefinition.getName();
 			rpcColumn.setName(columnName);
 			rpcColumn.setDisplayName(rpcFieldDefinition.getDisplayName());
+			rpcColumn.setSampleValue(rpcFieldDefinition.getSampleValue());
 			rpcTable.getColumnDefinitions().add(rpcColumn);
 		}
 		SimplePagePartDefinition pagePart = new SimplePagePartDefinition();

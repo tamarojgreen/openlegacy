@@ -15,8 +15,8 @@
 				<input type="hidden" name="requestedUrl" value="${param.requestedUrl}" />
 			  	<spring:message code="label_user" var="label_user" htmlEscape="false" />
 			  	<spring:message code="label_password" var="label_password" htmlEscape="false" />
-				<ol:field name="user" style="width:350px" label="${label_user}"/>
-				<ol:field name="password" style="width:350px" label="${label_password}"/>
+				<ol:field name="user" style="width:350px;direction: ltr" label="${label_user}"/>
+				<ol:field name="password" style="width:350px;direction: ltr" label="${label_password}"/>
 				<div class="field_row">
 					<div class="label">
 						<!---->

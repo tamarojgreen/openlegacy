@@ -12,6 +12,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 
 	private static final long serialVersionUID = 1L;
 
+	// @Column annotation attributes
 	private String nameAttr = "";
 	private boolean unique = false;
 	private boolean nullable = true;
@@ -22,6 +23,17 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 	private int length = 255;
 	private int precision = 0;
 	private int scale = 0;
+	// @DbColumn annotation attributes
+	private String displayName = "";
+	private boolean editable = false;
+	private boolean password = false;
+	private String sampleValue = "";
+	private String defaultValue = "";
+	private String helpText = "";
+	private boolean rightToLeft = false;
+	private boolean internal = false;
+	private boolean mainDisplayField = false;
+
 	private DbOneToManyDefinition oneToManyDefinition = null;
 	private String fieldTypeArgs = null;
 
@@ -47,6 +59,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.nameAttr = nameAttr;
 	}
 
+	@Override
 	public boolean isUnique() {
 		return unique;
 	}
@@ -55,6 +68,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.unique = unique;
 	}
 
+	@Override
 	public boolean isNullable() {
 		return nullable;
 	}
@@ -63,6 +77,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.nullable = nullable;
 	}
 
+	@Override
 	public boolean isInsertable() {
 		return insertable;
 	}
@@ -71,6 +86,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.insertable = insertable;
 	}
 
+	@Override
 	public boolean isUpdatable() {
 		return updatable;
 	}
@@ -79,6 +95,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.updatable = updatable;
 	}
 
+	@Override
 	public String getColumnDefinition() {
 		return columnDefinition;
 	}
@@ -87,6 +104,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.columnDefinition = columnDefinition;
 	}
 
+	@Override
 	public String getTable() {
 		return table;
 	}
@@ -95,6 +113,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.table = table;
 	}
 
+	@Override
 	public int getLength() {
 		return length;
 	}
@@ -103,6 +122,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.length = length;
 	}
 
+	@Override
 	public int getPrecision() {
 		return precision;
 	}
@@ -111,6 +131,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 		this.precision = precision;
 	}
 
+	@Override
 	public int getScale() {
 		return scale;
 	}
@@ -136,9 +157,99 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 	public String getExpression() {
 		return null;
 	}
-	
+
 	@Override
 	public int getKeyIndex() {
 		return 1;
 	}
+
+	@Override
+	public boolean isMainDisplayField() {
+		return mainDisplayField;
+	}
+
+	public void setMainDisplayField(boolean mainDisplayField) {
+		this.mainDisplayField = mainDisplayField;
+	}
+
+	@Override
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	@Override
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	@Override
+	public boolean isEditable() {
+		return editable;
+	}
+
+	@Override
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+
+	@Override
+	public boolean isPassword() {
+		return password;
+	}
+
+	@Override
+	public void setPassword(boolean password) {
+		this.password = password;
+	}
+
+	@Override
+	public String getSampleValue() {
+		return sampleValue;
+	}
+
+	@Override
+	public void setSampleValue(String sampleValue) {
+		this.sampleValue = sampleValue;
+	}
+
+	@Override
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+
+	@Override
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+
+	@Override
+	public String getHelpText() {
+		return helpText;
+	}
+
+	@Override
+	public void setHelpText(String helpText) {
+		this.helpText = helpText;
+	}
+
+	@Override
+	public boolean isRightToLeft() {
+		return rightToLeft;
+	}
+
+	@Override
+	public void setRightToLeft(boolean rightToLeft) {
+		this.rightToLeft = rightToLeft;
+	}
+
+	@Override
+	public boolean isInternal() {
+		return internal;
+	}
+
+	@Override
+	public void setInternal(boolean internal) {
+		this.internal = internal;
+	}
+
 }

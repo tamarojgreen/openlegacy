@@ -10,7 +10,7 @@
 	
 	<ol:form model="${entityDefinition.entityName?uncap_first}">
 	<#if entityDefinition.fieldsDefinitions?size != 0 >
-		<ol:pagePart title="${entityDefinition.entityName}">
+		<ol:pagePart title="${entityDefinition.displayName?replace("'", "\\\'")}">
 		<#list entityDefinition.fieldsDefinitions?values as fieldDefinitions>
 			<@simpleField fieldDefinitions=fieldDefinitions/>
 		</#list>

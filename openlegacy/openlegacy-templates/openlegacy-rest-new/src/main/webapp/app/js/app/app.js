@@ -4,7 +4,38 @@
 
 	/* App Module */
 	
-	var olApp = angular.module( 'olApp', ['controllers', 'services', 'directives', 'ngRoute', 'ui.router']).run(['$themeService', '$rootScope', function($themeService, $rootScope) {		
+	var olApp = angular.module( 'olApp', ['controllers', 'services', 'directives', 'ngRoute', 'ui.router']).run(['$themeService', '$rootScope', function($themeService, $rootScope) {
+		$rootScope.allowHidePreloader = true;
+		$rootScope.allowShowPreloader = true;
+		
+		$rootScope.showPreloader = function() {
+			if ($rootScope.allowShowPreloader == true) {
+				console.log("location start");
+				$(".preloader").show();
+				$(".content-wrapper").hide();
+				$rootScope.allowShowPreloader = false;
+			}		
+		}
+		
+		$rootScope.hidePreloader = function() {		
+			if ($rootScope.allowHidePreloader == true) {
+				console.log("location end");
+				$(".preloader").hide();
+				$(".content-wrapper").show();
+				$rootScope.allowShowPreloader = true;
+			} else {
+				$rootScope.allowHidePreloader = true;
+			}		
+		}
+		
+		$rootScope.$on("$locationChangeStart", function(){		
+			$rootScope.showPreloader();
+		});
+		
+		$rootScope.$on("$locationChangeSuccess", function(){		
+			$rootScope.hidePreloader();
+		});		
+		
 		$rootScope.changeTheme = function() {
 			$themeService.changeTheme();
 		};

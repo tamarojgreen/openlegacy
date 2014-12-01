@@ -11,6 +11,7 @@ import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.annotations.screen.ScreenTableActions;
 import org.openlegacy.annotations.screen.TableAction;
+import org.openlegacy.terminal.ScreenEntity.NONE;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.actions.TerminalActions.F12;
 import org.openlegacy.terminal.actions.TerminalActions.F4;
@@ -25,15 +26,17 @@ import java.util.List;
 		@Action(action = TerminalActions.F3.class, displayName = "Exit", alias = "exit"),
 		@Action(action = TerminalActions.F5.class, displayName = "Refresh", alias = "refresh"),
 		@Action(action = TerminalActions.F12.class, displayName = "Cancel", alias = "cancel") })
-@ScreenNavigation(accessedFrom = ChangePrinterOutput.class, exitAction = F12.class, terminalAction = F4.class, assignedFields = { @AssignedField(field = "printerToUse") })
+@ScreenNavigation(accessedFrom = NONE.class, exitAction = F12.class, terminalAction = F4.class, assignedFields = { @AssignedField(field = "printerToUse") })
 public class SelectPrinter {
 
 	private List<SelectPrinterRecord> selectPrinterRecords;
 
 	@ScreenTable(startRow = 9, endRow = 17)
-	@ScreenTableActions(actions = { @TableAction(displayName = "select", actionValue = "") })
+	@ScreenTableActions(actions = { @TableAction(displayName = "select", actionValue = "1") })
 	public static class SelectPrinterRecord {
 
+		@ScreenColumn(startColumn = 6, endColumn = 6, selectionField = true, editable = true)
+		private String selection;
 		@ScreenColumn(startColumn = 10, endColumn = 19, key = true, displayName = "Printer", mainDisplayField = true, sampleValue = "#D")
 		private String printer;
 		@ScreenColumn(startColumn = 34, endColumn = 75, displayName = "Status", sampleValue = "Stopped")

@@ -12,11 +12,9 @@
 		<c:forEach items="${page.pageParts}" var="pagePart">
 			<c:choose>
 				<c:when test="${pagePart.oneField}">
-					<c:if test="${not field.internal}">
-						<ol:pagePart>
-							<ol:field name="${pagePart.singleField.name}" />
-						</ol:pagePart>
-					</c:if>
+					<ol:pagePart>
+						<ol:field name="${pagePart.singleField.name}" />
+					</ol:pagePart>
 				</c:when>
 				<c:otherwise>
 					<!-- Page parts with absolute position -->
@@ -33,15 +31,15 @@
 							<c:set var="showPart" value="${fn:length(tableData) &gt; 0}" />
 					</c:if>
 					<c:if test="${showPart}">
-					<ol:pagePart title="${pagePart.displayName}">
+					<c:set var="search" value="'" />
+            		<c:set var="replace" value="\'" />
+					<ol:pagePart title="${fn:replace(pagePart.displayName, search, replace)}">
 						<c:choose>
 							<c:when test="${not pagePart.hasTable}">
 								<c:forEach items="${pagePart.partRows}" var="partRow">
 									<ol:row columns="${fn:length(partRow.fields)}">
 										<c:forEach items="${partRow.fields}" var="field" varStatus="colCounter">
-											<c:if test="${not field.internal}">
-												<ol:field name="${field.name}" />
-											</c:if>
+											<ol:field name="${field.name}" />
 										</c:forEach>
 									</ol:row>
 								</c:forEach>

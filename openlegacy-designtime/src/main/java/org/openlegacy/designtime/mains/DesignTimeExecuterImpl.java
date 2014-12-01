@@ -936,8 +936,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 							RpcAnnotationConstants.RPC_PART_ANNOTATION)) {
 				RpcPojosAjGenerator generator = applicationContext.getBean(RpcPojosAjGenerator.class);
 				return generator.generate(javaFile, compilationUnit);
-			} else if (JavaParserUtil.hasAnnotation(compilationUnit, DbAnnotationConstants.DB_ENTITY_ANNOTATION,
-					DbAnnotationConstants.DB_ENTITY_SUPER_CLASS_ANNOTATION)
+			} else if (JavaParserUtil.hasAnnotation(compilationUnit, DbAnnotationConstants.DB_JPA_ENTITY_ANNOTATION,
+					DbAnnotationConstants.DB_ENTITY_ANNOTATION, DbAnnotationConstants.DB_ENTITY_SUPER_CLASS_ANNOTATION)
 					|| JavaParserUtil.hasAnnotation(compilationUnit, RpcAnnotationConstants.RPC_ENTITY_ANNOTATION,
 							RpcAnnotationConstants.RPC_PART_ANNOTATION)) {
 				DbPojosAjGenerator generator = applicationContext.getBean(DbPojosAjGenerator.class);

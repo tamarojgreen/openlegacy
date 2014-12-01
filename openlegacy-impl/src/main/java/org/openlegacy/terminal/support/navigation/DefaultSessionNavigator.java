@@ -22,6 +22,7 @@ import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.modules.table.Table;
 import org.openlegacy.modules.table.drilldown.DrilldownAction;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.ScreenEntity.NONE;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -30,7 +31,9 @@ import org.openlegacy.terminal.actions.TerminalMappedAction;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
+import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.services.SessionNavigator;
 import org.openlegacy.terminal.table.TerminalDrilldownAction;
@@ -47,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -155,7 +159,11 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 			}
 		}
 		if (navigationSteps != null) {
-			performDirectNavigation(terminalSession, currentEntityClass, navigationSteps, keys);
+			try {
+				performDirectNavigation(terminalSession, currentEntityClass, navigationSteps, keys);
+			} catch (TerminalActionException e) {
+				throw (new ScreenEntityNotAccessibleException(e, targetEntityDefinition.getEntityName()));
+			}
 			ScreenEntity entity = terminalSession.getEntity();
 			if (entity != null) {
 				ScreenNavigationUtil.validateCurrentScreen(targetScreenEntityClass, entity.getClass());
@@ -260,9 +268,29 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 			currentNavigationNode = navigationDefinition.getAccessedFrom();
 			if (navigationDefinition.getTerminalAction().isMacro()) {
 				logger.debug(MessageFormat.format(
-						"Found NONE for accessedFrom in @ScreenNavigation withing screen {0}. Ignoring direct navigation path",
+						"Found a macro action in @ScreenNavigation withing screen {0}. Ignoring direct navigation path",
 						currentNavigationNode.getName()));
 				return null;
+			}
+			if (currentNavigationNode == NONE.class) {
+				List<FieldAssignDefinition> assignedFields = navigationDefinition.getAssignedFields();
+				if (assignedFields.size() > 0) {
+					Map<String, ScreenFieldDefinition> sourceScreenFields = sourceEntityDefinition.getFieldsDefinitions();
+					for (FieldAssignDefinition assignDefinition : assignedFields) {
+						if (!sourceScreenFields.containsKey(assignDefinition.getName())) {
+							logger.debug(MessageFormat.format("Assigned field {0} wasnt found in the source screen entity {1}",
+									assignDefinition.getName(), sourceEntityDefinition.getEntityName()));
+							navigationSteps.clear();
+							return null;
+						}
+					}
+					return navigationSteps;
+				} else {
+					logger.debug(MessageFormat.format(
+							"Found NONE in @ScreenNavigation withing screen {0}. Ignoring direct navigation path",
+							currentNavigationNode.getName()));
+					return null;
+				}
 			}
 			ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(currentNavigationNode);
 			navigationDefinition = screenEntityDefinition.getNavigationDefinition();

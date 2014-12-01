@@ -15,6 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.terminal.ScreenEntityBinder;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -52,6 +53,10 @@ public class ScreenEntityTableActionsBinder implements ScreenEntityBinder {
 				TerminalActionDefinition terminalActionDefinition = (TerminalActionDefinition)actionDefinition;
 				if (terminalActionDefinition.getPosition() != null && terminalActionDefinition.getLength() > 0
 						&& !terminalActionDefinition.getWhen().equals(".*")) {
+					TerminalField terminalField = terminalSnapshot.getField(terminalActionDefinition.getPosition());
+					if (terminalField != null && terminalField.isHidden()) {
+						continue;
+					}
 					String text = terminalSnapshot.getText(terminalActionDefinition.getPosition(),
 							terminalActionDefinition.getLength());
 					if (text.matches(terminalActionDefinition.getWhen())) {

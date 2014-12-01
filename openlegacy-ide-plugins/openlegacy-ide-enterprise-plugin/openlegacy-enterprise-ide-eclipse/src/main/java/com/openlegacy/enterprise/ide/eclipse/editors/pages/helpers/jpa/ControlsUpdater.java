@@ -23,7 +23,8 @@ import java.util.Set;
  */
 public class ControlsUpdater {
 
-	public static void updateJpaEntityDetailsControls(JpaEntityModel model, Map<String, Text> mapTexts) {
+	public static void updateJpaEntityDetailsControls(JpaEntityModel model, Map<String, Text> mapTexts,
+			Map<String, Button> mapCheckBoxes) {
 		if (model == null) {
 			return;
 		}
@@ -33,6 +34,20 @@ public class ControlsUpdater {
 			Text text = mapTexts.get(key);
 			if (key.equals(DbAnnotationConstants.NAME)) {
 				text.setText(model.getName());
+			}
+			if (key.equals(DbAnnotationConstants.DISPLAY_NAME)) {
+				text.setText(model.getDisplayName());
+			}
+		}
+
+		// update CheckBox controls
+		mapKeys = mapCheckBoxes.keySet();
+		for (String key : mapKeys) {
+			Button button = mapCheckBoxes.get(key);
+			if (key.equals(DbAnnotationConstants.WINDOW)) {
+				button.setSelection(model.isWindow());
+			} else if (key.equals(DbAnnotationConstants.CHILD)) {
+				button.setSelection(model.isChild());
 			}
 		}
 	}
@@ -82,6 +97,14 @@ public class ControlsUpdater {
 				text.setText(String.valueOf(model.getPrecision()));
 			} else if (key.equals(DbAnnotationConstants.SCALE)) {
 				text.setText(String.valueOf(model.getScale()));
+			} else if (key.equals(DbAnnotationConstants.DISPLAY_NAME)) {
+				text.setText(model.getDisplayName());
+			} else if (key.equals(DbAnnotationConstants.SAMPLE_VALUE)) {
+				text.setText(model.getSampleValue());
+			} else if (key.equals(DbAnnotationConstants.DEFAULT_VALUE)) {
+				text.setText(model.getDefaultValue());
+			} else if (key.equals(DbAnnotationConstants.HELP_TEXT)) {
+				text.setText(model.getHelpText());
 			}
 		}
 		// update CheckBox controls
@@ -98,6 +121,16 @@ public class ControlsUpdater {
 				button.setSelection(model.isUpdatable());
 			} else if (key.equals(DbAnnotationConstants.DB_ID_ANNOTATION)) {
 				button.setSelection(model.isKey());
+			} else if (key.equals(DbAnnotationConstants.EDITABLE)) {
+				button.setSelection(model.isEditable());
+			} else if (key.equals(DbAnnotationConstants.PASSWORD)) {
+				button.setSelection(model.isPassword());
+			} else if (key.equals(DbAnnotationConstants.RIGHT_TO_LEFT)) {
+				button.setSelection(model.isRightToLeft());
+			} else if (key.equals(DbAnnotationConstants.INTERNAL)) {
+				button.setSelection(model.isInternal());
+			} else if (key.equals(DbAnnotationConstants.MAIN_DISPLAY_FIELD)) {
+				button.setSelection(model.isMainDisplayFiled());
 			}
 		}
 		// update Label controls

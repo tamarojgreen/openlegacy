@@ -103,8 +103,8 @@ public class DefaultRpcRestController extends AbstractRestController {
 
 	@Override
 	@RequestMapping(value = "/menu", method = RequestMethod.GET, consumes = { JSON, XML })
-	public Object getMenu() {
-		return super.getMenu();
+	public Object getMenu(HttpServletResponse response) throws IOException {
+		return super.getMenu(response);
 	}
 
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON)

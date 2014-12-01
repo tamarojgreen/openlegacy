@@ -85,8 +85,10 @@ public class DbPojosAjGenerator extends AbstractPojosAjGenerator {
 			for (AnnotationExpr annotationExpr : annotations) {
 				DbPojoCodeModel dbEntityCodeModel = null;
 				try {
-					if (JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_ENTITY_ANNOTATION)
-							|| JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_ENTITY_SUPER_CLASS_ANNOTATION)) {
+					if (JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_JPA_ENTITY_ANNOTATION)
+							|| JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_ENTITY_ANNOTATION)
+							|| JavaParserUtil.hasAnnotation(annotationExpr,
+									DbAnnotationConstants.DB_ENTITY_SUPER_CLASS_ANNOTATION)) {
 						dbEntityCodeModel = generateEntity(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration, baos);
 					}
 					if (dbEntityCodeModel != null && dbEntityCodeModel.isRelevant()) {

@@ -40,4 +40,54 @@ public class SimpleDbFieldDefinition extends AbstractFieldDefinition<DbFieldDefi
 	public int getKeyIndex() {
 		return 1;
 	}
+
+	@Override
+	public boolean isMainDisplayField() {
+		return false;
+	}
+
+	@Override
+	public boolean isUnique() {
+		return false;
+	}
+
+	@Override
+	public boolean isNullable() {
+		return false;
+	}
+
+	@Override
+	public boolean isInsertable() {
+		return false;
+	}
+
+	@Override
+	public boolean isUpdatable() {
+		return false;
+	}
+
+	@Override
+	public String getColumnDefinition() {
+		return null;
+	}
+
+	@Override
+	public String getTable() {
+		return null;
+	}
+
+	@Override
+	public int getLength() {
+		return 0;
+	}
+
+	@Override
+	public int getPrecision() {
+		return 0;
+	}
+
+	@Override
+	public int getScale() {
+		return 0;
+	}
 }

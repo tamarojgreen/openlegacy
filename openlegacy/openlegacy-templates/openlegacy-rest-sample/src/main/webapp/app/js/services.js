@@ -1,13 +1,14 @@
 ( function() {
 
 	'use strict';
-
+	
 	/* Services */
 	angular.module( 'services', [] )
 	
-	.factory('$olHttp', function( $http ) {
+	.factory('$olHttp', function( $http, $rootScope ) {		
 		return {
-			get:function(url, callback) {				
+			get:function(url, callback) {
+				$rootScope.showPreloader();
 				$http({
 		                method : 'GET',
 		                data : '',
@@ -22,14 +23,17 @@
 		        	if (data != "" && data != null && data != undefined) {
 		        		data = angular.fromJson(data);
 		        	}		        	
+		        	
 		        	callback(data);
 		        })
 		        .error(function(data, status, headers, config){
+		        	$rootScope.hidePreloader();
 		            alert(data)
 		        });
 	        },
 		        
 			post: function(url, data, callback) {
+				$rootScope.showPreloader();
 				var findAndClearActions = function(data) {						
 					if (data.actions != null && data.actions != undefined) {
 						data.actions = null;
@@ -55,10 +59,11 @@
 		                'Content-Type' : 'application/json',
 		                'Accept' : 'application/json'
 		            }
-		    	}).success(function(data, status, headers, config) {    		
+		    	}).success(function(data, status, headers, config) {		    		
 		    		callback(angular.fromJson(data));    		
 		    	})
 		    	.error(function(data, status, headers, config){
+		    		$rootScope.hidePreloader();
 		            alert(data)
 		        });
 			}				
@@ -86,6 +91,7 @@
 				getMenuString(data.simpleMenuItemList);
 				callback(menuArray);
 			}).error(function(data, status, headers, config) {
+				hidePreloader();
 				if(data.error){
 					alert('Error: ' + data.error);
 				} else {

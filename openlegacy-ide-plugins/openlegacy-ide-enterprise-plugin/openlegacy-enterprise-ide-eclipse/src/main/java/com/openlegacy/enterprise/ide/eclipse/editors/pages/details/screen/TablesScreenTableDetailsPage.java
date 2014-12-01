@@ -6,6 +6,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.TableCollec
 import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.TerminalActionViewerFilter;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenColumnModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenTableModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
@@ -164,6 +165,9 @@ public class TablesScreenTableDetailsPage extends AbstractScreenDetailsPage {
 		// create row for "filterExpression"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("ScreenTable.filterExpression"), "", ScreenAnnotationConstants.FILTER_EXPRESSION);//$NON-NLS-1$ //$NON-NLS-2$
+		// create row for "rightToLeft"
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("ScreenTable.rightToLeft"), false, ScreenAnnotationConstants.RIGHT_TO_LEFT);//$NON-NLS-1$
 
 		toolkit.paintBordersFor(section);
 		section.setClient(client);
@@ -288,6 +292,11 @@ public class TablesScreenTableDetailsPage extends AbstractScreenDetailsPage {
 			endRowValidator.removeValidationMarker();
 			classNameValidator.removeValidationMarker();
 		}
+	}
+
+	@Override
+	public ScreenNamedObject getPageScreenNamedObject() {
+		return null;
 	}
 
 	private static void setScreenPreviewDrawingRectangle(ScreenTableModel model) {

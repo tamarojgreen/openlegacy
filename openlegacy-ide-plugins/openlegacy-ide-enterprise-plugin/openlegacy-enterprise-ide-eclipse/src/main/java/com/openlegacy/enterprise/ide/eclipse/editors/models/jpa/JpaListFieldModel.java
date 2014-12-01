@@ -87,6 +87,17 @@ public class JpaListFieldModel extends JpaFieldModel {
 		model.setPrecision(getPrecision());
 		model.setScale(getScale());
 		model.setKey(isKey());
+
+		model.setDisplayName(getDisplayName());
+		model.setEditable(isEditable());
+		model.setPassword(isPassword());
+		model.setSampleValue(getSampleValue());
+		model.setDefaultValue(getDefaultValue());
+		model.setHelpText(getHelpText());
+		model.setRightToLeft(isRightToLeft());
+		model.setInternal(isInternal());
+		model.setMainDisplayFiled(isMainDisplayFiled());
+
 		model.initialized = isInitialized();
 		// List specific
 		model.setFieldTypeArgs(fieldTypeArgs);
@@ -100,26 +111,23 @@ public class JpaListFieldModel extends JpaFieldModel {
 		return model;
 	}
 
-	@Override
-	public boolean isDefaultModel() {
-		return super.isDefaultModel()
-				&& cascade.length == 0
+	public boolean isDefaultOneToManyAttrs() {
+		return cascade.length == 0
 				&& FetchType.LAZY.equals(fetch)
 				&& StringUtils.isEmpty(mappedBy)
 				&& !orphanRemoval
 				&& (void.class.getSimpleName().equalsIgnoreCase(targetEntityClassName) || StringUtils.isEmpty(targetEntityClassName));
 	}
 
-	@Override
-	public boolean isModelEqual(JpaFieldModel model) {
+	public boolean equalsOneToManyAttrs(JpaFieldModel model) {
 		if (model instanceof JpaListFieldModel) {
 			JpaListFieldModel listModel = (JpaListFieldModel)model;
 			boolean cascadeEqual = isCascadeEqual(listModel.getCascade());
-			return super.isModelEqual(model) && cascadeEqual && fetch.equals(listModel.getFetch())
-					&& StringUtils.equals(mappedBy, listModel.getMappedBy()) && orphanRemoval == listModel.isOrphanRemoval()
+			return cascadeEqual && fetch.equals(listModel.getFetch()) && StringUtils.equals(mappedBy, listModel.getMappedBy())
+					&& orphanRemoval == listModel.isOrphanRemoval()
 					&& StringUtils.equals(targetEntityClassName, listModel.getTargetEntityClassName());
 		}
-		return super.isModelEqual(model);
+		return super.equalsColumnAttrs(model);
 	}
 
 	private boolean isCascadeEqual(CascadeType[] modelCascade) {

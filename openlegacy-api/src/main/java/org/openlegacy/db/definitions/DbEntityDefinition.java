@@ -20,4 +20,6 @@ public interface DbEntityDefinition extends EntityDefinition<DbFieldDefinition> 
 
 	DbNavigationDefinition getNavigationDefinition();
 
+	boolean isChild();
+
 }

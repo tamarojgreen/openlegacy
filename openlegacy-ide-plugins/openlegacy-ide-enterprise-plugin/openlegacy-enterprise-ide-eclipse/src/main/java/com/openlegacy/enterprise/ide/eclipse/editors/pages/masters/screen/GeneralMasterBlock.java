@@ -2,8 +2,10 @@ package com.openlegacy.enterprise.ide.eclipse.editors.pages.masters.screen;
 
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.IOpenLegacyDetailsPage;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.screen.AbstractScreenDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.screen.GeneralScreenEntityDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.screen.GeneralScreenNavigationDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.screen.GeneralMasterBlockContentProvider;
@@ -136,5 +138,15 @@ public class GeneralMasterBlock extends AbstractScreenEntityMasterBlock {
 				}
 			}
 		}
+	}
+
+	public ScreenNamedObject getNamedObjectFromDetailsPage(Class<?> clazz) {
+		for (IDetailsPage page : detailsPages) {
+			ScreenNamedObject namedObject = ((AbstractScreenDetailsPage)page).getPageScreenNamedObject();
+			if (namedObject != null && namedObject.getClass().isAssignableFrom(clazz)) {
+				return namedObject;
+			}
+		}
+		return null;
 	}
 }

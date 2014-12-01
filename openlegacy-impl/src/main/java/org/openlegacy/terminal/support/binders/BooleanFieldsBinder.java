@@ -80,6 +80,10 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 				logger.warn("A mapped field not found as terminal field on snapshot:" + fieldDefinition);
 				return;
 			}
+			if (booleanField.isHidden()) {
+				logger.debug("A hidden field was not bound " + fieldDefinition.getName());
+				return;
+			}
 			if (booleanField.getValue().equals(fieldTypeDefinition.getTrueValue())) {
 				fieldAccessor.setFieldValue(fieldDefinition.getName(), Boolean.TRUE);
 			} else {

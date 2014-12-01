@@ -70,7 +70,7 @@ public interface ScreenTableDefinition extends TableDefinition<ScreenColumnDefin
 	 */
 	String getFilterExpression();
 
-	boolean isRtlDirection();
+	boolean isRightToLeft();
 
 	public interface ScreenColumnDefinition extends TableDefinition.ColumnDefinition {
 

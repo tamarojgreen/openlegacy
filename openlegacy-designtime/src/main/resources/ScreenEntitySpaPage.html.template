@@ -29,7 +29,7 @@
 					</div>
 					
 					<#list childPagesDefinitions as childPage>		            			
-		    			<div class="tab-pane" id="${childPage.entityDefinition.entityName}">			            					            				
+	        			<div class="tab-pane" id="${childPage.entityDefinition.entityName}">			            					            				
 						    <@navMacro entity=childPage.entityDefinition showExcelBtn=hasTable?string/>
 						    <#if (childPage.pageParts?size > 0)>
 						    	<#list childPage.pageParts as part>
@@ -41,7 +41,7 @@
 						    		<@fieldMacro field=childPage.entityDefinition.fieldsDefinitions[key]/>
 				    			</#list>							    		
 						    </#if>
-		    			</div>
+	        			</div>
         		    </#list>						  
 				</div><!-- /Tab panes -->
 			</div>
@@ -73,10 +73,13 @@
 						<thead>
 							<tr>
 							<#list part.tableDefinition.columnDefinitions as column>									
+								<#if column.selectionField>
+									<#assign selectionColumn = column>
+								</#if>
 								<#if column_has_next>
 									<th>${column.displayName}</th>
 								<#else>
-							     <th>${column.displayName}</th>
+							<th>${column.displayName}</th>
 								</#if>
 					  		</#list>
 							</tr>
@@ -94,16 +97,22 @@
 												  </button>
 												  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 												    <#list part.tableDefinition.actions as action>
+													    <#if action.defaultAction == true>
+															<#assign defaultAction = action defaultActionIndex = action_index>
+														</#if>
 													    <#if action.targetEntity??>
 													    	<li><a href="#/${action.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">${action.displayName}</a></li>
 													    <#else>
-													    	<li><a href="" ng-click="noTargetScreenEntityAlert()">${action.displayName}</a></li>
+													    	<li><a href="" ng-click="${part.tableDefinition.tableEntityName?uncap_first}.${selectionColumn.name}='${action.action.actionValue}';doActionNoTargetEntity()">${action.displayName}</a></li>
 													    </#if>																		                                        		                                        
 			                                        </#list>		                                        
 												  </ul>
 												</div>
-											<#else>													
+											<#else>
 												<#list part.tableDefinition.actions as action>
+													<#if action.defaultAction == true>
+														<#assign defaultAction = action defaultActionIndex = action_index>
+													</#if>
 													<#if action.targetEntity??>
 														<#assign keyValues = "{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">
 														<#list part.tableDefinition.keyFieldNames as keyValue>
@@ -115,15 +124,21 @@
 															${action.displayName}												
 														</a>
 													<#else>
-														<a href="" ng-click="doActionNoTargetEntity($index, '${column.name}', '${action.action.actionValue}')">
+														<a href="" ng-click="${part.tableDefinition.tableEntityName?uncap_first}.${selectionColumn.name}='${action.action.actionValue}';doActionNoTargetEntity()">
 															${action.displayName}
 														</a>
 													</#if>			                                        		                                        
 		                                        </#list>		                              
 											</#if>											
 		                            	</td>
-									<#else>
-										<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>																			
+									<#else>	
+										<td>
+										<#if (column.editable)>
+											<input data-ng-class="readOnlyCss(${part.tableDefinition.tableEntityName?uncap_first},'${column.name}')" data-ng-readonly="isReadOnly(${part.tableDefinition.tableEntityName?uncap_first},'${column.name}')" type="text" size="${column.length}" ng-model="${part.tableDefinition.tableEntityName?uncap_first}.${column.name}" />
+										<#else>
+											{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}
+										</#if>
+										</td>
 									</#if>										
 						  		</#list>							  		
 							</tr>                            
@@ -144,43 +159,22 @@
 			<#else>
 				<form role="form">			
 					<#list part.partRows as partRow>
-						<#assign result = []>
-						<@filterFields field=partRow.fields[0] fieldsArray=partRow.fields/>				
-						
-						<#list result as rowFields>
 							<div class="row">
-								<#assign colWidth = (6/rowFields?size)?ceiling>
-								<#list rowFields as field>
-									<div class="col-sm-${colWidth}">
-										<@fieldMacro field=field/>
-									</div>
-								</#list>
+							<#assign colWidth = (6/partRow.fields?size)?ceiling>
+							<#list partRow.fields as field>
+								<div class="col-sm-${colWidth}">
+									<#if field??>
+									<@fieldMacro field=field/>
+									</#if>
+								</div>
+							</#list>
+
 							</div>
-						</#list>								
 					</#list>
 				</form>		
 			</#if>
 		</div>
 	</div>		
-</#macro>
-
-<#macro filterFields field fieldsArray>
-	<#assign rowArray = [field]>
-	<#assign arrayToFilter = []>
-	<#list fieldsArray as el>
-		<#if field != el>
-			<#if field.position.row == el.position.row>
-				<#assign rowArray = rowArray + [el]>
-			<#else>
-				<#assign arrayToFilter = arrayToFilter + [el]>
-			</#if>
-		</#if>
-	</#list>
-	<#assign result = result + [rowArray]>
-	
-	<#if arrayToFilter?size != 0>
-		<@filterFields field=arrayToFilter[0] fieldsArray=arrayToFilter/>
-	</#if>	
 </#macro>
 
 <#macro fieldMacro field>
@@ -204,20 +198,27 @@
 					</div>														
 				<#elseif field.fieldTypeDefinition.typeName == 'boolean'>
 					<input type="checkbox" class="form-control" id="${field.name}" ng-checked="model.${field.name}">											
+				<#elseif field.fieldTypeDefinition.typeName == 'enum'>
+					<select class="form-control" id="${field.name}" ng-model="model.${field.name}">
+						<option value="">-- Select --</option>
+				        <#list field.fieldTypeDefinition.enums?keys as key>		
+							<option value="${key}">${field.fieldTypeDefinition.enums[key]}</option>
+						</#list>			
+					</select>											
 				<#else>
-					<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
+					<input data-ng-class="readOnlyCss(model,'${field.name}')" data-ng-readonly="isReadOnly(model,'${field.name}')" type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
 				</#if>
 	   		<#else>
-	   			<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">	   			   			
+	   			<input data-ng-class="readOnlyCss(model,'${field.name}')" data-ng-readonly="isReadOnly(model,'${field.name}')" type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">	   			   			
 	   		</#if>
 	   	<#else>
 			<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'boolean'>
 				<input type="checkbox" disabled="disabled" class="form-control" id="${field.name}" ng-checked="model.${field.name}">											
 			<#else>
-				<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>
+				<span id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</span>
 				<#if field.descriptionFieldDefinition??>
-   				<span id="${field.name}Description" ng-model="model.${field.name}Description" class="readonly">{{model.${field.name}Description}}</span>
    				-
+   				<span id="${field.name}Description" ng-model="model.${field.name}Description" class="readonly">{{model.${field.name}Description}}</span>
    				</#if>
 			</#if>		   	
    		</#if>		
@@ -229,7 +230,7 @@
 	    <form class="navbar-form xnavbar-left" role="navigation">
 	    	<button data-ng-click="doAction('${entity.entityName}', '')" class="btn btn-primary navbar-btn">Submit</button>
 	        <#list entity.actions as action>		
-				<button data-ng-click="doAction('${entity.entityName}', '${action.alias}')" class="btn btn-primary navbar-btn">${action.displayName}</button>
+				<button data-ng-show="isActionAvailable('${action.alias}')" data-ng-click="doAction('${entity.entityName}', '${action.alias}')" class="btn btn-primary navbar-btn">${action.displayName}</button>
 			</#list>			
 			<a ng-href="{{baseUrl}}${entity.entityName}{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="${showExcelBtn}">
 			<span class="glyphicon glyphicon-export"></span>	        	

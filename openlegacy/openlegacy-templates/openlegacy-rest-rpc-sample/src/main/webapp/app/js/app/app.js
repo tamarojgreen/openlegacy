@@ -5,7 +5,36 @@
 	/* App Module */
 	
 	var olApp = angular.module( 'olApp', [ 'ngCookies','controllers', 'services', 'ui.router'] )
-	.run(['$rootScope', '$themeService', function ($rootScope, $themeService) {		
+	.run(['$rootScope', '$themeService', function ($rootScope, $themeService) {
+		$rootScope.allowHidePreloader = true;
+		$rootScope.allowShowPreloader = true;
+		
+		$rootScope.showPreloader = function() {
+			if ($rootScope.allowShowPreloader == true) {			
+				$(".preloader").show();
+				$(".content-wrapper").hide();
+				$rootScope.allowShowPreloader = false;
+			}		
+		}
+		
+		$rootScope.hidePreloader = function() {		
+			if ($rootScope.allowHidePreloader == true) {			
+				$(".preloader").hide();
+				$(".content-wrapper").show();
+				$rootScope.allowShowPreloader = true;
+			} else {
+				$rootScope.allowHidePreloader = true;
+			}		
+		}
+		
+		$rootScope.$on("$locationChangeStart", function(){		
+			$rootScope.showPreloader();
+		});
+		
+		$rootScope.$on("$locationChangeSuccess", function(){		
+			$rootScope.hidePreloader();
+		});
+		
 		$rootScope.theme = $themeService.getCurrentTheme();		
 	}]);
 	

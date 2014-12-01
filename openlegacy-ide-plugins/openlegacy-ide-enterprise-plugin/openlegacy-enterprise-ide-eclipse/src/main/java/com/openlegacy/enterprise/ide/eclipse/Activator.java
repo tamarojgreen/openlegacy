@@ -46,6 +46,16 @@ public class Activator extends AbstractUIPlugin {
 	public static final String ICON_ACTION = "action";//$NON-NLS-1$
 	public static final String ICON_BYTE = "byte";//$NON-NLS-1$
 	public static final String ICON_LIST = "list";//$NON-NLS-1$
+	// key fields icons
+	public static final String ICON_BOOLEAN_KEY = "boolean_key";//$NON-NLS-1$
+	public static final String ICON_DATE_KEY = "date_key";//$NON-NLS-1$
+	public static final String ICON_ENUM_KEY = "enum_key";//$NON-NLS-1$
+	public static final String ICON_INTEGER_KEY = "integer_key";//$NON-NLS-1$	
+	public static final String ICON_STRING_KEY = "string_key";//$NON-NLS-1$	
+	public static final String ICON_BIG_INTEGER_KEY = "biginteger_key";//$NON-NLS-1$
+	public static final String ICON_BYTE_KEY = "byte_key";//$NON-NLS-1$
+	public static final String ICON_LIST_KEY = "list_key";//$NON-NLS-1$
+	public static final String ICON_VALUES_KEY = "values_key";//$NON-NLS-1$
 	// field icons with validation errors
 	public static final String ICON_BOOLEAN_ERR = "boolean_err";//$NON-NLS-1$
 	public static final String ICON_DATE_ERR = "date_err";//$NON-NLS-1$
@@ -59,6 +69,16 @@ public class Activator extends AbstractUIPlugin {
 	public static final String ICON_ACTION_ERR = "action_err";//$NON-NLS-1$
 	public static final String ICON_BYTE_ERR = "byte_err";//$NON-NLS-1$
 	public static final String ICON_LIST_ERR = "list_err";//$NON-NLS-1$
+	// key field icons with validation errors
+	public static final String ICON_BOOLEAN_KEY_ERR = "boolean_key_err";//$NON-NLS-1$
+	public static final String ICON_DATE_KEY_ERR = "date_key_err";//$NON-NLS-1$
+	public static final String ICON_ENUM_KEY_ERR = "enum_key_err";//$NON-NLS-1$
+	public static final String ICON_INTEGER_KEY_ERR = "integer_key_err";//$NON-NLS-1$	
+	public static final String ICON_STRING_KEY_ERR = "string_key_err";//$NON-NLS-1$	
+	public static final String ICON_BIG_INTEGER_KEY_ERR = "biginteger_key_err";//$NON-NLS-1$
+	public static final String ICON_BYTE_KEY_ERR = "byte_key_err";//$NON-NLS-1$
+	public static final String ICON_LIST_KEY_ERR = "list_key_err";//$NON-NLS-1$
+	public static final String ICON_VALUES_KEY_ERR = "values_err";//$NON-NLS-1$
 	// entities icons
 	public static final String ICON_SCREEN_ENTITY = "screenEntity";//$NON-NLS-1$
 	public static final String ICON_RPC_ENTITY = "rpcEntity";//$NON-NLS-1$
@@ -131,6 +151,16 @@ public class Activator extends AbstractUIPlugin {
 		registerImage(reg, ICON_ACTION, "fields/a.png");//$NON-NLS-1$
 		registerImage(reg, ICON_BYTE, "fields/bt.png");//$NON-NLS-1$
 		registerImage(reg, ICON_LIST, "fields/l.png");//$NON-NLS-1$
+		// key fields icons
+		registerImage(reg, ICON_BOOLEAN_KEY, "fields/keys/b.png");//$NON-NLS-1$
+		registerImage(reg, ICON_DATE_KEY, "fields/keys/d.png");//$NON-NLS-1$
+		registerImage(reg, ICON_ENUM_KEY, "fields/keys/e.png");//$NON-NLS-1$
+		registerImage(reg, ICON_INTEGER_KEY, "fields/keys/i.png");//$NON-NLS-1$		
+		registerImage(reg, ICON_STRING_KEY, "fields/keys/s.png");//$NON-NLS-1$		
+		registerImage(reg, ICON_BIG_INTEGER_KEY, "fields/keys/bi.png");//$NON-NLS-1$		
+		registerImage(reg, ICON_BYTE_KEY, "fields/keys/bt.png");//$NON-NLS-1$
+		registerImage(reg, ICON_LIST_KEY, "fields/keys/l.png");//$NON-NLS-1$
+		registerImage(reg, ICON_VALUES_KEY, "fields/keys/v.png");//$NON-NLS-1$
 		// field icons with validation errors
 		registerImage(reg, ICON_BOOLEAN_ERR, "fields/err/b.png");//$NON-NLS-1$
 		registerImage(reg, ICON_DATE_ERR, "fields/err/d.png");//$NON-NLS-1$
@@ -144,6 +174,16 @@ public class Activator extends AbstractUIPlugin {
 		registerImage(reg, ICON_ACTION_ERR, "fields/err/a.png");//$NON-NLS-1$
 		registerImage(reg, ICON_BYTE_ERR, "fields/err/bt.png");//$NON-NLS-1$
 		registerImage(reg, ICON_LIST_ERR, "fields/err/l.png");//$NON-NLS-1$
+		// key fields icons with validation errors
+		registerImage(reg, ICON_BOOLEAN_KEY_ERR, "fields/keys/err/b.png");//$NON-NLS-1$
+		registerImage(reg, ICON_DATE_KEY_ERR, "fields/keys/err/d.png");//$NON-NLS-1$
+		registerImage(reg, ICON_ENUM_KEY_ERR, "fields/keys/err/e.png");//$NON-NLS-1$
+		registerImage(reg, ICON_INTEGER_KEY_ERR, "fields/keys/err/i.png");//$NON-NLS-1$		
+		registerImage(reg, ICON_STRING_KEY_ERR, "fields/keys/err/s.png");//$NON-NLS-1$		
+		registerImage(reg, ICON_BIG_INTEGER_KEY_ERR, "fields/keys/err/bi.png");//$NON-NLS-1$		
+		registerImage(reg, ICON_BYTE_KEY_ERR, "fields/keys/err/bt.png");//$NON-NLS-1$
+		registerImage(reg, ICON_LIST_KEY_ERR, "fields/keys/err/l.png");//$NON-NLS-1$
+		registerImage(reg, ICON_VALUES_KEY_ERR, "fields/keys/err/v.png");//$NON-NLS-1$
 		// entities icons
 		registerImage(reg, ICON_SCREEN_ENTITY, "entities/se.png");//$NON-NLS-1$
 		registerImage(reg, ICON_RPC_ENTITY, "entities/re.png");//$NON-NLS-1$

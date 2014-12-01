@@ -105,18 +105,26 @@
 <#macro fieldMacro field>
 	<div class="form-group">		
 		<label for="${field.name}" class="control-label">${field.displayName}<#if field.displayName?length &gt; 0>:</#if></label> 		
-		<#if field.editable>
+		<#if field.editable>	
 			<#if field.fieldTypeDefinition??>	
-				<#switch field.fieldTypeDefinition.typeName>
-				  <#case 'boolean'>
-				   <input type="checkbox" class="form-control" id="${field.name}" ng-checked="model.${field.shortName}">
-				  <#break>
-				  <#case 'date'>
-				   <input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}" datepicker/>
-				  <#break>
-				  <#default>
-				  	<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}">    
-				</#switch>
+			<#switch field.fieldTypeDefinition.typeName>
+			  <#case 'boolean'>
+			   <input type="checkbox" class="form-control" id="${field.name}" ng-checked="model.${field.shortName}">
+			  <#break>
+			  <#case 'date'>
+			   <input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}" datepicker/>
+			  <#break>
+			  <#case 'enum'>
+				<select class="form-control" id="${field.name}" ng-model="model.${field.name}">
+					<option value="">-- Select --</option>
+			        <#list field.fieldTypeDefinition.enums?keys as key>		
+						<option value="${key}">${field.fieldTypeDefinition.enums[key]}</option>
+					</#list>			
+				</select>											
+			  <#break>
+			  <#default>
+			  	<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}">    
+			</#switch>
 			<#else>
 				<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}">	
 			</#if>
@@ -127,11 +135,11 @@
 				 		<input type="checkbox" class="form-control" id="${field.name}" disabled="disabled" ng-checked="model.${field.shortName}">
 					<#break>
 					<#default>
-				  		<div id="${field.name}" ng-model="model.${field.shortName}">{{model.${field.shortName}}}</div>
+				  		<span id="${field.name}" ng-model="model.${field.shortName}">{{model.${field.shortName}}}</span>
 				  	<#break>    
 				</#switch>
    			<#else>
-   				<div id="${field.name}" ng-model="model.${field.shortName}">{{model.${field.shortName}}}</div>
+   				<span id="${field.name}" ng-model="model.${field.shortName}">{{model.${field.shortName}}}</span>
    			</#if>  			
    		</#if>		
 	</div>

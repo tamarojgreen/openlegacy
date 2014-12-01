@@ -82,6 +82,11 @@ public class ScreenBinderLogic implements Serializable {
 			TerminalPosition position = fieldMappingDefinition.getPosition();
 			TerminalField terminalField = terminalSnapshot.getField(position);
 			if (terminalField == null) {
+				logger.debug("A field mapping was not found " + fieldMappingDefinition.getName());
+				continue;
+			}
+			if (terminalField.isHidden() && !terminalField.isEditable()) {
+				logger.debug("A hidden field was not bound " + fieldMappingDefinition.getName());
 				continue;
 			}
 
@@ -256,8 +261,8 @@ public class ScreenBinderLogic implements Serializable {
 									fieldAccessor.setFieldValue(ScreenEntity.FOCUS_FIELD, SnapshotUtils.toAbsolutePosition(
 											screenRowNumber, columnNumber, SimpleScreenSize.DEFAULT));
 									// The focus based on position is evaluated at the end of this method
-								}
-							}
+				}
+			}
 							rowNumber++;
 						}
 					}
@@ -379,8 +384,10 @@ public class ScreenBinderLogic implements Serializable {
 
 						}
 					}
+
 				}
 			}
+
 		}
 		if (screenPojo instanceof ScreenEntity) {
 			ScreenEntity screenEntity = (ScreenEntity)screenPojo;
@@ -394,6 +401,7 @@ public class ScreenBinderLogic implements Serializable {
 				}
 			}
 		}
+
 	}
 
 	private static boolean isBindText(ScreenFieldDefinition screenFieldDefinition, String text) {

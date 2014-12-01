@@ -100,7 +100,7 @@ public abstract class AbstractRestController {
 			throw e;
 		}
 		response.setStatus(HttpServletResponse.SC_OK);
-		return getMenu();
+		return getMenu(response);
 
 	}
 
@@ -181,13 +181,19 @@ public abstract class AbstractRestController {
 
 	protected abstract List<ActionDefinition> getActions(Object entity);
 
-	protected Object getMenu() {
-		Menu menuModule = getSession().getModule(Menu.class);
-		if (menuModule == null) {
-			return null;
+	protected Object getMenu(HttpServletResponse response) throws IOException {
+		try {
+			Menu menuModule = getSession().getModule(Menu.class);
+			if (menuModule == null) {
+				return null;
+			}
+			MenuItem menus = menuModule.getMenuTree();
+			return menus;
+
+		} catch (RuntimeException e) {
+			handleException(response, e);
 		}
-		MenuItem menus = menuModule.getMenuTree();
-		return menus;
+		return null;
 	}
 
 	/**
@@ -383,7 +389,7 @@ public abstract class AbstractRestController {
 			logger.fatal("Invalid login", e);
 		}
 
-		return getMenu();
+		return getMenu(response);
 	}
 
 	public Object loginPostXml(String xml, HttpServletResponse response) throws IOException {
@@ -403,7 +409,7 @@ public abstract class AbstractRestController {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid login");
 			logger.fatal("Invalid login", e);
 		}
-		return getMenu();
+		return getMenu(response);
 	}
 
 	protected void uploadImage(MultipartFile file, HttpServletResponse response) throws IOException {

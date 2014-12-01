@@ -294,9 +294,8 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 	}
 
 	@Override
-	public boolean isRtlDirection() {
-		throwNotImplemented();
-		return false;
+	public boolean isRightToLeft() {
+		return codeModel.isRightToLeft();
 	}
 
 }

@@ -13,6 +13,7 @@ package org.openlegacy.designtime.db.generators.support;
 import static org.openlegacy.designtime.utils.JavaParserUtil.findAnnotationAttribute;
 
 import org.apache.commons.lang.StringUtils;
+import org.openlegacy.annotations.db.DbEntity;
 import org.openlegacy.annotations.rpc.Languages;
 import org.openlegacy.db.definitions.DbNavigationDefinition;
 import org.openlegacy.db.definitions.DbOneToManyDefinition;
@@ -43,6 +44,8 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.persistence.Entity;
 
 /**
  * 
@@ -276,7 +279,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		private String fieldName;
 		private String fieldType;
 		private String fieldTypeArgs;
-		// annotation properties
+		// @Column annotation properties
 		private String name = "";
 		private boolean unique = false;
 		private boolean nullable = true;
@@ -287,6 +290,17 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		private int length = 255;
 		private int precision = 0;
 		private int scale = 0;
+		// @DbColumn annotation properties
+		private String displayName = "";
+		private boolean editable = false;
+		private boolean password = false;
+		private String sampleValue = "";
+		private String defaultValue = "";
+		private String helpText = "";
+		private boolean rightToLeft = false;
+		private boolean internal = false;
+		private boolean mainDisplayField = false;
+
 		private boolean key = false;
 		private DbOneToManyDefinition oneToManyDefinition;
 
@@ -412,6 +426,78 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 			return fieldTypeArgs;
 		}
 
+		public String getDisplayName() {
+			return displayName;
+		}
+
+		public void setDisplayName(String displayName) {
+			this.displayName = displayName;
+		}
+
+		public boolean isEditable() {
+			return editable;
+		}
+
+		public void setEditable(boolean editable) {
+			this.editable = editable;
+		}
+
+		public boolean isPassword() {
+			return password;
+		}
+
+		public void setPassword(boolean password) {
+			this.password = password;
+		}
+
+		public String getSampleValue() {
+			return sampleValue;
+		}
+
+		public void setSampleValue(String sampleValue) {
+			this.sampleValue = sampleValue;
+		}
+
+		public String getDefaultValue() {
+			return defaultValue;
+		}
+
+		public void setDefaultValue(String defaultValue) {
+			this.defaultValue = defaultValue;
+		}
+
+		public String getHelpText() {
+			return helpText;
+		}
+
+		public void setHelpText(String helpText) {
+			this.helpText = helpText;
+		}
+
+		public boolean isRightToLeft() {
+			return rightToLeft;
+		}
+
+		public void setRightToLeft(boolean rightToLeft) {
+			this.rightToLeft = rightToLeft;
+		}
+
+		public boolean isInternal() {
+			return internal;
+		}
+
+		public void setInternal(boolean internal) {
+			this.internal = internal;
+		}
+
+		public boolean isMainDisplayField() {
+			return mainDisplayField;
+		}
+
+		public void setMainDisplayField(boolean mainDisplayField) {
+			this.mainDisplayField = mainDisplayField;
+		}
+
 	}
 
 	private String className;
@@ -421,7 +507,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 	private Map<String, Field> fields = new LinkedHashMap<String, Field>();
 	private boolean enabled;
 	private boolean superClass = false;
-	private String displayName;
+	private String displayName = "";
 
 	private String entityName;
 	private String parentClassName;
@@ -439,6 +525,9 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 	private Map<String, ColumnField> columnFields = new LinkedHashMap<String, ColumnField>();
 
 	private DbNavigationDefinition navigationDefinition;
+
+	private boolean window = false;
+	private boolean child = false;
 
 	public DefaultDbPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
@@ -465,7 +554,8 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		}
 		for (AnnotationExpr annotationExpr : annotations) {
 			String annotationName = annotationExpr.getName().getName();
-			if (annotationName.equals(DbAnnotationConstants.DB_ENTITY_ANNOTATION)
+			if (annotationName.equals(DbAnnotationConstants.DB_JPA_ENTITY_ANNOTATION)
+					|| annotationName.equals(DbAnnotationConstants.DB_ENTITY_ANNOTATION)
 					|| annotationName.equals(DbAnnotationConstants.DB_ENTITY_SUPER_CLASS_ANNOTATION)) {
 				enabled = true;
 				populateEntityAttributes(annotationExpr);
@@ -551,6 +641,10 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 					if (fieldAnnotations != null && !fieldAnnotations.isEmpty()) {
 						for (AnnotationExpr annotationExpr : fieldAnnotations) {
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
+									DbAnnotationConstants.DB_JPA_COLUMN_ANNOTATION)) {
+								DbAnnotationsParserUtils.loadJpaColumnAnnotation(annotationExpr, columnField);
+							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
 									DbAnnotationConstants.DB_COLUMN_ANNOTATION)) {
 								DbAnnotationsParserUtils.loadDbColumnAnnotation(annotationExpr, columnField);
 							}
@@ -619,14 +713,31 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 
 	private void populateEntityAttributes(AnnotationExpr annotationExpr) {
 		String nameFromAnnotation = null;
+		String displayNameFromAnnotation = null;
+		String windowFromAnnotation = null;
+		String childFromAnnotation = null;
 
-		if (annotationExpr instanceof NormalAnnotationExpr) {
+		if (annotationExpr instanceof NormalAnnotationExpr
+				&& annotationExpr.getName().getName().equals(Entity.class.getSimpleName())) {
 			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
 
 			nameFromAnnotation = findAnnotationAttribute(DbAnnotationConstants.NAME, normalAnnotationExpr.getPairs());
-		}
-		name = nameFromAnnotation != null ? StringUtil.stripQuotes(nameFromAnnotation) : "";
 
+			name = nameFromAnnotation != null ? StringUtil.stripQuotes(nameFromAnnotation) : "";
+		}
+		if (annotationExpr instanceof NormalAnnotationExpr
+				&& annotationExpr.getName().getName().equals(DbEntity.class.getSimpleName())) {
+			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
+
+			displayNameFromAnnotation = findAnnotationAttribute(DbAnnotationConstants.DISPLAY_NAME,
+					normalAnnotationExpr.getPairs());
+			windowFromAnnotation = findAnnotationAttribute(DbAnnotationConstants.WINDOW, normalAnnotationExpr.getPairs());
+			childFromAnnotation = findAnnotationAttribute(DbAnnotationConstants.CHILD, normalAnnotationExpr.getPairs());
+
+			displayName = displayNameFromAnnotation != null ? StringUtil.stripQuotes(displayNameFromAnnotation) : "";
+			window = windowFromAnnotation != null ? Boolean.valueOf(windowFromAnnotation) : false;
+			child = childFromAnnotation != null ? Boolean.valueOf(childFromAnnotation) : false;
+		}
 	}
 
 	/*
@@ -733,6 +844,16 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 	@Override
 	public DbNavigationDefinition getNavigationDefinition() {
 		return navigationDefinition;
+	}
+
+	@Override
+	public boolean isWindow() {
+		return window;
+	}
+
+	@Override
+	public boolean isChild() {
+		return child;
 	}
 
 }

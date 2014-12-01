@@ -152,7 +152,7 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 			<option>login?user=user1&password=pwd1</option>
 			<option>emulation?KeyboardKey=ENTER</option>
 			<option>emulation?KeyboardKey=F12</option>
-			<option>emulation?KeyboardKey=ESC</option>
+			<option>emulation?KeyboardKey=ESCAPE</option>
 			<option>current</option>
 			<option>messages</option>
 			<option>logoff</option>

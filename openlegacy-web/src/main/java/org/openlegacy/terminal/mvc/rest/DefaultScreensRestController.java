@@ -94,6 +94,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@Inject
 	private TerminalSendActionBuilder<HttpServletRequest> sendActionBuilder;
 	private boolean resetRowsWhenSameOnNext = true;
+	private boolean enableIncrementalLoading = true;
 
 	private static final String USER = "user";
 	private static final String PASSWORD = "password";
@@ -156,8 +157,8 @@ public class DefaultScreensRestController extends AbstractRestController {
 
 	@Override
 	@RequestMapping(value = "/menu", method = RequestMethod.GET, consumes = { JSON, XML })
-	public Object getMenu() {
-		return super.getMenu();
+	public Object getMenu(HttpServletResponse response) throws IOException {
+		return super.getMenu(response);
 	}
 
 	@Override
@@ -192,10 +193,12 @@ public class DefaultScreensRestController extends AbstractRestController {
 
 		Object resultEntity = sendEntity(entity, "next");
 
-		List<?> beforeRecords = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, entity);
-		List<?> afterRecords = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, resultEntity);
-		if (afterRecords.equals(beforeRecords)) {
-			afterRecords.clear();
+		if (enableIncrementalLoading) {
+			List<?> beforeRecords = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, entity);
+			List<?> afterRecords = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, resultEntity);
+			if (afterRecords.equals(beforeRecords)) {
+				afterRecords.clear();
+			}
 		}
 		return getEntityInner(resultEntity, false);
 	}
@@ -259,14 +262,14 @@ public class DefaultScreensRestController extends AbstractRestController {
 		} catch (LoginException e) {
 			return null;
 		}
-		return getMenu();
+		return getMenu(response);
 	}
 
 	@Override
 	@RequestMapping(value = "/login", consumes = { JSON }, method = RequestMethod.POST)
 	public Object loginPostJson(@RequestBody String json, HttpServletResponse response) throws IOException {
 		super.loginPostJson(json, response);
-		return getMenu();
+		return getMenu(response);
 	}
 
 	@Override
@@ -361,4 +364,12 @@ public class DefaultScreensRestController extends AbstractRestController {
 		this.resetRowsWhenSameOnNext = resetRowsWhenSameOnNext;
 	}
 
+	/**
+	 * Determine whether client incrementally load more data, so server should not return existing results
+	 * 
+	 * @param enableIncrementalLoading
+	 */
+	public void setEnableIncrementalLoading(boolean enableIncrementalLoading) {
+		this.enableIncrementalLoading = enableIncrementalLoading;
+	}
 }

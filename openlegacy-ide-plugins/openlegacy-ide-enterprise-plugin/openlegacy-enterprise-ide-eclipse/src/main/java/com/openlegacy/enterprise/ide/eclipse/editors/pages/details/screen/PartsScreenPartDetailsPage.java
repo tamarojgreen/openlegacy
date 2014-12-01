@@ -4,6 +4,7 @@ import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenPartModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
@@ -154,6 +155,11 @@ public class PartsScreenPartDetailsPage extends AbstractScreenDetailsPage {
 		if (partModel != null) {
 			setScreenPreviewDrawingRectangle(partModel);
 		}
+	}
+
+	@Override
+	public ScreenNamedObject getPageScreenNamedObject() {
+		return null;
 	}
 
 	private void createPartPostitionSection(FormToolkit toolkit, Composite parent) {

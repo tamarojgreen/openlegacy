@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support.binders;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.DisplayItem;
 import org.openlegacy.definitions.EnumFieldTypeDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
@@ -48,6 +50,8 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 	@Inject
 	private ScreenFieldsDefinitionProvider fieldMappingsProvider;
 
+	private final static Log logger = LogFactory.getLog(EnumFieldsBinder.class);
+
 	@Override
 	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) throws EntityNotFoundException,
 			ScreenEntityNotAccessibleException {
@@ -76,6 +80,10 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 
 			if (!enumField.isEditable()) {
 				continue;
+			}
+			if (enumField.isHidden()) {
+				logger.debug("A hidden field was not bound " + fieldDefinition.getName());
+				return;
 			}
 
 			if (!StringUtil.isEmpty(enumField.getValue())) {

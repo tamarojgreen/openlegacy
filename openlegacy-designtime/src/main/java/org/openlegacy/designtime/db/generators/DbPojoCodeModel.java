@@ -39,4 +39,8 @@ public interface DbPojoCodeModel extends PojoCodeModel {
 	Map<String, ColumnField> getColumnFields();
 
 	DbNavigationDefinition getNavigationDefinition();
+
+	boolean isWindow();
+
+	boolean isChild();
 }

@@ -515,6 +515,8 @@ public class ModelUpdater {
 				model.setSupportTerminalData(selection);
 			} else if (key.equals(ScreenAnnotationConstants.SCROLLABLE)) {
 				model.setScrollable(selection);
+			} else if (key.equals(ScreenAnnotationConstants.RIGHT_TO_LEFT)) {
+				model.setRightToLeft(selection);
 			}
 		}
 

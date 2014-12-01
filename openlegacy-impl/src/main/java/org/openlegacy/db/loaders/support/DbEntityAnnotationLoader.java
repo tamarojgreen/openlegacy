@@ -8,50 +8,56 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
+
 package org.openlegacy.db.loaders.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.annotations.db.DbEntity;
+import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.db.definitions.SimpleDbEntityDefinition;
-import org.openlegacy.db.services.DbEntitiesRegistry;
 import org.openlegacy.loaders.support.AbstractClassAnnotationLoader;
-import org.openlegacy.utils.StringUtil;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 import java.text.MessageFormat;
 
-import javax.persistence.Entity;
-
+/**
+ * @author Ivan Bort
+ * 
+ */
 @Component
-@Order(1)
 public class DbEntityAnnotationLoader extends AbstractClassAnnotationLoader {
 
 	private final static Log logger = LogFactory.getLog(DbEntityAnnotationLoader.class);
 
 	@Override
 	public boolean match(Annotation annotation) {
-		return annotation.annotationType() == Entity.class;
+		return annotation.annotationType() == DbEntity.class;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	@SuppressWarnings("rawtypes")
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
+		DbEntityDefinition dbEntityDefinition = (DbEntityDefinition)entitiesRegistry.get(containingClass);
 
-		Entity entity = (Entity)annotation;
-		DbEntitiesRegistry dbEntitiesRegistry = (DbEntitiesRegistry)entitiesRegistry;
+		if (dbEntityDefinition == null) {
+			// entityName should be set while loading @Entity annotation
+			String entityName = containingClass.getSimpleName();
+			dbEntityDefinition = new SimpleDbEntityDefinition(entityName, containingClass);
+		}
 
-		String entityName = entity.name().length() > 0 ? entity.name() : containingClass.getSimpleName();
-		String displayName = StringUtil.toDisplayName(entityName);
+		if (dbEntityDefinition instanceof SimpleDbEntityDefinition) {
+			DbEntity dbEntity = (DbEntity)annotation;
+			((SimpleDbEntityDefinition)dbEntityDefinition).setDisplayName(dbEntity.displayName());
+			((SimpleDbEntityDefinition)dbEntityDefinition).setChild(dbEntity.child());
+			((SimpleDbEntityDefinition)dbEntityDefinition).setWindow(dbEntity.window());
+		}
+		logger.info(MessageFormat.format("DB entity \"{0}\" was added to the db registry ({1})",
+				dbEntityDefinition.getEntityName(), containingClass.getName()));
 
-		SimpleDbEntityDefinition screenEntityDefinition = new SimpleDbEntityDefinition(entityName, containingClass);
-		screenEntityDefinition.setEntityName(entityName);
-		screenEntityDefinition.setDisplayName(displayName);
-		logger.info(MessageFormat.format("DB entity \"{0}\" was added to the db registry ({1})", entityName,
-				containingClass.getName()));
-
-		dbEntitiesRegistry.add(screenEntityDefinition);
+		entitiesRegistry.add(dbEntityDefinition);
 	}
+
 }

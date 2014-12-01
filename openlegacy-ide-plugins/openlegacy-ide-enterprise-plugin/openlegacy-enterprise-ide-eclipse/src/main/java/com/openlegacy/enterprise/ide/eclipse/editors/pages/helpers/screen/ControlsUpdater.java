@@ -504,6 +504,8 @@ public class ControlsUpdater {
 				button.setSelection(tableModel.isSupportTerminalData());
 			} else if (key.equals(ScreenAnnotationConstants.SCROLLABLE)) {
 				button.setSelection(tableModel.isScrollable());
+			} else if (key.equals(ScreenAnnotationConstants.RIGHT_TO_LEFT)) {
+				button.setSelection(tableModel.isRightToLeft());
 			}
 		}
 	}

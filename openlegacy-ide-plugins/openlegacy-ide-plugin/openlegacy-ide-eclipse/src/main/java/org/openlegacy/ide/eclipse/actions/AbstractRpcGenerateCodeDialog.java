@@ -86,6 +86,8 @@ public abstract class AbstractRpcGenerateCodeDialog extends AbstractGenerateMode
 		Label labelNavigation = new Label(parent, SWT.NULL);
 		labelNavigation.setText(Messages.getString("label_navigation"));
 		navigationText = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		navigationText.setText(navigationValue);
+
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		getNavigationText().setLayoutData(gd);
 		getNavigationText().addModifyListener(new ModifyListener() {
@@ -101,6 +103,7 @@ public abstract class AbstractRpcGenerateCodeDialog extends AbstractGenerateMode
 		Label labelAction = new Label(parent, SWT.NULL);
 		labelAction.setText(Messages.getString("label_action"));
 		actionText = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		actionText.setText(actionValue);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		getActionText().setLayoutData(gd);
 		getActionText().addModifyListener(new ModifyListener() {

@@ -89,7 +89,15 @@ public class ScreenBindUtils {
 							rowFieldAccessor.setFieldValue(columnDefinition.getName(), value);
 						}
 					}
-
+				}
+				String focus = request.getParameter(MessageFormat.format("focus_{0}", rowNumber));
+				if (StringUtils.isNotEmpty(focus)) {
+					if (rowFieldAccessor.isExists(focus)) {
+						// TODO Ryan, integrate here row focus method
+						int focusPosition = (tableDefinition.getStartRow() - 1 + rowNumber) * 80
+								+ tableDefinition.getColumnDefinition(focus).getStartColumn();
+						screenEntity.setFocusField(String.valueOf(focusPosition));
+					}
 				}
 				rowNumber++;
 			}

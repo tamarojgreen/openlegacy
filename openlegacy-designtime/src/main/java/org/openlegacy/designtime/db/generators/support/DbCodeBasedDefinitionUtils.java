@@ -45,11 +45,13 @@ public class DbCodeBasedDefinitionUtils {
 			}
 			for (AnnotationExpr annotationExpr : annotations) {
 				DbPojoCodeModel dbPojoCodeModel = null;
-				if (JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_ENTITY_ANNOTATION)
+				if (JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_JPA_ENTITY_ANNOTATION)
+						|| JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_ENTITY_ANNOTATION)
 						|| JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_ENTITY_SUPER_CLASS_ANNOTATION)) {
 					dbPojoCodeModel = new DefaultDbPojoCodeModel(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration,
 							typeDeclaration.getName(), null);
 					entityDefinition = new CodeBasedDbEntityDefinition(dbPojoCodeModel, packageDir);
+					return entityDefinition;
 				}
 			}
 		}
@@ -76,6 +78,16 @@ public class DbCodeBasedDefinitionUtils {
 			definition.setScale(javaColumnField.getScale());
 			definition.setOneToManyDefinition(javaColumnField.getOneToManyDefinition());
 			definition.setKey(javaColumnField.isKey());
+
+			definition.setDisplayName(javaColumnField.getDisplayName());
+			definition.setEditable(javaColumnField.isEditable());
+			definition.setPassword(javaColumnField.isPassword());
+			definition.setSampleValue(javaColumnField.getSampleValue());
+			definition.setDefaultValue(javaColumnField.getDefaultValue());
+			definition.setHelpText(javaColumnField.getHelpText());
+			definition.setRightToLeft(javaColumnField.isRightToLeft());
+			definition.setInternal(javaColumnField.isInternal());
+			definition.setMainDisplayField(javaColumnField.isMainDisplayField());
 
 			fieldDefinitions.put(javaColumnField.getFieldName(), definition);
 		}
