@@ -8,11 +8,11 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.terminal.mvc.web;
+package org.openlegacy.mvc;
 
-import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.layout.ScreenPageBuilder;
-import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.EntityDefinition;
+import org.openlegacy.layout.PageBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,14 +33,14 @@ public class OnlineHelpController {
 	private static final String PAGE = "page";
 
 	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
+	private EntitiesRegistry<?, ?, ?> entitiesRegistry;
 
 	@Inject
-	private ScreenPageBuilder pageBuilder;
+	private PageBuilder<EntityDefinition<?>, ?> pageBuilder;
 
-	@RequestMapping(value = "/{screen}/online-help", method = RequestMethod.GET)
-	public String help(@PathVariable("screen") String screenEntityName, Model uiModel) {
-		ScreenEntityDefinition entityDefintion = screenEntitiesRegistry.get(screenEntityName);
+	@RequestMapping(value = "/{entity}/online-help", method = RequestMethod.GET)
+	public String help(@PathVariable("entity") String entityName, Model uiModel) {
+		EntityDefinition<?> entityDefintion = entitiesRegistry.get(entityName);
 		uiModel.addAttribute(PAGE, pageBuilder.build(entityDefintion));
 
 		return "help";

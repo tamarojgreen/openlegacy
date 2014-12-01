@@ -139,7 +139,7 @@
 				<div class="links">
 					<ul>
 						<li><a
-							href="javascript:showDialog('helpDialog','${pageContext.request.contextPath}/${definitions.entityClassName}/help');">Help</a></li>
+							href="javascript:showDialog('helpDialog','${pageContext.request.contextPath}/${definitions.entityClassName}/online-help');">Help</a></li>
 						
 						<c:if test="${openLegacyProperties.designtime}">
 							<li><a href="javascript:reloadApplicationContext('${pageContext.request.contextPath}');">Reload
