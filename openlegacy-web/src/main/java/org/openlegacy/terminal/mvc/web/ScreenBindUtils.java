@@ -72,7 +72,7 @@ public class ScreenBindUtils {
 
 		for (ScreenTableDefinition tableDefinition : tableDefinitions) {
 			List<ScreenColumnDefinition> columnDefinitions = tableDefinition.getColumnDefinitions();
-			String fieldName = tableDefinition.getTableEntityName() + "s";
+			String fieldName = StringUtils.uncapitalize(tableDefinition.getTableEntityName()) + "s";
 			if (!fieldAccessor.isExists(fieldName)) {
 				logger.warn(MessageFormat.format("Unable to find field named:{0} for binding http request", fieldName));
 				continue;
