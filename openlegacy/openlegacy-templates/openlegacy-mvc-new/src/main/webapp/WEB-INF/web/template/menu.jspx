@@ -141,7 +141,7 @@
 				<div class="links">
 					<ul>
 						<li><a
-							href="javascript:showDialog('helpDialog','${pageContext.request.contextPath}/${definitions.entityClassName}/help');">Help</a></li>
+							href="javascript:showDialog('helpDialog','${pageContext.request.contextPath}/${definitions.entityClassName}/online-help');">Help</a></li>
 						<li><a href="javascript:showSessionViewer('${pageContext.request.contextPath}');">View
 								Session</a></li>
 						<c:if test="${openLegacyProperties.designtime}">

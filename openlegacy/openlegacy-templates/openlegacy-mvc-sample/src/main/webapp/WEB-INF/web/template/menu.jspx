@@ -48,7 +48,7 @@
 				class="element">
 				<div class="links">
 					<ul>
-						<li><a href="javascript:showDialog('helpDialog','${pageContext.request.contextPath}/${definitions.entityClassName}/help');">Help</a></li>
+						<li><a href="javascript:showDialog('helpDialog','${pageContext.request.contextPath}/${definitions.entityClassName}/online-help');">Help</a></li>
 						<li><a href="javascript:showSessionViewer('${pageContext.request.contextPath}');">View Session</a></li>
 						<li><a href="${pageContext.request.contextPath}/trail/download">Download trail</a></li>
 						<li><a href="${pageContext.request.contextPath}/emulation">HTML Emulation</a></li>

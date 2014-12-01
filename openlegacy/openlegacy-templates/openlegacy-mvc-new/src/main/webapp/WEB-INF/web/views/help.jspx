@@ -30,9 +30,11 @@
 		<hr/>
 		<c:forEach items="${pagePart.partRows}" var="partRow">
 			<c:forEach items="${partRow.fields}" var="field">
+			<c:if test="${field.displayName != null}">
 			<div>
 				<label>${field.displayName}:</label><span><c:if test="${field.helpText != null}">${field.helpText}</c:if></span>
 			</div>
+			</c:if>
 			</c:forEach>
 		</c:forEach>
 		<c:if test="${pagePart.tableDefinition != null}">
