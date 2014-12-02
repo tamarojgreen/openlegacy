@@ -49,7 +49,13 @@ public class RegistryReloader {
 					if (packageLastModified < file.lastModified()) {
 						try {
 							Thread.sleep(compileInterval);
-							Class<?> clazz = Class.forName(package1 + "." + FileUtils.fileWithoutAnyExtension(file.getName()));
+							String className = package1 + "." + FileUtils.fileWithoutAnyExtension(file.getName());
+							Class<?> clazz = Class.forName(className);
+							Class<?>[] classes = clazz.getClasses();
+							for (Class<?> class1 : classes) {
+								class1 = Class.forName(class1.getName());
+								registryLoader.loadSingleClass(registry, class1, false);
+							}
 							registryLoader.loadSingleClass(registry, clazz, true);
 							fileLastModified = file.lastModified();
 						} catch (Exception e) {
