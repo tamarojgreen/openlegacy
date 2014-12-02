@@ -3,6 +3,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.utils.screen;
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.enums.IEnumFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.PartPositionAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenActionsAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenBooleanFieldAction;
@@ -281,7 +282,7 @@ public class ScreenEntitySaver extends AbstractEntitySaver {
 			} else if (node.getNodeType() == ASTNode.ENUM_DECLARATION) {
 				EnumDeclaration enumDeclaration = (EnumDeclaration)node;
 				ScreenEntityBuilder.INSTANCE.processEnumDeclaration(ast, rewriter, enumDeclaration,
-						ScreenEntityUtils.getActionList(entity, ScreenEnumFieldAction.class));
+						ScreenEntityUtils.getActionList(entity, IEnumFieldAction.class));
 			}
 		}
 	}

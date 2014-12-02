@@ -138,7 +138,7 @@ public class ScreenPojosAjGenerator extends AbstractPojosAjGenerator {
 			TemplateException, ParseException {
 
 		ScreenPojoCodeModel screenEntityCodeModel = new DefaultScreenPojoCodeModel(compilationUnit, typeDeclaration,
-				typeDeclaration.getName(), parentClass);
+				typeDeclaration.getName(), parentClass, null);
 
 		if (!screenEntityCodeModel.isRelevant()) {
 			return screenEntityCodeModel;

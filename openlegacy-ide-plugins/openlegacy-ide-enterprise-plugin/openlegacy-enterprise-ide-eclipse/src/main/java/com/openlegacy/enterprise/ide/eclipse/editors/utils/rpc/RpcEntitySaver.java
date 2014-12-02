@@ -2,8 +2,10 @@ package com.openlegacy.enterprise.ide.eclipse.editors.utils.rpc;
 
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.enums.IEnumFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcActionsAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcBooleanFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcDateFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcNavigationAction;
@@ -20,6 +22,7 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.MarkerAnnotation;
@@ -29,6 +32,7 @@ import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
 import org.openlegacy.annotations.rpc.RpcActions;
 import org.openlegacy.annotations.rpc.RpcBooleanField;
+import org.openlegacy.annotations.rpc.RpcDateField;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcNavigation;
 import org.openlegacy.annotations.rpc.RpcNumericField;
@@ -100,6 +104,11 @@ public class RpcEntitySaver extends AbstractEntitySaver {
 
 		ListRewrite listRewriter = rewriter.getListRewrite(root, TypeDeclaration.BODY_DECLARATIONS_PROPERTY);
 
+		// before handling fields we should add enum declarations for enum field
+		RpcEntityBuilder.INSTANCE.createNewEntityInnerDeclarations(ast, cu, rewriter, listRewriter,
+				RpcEntityUtils.<AbstractAction> getActionList(entity, ASTNode.ENUM_DECLARATION,
+						new ActionType[] { ActionType.ADD }));
+
 		// process rpc fields that relate to root
 		processRpcFields(ast, cu, rewriter, root, entity);
 
@@ -152,6 +161,11 @@ public class RpcEntitySaver extends AbstractEntitySaver {
 		// remove fields
 		RpcEntityBuilder.INSTANCE.removeFields(listRewriter, rootName, RpcEntityUtils.<AbstractAction> getActionList(entity,
 				ASTNode.FIELD_DECLARATION, new ActionType[] { ActionType.REMOVE }));
+
+		// try to remove enum declaration
+		RpcEntityBuilder.INSTANCE.removeEnumDeclaration(listRewriter, root.getName().getFullyQualifiedName(),
+				RpcEntityUtils.<AbstractAction> getActionList(entity, ASTNode.ENUM_DECLARATION,
+						new ActionType[] { ActionType.REMOVE }));
 
 		// add new fields
 		RpcEntityBuilder.INSTANCE.createNewFields(ast, cu, rewriter, listRewriter, rootName,
@@ -220,9 +234,16 @@ public class RpcEntitySaver extends AbstractEntitySaver {
 						} else if (fullyQualifiedName.equals(RpcPartList.class.getSimpleName())) {
 							RpcEntityBuilder.INSTANCE.processRpcPartListAnnotation(ast, cu, rewriter, fieldListRewrite, field,
 									fieldAnnotation, rootName, RpcEntityUtils.getActionList(entity, RpcPartListAction.class));
+						} else if (fullyQualifiedName.equals(RpcDateField.class.getSimpleName())) {
+							RpcEntityBuilder.INSTANCE.processRpcFieldAnnotation(ast, cu, rewriter, fieldListRewrite, field,
+									fieldAnnotation, rootName, RpcEntityUtils.getActionList(entity, RpcDateFieldAction.class));
 						}
 					}
 				}
+			} else if (node.getNodeType() == ASTNode.ENUM_DECLARATION) {
+				EnumDeclaration enumDeclaration = (EnumDeclaration)node;
+				RpcEntityBuilder.INSTANCE.processEnumDeclaration(ast, rewriter, enumDeclaration,
+						RpcEntityUtils.getActionList(entity, IEnumFieldAction.class));
 			}
 		}
 	}

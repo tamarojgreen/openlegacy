@@ -5,19 +5,24 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcActionsAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcBooleanFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcDateFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcEntityAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcEnumFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcNavigationAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcNumericFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcPartAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcPartActionsAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcPartListAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.enums.EnumEntryModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcActionsModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBigIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBooleanFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcDateFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntityModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEnumFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcNamedObject;
@@ -30,6 +35,8 @@ import org.openlegacy.FieldType;
 import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.annotations.rpc.Languages;
 import org.openlegacy.definitions.BooleanFieldTypeDefinition;
+import org.openlegacy.definitions.DateFieldTypeDefinition;
+import org.openlegacy.definitions.EnumFieldTypeDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.CodeBasedRpcEntityDefinition;
@@ -317,6 +324,41 @@ public class RpcEntityUtils {
 			PrivateMethods.addRemoveRpcPartActionsAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.ACTIONS, model.getActions());
 		}
+
+		public static void generateRpcDateFieldActions(RpcEntity entity, RpcDateFieldModel model) {
+			boolean isPrevious = true;
+			boolean isDefault = true;
+			RpcDateFieldModel entityModel = (RpcDateFieldModel)entity.getFields().get(model.getUUID());
+			if (entityModel == null) {
+				entityModel = (RpcDateFieldModel)entity.getPartByUUID(model.getParent().getUUID()).getFields().get(
+						model.getUUID());
+			}
+			// @RpcDateField.pattern: default none;
+			isPrevious = StringUtils.equals(entityModel.getPattern(), model.getPattern());
+			isDefault = false;
+			PrivateMethods.addRemoveRpcDateFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.PATTERN, model.getPattern());
+		}
+
+		public static void generateRpcEnumFieldActions(RpcEntity entity, RpcEnumFieldModel model) {
+			boolean isPrevious = false;
+			boolean isDefault = true;
+			RpcEnumFieldModel entityModel = (RpcEnumFieldModel)entity.getFields().get(model.getUUID());
+			if (entityModel == null) {
+				entityModel = (RpcEnumFieldModel)entity.getParts().get(model.getParent().getUUID()).getFields().get(
+						model.getUUID());
+			}
+			// @RpcField java type: default none
+			isPrevious = model.getJavaTypeName().equals(entityModel.getJavaTypeName());
+			isDefault = false;
+			PrivateMethods.addRemoveRpcEnumFieldAction(entity, model, isPrevious, isDefault, ASTNode.FIELD_DECLARATION
+					| ASTNode.SIMPLE_TYPE, Constants.JAVA_TYPE, model.getType());
+			// Enum properties: default none;
+			isPrevious = PrivateMethods.compareEnumEntries(model.getEntries(), entityModel.getEntries());
+			isDefault = false;
+			PrivateMethods.addRemoveRpcEnumFieldAction(entity, model, isPrevious, isDefault, ASTNode.ENUM_CONSTANT_DECLARATION,
+					Constants.ENUM_FIELD_ENTRIES, model.getEntries());
+		}
 	}
 
 	private final static class PrivateMethods {
@@ -420,6 +462,28 @@ public class RpcEntityUtils {
 			}
 		}
 
+		private static void addRemoveRpcDateFieldAction(RpcEntity entity, RpcDateFieldModel model, boolean isPrevious,
+				boolean isDefault, int target, String key, Object value) {
+			if (!isPrevious && !isDefault) {
+				entity.addAction(new RpcDateFieldAction(model.getUUID(), model, ActionType.MODIFY, target, key, value));
+			} else if (!isPrevious && isDefault) {
+				entity.addAction(new RpcDateFieldAction(model.getUUID(), model, ActionType.REMOVE, target, key, null));
+			} else {
+				entity.removeAction(model.getUUID(), key);
+			}
+		}
+
+		private static void addRemoveRpcEnumFieldAction(RpcEntity entity, RpcEnumFieldModel model, boolean isPrevious,
+				boolean isDefault, int target, String key, Object value) {
+			if (!isPrevious && !isDefault) {
+				entity.addAction(new RpcEnumFieldAction(model.getUUID(), model, ActionType.MODIFY, target, key, value));
+			} else if (!isPrevious && isDefault) {
+				entity.addAction(new RpcEnumFieldAction(model.getUUID(), model, ActionType.REMOVE, target, key, null));
+			} else {
+				entity.removeAction(model.getUUID(), key);
+			}
+		}
+
 		private static boolean compareActionsModels(List<ActionModel> a, List<ActionModel> b) {
 			if (a.size() != b.size()) {
 				return false;
@@ -431,6 +495,21 @@ public class RpcEntityUtils {
 						|| !aClass.getDisplayName().equals(bClass.getDisplayName())
 						|| !aClass.getProgramPath().equals(bClass.getProgramPath()) || (aClass.isGlobal() != bClass.isGlobal())
 						|| !StringUtils.equals(aClass.getTargetEntityClassName(), bClass.getTargetEntityClassName())) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		private static boolean compareEnumEntries(List<EnumEntryModel> a, List<EnumEntryModel> b) {
+			if (a.size() != b.size()) {
+				return false;
+			}
+			for (int i = 0; i < a.size(); i++) {
+				EnumEntryModel aClass = a.get(i);
+				EnumEntryModel bClass = b.get(i);
+				if (!aClass.getName().equals(bClass.getName()) || (!aClass.getValue().equals(bClass.getValue()))
+						|| (!aClass.getDisplayName().equals(bClass.getDisplayName()))) {
 					return false;
 				}
 			}
@@ -463,6 +542,10 @@ public class RpcEntityUtils {
 			RpcFieldDefinition fieldDefinition = fieldsDefinitions.get(key);
 			if (fieldDefinition.getFieldTypeDefinition() instanceof BooleanFieldTypeDefinition) {
 				model = new RpcBooleanFieldModel(parent);
+			} else if (fieldDefinition.getFieldTypeDefinition() instanceof DateFieldTypeDefinition) {
+				model = new RpcDateFieldModel(parent);
+			} else if (fieldDefinition.getFieldTypeDefinition() instanceof EnumFieldTypeDefinition) {
+				model = new RpcEnumFieldModel(parent);
 			} else {
 				if (((SimpleRpcFieldDefinition)fieldDefinition).getJavaTypeName().equalsIgnoreCase(Integer.class.getSimpleName())) {
 					model = new RpcIntegerFieldModel(parent);
@@ -558,7 +641,7 @@ public class RpcEntityUtils {
 			if (!map.isEmpty()) {
 				Collection<AbstractAction> values2 = map.values();
 				for (AbstractAction action : values2) {
-					if (actionClass.getName().equals(action.getClass().getName())) {
+					if (actionClass.isAssignableFrom(action.getClass())) {
 						list.add((T)action);
 					}
 				}

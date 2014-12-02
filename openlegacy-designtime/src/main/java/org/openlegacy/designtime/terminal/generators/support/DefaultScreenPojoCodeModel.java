@@ -675,9 +675,12 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	// @ScreenTable, refs assembla #185
 	private String filterExpression = "";
 
-	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
-			String parentClassName) {
+	private ClassOrInterfaceDeclaration entityDeclaration;
 
+	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
+			String parentClassName, ClassOrInterfaceDeclaration entityDeclaration) {
+
+		this.entityDeclaration = entityDeclaration;
 		mainType = type;
 		this.parentClassName = parentClassName;
 
@@ -766,7 +769,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 								ScreenAnnotationsParserUtils.loadScreenFieldOrColumnAnnotation(annotationExpr, field);
 								// @author Ivan Bort refs #337
 								if (!field.isPrimitiveType() && (!field.getType().equals(Date.class.getSimpleName()))) {
-									field.setFieldTypeDefinition(AnnotationsParserUtils.loadEnumField(mainType, fieldDeclaration));
+									field.setFieldTypeDefinition(AnnotationsParserUtils.loadEnumField(entityDeclaration,
+											fieldDeclaration));
 								}
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,

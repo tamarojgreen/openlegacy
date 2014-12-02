@@ -35,6 +35,7 @@ import japa.parser.ast.expr.NormalAnnotationExpr;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -345,9 +346,12 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 
 	private RpcNavigationDefinition navigationDefinition;
 
-	public DefaultRpcPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
-			String parentClassName) {
+	private ClassOrInterfaceDeclaration entityDeclaration;
 
+	public DefaultRpcPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
+			String parentClassName, ClassOrInterfaceDeclaration entityDeclaration) {
+
+		this.entityDeclaration = entityDeclaration;
 		mainType = type;
 		this.parentClassName = parentClassName;
 
@@ -406,8 +410,9 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
 									RpcAnnotationConstants.RPC_FIELD_ANNOTATION)) {
 								RpcAnnotationsParserUtils.loadRpcFieldAnnotation(annotationExpr, field);
-								if (!field.isPrimitiveType()) {
-									field.setFieldTypeDefinition(AnnotationsParserUtils.loadEnumField(mainType, fieldDeclaration));
+								if (!field.isPrimitiveType() && !field.getType().equals(Date.class.getSimpleName())) {
+									field.setFieldTypeDefinition(AnnotationsParserUtils.loadEnumField(entityDeclaration,
+											fieldDeclaration));
 								}
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
@@ -426,6 +431,10 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
 									RpcAnnotationConstants.RPC_NUMERIC_ANNOTATION)) {
 								field.setFieldTypeDefinition(AnnotationsParserUtils.loadNumericField(annotationExpr));
+							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
+									RpcAnnotationConstants.RPC_DATE_FIELD_ANNOTATION)) {
+								field.setFieldTypeDefinition(AnnotationsParserUtils.loadDateField(annotationExpr));
 							}
 						}
 					}

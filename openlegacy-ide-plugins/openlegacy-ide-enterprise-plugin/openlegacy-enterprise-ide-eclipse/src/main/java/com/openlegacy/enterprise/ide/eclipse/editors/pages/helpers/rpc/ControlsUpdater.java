@@ -2,12 +2,15 @@ package com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc;
 
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBooleanFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcDateFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntityModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEnumFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcNavigationModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcPartModel;
 
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Label;
@@ -181,6 +184,37 @@ public class ControlsUpdater {
 			} else if (key.equals(RpcAnnotationConstants.COUNT)) {
 				text.setText((partModel.getCount() != 0) ? String.valueOf(partModel.getCount()) : "");//$NON-NLS-1$
 			}
+		}
+	}
+
+	public static void updateRpcDateFieldDetailsControls(RpcDateFieldModel fieldModel, Map<String, Text> mapTexts) {
+		if (fieldModel == null) {
+			return;
+		}
+		// update Text controls
+		Set<String> mapKeys = mapTexts.keySet();
+		for (String key : mapKeys) {
+			Text text = mapTexts.get(key);
+			if (key.equals(AnnotationConstants.PATTERN)) {
+				text.setText(fieldModel.getPattern());
+			}
+		}
+	}
+
+	public static void updateRpcEnumFieldDetailsControls(RpcEnumFieldModel fieldModel, Map<String, Text> mapTexts,
+			TableViewer tableViewer) {
+		if (fieldModel == null) {
+			return;
+		}
+		// update Text controls
+		Set<String> mapKeys = mapTexts.keySet();
+		for (String key : mapKeys) {
+			if (key.equals(Constants.JAVA_TYPE)) {
+				mapTexts.get(key).setText(fieldModel.getPrevJavaTypeName().isEmpty() ? "" : fieldModel.getJavaTypeName());
+			}
+		}
+		if (tableViewer != null) {
+			tableViewer.setInput(fieldModel);
 		}
 	}
 

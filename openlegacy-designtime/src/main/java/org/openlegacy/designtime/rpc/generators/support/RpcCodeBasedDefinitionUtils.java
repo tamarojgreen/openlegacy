@@ -122,12 +122,12 @@ public class RpcCodeBasedDefinitionUtils {
 				if (JavaParserUtil.hasAnnotation(annotationExpr, RpcAnnotationConstants.RPC_ENTITY_ANNOTATION)
 						|| JavaParserUtil.hasAnnotation(annotationExpr, RpcAnnotationConstants.RPC_ENTITY_SUPER_CLASS_ANNOTATION)) {
 					entityCodeModel = new DefaultRpcPojoCodeModel(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration,
-							typeDeclaration.getName(), null);
+							typeDeclaration.getName(), null, (ClassOrInterfaceDeclaration)type);
 					entityDefinition = new CodeBasedRpcEntityDefinition(entityCodeModel, packageDir);
 				}
 				if (JavaParserUtil.hasAnnotation(annotationExpr, RpcAnnotationConstants.RPC_PART_ANNOTATION)) {
 					entityCodeModel = new DefaultRpcPojoCodeModel(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration,
-							typeDeclaration.getName(), null);
+							typeDeclaration.getName(), null, (ClassOrInterfaceDeclaration)type);
 					CodeBasedRpcPartDefinition partDefinition = new CodeBasedRpcPartDefinition(entityCodeModel, packageDir);
 					Assert.notNull(entityDefinition, "Compliation unit doesn't contain @RpcEntity. Unable to build");
 					parts.put(partDefinition.getPartName(), partDefinition);
@@ -139,10 +139,13 @@ public class RpcCodeBasedDefinitionUtils {
 		for (Field field : entityFields) {
 			if (!field.isPrimitiveType()) {
 				CodeBasedRpcPartDefinition part = parts.get(StringUtil.toClassName(field.getName()));
-				// TODO need to find a way to keep in field level and not part level, in case part is shared
-				part.setCount(field.getCount());
-				part.setRuntimeName(field.getRuntimeName());
-				entityDefinition.getPartsDefinitions().put(field.getName(), part);
+				if (part != null) {
+					// note: part can be null if field type is enum
+					// TODO need to find a way to keep in field level and not part level, in case part is shared
+					part.setCount(field.getCount());
+					part.setRuntimeName(field.getRuntimeName());
+					entityDefinition.getPartsDefinitions().put(field.getName(), part);
+				}
 			}
 		}
 		Collection<CodeBasedRpcPartDefinition> partsList = parts.values();

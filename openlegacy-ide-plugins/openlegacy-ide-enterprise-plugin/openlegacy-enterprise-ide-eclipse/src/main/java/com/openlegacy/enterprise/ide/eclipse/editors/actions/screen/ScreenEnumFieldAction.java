@@ -1,6 +1,7 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.actions.screen;
 
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.enums.IEnumFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEnumFieldModel;
 
 import java.util.UUID;
@@ -9,7 +10,7 @@ import java.util.UUID;
  * @author Ivan Bort
  * 
  */
-public class ScreenEnumFieldAction extends ScreenFieldAction {
+public class ScreenEnumFieldAction extends ScreenFieldAction implements IEnumFieldAction {
 
 	/**
 	 * @param uuid

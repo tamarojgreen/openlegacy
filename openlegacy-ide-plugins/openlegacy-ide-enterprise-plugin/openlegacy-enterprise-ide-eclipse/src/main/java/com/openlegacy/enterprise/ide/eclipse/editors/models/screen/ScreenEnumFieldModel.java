@@ -2,6 +2,8 @@ package com.openlegacy.enterprise.ide.eclipse.editors.models.screen;
 
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.enums.EnumEntryModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.enums.IEnumFieldModel;
 
 import org.openlegacy.DisplayItem;
 import org.openlegacy.definitions.support.SimpleEnumFieldTypeDefinition;
@@ -17,7 +19,7 @@ import java.util.UUID;
  * @author Ivan Bort
  * 
  */
-public class ScreenEnumFieldModel extends ScreenFieldModel {
+public class ScreenEnumFieldModel extends ScreenFieldModel implements IEnumFieldModel {
 
 	private Class<?> type = null;
 	private String prevJavaTypeName = "";
@@ -75,6 +77,7 @@ public class ScreenEnumFieldModel extends ScreenFieldModel {
 		this.type = type;
 	}
 
+	@Override
 	public String getPrevJavaTypeName() {
 		return prevJavaTypeName;
 	}
@@ -90,6 +93,7 @@ public class ScreenEnumFieldModel extends ScreenFieldModel {
 		setPrevJavaTypeName(javaTypeName);
 	}
 
+	@Override
 	public List<EnumEntryModel> getEntries() {
 		return entries;
 	}

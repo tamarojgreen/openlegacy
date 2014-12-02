@@ -5,13 +5,17 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcBigIntegerFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcBooleanFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcDateFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcEnumFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcIntegerFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcPartAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBigIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBooleanFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcDateFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntityModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEnumFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcNamedObject;
@@ -119,6 +123,10 @@ public class FieldsTreeViewerDropHelper {
 				clone = ((RpcIntegerFieldModel)model).clone();
 			} else if (model instanceof RpcBooleanFieldModel) {
 				clone = ((RpcBooleanFieldModel)model).clone();
+			} else if (model instanceof RpcDateFieldModel) {
+				clone = ((RpcDateFieldModel)model).clone();
+			} else if (model instanceof RpcEnumFieldModel) {
+				clone = ((RpcEnumFieldModel)model).clone();
 			} else {
 				clone = ((RpcFieldModel)model).clone();
 			}
@@ -136,6 +144,10 @@ public class FieldsTreeViewerDropHelper {
 			return new RpcBigIntegerFieldModel(model.getUUID(), (RpcNamedObject)model.getParent());
 		} else if (model instanceof RpcIntegerFieldModel) {
 			return new RpcIntegerFieldModel(model.getUUID(), (RpcNamedObject)model.getParent());
+		} else if (model instanceof RpcDateFieldModel) {
+			return new RpcDateFieldModel(model.getUUID(), (RpcNamedObject)model.getParent());
+		} else if (model instanceof RpcEnumFieldModel) {
+			return new RpcEnumFieldModel(model.getUUID(), (RpcNamedObject)model.getParent());
 		} else {
 			return new RpcFieldModel(model.getUUID(), (RpcNamedObject)model.getParent());
 		}
@@ -163,6 +175,12 @@ public class FieldsTreeViewerDropHelper {
 		} else if (model instanceof RpcIntegerFieldModel) {
 			return new RpcIntegerFieldAction(model.getUUID(), model, ActionType.ADD, ASTNode.FIELD_DECLARATION,
 					model.getFieldName(), null);
+		} else if (model instanceof RpcDateFieldModel) {
+			return new RpcDateFieldAction(model.getUUID(), model, ActionType.ADD, ASTNode.FIELD_DECLARATION,
+					model.getFieldName(), null);
+		} else if (model instanceof RpcEnumFieldModel) {
+			return new RpcEnumFieldAction(model.getUUID(), (RpcEnumFieldModel)model, ActionType.ADD, ASTNode.FIELD_DECLARATION,
+					model.getFieldName(), null);
 		} else {
 			return new RpcFieldAction(model.getUUID(), model, ActionType.ADD, ASTNode.FIELD_DECLARATION, model.getFieldName(),
 					null);
@@ -175,6 +193,10 @@ public class FieldsTreeViewerDropHelper {
 			RpcEntityUtils.ActionGenerator.generateRpcBooleanFieldActions(entity, (RpcBooleanFieldModel)model);
 		} else if (model instanceof RpcIntegerFieldModel) {
 			RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, (RpcIntegerFieldModel)model);
+		} else if (model instanceof RpcDateFieldModel) {
+			RpcEntityUtils.ActionGenerator.generateRpcDateFieldActions(entity, (RpcDateFieldModel)model);
+		} else if (model instanceof RpcEnumFieldModel) {
+			RpcEntityUtils.ActionGenerator.generateRpcEnumFieldActions(entity, (RpcEnumFieldModel)model);
 		}
 		RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, model);
 		entity.setDirty(true);

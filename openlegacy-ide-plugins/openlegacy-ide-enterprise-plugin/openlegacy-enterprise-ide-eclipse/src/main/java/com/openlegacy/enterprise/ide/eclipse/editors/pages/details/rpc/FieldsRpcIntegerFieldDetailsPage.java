@@ -129,7 +129,7 @@ public class FieldsRpcIntegerFieldDetailsPage extends AbstractRpcFieldDetailsPag
 		Map<String, Object> map = getValuesOfControlsForKey(key);
 		ModelUpdater.updateRpcFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE),
 				(Boolean)map.get(Constants.BOOL_VALUE), (String)map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
-		ModelUpdater.updateIntegerFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE));
+		ModelUpdater.updateRpcIntegerFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE));
 	}
 
 	/*
