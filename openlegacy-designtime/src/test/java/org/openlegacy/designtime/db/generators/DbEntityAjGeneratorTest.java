@@ -32,6 +32,11 @@ public class DbEntityAjGeneratorTest {
 		testGenerate();
 	}
 
+	@Test
+	public void testStaticFinalProperties() throws Exception {
+		testGenerate();
+	}
+
 	private void testGenerate() throws Exception {
 		String testMethodName = TestUtils.getTestMethodName();
 		testGenerate(testMethodName + ".java.resource", testMethodName + "_Aspect.aj.expected");

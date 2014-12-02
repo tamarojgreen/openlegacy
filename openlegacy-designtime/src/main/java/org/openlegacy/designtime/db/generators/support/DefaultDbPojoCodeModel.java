@@ -39,6 +39,7 @@ import japa.parser.ast.type.ClassOrInterfaceType;
 import japa.parser.ast.type.ReferenceType;
 import japa.parser.ast.type.Type;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -109,6 +110,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		private boolean hasGetter;
 		private boolean hasSetter;
 		private boolean hasGetterField;
+		private boolean staticOrFinal;
 		private String type;
 		private Boolean editable;
 		private boolean primitiveType;
@@ -179,6 +181,10 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 			return hasSetter;
 		}
 
+		public boolean isStaticOrFinal() {
+			return staticOrFinal;
+		}
+
 		public boolean isKey() {
 			return key;
 		}
@@ -229,6 +235,10 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 
 		public void setHasSetter(boolean hasSetter) {
 			this.hasSetter = hasSetter;
+		}
+
+		public void setStaticOrFinal(boolean staticOrFinal) {
+			this.staticOrFinal = staticOrFinal;
 		}
 
 		public void setHelpText(String helpText) {
@@ -601,6 +611,9 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 								}
 							}
 						}
+					}
+					if (Modifier.isStatic(fieldDeclaration.getModifiers()) || Modifier.isFinal(fieldDeclaration.getModifiers())) {
+						field.setStaticOrFinal(true);
 					}
 					fields.put(fieldName, field);
 				}

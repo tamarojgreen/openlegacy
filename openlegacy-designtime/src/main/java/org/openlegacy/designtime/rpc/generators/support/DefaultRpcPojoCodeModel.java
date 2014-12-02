@@ -33,6 +33,7 @@ import japa.parser.ast.body.VariableDeclarator;
 import japa.parser.ast.expr.AnnotationExpr;
 import japa.parser.ast.expr.NormalAnnotationExpr;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -102,6 +103,7 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		private boolean hasGetter;
 		private boolean hasSetter;
 		private boolean hasGetterField;
+		private boolean staticOrFinal;
 		private String type;
 		private Boolean editable;
 		private boolean primitiveType;
@@ -182,6 +184,10 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 			return hasSetter;
 		}
 
+		public boolean isStaticOrFinal() {
+			return staticOrFinal;
+		}
+
 		public boolean isKey() {
 			return key;
 		}
@@ -232,6 +238,10 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 
 		public void setHasSetter(boolean hasSetter) {
 			this.hasSetter = hasSetter;
+		}
+
+		public void setStaticOrFinal(boolean staticOrFinal) {
+			this.staticOrFinal = staticOrFinal;
 		}
 
 		public void setHelpText(String helpText) {
@@ -437,6 +447,9 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 								field.setFieldTypeDefinition(AnnotationsParserUtils.loadDateField(annotationExpr));
 							}
 						}
+					}
+					if (Modifier.isStatic(fieldDeclaration.getModifiers()) || Modifier.isFinal(fieldDeclaration.getModifiers())) {
+						field.setStaticOrFinal(true);
 					}
 					fields.put(fieldName, field);
 				}

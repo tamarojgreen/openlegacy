@@ -35,6 +35,11 @@ public class RpcEntityAjGeneratorTest {
 	}
 
 	@Test
+	public void testStaticFinalProperties() throws Exception {
+		testGenerate();
+	}
+
+	@Test
 	public void testRpcSample() throws Exception {
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream("testRpcSample.java.resource"));
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();

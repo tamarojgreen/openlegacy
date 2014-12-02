@@ -45,6 +45,7 @@ import japa.parser.ast.expr.AnnotationExpr;
 import japa.parser.ast.expr.MemberValuePair;
 import japa.parser.ast.expr.NormalAnnotationExpr;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -233,6 +234,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private boolean hasGetter;
 		private boolean hasSetter;
 		private boolean hasGetterField;
+		private boolean staticOrFinal;
 		private boolean hasValues;
 		private String type;
 		private boolean editable;
@@ -375,6 +377,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			return hasSetter;
 		}
 
+		public boolean isStaticOrFinal() {
+			return staticOrFinal;
+		}
+
 		public boolean isHasValues() {
 			return hasValues;
 		}
@@ -458,6 +464,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public void setHasSetter(boolean hasSetter) {
 			this.hasSetter = hasSetter;
+		}
+
+		public void setStaticOrFinal(boolean staticOrFinal) {
+			this.staticOrFinal = staticOrFinal;
 		}
 
 		public void setHasValues(boolean hasValues) {
@@ -793,6 +803,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 							}
 						}
 					}
+					if (Modifier.isStatic(fieldDeclaration.getModifiers()) || Modifier.isFinal(fieldDeclaration.getModifiers())) {
+						field.setStaticOrFinal(true);
+					}
 					fields.put(fieldName, field);
 				}
 			}
@@ -840,21 +853,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 				}
 			} else {
 				if (bodyDeclaration instanceof FieldDeclaration) {
-					FieldDeclaration fieldDeclaration = (FieldDeclaration)bodyDeclaration;
 					numberOfProperties++;
-					if (java.lang.reflect.Modifier.isStatic(fieldDeclaration.getModifiers())
-							|| java.lang.reflect.Modifier.isFinal(fieldDeclaration.getModifiers())) {
-						List<VariableDeclarator> variables = fieldDeclaration.getVariables();
-						if (variables.size() > 0) {
-							String fieldName = variables.get(0).getId().getName();
-							Field field = fields.get(fieldName);
-							if (field != null) {
-								field.setHasGetter(true);
-								field.setHasSetter(true);
-								field.setEditable(false);
-							}
-						}
-					}
 				}
 			}
 		}

@@ -98,6 +98,11 @@ public class ScreenEntityAjGeneratorTest {
 	}
 
 	@Test
+	public void testStaticFinalProperties() throws Exception {
+		testGenerate();
+	}
+
+	@Test
 	public void testNotScreenEntity() throws Exception {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();

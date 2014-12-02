@@ -12,7 +12,7 @@ import ${packageName}.${parentClassName}.${className};
 
 privileged @SuppressWarnings("unused") aspect ${formattedClassName}Part_Aspect {
 	<#list fields as field>
-	<#if supportTerminalData && !field.hasGetterField && field.primitiveType>
+	<#if supportTerminalData && !field.hasGetterField && field.primitiveType && !field.staticOrFinal>
     private TerminalField ${className}.${field.name}Field;
 	</#if>
 	<#if field.hasDescription>
@@ -21,19 +21,19 @@ privileged @SuppressWarnings("unused") aspect ${formattedClassName}Part_Aspect {
 	</#list>	
     
 	<#list fields as field>
-		<#if !field.hasGetter>
+		<#if !field.hasGetter && !field.staticOrFinal>
     public ${field.type} ${className}.get${field.name?cap_first}(){
     	return this.${field.name};
     }
 		</#if>
     
-		<#if serviceInOut || (!field.hasSetter && field.editable)>
+		<#if (serviceInOut || (!field.hasSetter && field.editable)) && !field.staticOrFinal>
     public void ${className}.set${field.name?cap_first}(${field.type} ${field.name}){
     	this.${field.name} = ${field.name};
     }
 		</#if>
 
-		<#if supportTerminalData && !field.hasGetterField && field.primitiveType>
+		<#if supportTerminalData && !field.hasGetterField && field.primitiveType && !field.staticOrFinal>
     public TerminalField ${className}.get${field.name?cap_first}Field(){
     	return ${field.name}Field;
     }

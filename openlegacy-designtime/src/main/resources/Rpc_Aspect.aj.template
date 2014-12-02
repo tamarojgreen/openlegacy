@@ -16,12 +16,12 @@ privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
 </#if>
     
 	<#list fields as field>
-		<#if !field.hasGetter>
+		<#if !field.hasGetter && !field.staticOrFinal>
     public ${field.type} ${className}.get${field.name?cap_first}(){
     	return this.${field.name};
     }
 		</#if>    
-		<#if serviceInOut || (!field.hasSetter && field.editable)>
+		<#if (serviceInOut || (!field.hasSetter && field.editable)) && !field.staticOrFinal>
     public void ${className}.set${field.name?cap_first}(${field.type} ${field.name}){
     	this.${field.name} = ${field.name};
     }
