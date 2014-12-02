@@ -124,7 +124,7 @@ public class RpcPojosAjGenerator extends AbstractPojosAjGenerator {
 			TemplateException, ParseException {
 
 		RpcPojoCodeModel rpcEntityCodeModel = new DefaultRpcPojoCodeModel(compilationUnit, typeDeclaration,
-				typeDeclaration.getName(), parentClass);
+				typeDeclaration.getName(), parentClass, null);
 
 		if (!rpcEntityCodeModel.isRelevant()) {
 			return rpcEntityCodeModel;

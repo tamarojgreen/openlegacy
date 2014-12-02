@@ -1,10 +1,12 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.masters.rpc;
 
+import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcBigIntegerFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcBooleanFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcDateFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcEnumFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcIntegerFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcPartAction;
@@ -15,6 +17,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBooleanFieldM
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcDateFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntityModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEnumFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcNamedObject;
@@ -24,6 +27,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.pages.IOpenLegacyDetailsPag
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc.FieldsRpcBigIntegerFieldDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc.FieldsRpcBooleanFieldDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc.FieldsRpcDateFieldDetailsPage;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc.FieldsRpcEnumFieldDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc.FieldsRpcIntegerFieldDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc.FieldsRpcStringFieldDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc.PartsRpcPartDetailsPage;
@@ -124,6 +128,7 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 		detailsPages.add(new FieldsRpcIntegerFieldDetailsPage(this));
 		detailsPages.add(new FieldsRpcBigIntegerFieldDetailsPage(this));
 		detailsPages.add(new FieldsRpcDateFieldDetailsPage(this));
+		detailsPages.add(new FieldsRpcEnumFieldDetailsPage(this));
 		detailsPages.add(new PartsRpcPartDetailsPage(this));
 		for (IDetailsPage page : detailsPages) {
 			detailsPart.registerPage(((IOpenLegacyDetailsPage)page).getDetailsModel(), page);
@@ -242,6 +247,7 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 		addNewIntegerFieldMenuItem(splitButton.getMenu());
 		addNewBigIntegerFieldMenuItem(splitButton.getMenu());
 		addNewDateFieldMenuItem(splitButton.getMenu());
+		addNewEnumFieldMenuItem(splitButton.getMenu());
 		addNewRpcPartMenuItem(splitButton.getMenu());
 
 		createRemoveButton(toolkit, composite);
@@ -277,10 +283,16 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 							} else if (parent instanceof RpcPartModel) {
 								entity.removeRpcFieldModelFromPart((RpcFieldModel)model);
 							}
-							// try to remove action for new field
-							entity.removeAction(model.getUUID(), ((RpcFieldModel)model).getFieldName());
-							entity.addAction(new RpcFieldAction(model.getUUID(), model, ActionType.REMOVE,
-									ASTNode.FIELD_DECLARATION, null, null));
+							// try to remove actions
+							entity.removeActionsSet(model.getUUID());
+							if (((RpcFieldModel)model).isInitialized()) {
+								entity.addAction(new RpcFieldAction(model.getUUID(), model, ActionType.REMOVE,
+										ASTNode.FIELD_DECLARATION, null, null));
+								if (model instanceof RpcEnumFieldModel) {
+									entity.addAction(new RpcEnumFieldAction(model.getUUID(), (RpcEnumFieldModel)model,
+											ActionType.REMOVE, ASTNode.ENUM_DECLARATION, Constants.ENUM_DECLARATION, null));
+								}
+							}
 						} else if (model instanceof RpcPartModel) {
 							// remove validation markers
 							for (IDetailsPage detailsPage : detailsPages) {
@@ -452,6 +464,38 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 						newModel.getFieldName(), null));
 				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
 				RpcEntityUtils.ActionGenerator.generateRpcDateFieldActions(entity, newModel);
+
+				reassignTreeViewerInput(newModel.getUUID());
+			}
+
+		});
+	}
+
+	private void addNewEnumFieldMenuItem(Menu menu) {
+		MenuItem item = new MenuItem(menu, SWT.PUSH);
+		item.setText(Messages.getString("Button.add.enum.field"));//$NON-NLS-1$
+		item.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				NamedObject parent = getParentOfSelectedModel();
+				RpcEnumFieldModel newModel = new RpcEnumFieldModel((RpcNamedObject)parent);
+				newModel.setNew(true);
+
+				RpcEntity entity = getEntity();
+				if (parent instanceof RpcEntityModel) {
+					entity.addRpcFieldModel(newModel);
+				} else if (parent instanceof RpcPartModel) {
+					entity.addRpcFieldModelToPart((RpcPartModel)parent, newModel);
+				}
+				fillNewModel(newModel);
+				entity.addAction(new RpcEnumFieldAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.FIELD_DECLARATION,
+						newModel.getFieldName(), null));
+				// add action that responsible for creating a new enum class
+				entity.addAction(new RpcEnumFieldAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.ENUM_DECLARATION,
+						Constants.ENUM_FIELD_NEW_TYPE_DECLARATION, null));
+				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
+				RpcEntityUtils.ActionGenerator.generateRpcEnumFieldActions(entity, newModel);
 
 				reassignTreeViewerInput(newModel.getUUID());
 			}

@@ -91,6 +91,7 @@ public class RpcFieldModel extends RpcNamedObject {
 		this.previousFieldName = this.fieldName;
 		this.fieldTypeName = (((SimpleRpcFieldDefinition)rpcFieldDefinition).getFieldTypeName() != null) ? ((SimpleRpcFieldDefinition)rpcFieldDefinition).getFieldTypeName()
 				: this.fieldTypeName;
+		this.javaTypeName = ((SimpleRpcFieldDefinition)rpcFieldDefinition).getJavaTypeName();
 
 		// annotation attributes
 		this.originalName = (rpcFieldDefinition.getOriginalName() != null) ? rpcFieldDefinition.getOriginalName() : "";//$NON-NLS-1$
@@ -129,7 +130,15 @@ public class RpcFieldModel extends RpcNamedObject {
 		int count = ((RpcNamedObject)this.parent).getInnerBranchesCount();
 
 		RpcFieldModel model = new RpcFieldModel(this.uuid, (RpcNamedObject)this.parent);
+		fillModel(model);
 		((RpcNamedObject)this.parent).setInnerBranchesCount(count);
+		return model;
+	}
+
+	protected void fillModel(RpcFieldModel model) {
+		if (model == null) {
+			return;
+		}
 		model.setTreeLevel(this.getTreeLevel());
 		model.setTreeBranch(this.getTreeBranch());
 		model.setModelName(this.modelName);
@@ -148,7 +157,7 @@ public class RpcFieldModel extends RpcNamedObject {
 		model.setEditable(this.editable);
 		model.setDefaultValue(this.defaultValue);
 		model.setExpression(this.expression);
-		return model;
+		model.initialized = this.initialized;
 	}
 
 	public String getFieldName() {

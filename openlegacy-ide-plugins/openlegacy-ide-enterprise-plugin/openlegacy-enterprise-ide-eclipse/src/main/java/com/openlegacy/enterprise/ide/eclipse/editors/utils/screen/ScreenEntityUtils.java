@@ -20,9 +20,9 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenPartRe
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenTableAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.TableActionAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.enums.EnumEntryModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ChildEntityModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.EnumEntryModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.IdentifierModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.PartPositionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenActionsModel;

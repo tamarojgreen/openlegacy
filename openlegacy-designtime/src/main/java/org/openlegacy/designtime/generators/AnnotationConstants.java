@@ -67,4 +67,6 @@ public class AnnotationConstants {
 	// @ScreenEntity
 	public static final String ROLE = "role";
 
+	public static final String VALUE = "value";
+
 }

@@ -6,6 +6,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBooleanFieldM
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcDateFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntityModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEnumFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcNavigationModel;
@@ -114,7 +115,7 @@ public class ModelUpdater {
 		RpcEntityUtils.ActionGenerator.generateRpcBooleanFieldActions(entity, model);
 	}
 
-	public static void updateIntegerFieldModel(RpcEntity entity, RpcIntegerFieldModel model, String key, String text) {
+	public static void updateRpcIntegerFieldModel(RpcEntity entity, RpcIntegerFieldModel model, String key, String text) {
 		if (text != null) {
 			if (key.equals(RpcAnnotationConstants.MINIMUM_VALUE)) {
 				model.setMinimumValue((text.isEmpty() || text.equals("-")) ? 0.0 : Double.valueOf(text));
@@ -167,5 +168,19 @@ public class ModelUpdater {
 			}
 		}
 		RpcEntityUtils.ActionGenerator.generateRpcDateFieldActions(entity, model);
+	}
+
+	public static void updateRpcEnumFieldModel(RpcEntity entity, RpcEnumFieldModel model, String key, String text,
+			String fullyQualifiedName) throws MalformedURLException, CoreException {
+		if (text != null) {
+			if (key.equals(Constants.JAVA_TYPE)) {
+				model.setJavaTypeName(text);
+				if (fullyQualifiedName != null) {
+					Class<?> clazz = Utils.getClazz(fullyQualifiedName);
+					model.setType(clazz);
+				}
+			}
+		}
+		RpcEntityUtils.ActionGenerator.generateRpcEnumFieldActions(entity, model);
 	}
 }

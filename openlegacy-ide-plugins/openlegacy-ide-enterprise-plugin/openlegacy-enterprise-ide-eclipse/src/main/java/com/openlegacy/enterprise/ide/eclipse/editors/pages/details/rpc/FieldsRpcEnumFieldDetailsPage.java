@@ -1,16 +1,27 @@
-package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.screen;
+/*******************************************************************************
+ * Copyright (c) 2014 OpenLegacy Inc.
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     OpenLegacy Inc. - initial API and implementation
+ *******************************************************************************/
+
+package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc;
 
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.enums.EnumEntryModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEnumFieldModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEnumFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ControlsUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.EnumFieldEntryTextCellEditingSupport;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ModelUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.screen.ScreenEnumValuesTableContentProvider;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ControlsUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.EnumFieldEntryTextCellEditingSupport;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ModelUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.rpc.RpcEnumValuesTableContentProvider;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
@@ -36,7 +47,6 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.openlegacy.designtime.generators.AnnotationConstants;
-import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
 
 import java.net.MalformedURLException;
 import java.util.Map;
@@ -46,31 +56,34 @@ import java.util.UUID;
  * @author Ivan Bort
  * 
  */
-public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetailsPage {
+public class FieldsRpcEnumFieldDetailsPage extends AbstractRpcFieldDetailsPage {
 
-	private ScreenEnumFieldModel fieldModel;
+	private RpcEnumFieldModel fieldModel;
 	private TableViewer tableViewer;
 
-	public FieldsScreenEnumFieldDetailsPage(AbstractMasterBlock master) {
+	public FieldsRpcEnumFieldDetailsPage(AbstractMasterBlock master) {
 		super(master);
-	}
-
-	@Override
-	public Class<?> getDetailsModel() {
-		return ScreenEnumFieldModel.class;
 	}
 
 	@Override
 	protected void addContent(FormToolkit toolkit, Composite client) {
 		// create row for selecting Enum type
 		Text enumControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenEnumField.enum"), "", Constants.JAVA_TYPE, null, IJavaSearchConstants.ENUM, false, null);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("rpc.field.enum"), "", Constants.JAVA_TYPE, null, IJavaSearchConstants.ENUM, false, null);//$NON-NLS-1$ //$NON-NLS-2$
 
 		enumControl.addModifyListener(getEnumModifyListener());
 
-		addScreenDecriptionFieldSection(toolkit, client);
-
 		createEnumValuesSection(toolkit, client);
+	}
+
+	@Override
+	protected RpcFieldModel getFieldModel() {
+		return fieldModel;
+	}
+
+	@Override
+	public Class<?> getDetailsModel() {
+		return RpcEnumFieldModel.class;
 	}
 
 	@Override
@@ -83,45 +96,31 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 		if (fieldModel == null) {
 			return;
 		}
-		ControlsUpdater.updateScreenFieldDetailsControls(fieldModel, mapTexts, mapCombos, mapCheckBoxes, mapLabels);
-		ControlsUpdater.updateScreenEnumFieldDetailsControls(fieldModel, mapTexts, tableViewer);
-		ControlsUpdater.updateScreenDescriptionFieldDetailsControls(fieldModel.getDescriptionFieldModel(), mapTexts);
-		revalidate();
-	}
-
-	@Override
-	protected void selectionChanged(IStructuredSelection selection) {
-		if (selection.size() == 1) {
-			fieldModel = (ScreenEnumFieldModel)selection.getFirstElement();
-		} else {
-			fieldModel = null;
-		}
-
-		if (fieldModel != null) {
-			// try to draw rectangle of selected field in ScreenPreview
-			setScreenPreviewDrawingRectangle(fieldModel);
-		}
+		ControlsUpdater.updateRpcFieldDetailsControls(fieldModel, mapTexts, mapCombos, mapCheckBoxes, mapLabels);
+		ControlsUpdater.updateRpcEnumFieldDetailsControls(fieldModel, mapTexts, tableViewer);
 	}
 
 	@Override
 	protected void doUpdateModel(String key) throws MalformedURLException, CoreException {
 		Map<String, Object> map = getValuesOfControlsForKey(key);
-		ModelUpdater.updateScreenFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE),
+		ModelUpdater.updateRpcFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE),
 				(Boolean)map.get(Constants.BOOL_VALUE), (String)map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
-		ModelUpdater.updateScreenEnumFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE),
+		ModelUpdater.updateRpcEnumFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE),
 				(String)map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
-		ModelUpdater.updateScreenDescriptionFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE));
 	}
 
 	@Override
 	protected void afterDoUpdateModel() {
-		setScreenPreviewDrawingRectangle(fieldModel);
 		setDirty(getEntity().isDirty());
 	}
 
 	@Override
-	protected ScreenFieldModel getFieldModel() {
-		return fieldModel;
+	protected void selectionChanged(IStructuredSelection selection) {
+		if (selection.size() == 1) {
+			fieldModel = (RpcEnumFieldModel)selection.getFirstElement();
+		} else {
+			fieldModel = null;
+		}
 	}
 
 	private void createEnumValuesSection(FormToolkit toolkit, Composite parent) {
@@ -138,7 +137,7 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 		// create table
 		Table t = createTable(toolkit, client);
 		tableViewer = new TableViewer(t);
-		tableViewer.setContentProvider(new ScreenEnumValuesTableContentProvider());
+		tableViewer.setContentProvider(new RpcEnumValuesTableContentProvider());
 		tableViewer.setInput(fieldModel);
 		tableViewer.setData(FormRowCreator.ID_KEY, Constants.ENUM_FIELD_ENTRIES);
 
@@ -187,7 +186,7 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 
 		});
 
-		section.setText(Messages.getString("ScreenEnumField.properties"));//$NON-NLS-1$
+		section.setText(Messages.getString("rpc.field.enum.properties"));//$NON-NLS-1$
 		section.setClient(client);
 		section.setExpanded(true);
 		gd = new GridData(GridData.FILL_BOTH);
@@ -214,7 +213,7 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 		TableColumn tcol = vcol.getColumn();
 		tcol.setResizable(false);
 		tcol.setWidth(150);
-		tcol.setText(Messages.getString("ScreenEnumField.col.name"));//$NON-NLS-1$
+		tcol.setText(Messages.getString("rpc.field.enum.col.name"));//$NON-NLS-1$
 
 		vcol.setEditingSupport(new EnumFieldEntryTextCellEditingSupport(viewer, AnnotationConstants.NAME));
 		vcol.setLabelProvider(new CellLabelProvider() {
@@ -233,9 +232,9 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 		tcol = vcol.getColumn();
 		tcol.setResizable(false);
 		tcol.setWidth(50);
-		tcol.setText(Messages.getString("ScreenEnumField.col.value"));//$NON-NLS-1$
+		tcol.setText(Messages.getString("rpc.field.enum.col.value"));//$NON-NLS-1$
 
-		vcol.setEditingSupport(new EnumFieldEntryTextCellEditingSupport(viewer, ScreenAnnotationConstants.VALUE));
+		vcol.setEditingSupport(new EnumFieldEntryTextCellEditingSupport(viewer, AnnotationConstants.VALUE));
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
@@ -249,7 +248,7 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 		tcol = vcol.getColumn();
 		tcol.setResizable(false);
 		tcol.setWidth(200);
-		tcol.setText(Messages.getString("ScreenEnumField.col.display"));//$NON-NLS-1$
+		tcol.setText(Messages.getString("rpc.field.enum.col.display"));//$NON-NLS-1$
 
 		vcol.setEditingSupport(new EnumFieldEntryTextCellEditingSupport(viewer, AnnotationConstants.DISPLAY_NAME));
 		vcol.setLabelProvider(new CellLabelProvider() {
@@ -274,4 +273,5 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 			}
 		};
 	}
+
 }

@@ -1,5 +1,6 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.utils.rpc;
 
+import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcActionsAction;
@@ -7,6 +8,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcBigIntegerFi
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcBooleanFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcDateFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcEntityAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcEnumFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcIntegerFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcNavigationAction;
@@ -15,6 +17,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcPartListActi
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntityModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEnumFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcPartModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.ASTUtils;
@@ -28,6 +31,7 @@ import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.BooleanLiteral;
 import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MarkerAnnotation;
 import org.eclipse.jdt.core.dom.MemberValuePair;
@@ -51,6 +55,7 @@ import org.openlegacy.annotations.rpc.RpcNavigation;
 import org.openlegacy.annotations.rpc.RpcNumericField;
 import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.annotations.rpc.RpcPartList;
+import org.openlegacy.definitions.EnumGetValue;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
 import org.openlegacy.rpc.RpcEntity;
@@ -532,6 +537,19 @@ public class RpcEntityBuilder extends AbstractEntityBuilder {
 					field.modifiers().add(boolAnnotation);
 					ASTUtils.addImport(ast, cu, rewriter, RpcDateField.class);
 				}
+				// add enum field
+				if (action instanceof RpcEnumFieldAction) {
+					RpcEnumFieldModel model = (RpcEnumFieldModel)action.getNamedObject();
+					if (model.getPrevJavaTypeName().isEmpty()) {
+						field.setType(ast.newSimpleType(ast.newSimpleName(StringUtils.capitalize(model.getFieldName()))));
+					} else {
+						field.setType(ast.newSimpleType(ast.newSimpleName(model.getJavaTypeName())));
+					}
+					field.setProperty(Constants.ENUM_FIELD_ENTRIES, true);
+					if (model.getType() != null) {
+						ASTUtils.addImport(ast, cu, rewriter, model.getType());
+					}
+				}
 				// add @RpcField annotation
 				NormalAnnotation annotation = ast.newNormalAnnotation();
 				annotation.setTypeName(ast.newSimpleName(RpcField.class.getSimpleName()));
@@ -716,6 +734,13 @@ public class RpcEntityBuilder extends AbstractEntityBuilder {
 					newTypeDeclaration.modifiers().add(ast.newModifier(ModifierKeyword.STATIC_KEYWORD));
 					listRewriter.insertLast(newTypeDeclaration, null);
 				}
+			} else if (action.getActionType().equals(ActionType.ADD) && (action.getTarget() == ASTNode.ENUM_DECLARATION)
+					&& (action instanceof RpcEnumFieldAction)) {
+				RpcEnumFieldModel model = (RpcEnumFieldModel)action.getNamedObject();
+				EnumDeclaration enumDeclaration = getNewEnumDeclaration(ast, model.getFieldName());
+				// add import of interface
+				ASTUtils.addImport(ast, cu, rewriter, EnumGetValue.class);
+				listRewriter.insertLast(enumDeclaration, null);
 			}
 		}
 	}
@@ -819,6 +844,29 @@ public class RpcEntityBuilder extends AbstractEntityBuilder {
 
 		processSimpleAnnotation(ast, cu, rewriter, listRewriter, annotation, actionList, RpcEntityASTUtils.INSTANCE,
 				RpcEntityActionsSorter.INSTANCE);
+	}
+
+	@SuppressWarnings("unchecked")
+	public void removeEnumDeclaration(ListRewrite listRewriter, String rootName, List<AbstractAction> list) {
+		List<BodyDeclaration> nodeList = listRewriter.getOriginalList();
+
+		for (AbstractAction action : list) {
+			if (action.getActionType().equals(ActionType.REMOVE) && (action.getTarget() == ASTNode.ENUM_DECLARATION)) {
+				for (BodyDeclaration bd : nodeList) {
+					if (bd.getNodeType() == ASTNode.ENUM_DECLARATION) {
+						EnumDeclaration declaration = (EnumDeclaration)bd;
+						String fullyQualifiedName = declaration.getName().getFullyQualifiedName();
+						NamedObject namedObject = action.getNamedObject();
+						if (namedObject instanceof RpcEnumFieldModel) {
+							RpcEnumFieldModel model = (RpcEnumFieldModel)namedObject;
+							if (fullyQualifiedName.equals(model.getJavaTypeName())) {
+								listRewriter.remove(bd, null);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 }

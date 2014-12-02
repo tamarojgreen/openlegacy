@@ -75,6 +75,9 @@ public class AnnotationsParserUtils {
 	 * @param field
 	 */
 	public static FieldTypeDefinition loadEnumField(ClassOrInterfaceDeclaration mainType, FieldDeclaration fieldDeclaration) {
+		if (mainType == null) {
+			return null;
+		}
 		String fieldType = fieldDeclaration.getType().toString();
 
 		SimpleEnumFieldTypeDefinition enumDefinition = null;
