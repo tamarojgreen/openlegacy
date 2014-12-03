@@ -321,4 +321,7 @@ public class ScreenPreview extends AbstractEntityPreview {
 		return lastActiveEditor;
 	}
 
+	public SelectedObject getSelectedObject(int row, int column){
+		return snapshotComposite.getSelectedObject(row, column);
+	}
 }

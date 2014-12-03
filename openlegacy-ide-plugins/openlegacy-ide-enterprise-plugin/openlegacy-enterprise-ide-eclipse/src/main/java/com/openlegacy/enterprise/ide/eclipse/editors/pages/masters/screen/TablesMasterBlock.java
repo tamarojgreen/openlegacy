@@ -358,6 +358,12 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 			if (selectedObject != null && selectedObject.getFieldRectangle() != null) {
 				newModel.setStartColumn(selectedObject.getFieldRectangle().getColumn());
 				newModel.setEndColumn(selectedObject.getFieldRectangle().getEndColumn());
+				//get one row above
+				SelectedObject aboveSelectedObject = screenPreview.getSelectedObject(selectedObject.getFieldRectangle().getRow()-1, selectedObject.getFieldRectangle().getColumn());
+				if (aboveSelectedObject != null){
+					newModel.setDisplayName(aboveSelectedObject.getDisplayName());
+					newModel.setFieldName(aboveSelectedObject.getFieldName());
+				}
 			}
 		}
 

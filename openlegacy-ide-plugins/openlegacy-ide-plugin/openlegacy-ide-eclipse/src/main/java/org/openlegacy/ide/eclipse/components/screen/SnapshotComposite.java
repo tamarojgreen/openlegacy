@@ -313,9 +313,9 @@ public class SnapshotComposite extends ImageComposite {
 		gc.fillRectangle(drawingBounds);
 	}
 
-	private void fillSelectedObject() {
+	private void fillSelectedObject(SelectedObject selectedObject) {
 		// if ((terminalSnapshotCopy != null) && selectedObject.isEditable()) {
-		if (terminalSnapshotCopy != null) {
+		if (terminalSnapshotCopy != null && selectedObject != null) {
 			String designtimeContext = projectPath != null ? EclipseDesignTimeExecuter.instance().getPreference(projectPath,
 					"DESIGNTIME_CONTEXT") : "";
 			boolean isRtl = StringUtils.isEmpty(designtimeContext) ? false : "rtl".equalsIgnoreCase(designtimeContext);
@@ -363,17 +363,20 @@ public class SnapshotComposite extends ImageComposite {
 						}
 					}
 				}
-				if (field != null) {
-					selectedObject.setLabelColumn(field.getPosition().getColumn());
-					selectedObject.setDisplayName(StringUtil.toDisplayName(field.getValue().trim()));
-					selectedObject.setFieldName(StringUtil.toJavaFieldName(EclipseDesignTimeExecuter.instance().translate(
-							field.getValue().trim(), projectPath)));
-				}
-
+				fillSelectedObject(selectedObject, field);
 			}
 		}
 	}
 
+	private void fillSelectedObject(SelectedObject selectedObject, TerminalField field){
+		if (field != null && StringUtils.isNotBlank(field.getValue())) {
+			selectedObject.setLabelColumn(field.getPosition().getColumn());
+			selectedObject.setDisplayName(StringUtil.toDisplayName(field.getValue().trim()));
+			selectedObject.setFieldName(StringUtil.toJavaFieldName(EclipseDesignTimeExecuter.instance().translate(
+					field.getValue().trim(), projectPath)));
+		}
+	}
+	
 	private void generateDefaultImage() {
 		if (terminalSnapshot == null) {
 			return;
@@ -510,7 +513,7 @@ public class SnapshotComposite extends ImageComposite {
 				calcSelectedRectangle(e.x, e.y, e.x, e.y, DND_NONE);
 				if (selectedObject != null) {
 					drawFieldRectangleBasedOnTerminalField(selectedObject.getFieldRectangle());
-					fillSelectedObject();
+					fillSelectedObject(selectedObject);
 				}
 			}
 
@@ -553,7 +556,7 @@ public class SnapshotComposite extends ImageComposite {
 						}
 					}
 					selectedObject.setFieldRectangle(new FieldRectangle(row, endRow, col, endCol, text));
-					fillSelectedObject();
+					fillSelectedObject(selectedObject);
 					drawFieldRectangle(selectedObject.getFieldRectangle());
 				}
 			}
@@ -675,6 +678,19 @@ public class SnapshotComposite extends ImageComposite {
 		}
 	}
 
+	private void copySelectedToClipboard() {
+		if (selectedObject != null && terminalSnapshotCopy != null) {
+			String text = SnapshotUtils.getRenderedText(terminalSnapshotCopy,
+					selectedObject.getFieldRectangle().getStartPosition(), selectedObject.getFieldRectangle().getEndPosition());
+			if (!StringUtils.isEmpty(text)) {
+				Clipboard cb = new Clipboard(getDisplay());
+				cb.setContents(new Object[] { text }, new Transfer[] { TextTransfer.getInstance() });
+				cb.dispose();
+			}
+		}
+	}
+
+	
 	/**
 	 * Add rectangle draw action. Will draw borders only. Default color of borders is yellow. Also this method doesn't clear a
 	 * list of draw actions
@@ -810,16 +826,23 @@ public class SnapshotComposite extends ImageComposite {
 		this.projectPath = projectPath;
 	}
 
-	private void copySelectedToClipboard() {
-		if (selectedObject != null && terminalSnapshotCopy != null) {
-			String text = SnapshotUtils.getRenderedText(terminalSnapshotCopy,
-					selectedObject.getFieldRectangle().getStartPosition(), selectedObject.getFieldRectangle().getEndPosition());
-			if (!StringUtils.isEmpty(text)) {
-				Clipboard cb = new Clipboard(getDisplay());
-				cb.setContents(new Object[] { text }, new Transfer[] { TextTransfer.getInstance() });
-				cb.dispose();
+	public SelectedObject getSelectedObject(int row, int column){
+		if (terminalSnapshotCopy != null){
+			SimpleTerminalPosition terminalPosition = new SimpleTerminalPosition(row, column);
+			TerminalField field = terminalSnapshotCopy.getField(terminalPosition);
+			if (field != null) {
+				TerminalPosition startPosition = field.getPosition();
+				TerminalPosition endPosition = field.getEndPosition();
+				SelectedObject selectedObject = new SelectedObject();
+				selectedObject.setFieldRectangle(new FieldRectangle(startPosition.getRow(), endPosition.getRow(),
+						startPosition.getColumn(), endPosition.getColumn(), terminalSnapshotCopy.getText(startPosition,
+								field.getLength())));
+				selectedObject.setEditable(field.isEditable());
+				fillSelectedObject(selectedObject, field);
+				return selectedObject;
 			}
 		}
+		return null;
 	}
-
+	
 }
