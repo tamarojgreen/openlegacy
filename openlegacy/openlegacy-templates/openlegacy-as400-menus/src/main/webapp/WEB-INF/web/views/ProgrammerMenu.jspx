@@ -1,26 +1,38 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
-	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web" 
-	version="2.0">
-	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
-	<jsp:output omit-xml-declaration="yes" /> 
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"
+		pageEncoding="UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
 
 	<div>
 		<ol:form model="programmerMenu">
-				<ol:field name="system" top="4%" left="70%" width="28%" />
-				<ol:pagePart left="2%" top="8%" width="97%">
-	 				<ol:field name="selection" cssClass="col_1_of_2"/>
-	 				<ol:field name="parm" cssClass="col_2_of_2"/>
-	 				<ol:field name="type" cssClass="col_1_of_2"/>
-	 				<ol:field name="parm2" cssClass="col_2_of_2"/>
-	 				<ol:field name="command" cssClass="col_1_of_1"/>
-				</ol:pagePart>
-				<ol:pagePart left="2%" top="55%" width="95%">
-	 				<ol:field name="sourceFile" cssClass="col_1_of_2"/>
-	 				<ol:field name="sourceLibrary" cssClass="col_2_of_2"/>
-	 				<ol:field name="objectLibrary" cssClass="col_1_of_2"/>
-	 				<ol:field name="jobDescription" cssClass="col_2_of_2"/>
-				</ol:pagePart>
-			
+			<ol:pagePart>
+				<ol:row columns="2">
+					<ol:field name="system" />
+					<ol:field name="selection" />
+				</ol:row>
+				<ol:row columns="2">
+					<ol:field name="parm" />
+				</ol:row>
+				<ol:row columns="2">
+					<ol:field name="type" />
+					<ol:field name="parm2" />
+				</ol:row>
+				<ol:row columns="2">
+					<ol:field name="command" />
+				</ol:row>
+			</ol:pagePart>
+			<ol:pagePart>
+				<ol:row columns="3">
+					<ol:field name="sourceFile" />
+					<ol:field name="sourceLibrary" />
+				</ol:row>
+				<ol:row columns="3">
+					<ol:field name="objectLibrary" />
+					<ol:field name="jobDescription" />
+				</ol:row>
+			</ol:pagePart>
+
 		</ol:form>
 	</div>
 </jsp:root>

@@ -17,7 +17,7 @@
 	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
 	    <property name="packages">
 	        <list>
-	            <value>com.test1</value>
+	            <value>org.openlegacy.as400.menus</value>
             </list>
 	    </property>
     </bean>
@@ -57,6 +57,8 @@
 		</property>
 	</bean>
 	 -->
-
+	
+	<bean class="org.openlegacy.testing.support.DefaultApiTester" />
+	
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 </beans>
