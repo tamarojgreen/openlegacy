@@ -10,6 +10,14 @@ import org.openlegacy.as400.menus.SelectPrinter.SelectPrinterRecord;
 
 privileged @SuppressWarnings("unused") aspect SelectPrinterRecord_Aspect {
     
+    public String SelectPrinterRecord.getSelection(){
+    	return this.selection;
+    }
+    
+    public void SelectPrinterRecord.setSelection(String selection){
+    	this.selection = selection;
+    }
+
     public String SelectPrinterRecord.getPrinter(){
     	return this.printer;
     }
