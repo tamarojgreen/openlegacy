@@ -5,7 +5,7 @@ package com.someorg.examples.screens;
 
 import java.util.*;
 import org.openlegacy.terminal.Color;
-import com.someorg.examples.screens.PartScreen.PartScreen1;
+import com.someorg.examples.screens.PartScreen.*;
 
 privileged @SuppressWarnings("unused") aspect PartScreen1Part_Aspect {
     private String PartScreen1.field1Description;

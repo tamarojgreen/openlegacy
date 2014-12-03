@@ -8,7 +8,7 @@ import org.openlegacy.terminal.Color;
 <#if supportTerminalData>
 import org.openlegacy.terminal.TerminalField;
 </#if>
-import ${packageName}.${parentClassName}.${className};
+import ${packageName}.${parentClassName}.*;
 
 privileged @SuppressWarnings("unused") aspect ${formattedClassName}Part_Aspect {
 	<#list fields as field>
