@@ -49,8 +49,12 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 
 import java.net.MalformedURLException;
+import java.text.MessageFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Ivan Bort
@@ -160,7 +164,9 @@ public class FieldsRpcEnumFieldDetailsPage extends AbstractRpcFieldDetailsPage {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				fieldModel.getEntries().add(new EnumEntryModel(fieldModel));
+				EnumEntryModel enumEntryModel = new EnumEntryModel(fieldModel);
+				enumEntryModel.setName(MessageFormat.format("{0}{1}", fieldModel.getFieldName(), getSeedForNewEnumEntry()));
+				fieldModel.getEntries().add(enumEntryModel);
 				tableViewer.setInput(fieldModel);
 				updateModel(Constants.ENUM_FIELD_ENTRIES);
 				tableViewer.getTable().select(tableViewer.getTable().getItemCount() - 1);
@@ -272,6 +278,25 @@ public class FieldsRpcEnumFieldDetailsPage extends AbstractRpcFieldDetailsPage {
 				}
 			}
 		};
+	}
+
+	private int getSeedForNewEnumEntry() {
+		int seed = 1;
+		List<EnumEntryModel> entries = fieldModel.getEntries();
+		if (entries.isEmpty()) {
+			return seed;
+		}
+		Pattern p = Pattern.compile(fieldModel.getFieldName() + "(\\d+)$");
+		for (EnumEntryModel enumEntryModel : entries) {
+			Matcher matcher = p.matcher(enumEntryModel.getName());
+			if (matcher.find()) {
+				String stringSeed = matcher.group(1);
+				if (Integer.parseInt(stringSeed) > seed) {
+					seed = Integer.parseInt(stringSeed);
+				}
+			}
+		}
+		return ++seed;
 	}
 
 }
