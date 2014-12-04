@@ -43,7 +43,7 @@
 								<c:when test="${column.selectionField}">
 									<c:choose>
 										<c:when test="${fn:length(tableDefinition.actions) == 0}">
-											<a href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}','${item[tableDefinition.mainDisplayField]}');" class="${actionsCss}" title="Select ">Select</a>
+											<a href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}','${item[tableDefinition.mainDisplayFields[0]]}');" class="${actionsCss}" title="Select ">Select</a>
 										</c:when>
 										<c:when test="${fn:length(tableDefinition.actions) &gt; 3}">
 											<select onchange="eval(this.value)" name="${column.name}" data-dojo-type="dijit/form/FilteringSelect" dir="${dir}">

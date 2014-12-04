@@ -78,11 +78,6 @@
 		<put-attribute name="body" value="/WEB-INF/web/views/SignOn.jspx" />
 	</definition>
 
-	<definition name="WarehouseTypes" extends="window">
-		<put-attribute name="body"
-			value="/WEB-INF/web/views/WarehouseTypes.jspx" />
-	</definition>
-
 	<definition name="InventoryMenu" extends="menu">
 		<put-attribute name="body"
 			value="/WEB-INF/web/views/InventoryMenu.jspx" />
