@@ -101,13 +101,15 @@ public class SnapshotPersistanceDTO {
 
 		for (TerminalRow terminalRow : rows) {
 			TerminalPersistedRow persistedRow = new TerminalPersistedRow();
-			ReflectionUtil.copyProperties(persistedRow, terminalRow);
+			if (persistedRow != null) {
+				ReflectionUtil.copyProperties(persistedRow, terminalRow);
+			}
 
 			collectRowFields(fieldSeperators, terminalRow, persistedRow,
 					persistedSnapshot.getSnapshotType() == SnapshotType.INCOMING);
 
 			// don't copy empty rows
-			if (persistedRow.getFields().size() == 0) {
+			if (persistedRow == null || persistedRow.getFields().size() == 0) {
 				continue;
 			}
 			// don't copy row with single empty field
@@ -137,13 +139,18 @@ public class SnapshotPersistanceDTO {
 
 	private static void collectRowFields(List<TerminalPosition> fieldSeperators, TerminalRow terminalRow,
 			TerminalPersistedRow persistedRow, boolean isIncoming) {
+		if (terminalRow == null) {
+			return;
+		}
 		List<TerminalField> fields = terminalRow.getFields();
 		for (TerminalField field : fields) {
 			TerminalPersistedField persistedField = new TerminalPersistedField();
 			ReflectionUtil.copyProperties(persistedField, field);
 			persistedField.setModified(false);
 			if (isIncoming) {
-				persistedField.setValue(field.getOriginalValue());
+				if (persistedField != null && field != null) {
+					persistedField.setValue(field.getOriginalValue());
+				}
 			}
 			persistedRow.getFields().add(persistedField);
 		}

@@ -28,6 +28,9 @@ public class FieldsQuery {
 		List<TerminalField> matchedFields = new ArrayList<TerminalField>();
 
 		for (TerminalRow terminalRow : rows) {
+			if (terminalRow == null) {
+				continue;
+			}
 			List<TerminalField> fields = terminalRow.getFields();
 			for (TerminalField field : fields) {
 				if (criteria.match(field)) {
@@ -67,6 +70,9 @@ public class FieldsQuery {
 
 		@Override
 		public boolean match(TerminalField terminalField) {
+			if (terminalField == null) {
+				return false;
+			}
 			return terminalField.isEditable();
 		}
 	}

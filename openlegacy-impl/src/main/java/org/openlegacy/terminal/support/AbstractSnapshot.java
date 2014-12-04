@@ -88,7 +88,7 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Externalizab
 	public TerminalRow getRow(int rowNumber) {
 		List<TerminalRow> rows = getRows();
 		for (TerminalRow terminalRow : rows) {
-			if (terminalRow.getRowNumber() == rowNumber) {
+			if (terminalRow != null && terminalRow.getRowNumber() == rowNumber) {
 				return terminalRow;
 			}
 		}
@@ -120,6 +120,9 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Externalizab
 		for (TerminalField field : fields) {
 			try {
 				TerminalRow row = rows.get(field.getPosition().getRow() - 1);
+				if (row == null) {
+					continue;
+				}
 				row.getFields().add(field);
 			} catch (IndexOutOfBoundsException e) {
 				throw (e);

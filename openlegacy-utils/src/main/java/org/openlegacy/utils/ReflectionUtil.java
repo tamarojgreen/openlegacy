@@ -68,7 +68,9 @@ public class ReflectionUtil {
 
 	public static void copyProperties(Object destination, Object source) {
 		try {
-			BeanUtils.copyProperties(destination, source);
+			if (source != null && destination != null) {
+				BeanUtils.copyProperties(destination, source);
+			}
 		} catch (IllegalAccessException e) {
 			throw (new IllegalArgumentException(e));
 		} catch (InvocationTargetException e) {
