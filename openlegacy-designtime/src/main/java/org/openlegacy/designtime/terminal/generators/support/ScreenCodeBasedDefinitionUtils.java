@@ -206,6 +206,8 @@ public class ScreenCodeBasedDefinitionUtils {
 			actionDefinition.setSleep(action.getSleep());
 			actionDefinition.setGlobal(action.isGlobal());
 			actionDefinition.setKeyboardKeyName(action.getKeyboardKeyName());
+			actionDefinition.setRow(action.getRow());
+			actionDefinition.setColumn(action.getColumn());
 			actionDefinitions.add(actionDefinition);
 		}
 

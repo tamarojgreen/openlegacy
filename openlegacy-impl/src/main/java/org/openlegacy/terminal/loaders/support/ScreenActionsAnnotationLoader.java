@@ -92,6 +92,8 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 				actionDefinition.setSleep(action.sleep());
 				actionDefinition.setLength(action.length());
 				actionDefinition.setWhen(action.when());
+				actionDefinition.setRow(action.row());
+				actionDefinition.setColumn(action.column());
 				if (action.keyboardKey() != TerminalActions.NONE.class) {
 					actionDefinition.setKeyboardKey(action.keyboardKey());
 				} else {

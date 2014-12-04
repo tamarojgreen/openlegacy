@@ -31,9 +31,9 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 
 	private ActionType type;
 
-	private int length;
-
-	private String when;
+	// private int length;
+	//
+	// private String when;
 
 	private int sleep;
 
@@ -84,23 +84,23 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 		this.type = type;
 	}
 
-	@Override
-	public int getLength() {
-		return length;
-	}
-
-	public void setLength(int length) {
-		this.length = length;
-	}
-
-	@Override
-	public String getWhen() {
-		return when;
-	}
-
-	public void setWhen(String when) {
-		this.when = when;
-	}
+	// @Override
+	// public int getLength() {
+	// return length;
+	// }
+	//
+	// public void setLength(int length) {
+	// this.length = length;
+	// }
+	//
+	// @Override
+	// public String getWhen() {
+	// return when;
+	// }
+	//
+	// public void setWhen(String when) {
+	// this.when = when;
+	// }
 
 	@Override
 	public int getSleep() {
