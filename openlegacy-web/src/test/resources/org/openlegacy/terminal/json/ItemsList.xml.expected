@@ -3,18 +3,18 @@
     <entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:java="http://java.sun.com" xsi:type="java:apps.inventory.screens.ItemsList">
         <positionTo></positionTo>
-        <itemsListRowsActions length="8" sleep="0" defaultAction="false"
-            global="false" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
+        <itemsListRowsActions sleep="0" global="false" length="8"
+            column="0" defaultAction="false" row="0" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
             <position column="4" row="5" xsi:type="java:org.openlegacy.terminal.support.SimpleTerminalPosition"/>
-            <when>2.*</when>
             <additionalKey>NONE</additionalKey>
-            <actionName>EnterDrilldownAction</actionName>
-            <displayName>Revise</displayName>
-            <alias>revise</alias>
             <action macro="false" xsi:type="java:org.openlegacy.terminal.modules.table.TerminalDrilldownActions$EnterDrilldownAction">
                 <actionValue xsi:type="java:java.lang.String">2</actionValue>
                 <actionName>EnterDrilldownAction</actionName>
             </action>
+            <alias>revise</alias>
+            <actionName>EnterDrilldownAction</actionName>
+            <when>2.*</when>
+            <displayName>Revise</displayName>
         </itemsListRowsActions>
         <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
             <alphaSearch>APPLE</alphaSearch>
@@ -100,17 +100,17 @@
             <action></action>
             <itemCategory>VEG</itemCategory>
         </itemListRows>
-        <actions length="0" sleep="0" defaultAction="false"
-            global="true" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
-            <when>.*</when>
+        <actions sleep="0" global="true" length="0" column="0"
+            defaultAction="false" row="0" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
             <additionalKey>SHIFT</additionalKey>
             <type>GENERAL</type>
-            <actionName>CombinedTerminalAction</actionName>
-            <displayName>Number Seq</displayName>
-            <alias>numberSeq</alias>
             <action macro="false" xsi:type="java:org.openlegacy.terminal.actions.CombinedTerminalAction">
                 <additionalKey>SHIFT</additionalKey>
             </action>
+            <alias>numberSeq</alias>
+            <actionName>CombinedTerminalAction</actionName>
+            <when>.*</when>
+            <displayName>Number Seq</displayName>
         </actions>
     </entity>
     <entityName>ItemsList</entityName>
