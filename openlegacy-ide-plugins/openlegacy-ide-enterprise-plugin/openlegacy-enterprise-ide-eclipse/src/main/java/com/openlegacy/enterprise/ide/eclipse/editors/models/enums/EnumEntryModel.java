@@ -13,6 +13,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.models.enums;
 
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 
+import org.apache.commons.lang.StringUtils;
 import org.openlegacy.db.definitions.DbFieldDefinition;
 import org.openlegacy.designtime.db.generators.support.CodeBasedDbEntityDefinition;
 import org.openlegacy.designtime.generators.CodeBasedScreenPartDefinition;
@@ -77,8 +78,9 @@ public class EnumEntryModel extends NamedObject {
 	}
 
 	public boolean isAllowToSave() {
-		return (this.name != null) && !this.name.isEmpty() && (this.value != null) && !this.value.isEmpty()
-				&& (this.displayName != null) && !this.displayName.isEmpty();
+		return !StringUtils.isEmpty(name);
+//		return (this.name != null) && !this.name.isEmpty() && (this.value != null) && !this.value.isEmpty()
+//				&& (this.displayName != null) && !this.displayName.isEmpty();
 	}
 
 	public String getName() {

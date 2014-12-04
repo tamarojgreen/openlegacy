@@ -35,6 +35,11 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 
 	private Class<?> targetEntity;
 
+	private int row = 0;
+	private int column = 0;
+	private int length = 0;
+	private String when = ".*";
+
 	// for design-time purposes
 	private EntityDefinition<?> targetEntityDefinition;
 
@@ -141,6 +146,42 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 	@Override
 	public Class<?> getTargetEntity() {
 		return targetEntity;
+	}
+
+	@Override
+	public int getRow() {
+		return row;
+	}
+
+	@Override
+	public int getColumn() {
+		return column;
+	}
+
+	@Override
+	public int getLength() {
+		return length;
+	}
+
+	@Override
+	public String getWhen() {
+		return when;
+	}
+
+	public void setRow(int row) {
+		this.row = row;
+	}
+
+	public void setColumn(int column) {
+		this.column = column;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
+
+	public void setWhen(String when) {
+		this.when = when;
 	}
 
 }

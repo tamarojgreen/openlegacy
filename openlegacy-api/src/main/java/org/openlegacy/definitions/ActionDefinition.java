@@ -66,4 +66,12 @@ public interface ActionDefinition {
 	boolean isGlobal();
 
 	Class<?> getTargetEntity();
+
+	int getRow();
+
+	int getColumn();
+
+	int getLength();
+
+	String getWhen();
 }

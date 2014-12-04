@@ -208,6 +208,10 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 				if (action.getTargetEntityName() != null) {
 					actionDefinition.setTargetEntityName(action.getTargetEntityName());
 				}
+				actionDefinition.setRow(action.getRow());
+				actionDefinition.setColumn(action.getColumn());
+				actionDefinition.setLength(action.getLength());
+				actionDefinition.setWhen(action.getWhen());
 				actionDefinitions.add(actionDefinition);
 			}
 			actions = actionDefinitions;

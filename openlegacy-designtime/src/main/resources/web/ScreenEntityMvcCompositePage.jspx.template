@@ -14,13 +14,15 @@
 					"dijit/layout/ContentPane"]);
 		</script>
 	
+		<jsp:useBean id="dateValue" class="java.util.Date" />
+		<c:set var="ts" value="${r"${"}dateValue.time}" />
 		<div class="tabbed_area" data-dojo-type="dijit.layout.TabContainer"
 			style="width: 100%;" doLayout="false">
-			<div id="${entityName}" title="${displayName}" selected="true" data-dojo-type="dijit.layout.ContentPane" onLoad="runOnloads();" data-dojo-props="href:'${r"${"}pageContext.request.contextPath}/${entityName}/${r"${"}ol_entityId}?partial=1'">
+			<div id="${entityName}" title="${displayName}" selected="true" data-dojo-type="dijit.layout.ContentPane" onLoad="runOnloads();" data-dojo-props="href:'${r"${"}pageContext.request.contextPath}/${entityName}/${r"${"}ol_entityId}?partial=1&amp;ts=${r"${"}ts}'">
 				<div><!----></div>
 			</div>
 			<#list allChildEntitiesDefinitions as childScreensDefinition>
-			<div id="${childScreensDefinition.entityName}" title="${childScreensDefinition.displayName}" onLoad="runOnloads();" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="href:'${r"${"}pageContext.request.contextPath}/${childScreensDefinition.entityName}/${r"${"}ol_entityId}?partial=1'">
+			<div id="${childScreensDefinition.entityName}" title="${childScreensDefinition.displayName}" onLoad="runOnloads();" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="href:'${r"${"}pageContext.request.contextPath}/${childScreensDefinition.entityName}/${r"${"}ol_entityId}?partial=1&amp;ts=${r"${"}ts}'">
 				<div><!----></div>
 			</div>
 			</#list>
