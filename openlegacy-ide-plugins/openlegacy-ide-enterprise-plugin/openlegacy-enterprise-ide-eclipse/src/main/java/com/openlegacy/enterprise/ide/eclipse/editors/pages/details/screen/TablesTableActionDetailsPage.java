@@ -27,6 +27,7 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.designtime.generators.AnnotationConstants;
+import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
 
 import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
@@ -126,6 +127,19 @@ public class TablesTableActionDetailsPage extends AbstractScreenDetailsPage {
 			}
 
 		};
+
+		// create row for "row"
+		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
+				Messages.getString("TableAction.row"), 0, ScreenAnnotationConstants.ROW);//$NON-NLS-1$
+		// create row for "column"
+		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
+				Messages.getString("TableAction.column"), 0, ScreenAnnotationConstants.COLUMN);//$NON-NLS-1$
+		// create row for "length"
+		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
+				Messages.getString("TableAction.length"), 0, ScreenAnnotationConstants.LENGTH);//$NON-NLS-1$
+		// create row for "when"
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("TableAction.when"), "", ScreenAnnotationConstants.WHEN);//$NON-NLS-1$ //$NON-NLS-2$
 
 		toolkit.paintBordersFor(section);
 		section.setClient(client);

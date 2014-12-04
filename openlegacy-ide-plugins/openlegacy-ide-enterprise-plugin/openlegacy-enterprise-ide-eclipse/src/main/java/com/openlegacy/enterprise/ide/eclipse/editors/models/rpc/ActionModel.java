@@ -173,4 +173,25 @@ public class ActionModel implements RpcActionDefinition {
 	public String getDefaultAlias() {
 		return StringUtils.isEmpty(actionName) ? "" : actionName.toLowerCase();
 	}
+
+	@Override
+	public int getRow() {
+		return 0;
+	}
+
+	@Override
+	public int getColumn() {
+		return 0;
+	}
+
+	@Override
+	public int getLength() {
+		return 0;
+	}
+
+	@Override
+	public String getWhen() {
+		return null;
+	}
+
 }

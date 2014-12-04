@@ -535,6 +535,14 @@ public class ControlsUpdater {
 				text.setText(actionModel.getAlias());
 			} else if (key.equals(AnnotationConstants.TARGET_ENTITY)) {
 				text.setText(actionModel.getTargetEntityName());
+			} else if (key.equals(ScreenAnnotationConstants.ROW)) {
+				text.setText(String.valueOf(actionModel.getRow()));
+			} else if (key.equals(ScreenAnnotationConstants.COLUMN)) {
+				text.setText(String.valueOf(actionModel.getColumn()));
+			} else if (key.equals(ScreenAnnotationConstants.LENGTH)) {
+				text.setText(String.valueOf(actionModel.getLength()));
+			} else if (key.equals(ScreenAnnotationConstants.WHEN)) {
+				text.setText(actionModel.getWhen());
 			}
 		}
 		// update CheckBox controls
