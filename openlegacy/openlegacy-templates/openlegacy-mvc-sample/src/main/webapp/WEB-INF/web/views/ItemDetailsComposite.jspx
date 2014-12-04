@@ -78,6 +78,7 @@
 			</div>
 	
 			<!-- Additional Notes Panel -->
+<!-- 
 			<div id="ItemNotes" title="Item Notes"
 				data-dojo-type="dijit.layout.ContentPane" style="min-height: 400px;">
 				<button onclick="addNote();">+</button>
@@ -92,6 +93,7 @@
 					</c:forEach>
 				</div>
 			</div>
+ -->
 			
 			<div id="Sales" title="Sales"
 				data-dojo-type="dijit.layout.ContentPane" style="min-height: 400px;" onShow="show();">
