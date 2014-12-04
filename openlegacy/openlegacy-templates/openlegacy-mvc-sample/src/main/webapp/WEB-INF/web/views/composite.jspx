@@ -9,17 +9,19 @@
 					"dijit/layout/ContentPane"]);
 		</script>
 	
+		<jsp:useBean id="dateValue" class="java.util.Date" />
+		<c:set var="ts" value="${dateValue.time}" />
 		<div id="tabContainer" class="tabContainer"
 			data-dojo-type="dijit.layout.TabContainer" data-dojo-props="tabPosition:'top', tabStrip:true">
 			<div id="${definitions.entityName}" title="${definitions.displayName}" class="tab_container"
 				selected="true" data-dojo-type="dijit.layout.ContentPane"
-				data-dojo-props="href:'${pageContext.request.contextPath}/${definitions.entityName}?partial=1',parseOnLoad: true">
+				data-dojo-props="href:'${pageContext.request.contextPath}/${definitions.entityName}?partial=1&amp;ts=${ts}',parseOnLoad: true">
 				<div>Place holder</div>
 			</div>
 			<c:forEach items="${definitions.childEntitiesDefinitions}" var="childEntityDefinition">
 				<div id="${childEntityDefinition.entityName}" title="${childEntityDefinition.displayName}" class="tab_container"
 					data-dojo-type="dijit.layout.ContentPane"
-					data-dojo-props="href:'${pageContext.request.contextPath}/${childEntityDefinition.entityName}?partial=1',parseOnLoad: true">
+					data-dojo-props="href:'${pageContext.request.contextPath}/${childEntityDefinition.entityName}?partial=1&amp;ts=${ts}',parseOnLoad: true">
 					<div>Place holder</div>
 				</div>
 			</c:forEach>
