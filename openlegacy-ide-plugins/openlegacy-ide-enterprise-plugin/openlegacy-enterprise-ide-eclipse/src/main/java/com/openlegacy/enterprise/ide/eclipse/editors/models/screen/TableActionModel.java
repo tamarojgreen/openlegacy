@@ -20,6 +20,9 @@ import java.util.UUID;
  */
 public class TableActionModel extends ScreenNamedObject {
 
+	private static final int DEFAULT_INT = 0;
+	private static final String DEFAULT_WHEN = ".*";
+
 	// annotations attributes
 	private Class<? extends TerminalDrilldownAction> action = EnterDrilldownAction.class;
 	private boolean defaultAction = false;
@@ -27,10 +30,10 @@ public class TableActionModel extends ScreenNamedObject {
 	private String displayName = "";
 	private String alias = "";
 	private Class<?> targetEntity = ScreenEntity.NONE.class;
-	private int row = 0;
-	private int column = 0;
-	private int length = 0;
-	private String when = ".*";
+	private int row = DEFAULT_INT;
+	private int column = DEFAULT_INT;
+	private int length = DEFAULT_INT;
+	private String when = DEFAULT_WHEN;
 
 	private String targetEntityName = ScreenEntity.NONE.class.getSimpleName();
 	private String previousActionValue = "";
@@ -85,7 +88,7 @@ public class TableActionModel extends ScreenNamedObject {
 		this.row = actionDefinition.getRow();
 		this.column = actionDefinition.getColumn();
 		this.length = actionDefinition.getLength();
-		this.when = actionDefinition.getWhen();
+		this.when = actionDefinition.getWhen() == null ? DEFAULT_WHEN : actionDefinition.getWhen();
 
 		this.previousActionValue = this.actionValue;
 		this.initialized = true;
@@ -102,6 +105,10 @@ public class TableActionModel extends ScreenNamedObject {
 		model.setAlias(this.alias);
 		model.setTargetEntity(this.targetEntity);
 		model.setTargetEntityName(this.targetEntityName);
+		model.setRow(row);
+		model.setColumn(column);
+		model.setLength(length);
+		model.setWhen(when);
 		model.previousActionValue = this.previousActionValue;
 		model.initialized = this.initialized;
 		return model;
@@ -201,6 +208,22 @@ public class TableActionModel extends ScreenNamedObject {
 
 	public void setWhen(String when) {
 		this.when = when;
+	}
+
+	public int getDefaultRow() {
+		return DEFAULT_INT;
+	}
+
+	public int getDefaultColumn() {
+		return DEFAULT_INT;
+	}
+
+	public int getDefaultLength() {
+		return DEFAULT_INT;
+	}
+
+	public String getDefaultWhen() {
+		return DEFAULT_WHEN;
 	}
 
 }

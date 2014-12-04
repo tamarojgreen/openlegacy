@@ -999,6 +999,26 @@ public class ScreenEntityUtils {
 			isDefault = model.getTargetEntity().equals(org.openlegacy.terminal.ScreenEntity.NONE.class);
 			PrivateMethods.addRemoveTableActionAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.TARGET_ENTITY, model.getTargetEntity());
+			// @TableAction.row: default 0
+			isPrevious = entityModel.getRow() == model.getRow();
+			isDefault = model.getRow() == 0;
+			PrivateMethods.addRemoveTableActionAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, ScreenAnnotationConstants.ROW, model.getRow());
+			// @TableAction.column: default 0
+			isPrevious = entityModel.getColumn() == model.getColumn();
+			isDefault = model.getColumn() == 0;
+			PrivateMethods.addRemoveTableActionAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, ScreenAnnotationConstants.COLUMN, model.getColumn());
+			// @TableAction.length: default 0
+			isPrevious = entityModel.getLength() == model.getLength();
+			isDefault = model.getLength() == 0;
+			PrivateMethods.addRemoveTableActionAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, ScreenAnnotationConstants.LENGTH, model.getLength());
+			// @TableAction.when: default ".*"
+			isPrevious = StringUtils.equals(entityModel.getWhen(), model.getWhen());
+			isDefault = StringUtils.equals(model.getWhen(), ".*");
+			PrivateMethods.addRemoveTableActionAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, ScreenAnnotationConstants.WHEN, model.getWhen());
 		}
 
 		public static void generateScreenBooleanFieldActions(ScreenEntity entity, ScreenBooleanFieldModel model) {

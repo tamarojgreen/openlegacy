@@ -154,6 +154,19 @@ public class ScreenEntityASTUtils extends ASTUtils {
 		annotation.values().add(createTypePair(ast, AnnotationConstants.ACTION, model.getAction()));
 		addImport(ast, cu, rewriter, model.getAction());
 		annotation.values().add(createStringPair(ast, AnnotationConstants.ALIAS, model.getAlias()));
+
+		if (model.getDefaultRow() != model.getRow()) {
+			annotation.values().add(createNumberPair(ast, AnnotationConstants.ROW, model.getRow()));
+		}
+		if (model.getDefaultColumn() != model.getColumn()) {
+			annotation.values().add(createNumberPair(ast, AnnotationConstants.COLUMN, model.getColumn()));
+		}
+		if (model.getDefaultLength() != model.getLength()) {
+			annotation.values().add(createNumberPair(ast, AnnotationConstants.LENGTH, model.getLength()));
+		}
+		if (!StringUtils.equals(model.getDefaultWhen(), model.getWhen())) {
+			annotation.values().add(createStringPair(ast, AnnotationConstants.WHEN, model.getWhen()));
+		}
 		return annotation;
 	}
 

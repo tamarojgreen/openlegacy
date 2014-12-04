@@ -191,7 +191,7 @@ public class ActionModel implements RpcActionDefinition {
 
 	@Override
 	public String getWhen() {
-		return null;
+		return ".*";
 	}
 
 }

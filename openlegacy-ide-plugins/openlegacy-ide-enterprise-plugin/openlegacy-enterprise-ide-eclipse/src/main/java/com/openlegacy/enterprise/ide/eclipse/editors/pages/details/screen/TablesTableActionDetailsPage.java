@@ -43,6 +43,10 @@ public class TablesTableActionDetailsPage extends AbstractScreenDetailsPage {
 	private TableActionModel actionModel;
 	private TextValidator displayNameValidator;
 	private TextValidator targetEntityValidator;
+	private TextValidator rowValidator;
+	private TextValidator columnValidator;
+	private TextValidator lengthValidator;
+	private TextValidator whenValidator;
 
 	public TablesTableActionDetailsPage(AbstractMasterBlock master) {
 		super(master);
@@ -129,17 +133,65 @@ public class TablesTableActionDetailsPage extends AbstractScreenDetailsPage {
 		};
 
 		// create row for "row"
-		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
-				Messages.getString("TableAction.row"), 0, ScreenAnnotationConstants.ROW);//$NON-NLS-1$
+		Text rowControl = FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				getDefaultVerifyListener(), Messages.getString("TableAction.row"), 0, ScreenAnnotationConstants.ROW);//$NON-NLS-1$
+		rowValidator = new TextValidator(master, managedForm, rowControl, null) {
+
+			@Override
+			protected boolean validateControl(TextValidator validator, UUID uuid) {
+				return validateConditionedAttributes(validator, uuid);
+			}
+
+			@Override
+			protected NamedObject getModel() {
+				return actionModel;
+			}
+		};
 		// create row for "column"
-		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
-				Messages.getString("TableAction.column"), 0, ScreenAnnotationConstants.COLUMN);//$NON-NLS-1$
+		Text columnControl = FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				getDefaultVerifyListener(), Messages.getString("TableAction.column"), 0, ScreenAnnotationConstants.COLUMN);//$NON-NLS-1$
+		columnValidator = new TextValidator(master, managedForm, columnControl, null) {
+
+			@Override
+			protected boolean validateControl(TextValidator validator, UUID uuid) {
+				return validateConditionedAttributes(validator, uuid);
+			}
+
+			@Override
+			protected NamedObject getModel() {
+				return actionModel;
+			}
+		};
 		// create row for "length"
-		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
-				Messages.getString("TableAction.length"), 0, ScreenAnnotationConstants.LENGTH);//$NON-NLS-1$
+		Text lengthControl = FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				getDefaultVerifyListener(), Messages.getString("TableAction.length"), 0, ScreenAnnotationConstants.LENGTH);//$NON-NLS-1$
+		lengthValidator = new TextValidator(master, managedForm, lengthControl, null) {
+
+			@Override
+			protected boolean validateControl(TextValidator validator, UUID uuid) {
+				return validateConditionedAttributes(validator, uuid);
+			}
+
+			@Override
+			protected NamedObject getModel() {
+				return actionModel;
+			}
+		};
 		// create row for "when"
-		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+		Text whenControl = FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("TableAction.when"), "", ScreenAnnotationConstants.WHEN);//$NON-NLS-1$ //$NON-NLS-2$
+		whenValidator = new TextValidator(master, managedForm, whenControl, null) {
+
+			@Override
+			protected boolean validateControl(TextValidator validator, UUID uuid) {
+				return validateConditionedAttributes(validator, uuid);
+			}
+
+			@Override
+			protected NamedObject getModel() {
+				return actionModel;
+			}
+		};
 
 		toolkit.paintBordersFor(section);
 		section.setClient(client);
@@ -155,6 +207,10 @@ public class TablesTableActionDetailsPage extends AbstractScreenDetailsPage {
 		if (displayNameValidator != null) {
 			displayNameValidator.revalidate(getModelUUID());
 			targetEntityValidator.revalidate(getModelUUID());
+			rowValidator.revalidate(getModelUUID());
+			columnValidator.revalidate(getModelUUID());
+			lengthValidator.revalidate(getModelUUID());
+			whenValidator.revalidate(getModelUUID());
 		}
 	}
 
@@ -190,6 +246,10 @@ public class TablesTableActionDetailsPage extends AbstractScreenDetailsPage {
 		if (uuid != null && displayNameValidator != null) {
 			displayNameValidator.setModelUUID(uuid);
 			targetEntityValidator.setModelUUID(uuid);
+			rowValidator.setModelUUID(uuid);
+			columnValidator.setModelUUID(uuid);
+			lengthValidator.setModelUUID(uuid);
+			whenValidator.setModelUUID(uuid);
 		}
 	}
 
@@ -198,6 +258,10 @@ public class TablesTableActionDetailsPage extends AbstractScreenDetailsPage {
 		if (displayNameValidator != null) {
 			displayNameValidator.removeValidationMarker();
 			targetEntityValidator.removeValidationMarker();
+			rowValidator.removeValidationMarker();
+			columnValidator.removeValidationMarker();
+			lengthValidator.removeValidationMarker();
+			whenValidator.removeValidationMarker();
 		}
 	}
 
@@ -244,6 +308,37 @@ public class TablesTableActionDetailsPage extends AbstractScreenDetailsPage {
 			isValid = false;
 			validator.addMessage(
 					Messages.getString("validation.selected.class.is.not.screen.entity"), IMessageProvider.ERROR, uuid);//$NON-NLS-1$
+		}
+		return isValid;
+	}
+
+	private boolean validateConditionedAttributes(TextValidator validator, UUID uuid) {
+		boolean isValid = true;
+		String rowText = rowValidator.getControl().getText();
+		String columnText = columnValidator.getControl().getText();
+		String lengthText = lengthValidator.getControl().getText();
+
+		int row = StringUtils.isEmpty(rowText) ? 0 : Integer.parseInt(rowText);
+		int column = StringUtils.isEmpty(columnText) ? 0 : Integer.parseInt(columnText);
+		int length = StringUtils.isEmpty(lengthText) ? 0 : Integer.parseInt(lengthText);
+		String when = whenValidator.getControl().getText();
+
+		if ((row == 0 && column == 0 && length == 0 && StringUtils.equals(when, ".*"))
+				|| (row != 0 && column != 0 && length != 0 && StringUtils.isNotBlank(when))) {
+			rowValidator.removeValidationMarker();
+			columnValidator.removeValidationMarker();
+			lengthValidator.removeValidationMarker();
+			whenValidator.removeValidationMarker();
+		} else {
+			rowValidator.addMessage(Messages.getString("validation.action.attributes.must.be.specified.together"),
+					IMessageProvider.ERROR, uuid);
+			columnValidator.addMessage(Messages.getString("validation.action.attributes.must.be.specified.together"),
+					IMessageProvider.ERROR, uuid);
+			lengthValidator.addMessage(Messages.getString("validation.action.attributes.must.be.specified.together"),
+					IMessageProvider.ERROR, uuid);
+			whenValidator.addMessage(Messages.getString("validation.action.attributes.must.be.specified.together"),
+					IMessageProvider.ERROR, uuid);
+			isValid = false;
 		}
 		return isValid;
 	}

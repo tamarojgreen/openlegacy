@@ -200,6 +200,7 @@ public class ActionModel implements ActionDefinition {
 				focusField, type, targetEntityClassName, sleep, global, keyboardKeyName);
 	}
 
+	@Override
 	public int getRow() {
 		return row;
 	}
@@ -208,6 +209,7 @@ public class ActionModel implements ActionDefinition {
 		this.row = row;
 	}
 
+	@Override
 	public int getColumn() {
 		return column;
 	}
@@ -216,6 +218,7 @@ public class ActionModel implements ActionDefinition {
 		this.column = column;
 	}
 
+	@Override
 	public int getLength() {
 		return length;
 	}
@@ -248,6 +251,7 @@ public class ActionModel implements ActionDefinition {
 		this.prevLength = prevLength;
 	}
 
+	@Override
 	public String getWhen() {
 		return when;
 	}

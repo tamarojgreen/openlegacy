@@ -555,6 +555,14 @@ public class ModelUpdater {
 					Class<?> clazz = Utils.getClazz(fullyQualifiedName);
 					model.setTargetEntity(clazz);
 				}
+			} else if (key.equals(ScreenAnnotationConstants.ROW)) {
+				model.setRow(StringUtils.isEmpty(text) ? 0 : Integer.parseInt(text));
+			} else if (key.equals(ScreenAnnotationConstants.COLUMN)) {
+				model.setColumn(StringUtils.isEmpty(text) ? 0 : Integer.parseInt(text));
+			} else if (key.equals(ScreenAnnotationConstants.LENGTH)) {
+				model.setLength(StringUtils.isEmpty(text) ? 0 : Integer.parseInt(text));
+			} else if (key.equals(ScreenAnnotationConstants.WHEN)) {
+				model.setWhen(text);
 			}
 		}
 		if (selection != null) {
