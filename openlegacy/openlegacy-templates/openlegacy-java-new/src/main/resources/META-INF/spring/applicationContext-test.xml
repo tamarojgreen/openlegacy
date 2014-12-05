@@ -109,4 +109,5 @@ End use this definition to replay a mock-up session application -->
 	</bean>
 	End uncomment for bidi support -->
 		
+	<bean class="org.openlegacy.terminal.testing.support.DefaultScreensApiTester" scope="prototype"/>
 </beans>

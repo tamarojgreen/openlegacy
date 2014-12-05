@@ -1,5 +1,7 @@
 package tests;
 
+import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.exceptions.RegistryException;
@@ -9,6 +11,7 @@ import org.openlegacy.modules.support.trail.AbstractSessionTrail;
 import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.modules.trail.TrailUtil;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.testing.ApiReport;
 import org.openlegacy.testing.ApiTester;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -20,7 +23,7 @@ import javax.inject.Inject;
 
 @ContextConfiguration("/META-INF/spring/applicationContext-test.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class _ProjectTest {
+public class ProjectTest {
 
 	@Inject
 	private ApplicationContext applicationContext;
@@ -29,19 +32,21 @@ public class _ProjectTest {
 	private TrailUtil trailUtil;
 
 	@Inject
-	private ApiTester apiTester;
+	private ApiTester<TerminalSession> apiTester;
 
+	@Ignore
 	@Test
 	public void testProject() throws RegistryException, LoginException, FileNotFoundException {
 		TerminalSession terminalSession = applicationContext.getBean(TerminalSession.class);
 		AbstractSessionTrail<?> sessionTrail = (AbstractSessionTrail<?>)terminalSession.getModule(Trail.class).getSessionTrail();
 		sessionTrail.setHistoryCount(null);
 
+		ApiReport testReport = null;
 		try {
 
-			terminalSession.getModule(Login.class).login("RMR20924", "roi045");
+			terminalSession.getModule(Login.class).login("user", "pwd");
 
-			apiTester.test(terminalSession);
+			testReport = apiTester.test(terminalSession);
 
 			// example of how to navigate to certain entity
 			// Items items = terminalSession.getEntity(Items.class);
@@ -57,6 +62,14 @@ public class _ProjectTest {
 
 		} finally {
 			trailUtil.saveTestTrail(terminalSession);
+			try {
+				terminalSession.disconnect();
+			} catch (Exception e) {
+			}
+			if (testReport.hasFailures()) {
+				Assert.fail(testReport.toString());
+			}
+			System.out.println(testReport.toString());
 		}
 
 	}

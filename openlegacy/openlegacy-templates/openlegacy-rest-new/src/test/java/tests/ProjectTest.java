@@ -1,5 +1,7 @@
 package tests;
 
+import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.exceptions.RegistryException;
@@ -9,6 +11,8 @@ import org.openlegacy.modules.support.trail.AbstractSessionTrail;
 import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.modules.trail.TrailUtil;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.testing.ApiReport;
+import org.openlegacy.testing.ApiTester;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -27,15 +31,22 @@ public class ProjectTest {
 	@Inject
 	private TrailUtil trailUtil;
 
+	@Inject
+	private ApiTester<TerminalSession> apiTester;
+
+	@Ignore
 	@Test
 	public void testProject() throws RegistryException, LoginException, FileNotFoundException {
 		TerminalSession terminalSession = applicationContext.getBean(TerminalSession.class);
 		AbstractSessionTrail<?> sessionTrail = (AbstractSessionTrail<?>)terminalSession.getModule(Trail.class).getSessionTrail();
 		sessionTrail.setHistoryCount(null);
 
+		ApiReport testReport = null;
 		try {
 
 			terminalSession.getModule(Login.class).login("user", "pwd");
+
+			testReport = apiTester.test(terminalSession);
 
 			// example of how to navigate to certain entity
 			// Items items = terminalSession.getEntity(Items.class);
@@ -51,6 +62,14 @@ public class ProjectTest {
 
 		} finally {
 			trailUtil.saveTestTrail(terminalSession);
+			try {
+				terminalSession.disconnect();
+			} catch (Exception e) {
+			}
+			if (testReport.hasFailures()) {
+				Assert.fail(testReport.toString());
+			}
+			System.out.println(testReport.toString());
 		}
 
 	}
