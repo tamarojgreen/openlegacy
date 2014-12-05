@@ -23,7 +23,7 @@ import javax.inject.Inject;
  * Handles requests for screen ItemDetailsComposite
  */
 @Controller
-@RequestMapping("/ItemDetails/{id}")
+@RequestMapping({ "/ItemDetails/{id}", "/ItemDetails" })
 public class ItemDetailsCompositeController {
 
 	@Inject
