@@ -92,7 +92,11 @@
 						<tr>
 						<#list partRow.fields as field>
 							<td class="label-field">
-		 						${field.displayName}:
+								<#if field.displayName??>
+									${field.displayName}:
+								<#else>
+									{field name}:
+								</#if>		 						
 							</td>
 							<td>							
 								<@insertField field = field/>					
