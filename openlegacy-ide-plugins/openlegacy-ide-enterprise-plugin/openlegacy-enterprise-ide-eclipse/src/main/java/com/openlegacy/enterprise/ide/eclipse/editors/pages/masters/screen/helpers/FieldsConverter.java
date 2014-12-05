@@ -99,10 +99,12 @@ public class FieldsConverter {
 					ScreenEntityUtils.ActionGenerator.generateScreenFieldActions(entity, newModel, false);
 					ScreenEntityUtils.ActionGenerator.generateScreenDateFieldActions(entity, (ScreenDateFieldModel)newModel,
 							false);
+					ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, newModel, false);
 				} else if (ScreenIntegerFieldModel.class.isAssignableFrom(targetClass)) {
 					entity.addAction(new ScreenIntegerFieldAction(newModel.getUUID(), (ScreenIntegerFieldModel)newModel,
 							ActionType.ADD, ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
 					ScreenEntityUtils.ActionGenerator.generateScreenFieldActions(entity, newModel, false);
+					ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, newModel, false);
 				} else if (ScreenEnumFieldModel.class.isAssignableFrom(targetClass)) {
 					entity.addAction(new ScreenEnumFieldAction(newModel.getUUID(), (ScreenEnumFieldModel)newModel,
 							ActionType.ADD, ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
@@ -112,14 +114,19 @@ public class FieldsConverter {
 					ScreenEntityUtils.ActionGenerator.generateScreenFieldActions(entity, newModel, false);
 					ScreenEntityUtils.ActionGenerator.generateScreenEnumFieldActions(entity, (ScreenEnumFieldModel)newModel,
 							false);
+					ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, newModel, false);
 				} else if (ScreenFieldValuesModel.class.isAssignableFrom(targetClass)) {
 					entity.addAction(new ScreenFieldValuesAction(newModel.getUUID(), (ScreenFieldValuesModel)newModel,
 							ActionType.ADD, ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
 					ScreenEntityUtils.ActionGenerator.generateScreenFieldActions(entity, newModel, false);
+					ScreenEntityUtils.ActionGenerator.generateScreenFieldValuesActions(entity, (ScreenFieldValuesModel)newModel,
+							false);
+					ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, newModel, false);
 				} else {
 					entity.addAction(new ScreenFieldAction(newModel.getUUID(), newModel, ActionType.ADD,
 							ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
 					ScreenEntityUtils.ActionGenerator.generateScreenFieldActions(entity, newModel, false);
+					ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, newModel, false);
 				}
 				selectUuid = newModel.getUUID();
 			}

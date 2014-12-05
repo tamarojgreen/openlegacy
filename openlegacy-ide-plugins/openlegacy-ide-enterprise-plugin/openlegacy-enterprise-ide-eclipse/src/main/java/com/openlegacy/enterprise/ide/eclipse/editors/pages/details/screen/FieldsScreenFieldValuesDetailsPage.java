@@ -66,6 +66,7 @@ public class FieldsScreenFieldValuesDetailsPage extends AbstractScreenFieldDetai
 		}
 		ControlsUpdater.updateScreenFieldDetailsControls(fieldModel, mapTexts, mapCombos, mapCheckBoxes, mapLabels);
 		ControlsUpdater.updateScreenFieldValuesDetailsControls(fieldModel, mapTexts, mapCheckBoxes, mapCombos);
+		ControlsUpdater.updateScreenDescriptionFieldDetailsControls(fieldModel.getDescriptionFieldModel(), mapTexts);
 		revalidate();
 	}
 
@@ -128,6 +129,8 @@ public class FieldsScreenFieldValuesDetailsPage extends AbstractScreenFieldDetai
 		// create row for 'searchField'
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("ScreenFieldValues.searchField"), "", ScreenAnnotationConstants.SEARCH_FIELD);//$NON-NLS-1$ //$NON-NLS-2$
+		// create description section
+		addScreenDecriptionFieldSection(toolkit, client);
 	}
 
 	@Override
@@ -137,6 +140,7 @@ public class FieldsScreenFieldValuesDetailsPage extends AbstractScreenFieldDetai
 				(Boolean)map.get(Constants.BOOL_VALUE), (String)map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
 		ModelUpdater.updateScreenFieldValuesModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE),
 				(Boolean)map.get(Constants.BOOL_VALUE), (String)map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
+		ModelUpdater.updateScreenDescriptionFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE));
 	}
 
 	@Override

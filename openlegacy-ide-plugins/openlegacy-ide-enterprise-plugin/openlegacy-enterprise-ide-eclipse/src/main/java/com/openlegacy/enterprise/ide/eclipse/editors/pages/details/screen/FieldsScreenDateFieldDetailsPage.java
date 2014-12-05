@@ -53,6 +53,8 @@ public class FieldsScreenDateFieldDetailsPage extends AbstractScreenFieldDetails
 		// create row for "patter"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("ScreenDateField.pattern"), "", AnnotationConstants.PATTERN);//$NON-NLS-1$ $NON-NLS-2$
+		// create description section
+		addScreenDecriptionFieldSection(toolkit, client);
 	}
 
 	@Override
@@ -61,6 +63,7 @@ public class FieldsScreenDateFieldDetailsPage extends AbstractScreenFieldDetails
 		ModelUpdater.updateScreenFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE),
 				(Boolean)map.get(Constants.BOOL_VALUE), (String)map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
 		ModelUpdater.updateScreenDateFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE));
+		ModelUpdater.updateScreenDescriptionFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE));
 	}
 
 	@Override
@@ -81,6 +84,7 @@ public class FieldsScreenDateFieldDetailsPage extends AbstractScreenFieldDetails
 		}
 		ControlsUpdater.updateScreenFieldDetailsControls(fieldModel, mapTexts, mapCombos, mapCheckBoxes, mapLabels);
 		ControlsUpdater.updateScreenDateFieldDetailsControls(fieldModel, mapTexts, mapCheckBoxes);
+		ControlsUpdater.updateScreenDescriptionFieldDetailsControls(fieldModel.getDescriptionFieldModel(), mapTexts);
 		revalidate();
 	}
 

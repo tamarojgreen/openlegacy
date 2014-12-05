@@ -148,10 +148,15 @@ public class FieldsTreeViewerDropHelper {
 			ScreenEntityUtils.ActionGenerator.generateScreenBooleanFieldActions(entity, (ScreenBooleanFieldModel)model);
 		} else if (model instanceof ScreenDateFieldModel) {
 			ScreenEntityUtils.ActionGenerator.generateScreenDateFieldActions(entity, (ScreenDateFieldModel)model);
+			ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, model);
 		} else if (model instanceof ScreenEnumFieldModel) {
 			ScreenEntityUtils.ActionGenerator.generateScreenEnumFieldActions(entity, (ScreenEnumFieldModel)model);
+			ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, model);
 		} else if (model instanceof ScreenFieldValuesModel) {
 			ScreenEntityUtils.ActionGenerator.generateScreenFieldValuesActions(entity, (ScreenFieldValuesModel)model);
+			ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, model);
+		} else {
+			ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, model);
 		}
 		ScreenEntityUtils.ActionGenerator.generateScreenFieldActions(entity, model);
 		entity.setDirty(true);

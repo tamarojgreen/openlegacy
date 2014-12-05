@@ -171,6 +171,7 @@ public class FieldsCreator {
 					ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
 			ScreenEntityUtils.ActionGenerator.generateScreenFieldActions(entity, newModel);
 			ScreenEntityUtils.ActionGenerator.generateScreenDateFieldActions(entity, (ScreenDateFieldModel)newModel);
+			ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, newModel);
 		} else if (ScreenEnumFieldModel.class.isAssignableFrom(modelClass)) {
 			entity.addAction(new ScreenEnumFieldAction(newModel.getUUID(), (ScreenEnumFieldModel)newModel, ActionType.ADD,
 					ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
@@ -179,18 +180,23 @@ public class FieldsCreator {
 					ASTNode.ENUM_DECLARATION, Constants.ENUM_FIELD_NEW_TYPE_DECLARATION, null));
 			ScreenEntityUtils.ActionGenerator.generateScreenFieldActions(entity, newModel);
 			ScreenEntityUtils.ActionGenerator.generateScreenEnumFieldActions(entity, (ScreenEnumFieldModel)newModel);
+			ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, newModel);
 		} else if (ScreenIntegerFieldModel.class.isAssignableFrom(modelClass)) {
 			entity.addAction(new ScreenIntegerFieldAction(newModel.getUUID(), (ScreenIntegerFieldModel)newModel, ActionType.ADD,
 					ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
 			ScreenEntityUtils.ActionGenerator.generateScreenFieldActions(entity, newModel);
+			ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, newModel);
 		} else if (ScreenFieldValuesModel.class.isAssignableFrom(modelClass)) {
 			entity.addAction(new ScreenFieldValuesAction(newModel.getUUID(), (ScreenFieldValuesModel)newModel, ActionType.ADD,
 					ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
 			ScreenEntityUtils.ActionGenerator.generateScreenFieldActions(entity, newModel);
+			ScreenEntityUtils.ActionGenerator.generateScreenFieldValuesActions(entity, (ScreenFieldValuesModel)newModel);
+			ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, newModel);
 		} else {
 			entity.addAction(new ScreenFieldAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.FIELD_DECLARATION,
 					newModel.getFieldName(), null));
 			ScreenEntityUtils.ActionGenerator.generateScreenFieldActions(entity, newModel);
+			ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, newModel);
 		}
 
 		callback.reassignMasterBlockViewerInput(newModel.getUUID());
