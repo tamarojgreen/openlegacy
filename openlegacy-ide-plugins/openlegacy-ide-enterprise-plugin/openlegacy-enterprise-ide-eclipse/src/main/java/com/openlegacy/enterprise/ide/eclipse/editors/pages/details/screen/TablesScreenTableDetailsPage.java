@@ -31,6 +31,7 @@ import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
 import org.openlegacy.ide.eclipse.preview.screen.FieldRectangle;
 import org.openlegacy.ide.eclipse.preview.screen.ScreenPreview;
+import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.actions.TerminalActions;
 
 import java.net.MalformedURLException;
@@ -185,11 +186,12 @@ public class TablesScreenTableDetailsPage extends AbstractScreenDetailsPage {
 		// check if empty or contains any character that is not a digit
 		isValid = text.isEmpty() ? false : !text.matches("\\D");//$NON-NLS-1$
 		// if previous condition is valid then check range
-		isValid = isValid ? (new Integer(text).intValue() >= Constants.MIN_ROW_COLUMN)
-				&& (new Integer(text).intValue() <= getEntity().getEntityModel().getRows()) : false;
+		int maxRows = ScreenSize.DEFAULT_ROWS < getEntity().getEntityModel().getRows() ? getEntity().getEntityModel().getRows()
+				: ScreenSize.DEFAULT_ROWS;
+		isValid = isValid ? (Integer.parseInt(text) >= Constants.MIN_ROW_COLUMN) && (Integer.parseInt(text) <= maxRows) : false;
 		if (!isValid) {
 			validator.addMessage(MessageFormat.format("{0} {1}-{2}", Messages.getString("validation.is.out.of.range"),//$NON-NLS-1$//$NON-NLS-2$
-					Constants.MIN_ROW_COLUMN, getEntity().getEntityModel().getRows()), IMessageProvider.ERROR, uuid);
+					Constants.MIN_ROW_COLUMN, maxRows), IMessageProvider.ERROR, uuid);
 			return isValid;
 		}
 		return isValid;

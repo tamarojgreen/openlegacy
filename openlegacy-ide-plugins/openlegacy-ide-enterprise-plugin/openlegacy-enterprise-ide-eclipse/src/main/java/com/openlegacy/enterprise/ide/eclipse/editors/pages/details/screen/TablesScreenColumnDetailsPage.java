@@ -35,6 +35,7 @@ import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationCon
 import org.openlegacy.ide.eclipse.preview.screen.FieldRectangle;
 import org.openlegacy.ide.eclipse.preview.screen.ScreenPreview;
 import org.openlegacy.terminal.FieldAttributeType;
+import org.openlegacy.terminal.ScreenSize;
 
 import java.net.MalformedURLException;
 import java.text.MessageFormat;
@@ -194,11 +195,12 @@ public class TablesScreenColumnDetailsPage extends AbstractScreenDetailsPage {
 		// check if empty or contains any character that is not a digit
 		isValid = text.isEmpty() ? false : !text.matches("\\D");//$NON-NLS-1$
 		// if previous condition is valid then check range
-		isValid = isValid ? (new Integer(text).intValue() >= Constants.MIN_ROW_COLUMN)
-				&& (new Integer(text).intValue() <= getEntity().getEntityModel().getColumns()) : false;
+		int maxCols = ScreenSize.DEFAULT_COLUMN < getEntity().getEntityModel().getColumns() ? getEntity().getEntityModel().getColumns()
+				: ScreenSize.DEFAULT_COLUMN;
+		isValid = isValid ? (Integer.parseInt(text) >= Constants.MIN_ROW_COLUMN) && (Integer.parseInt(text) <= maxCols) : false;
 		if (!isValid) {
 			validator.addMessage(MessageFormat.format("{0} {1}-{2}", Messages.getString("validation.is.out.of.range"),//$NON-NLS-1$//$NON-NLS-2$
-					Constants.MIN_ROW_COLUMN, getEntity().getEntityModel().getColumns()), IMessageProvider.ERROR, uuid);
+					Constants.MIN_ROW_COLUMN, maxCols), IMessageProvider.ERROR, uuid);
 			return isValid;
 		}
 
@@ -210,14 +212,18 @@ public class TablesScreenColumnDetailsPage extends AbstractScreenDetailsPage {
 		if (isValid) {
 			// end column can't be smaller then start column
 			String text = validator.getControl().getText();
-			if (columnModel == null) {
+			// check if empty or contains any character that is not a digit
+			isValid = text.isEmpty() ? false : !text.matches("\\D");//$NON-NLS-1$
+			if (columnModel == null || !isValid) {
 				return isValid;
 			}
-			isValid = Integer.parseInt(text) >= columnModel.getStartColumn();
+			int maxCols = ScreenSize.DEFAULT_COLUMN < getEntity().getEntityModel().getColumns() ? getEntity().getEntityModel().getColumns()
+					: ScreenSize.DEFAULT_COLUMN;
+			isValid = isValid ? (Integer.parseInt(text) >= columnModel.getStartColumn()) && (Integer.parseInt(text) <= maxCols)
+					: false;
 			if (!isValid) {
-				validator.addMessage(MessageFormat.format("{0} {1}-{2}", //$NON-NLS-1$
-						Messages.getString("validation.end.column.should.be.greater"), columnModel.getStartColumn(),//$NON-NLS-1$
-						getEntity().getEntityModel().getColumns()), IMessageProvider.ERROR, uuid);
+				validator.addMessage(MessageFormat.format("{0} {1}-{2}", Messages.getString("validation.is.out.of.range"),//$NON-NLS-1$ //$NON-NLS-2$
+						columnModel.getStartColumn(), maxCols), IMessageProvider.ERROR, uuid);
 				return isValid;
 			}
 		}

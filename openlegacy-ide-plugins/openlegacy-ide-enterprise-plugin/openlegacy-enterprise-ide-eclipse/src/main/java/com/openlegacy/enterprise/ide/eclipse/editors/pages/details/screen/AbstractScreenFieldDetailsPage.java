@@ -156,11 +156,12 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 			return true;
 		}
 		isValid = !text.isEmpty() && text.matches("\\d*");//$NON-NLS-1$
-		isValid = isValid ? (Integer.valueOf(text) >= 0) && (Integer.valueOf(text) <= getEntity().getEntityModel().getColumns())
-				: false;
+		int maxCols = ScreenSize.DEFAULT_COLUMN < getEntity().getEntityModel().getColumns() ? getEntity().getEntityModel().getColumns()
+				: ScreenSize.DEFAULT_COLUMN;
+		isValid = isValid ? (Integer.valueOf(text) >= 0) && (Integer.valueOf(text) <= maxCols) : false;
 		if (!isValid) {
 			validator.addMessage(MessageFormat.format("{0} {1}-{2}", Messages.getString("validation.is.out.of.range"),//$NON-NLS-1$//$NON-NLS-2$
-					Constants.MIN_ROW_COLUMN, getEntity().getEntityModel().getColumns()), IMessageProvider.ERROR, uuid);
+					Constants.MIN_ROW_COLUMN, maxCols), IMessageProvider.ERROR, uuid);
 			return false;
 		}
 		return true;
@@ -181,11 +182,12 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 			return true;
 		}
 		// if previous condition is valid then check range
-		isValid = isValid ? (Integer.valueOf(text) >= 0) && (Integer.valueOf(text) <= getEntity().getEntityModel().getColumns())
-				: false;
+		int maxCols = ScreenSize.DEFAULT_COLUMN < getEntity().getEntityModel().getColumns() ? getEntity().getEntityModel().getColumns()
+				: ScreenSize.DEFAULT_COLUMN;
+		isValid = isValid ? (Integer.valueOf(text) >= 0) && (Integer.valueOf(text) <= maxCols) : false;
 		if (!isValid) {
 			validator.addMessage(MessageFormat.format("{0} {1}-{2}", Messages.getString("validation.is.out.of.range"),//$NON-NLS-1$//$NON-NLS-2$
-					Constants.MIN_ROW_COLUMN, getEntity().getEntityModel().getColumns()), IMessageProvider.ERROR, uuid);
+					Constants.MIN_ROW_COLUMN, maxCols), IMessageProvider.ERROR, uuid);
 			return isValid;
 		}
 		return isValid;
@@ -206,11 +208,12 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 			return true;
 		}
 		// if previous condition is valid then check range
-		isValid = isValid ? (Integer.valueOf(text) >= 0) && (Integer.valueOf(text) <= getEntity().getEntityModel().getRows())
-				: false;
+		int maxRows = ScreenSize.DEFAULT_ROWS < getEntity().getEntityModel().getRows() ? getEntity().getEntityModel().getRows()
+				: ScreenSize.DEFAULT_ROWS;
+		isValid = isValid ? (Integer.valueOf(text) >= 0) && (Integer.valueOf(text) <= maxRows) : false;
 		if (!isValid) {
 			validator.addMessage(MessageFormat.format("{0} {1}-{2}", Messages.getString("validation.is.out.of.range"),//$NON-NLS-1$//$NON-NLS-2$
-					Constants.MIN_ROW_COLUMN, getEntity().getEntityModel().getRows()), IMessageProvider.ERROR, uuid);
+					Constants.MIN_ROW_COLUMN, maxRows), IMessageProvider.ERROR, uuid);
 			return isValid;
 		}
 		return isValid;
