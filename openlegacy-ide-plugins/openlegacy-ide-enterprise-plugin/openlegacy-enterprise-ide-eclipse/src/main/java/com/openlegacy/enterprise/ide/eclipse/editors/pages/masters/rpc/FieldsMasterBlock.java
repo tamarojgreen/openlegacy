@@ -550,8 +550,8 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 		return parent;
 	}
 
-	private static void fillNewModel(RpcFieldModel model) {
-		model.setFieldName(Messages.getString("Field.new"));//$NON-NLS-1$
+	private void fillNewModel(RpcFieldModel model) {
+		model.setFieldName(Messages.getString("Field.new") + getSeedForNewField(model.getParent()));//$NON-NLS-1$
 		if (model instanceof RpcBooleanFieldModel) {
 			((RpcBooleanFieldModel)model).setTrueValue("");//$NON-NLS-1$
 			((RpcBooleanFieldModel)model).setFalseValue("");//$NON-NLS-1$
@@ -667,5 +667,29 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 		entity.addAction(new RpcPartAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.FIELD_DECLARATION,
 				Messages.getString("Field.new"), null));//$NON-NLS-1$
 		return newModel;
+	}
+
+	private int getSeedForNewField(NamedObject parent) {
+		int seed = 0;
+		List<RpcFieldModel> sortedFields = null;
+		if (parent instanceof RpcEntityModel) {
+			sortedFields = getEntity().getSortedFields();
+		} else if (parent instanceof RpcPartModel) {
+			sortedFields = ((RpcPartModel)parent).getSortedFields();
+		}
+		if (sortedFields == null) {
+			return ++seed;
+		}
+		Pattern p = Pattern.compile(Messages.getString("Field.new") + "(\\d+)$");
+		for (RpcFieldModel field : sortedFields) {
+			Matcher matcher = p.matcher(field.getFieldName());
+			if (matcher.find()) {
+				String stringSeed = matcher.group(1);
+				if (Integer.parseInt(stringSeed) > seed) {
+					seed = Integer.parseInt(stringSeed);
+				}
+			}
+		}
+		return ++seed;
 	}
 }
