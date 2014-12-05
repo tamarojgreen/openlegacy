@@ -4,7 +4,10 @@
 <script type="text/javascript" src="js/Chart.min.js"><!----></script>
 <script>
 function show(){
-	var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
+	try{
+		var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
+	}
+	catch(e){}
 }
 
 		var lineChartData = {
