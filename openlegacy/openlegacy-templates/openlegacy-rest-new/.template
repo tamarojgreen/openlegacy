@@ -86,7 +86,7 @@
 							<tr>
 							<#list partRow.fields as field>
 								<td class="label-field">
-								<#if field.displayName??>
+								<#if field.displayName?? && field.displayName != "">
 									${field.displayName}:
 								<#else>
 									{field name}:
