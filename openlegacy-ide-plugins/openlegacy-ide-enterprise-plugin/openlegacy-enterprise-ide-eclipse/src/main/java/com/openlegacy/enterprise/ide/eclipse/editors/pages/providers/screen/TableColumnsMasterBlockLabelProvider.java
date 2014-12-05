@@ -32,12 +32,24 @@ public class TableColumnsMasterBlockLabelProvider extends LabelProvider implemen
 	public Image getColumnImage(Object element, int columnIndex) {
 		ScreenColumnModel model = (ScreenColumnModel)element;
 		String javaTypeName = model.getJavaTypeName();
-		if (!model.getValidationMessages().isEmpty()) {
-			return String.class.getSimpleName().equals(javaTypeName) ? Activator.getDefault().getImage(Activator.ICON_STRING_ERR)
-					: Activator.getDefault().getImage(Activator.ICON_INTEGER_ERR);
+		boolean isKey = model.isKey();
+
+		if (String.class.getSimpleName().equals(javaTypeName)) {
+			if (!model.getValidationMessages().isEmpty()) {
+				return (isKey) ? Activator.getDefault().getImage(Activator.ICON_STRING_KEY_ERR)
+						: Activator.getDefault().getImage(Activator.ICON_STRING_ERR);
+			}
+			return (isKey) ? Activator.getDefault().getImage(Activator.ICON_STRING_KEY) : Activator.getDefault().getImage(
+					Activator.ICON_STRING);
+		} else {
+			if (!model.getValidationMessages().isEmpty()) {
+				return (isKey) ? Activator.getDefault().getImage(Activator.ICON_INTEGER_KEY_ERR)
+						: Activator.getDefault().getImage(Activator.ICON_INTEGER_ERR);
+			}
+			return (isKey) ? Activator.getDefault().getImage(Activator.ICON_INTEGER_KEY) : Activator.getDefault().getImage(
+					Activator.ICON_INTEGER);
 		}
-		return String.class.getSimpleName().equals(javaTypeName) ? Activator.getDefault().getImage(Activator.ICON_STRING)
-				: Activator.getDefault().getImage(Activator.ICON_INTEGER);
+
 	}
 
 	/*
