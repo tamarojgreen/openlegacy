@@ -71,95 +71,103 @@
 		
 		
 		<ul class="part">
-		<#list pageDefinition.pageParts as pagePart>
-			<li>								
-			<#if pagePart.oneField>			
-			<input name="${pagePart.singleField.name}" value="${pagePart.singleField.sampleValue}" />
-			<#else>			
-				<div class="panel">
-					<table>
-					<#list pagePart.partRows as partRow>				
-						<tr>
-						<#list partRow.fields as field>
-							<td class="label-field">
-		 						${field.displayName}:
-							</td>
-							<td>
-								<#if field.fieldTypeDefinition??>								
-									<#switch field.fieldTypeDefinition.typeName>
-									  <#case "enum">
-									    <select <#if !field.editable>disabled="true"</#if>>
-									    	<option value="${field.sampleValue}">${field.displayName}</option>
-									    </select>
-									    <#break>
-									  <#case "fieldWithValues">
-									    <select  <#if !field.editable>disabled="true"</#if>>
-									    	<option value="${field.sampleValue}">${field.displayName}</option>
-									    </select>
-									    <#break>  
-									  <#case "boolean">								  
-									    <input type="checkbox" value="${field.sampleValue}" <#if !field.editable>disabled="true"</#if>/>
-									    <#break> 					
-								      <#case "date">								  
-									    <input  value="${field.sampleValue}" <#if !field.editable>disabled="true"</#if>/>
-									    <#break>
-									  <#default>
-									    <input  value="${field.sampleValue}" <#if !field.editable>disabled="true"</#if>/>
-									</#switch>
+		<#list pageDefinition.pageParts as pagePart>														
+			<#if pagePart.oneField && pagePart.singleField??>
+				<#if pagePart.singleField.fieldTypeName == "General">
+					<li>
+						<input name="${pagePart.singleField.name}" value="${pagePart.singleField.sampleValue}" />
+					</li>
+				</#if>
+			<#else>
+				<li>			
+					<div class="panel">
+						<table>
+						<#list pagePart.partRows as partRow>				
+							<tr>
+							<#list partRow.fields as field>
+								<td class="label-field">
+								<#if field.displayName?? && field.displayName != "">
+									${field.displayName}:
 								<#else>
-							  		<#if field.editable>
-				 						<input class="value-input" name="${field.name}" value="${field.sampleValue}" size="${field.length}"/>
-				 					<#else>
-				 						${field.sampleValue}
-				 					</#if>							
-								</#if>							
-							</td>
-						</#list>
-						</tr>
-						</#list>
-					</table>								
-					<#if pagePart.hasTable>
-						<table class="bordered">
-							<thead>
-								<tr>
-									<#list pagePart.tableDefinition.columnDefinitions as column>
-									<th>
-				 					 	${column.displayName}
-									</th>
-									</#list>
-								</tr>
-							</thead>
-							<tbody>						
-								<tr>						
-									<#list pagePart.tableDefinition.columnDefinitions as column>
-									<#if column_index == 0>								
-									<td>
-										<#if (pagePart.tableDefinition.actions?size > 3)>
-											<select>
-												<option>-Select-</option>
-												<#list pagePart.tableDefinition.actions as action>								
-								 					<option>${action.displayName}</option>
-					 					 		</#list>
-											</select>
-										<#else>
-											<#list pagePart.tableDefinition.actions as action>								
-		 					 					<a href="#">${action.displayName}</a>
-				 					 		</#list>
-										</#if>								
-									</td>								
+									{field name}:
+								</#if>			 						
+								</td>
+								<td>
+									<#if field.fieldTypeDefinition??>
+										<#switch field.fieldTypeDefinition.typeName>									
+										  <#case "enum">
+										    <select <#if !field.editable>disabled="true"</#if>>
+										    	<option value="${field.sampleValue}">${field.displayName}</option>
+										    </select>
+										    <#break>
+										  <#case "fieldWithValues">
+										    <select  <#if !field.editable>disabled="true"</#if>>
+										    	<option value="${field.sampleValue}">${field.displayName}</option>
+										    </select>
+										    <#break>  
+										  <#case "boolean">								  
+										    <input type="checkbox" value="${field.sampleValue}" <#if !field.editable>disabled="true"</#if>/>
+										    <#break> 					
+									      <#case "date">								  
+										    <input  value="${field.sampleValue}" <#if !field.editable>disabled="true"</#if>/>
+										    <#break>
+										  <#default>
+										    <input  value="${field.sampleValue}" <#if !field.editable>disabled="true"</#if>/>
+										</#switch>
 									<#else>
-									<td>
-				 					 	${column.sampleValue}
-									</td>
-									</#if>
-									</#list>							
-								</tr>
-							</tbody>						
-						</table>
-					</#if>
-				</div>
-			</#if>
-			</li>			
+								  		<#if field.editable>
+					 						<input class="value-input" name="${field.name}" value="${field.sampleValue}" size="${field.length}"/>
+					 					<#else>
+					 						${field.sampleValue}
+					 					</#if>							
+									</#if>							
+								</td>
+							</#list>
+							</tr>
+							</#list>
+						</table>								
+						<#if pagePart.hasTable>
+							<table class="bordered">
+								<thead>
+									<tr>
+										<#list pagePart.tableDefinition.columnDefinitions as column>
+										<th>
+					 					 	${column.displayName}
+										</th>
+										</#list>
+									</tr>
+								</thead>
+								<tbody>						
+									<tr>						
+										<#list pagePart.tableDefinition.columnDefinitions as column>
+										<#if column_index == 0>								
+										<td>
+											<#if (pagePart.tableDefinition.actions?size > 3)>
+												<select>
+													<option>-Select-</option>
+													<#list pagePart.tableDefinition.actions as action>								
+									 					<option>${action.displayName}</option>
+						 					 		</#list>
+												</select>
+											<#else>
+												<#list pagePart.tableDefinition.actions as action>								
+			 					 					<a href="#">${action.displayName}</a>
+					 					 		</#list>
+											</#if>								
+										</td>								
+										<#else>
+										<td>
+					 					 	${column.sampleValue}
+										</td>
+										</#if>
+										</#list>							
+									</tr>
+								</tbody>						
+							</table>
+						</#if>
+					</div>
+				</li>
+			</#if>						
 		</#list>
 		</ul>			
 	</body>
