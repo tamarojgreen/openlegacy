@@ -1,6 +1,5 @@
 package org.openlegacy.testing.support;
 
-import org.junit.Assert;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.Session;
 import org.openlegacy.modules.menu.Menu;
@@ -64,7 +63,9 @@ public abstract class AbstractApiTester<R extends EntitiesRegistry<?, ?, ?>, S e
 	protected void addNotNullResult(String failMessage, Object object) {
 		if (object == null) {
 			if (failOnError) {
-				Assert.assertNotNull(failMessage, object);
+				if (object == null) {
+					throw new RuntimeException(failMessage);
+				}
 			}
 			apiReport.getTestsResults().add(new TestResult(TestStatus.FAIL, failMessage));
 		}
@@ -73,7 +74,7 @@ public abstract class AbstractApiTester<R extends EntitiesRegistry<?, ?, ?>, S e
 	protected void addTrueResult(String failMessage, String okMessage, boolean condition) {
 		if (!condition) {
 			if (failOnError) {
-				Assert.fail(failMessage);
+				throw new RuntimeException(failMessage);
 			}
 			apiReport.getTestsResults().add(new TestResult(TestStatus.FAIL, failMessage));
 		} else {
