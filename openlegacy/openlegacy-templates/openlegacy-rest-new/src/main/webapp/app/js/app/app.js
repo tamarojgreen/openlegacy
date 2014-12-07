@@ -25,7 +25,10 @@
 				$rootScope.allowShowPreloader = true;
 			} else {
 				$rootScope.allowHidePreloader = true;
-			}		
+			}
+			if ($("#sessionImage") != null){
+				$("#sessionImage").attr("src","../sessionViewer/image?" + new Date().getTime());
+			}
 		}
 		
 		$rootScope.$on("$locationChangeStart", function(){		
