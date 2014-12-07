@@ -42,7 +42,6 @@ privileged @SuppressWarnings("unused") aspect ChangePrinterOutput_Aspect {
 
 	
 
-    private Map<Object,Object> ChangePrinterOutput.printerToUseValues;
     
 
     public String ChangePrinterOutput.getUser(){
@@ -136,12 +135,6 @@ privileged @SuppressWarnings("unused") aspect ChangePrinterOutput_Aspect {
     	this.printerToUse = printerToUse;
     }
 
-    public Map<Object,Object> ChangePrinterOutput.getPrinterToUseValues(){
-    	return printerToUseValues;
-    }
-    public Map<Object,Object> ChangePrinterOutput.getPrinterToUseValues(String text){
-    	return printerToUseValues;
-    }
 
     public String ChangePrinterOutput.getFocusField(){
     	return focusField;

@@ -197,4 +197,6 @@ public @interface ScreenField {
 	 * @return the Spring expression or regular expression used for generating the value of the field
 	 */
 	String expression() default "";
+
+	boolean enableLookup() default false;
 }

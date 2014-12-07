@@ -221,6 +221,9 @@
 				<c:if test="${ol:hasProperty(fieldDefinition,'descriptionFieldDefinition') and fieldDefinition.descriptionFieldDefinition != null}">
 					- <ol:span cssClass="readonlyField" path="${name}Description" />
 				</c:if>
+				<c:if test="${fieldDefinition.enableLookup}">
+					<img id="${name}Search" src="${pageContext.request.contextPath}/icons/search.png" onclick="doAjaxPost('${definitions.entityName}Form','container','lookup-${fieldDefinition.name}')" class="search" />
+				</c:if>
 				<jsp:doBody />
 			</div>
 		</div>

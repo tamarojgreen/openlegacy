@@ -5,7 +5,6 @@ import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
-import org.openlegacy.annotations.screen.ScreenFieldValues;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.terminal.actions.TerminalActions;
@@ -60,8 +59,7 @@ public class ChangePrinterOutput {
 	@ScreenField(row = 21, column = 48, endColumn = 57, labelColumn = 4, displayName = "Save printer output")
 	private String savePrinterOutput1;
 
-	@ScreenFieldValues(sourceScreenEntity = SelectPrinter.class, asWindow = true)
-	@ScreenField(row = 10, column = 46, endColumn = 55, labelColumn = 4, editable = true, endRow = 10, displayName = "Printer to use", sampleValue = "RMR2P1", helpText = "Name, F4 for list")
+	@ScreenField(row = 10, column = 46, endColumn = 55, labelColumn = 4, editable = true, endRow = 10, displayName = "Printer to use", sampleValue = "RMR2P1", helpText = "Name, F4 for list", enableLookup = true)
 	private String printerToUse;
 
 }

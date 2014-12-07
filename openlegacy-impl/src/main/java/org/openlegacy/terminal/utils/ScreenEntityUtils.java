@@ -40,6 +40,8 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 	private static final String NEXT = "next";
 	private static final String PREVIOUS = "previous";
 
+	private static final String LOOKUP = "lookup";
+
 	@Inject
 	private transient ApplicationContext applicationContext;
 
@@ -79,6 +81,14 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 		ScreenEntityDefinition entityDefinitions = screenEntitiesRegistry.get(screenEntity.getClass());
 		TerminalAction sessionAction = null;
 		TerminalActionDefinition matchedActionDefinition = null;
+		String focusField = null;
+
+		// action may be combined of <action>-<focus field>
+		if (actionAlias.contains("-")) {
+			String[] actionParts = actionAlias.split("-");
+			actionAlias = actionParts[0];
+			focusField = actionParts[1];
+		}
 		if (actionAlias != null && actionAlias.equals(TerminalAction.NONE)) {
 			sessionAction = TerminalActions.NONE();
 			matchedActionDefinition = new SimpleTerminalActionDefinition(sessionAction, AdditionalKey.NONE, "", null);
@@ -99,8 +109,9 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 			}
 		}
 
-		if (matchedActionDefinition != null && matchedActionDefinition.getFocusField() != null) {
-			screenEntity.setFocusField(matchedActionDefinition.getFocusField());
+		focusField = matchedActionDefinition.getFocusField();
+		if (matchedActionDefinition != null && focusField != null) {
+			screenEntity.setFocusField(focusField);
 		}
 		Assert.notNull(sessionAction, MessageFormat.format("Alias for session action {0} not found", actionAlias));
 		return matchedActionDefinition;
@@ -117,6 +128,7 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 			defaultActionAliasToAction = new HashMap<String, TerminalAction>();
 			defaultActionAliasToAction.put(NEXT, TerminalActions.PAGE_DOWN());
 			defaultActionAliasToAction.put(PREVIOUS, TerminalActions.PAGE_UP());
+			defaultActionAliasToAction.put(LOOKUP, TerminalActions.F4());
 		}
 	}
 }

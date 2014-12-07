@@ -44,7 +44,7 @@ import java.util.Date;
  * {@link org.openlegacy.terminal.definitions.ScreenFieldDefinition}
  * 
  * @author Roi Mor
- *
+ * 
  */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -160,6 +160,8 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		if (!fieldAnnotation.unless().equals("")) {
 			screenFieldDefinition.setUnlessFilter(fieldAnnotation.unless());
 		}
+		screenFieldDefinition.setEnableLookup(fieldAnnotation.enableLookup());
+
 		setupFieldType(field, screenFieldDefinition);
 
 		// look in screen entities

@@ -53,6 +53,8 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	private boolean forceUpdate;
 
+	private boolean enableLookup;
+
 	public SimpleScreenFieldDefinition() {
 		super();
 	}
@@ -227,6 +229,15 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	public void setForceUpdate(boolean forceUpdate) {
 		this.forceUpdate = forceUpdate;
+	}
+
+	@Override
+	public boolean isEnableLookup() {
+		return enableLookup;
+	}
+
+	public void setEnableLookup(boolean enableLookup) {
+		this.enableLookup = enableLookup;
 	}
 
 }

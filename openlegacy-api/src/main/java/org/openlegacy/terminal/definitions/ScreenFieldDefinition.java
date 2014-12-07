@@ -114,4 +114,5 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 	@Override
 	String getExpression();
 
+	boolean isEnableLookup();
 }
