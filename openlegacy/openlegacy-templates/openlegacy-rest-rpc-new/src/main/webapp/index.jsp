@@ -33,7 +33,6 @@
     			if (data.model != null){
     				var actions = data.model.entity != null && data.model.entity.actions != null ? data.model.entity.actions : data.model.actions;
     				dojo.byId("actionType").innerHTML = "";
-    				createOption("Submit","actionType");
     				if(actions != null){
     					for(var i=0;i<actions.length;i++){
     						createOption(actions[i].alias,"actionType");
@@ -54,7 +53,6 @@
     			dojo.byId('postData').innerHTML = data.substr(start,data.indexOf("</entity>")+9-start);
     			var actions = data.match(/<alias>\w+<\/alias>/g);
     			dojo.byId("actionType").innerHTML = "";
-    			createOption("Submit","actionType");
     			if(actions != null){
     				for(var i=0;i<actions.length;i++){
     					createOption(actions[i].substr(7,actions[i].indexOf("</")-7),"actionType");
@@ -166,7 +164,6 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 		</textarea>
 		<br /> To URL: <input id="postUrl" value="" size="40" /> 
 		Action: <select id="actionType" onchange="changeAction();">
-			<option value="">Submit</option>
 		</select>
 		Method: <select id="postRequestType">
 			<option value="json">JSON</option>
