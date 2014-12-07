@@ -36,7 +36,7 @@
 				}).error(function(data, status, headers, config) {
 					$rootScope.hidePreloader();
 					if(data.error){
-						alert('Error: ' + data.error);
+						alert(data.error);
 					} else {
 						alert(data);
 					}
@@ -61,7 +61,7 @@
 				}).error(function(data, status, headers, config) {
 					$rootScope.hidePreloader();
 					if(data.error){
-						alert('Error: ' + data.error);
+						alert(data.error);
 					} else {
 						alert(data);
 					}

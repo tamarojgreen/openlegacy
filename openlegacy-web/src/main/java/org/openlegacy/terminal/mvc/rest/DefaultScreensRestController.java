@@ -99,6 +99,11 @@ public class DefaultScreensRestController extends AbstractRestController {
 	private static final String USER = "user";
 	private static final String PASSWORD = "password";
 
+	@RequestMapping(value = "/authenticate", method = RequestMethod.GET, consumes = { JSON, XML })
+	public void authenticateUser(HttpServletResponse response) throws IOException {
+		authenticate(response);
+	}
+
 	@Override
 	@RequestMapping(value = "/{entity}", method = RequestMethod.GET, consumes = { JSON, XML })
 	public ModelAndView getEntity(@PathVariable("entity") String entityName,
@@ -216,7 +221,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXmlWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-			throws IOException {
+					throws IOException {
 		return super.postEntityXmlWithKey(entityName, key, action, xml, response);
 	}
 
@@ -224,7 +229,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXml(@PathVariable("entity") String entityName,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-			throws IOException {
+					throws IOException {
 		return super.postEntityXml(entityName, action, xml, response);
 	}
 

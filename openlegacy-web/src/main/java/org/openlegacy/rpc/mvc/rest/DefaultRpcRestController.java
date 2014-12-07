@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.Session;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.modules.trail.TrailUtil;
@@ -82,6 +83,11 @@ public class DefaultRpcRestController extends AbstractRestController {
 		return rpcEntitiesRegistry;
 	}
 
+	@RequestMapping(value = "/authenticate", method = RequestMethod.GET, consumes = { JSON, XML })
+	public void authenticateUser(HttpServletResponse response) throws IOException {
+		authenticate(response);
+	}
+
 	@RequestMapping(value = "/{entity}", method = RequestMethod.GET, consumes = { JSON, XML })
 	public ModelAndView getEntity(@PathVariable("entity") String entityName, HttpServletResponse response) throws IOException {
 		return super.getEntity(entityName, false, response);
@@ -110,14 +116,14 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntityJson(@PathVariable("entity") String entityName,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
-			throws IOException {
+					throws IOException {
 		return super.postEntityJson(entityName, action, false, json, response);
 	}
 
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntityJsonWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
-			throws IOException {
+					throws IOException {
 		return super.postEntityJsonWithKey(entityName, key, action, false, json, response);
 	}
 
@@ -125,7 +131,7 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXmlWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-			throws IOException {
+					throws IOException {
 		return super.postEntityXmlWithKey(entityName, key, action, xml, response);
 	}
 
@@ -133,7 +139,7 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXml(@PathVariable("entity") String entityName,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-			throws IOException {
+					throws IOException {
 		return super.postEntityXml(entityName, action, xml, response);
 	}
 
@@ -172,7 +178,12 @@ public class DefaultRpcRestController extends AbstractRestController {
 		} catch (Exception e) {
 			logger.warn("Failed to save trail - " + e.getMessage(), e);
 		} finally {
-			getSession().disconnect();
+			Login loginModule = getSession().getModule(Login.class);
+			if (loginModule != null) {
+				loginModule.logoff();
+			} else {
+				getSession().disconnect();
+			}
 		}
 
 	}

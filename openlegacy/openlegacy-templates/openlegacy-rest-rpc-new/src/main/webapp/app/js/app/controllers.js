@@ -8,10 +8,7 @@
 
 	module = module.controller(
 		'loginCtrl',
-		function($scope, $olHttp, $rootScope, $state) {			
-			if ($.cookie('loggedInUser') != undefined) {
-				$state.go("menu");
-			}
+		function($scope, $olHttp, $rootScope, $state, $stateParams) {
 			$scope.login = function(username, password) {
 				var data = {"user":username,"password":password}
 				$olHttp.post('login',data, 
@@ -22,7 +19,7 @@
 							
 							$.cookie('loggedInUser', username, {expires: $expiration, path: '/'});
 							$rootScope.$broadcast("olApp:login:authorized", username);
-							$state.go("menu");
+							$state.go($stateParams.redirectTo.name, $stateParams.redirectTo.params);
 						}
 					);
 			};		

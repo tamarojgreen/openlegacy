@@ -366,7 +366,7 @@ public abstract class AbstractRestController {
 		}
 		org.openlegacy.modules.login.Login loginModule = getSession().getModule(org.openlegacy.modules.login.Login.class);
 		if (!loginModule.isLoggedIn()) {
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+			sendError(HttpServletResponse.SC_UNAUTHORIZED, "User unauthorized!", response);
 		}
 		return true;
 
@@ -383,13 +383,22 @@ public abstract class AbstractRestController {
 			getSession().getModule(org.openlegacy.modules.login.Login.class).login(login.getUser(), login.getPassword());
 		} catch (LoginException e) {
 			getSession().disconnect();
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+			sendError(HttpServletResponse.SC_UNAUTHORIZED, "User unauthorized!", response);
 		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid login");
+			sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid login", response);
 			logger.fatal("Invalid login", e);
 		}
 
 		return getMenu(response);
+	}
+
+	private static void sendError(int errorCode, String message, HttpServletResponse response) throws IOException {
+		response.resetBuffer();
+		response.setStatus(errorCode);
+		response.setHeader("Content-Type", "application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(String.format("{\"error\":\"%s\"}", message));
+		response.flushBuffer();
 	}
 
 	public Object loginPostXml(String xml, HttpServletResponse response) throws IOException {
