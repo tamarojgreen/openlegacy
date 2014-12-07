@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.terminal.mvc;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.Snapshot;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.Trail;
@@ -38,6 +40,8 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping(value = "/sessionViewer")
 public class SessionViewerController {
 
+	private final static Log logger = LogFactory.getLog(SessionViewerController.class);
+
 	@Inject
 	private TerminalSession terminalSession;
 
@@ -62,7 +66,11 @@ public class SessionViewerController {
 	@RequestMapping(value = "/image", method = RequestMethod.GET)
 	public void lastImage(HttpServletResponse response) throws IOException {
 		if (terminalSession.isConnected()) {
-			imageRenderer.render(terminalSession.getSnapshot(), response.getOutputStream());
+			try {
+				imageRenderer.render(terminalSession.getSnapshot(), response.getOutputStream());
+			} catch (Exception e) {
+				logger.warn("Failed to write image:" + e.getMessage());
+			}
 		}
 	}
 
@@ -79,7 +87,11 @@ public class SessionViewerController {
 			}
 			response.setContentType("image/jpeg");
 			TerminalPersistedSnapshot transformSnapshot = SnapshotPersistanceDTO.transformSnapshot(current);
-			imageRenderer.render(transformSnapshot, response.getOutputStream());
+			try {
+				imageRenderer.render(transformSnapshot, response.getOutputStream());
+			} catch (Exception e) {
+				logger.warn("Failed to write image:" + e.getMessage());
+			}
 		}
 	}
 
