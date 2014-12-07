@@ -80,6 +80,19 @@ public class ScreenEntityAjGeneratorTest {
 	}
 
 	@Test
+	public void testTableAspectFocusPushedIn() throws Exception {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream("testTable.focusPushedIn.java.resource"));
+
+		ClassOrInterfaceDeclaration mainType = getMainType(compilationUnit);
+		List<BodyDeclaration> members = mainType.getMembers();
+		BodyDeclaration lastMember = members.get(members.size() - 1);
+		screenPojosAjGenerator.generateScreenTable(compilationUnit, (ClassOrInterfaceDeclaration)lastMember, baos, "TestClass");
+		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("testTableFocusPushedIn_Aspect.aj.expected"));
+		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
+	}
+
+	@Test
 	public void testPart() throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream("testPart.java.resource"));
@@ -145,7 +158,6 @@ public class ScreenEntityAjGeneratorTest {
 		screenPojosAjGenerator.generateEntity(compilationUnit, getMainType(compilationUnit), baos);
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream(expectAspect));
-
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
 

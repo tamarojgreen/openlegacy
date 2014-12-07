@@ -12,8 +12,9 @@ privileged @SuppressWarnings("unused") aspect TableScreenRecord_Aspect {
 
 	
     
-    private String focusField;
 	
+    
+
     public String TableScreenRecord.getColumn1(){
     	return this.column1;
     }
@@ -25,16 +26,6 @@ privileged @SuppressWarnings("unused") aspect TableScreenRecord_Aspect {
     
 
 
-    /**
-    	Focus on the given field, or on the first field in the table if none is given
-    */
-    public void focus(String... field) {
-        if (field.length > 0) {
-            focusField = field[0];
-        } else {
-            focusField = "column1";
-        }
-    }
 		
     public int TableScreenRecord.hashCode(){
 		return HashCodeBuilder.reflectionHashCode(this);

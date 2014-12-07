@@ -23,6 +23,7 @@ import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.binders.MultyScreenTableBindUtil;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
+import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.ui.Model;
 
 import java.text.MessageFormat;
@@ -95,10 +96,7 @@ public class ScreenBindUtils {
 				String focus = request.getParameter(MessageFormat.format("focus_{0}", rowNumber));
 				if (StringUtils.isNotEmpty(focus)) {
 					if (rowFieldAccessor.isExists(focus)) {
-						// TODO Ryan, integrate here row focus method
-						int focusPosition = (tableDefinitionValue.getStartRow() - 1 + rowNumber) * 80
-								+ tableDefinitionValue.getColumnDefinition(focus).getStartColumn();
-						screenEntity.setFocusField(String.valueOf(focusPosition));
+						ReflectionUtil.invoke(row, "focus", focus);
 					}
 				}
 				rowNumber++;

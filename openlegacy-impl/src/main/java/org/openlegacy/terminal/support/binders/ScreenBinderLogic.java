@@ -21,20 +21,33 @@ import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSendAction;
+import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition.DrilldownDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.terminal.exceptions.TerminalActionException;
+import org.openlegacy.terminal.modules.table.DefaultTableDrilldownPerformer;
+import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.support.SimpleScreenSize;
 import org.openlegacy.terminal.support.SnapshotUtils;
+import org.openlegacy.terminal.table.ScreenTableDrilldownPerformer;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.TypesUtil;
+import org.springframework.context.ApplicationContext;
+import org.springframework.util.Assert;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
@@ -50,6 +63,12 @@ public class ScreenBinderLogic implements Serializable {
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
+
+	@Inject
+	private TablesDefinitionProvider tablesDefinitionProvider;
+
+	@Inject
+	private ApplicationContext applicationContext;
 
 	private String descriptionFieldSuffix = "Description";
 
@@ -188,8 +207,8 @@ public class ScreenBinderLogic implements Serializable {
 
 		for (ScreenFieldDefinition fieldMappingDefinition : fieldMappingsDefinitions) {
 
-			TerminalPosition fieldPosition = fieldMappingDefinition.getPosition();
-			String fieldName = fieldMappingDefinition.getName();
+			final TerminalPosition fieldPosition = fieldMappingDefinition.getPosition();
+			final String fieldName = fieldMappingDefinition.getName();
 
 			if (!fieldAccessor.isExists(fieldName)) {
 				continue;
@@ -202,6 +221,50 @@ public class ScreenBinderLogic implements Serializable {
 					if (logger.isDebugEnabled()) {
 						logger.debug(MessageFormat.format("Cursor was set at position {0} from field {1}", fieldPosition,
 								screenEntity.getFocusField()));
+					}
+				} else {
+					final Map<String, ScreenTableDefinition> tableDefinitions = tablesDefinitionProvider.getTableDefinitions(screenEntity.getClass());
+					for (Entry<String, ScreenTableDefinition> tableDefinitionEntry : tableDefinitions.entrySet()) {
+						final List<Object> rows = (List<Object>)fieldAccessor.getFieldValue(tableDefinitionEntry.getKey());
+						// final ScreenTableDefinition tableDefinition = tableDefinitions.get(tableFieldName);
+						int rowNumber = 0;
+						for (Object row : rows) {
+							final ScreenPojoFieldAccessor rowAccessor = new SimpleScreenPojoFieldAccessor(row);
+							// If there is no focusField on this table, break out of search.
+							if (!rowAccessor.isExists("focusField")) {
+								break;
+							}
+							final ScreenTableDefinition tableDefinition = tableDefinitionEntry.getValue();
+							Object focusField = rowAccessor.getFieldValue("focusField");
+							if (focusField != null && focusField.toString().trim().length() > 0) {
+								if (tableDefinition.isScrollable()) {
+									final List<Object> keys = new ArrayList<Object>();
+									for (String keyField : tableDefinitionEntry.getValue().getKeyFieldNames()) {
+										keys.add(rowAccessor.getFieldValue(keyField));
+									}
+									final DrilldownDefinition drilldownDefinition = tableDefinition.getDrilldownDefinition();
+									final ScreenTableDrilldownPerformer screenTableDrilldownPerformer = applicationContext.getBean(DefaultTableDrilldownPerformer.class);
+									final TerminalSession terminalSession = applicationContext.getBean(TerminalSession.class);
+									screenTableDrilldownPerformer.drilldown(drilldownDefinition, terminalSession,
+											screenEntity.getClass(), screenEntity.getClass(), null, keys.toArray());
+								} else {
+									int screenRowNumber = tableDefinition.getStartRow() + rowNumber;
+									Integer columnNumber = null;
+									if (NumberUtils.isNumber(focusField.toString())) {
+										columnNumber = Integer.valueOf(focusField.toString());
+									} else {
+										final ScreenColumnDefinition focusColumnDef = tableDefinition.getColumnDefinition(focusField.toString().trim());
+										Assert.notNull(focusColumnDef,
+												MessageFormat.format("column field to focus on {0}, not found", focusField));
+										columnNumber = focusColumnDef.getStartColumn();
+									}
+									fieldAccessor.setFieldValue(ScreenEntity.FOCUS_FIELD, SnapshotUtils.toAbsolutePosition(
+											screenRowNumber, columnNumber, SimpleScreenSize.DEFAULT));
+									// The focus based on position is evaluated at the end of this method
+				}
+			}
+							rowNumber++;
+						}
 					}
 				}
 			}

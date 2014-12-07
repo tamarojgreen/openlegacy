@@ -56,7 +56,7 @@ public class DefaultRowSelector<T> implements RowSelector<TerminalSession, T> {
 
 		ScreenPojoFieldAccessor rowFieldAccessor = new SimpleScreenPojoFieldAccessor(row);
 
-		if (selectionField != null) {
+		if (selectionField != null && drilldownAction != null) {
 			rowFieldAccessor.setFieldValue(selectionField, drilldownAction.getActionValue());
 		}
 		int screenRowNumber = tableDefinitionVal.getStartRow() + rowNumber;
@@ -64,6 +64,8 @@ public class DefaultRowSelector<T> implements RowSelector<TerminalSession, T> {
 		fieldAccessor.setFieldValue(ScreenEntity.FOCUS_FIELD,
 				SnapshotUtils.toAbsolutePosition(screenRowNumber, column, SimpleScreenSize.DEFAULT));
 
-		terminalSession.doAction((TerminalDrilldownAction)drilldownAction, (ScreenEntity)screenEntity);
+		if (drilldownAction != null) {
+			terminalSession.doAction((TerminalDrilldownAction)drilldownAction, (ScreenEntity)screenEntity);
+		}
 	}
 }
