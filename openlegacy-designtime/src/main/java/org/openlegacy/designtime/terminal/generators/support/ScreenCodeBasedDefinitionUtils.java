@@ -120,6 +120,7 @@ public class ScreenCodeBasedDefinitionUtils {
 			fieldDefinition.setForceUpdate(javaFieldModel.isForceUpdate());
 
 			fieldDefinition.setExpression(javaFieldModel.getExpression());
+			fieldDefinition.setEnableLookup(javaFieldModel.isEnableLookup());
 
 			fieldDefinitions.put(javaFieldModel.getName(), fieldDefinition);
 		}

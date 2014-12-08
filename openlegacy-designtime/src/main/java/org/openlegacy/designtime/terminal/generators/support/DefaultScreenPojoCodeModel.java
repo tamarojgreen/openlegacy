@@ -279,6 +279,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private boolean forceUpdate;
 
 		private String expression;
+		private boolean enableLookup;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -636,6 +637,14 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public void setExpression(String expression) {
 			this.expression = expression;
+		}
+
+		public boolean isEnableLookup() {
+			return enableLookup;
+		}
+
+		public void setEnableLookup(boolean enableLookup) {
+			this.enableLookup = enableLookup;
 		}
 
 	}

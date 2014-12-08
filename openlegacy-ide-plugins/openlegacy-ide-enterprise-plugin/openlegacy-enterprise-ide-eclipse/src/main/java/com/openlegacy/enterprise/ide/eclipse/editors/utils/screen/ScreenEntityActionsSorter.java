@@ -34,7 +34,7 @@ public class ScreenEntityActionsSorter implements IEntityActionsSorter {
 			AnnotationConstants.ATTRIBUTE, ScreenAnnotationConstants.WHEN, ScreenAnnotationConstants.UNLESS,
 			ScreenAnnotationConstants.KEY_INDEX, ScreenAnnotationConstants.INTERNAL, ScreenAnnotationConstants.GLOBAL,
 			ScreenAnnotationConstants.NULL_VALUE, ScreenAnnotationConstants.TABLE_KEY, ScreenAnnotationConstants.FORCE_UPDATE,
-			ScreenAnnotationConstants.EXPRESSION);
+			ScreenAnnotationConstants.EXPRESSION, ScreenAnnotationConstants.ENABLE_LOOKUP);
 
 	private static final List<String> SCREEN_COLUMN_ORDER = Arrays.asList(ScreenAnnotationConstants.START_COLUMN,
 			ScreenAnnotationConstants.END_COLUMN, AnnotationConstants.EDITABLE, AnnotationConstants.KEY,

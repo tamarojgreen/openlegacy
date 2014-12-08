@@ -138,4 +138,5 @@ public class ScreenAnnotationConstants {
 	public static final int COLUMN_DEFAULT_VALUE = 0;
 	public static final int LENGTH_DEFAULT_VALUE = 0;
 
+	public static final String ENABLE_LOOKUP = "enableLookup";
 }

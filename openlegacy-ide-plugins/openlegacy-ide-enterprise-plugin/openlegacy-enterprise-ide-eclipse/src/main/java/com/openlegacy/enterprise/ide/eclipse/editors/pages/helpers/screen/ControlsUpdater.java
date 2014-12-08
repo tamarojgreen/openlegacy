@@ -295,6 +295,8 @@ public class ControlsUpdater {
 				button.setSelection(fieldModel.isTableKey());
 			} else if (key.equals(ScreenAnnotationConstants.FORCE_UPDATE)) {
 				button.setSelection(fieldModel.isForceUpdate());
+			} else if (key.equals(ScreenAnnotationConstants.ENABLE_LOOKUP)) {
+				button.setSelection(fieldModel.isEnableLookup());
 			}
 		}
 		// update labels
