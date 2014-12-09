@@ -37,8 +37,7 @@
 				});
 				
 				$rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {			
-					$rootScope.hidePreloader();
-					
+					$rootScope.hidePreloader();					
 					if (toState.name === "login") {
 						$state.go(toParams.redirectTo.name);
 					} else {
@@ -53,8 +52,9 @@
 				$urlRouterProvider.otherwise("/login");
 				
 				var header = { templateUrl: "views/partials/header.html", controller: "headerCtrl" };
+				var isAuthFailed = false;
 				
-				var auth = function($q, $http) {
+				var auth = function($q, $http) {					
 					var deferred = $q.defer();
 						$http(
 							{						
@@ -67,7 +67,8 @@
 								}
 							}).then(function() {
 								deferred.resolve();
-							}, function(response) {						
+							}, function(response) {
+								isAuthFailed = true;
 								if (response.data) {
 									alert(response.data.error);
 								} else {
@@ -80,26 +81,32 @@
 					return deferred.promise;
 				}
 				
-				var authLogin = function($q, $http, $state) {			
-					var deferred = $q.defer();			
-					if ($state.current.name != "" && $state.current.name != "logoff") {
-						$http(
-							{						
-								method: 'GET',
-								data: '',
-								url: olConfig.baseUrl + 'authenticate',												 
-								headers: {
-									'Content-Type' : 'application/json',
-									'Accept' : 'application/json'
-								}
-							}).then(function() {
-								deferred.reject();
-							}, function(response) {						
-								deferred.resolve();						
-							});
-						
-					} else {
+				var authLogin = function($q, $http, $state) {
+					var deferred = $q.defer();
+					
+					if (isAuthFailed) {
+						isAuthFailed = false;
 						deferred.resolve();
+					} else {	
+						if ($state.current.name != "" && $state.current.name != "logoff") {
+							$http(
+								{						
+									method: 'GET',
+									data: '',
+									url: olConfig.baseUrl + 'authenticate',												 
+									headers: {
+										'Content-Type' : 'application/json',
+										'Accept' : 'application/json'
+									}
+								}).then(function() {
+									deferred.reject();
+								}, function(response) {						
+									deferred.resolve();						
+								});
+							
+						} else {
+							deferred.resolve();
+						}
 					}
 					
 					return deferred.promise;
