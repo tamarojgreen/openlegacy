@@ -52,6 +52,7 @@
 				$urlRouterProvider.otherwise("/login");
 				
 				var header = { templateUrl: "views/partials/header.html", controller: "headerCtrl" };
+				var sideMenu = { templateUrl: "views/partials/sideMenu.html", controller: "menuCtrl" };
 				var isAuthFailed = false;
 				
 				var auth = function($q, $http) {					
@@ -140,14 +141,10 @@
 					url : '/menu',
 					views : {
 						"" : {
-							templateUrl : "views/menu.html",
-							controller : 'menuCtrl'
+							templateUrl : "views/menu.html"							
 						},
 						"header" : header,
-						"sideMenu" : {
-							templateUrl : "views/partials/sideMenu.html",
-							controller : "menuCtrl"
-						}
+						"sideMenu" : sideMenu
 					},
 					resolve: { auth: auth }
 				});

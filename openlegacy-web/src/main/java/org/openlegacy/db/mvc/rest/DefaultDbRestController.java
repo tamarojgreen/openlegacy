@@ -15,10 +15,12 @@ import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.ValidationException;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.db.services.DbEntitiesRegistry;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
@@ -43,6 +45,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -169,6 +172,23 @@ public class DefaultDbRestController {
 		} catch (RuntimeException e) {
 			return handleException(response, e);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/menu", method = RequestMethod.GET, consumes = { JSON, XML })
+	public JSONArray getMenu(HttpServletResponse response) throws IOException {
+		Collection<DbEntityDefinition> entities = dbEntitiesRegistry.getEntitiesDefinitions();
+		JSONArray jsonArray = new JSONArray();
+		List<DbEntityDefinition> entityNames = new ArrayList<DbEntityDefinition>();
+		for (DbEntityDefinition dbEntityDefinition : entities) {
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("entityName", dbEntityDefinition.getEntityName());
+			jsonObject.put("displayName", dbEntityDefinition.getDisplayName());
+			jsonArray.add(jsonObject);
+		}
+
+		return jsonArray;
+
 	}
 
 	protected ModelAndView getEntityDefinitions(String entityName, HttpServletResponse response) throws IOException {

@@ -7,10 +7,10 @@
             <span class="visible-xs navbar-brand">Navigation</span>
         </div>
         <div class="navbar-collapse collapse ol-sidebar-collapse">
-            <ul class="nav navbar-nav nav-pills nav-stacked top-margin-10">			            
-            	<li ng-repeat="menu in menuArray">			            				            	
-            		<h4 ng-if="menu.menuItems.length != 0">{{menu.displayName}}</h4>
-            		<a ng-if="menu.menuItems.length == 0" ng-href="#/{{menu.targetEntityName}}">{{menu.displayName}}</a>			            		
+            <ul class="nav navbar-nav nav-pills nav-stacked top-margin-10">
+            	<li><h4>Navigation</h4></li>            			            
+            	<li ng-repeat="menu in menuArray">
+            		<a ng-href="#/{{menu.entityName}}">{{menu.displayName}}</a>			            		
             	</li>			                	                
             </ul>
         </div><!--/.nav-collapse -->

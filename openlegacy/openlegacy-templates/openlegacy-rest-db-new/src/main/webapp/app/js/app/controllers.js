@@ -31,16 +31,13 @@
 				}
 			);
 		})
-	.controller('menuCtrl', function() {
-//		flatMenu(function(data) {
-//			$scope.menuArray = data;
-//		});
+	.controller('menuCtrl', function(flatMenu, $scope) {		
+		flatMenu(function(data) {
+			$scope.menuArray = data;
+			console.log($scope.menuArray);
+		});
 	})
-	.controller('headerCtrl', function ($rootScope, $scope, $state) {			
-//		$rootScope.$on("olApp:login:authorized", function(e, value) {
-//			$scope.username = value;
-//		});
-//		
+	.controller('headerCtrl', function ($rootScope, $scope, $state) {
 		if ($.cookie('loggedInUser') != undefined) {
 			$scope.username = $.cookie('loggedInUser');
 		}
@@ -52,7 +49,7 @@
 			$state.go("logoff");
 		}
 		
-		$scope.showMessages = false;
+//		$scope.showMessages = false;
 //		$olHttp.get("messages", function(data){
 //			$rootScope.hidePreloader();
 //			if (data.model != null && data.model != undefined && data.model != "") {						

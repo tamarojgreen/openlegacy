@@ -59,37 +59,26 @@
 		
 		};
 	} )
-	.factory('$themeService',['$cookies', '$rootScope', function($cookies, $rootScope) {
-		return {
-			'changeTheme': function() {
-				var themes = this.getThemeList();
-				if ($.cookie('ol_theme') == undefined) {
-					$.cookie('ol_theme', themes[0]);
+	.factory('flatMenu', function($http) {		
+		return function(callback) {
+			$http({
+				method: 'GET',
+				data: '',				
+				url: olConfig.baseUrl + 'menu',
+				headers : {
+					'Content-Type' : 'application/json',
+					'Accept' : 'application/json'
 				}
-				var index = themes.indexOf($.cookie('ol_theme'));
-				if (themes.length == index + 1 ) {
-					$.cookie('ol_theme', themes[0]);				  
-				} else {
-					$.cookie('ol_theme', themes[index + 1]);			
-				} 
-				
-				$rootScope.theme = $.cookie('ol_theme');
-			},
-			
-			'getCurrentTheme': function() {				
-				if ($.cookie('ol_theme') == undefined) {
-					$.cookie('ol_theme', this.getThemeList()[0]);					
-					return this.getThemeList()[0];
-				} else {					
-					return $.cookie('ol_theme');
-				}
-			},
-			
-			'getThemeList': function() {
-				return ['light', 'emily', 'dynamics'];
-			}
-			
+			}).success(function(data, status, headers, config) {
+				callback(data.JSONObjectList);				
+			}).error(function(data, status, headers, config) {
+//				if(data.error){
+//					alert('Error: ' + data.error);
+//				} else {
+//					alert(data);
+//				}
+			});
 		};
-	}]);
+	});
 	
 } )();
