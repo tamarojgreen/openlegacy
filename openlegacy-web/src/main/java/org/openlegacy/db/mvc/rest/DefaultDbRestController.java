@@ -15,6 +15,9 @@ import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.ValidationException;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.db.services.DbEntitiesRegistry;
 import org.openlegacy.definitions.ActionDefinition;
@@ -73,18 +76,31 @@ public class DefaultDbRestController {
 
 	private Integer pageSize = 20;
 
+	public void setRequiresLogin(boolean requiresLogin) {
+		this.requiresLogin = requiresLogin;
+	}
+
 	private Integer pageNumber = 1;
 
 	private Integer pageCount = 0;
 
+	private boolean requiresLogin = false;
+
 	private final static Log logger = LogFactory.getLog(DefaultDbRestController.class);
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET, consumes = { JSON, XML })
-	public Object login(@RequestParam(USER) String user, @RequestParam(PASSWORD) String password, HttpServletResponse response)
-			throws IOException {
+	@RequestMapping(value = "/authenticate", method = RequestMethod.GET, consumes = { JSON, XML })
+	public void authenticateUser(HttpServletResponse response) throws IOException {
+		authenticate(response);
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = { JSON, XML })
+	public Object login(@RequestBody String json, HttpServletResponse response) throws IOException, ParseException {
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(json);
+		JSONObject jsonObj = (JSONObject)obj;
 		try {
 			if (dbLoginModule != null) {
-				dbLoginModule.login(user, password);
+				dbLoginModule.login(jsonObj.get("user").toString(), jsonObj.get("password").toString());
 			} else {
 				logger.warn("No login module defined. Skipping login");
 			}
@@ -416,10 +432,27 @@ public class DefaultDbRestController {
 	}
 
 	protected boolean authenticate(HttpServletResponse response) throws IOException {
+		if (!requiresLogin) {
+			return true;
+		}
+
+		if (!dbLoginModule.isLoggedIn()) {
+			sendError(HttpServletResponse.SC_UNAUTHORIZED, "User unauthorized!", response);
+		}
+
 		return true;
 	}
 
 	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
+	}
+
+	private static void sendError(int errorCode, String message, HttpServletResponse response) throws IOException {
+		response.resetBuffer();
+		response.setStatus(errorCode);
+		response.setHeader("Content-Type", "application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(String.format("{\"error\":\"%s\"}", message));
+		response.flushBuffer();
 	}
 }
