@@ -6,6 +6,7 @@ import apps.inventory.screens.SignOn;
 import freemarker.template.TemplateException;
 
 import org.apache.commons.io.IOUtils;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,6 +65,12 @@ public class ScreenEntityMvcGeneratorTest {
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPageWithColumns.jspx.expected"));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
+	}
+
+	@After
+	public void after() {
+		DefaultScreenPageBuilder screenPageBuilder = applicationContext.getBean(DefaultScreenPageBuilder.class);
+		screenPageBuilder.setDefaultColumns(null);
 	}
 
 	@Test
