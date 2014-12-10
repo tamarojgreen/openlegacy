@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -129,19 +130,23 @@ public class ProxyUtil {
 		for (Field field : declaredFields) {
 			Class<?> type = field.getType();
 
-			if (type.isAssignableFrom(List.class)) {
-				processCollectionField(field, proxy, dehibernator, children, processed);
-			} else if (type.isAssignableFrom(Map.class)) {
-				processCollectionField(field, proxy, dehibernator, children, processed);
-			} else if (processed.containsKey(type.getSimpleName())) {
+			Entity entityAnnotation = type.getAnnotation(Entity.class);
+
+			if (processed.containsKey(type.getSimpleName())) {
 				setFieldValue(field, proxy, null);
+			} else if (type.isAssignableFrom(List.class)) {
+				processField(field, proxy, dehibernator, children, processed);
+			} else if (type.isAssignableFrom(Map.class)) {
+				processField(field, proxy, dehibernator, children, processed);
+			} else if (entityAnnotation != null) {
+				processField(field, proxy, dehibernator, children, processed);
 			}
 
 		}
 		return (T)proxy;
 	}
 
-	private static void processCollectionField(Field field, Object proxy, Dehibernator dehibernator, boolean children,
+	private static void processField(Field field, Object proxy, Dehibernator dehibernator, boolean children,
 			Map<Object, Object> processed) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		OneToMany otmAnnotation = field.getAnnotation(OneToMany.class);
 		ManyToOne mtoAnnotation = field.getAnnotation(ManyToOne.class);

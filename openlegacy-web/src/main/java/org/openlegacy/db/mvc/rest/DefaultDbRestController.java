@@ -21,6 +21,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.db.definitions.DbEntityDefinition;
+import org.openlegacy.db.DbSession;
 import org.openlegacy.db.services.DbEntitiesRegistry;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
@@ -28,6 +29,8 @@ import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.json.EntitySerializationUtils;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
+import org.openlegacy.modules.menu.Menu;
+import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.support.SimpleEntityWrapper;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Controller;
@@ -67,6 +70,9 @@ public class DefaultDbRestController {
 	public static final String PASSWORD = "password";
 	protected static final String MODEL = "model";
 	protected static final String ACTION = "action";
+
+	@Inject
+	private DbSession dbSession;
 
 	@Inject
 	private Login dbLoginModule;
@@ -113,7 +119,7 @@ public class DefaultDbRestController {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
 		}
 		response.setStatus(HttpServletResponse.SC_OK);
-		return null;
+		return getMenu();
 	}
 
 	@RequestMapping(value = "/logoff", consumes = { JSON, XML })
@@ -301,7 +307,7 @@ public class DefaultDbRestController {
 		}
 	}
 
-	private static ModelAndView handleException(HttpServletResponse response, RuntimeException e) throws IOException {
+	protected static ModelAndView handleException(HttpServletResponse response, RuntimeException e) throws IOException {
 		response.setStatus(500);
 		response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
 		logger.fatal(e.getMessage(), e);
@@ -475,4 +481,18 @@ public class DefaultDbRestController {
 		response.getWriter().write(String.format("{\"error\":\"%s\"}", message));
 		response.flushBuffer();
 	}
+
+	public DbSession getSession() {
+		return dbSession;
+	}
+
+	private Object getMenu() {
+		Menu menuModule = getSession().getModule(Menu.class);
+		if (menuModule == null) {
+			return null;
+		}
+		MenuItem menus = menuModule.getMenuTree();
+		return menus;
+	}
+
 }
