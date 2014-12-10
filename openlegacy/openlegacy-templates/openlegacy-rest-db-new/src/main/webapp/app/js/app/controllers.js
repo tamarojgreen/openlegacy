@@ -6,7 +6,7 @@
 
 	var module = angular.module('controllers', [])
 
-	.controller( 'loginCtrl', function($scope, $olHttp, $rootScope, $stateParams, $state) {
+	module = module.controller( 'loginCtrl', function($scope, $olHttp, $rootScope, $stateParams, $state) {
 		$scope.login = function(username, password) {
 			var data = {
 				"user" : username,
@@ -22,21 +22,21 @@
 				$state.go($stateParams.redirectTo.name, $stateParams.redirectTo.params);
 			});
 		};
-	})
-	.controller('logoffCtrl', function($scope, $olHttp, $rootScope) {				
+	});
+	module = module.controller('logoffCtrl', function($scope, $olHttp, $rootScope) {				
 			$olHttp.get('logoff', 
 				function() {
 					$rootScope.hidePreloader();
 					$.removeCookie("loggedInUser", {path: '/'});
 				}
 			);
-		})
-	.controller('menuCtrl', function(flatMenu, $scope) {		
+		});
+	module = module.controller('menuCtrl', function(flatMenu, $scope) {		
 		flatMenu(function(data) {
 			$scope.menuArray = data;			
 		});
-	})
-	.controller('headerCtrl', function ($rootScope, $scope, $state) {
+	});
+	module = module.controller('headerCtrl', function ($rootScope, $scope, $state) {
 		if ($.cookie('loggedInUser') != undefined) {
 			$scope.username = $.cookie('loggedInUser');
 		}
@@ -71,5 +71,80 @@
 //				}
 //			}		
 //		});
+	});
+	// template for all entities 
+	<#if entitiesDefinitions??>
+	<#list entitiesDefinitions as entityDefinition>	
+	module = module.controller('${entityDefinition.entityName}Ctrl', function($olHttp, $scope, $location) {
+		$scope.showNext = true;
+		$scope.showPrev = true;
+		var getItems = function() {
+			var queryParamsString = "?";
+			var page = null;
+			angular.forEach($location.search(), function(value, key) {
+				queryParamsString += key + "=" + value + "&";
+				if (key == "page") {
+					page = parseInt(value);
+				}
+				
+			});
+			
+			queryParamsString = queryParamsString.substring(0, queryParamsString.length - 1);
+			
+			$olHttp.get('${entityDefinition.entityName}' + queryParamsString, function(data) {
+				console.log(data);
+				$scope.items = data.model.entity;					
+		        $scope.actions = data.model.actions;
+		        console.log("page: " + page);
+		        console.log("pageCount: " + data.model.pageCount);
+		        if (page == parseInt(data.model.pageCount)) {
+		        	$scope.showNext = false;
+		        	$scope.showPrev = true;
+		        } else if (page > parseInt(data.model.pageCount)) {
+		        	page = 1;
+		        } else if (parseInt(data.model.pageCount) == 0 || page == null || page > parseInt(data.model.pageCount) || page == 1) {			        	
+		        	$scope.showPrev = false;
+		        	$scope.showNext = true;
+		        } else {
+		        	$scope.showPrev = true;
+		        	$scope.showNext = true;
+		        }
+		        
+		        
+		        $scope.next = function() {
+		        	if (page == 0 || page == null) {			        		
+		        		$location.url("/${entityDefinition.entityName}?page=2");
+		        		getItems();
+		        	} else {			        		
+		        		$location.url("/${entityDefinition.entityName}?page=" + (page + 1));
+		        		getItems();
+		        	}
+		        };
+		        
+		        $scope.prev = function() {			        	
+	        		$location.url("/${entityDefinition.entityName}?page=" + (page - 1));
+	        		getItems();			        	
+		        };
+		        
+		        $scope.postAction = function(actionAlias) {			        				        	
+		        	$olHttp.post('${entityDefinition.entityName}' + "?action=" + actionAlias, data.model.entity, function(data) {			        		
+		        		if ($state.current.name == data.model.entityName.toLowerCase()) {
+		        			$scope.items = data.model.entity.innerRecord;
+		        			console.log("OK");
+		        		} else {
+		        			//$state.go(data.model.entityName.toLowerCase());
+		        		}
+		        		
+		        	});
+		        };
+		        
+		        $scope.exportExcelUrl = olConfig.baseUrl + data.model.entityName + "/excel";        
+					
+			});
+		}
+		
+		getItems();
 	});	
+	</#list>
+	</#if>
 })();

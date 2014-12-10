@@ -2,10 +2,12 @@
 <div class="panel panel-default">
 	<div class="panel-body">
 		<div class="table-responsive">
+			<#assign columnsToDisplay = []>
 			<table class="table">
 				<thead>
-					<tr>						
+					<tr>												
 						<#list entityDefinition.keys as key>
+						<#assign columnsToDisplay = columnsToDisplay + [key.name]>
 							<#if key.displayName??>
 								<th>${key.displayName}</th>
 							<#else>
@@ -17,6 +19,7 @@
 						<#if entityDefinition.columnFieldsDefinitions??>
 							<#list entityDefinition.columnFieldsDefinitions?keys as key>
 								<#assign column = entityDefinition.columnFieldsDefinitions[key]>
+								<#assign columnsToDisplay = columnsToDisplay + [column.name]>
 								<#if column.mainDisplayField?? && column.mainDisplayField>
 									<#if column.displayName??>
 									<th>${column.displayName}</th>
@@ -31,12 +34,24 @@
 					</tr>
 				</thead>
 				<tbody>				
-                    <tr>                    	                                              
-												  		
+                    <tr ng-repeat="item in items">
+                    	<#list columnsToDisplay as columnName>
+                    	<td>{{item.${columnName}}}</td>
+                    	</#list>												  		
 					</tr>                            
                 </tbody>
 	  		</table>
   		</div>
+  		<div class="top-margin-50">
+            <button ng-click="next()" type="button" class="btn btn-default navbar-btn pull-right" ng-disabled="!showNext">
+                Next
+                <span class="glyphicon glyphicon-forward"></span>
+            </button>
+            <button ng-click="prev()" type="button" class="btn btn-default navbar-btn pull-left" ng-disabled="!showPrev">
+                <span class="glyphicon glyphicon-backward"></span>
+                Prev
+            </button>
+        </div> 
 	</div>
 </div>
 

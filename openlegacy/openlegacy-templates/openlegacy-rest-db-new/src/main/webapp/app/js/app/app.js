@@ -36,8 +36,7 @@
 					$rootScope.hidePreloader();
 				});
 				
-				$rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
-					console.log("asd");
+				$rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {					
 					$rootScope.hidePreloader();					
 					if (toState.name === "login") {
 						$state.go(toParams.redirectTo.name);
@@ -156,7 +155,7 @@
 						 views: {
 							 "": {
 								 templateUrl: "views/" + entityName + ".html",
-//								 controller: entityName + 'Ctrl'
+								 controller: entityName + 'Ctrl'
 							 },
 							 "header": header,
 							 "sideMenu": {
