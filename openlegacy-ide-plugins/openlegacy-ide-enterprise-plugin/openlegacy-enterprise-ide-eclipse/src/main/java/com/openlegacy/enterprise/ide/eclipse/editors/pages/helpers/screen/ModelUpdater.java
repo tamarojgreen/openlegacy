@@ -236,6 +236,8 @@ public class ModelUpdater {
 				model.setTableKey(selection);
 			} else if (key.equals(ScreenAnnotationConstants.FORCE_UPDATE)) {
 				model.setForceUpdate(selection);
+			} else if (key.equals(ScreenAnnotationConstants.ENABLE_LOOKUP)) {
+				model.setEnableLookup(selection);
 			}
 		}
 		if (text != null) {

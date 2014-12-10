@@ -618,6 +618,13 @@ public class ScreenEntityUtils {
 			isDefault = StringUtils.isEmpty(model.getExpression());
 			PrivateMethods.addRemoveScreenFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, ScreenAnnotationConstants.EXPRESSION, model.getExpression());
+			// @ScreenField.enableLookup: default false
+			if (checkPrevious) {
+				isPrevious = entityModel.isEnableLookup() == model.isEnableLookup();
+			}
+			isDefault = !model.isEnableLookup();
+			PrivateMethods.addRemoveScreenFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, ScreenAnnotationConstants.ENABLE_LOOKUP, model.isEnableLookup());
 		}
 
 		/**

@@ -304,6 +304,9 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		Arrays.sort(columnValuesArr);
 
 		Set<Integer> newColumnValues = new HashSet<Integer>();
+		if (columnValuesArr.length == 0) {
+			return newColumnValues;
+		}
 		newColumnValues.add(columnValuesArr[0]);
 		for (int i = 0; i < columnValuesArr.length - 1; i++) {
 			int columnDistance = Math.abs(columnValuesArr[i] - columnValuesArr[i + 1]);

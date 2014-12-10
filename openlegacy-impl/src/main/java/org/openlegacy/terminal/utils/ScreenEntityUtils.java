@@ -84,7 +84,7 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 		String focusField = null;
 
 		// action may be combined of <action>-<focus field>
-		if (actionAlias.contains("-")) {
+		if (actionAlias != null && actionAlias.contains("-")) {
 			String[] actionParts = actionAlias.split("-");
 			actionAlias = actionParts[0];
 			focusField = actionParts[1];

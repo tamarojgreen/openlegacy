@@ -529,7 +529,10 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 				Messages.getString("ScreenField.forceUpdate"), false, ScreenAnnotationConstants.FORCE_UPDATE);//$NON-NLS-1$
 		// create row for "expression"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenField.expression"), "", ScreenAnnotationConstants.EXPRESSION);
+				Messages.getString("ScreenField.expression"), "", ScreenAnnotationConstants.EXPRESSION);//$NON-NLS-1$ //$NON-NLS-2$
+		// create row for "enableLookup"
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("ScreenField.enableLookup"), false, ScreenAnnotationConstants.ENABLE_LOOKUP);//$NON-NLS-1$
 
 		addContent(toolkit, client);
 

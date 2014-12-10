@@ -110,6 +110,7 @@ public class ScreenAnnotationsParserUtils {
 		String tableKeyValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.TABLE_KEY);
 		String forceUpdateValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.FORCE_UPDATE);
 		String expressionValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.EXPRESSION);
+		String enableLookupValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.ENABLE_LOOKUP);
 
 		field.setSampleValue(StringUtil.isEmpty(sampleValue) ? "" : sampleValue);
 		field.setDefaultValue(StringUtil.isEmpty(defaultValue) ? "" : defaultValue);
@@ -204,6 +205,7 @@ public class ScreenAnnotationsParserUtils {
 		if (expressionValue != null) {
 			field.setExpression(StringUtil.stripQuotes(expressionValue));
 		}
+		field.setEnableLookup(StringConstants.TRUE.equals(enableLookupValue));
 	}
 
 	public static List<Action> populateScreenActions(AnnotationExpr annotationExpr) {

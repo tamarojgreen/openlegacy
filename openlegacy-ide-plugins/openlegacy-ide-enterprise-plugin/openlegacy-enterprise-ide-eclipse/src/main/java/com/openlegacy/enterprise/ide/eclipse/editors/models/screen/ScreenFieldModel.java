@@ -74,6 +74,7 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 	private boolean tableKey = false;
 	private boolean forceUpdate = false;
 	private String expression = "";//$NON-NLS-1$
+	private boolean enableLookup = false;
 	// other
 	private String fieldName = Messages.getString("Field.new");//$NON-NLS-1$
 	private FieldTypeDefinition fieldTypeDefinition = null;
@@ -148,6 +149,7 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 		model.setTableKey(tableKey);
 		model.setForceUpdate(forceUpdate);
 		model.setExpression(expression);
+		model.setEnableLookup(enableLookup);
 		model.initialized = this.initialized;
 	}
 
@@ -170,7 +172,7 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 				&& this.descriptionFieldModel.equals(model.getDescriptionFieldModel()) && keyIndex == model.getKeyIndex()
 				&& internal == model.isInternal() && global == model.isGlobal() && nullValue.equals(model.getNullValue())
 				&& tableKey == model.isTableKey() && forceUpdate == model.isForceUpdate()
-				&& StringUtils.equals(expression, model.getExpression());
+				&& StringUtils.equals(expression, model.getExpression()) && enableLookup == model.isEnableLookup();
 	}
 
 	public FieldAttributeType getAttribute() {
@@ -302,6 +304,8 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 		this.forceUpdate = screenFieldDefinition.isForceUpdate();
 
 		expression = screenFieldDefinition.getExpression() == null ? "" : screenFieldDefinition.getExpression();//$NON-NLS-1$
+
+		enableLookup = screenFieldDefinition.isEnableLookup();
 
 		this.descriptionFieldModel.setUUID(this.uuid);
 		this.descriptionFieldModel.init(screenFieldDefinition.getDescriptionFieldDefinition());
@@ -489,6 +493,14 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 		this.expression = expression;
 	}
 
+	public boolean isEnableLookup() {
+		return enableLookup;
+	}
+
+	public void setEnableLookup(boolean enableLookup) {
+		this.enableLookup = enableLookup;
+	}
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public ScreenFieldModel convertFrom(ScreenFieldModel model) {
@@ -520,6 +532,7 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 		tableKey = model.getFieldValue("tableKey") != null ? (Boolean)model.getFieldValue("tableKey") : false;
 		forceUpdate = model.getFieldValue("forceUpdate") != null ? (Boolean)model.getFieldValue("forceUpdate") : false;
 		expression = model.getFieldValue("expression") != null ? (String)model.getFieldValue("expression") : "";
+		enableLookup = model.getFieldValue("enableLookup") != null ? (Boolean)model.getFieldValue("enableLookup") : false;
 		fieldName = model.getFieldValue("fieldName") != null ? (String)model.getFieldValue("fieldName")
 				: Messages.getString("Field.new");
 		fieldTypeDefinition = model.getFieldValue("fieldTypeDefinition") != null ? (FieldTypeDefinition)model.getFieldValue("fieldTypeDefinition")
@@ -565,6 +578,7 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 		fieldsMap.put("tableKey", tableKey);
 		fieldsMap.put("forceUpdate", forceUpdate);
 		fieldsMap.put("expression", expression);
+		fieldsMap.put("enableLookup", enableLookup);
 		fieldsMap.put("fieldName", fieldName);
 		fieldsMap.put("fieldTypeDefinition", fieldTypeDefinition);
 		fieldsMap.put("fieldTypeName", fieldTypeName);
