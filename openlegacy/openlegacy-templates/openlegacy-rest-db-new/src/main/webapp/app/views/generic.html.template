@@ -1,3 +1,5 @@
+<h2>${entityDefinition.displayName}</h2>
+
 <@actionToolbar entity=entityDefinition showExcelBtn='true'/>
 <div class="panel panel-default">
 	<div class="panel-body">
@@ -7,7 +9,7 @@
 				<thead>
 					<tr>												
 						<#list entityDefinition.keys as key>
-						<#assign columnsToDisplay = columnsToDisplay + [key.name]>
+						<#assign columnsToDisplay = columnsToDisplay + [key.name]>						
 							<#if key.displayName??>
 								<th>${key.displayName}</th>
 							<#else>
@@ -34,7 +36,7 @@
 					</tr>
 				</thead>
 				<tbody>				
-                    <tr ng-repeat="item in items">
+                    <tr ng-repeat="item in items" <#if isREADAction>ng-click="rowClick('${entityDefinition.entityName}', $index)"</#if>>                    	
                     	<#list columnsToDisplay as columnName>
                     	<td>{{item.${columnName}}}</td>
                     	</#list>												  		
@@ -58,13 +60,19 @@
 <#macro actionToolbar entity showExcelBtn>
 	<nav class="navbar navbar-default" role="navigation">
 	    <form class="navbar-form xnavbar-left" role="navigation">
-	        <#list entity.actions as action>	        			
-				<button data-ng-click="doAction('${entity.entityName}', '${action.alias}')" class="btn btn-primary navbar-btn">${action.displayName}</button>				
-			</#list>			
-			<a ng-href="{{baseUrl}}${entity.entityName}{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="${showExcelBtn}">
-			<span class="glyphicon glyphicon-export"></span>	        	
-            	Excel
-            </a>            
+	    	<#assign isREADAction = false>
+	        <#list entity.actions as action>
+		        <#switch action.actionName>
+		        	<#case "READ">
+					    <#assign isREADAction = true>
+					    <#break>
+				    <#case "CREATE">
+				    	<a ng-href="${entity.entityName}/new" class="btn btn-primary navbar-btn">${action.displayName}</a>			    
+				    	<#break>
+			    	<#default>
+			    		<button class="btn btn-primary navbar-btn">${action.displayName}</button>
+				</#switch>		
+			</#list>
 	    </form>
 	</nav>    
 </#macro>

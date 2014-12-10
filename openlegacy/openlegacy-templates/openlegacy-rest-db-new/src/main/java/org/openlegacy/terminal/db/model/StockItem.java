@@ -20,7 +20,9 @@ import javax.persistence.OneToMany;
 
 @Entity
 @DbNavigation(category = "StockItem")
-@DbActions(actions = { @Action(action = org.openlegacy.db.actions.DbActions.CREATE.class, displayName = "Create", alias = "create") })
+@DbActions(actions = {
+		@Action(action = org.openlegacy.db.actions.DbActions.CREATE.class, displayName = "Create", alias = "create"),
+		@Action(action = org.openlegacy.db.actions.DbActions.READ.class, displayName = "READ", alias = "read") })
 public class StockItem {
 
 	@Id

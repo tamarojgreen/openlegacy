@@ -75,7 +75,7 @@
 	// template for all entities 
 	<#if entitiesDefinitions??>
 	<#list entitiesDefinitions as entityDefinition>	
-	module = module.controller('${entityDefinition.entityName}Ctrl', function($olHttp, $scope, $location) {
+	module = module.controller('${entityDefinition.entityName}Ctrl', function($olHttp, $scope, $location, $state, $stateParams) {
 		$scope.showNext = true;
 		$scope.showPrev = true;
 		var getItems = function() {
@@ -94,9 +94,7 @@
 			$olHttp.get('${entityDefinition.entityName}' + queryParamsString, function(data) {
 				console.log(data);
 				$scope.items = data.model.entity;					
-		        $scope.actions = data.model.actions;
-		        console.log("page: " + page);
-		        console.log("pageCount: " + data.model.pageCount);
+		        $scope.actions = data.model.actions;		        
 		        if (page == parseInt(data.model.pageCount)) {
 		        	$scope.showNext = false;
 		        	$scope.showPrev = true;
@@ -126,17 +124,23 @@
 	        		getItems();			        	
 		        };
 		        
-		        $scope.postAction = function(actionAlias) {			        				        	
-		        	$olHttp.post('${entityDefinition.entityName}' + "?action=" + actionAlias, data.model.entity, function(data) {			        		
-		        		if ($state.current.name == data.model.entityName.toLowerCase()) {
-		        			$scope.items = data.model.entity.innerRecord;
-		        			console.log("OK");
-		        		} else {
-		        			//$state.go(data.model.entityName.toLowerCase());
-		        		}
-		        		
-		        	});
-		        };
+		        $scope.rowClick = function(entityName, rowIndex) {
+		        	console.log($scope.items);
+		        	console.log(rowIndex);
+		        	$state.go(entityName + "WithKey", {<#list entityDefinition.keys as key>${key.name?replace(".", "_")}:$scope.items[rowIndex].${key.name}<#if key_has_next>,</#if></#list>});
+		        }
+		        
+//		        $scope.postAction = function(actionAlias) {			        				        	
+//		        	$olHttp.post('${entityDefinition.entityName}' + "?action=" + actionAlias, data.model.entity, function(data) {			        		
+//		        		if ($state.current.name == data.model.entityName.toLowerCase()) {
+//		        			$scope.items = data.model.entity.innerRecord;
+//		        			console.log("OK");
+//		        		} else {
+//		        			$state.go(data.model.entityName.toLowerCase());
+//		        		}
+//		        		
+//		        	});
+//		        };
 		        
 		        $scope.exportExcelUrl = olConfig.baseUrl + data.model.entityName + "/excel";        
 					
