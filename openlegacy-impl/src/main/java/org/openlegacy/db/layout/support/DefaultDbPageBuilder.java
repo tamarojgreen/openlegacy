@@ -15,7 +15,7 @@ public class DefaultDbPageBuilder implements DbPageBuilder {
 	public PageDefinition build(DbEntityDefinition entityDefinition) {
 		PageDefinition pageDefinition = new SimplePageDefinition(entityDefinition);
 		pageDefinition.getActions().addAll(entityDefinition.getActions());
-		return null;
+		return pageDefinition;
 	}
 
 }

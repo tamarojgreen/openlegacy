@@ -2,6 +2,7 @@ package org.openlegacy.terminal.db.model;
 
 import org.openlegacy.annotations.db.Action;
 import org.openlegacy.annotations.db.DbActions;
+import org.openlegacy.annotations.db.DbColumn;
 import org.openlegacy.annotations.db.DbNavigation;
 
 import java.util.ArrayList;
@@ -25,8 +26,10 @@ public class StockItem {
 	@Id
 	private Integer itemId;
 
+	@DbColumn(displayName = "Description", mainDisplayField = true)
 	private String description;
 
+	@DbColumn(displayName = "Video Url", mainDisplayField = true)
 	private String videoUrl;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

@@ -33,8 +33,7 @@
 		})
 	.controller('menuCtrl', function(flatMenu, $scope) {		
 		flatMenu(function(data) {
-			$scope.menuArray = data;
-			console.log($scope.menuArray);
+			$scope.menuArray = data;			
 		});
 	})
 	.controller('headerCtrl', function ($rootScope, $scope, $state) {

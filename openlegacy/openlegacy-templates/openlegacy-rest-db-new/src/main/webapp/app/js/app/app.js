@@ -36,7 +36,8 @@
 					$rootScope.hidePreloader();
 				});
 				
-				$rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {			
+				$rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
+					console.log("asd");
 					$rootScope.hidePreloader();					
 					if (toState.name === "login") {
 						$state.go(toParams.redirectTo.name);
@@ -158,10 +159,6 @@
 //								 controller: entityName + 'Ctrl'
 							 },
 							 "header": header,
-//							 "breadcrumbs": {
-//								 templateUrl: "views/partials/breadcrumbs.html",
-//								 controller: "breadcrumbsCtrl"
-//							 },
 							 "sideMenu": {
 								 templateUrl: "views/partials/sideMenu.html",
 								 controller: "menuCtrl"
