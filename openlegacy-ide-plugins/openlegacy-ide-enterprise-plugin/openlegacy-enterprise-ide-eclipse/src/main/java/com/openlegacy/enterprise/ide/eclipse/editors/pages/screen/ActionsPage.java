@@ -206,13 +206,24 @@ public class ActionsPage extends AbstractPage {
 					tableViewer.setInput(actionsModel);
 					updateModel();
 					tableViewer.getTable().select(tableViewer.getTable().getItemCount() - 1);
-					if (actionsModel.getActions().isEmpty()) {
-						// remove all validation markers
-						managedForm.getMessageManager().removeAllMessages();
-						ScreenEntityEditor editor = (ScreenEntityEditor)getEntityEditor();
-						editor.removeValidationMarker(MessageFormat.format("{0}-{1}", model.getUuid(), "targetEntity"));//$NON-NLS-1$ //$NON-NLS-2$
-						editor.removeValidationMarker(MessageFormat.format("{0}-{1}", model.getUuid(), "attributes"));//$NON-NLS-1$ //$NON-NLS-2$
-					}
+
+					// remove validation markers
+					ScreenEntityEditor editor = (ScreenEntityEditor)getEntityEditor();
+					String validationMarkerKey = MessageFormat.format("{0}-{1}", model.getUuid(), "targetEntity");
+					managedForm.getMessageManager().removeMessage(validationMarkerKey);
+					editor.removeValidationMarker(validationMarkerKey);
+
+					validationMarkerKey = MessageFormat.format("{0}-{1}", model.getUuid(), "attributes");
+					managedForm.getMessageManager().removeMessage(validationMarkerKey);
+					editor.removeValidationMarker(validationMarkerKey);
+
+					validationMarkerKey = MessageFormat.format("{0}-{1}", model.getUuid(), "screenBoundsColumns");
+					managedForm.getMessageManager().removeMessage(validationMarkerKey);
+					editor.removeValidationMarker(validationMarkerKey);
+
+					validationMarkerKey = MessageFormat.format("{0}-{1}", model.getUuid(), "screenBoundsRows");
+					managedForm.getMessageManager().removeMessage(validationMarkerKey);
+					editor.removeValidationMarker(validationMarkerKey);
 				}
 			}
 
