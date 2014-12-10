@@ -62,7 +62,7 @@ olApp.directive('bdatepicker', function() {
                 });
             	
             	ngModelCtrl.$parsers.push(function (viewValue) {            		
-            		return Date.parse(viewValue)/1000;
+            		return Date.parse(viewValue);
             	});
             });
         }
