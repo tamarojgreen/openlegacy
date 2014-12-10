@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.db.layout.DbPageBuilder;
+import org.openlegacy.definitions.page.support.SimplePageDefinition;
 import org.openlegacy.layout.PageDefinition;
 
 public class DefaultDbPageBuilder implements DbPageBuilder {
@@ -12,7 +13,8 @@ public class DefaultDbPageBuilder implements DbPageBuilder {
 
 	@Override
 	public PageDefinition build(DbEntityDefinition entityDefinition) {
-		// TODO Auto-generated method stub
+		PageDefinition pageDefinition = new SimplePageDefinition(entityDefinition);
+		pageDefinition.getActions().addAll(entityDefinition.getActions());
 		return null;
 	}
 

@@ -22,6 +22,7 @@ import org.json.simple.parser.ParseException;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.db.DbSession;
 import org.openlegacy.db.definitions.DbEntityDefinition;
+import org.openlegacy.db.definitions.DbNavigationDefinition;
 import org.openlegacy.db.services.DbEntitiesRegistry;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
@@ -187,10 +188,14 @@ public class DefaultDbRestController {
 		JSONArray jsonArray = new JSONArray();
 		List<DbEntityDefinition> entityNames = new ArrayList<DbEntityDefinition>();
 		for (DbEntityDefinition dbEntityDefinition : entities) {
-			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("entityName", dbEntityDefinition.getEntityName());
-			jsonObject.put("displayName", dbEntityDefinition.getDisplayName());
-			jsonArray.add(jsonObject);
+			DbNavigationDefinition navDefinition = dbEntityDefinition.getNavigationDefinition();
+			if (navDefinition.getCategory() != null) {
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("displayName", navDefinition.getCategory());
+				jsonObject.put("entityName", dbEntityDefinition.getEntityName());
+				jsonArray.add(jsonObject);
+			}
+
 		}
 
 		return jsonArray;

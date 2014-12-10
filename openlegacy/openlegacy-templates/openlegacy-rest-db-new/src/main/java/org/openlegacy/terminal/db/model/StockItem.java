@@ -1,5 +1,9 @@
 package org.openlegacy.terminal.db.model;
 
+import org.openlegacy.annotations.db.Action;
+import org.openlegacy.annotations.db.DbActions;
+import org.openlegacy.annotations.db.DbNavigation;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +18,8 @@ import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 
 @Entity
+@DbNavigation(category = "StockItem")
+@DbActions(actions = { @Action(action = org.openlegacy.db.actions.DbActions.CREATE.class, displayName = "Create", alias = "create") })
 public class StockItem {
 
 	@Id
