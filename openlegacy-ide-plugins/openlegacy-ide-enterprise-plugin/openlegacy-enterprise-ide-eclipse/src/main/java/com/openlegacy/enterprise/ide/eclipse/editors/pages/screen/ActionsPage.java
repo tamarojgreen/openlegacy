@@ -34,6 +34,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
@@ -44,9 +45,14 @@ import org.openlegacy.annotations.screen.Action.ActionType;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
+import org.openlegacy.ide.eclipse.preview.screen.FieldRectangle;
+import org.openlegacy.ide.eclipse.preview.screen.ScreenPreview;
+import org.openlegacy.ide.eclipse.preview.screen.SelectedObject;
+import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.utils.StringConstants;
+import org.openlegacy.utils.StringUtil;
 
 import java.lang.annotation.Annotation;
 import java.text.MessageFormat;
@@ -177,10 +183,7 @@ public class ActionsPage extends AbstractPage {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				actionsModel.getActions().add(
-						new ActionModel("", "", "", AdditionalKey.NONE, 0, 0, 0, null, "", ActionType.GENERAL,//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-								org.openlegacy.terminal.ScreenEntity.NONE.class.getSimpleName(), 0, true,
-								TerminalActions.NONE.class.getSimpleName()));
+				actionsModel.getActions().add(createActionModel());
 				tableViewer.setInput(actionsModel);
 				updateModel();
 				tableViewer.getTable().select(tableViewer.getTable().getItemCount() - 1);
@@ -483,6 +486,55 @@ public class ActionsPage extends AbstractPage {
 				updateModel();
 			}
 		});
+	}
+	
+	private static ActionModel createActionModel() {
+		ActionModel model = new ActionModel("", "", "", AdditionalKey.NONE, 0, 0, 0, null, "", ActionType.GENERAL,//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				org.openlegacy.terminal.ScreenEntity.NONE.class.getSimpleName(), 0, true,
+				TerminalActions.NONE.class.getSimpleName());
+		
+		ScreenPreview screenPreview = (ScreenPreview)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(
+				ScreenPreview.ID);
+		if (screenPreview != null) {
+			SelectedObject selectedObject = screenPreview.getSelectedObject();
+
+			if (selectedObject != null) {
+				FieldRectangle fieldRectangle = selectedObject.getFieldRectangle();
+				String selectedText = fieldRectangle.getValue();
+
+				if (selectedText != null && !selectedText.isEmpty()) {
+					String[] selectedTextParts = selectedText.split("-|=");
+
+					if (selectedTextParts.length == 2) {
+						String key = selectedTextParts[0];
+						String label = selectedTextParts[1];
+						
+						TerminalAction terminalAction = TerminalActions.newAction(key);
+						if (terminalAction != null) {
+							model.setAction(terminalAction);
+							model.setActionName(terminalAction.getClass().getSimpleName());
+						} else if (key.matches("^(F1[3-9])|(F2[0-4])$")) {
+							// F13 -> SHIFT + F1 etc
+							Integer fKey = Integer.parseInt(key.substring(1)) - 12;
+							terminalAction = TerminalActions.newAction("F" + fKey);
+							model.setAction(terminalAction);
+							model.setAdditionalKey(AdditionalKey.SHIFT);
+							model.setActionName(terminalAction.getClass().getSimpleName());
+						}
+
+						model.setDisplayName(label);
+						model.setAlias(StringUtil.toJavaFieldName(label));
+
+						model.setRow(fieldRectangle.getRow());
+						model.setColumn(fieldRectangle.getColumn());
+						model.setLength(fieldRectangle.getEndColumn() - fieldRectangle.getColumn());
+						model.setWhen(".*" + key + ".*");
+					}
+				}
+			}
+		}
+		
+		return model;
 	}
 
 	private void updateModel() {
