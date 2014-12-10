@@ -34,9 +34,9 @@
 		
 		
 		<!-- project js -->
-		<script src="js/app/app.js" type="text/javascript"></script>
-		<script src="js/app/config.js" type="text/javascript"></script>	
-		<script src="js/app/controllers.js" type="text/javascript"></script>
+		<script src="js/app/app.js_ng" type="text/javascript"></script>
+		<script src="js/app/controllers.js_ng" type="text/javascript"></script>	
+		<script src="js/app/config.js" type="text/javascript"></script>
 		<script src="js/app/services.js" type="text/javascript"></script>	
 	</head>
 	<body class="main" ng-class="theme">

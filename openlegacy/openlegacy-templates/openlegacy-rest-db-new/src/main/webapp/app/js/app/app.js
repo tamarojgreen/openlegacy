@@ -148,5 +148,54 @@
 					},
 					resolve: { auth: auth }
 				});
+				
+				function addRoute(stateName, entityName, url) {
+					$stateProvider.state(stateName, {
+						 url: url,
+						 views: {
+							 "": {
+								 templateUrl: "views/" + entityName + ".html",
+//								 controller: entityName + 'Ctrl'
+							 },
+							 "header": header,
+//							 "breadcrumbs": {
+//								 templateUrl: "views/partials/breadcrumbs.html",
+//								 controller: "breadcrumbsCtrl"
+//							 },
+							 "sideMenu": {
+								 templateUrl: "views/partials/sideMenu.html",
+								 controller: "menuCtrl"
+							 }
+						 },
+						 resolve: { auth: auth }
+					});
+				}
+				
+				var urlsToFilter = [];
+
+				/* Register controller place-holder start
+				<#if entityName??>
+					<#if keys?size &gt; 0>				
+						addRoute("${entityName}WithKey", "${entityName}", "/${entityName}/:<#list keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>");
+						urlsToFilter.push('/${entityName}/:<#list keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>');				
+					</#if>			
+					addRoute("${entityName}", "${entityName}", "/${entityName}");
+					urlsToFilter.push('/${entityName}');
+				</#if>
+				Register controller place-holder end */									
+				<#if entitiesDefinitions??>
+					<#list entitiesDefinitions as entityDefinition>				
+						<#if entityDefinition.keys?size &gt; 0>					
+							var url = "/${entityDefinition.entityName}/:<#list entityDefinition.keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>";
+							if ($.inArray(url, urlsToFilter) == -1) {
+								addRoute("${entityDefinition.entityName}WithKey", "${entityDefinition.entityName}", url);
+							}
+						</#if>
+						var url = "/${entityDefinition.entityName}";
+						if ($.inArray(url, urlsToFilter) == -1) {
+							addRoute("${entityDefinition.entityName}", "${entityDefinition.entityName}", url);
+						}				
+					</#list>
+				</#if>	
 			} ]);
 })();
