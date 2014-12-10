@@ -16,9 +16,10 @@ import org.openlegacy.designtime.terminal.generators.mock.ScreenForPage;
 import org.openlegacy.designtime.terminal.generators.support.ScreenCodeBasedDefinitionUtils;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.layout.ScreenPageBuilder;
+import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.test.utils.AssertUtils;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -38,10 +39,10 @@ public class ScreenEntityMvcGeneratorTest {
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	@Inject
-	private ScreenPageBuilder screenPageBuilder;
+	private ScreenEntityMvcGenerator screenEntityMvcGenerator;
 
 	@Inject
-	private ScreenEntityMvcGenerator screenEntityMvcGenerator;
+	private ApplicationContext applicationContext;
 
 	@Test
 	public void testGenerateJspx() throws Exception {
@@ -50,7 +51,25 @@ public class ScreenEntityMvcGeneratorTest {
 	}
 
 	@Test
+	public void testGenerateJspxByColumns() throws Exception {
+
+		DefaultScreenPageBuilder screenPageBuilder = applicationContext.getBean(DefaultScreenPageBuilder.class);
+		screenPageBuilder.setDefaultColumns(3);
+
+		ScreenEntityDefinition screenDefinition = screenEntitiesRegistry.get(ScreenForPage.class);
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		PageDefinition pageDefinition = screenPageBuilder.build(screenDefinition);
+		screenEntityMvcGenerator.generatePage(pageDefinition, baos, "web/");
+
+		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPageWithColumns.jspx.expected"));
+		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
+	}
+
+	@Test
 	public void testGenerateJspxByType() throws Exception {
+
+		DefaultScreenPageBuilder screenPageBuilder = applicationContext.getBean(DefaultScreenPageBuilder.class);
 
 		ScreenEntityDefinition screenDefinition = screenEntitiesRegistry.get(MenuScreenForPage.class);
 
@@ -106,6 +125,8 @@ public class ScreenEntityMvcGeneratorTest {
 
 	@Test
 	public void testGenerateContollerAspectByCodeModelWithKey() throws Exception {
+		DefaultScreenPageBuilder screenPageBuilder = applicationContext.getBean(DefaultScreenPageBuilder.class);
+
 		String javaSource = "/org/openlegacy/designtime/terminal/generators/mock/ScreenForPageWithKey.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
@@ -120,6 +141,7 @@ public class ScreenEntityMvcGeneratorTest {
 
 	@Test
 	public void testGenerateController() throws Exception {
+		DefaultScreenPageBuilder screenPageBuilder = applicationContext.getBean(DefaultScreenPageBuilder.class);
 
 		ScreenEntityDefinition screenDefinition = screenEntitiesRegistry.get(ScreenForPage.class);
 
@@ -132,6 +154,7 @@ public class ScreenEntityMvcGeneratorTest {
 	}
 
 	private void assertControllerAspectGeneration(ScreenEntityDefinition screenDefinition) throws TemplateException, IOException {
+		DefaultScreenPageBuilder screenPageBuilder = applicationContext.getBean(DefaultScreenPageBuilder.class);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PageDefinition pageDefinition = screenPageBuilder.build(screenDefinition);
 		screenEntityMvcGenerator.generateControllerAspect(pageDefinition, baos);
@@ -150,6 +173,7 @@ public class ScreenEntityMvcGeneratorTest {
 
 	private void assertPageGeneration(ScreenEntityDefinition screenEntityDefinition, String expectedPageResultResource)
 			throws TemplateException, IOException {
+		DefaultScreenPageBuilder screenPageBuilder = applicationContext.getBean(DefaultScreenPageBuilder.class);
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PageDefinition pageDefinition = screenPageBuilder.build(screenEntityDefinition);

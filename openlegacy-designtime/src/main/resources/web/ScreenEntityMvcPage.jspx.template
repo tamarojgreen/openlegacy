@@ -23,7 +23,11 @@
 				<#list pagePart.partRows as partRow>
 				<ol:row columns="${partRow.fields?size}">
 					<#list partRow.fields as field>
+					<#if field??>
 	 				<ol:field name="${field.name}" />
+	 				<#else>
+	 				<ol:field name="" />
+					</#if>
 					</#list>
 				</ol:row>
 				</#list>
