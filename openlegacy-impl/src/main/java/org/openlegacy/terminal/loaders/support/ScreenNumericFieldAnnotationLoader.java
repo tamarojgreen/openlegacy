@@ -74,7 +74,7 @@ public class ScreenNumericFieldAnnotationLoader extends AbstractFieldAnnotationL
 			throw (new RegistryException("A field marked with @ScreenNumericField must be of numeric"));
 		}
 		fieldDefinition.setFieldTypeDefinition(new SimpleNumericFieldTypeDefinition(fieldAnnotation.minimumValue(),
-				fieldAnnotation.maximumValue()));
+				fieldAnnotation.maximumValue(), fieldAnnotation.pattern()));
 	}
 
 }

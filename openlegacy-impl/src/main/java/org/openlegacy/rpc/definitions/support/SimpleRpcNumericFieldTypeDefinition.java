@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.rpc.definitions.support;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.definitions.RpcNumericFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleNumericFieldTypeDefinition;
 
@@ -25,8 +27,8 @@ public class SimpleRpcNumericFieldTypeDefinition extends SimpleNumericFieldTypeD
 		super();
 	}
 
-	public SimpleRpcNumericFieldTypeDefinition(double minimumValue, double maximumValue, Integer decimalPlaces) {
-		super(minimumValue, maximumValue);
+	public SimpleRpcNumericFieldTypeDefinition(double minimumValue, double maximumValue, Integer decimalPlaces, String pattern) {
+		super(minimumValue, maximumValue, pattern);
 		this.decimalPlaces = decimalPlaces;
 	}
 
@@ -41,31 +43,11 @@ public class SimpleRpcNumericFieldTypeDefinition extends SimpleNumericFieldTypeD
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((decimalPlaces == null) ? 0 : decimalPlaces.hashCode());
-		return result;
+		return HashCodeBuilder.reflectionHashCode(this);
 	}
 
 	@Override
 	public boolean equals(final Object object) {
-		if (this == object) {
-			return true;
-		}
-		if (!super.equals(object)) {
-			return false;
-		}
-		if (getClass() != object.getClass()) {
-			return false;
-		}
-		final SimpleRpcNumericFieldTypeDefinition other = (SimpleRpcNumericFieldTypeDefinition)object;
-		if (decimalPlaces == null) {
-			if (other.decimalPlaces != null) {
-				return false;
-			}
-		} else if (!decimalPlaces.equals(other.decimalPlaces)) {
-			return false;
-		}
-		return true;
+		return EqualsBuilder.reflectionEquals(this, object);
 	}
 }

@@ -74,7 +74,8 @@ public class RpcNumericFieldAnnotationLoader extends AbstractFieldAnnotationLoad
 			throw (new RegistryException("A field marked with @RpcNumericField must be of numeric or List of numeric"));
 		}
 		SimpleRpcNumericFieldTypeDefinition simpleRpcNumericFieldTypeDefinition = new SimpleRpcNumericFieldTypeDefinition(
-				fieldAnnotation.minimumValue(), fieldAnnotation.maximumValue(), fieldAnnotation.decimalPlaces());
+				fieldAnnotation.minimumValue(), fieldAnnotation.maximumValue(), fieldAnnotation.decimalPlaces(),
+				fieldAnnotation.pattern());
 		if (fieldDefinition.getJavaType() != List.class) {
 			fieldDefinition.setFieldTypeDefinition(simpleRpcNumericFieldTypeDefinition);
 		} else {

@@ -74,7 +74,7 @@
 								<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width+30}px;"/></c:if>
 								<form:input type="${type}" id="${name}"
 									data-dojo-type="dijit.form.NumberSpinner" dir="ltr"
-									constraints="{min:${fieldDefinition.fieldTypeDefinition.minimumValue},max:${fieldDefinition.fieldTypeDefinition.maximumValue},places:0}"
+									constraints="{min:${fieldDefinition.fieldTypeDefinition.minimumValue},max:${fieldDefinition.fieldTypeDefinition.maximumValue},places:0,pattern:'${fieldDefinition.fieldTypeDefinition.pattern}'}"
 									path="${name}" cssStyle="${widthString}${style}" />
 							</c:when>
 							<c:when test="${type == 'boolean'}">

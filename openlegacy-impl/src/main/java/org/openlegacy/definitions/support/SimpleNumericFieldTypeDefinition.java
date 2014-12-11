@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.definitions.support;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.definitions.NumericFieldTypeDefinition;
 
 import java.io.Serializable;
@@ -21,11 +23,14 @@ public class SimpleNumericFieldTypeDefinition implements NumericFieldTypeDefinit
 	private double minimumValue = Double.MIN_VALUE;
 	private double maximumValue = Double.MAX_VALUE;
 
+	private String pattern;
+
 	public SimpleNumericFieldTypeDefinition() {}
 
-	public SimpleNumericFieldTypeDefinition(double minimumValue, double maximumValue) {
+	public SimpleNumericFieldTypeDefinition(double minimumValue, double maximumValue, String pattern) {
 		this.minimumValue = minimumValue;
 		this.maximumValue = maximumValue;
+		this.pattern = pattern;
 	}
 
 	@Override
@@ -43,33 +48,17 @@ public class SimpleNumericFieldTypeDefinition implements NumericFieldTypeDefinit
 		return "number";
 	}
 
+	public String getPattern() {
+		return pattern;
+	}
+
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(maximumValue);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(minimumValue);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
+		return HashCodeBuilder.reflectionHashCode(this);
 	}
 
 	@Override
 	public boolean equals(final Object object) {
-		if (this == object)
-			return true;
-		if (object == null)
-			return false;
-		if (getClass() != object.getClass())
-			return false;
-		final SimpleNumericFieldTypeDefinition other = (SimpleNumericFieldTypeDefinition) object;
-		if (Double.doubleToLongBits(maximumValue) != Double
-				.doubleToLongBits(other.maximumValue))
-			return false;
-		if (Double.doubleToLongBits(minimumValue) != Double
-				.doubleToLongBits(other.minimumValue))
-			return false;
-		return true;
+		return EqualsBuilder.reflectionEquals(this, object);
 	}
 }
