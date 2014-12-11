@@ -114,6 +114,6 @@ public class CobolNumberInformation implements FieldInformation {
 		if (digitAfterDot > 0) {
 			maxVal += (1 - Math.pow(10, scale - digitAfterDot));
 		}
-		return new SimpleRpcNumericFieldTypeDefinition(-maxVal, maxVal, digitAfterDot);
+		return new SimpleRpcNumericFieldTypeDefinition(-maxVal, maxVal, digitAfterDot, null);
 	}
 }

@@ -124,7 +124,7 @@ public class AnnotationsParserUtils {
 		int decimalPlaces = !StringUtil.isEmpty(decimalPlacesFromAnnotation) ? Integer.valueOf(decimalPlacesFromAnnotation) : 0;
 
 		FieldTypeDefinition fieldTypeDefinition = new SimpleRpcNumericFieldTypeDefinition(minimumValue, maximumValue,
-				decimalPlaces);
+				decimalPlaces, null);
 		return fieldTypeDefinition;
 	}
 }
