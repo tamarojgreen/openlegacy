@@ -15,6 +15,9 @@ function getMainForm() {
 function TerminalSession() {
 
 	this.doAction = function(keyboardKey) {
+		if (sequenceTimer != null){
+			clearTimeout(sequenceTimer); 
+		}
 		if (getMainForm().KeyboardKey.value == ""){
 			getMainForm().KeyboardKey.value = keyboardKey;
 			getMainForm().submit();
@@ -28,6 +31,7 @@ require(["dojo/ready"], function(ready){
 	ready(emulationOnLoad);
 });
 
+var sequenceTimer;
 
 function emulationOnLoad(){
 	require(["dojo/dom", "dojo/on"], function(dom, on){
@@ -40,7 +44,7 @@ function emulationOnLoad(){
 			attachFieldsFocus(on);
 		}
 		if (getMainForm().Sequence != null){
-			setTimeout(checkSequence,timeouts[currentTimeoutIndex]);
+			sequenceTimer = setTimeout(checkSequence,timeouts[currentTimeoutIndex]);
 		}
 		captureOnChange(on);
 		setLabelDoubleClick();
@@ -65,7 +69,7 @@ function checkSequence(){
 				if (currentTimeoutIndex+1 < timeouts.length){
 					currentTimeoutIndex++;
 				}
-				setTimeout(checkSequence,timeouts[currentTimeoutIndex]);
+				sequenceTimer = setTimeout(checkSequence,timeouts[currentTimeoutIndex]);
 			}
 		},
 		error : function(e) {
