@@ -74,8 +74,7 @@ End use this definition to replay a mock-up session application -->
 							class="org.openlegacy.terminal.modules.messages.ResetMessagesModule" p:messageField="message">
 							<property name="messages">
 								<list>
-									<value>Roll up or down</value>
-									<value>Function key not allowed</value>
+									<value>.*</value>
 								</list>
 							</property>
 						</bean>

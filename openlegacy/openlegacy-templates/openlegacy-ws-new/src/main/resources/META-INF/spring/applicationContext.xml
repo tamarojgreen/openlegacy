@@ -45,7 +45,14 @@
 							class="org.openlegacy.terminal.modules.registry.DefaultSessionRegistryModule" />
 						<bean
 							class="org.openlegacy.terminal.modules.globals.DefaultGlobalsModule" />
-																		
+						<bean
+							class="org.openlegacy.terminal.modules.messages.ResetMessagesModule" p:messageField="message">
+							<property name="messages">
+								<list>
+									<value>.*</value>
+								</list>
+							</property>
+						</bean>
 					</list>
 				</property>
 			</bean>

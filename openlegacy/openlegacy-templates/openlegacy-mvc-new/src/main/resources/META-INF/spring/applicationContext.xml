@@ -63,8 +63,7 @@
 							class="org.openlegacy.terminal.modules.messages.ResetMessagesModule" p:messageField="message">
 							<property name="messages">
 								<list>
-									<value>Roll up or down</value>
-									<value>Function key not allowed</value>
+									<value>.*</value>
 								</list>
 							</property>
 						</bean>
@@ -76,6 +75,7 @@
 -->
 
 <!-- Use this definition to replay a mock-up session application
+End use this definition to replay a mock-up session application -->
  	<bean id="terminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
 		<property name="root" value="/trails" />
@@ -92,7 +92,6 @@
 		</property>
 	    <aop:scoped-proxy/>
 	</bean>
-End use this definition to replay a mock-up session application -->
 
  	<util:map id="ipDevice">
 		<!-- example of set device for IP - add more (ipV4 and ipV6 style)
