@@ -99,10 +99,10 @@ public class LoginController {
 		return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 	}
 
-	@RequestMapping(value = "Login", method = RequestMethod.POST)
+	@RequestMapping(value = { "Login", "login" }, method = RequestMethod.POST)
 	public String login(Model uiModel, HttpServletRequest request,
 			@RequestParam(value = "partial", required = false) String partial,
-			@RequestParam(value = "requestedUrl", required = false) String requestedUrl) throws URISyntaxException {
+			@RequestParam(value = "target", required = false) String target) throws URISyntaxException {
 
 		ScreenEntityDefinition loginEntityDefinition = loginMetadata.getLoginScreenDefinition();
 
@@ -123,8 +123,9 @@ public class LoginController {
 			return MvcConstants.LOGIN_VIEW;
 		}
 
-		if (StringUtils.isNotEmpty(requestedUrl)) {
-			URI uri = new URI(requestedUrl.replaceAll(" ", "%20"));
+		System.out.println(request.getParameterNames());
+		if (StringUtils.isNotEmpty(target)) {
+			URI uri = new URI(target.replaceAll(" ", "%20"));
 			return MvcConstants.REDIRECT + uri.toASCIIString();
 		}
 

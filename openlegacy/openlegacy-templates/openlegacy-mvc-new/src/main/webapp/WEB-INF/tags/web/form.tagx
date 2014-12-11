@@ -9,7 +9,7 @@
 
 	<c:set var="formName" value="${ol:capFirst(model)}Form" scope="request" />
 	
-    <form:form id="${ol:capFirst(model)}Form" method="post" action="${pageContext.request.contextPath}/${ol:capFirst(model)}" modelAttribute="${model}">
+    <form:form id="${ol:capFirst(model)}Form" method="post" modelAttribute="${model}">
 		<jsp:doBody />
 	</form:form>
 

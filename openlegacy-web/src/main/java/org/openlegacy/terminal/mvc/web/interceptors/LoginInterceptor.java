@@ -46,7 +46,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			}
 			requestedPage = requestedPage.replaceFirst("&", "?");
 			URI uri = new URI(requestedPage);
-			response.sendRedirect(request.getContextPath() + "/login?requestedUrl=" + uri.toASCIIString().replaceAll("&", "%26"));
+			response.sendRedirect(request.getContextPath() + "/login?target=" + uri.toASCIIString().replaceAll("&", "%26"));
 			return false;
 		}
 		return true;
