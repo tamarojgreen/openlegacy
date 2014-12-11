@@ -23,4 +23,6 @@ public interface NumericFieldTypeDefinition extends FieldTypeDefinition {
 	public double getMinimumValue();
 
 	public double getMaximumValue();
+
+	public String getPattern();
 }

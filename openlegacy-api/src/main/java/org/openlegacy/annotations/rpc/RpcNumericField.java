@@ -27,4 +27,10 @@ public @interface RpcNumericField {
 
 	int decimalPlaces() default 0;
 
+	/**
+	 * Pattern for display
+	 * 
+	 * @return
+	 */
+	String pattern() default "#";
 }

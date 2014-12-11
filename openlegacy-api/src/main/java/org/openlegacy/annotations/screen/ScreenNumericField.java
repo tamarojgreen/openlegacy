@@ -37,4 +37,11 @@ public @interface ScreenNumericField {
 
 	double maximumValue() default Double.MAX_VALUE;
 
+	/**
+	 * Pattern for display
+	 * 
+	 * @return
+	 */
+	String pattern() default "#";
+
 }
