@@ -103,3 +103,7 @@
 .back_light_white{
 	background-color: white;
 }
+
+.MessageField {
+	color:red; 
+}

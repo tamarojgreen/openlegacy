@@ -9,9 +9,10 @@
 	<jsp:output omit-xml-declaration="yes" /> 
 
 	<ol:form model="screenForPage">
-	
-	
-			<ol:pagePart title="">
+					<ol:field name="orphanFld" />
+			
+			
+			<ol:pagePart title="">			
 				<ol:row columns="1">
 	 				<ol:field name="fldCol12" />
 				</ol:row>
@@ -24,26 +25,23 @@
 			</ol:pagePart>
 			
 			
-			<ol:pagePart title="">
+			<ol:pagePart title="">			
 				<ol:row columns="2">
 	 				<ol:field name="fldRow10" />
 	 				<ol:field name="fld2Row10" />
 				</ol:row>
 			</ol:pagePart>
-			<ol:pagePart title="Orphan Fld">
-				<ol:row columns="1">
-					<ol:field name="orphanFld" />
-				</ol:row>
-			</ol:pagePart>
 			
 			
-			<ol:pagePart title="Screen For Page Part">
+			<ol:pagePart title="Screen For Page Part">			
 				<ol:row columns="2">
 	 				<ol:field name="screenForPagePart.fldRow20" />
 	 				<ol:field name="screenForPagePart.fld2Row20" />
 				</ol:row>
 			</ol:pagePart>
-			<ol:pagePart title="">
+			
+			
+			<ol:pagePart title="">			
 					<ol:table data="${screenForPage.screenForPageRows}" property="screenForPageRows"  />
 			</ol:pagePart>
 	</ol:form>

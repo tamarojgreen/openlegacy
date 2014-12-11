@@ -12,6 +12,7 @@ import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.annotations.screen.ScreenTableActions;
 import org.openlegacy.annotations.screen.TableAction;
+import org.openlegacy.modules.messages.Messages.MessageField;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
 
@@ -54,5 +55,8 @@ public class WorkWithPrinterOutput {
 		@ScreenColumn(endColumn = 66, startColumn = 21)
 		private String status;
 	}
+
+	@ScreenField(row = 24, column = 2, fieldType = MessageField.class, endColumn = 37)
+	private String message;
 
 }

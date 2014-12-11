@@ -10,6 +10,7 @@ import org.openlegacy.annotations.screen.ScreenPart;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.annotations.screen.ScreenTableActions;
 import org.openlegacy.annotations.screen.TableAction;
+import org.openlegacy.modules.messages.Messages.MessageField;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
@@ -37,7 +38,7 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 	@ScreenField(row = 10, column = 53)
 	private String fld2Row10;
 
-	@ScreenField(row = 24, column = 20)
+	@ScreenField(row = 24, column = 20, fieldType = MessageField.class)
 	private String orphanFld;
 
 	private ScreenForPagePart screenForPagePart;
@@ -90,7 +91,7 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 	@Override
 	public void setFocusField(String focusField) {}
 
-	@ScreenPart
+	@ScreenPart()
 	public static class ScreenForPagePart {
 
 		@ScreenField(row = 20, column = 13, endColumn = 43)

@@ -21,6 +21,8 @@ privileged @SuppressWarnings("unused") aspect WorkWithPrinterOutput_Aspect {
 	
 
     private List<TerminalActionDefinition> WorkWithPrinterOutput.workWithPrinterOutputRecordsActions = new ArrayList<TerminalActionDefinition>();
+	
+
     
 
     public String WorkWithPrinterOutput.getSystem(){
@@ -41,6 +43,11 @@ privileged @SuppressWarnings("unused") aspect WorkWithPrinterOutput_Aspect {
     public List<TerminalActionDefinition> WorkWithPrinterOutput.getWorkWithPrinterOutputRecordsActions(){
     	return this.workWithPrinterOutputRecordsActions;
     }
+    public String WorkWithPrinterOutput.getMessage(){
+    	return this.message;
+    }
+    
+
 
     public String WorkWithPrinterOutput.getFocusField(){
     	return focusField;

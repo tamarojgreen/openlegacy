@@ -192,6 +192,9 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 	}
 
 	public String getFieldTypeName() {
+		if (type != null) {
+			return type.getSimpleName();
+		}
 		return fieldTypeName;
 	}
 

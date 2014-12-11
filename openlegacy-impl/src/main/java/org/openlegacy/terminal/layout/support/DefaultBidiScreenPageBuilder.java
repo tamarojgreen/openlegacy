@@ -60,5 +60,6 @@ public class DefaultBidiScreenPageBuilder extends DefaultScreenPageBuilder {
 	@Override
 	protected void sortFields(List<ScreenFieldDefinition> sortedFields) {
 		Collections.sort(sortedFields, new TerminalPositionContainerComparator(true));
+		bringMessagesToTop(sortedFields);
 	}
 }

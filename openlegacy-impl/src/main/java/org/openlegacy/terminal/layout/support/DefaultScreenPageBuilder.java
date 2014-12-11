@@ -13,9 +13,11 @@ package org.openlegacy.terminal.layout.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.page.support.SimplePageDefinition;
 import org.openlegacy.definitions.page.support.SimplePagePartDefinition;
 import org.openlegacy.definitions.page.support.SimplePagePartRowDefinition;
+import org.openlegacy.definitions.support.AbstractFieldDefinition;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.layout.PagePartDefinition;
 import org.openlegacy.layout.PagePartRowDefinition;
@@ -49,6 +51,8 @@ import java.util.Set;
  */
 public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
+	private static final String MESSAGE_FIELD = "MessageField";
+
 	private final static Log logger = LogFactory.getLog(DefaultScreenPageBuilder.class);
 
 	private int maxRowDistanceWithinPart = 1;
@@ -64,6 +68,8 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	private int additionalPartWidth = 0;
 
 	private Integer defaultColumns = null;
+
+	private boolean bringMessagesToTop = true;
 
 	/**
 	 * Determine the max distance between to fields start, to consider them in a single panel column
@@ -133,6 +139,30 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 	protected void sortFields(List<ScreenFieldDefinition> sortedFields) {
 		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
+		bringMessagesToTop(sortedFields);
+	}
+
+	protected void bringMessagesToTop(List<ScreenFieldDefinition> sortedFields) {
+		if (!bringMessagesToTop) {
+			return;
+		}
+
+		Collections.sort(sortedFields, new Comparator<ScreenFieldDefinition>() {
+
+			@Override
+			public int compare(ScreenFieldDefinition o1, ScreenFieldDefinition o2) {
+				// user type names, so it would work in design-time too
+				String typeName1 = ((AbstractFieldDefinition<?>)o1).getFieldTypeName();
+				if (typeName1 != null && typeName1.equals(MESSAGE_FIELD)) {
+					return -1;
+				}
+				String typeName2 = ((AbstractFieldDefinition<?>)o2).getFieldTypeName();
+				if (typeName2 != null && typeName2.equals(MESSAGE_FIELD)) {
+					return 1;
+				}
+				return 0;
+			}
+		});
 	}
 
 	/**
@@ -280,6 +310,16 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	}
 
 	private void fillinRow(PagePartRowDefinition currentPagePartRow) {
+		if (currentPagePartRow == null) {
+			return;
+		}
+		for (FieldDefinition field : currentPagePartRow.getFields()) {
+			// do not add filler for message field
+			String fieldTypeName = ((AbstractFieldDefinition<?>)field).getFieldTypeName();
+			if (fieldTypeName != null && fieldTypeName.equals(MESSAGE_FIELD)) {
+				return;
+			}
+		}
 		if (defaultColumns != null && currentPagePartRow != null) {
 			for (int i = currentPagePartRow.getFields().size(); i < defaultColumns; i++) {
 				currentPagePartRow.getFields().add(null);
@@ -560,5 +600,9 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	 */
 	public void setDefaultColumns(Integer defaultColumns) {
 		this.defaultColumns = defaultColumns;
+	}
+
+	public void setBringMessagesToTop(boolean bringMessagesToTop) {
+		this.bringMessagesToTop = bringMessagesToTop;
 	}
 }

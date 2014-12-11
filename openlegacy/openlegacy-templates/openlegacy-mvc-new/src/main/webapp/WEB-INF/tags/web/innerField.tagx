@@ -55,8 +55,11 @@
 		<spring:message code="tooltip_enter" var="tooltip_enter" htmlEscape="false" />
 		<c:set var="helpText" value="${tooltip_enter} ${fieldDefinition.displayName}" />
 	</c:if>
-
-	<div class="${cssClass}">
+	<c:if test="${fieldDefinition.typeName != 'General'}">
+		<c:set var="cssForType" value="${fieldDefinition.typeName}"/>
+	</c:if>
+	
+	<div class="${cssClass} ${cssForType}">
 		<div class="field_row">
 			<c:if test="${not empty label}">
 				<div class="label">
@@ -78,7 +81,7 @@
 									<c:set var="widthString" value="width:${width+30}px;" />
 								</c:if>
 								<form:input type="${type}" id="${name}" data-dojo-type="dijit.form.NumberSpinner" 
-									constraints="{min:${fieldDefinition.fieldTypeDefinition.minimumValue},max:${fieldDefinition.fieldTypeDefinition.maximumValue},places:0,pattern:'${fieldDefinition.fieldTypeDefinition.pattern}'}" 
+									constraints="{min:${fieldDefinition.fieldTypeDefinition.minimumValue},max:${fieldDefinition.fieldTypeDefinition.maximumValue},places:0}" 
 									path="${name}" cssStyle="${widthString}${style}" dir="${dir}"/>
 							</c:when>
 							<c:when test="${type == 'boolean'}">
@@ -197,9 +200,6 @@
 									path="${name}" cssStyle="${widthString}${style}" dir="${dir}"/>
 							</c:otherwise>
 						</c:choose>
-						<c:if test="${fieldDefinition.enableLookup}">
-							<img id="${name}Search" src="${pageContext.request.contextPath}/icons/search.png" onclick="doAjaxPost('${definitions.entityName}Form','container','lookup-${fieldDefinition.name}')" class="search" />
-						</c:if>
 					</c:when>
 					<c:otherwise>
 						<c:if test="${not empty url}">
@@ -208,22 +208,6 @@
 						</c:if>
 						<c:if test="${empty url}">
 							<c:choose>
-								<c:when test="${type == 'date'}">
-								<form:input id="${name}" path="${name}" cssStyle="${style}" dir="${dir}" readonly="true"/>
-								<script type="text/javascript">
-								require(["dijit/form/DateTextBox", "dojo/dom"], 
-										function(DateTextBox, dom){
-											var dateField = new DateTextBox({ 
-													name : "${name}", 
-													value : dom.byId('${name}').value, 
-													datePattern : "dd/MM/yyyy",
-													style: "background-color:lightgrey",
-													disabled: true,
-													dir: '${dir}'},
-												"${name}");
-								});
-								</script>
-								</c:when>
 								<c:when test="${type == 'boolean'}">
 									<script>require("dijit/form/CheckBox");</script>
 									<span class="fieldPlaceholder" />
@@ -239,6 +223,9 @@
 				</c:choose>
 				<c:if test="${ol:hasProperty(fieldDefinition,'descriptionFieldDefinition') and fieldDefinition.descriptionFieldDefinition != null}">
 					- <ol:span cssClass="readonlyField" path="${name}Description" />
+				</c:if>
+				<c:if test="${fieldDefinition.enableLookup}">
+					<img id="${name}Search" src="${pageContext.request.contextPath}/icons/search.png" onclick="doAjaxPost('${definitions.entityName}Form','container','lookup-${fieldDefinition.name}')" class="search" />
 				</c:if>
 				<jsp:doBody />
 			</div>

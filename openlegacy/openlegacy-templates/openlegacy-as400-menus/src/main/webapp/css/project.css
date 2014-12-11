@@ -1,28 +1,109 @@
-.red .main{
-	position:relative;
-	min-height: 460px;
+.black{
+	color:black;	
+}
+.blue{
+	color:blue;
+}
+.green{
+	color:green;
+}
+.aqua{
+	color: aqua;
+}
+.red{
+	color:red;
+}
+.purple{
+	color: purple;	
 }
 
-.actions_container{
-	height: 500px;
+.brown{
+	color:brown;
+}
+.white{
+	color: white;
+}
+.gray{
+	color: gray;
 }
 
-.red .container table tr td{
-	padding-top:0px;
-	padding-bottom: 0px; 
+.light_blue{
+	color: lightblue;
 }
-.red .container input, .red .container select{
-	padding: 1px;
+,
+.light_green{
+	color:lightgreen;
 }
-#treeNode{
-	height: 200px;
+.light_aqua{
+	color:aqua;
+}
+.light_red{
+	color: red;
+}
+.pink{
+	color: pink;
+}
+.yellow{
+	color:yellow;
+}
+.light_white{
+	color: white;
 }
 
-.container .panelRow tr td{
-	border: solid 0px;	
+
+
+.back_black{
+	background-color:black;	
+}
+.back_blue{
+	background-color:blue;
+}
+.back_green{
+	background-color:green;
+}
+.back_aqua{
+	background-color: aqua;
+}
+.back_red{
+	background-color:red;
+}
+.back_purple{
+	background-color: purple;	
 }
 
-.panel .content .field_row .label {
-	font-weight: bold;
+.back_brown{
+	background-color:brown;
+}
+.back_white{
+	background-color: white;
+}
+.back_gray{
+	background-color: gray;
 }
 
+.back_light_blue{
+	background-color: lightblue;
+}
+,
+.back_light_green{
+	background-color:lightgreen;
+}
+.back_light_aqua{
+	background-color:aqua;
+}
+.back_light_red{
+	background-color: red;
+}
+.back_pink{
+	background-color: pink;
+}
+.back_yellow{
+	background-color:yellow;
+}
+.back_light_white{
+	background-color: white;
+}
+
+.MessageField {
+	color:red; 
+}

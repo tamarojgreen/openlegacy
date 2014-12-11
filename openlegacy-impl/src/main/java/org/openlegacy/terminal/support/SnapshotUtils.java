@@ -93,6 +93,9 @@ public class SnapshotUtils {
 			return null;
 		}
 		TerminalRow row = snapshot.getRow(position.getRow());
+		if (row == null) {
+			return null;
+		}
 		return row.getField(position.getColumn());
 	}
 

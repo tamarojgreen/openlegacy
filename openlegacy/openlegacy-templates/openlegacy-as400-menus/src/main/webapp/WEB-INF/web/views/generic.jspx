@@ -12,11 +12,16 @@
 		<c:forEach items="${page.pageParts}" var="pagePart">
 			<c:choose>
 				<c:when test="${pagePart.oneField}">
-					<c:if test="${not field.internal}">
+					<c:choose>
+						<c:when test="${pagePart.singleField.type.simpleName == 'MessageField'}">
+							<ol:field name="${pagePart.singleField.name}" />
+						</c:when>
+						<c:otherwise>
 						<ol:pagePart>
 							<ol:field name="${pagePart.singleField.name}" />
 						</ol:pagePart>
-					</c:if>
+						</c:otherwise>
+					</c:choose>
 				</c:when>
 				<c:otherwise>
 					<!-- Page parts with absolute position -->

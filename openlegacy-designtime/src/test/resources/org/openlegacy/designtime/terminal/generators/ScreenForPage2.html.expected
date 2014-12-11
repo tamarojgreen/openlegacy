@@ -21,6 +21,22 @@
 							<div class="row">
 								<div class="col-sm-6">
 	<div class="form-group">		
+		<label for="orphanFld" class="control-label">Orphan Fld:</label>
+				<span id="orphanFld" ng-model="model.orphanFld">{{model.orphanFld}}</span>
+	</div>
+								</div>
+
+							</div>
+				</form>		
+		</div>
+	</div>		
+				
+	<div class="panel panel-default">
+		<div class="panel-body">	
+				<form role="form">			
+							<div class="row">
+								<div class="col-sm-6">
+	<div class="form-group">		
 		<label for="fldCol12" class="control-label">Fld Col12:</label>
 	   			<input data-ng-class="readOnlyCss(model,'fldCol12')" data-ng-readonly="isReadOnly(model,'fldCol12')" type="text" class="form-control" id="fldCol12" ng-model="model.fldCol12">	   			   			
 	</div>
@@ -63,22 +79,6 @@
 	<div class="form-group">		
 		<label for="fld2Row10" class="control-label">Fld2Row10:</label>
 				<span id="fld2Row10" ng-model="model.fld2Row10">{{model.fld2Row10}}</span>
-	</div>
-								</div>
-
-							</div>
-				</form>		
-		</div>
-	</div>		
-				
-	<div class="panel panel-default">
-		<div class="panel-body">	
-				<form role="form">			
-							<div class="row">
-								<div class="col-sm-6">
-	<div class="form-group">		
-		<label for="orphanFld" class="control-label">Orphan Fld:</label>
-				<span id="orphanFld" ng-model="model.orphanFld">{{model.orphanFld}}</span>
 	</div>
 								</div>
 

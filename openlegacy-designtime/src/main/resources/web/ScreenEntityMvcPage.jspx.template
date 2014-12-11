@@ -11,11 +11,15 @@
 	<ol:form model="${entityDefinition.entityName?uncap_first}">
 		<#list pageParts as pagePart>
 			<#if pagePart.oneField>
-			<ol:pagePart title="${pagePart.singleField.displayName}">
-				<ol:row columns="1">
+				<#if pagePart.singleField.fieldTypeName?? && pagePart.singleField.fieldTypeName="MessageField">
 					<ol:field name="${pagePart.singleField.name}" />
-				</ol:row>
-			</ol:pagePart>
+				<#else>
+					<ol:pagePart title="${pagePart.singleField.displayName}">
+						<ol:row columns="1">
+							<ol:field name="${pagePart.singleField.name}" />
+						</ol:row>
+					</ol:pagePart>
+				</#if>
 			<#else>		
 			
 			

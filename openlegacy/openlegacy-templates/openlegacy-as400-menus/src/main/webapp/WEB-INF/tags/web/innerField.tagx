@@ -55,8 +55,11 @@
 		<spring:message code="tooltip_enter" var="tooltip_enter" htmlEscape="false" />
 		<c:set var="helpText" value="${tooltip_enter} ${fieldDefinition.displayName}" />
 	</c:if>
-
-	<div class="${cssClass}">
+	<c:if test="${fieldDefinition.typeName != 'General'}">
+		<c:set var="cssForType" value="${fieldDefinition.typeName}"/>
+	</c:if>
+	
+	<div class="${cssClass} ${cssForType}">
 		<div class="field_row">
 			<c:if test="${not empty label}">
 				<div class="label">
