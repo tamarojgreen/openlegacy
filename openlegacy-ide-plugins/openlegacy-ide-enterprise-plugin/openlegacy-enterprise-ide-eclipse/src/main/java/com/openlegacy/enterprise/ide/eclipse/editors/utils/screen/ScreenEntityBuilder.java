@@ -20,6 +20,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenNaviga
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenPartAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenTableAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenTableActionsAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.SortTableActionsAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.TableActionAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ActionModel;
@@ -86,6 +87,7 @@ import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.utils.StringUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -1449,12 +1451,31 @@ public class ScreenEntityBuilder extends AbstractEntityBuilder {
 		ArrayInitializer arrayLiteral = ScreenEntityASTUtils.INSTANCE.createArrayLiteral(ast, cu, rewriter, modelList);
 		// 3)
 		toSave.addAll(arrayLiteral.expressions());
+		// keep original order
+		ScreenTableModel tableModel = (ScreenTableModel)((TableActionModel)requiredActions.get(0).getNamedObject()).getParent();
+		List<NormalAnnotation> sortedToSave = new ArrayList<NormalAnnotation>(toSave.size());
+		for (TableActionModel actionModel : tableModel.getSortedActions()) {
+			for (NormalAnnotation toSaveAnnotation : toSave) {
+				MemberValuePair actionValuePair = PrivateMethods.findPair(toSaveAnnotation.values(),
+						AnnotationConstants.ACTION_VALUE);
+				if (actionValuePair == null) {
+					continue;
+				}
+
+				String actionValue = ((StringLiteral)actionValuePair.getValue()).getLiteralValue();
+				if (actionModel.getActionValue().equals(actionValue)) {
+					sortedToSave.add(toSaveAnnotation);
+				}
+			}
+		}
+
 		// 4)
 		// create literal
 		ArrayInitializer newArrayLiteral = ast.newArrayInitializer();
-		for (NormalAnnotation item : toSave) {
+		for (NormalAnnotation item : sortedToSave) {
 			newArrayLiteral.expressions().add(ASTNode.copySubtree(ast, item));
 		}
+
 		// create pair
 		MemberValuePair newPair = ast.newMemberValuePair();
 		newPair.setName(ast.newSimpleName(AnnotationConstants.ACTIONS));
@@ -1468,6 +1489,67 @@ public class ScreenEntityBuilder extends AbstractEntityBuilder {
 		// 8)
 		listRewriter.replace(annotation, newAnnotation, null);
 
+	}
+
+	@SuppressWarnings("unchecked")
+	public void sortScreenTableActionsAnnotation(AST ast, CompilationUnit cu, ASTRewrite rewriter, ListRewrite listRewriter,
+			NormalAnnotation annotation, String rootName, List<SortTableActionsAction> list) {
+
+		List<SortTableActionsAction> requiredActions = new ArrayList<SortTableActionsAction>();
+		// find AbstractActions that related with current table
+		for (AbstractAction action : list) {
+			// check if action is table action
+			if (action instanceof SortTableActionsAction) {
+				// get table model for class name comparison
+				ScreenTableModel model = (ScreenTableModel)action.getNamedObject();
+				// compare class names
+				if (rootName.equals(model.getClassName())) {
+					requiredActions.add((SortTableActionsAction)action);
+				}
+			}
+		}
+
+		if (requiredActions.isEmpty()) {
+			return;
+		}
+
+		MemberValuePair actionsPair = PrivateMethods.findPair(annotation.values(), AnnotationConstants.ACTIONS);
+		if (actionsPair != null) {
+			List<NormalAnnotation> existedTableActions = ((ArrayInitializer)actionsPair.getValue()).expressions();
+			ScreenTableModel model = (ScreenTableModel)requiredActions.get(0).getNamedObject();
+
+			List<NormalAnnotation> sortedTableActions = new ArrayList<NormalAnnotation>(existedTableActions.size());
+			for (TableActionModel actionModel : model.getSortedActions()) {
+				for (NormalAnnotation existedAnnotation : existedTableActions) {
+					MemberValuePair actionValuePair = PrivateMethods.findPair(existedAnnotation.values(),
+							AnnotationConstants.ACTION_VALUE);
+					if (actionValuePair == null) {
+						continue;
+					}
+
+					String actionValue = ((StringLiteral)actionValuePair.getValue()).getLiteralValue();
+					if (actionModel.getActionValue().equals(actionValue)) {
+						sortedTableActions.add(existedAnnotation);
+					}
+				}
+			}
+
+			// create literal
+			ArrayInitializer newArrayLiteral = ast.newArrayInitializer();
+			for (NormalAnnotation item : sortedTableActions) {
+				newArrayLiteral.expressions().add(ASTNode.copySubtree(ast, item));
+			}
+			// create pair
+			MemberValuePair newPair = ast.newMemberValuePair();
+			newPair.setName(ast.newSimpleName(AnnotationConstants.ACTIONS));
+			newPair.setValue(newArrayLiteral);
+			// create annotation
+			NormalAnnotation newAnnotation = ast.newNormalAnnotation();
+			newAnnotation.setTypeName(ast.newSimpleName(ScreenTableActions.class.getSimpleName()));
+			newAnnotation.values().add(newPair);
+			// replace annotation in list rewriter
+			listRewriter.replace(annotation, newAnnotation, null);
+		}
 	}
 
 	/**

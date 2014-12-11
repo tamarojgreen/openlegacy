@@ -18,6 +18,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenIdenti
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenNavigationAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenPartAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenTableAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.SortTableActionsAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.TableActionAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.AbstractEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEntity;
@@ -340,6 +341,20 @@ public class ScreenEntitySaver extends AbstractEntitySaver {
 					// @PartPosition
 					ScreenEntityBuilder.INSTANCE.processPartPositionAnnotation(ast, cu, rewriter, listRewriter, annotation,
 							rootName, ScreenEntityUtils.getActionList(entity, PartPositionAction.class));
+				}
+			}
+		}
+
+		// sort @TableAction annotations in @ScreenTableActions annotation
+		nodeList = listRewriter.getRewrittenList();
+		for (ASTNode node : nodeList) {
+			if (node.getNodeType() == ASTNode.NORMAL_ANNOTATION) {
+				NormalAnnotation annotation = (NormalAnnotation)node;
+				String fullyQualifiedName = annotation.getTypeName().getFullyQualifiedName();
+				if (ScreenTableActions.class.getSimpleName().equals(fullyQualifiedName)) {
+					// @ScreenTableActions
+					ScreenEntityBuilder.INSTANCE.sortScreenTableActionsAnnotation(ast, cu, rewriter, listRewriter, annotation,
+							rootName, ScreenEntityUtils.getActionList(entity, SortTableActionsAction.class));
 				}
 			}
 		}

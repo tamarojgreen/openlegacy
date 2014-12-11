@@ -217,10 +217,12 @@ public class ScreenEntity extends AbstractEntity {
 		ScreenTableModel tableModel = this.tables.get(parent.getUUID());
 		tableModel.getActions().put(newModel.getUUID(), newModel.clone());
 		tableModel.getSortedActions().add(newModel);
+		tableModel.getOriginalSortedActions().add(newModel);
 		for (ScreenTableModel screenTableModel : this.sortedTables) {
 			if (screenTableModel.getUUID().equals(tableModel.getUUID())) {
 				screenTableModel.getActions().put(newModel.getUUID(), newModel.clone());
 				screenTableModel.getSortedActions().add(newModel);
+				screenTableModel.getOriginalSortedActions().add(newModel);
 				break;
 			}
 		}
@@ -235,15 +237,75 @@ public class ScreenEntity extends AbstractEntity {
 			if (tableModel.getActions().containsKey(model.getUUID())) {
 				tableModel.getActions().remove(model.getUUID());
 				tableModel.getSortedActions().remove(model);
+				tableModel.getOriginalSortedActions().remove(model);
 				for (ScreenTableModel screenTableModel : this.sortedTables) {
 					if (screenTableModel.getUUID().equals(tableModel.getUUID())) {
 						screenTableModel.getActions().remove(model.getUUID());
 						screenTableModel.getSortedActions().remove(model);
+						screenTableModel.getOriginalSortedActions().remove(model);
 						break;
 					}
 				}
 				newTableActionsCount--;
 				setDirty(!this.actions.isEmpty() || (newTableActionsCount != 0));
+			}
+		}
+	}
+
+	public void moveTableActionModelUp(TableActionModel model) {
+		ScreenTableModel parent = (ScreenTableModel)model.getParent();
+		ScreenTableModel tableModel = tables.get(parent.getUUID());
+		if (tableModel != null) {
+			if (tableModel.getActions().containsKey(model.getUUID())) {
+				for (TableActionModel actionModel : tableModel.getSortedActions()) {
+					if (actionModel.getUUID().equals(model.getUUID())) {
+						int index = tableModel.getSortedActions().indexOf(actionModel);
+						if (index > 0) {
+							tableModel.getSortedActions().remove(actionModel);
+							tableModel.getSortedActions().add(index - 1, actionModel);
+						}
+						break;
+					}
+				}
+				for (ScreenTableModel screenTableModel : this.sortedTables) {
+					if (screenTableModel.getUUID().equals(tableModel.getUUID())) {
+						int index = screenTableModel.getSortedActions().indexOf(model);
+						if (index > 0) {
+							screenTableModel.getSortedActions().remove(model);
+							screenTableModel.getSortedActions().add(index - 1, model);
+						}
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	public void moveTableActionModelDown(TableActionModel model) {
+		ScreenTableModel parent = (ScreenTableModel)model.getParent();
+		ScreenTableModel tableModel = tables.get(parent.getUUID());
+		if (tableModel != null) {
+			if (tableModel.getActions().containsKey(model.getUUID())) {
+				for (TableActionModel actionModel : tableModel.getSortedActions()) {
+					if (actionModel.getUUID().equals(model.getUUID())) {
+						int index = tableModel.getSortedActions().indexOf(actionModel);
+						if (index < tableModel.getSortedActions().size() - 1) {
+							tableModel.getSortedActions().remove(actionModel);
+							tableModel.getSortedActions().add(index + 1, actionModel);
+						}
+						break;
+					}
+				}
+				for (ScreenTableModel screenTableModel : this.sortedTables) {
+					if (screenTableModel.getUUID().equals(tableModel.getUUID())) {
+						int index = screenTableModel.getSortedActions().indexOf(model);
+						if (index < screenTableModel.getSortedActions().size() - 1) {
+							screenTableModel.getSortedActions().remove(model);
+							screenTableModel.getSortedActions().add(index + 1, model);
+						}
+						break;
+					}
+				}
 			}
 		}
 	}
