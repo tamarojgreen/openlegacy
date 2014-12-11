@@ -58,6 +58,7 @@
 	</head>
 	<body class="${ol_theme}">
 		<div data-dojo-type="dijit.layout.ContentPane" class="container window" id="window_container" style="min-height: 200px;">
+			<tiles:insertAttribute name="actions" ignore="true" />
 			<tiles:insertAttribute name="body" />
 		</div>
 	</body>
