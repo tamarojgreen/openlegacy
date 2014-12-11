@@ -187,8 +187,33 @@
 						</c:choose>
 					</c:when>
 					<c:otherwise>
-						<ol:span cssClass="readonlyField ${cssClass}" path="${name}"
-							cssStyle="${style}" />
+							<c:choose>
+								<c:when test="${type == 'date'}">
+								<form:input id="${name}" path="${name}" cssStyle="${style}" dir="${dir}" readonly="true"/>
+								<script type="text/javascript">
+								require(["dijit/form/DateTextBox", "dojo/dom"], 
+										function(DateTextBox, dom){
+											var dateField = new DateTextBox({ 
+													name : "${name}", 
+													value : dom.byId('${name}').value, 
+													datePattern : "dd/MM/yyyy",
+													style: "background-color:lightgrey",
+													disabled: true,
+													dir: '${dir}'},
+												"${name}");
+								});
+								</script>
+								</c:when>
+								<c:when test="${type == 'boolean'}">
+									<script>require("dijit/form/CheckBox");</script>
+									<span class="fieldPlaceholder" />
+									<form:checkbox name="${name}" onchange="${onchange}" disabled="true" 
+										data-dojo-type="dijit.form.CheckBox" path="${name}" cssStyle="${style}" dir="${dir}"/>
+								</c:when>
+								<c:otherwise>
+									<ol:span cssClass="readonlyField ${cssClass}" path="${name}" cssStyle="${style}" />
+								</c:otherwise>
+							</c:choose>
 					</c:otherwise>
 				</c:choose>
 				<jsp:doBody />

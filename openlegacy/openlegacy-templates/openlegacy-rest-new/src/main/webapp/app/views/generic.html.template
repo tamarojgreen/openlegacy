@@ -204,7 +204,9 @@
 	   			<input data-ng-class="readOnlyCss(model,'${field.name}')" data-ng-readonly="isReadOnly(model,'${field.name}')" type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">	   			   			
 	   		</#if>
 	   	<#else>
-			<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'boolean'>
+			<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'date'>
+				<input type="text" id="${field.name}" class="form-control" placeholder="mm/dd/yyyy" ng-model="model.${field.name}" bdatepicker disabled="true"/>
+			<#elseif field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'boolean'>
 				<input type="checkbox" disabled="disabled" class="form-control" id="${field.name}" ng-checked="model.${field.name}">											
 			<#else>
 				<span id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</span>
