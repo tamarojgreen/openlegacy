@@ -1,7 +1,51 @@
 package <#if packageName??>${packageName}<#else>${entityDefinition.packageName}.web</#if>;
 
 import org.springframework.stereotype.Controller;
+
+import java.util.*;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
+import ${entityDefinition.packageName}.*;
+
+import java.io.IOException;
+import org.openlegacy.modules.table.Table;
+import org.openlegacy.modules.table.TableWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+
+import org.openlegacy.mvc.MvcUtils;
+import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.json.JsonSerializationUtil;
+
+import org.openlegacy.definitions.TableDefinition;
+import java.util.Map.Entry;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
+import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
+import org.openlegacy.terminal.providers.TablesDefinitionProvider;
+import org.openlegacy.terminal.support.binders.MultyScreenTableBindUtil;
+import org.openlegacy.terminal.utils.ScreenEntityUtils;
+
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.WebDataBinder;
+
+import flexjson.JSONSerializer;
 
 /**
  * Handles requests for screen ${entityDefinition.entityName}
@@ -10,5 +54,152 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/${entityDefinition.entityClassName}")
 public class ${entityDefinition.entityClassName}Controller {
 
-	// actions are generated within ${entityDefinition.entityClassName}Controller_Aspect.aj	
+	@Inject
+	private TerminalSession terminalSession;
+
+	@Inject
+	private ScreenEntitiesRegistry screenEntitiesRegistry;
+
+	<#if entityDefinition.tableDefinitions?size &gt; 0>
+	@Inject
+	private TableWriter tableWriter;
+	@Inject
+	private TablesDefinitionProvider tablesDefinitionProvider;
+	</#if>
+	
+	@Inject
+	private MultyScreenTableBindUtil tableBindUtil;
+	
+	<#if entityDefinition.keys?size == 0>
+	// handle page ajax call display
+    @RequestMapping(method = RequestMethod.GET<#if entityDefinition.child || entityDefinition.childEntitiesDefinitions?size &gt; 0>, params="partial=1"</#if>, headers = "X-Requested-With=XMLHttpRequest")
+    public String ajax(Model uiModel) {
+    	return show(uiModel);
+    }
+    
+	// handle page initial display
+    @RequestMapping(method = RequestMethod.GET<#if entityDefinition.child || entityDefinition.childEntitiesDefinitions?size &gt; 0>, params="partial=1"</#if>)
+    public String show(Model uiModel) {
+    	${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityClassName}.class);
+	uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});
+	// show the resulting page for ${entityDefinition.entityClassName}
+        return "${entityDefinition.entityClassName}";
+    }
+	</#if>
+
+	<#if entityDefinition.keys?size &gt; 0>
+	// handle page with keys ajax call display
+    @RequestMapping(value="/{id}", method = RequestMethod.GET<#if entityDefinition.child || entityDefinition.childEntitiesDefinitions?size &gt; 0>, params="partial=1"</#if>, headers = "X-Requested-With=XMLHttpRequest")
+    public String ajax(@PathVariable("id") Object id, Model uiModel) {
+    	return show(id,uiModel);
+    }
+
+	// handle page with keys initial display
+    @RequestMapping(value="/{id}", method = RequestMethod.GET<#if entityDefinition.child || entityDefinition.childEntitiesDefinitions?size &gt; 0>, params="partial=1"</#if>)
+    public String show(@PathVariable("id") Object id, Model uiModel) {
+    	${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityClassName}.class,id);
+	uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});
+	// show the resulting page for ${entityDefinition.entityClassName}
+        return "${entityDefinition.entityClassName}";
+    }
+	</#if>
+	
+    @RequestMapping(value="/online-help", method = RequestMethod.GET)
+    public @ResponseBody String systemHelp(HttpServletRequest request) throws IOException {
+    	URL resource = request.getSession().getServletContext().getResource("/help/${entityDefinition.entityName}.html");
+    	String result = "";
+    	if (resource != null){
+    		result = IOUtils.toString(resource.openStream());
+    	}
+    	return result;
+    }
+
+	<@postMethod actionName="ENTER" actionAlias="doSubmit" params="" />
+	
+	<@postMethod actionName="NONE" actionAlias="none" params="none" />
+	    
+	<#list actions as action>
+	<@postMethod actionName=action.actionName actionAlias=action.alias params=action.alias />
+	</#list>	
+	<#if entityDefinition.tableDefinitions?size &gt; 0>
+	<@postMethod actionName="PAGEUP" actionAlias="previous" params="previous" />
+	<@postMethod actionName="PAGEDOWN" actionAlias="next" params="next" />
+	
+	// export to excel
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/excel", method = RequestMethod.GET)
+    public void excel(HttpServletResponse response) throws IOException {
+    	List<${entityDefinition.entityClassName}.${entityDefinition.entityClassName}Record> records = terminalSession.getModule(Table.class).collectOne(${entityDefinition.entityClassName}.class,${entityDefinition.entityClassName}.${entityDefinition.entityClassName}Record.class);
+		response.setContentType("application/vnd.ms-excel");
+		response.addHeader("Content-Disposition", "attachment; filename=\"${entityDefinition.entityClassName}.xls\"");
+		Entry<String, ScreenTableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
+				tablesDefinitionProvider, ${entityDefinition.entityClassName}.class);
+    	tableWriter.writeTable(records, (TableDefinition)tableDefinition.getValue(),response.getOutputStream());
+    }
+	
+	// handle json request for mobile "load more" 
+	@RequestMapping(value = "/more", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<String> more() {
+		${entityDefinition.entityClassName} ${entityDefinition.entityClassName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityClassName}.class);
+		${entityDefinition.entityClassName?uncap_first} = terminalSession.doAction(TerminalActions.PAGEDOWN(), ${entityDefinition.entityClassName?uncap_first});
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/text; charset=utf-8");
+
+		String result = new JSONSerializer().serialize(${entityDefinition.entityClassName?uncap_first}.get${entityDefinition.entityClassName}Records());
+		return new ResponseEntity<String>(result, headers, HttpStatus.OK);
+	}	
+	</#if>
+	
+	<#assign fields = entityDefinition.fieldsDefinitions?values>
+	<#list fields as field>
+		<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.class.simpleName = "SimpleFieldWthValuesTypeDefinition">
+	
+	// handle ajax request for ${field.name} field
+	@RequestMapping(value="/${field.name}Values", method = RequestMethod.GET)
+    @ResponseBody
+	public ResponseEntity<String> ${field.name?cap_first}Json(@RequestParam(value = "name", required = false) String text) {
+    	${entityDefinition.entityClassName} ${entityDefinition.entityClassName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityClassName}.class);
+    	
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/text; charset=utf-8");
+
+		if (text != null) {
+			text = text.replace("*", "");
+		}
+
+		Map<Object, Object> fieldValues = tableBindUtil.getRecords(getSession(), text, screenEntityName, fieldName);
+
+		
+		String result = JsonSerializationUtil.toDojoFormat(${field.name}Values,text);
+        return new ResponseEntity<String>(result, headers, HttpStatus.OK);
+    }
+		</#if>
+	</#list>	
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		MvcUtils.registerEditors(binder, screenEntitiesRegistry);
+	}
+	
 }
+<#macro postMethod actionName actionAlias params>
+	// handle ${actionAlias} action
+    @RequestMapping(<#if params?length &gt; 0>params="action=${actionAlias}", </#if>method = RequestMethod.POST)
+    public String ${actionAlias}(${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first}, Model uiModel, HttpServletRequest httpServletRequest) {
+	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.${actionName}(), ${entityDefinition.entityName?uncap_first});
+	// go to the controller for the resulting screen name
+		if (resultScreenEntity != null){
+			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
+			if (httpServletRequest.getParameter("partial") != null || screenEntityName.equals("${entityDefinition.entityName?cap_first}")){
+				${entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityClassName}.class);
+		    	uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});
+		        return "${entityDefinition.entityName?cap_first}";
+			}
+        	return "redirect:" + screenEntityName;
+		}
+    	return "redirect:/emulation";
+		
+    }
+</#macro>
