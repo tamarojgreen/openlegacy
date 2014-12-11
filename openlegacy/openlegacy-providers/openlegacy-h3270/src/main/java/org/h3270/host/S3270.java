@@ -154,6 +154,7 @@ public class S3270 implements Terminal {
 		cmd.append(" -utf8");
 
 		cmd.append(" ");
+
 		if (logicalUnit != null) {
 			cmd.append(logicalUnit).append('@');
 		}
@@ -299,8 +300,8 @@ public class S3270 implements Terminal {
 	 */
 	private void waitFormat() {
 		int totalWait = 0;
-		// rm 26022014 - change wait to be configurable 
-		while(totalWait <= maxWait){
+		// rm 26022014 - change wait to be configurable
+		while (totalWait <= maxWait) {
 			Result r = doCommand("");
 			if (r.status.startsWith("U F")) {
 				return;
@@ -532,7 +533,7 @@ public class S3270 implements Terminal {
 	public void setCursor(int row, int column) {
 		doCommand("movecursor (" + row + ", " + column + ")");
 	}
-	
+
 	public void setMaxWait(int maxWait) {
 		this.maxWait = maxWait;
 	}
