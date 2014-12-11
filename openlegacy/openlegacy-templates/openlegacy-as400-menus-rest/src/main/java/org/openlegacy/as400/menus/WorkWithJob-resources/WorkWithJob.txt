@@ -1,0 +1,32 @@
+
+    2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0
+            1 1 1 1 1 2 2 2 2 2 3 3 3 3 3 4 4 4 4 4 5 5 5 5 5 6 6 6 6 6 7 7 7 7 7 8
+___________________________________________________________________________________
+1 |^                               ^Work with Job^                                 |
+2 | ^ ^      ^ ^                                               ^System:^ ^S1051C6E |
+3 |^Job:^ ^QPADEV0001^   ^User:^ ^RMR20924  ^   ^Number:^ ^698775^                 |
+4 |                                                                                |
+5 |^Select one of the following:^                                                  |
+6 |                                                                                |
+7 |     ^1. Display job status attributes^                                         |
+8 |     ^2. Display job definition attributes^                                     |
+9 |     ^3. Display job run attributes, if active^                                 |
+10|     ^4. Work with spooled files^                                               |
+11|                                                                                |
+12|    ^10. Display job log, if active, on job queue, or pending^                  |
+13|    ^11. Display call stack, if active^                                         |
+14|    ^12. Work with locks, if active^                                            |
+15|    ^13. Display library list, if active^                                       |
+16|    ^14. Display open files, if active^                                         |
+17|    ^15. Display file overrides, if active^                                     |
+18|    ^16. Display commitment control status, if active^                          |
+19|                                                                ^ ^     More... |
+20|^Selection or command^                                                          |
+21|^===>[                                                                          ]
+22|                                                                                |
+23|^F3=Exit^ ^F4=Prompt^ ^F9=Retrieve^ ^F12=Cancel                                 |
+24|                                                                                |
+___________________________________________________________________________________
+    2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0
+            1 1 1 1 1 2 2 2 2 2 3 3 3 3 3 4 4 4 4 4 5 5 5 5 5 6 6 6 6 6 7 7 7 7 7 8
+___________________________________________________________________________________

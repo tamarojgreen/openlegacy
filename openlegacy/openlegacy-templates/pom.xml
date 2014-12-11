@@ -23,6 +23,7 @@
  		<module>openlegacy-ws-rpc-new</module>
 		<!-- <module>remoting</module> -->
 		<module>openlegacy-as400-menus</module>
+		<module>openlegacy-as400-menus-rest</module>
 	</modules>
 
 	<build>

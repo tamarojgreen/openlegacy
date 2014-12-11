@@ -1,0 +1,9 @@
+#
+#Thu Dec 11 08:49:46 IST 2014
+DESIGNTIME_CONTEXT=default
+BACKEND_SOLUTION=Screens
+GENERATE_TEST=1
+USE_AJ=1
+API_SOURCE_FOLDER=src/main/java
+API_PACKAGE=org.openlegacy.as400.menus
+WEB_PACKAGE=org.openlegacy.as400.menus.web

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING" sequence="17">
+    <row rowNumber="1">
+        <field column="2" value="                             " length="29"/>
+        <field column="32" value="Work with Messages" length="18" color="WHITE"/>
+        <field column="51" value="                              " length="30"/>
+    </row>
+    <row rowNumber="2">
+        <field column="3" value=" " length="1"/>
+        <field column="5" value="      " length="6"/>
+        <field column="12" value=" " length="1"/>
+        <field column="14" value="                                               " length="47"/>
+        <field column="62" value="System:" length="7"/>
+        <field column="70" value=" " length="1"/>
+        <field column="72" value="S1051C6E" length="8"/>
+    </row>
+    <row rowNumber="3">
+        <field column="1" length="0"/>
+        <field column="2" value="Messages for:" length="13"/>
+        <field column="16" value=" " length="1"/>
+        <field column="18" value="RMR20924  " length="10"/>
+        <field column="29" value="                                                    " length="52"/>
+    </row>
+    <row rowNumber="5">
+        <field column="1" length="0" color="BLUE"/>
+        <field column="2" value="Type options below, then press Enter." length="37" color="BLUE"/>
+        <field column="40" value="                                         " length="41"/>
+    </row>
+    <row rowNumber="6">
+        <field column="4" value="4=Remove" length="8" color="BLUE"/>
+        <field column="13" value=" " length="1"/>
+        <field column="15" value="5=Display details and reply" length="27" color="BLUE"/>
+        <field column="43" value="                                      " length="38"/>
+    </row>
+    <row rowNumber="8">
+        <field column="1" length="0" color="WHITE"/>
+        <field column="2" value="Opt" length="3" color="WHITE"/>
+        <field column="6" value=" " length="1"/>
+        <field column="8" value="Message" length="7" color="WHITE"/>
+        <field column="16" value="                                                                 " length="65"/>
+    </row>
+    <row rowNumber="9">
+        <field column="3" value=" " length="1"/>
+        <field column="5" value="  " length="2"/>
+        <field column="8" value="                     Messages needing a reply                           " length="72" color="WHITE"/>
+    </row>
+    <row rowNumber="10">
+        <field column="1" value=" " length="1"/>
+        <field column="3" value=" " length="1"/>
+        <field column="5" value="  " length="2"/>
+        <field column="8" value="(No messages available)                                                 " length="72"/>
+    </row>
+    <row rowNumber="11">
+        <field column="1" value=" " length="1"/>
+        <field column="3" value=" " length="1"/>
+        <field column="5" value="  " length="2"/>
+        <field column="8" value="                                                                        " length="72"/>
+    </row>
+    <row rowNumber="12">
+        <field column="1" value=" " length="1"/>
+        <field column="3" value=" " length="1"/>
+        <field column="5" value="  " length="2"/>
+        <field column="8" value="                   Messages not needing a reply                         " length="72" color="WHITE"/>
+    </row>
+    <row rowNumber="13">
+        <field column="1" value=" " length="1"/>
+        <field column="3" value=" " length="1"/>
+        <field column="5" value="  " length="2"/>
+        <field column="8" value="(No messages available)                                                 " length="72"/>
+    </row>
+    <row rowNumber="21">
+        <field column="1" value="                                                              " length="62"/>
+        <field column="64" value=" " length="1"/>
+        <field column="66" value=" " length="1"/>
+        <field column="68" value="      Bottom" length="12" color="WHITE"/>
+    </row>
+    <row rowNumber="22">
+        <field column="1" length="0" color="BLUE"/>
+        <field column="2" value="F1=Help" length="7" color="BLUE"/>
+        <field column="10" value=" " length="1"/>
+        <field column="12" value="F3=Exit" length="7" color="BLUE"/>
+        <field column="20" value=" " length="1"/>
+        <field column="22" value="F5=Refresh" length="10" color="BLUE"/>
+        <field column="33" value=" " length="1"/>
+        <field column="35" value="F6=Display system operator messages" length="35" color="BLUE"/>
+        <field column="71" value="          " length="10"/>
+    </row>
+    <row rowNumber="23">
+        <field column="2" value="F16=Remove messages not needing a reply" length="39" color="BLUE"/>
+        <field column="42" value=" " length="1"/>
+        <field column="44" value="F17=Top" length="7" color="BLUE"/>
+        <field column="52" value=" " length="1"/>
+        <field column="54" value="F24=More keys" length="13" color="BLUE"/>
+    </row>
+    <size rows="24" columns="80"/>
+    <cursor row="1" column="1"/>
+</snapshot>
