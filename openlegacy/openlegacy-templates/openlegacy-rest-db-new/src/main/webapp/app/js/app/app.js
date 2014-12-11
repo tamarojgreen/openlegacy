@@ -149,13 +149,13 @@
 					resolve: { auth: auth }
 				});
 				
-				function addRoute(stateName, entityName, url) {
+				function addRoute(stateName, entityName, ctrlName, url) {
 					$stateProvider.state(stateName, {
 						 url: url,
 						 views: {
 							 "": {
 								 templateUrl: "views/" + entityName + ".html",
-								 controller: entityName + 'Ctrl'
+								 controller: ctrlName
 							 },
 							 "header": header,
 							 "sideMenu": {
@@ -180,17 +180,28 @@
 				</#if>
 				Register controller place-holder end */									
 				<#if entitiesDefinitions??>
-					<#list entitiesDefinitions as entityDefinition>				
-						<#if entityDefinition.keys?size &gt; 0>					
-							var url = "/${entityDefinition.entityName}/:<#list entityDefinition.keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>";
-							if ($.inArray(url, urlsToFilter) == -1) {
-								addRoute("${entityDefinition.entityName}WithKey", "${entityDefinition.entityName}", url);
-							}
-						</#if>
+					<#list entitiesDefinitions as entityDefinition>					
+						<#list entityDefinition.actions as action>						
+							<#switch action.actionName>
+								<#case "READ">
+									<#if entityDefinition.keys?size &gt; 0>
+										var url = "/${entityDefinition.entityName}/:<#list entityDefinition.keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>";
+										if ($.inArray(url, urlsToFilter) == -1) {
+											addRoute("${entityDefinition.entityName}Details", "${entityDefinition.entityName}", "${entityDefinition.entityName}DetailsCtrl", url);
+										}
+									</#if>
+									<#break>
+								<#case "CREATE">
+									var url = "/${entityDefinition.entityName}/new";
+									if ($.inArray(url, urlsToFilter) == -1) {
+										addRoute("${entityDefinition.entityName}New", "${entityDefinition.entityName}", "${entityDefinition.entityName}NewCtrl", url);
+									}
+							</#switch>							
+						</#list>
 						var url = "/${entityDefinition.entityName}";
 						if ($.inArray(url, urlsToFilter) == -1) {
-							addRoute("${entityDefinition.entityName}", "${entityDefinition.entityName}", url);
-						}				
+							addRoute("${entityDefinition.entityName}", "${entityDefinition.entityName}", "${entityDefinition.entityName}Ctrl", url);
+						}
 					</#list>
 				</#if>	
 			} ]);

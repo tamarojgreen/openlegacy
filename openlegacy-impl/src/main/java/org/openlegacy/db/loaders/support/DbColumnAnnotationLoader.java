@@ -21,6 +21,8 @@ import org.openlegacy.loaders.FieldLoader;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * @author Ivan Bort
@@ -56,9 +58,17 @@ public class DbColumnAnnotationLoader implements FieldLoader {
 				columnFieldDefinition.setRightToLeft(column.rightToLeft());
 				columnFieldDefinition.setInternal(column.internal());
 				columnFieldDefinition.setMainDisplayField(column.mainDisplayField());
+				Type genericFieldType = field.getGenericType();
+
+				if (genericFieldType instanceof ParameterizedType) {
+					ParameterizedType aType = (ParameterizedType)genericFieldType;
+					Type[] fieldArgTypes = aType.getActualTypeArguments();
+					columnFieldDefinition.setJavaType((Class)fieldArgTypes[fieldArgTypes.length - 1]);
+
+				}
+
 			}
 			dbEntityDefinition.getColumnFieldsDefinitions().put(field.getName(), dbFieldDefinition);
 		}
 	}
-
 }

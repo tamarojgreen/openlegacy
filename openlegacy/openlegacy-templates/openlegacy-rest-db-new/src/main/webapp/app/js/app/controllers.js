@@ -74,8 +74,33 @@
 	});
 	// template for all entities 
 	<#if entitiesDefinitions??>
-	<#list entitiesDefinitions as entityDefinition>	
-	module = module.controller('${entityDefinition.entityName}Ctrl', function($olHttp, $scope, $location, $state, $stateParams) {
+	<#list entitiesDefinitions as entityDefinition>
+		<#list entityDefinition.actions as action>
+			<#switch action.actionName>
+				<#case "READ">
+	module = module.controller('${entityDefinition.entityName}DetailsCtrl', function($scope, $stateParams, $olHttp) {		
+		$scope.currentAction = "READ";		
+		$olHttp.get('${entityDefinition.entityName}/' + $stateParams.itemId, function(data) {
+			$scope.entityName = data.model.entityName;
+			$scope.model = data.model.entity;
+			console.log($scope.model);
+			$scope.innerObjects = [];
+			$.each($scope.model, function(key, element) {
+			    if (typeof element == 'object') {
+			    	$scope.innerObjects.push(key);			    	
+			    }
+			});
+			console.log($scope.model.notes);			
+		});
+	});
+				<#break>
+				<#case "CREATE">
+	module = module.controller('${entityDefinition.entityName}NewCtrl', function($scope) {
+		$scope.currentAction = "CREATE";
+	});
+			</#switch>
+		</#list>
+	module = module.controller('${entityDefinition.entityName}Ctrl', function($olHttp, $scope, $location, $state, $stateParams) {		
 		$scope.showNext = true;
 		$scope.showPrev = true;
 		var getItems = function() {
@@ -126,8 +151,9 @@
 		        
 		        $scope.rowClick = function(entityName, rowIndex) {
 		        	console.log($scope.items);
-		        	console.log(rowIndex);
-		        	$state.go(entityName + "WithKey", {<#list entityDefinition.keys as key>${key.name?replace(".", "_")}:$scope.items[rowIndex].${key.name}<#if key_has_next>,</#if></#list>});
+		        	console.log(rowIndex +1 );
+		        	//$state.go(entityName + "Details", {<#list entityDefinition.keys as key>${key.name?replace(".", "_")}:$scope.items[rowIndex].${key.name}<#if key_has_next>,</#if></#list>});
+		        	$state.go(entityName + "Details", {<#list entityDefinition.keys as key>${key.name?replace(".", "_")}:$scope.items[rowIndex].${key.name}<#if key_has_next>,</#if></#list>});
 		        }
 		        
 //		        $scope.postAction = function(actionAlias) {			        				        	
@@ -148,7 +174,7 @@
 		}
 		
 		getItems();
-	});	
+	});				
 	</#list>
 	</#if>
 })();

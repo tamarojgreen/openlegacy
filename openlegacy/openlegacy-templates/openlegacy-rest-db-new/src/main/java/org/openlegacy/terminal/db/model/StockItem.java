@@ -37,6 +37,7 @@ public class StockItem {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "stock_item")
 	@MapKey(name = "noteId")
+	@DbColumn(displayName = "Notes", mainDisplayField = false, internal = false)
 	private Map<String, StockItemNote> notes = new TreeMap<String, StockItemNote>();
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -47,6 +48,7 @@ public class StockItem {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "stock_item")
 	@MapKey(name = "noteId")
+	@DbColumn(displayName = "Images", mainDisplayField = false, internal = false)
 	private List<StockItemImage> images = new ArrayList<StockItemImage>();
 
 	public Integer getItemId() {

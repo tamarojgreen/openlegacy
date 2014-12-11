@@ -1,78 +1,150 @@
-<h2>${entityDefinition.displayName}</h2>
-
-<@actionToolbar entity=entityDefinition showExcelBtn='true'/>
-<div class="panel panel-default">
-	<div class="panel-body">
-		<div class="table-responsive">
-			<#assign columnsToDisplay = []>
-			<table class="table">
-				<thead>
-					<tr>												
-						<#list entityDefinition.keys as key>
-						<#assign columnsToDisplay = columnsToDisplay + [key.name]>						
-							<#if key.displayName??>
-								<th>${key.displayName}</th>
-							<#else>
-								<#if key.name??>
-									<th>${key.name}</th>
-								</#if>
-							</#if>							
+<div ng-switch on="currentAction">
+	<div ng-switch-when="READ">
+		<h2>${entityDefinition.displayName} Details</h2>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<form role="form">
+					<div class="form-group">
+						<#list entityDefinition.keys as key>							
+							<#assign colWidth = (6/entityDefinition.keys?size)?ceiling>
+							<div class="row">
+								<div class="col-sm-${colWidth}">
+									<label>
+										<#if key.displayName??>
+											${key.displayName}:
+										<#else>
+											<#if key.name??>
+												${key.name}:
+											</#if>
+										</#if>	
+									</label>
+									<span>{{model.${key.name}}}</span>												
+								</div>
+							</div>
 						</#list>
 						<#if entityDefinition.columnFieldsDefinitions??>
-							<#list entityDefinition.columnFieldsDefinitions?keys as key>
-								<#assign column = entityDefinition.columnFieldsDefinitions[key]>
-								<#assign columnsToDisplay = columnsToDisplay + [column.name]>
-								<#if column.mainDisplayField?? && column.mainDisplayField>
-									<#if column.displayName??>
-									<th>${column.displayName}</th>
-								<#else>
-									<#if column.name??>
-										<column>${key.name}</th>
-									</#if>
-								</#if>	
-								</#if>
+							<#list entityDefinition.columnFieldsDefinitions?keys as key>								
+								<#assign column = entityDefinition.columnFieldsDefinitions[key]>								
+								<#if (!column.internal?? || column.internal == false) && !column.oneToManyDefinition??>								
+									<div class="row">
+										<div class="col-sm-${colWidth}">
+											<label>
+												<#if column.displayName??>
+													${column.displayName}:							
+												<#else>
+													<#if column.name??>
+														<column>${column.name}:
+													</#if>
+												</#if>
+											</label>
+											<input ng-model="model.${column.name}"></input>
+										</div>
+									</div>
+								</#if>													
+							</#list>
+							<#list childPagesDefinitions as childPageDefinition>
+								<#assign innerEntityDefinition = childPageDefinition.entityDefinition/>							
+											
+								<@generateTable entity=innerEntityDefinition/>								
 							</#list>
 						</#if>
-					</tr>
-				</thead>
-				<tbody>				
-                    <tr ng-repeat="item in items" <#if isREADAction>ng-click="rowClick('${entityDefinition.entityName}', $index)"</#if>>                    	
-                    	<#list columnsToDisplay as columnName>
-                    	<td>{{item.${columnName}}}</td>
-                    	</#list>												  		
-					</tr>                            
-                </tbody>
-	  		</table>
-  		</div>
-  		<div class="top-margin-50">
-            <button ng-click="next()" type="button" class="btn btn-default navbar-btn pull-right" ng-disabled="!showNext">
-                Next
-                <span class="glyphicon glyphicon-forward"></span>
-            </button>
-            <button ng-click="prev()" type="button" class="btn btn-default navbar-btn pull-left" ng-disabled="!showPrev">
-                <span class="glyphicon glyphicon-backward"></span>
-                Prev
-            </button>
-        </div> 
+					</div>			
+				</form>		
+			</div>
+		</div>
+	</div>	
+	<div ng-switch-when="CREATE">
+		<h2>New ${entityDefinition.displayName}</h2>
+	</div>
+	<div ng-switch-default>
+		<@generateTable entity=entityDefinition/>
 	</div>
 </div>
 
-<#macro actionToolbar entity showExcelBtn>
-	<nav class="navbar navbar-default" role="navigation">
-	    <form class="navbar-form xnavbar-left" role="navigation">
-	    	<#assign isREADAction = false>
-	        <#list entity.actions as action>
-		        <#switch action.actionName>
-		        	<#case "READ">
-					    <#assign isREADAction = true>
-					    <#break>
-				    <#case "CREATE">
-				    	<a ng-href="${entity.entityName}/new" class="btn btn-primary navbar-btn">${action.displayName}</a>			    
-				    	<#break>
-			    	<#default>
-			    		<button class="btn btn-primary navbar-btn">${action.displayName}</button>
-				</#switch>		
-			</#list>
-	    </form>
-	</nav>    
+
+<#macro actionToolbar entity>
+	<#assign isREADAction = false>
+	<#if (entity.actions?size > 0)>
+		<nav class="navbar navbar-default" role="navigation">
+		    <form class="navbar-form xnavbar-left" role="navigation">		    	
+		        <#list entity.actions as action>
+			        <#switch action.actionName>
+			        	<#case "READ">
+						    <#assign isREADAction = true>
+						    <#break>
+					    <#case "CREATE">
+					    	<a ng-href="#/${entity.entityName}/new" class="btn btn-primary navbar-btn">${action.displayName}</a>			    
+					    	<#break>
+				    	<#default>
+				    		<button class="btn btn-primary navbar-btn">${action.displayName}</button>
+					</#switch>		
+				</#list>
+		    </form>
+		</nav>
+	</#if>    
+</#macro>
+
+<#macro generateTable entity>
+	<h2>${entity.displayName}</h2>
+	
+	<@actionToolbar entity=entity/>
+	<div class="panel panel-default">
+		<div class="panel-body">				
+			<div class="table-responsive">
+				<#assign columnsToDisplay = []>
+				<table class="table">
+					<thead>
+						<tr>
+							<#if entity.keys??>												
+							<#list entity.keys as key>
+							<#assign columnsToDisplay = columnsToDisplay + [key.name]>						
+								<#if key.displayName??>
+									<th>${key.displayName}</th>
+								<#else>
+									<#if key.name??>
+										<th>${key.name}</th>
+									</#if>
+								</#if>							
+							</#list>
+							</#if>
+							<#if entity.columnFieldsDefinitions??>
+								<#list entity.columnFieldsDefinitions?keys as key>
+									<#assign column = entity.columnFieldsDefinitions[key]>
+									<#if column.internal?? && !column.internal>														
+										<#if column.mainDisplayField?? && column.mainDisplayField>
+											<#assign columnsToDisplay = columnsToDisplay + [column.name]>
+											<#if column.displayName??>
+												<th>${column.displayName}</th>
+											<#else>
+												<#if column.name??>
+													<column>${column.name}</th>
+												</#if>
+											</#if>	
+										</#if>
+									</#if>
+								</#list>
+							</#if>
+						</tr>
+					</thead>
+					<tbody>				
+			            <tr ng-repeat="item in items" <#if isREADAction>ng-click="rowClick('${entity.entityName}', $index)"</#if>>                    	
+			            	<#list columnsToDisplay as columnName>
+			            	<td>{{item.${columnName}}}</td>
+			            	</#list>												  		
+						</tr>                            
+			        </tbody>
+				</table>
+			</div>
+			<div class="top-margin-50">
+			    <button ng-click="next()" type="button" class="btn btn-default navbar-btn pull-right" ng-disabled="!showNext">
+			        Next
+			        <span class="glyphicon glyphicon-forward"></span>
+			    </button>
+			    <button ng-click="prev()" type="button" class="btn btn-default navbar-btn pull-left" ng-disabled="!showPrev">
+			        <span class="glyphicon glyphicon-backward"></span>
+			        Prev
+			    </button>
+			</div>
+		</div>
+	</div>
 </#macro>

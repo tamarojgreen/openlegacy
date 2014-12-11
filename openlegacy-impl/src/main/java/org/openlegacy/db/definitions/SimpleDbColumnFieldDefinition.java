@@ -24,14 +24,6 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 	private int precision = 0;
 	private int scale = 0;
 	// @DbColumn annotation attributes
-	private String displayName = "";
-	private boolean editable = false;
-	private boolean password = false;
-	private String sampleValue = "";
-	private String defaultValue = "";
-	private String helpText = "";
-	private boolean rightToLeft = false;
-	private boolean internal = false;
 	private boolean mainDisplayField = false;
 
 	private DbOneToManyDefinition oneToManyDefinition = null;
@@ -171,85 +163,4 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 	public void setMainDisplayField(boolean mainDisplayField) {
 		this.mainDisplayField = mainDisplayField;
 	}
-
-	@Override
-	public String getDisplayName() {
-		return displayName;
-	}
-
-	@Override
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-
-	@Override
-	public boolean isEditable() {
-		return editable;
-	}
-
-	@Override
-	public void setEditable(boolean editable) {
-		this.editable = editable;
-	}
-
-	@Override
-	public boolean isPassword() {
-		return password;
-	}
-
-	@Override
-	public void setPassword(boolean password) {
-		this.password = password;
-	}
-
-	@Override
-	public String getSampleValue() {
-		return sampleValue;
-	}
-
-	@Override
-	public void setSampleValue(String sampleValue) {
-		this.sampleValue = sampleValue;
-	}
-
-	@Override
-	public String getDefaultValue() {
-		return defaultValue;
-	}
-
-	@Override
-	public void setDefaultValue(String defaultValue) {
-		this.defaultValue = defaultValue;
-	}
-
-	@Override
-	public String getHelpText() {
-		return helpText;
-	}
-
-	@Override
-	public void setHelpText(String helpText) {
-		this.helpText = helpText;
-	}
-
-	@Override
-	public boolean isRightToLeft() {
-		return rightToLeft;
-	}
-
-	@Override
-	public void setRightToLeft(boolean rightToLeft) {
-		this.rightToLeft = rightToLeft;
-	}
-
-	@Override
-	public boolean isInternal() {
-		return internal;
-	}
-
-	@Override
-	public void setInternal(boolean internal) {
-		this.internal = internal;
-	}
-
 }
