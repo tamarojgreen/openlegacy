@@ -6,6 +6,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenColumnAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenTableAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenTableActionsAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.SortTableActionsAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.TableActionAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.button.SplitButton;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
@@ -60,6 +61,7 @@ import org.openlegacy.ide.eclipse.preview.screen.ScreenPreview;
 import org.openlegacy.ide.eclipse.preview.screen.SelectedObject;
 
 import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -310,6 +312,7 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 
 		Table t = toolkit.createTable(client, SWT.NULL);
 		gd = new GridData(SWT.FILL, SWT.FILL, true, true);
+		gd.heightHint = 100;
 		t.setLayoutData(gd);
 		toolkit.paintBordersFor(client);
 
@@ -330,6 +333,8 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 
 		createAddTableActionButton(toolkit, composite, actionsTableViewer);
 		createRemoveTableActionButton(toolkit, composite, actionsTableViewer);
+		createMoveTableActionUpButton(toolkit, composite, actionsTableViewer);
+		createMoveTableActionDownButton(toolkit, composite, actionsTableViewer);
 		return section;
 	}
 
@@ -552,6 +557,70 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 		viewer.setRemoveButton(removeActionButton);
 	}
 
+	private void createMoveTableActionUpButton(FormToolkit toolkit, Composite parent, OLTableViewer viewer) {
+		Button moveUpButton = toolkit.createButton(parent, Messages.getString("Button.moveUp"), SWT.PUSH);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
+		moveUpButton.setLayoutData(gd);
+		moveUpButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				IStructuredSelection selection = (IStructuredSelection)actionsTableViewer.getSelection();
+				if (selection.size() > 0) {
+					TableActionModel model = (TableActionModel)selection.getFirstElement();
+					if (model != null) {
+						ScreenTableModel tableModel = (ScreenTableModel)model.getParent();
+						ScreenEntity entity = getEntity();
+						
+						entity.moveTableActionModelUp(model);
+						if (!tableModel.getSortedActions().equals(tableModel.getOriginalSortedActions())) {
+							entity.addAction(new SortTableActionsAction(tableModel));
+						} else {
+							entity.removeActionsSet(SortTableActionsAction.ACTION_UUID);
+						}
+
+						tableViewer.setInput(entity);
+						tableViewerSetSelectionByModelUUID(actionsTableViewer, model.getUUID());
+						page.getEditor().editorDirtyStateChanged();
+					}
+				}
+			}
+		});
+		viewer.setMoveUpButton(moveUpButton);
+	}
+
+	private void createMoveTableActionDownButton(FormToolkit toolkit, Composite parent, OLTableViewer viewer) {
+		Button moveDownButton = toolkit.createButton(parent, Messages.getString("Button.moveDown"), SWT.PUSH);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
+		moveDownButton.setLayoutData(gd);
+		moveDownButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				IStructuredSelection selection = (IStructuredSelection)actionsTableViewer.getSelection();
+				if (selection.size() > 0) {
+					TableActionModel model = (TableActionModel)selection.getFirstElement();
+					if (model != null) {
+						ScreenTableModel tableModel = (ScreenTableModel)model.getParent();
+						ScreenEntity entity = getEntity();
+
+						entity.moveTableActionModelDown(model);
+						if (!tableModel.getSortedActions().equals(tableModel.getOriginalSortedActions())) {
+							entity.addAction(new SortTableActionsAction(tableModel));
+						} else {
+							entity.removeActionsSet(SortTableActionsAction.ACTION_UUID);
+						}
+
+						tableViewer.setInput(entity);
+						tableViewerSetSelectionByModelUUID(actionsTableViewer, model.getUUID());
+						page.getEditor().editorDirtyStateChanged();
+					}
+				}
+			}
+		});
+		viewer.setMoveDownButton(moveDownButton);
+	}
+
 	private void tableViewerSetSelection(TableViewer tableViewer, int index) {
 		int itemCount = tableViewer.getTable().getItemCount();
 		if (itemCount > 0) {
@@ -690,6 +759,8 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 		private TableViewer master;
 		private Button addButton;
 		private Button removeButton;
+		private Button moveUpButton;
+		private Button moveDownButton;
 
 		public OLTableViewer(Table table, TableViewer master) {
 			super(table);
@@ -706,6 +777,12 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 			if (removeButton != null) {
 				removeButton.setEnabled(getTable().getItemCount() > 0);
 			}
+			if (moveUpButton != null) {
+				moveUpButton.setEnabled(getTable().getItemCount() > 0);
+			}
+			if (moveDownButton != null) {
+				moveDownButton.setEnabled(getTable().getItemCount() > 0);
+			}
 		}
 
 		public void setAddButton(Button addButton) {
@@ -714,6 +791,14 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 
 		public void setRemoveButton(Button removeButton) {
 			this.removeButton = removeButton;
+		}
+
+		public void setMoveUpButton(Button moveUpButton) {
+			this.moveUpButton = moveUpButton;
+		}
+
+		public void setMoveDownButton(Button moveDownButton) {
+			this.moveDownButton = moveDownButton;
 		}
 
 	}

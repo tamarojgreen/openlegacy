@@ -49,6 +49,7 @@ public class ScreenTableModel extends ScreenNamedObject {
 	private Map<UUID, TableActionModel> actions = new HashMap<UUID, TableActionModel>();
 	private List<ScreenColumnModel> sortedColumns = new ArrayList<ScreenColumnModel>();
 	private List<TableActionModel> sortedActions = new ArrayList<TableActionModel>();
+	private List<TableActionModel> originalSortedActions = new ArrayList<TableActionModel>();
 
 	private String nextScreenActionName = TerminalActions.PAGE_DOWN.class.getSimpleName();
 	private String previousScreenActionName = TerminalActions.PAGE_UP.class.getSimpleName();
@@ -120,7 +121,9 @@ public class ScreenTableModel extends ScreenNamedObject {
 			TableActionModel model = new TableActionModel(this);
 			model.init((SimpleActionDefinition)actionDefinition);
 			actions.put(model.getUUID(), model);
-			sortedActions.add(model.clone());
+			TableActionModel clone = model.clone();
+			sortedActions.add(clone);
+			originalSortedActions.add(clone);
 		}
 		this.filterExpression = tableDefinition.getFilterExpression();
 		this.rightToLeft = tableDefinition.isRightToLeft();
@@ -170,6 +173,7 @@ public class ScreenTableModel extends ScreenNamedObject {
 			TableActionModel clone = action.clone();
 			actions.put(clone.getUUID(), clone);
 			model.getSortedActions().add(clone);
+			model.getOriginalSortedActions().add(clone);
 		}
 		model.setActions(actions);
 		return model;
@@ -312,6 +316,14 @@ public class ScreenTableModel extends ScreenNamedObject {
 
 	public void setSortedActions(List<TableActionModel> sortedActions) {
 		this.sortedActions = sortedActions;
+	}
+
+	public List<TableActionModel> getOriginalSortedActions() {
+		return originalSortedActions;
+	}
+
+	public void setOriginalSortedActions(List<TableActionModel> originalSortedActions) {
+		this.originalSortedActions = originalSortedActions;
 	}
 
 	public String getClassName() {
