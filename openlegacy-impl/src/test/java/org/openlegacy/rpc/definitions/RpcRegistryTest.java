@@ -56,10 +56,10 @@ public class RpcRegistryTest {
 		Assert.assertNotNull(rpcFieldDefinition);
 		FieldTypeDefinition fieldTypeDefinition = rpcFieldDefinition.getFieldTypeDefinition();
 		Assert.assertEquals(SimpleRpcNumericFieldTypeDefinition.class, fieldTypeDefinition.getClass());
-		RpcNumericFieldTypeDefinition param1TypeDefinition = new SimpleRpcNumericFieldTypeDefinition(-99, 99, 0, null);
+		RpcNumericFieldTypeDefinition param1TypeDefinition = new SimpleRpcNumericFieldTypeDefinition(-99, 99, 0, "#");
 		Assert.assertTrue(param1TypeDefinition.equals(fieldTypeDefinition));
 
-		RpcNumericFieldTypeDefinition param2TypeDefinition = new SimpleRpcNumericFieldTypeDefinition(-9.9, 9.9, 1, null);
+		RpcNumericFieldTypeDefinition param2TypeDefinition = new SimpleRpcNumericFieldTypeDefinition(-9.9, 9.9, 1, "#");
 		rpcFieldDefinition = fieldsDefinitions.get("param2");
 		Assert.assertNotNull(rpcFieldDefinition);
 		fieldTypeDefinition = rpcFieldDefinition.getFieldTypeDefinition();
