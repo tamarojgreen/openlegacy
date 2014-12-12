@@ -27,7 +27,7 @@ privileged @SuppressWarnings("unused") aspect ${formattedClassName}_Aspect {
 	</#list>	
     
     <#if bSelectFieldExists == false>
-    private String focusField;
+    private String ${formattedClassName}.focusField;
 	</#if>
 	
 	<#list fields as field>
@@ -55,11 +55,11 @@ privileged @SuppressWarnings("unused") aspect ${formattedClassName}_Aspect {
     /**
     	Focus on the given field, or on the first field in the table if none is given
     */
-    public void focus(String... field) {
+    public void ${formattedClassName}.focus(String... field) {
         if (field.length > 0) {
-            focusField = field[0];
+            this.focusField = field[0];
         }<#if (fields?size > 0)> else {
-            focusField = "${fields?first.getName()}";
+            this.focusField = "${fields?first.getName()}";
         }</#if>
     }
 	</#if>

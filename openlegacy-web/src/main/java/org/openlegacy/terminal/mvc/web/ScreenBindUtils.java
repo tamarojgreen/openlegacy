@@ -23,7 +23,6 @@ import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.binders.MultyScreenTableBindUtil;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
-import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.ui.Model;
 
 import java.text.MessageFormat;
@@ -96,7 +95,12 @@ public class ScreenBindUtils {
 				String focus = request.getParameter(MessageFormat.format("focus_{0}", rowNumber));
 				if (StringUtils.isNotEmpty(focus)) {
 					if (rowFieldAccessor.isExists(focus)) {
-						ReflectionUtil.invoke(row, "focus", focus);
+						// TODO integrate row.focus method (need to be tested with live as400 - as400-menus
+						// ChangePrinterOutput/SelectPrinter)
+						int focusPosition = (tableDefinitionValue.getStartRow() - 1 + rowNumber)
+								* entityDefinition.getScreenSize().getColumns()
+								+ tableDefinitionValue.getColumnDefinition(focus).getStartColumn();
+						screenEntity.setFocusField(String.valueOf(focusPosition));
 					}
 				}
 				rowNumber++;
