@@ -70,6 +70,13 @@ public interface ScreenTableDefinition extends TableDefinition<ScreenColumnDefin
 	 */
 	String getFilterExpression();
 
+	/**
+	 * A spring expression to define stop expression on current row
+	 * 
+	 * @return
+	 */
+	public String getStopExpression();
+
 	boolean isRightToLeft();
 
 	public interface ScreenColumnDefinition extends TableDefinition.ColumnDefinition {

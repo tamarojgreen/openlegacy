@@ -302,4 +302,10 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 		return codeModel.isRightToLeft();
 	}
 
+	@Override
+	public String getStopExpression() {
+		throwNotImplemented();
+		return null;
+	}
+
 }

@@ -63,6 +63,8 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 
 	private boolean rightToLeft = false;
 
+	private String stopExpression;
+
 	public SimpleScreenTableDefinition(Class<?> rowClass) {
 		super(rowClass);
 	}
@@ -305,6 +307,15 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 
 	public void setRightToLeft(boolean rightToLeft) {
 		this.rightToLeft = rightToLeft;
+	}
+
+	@Override
+	public String getStopExpression() {
+		return stopExpression;
+	}
+
+	public void setStopExpression(String stopExpression) {
+		this.stopExpression = stopExpression;
 	}
 
 }

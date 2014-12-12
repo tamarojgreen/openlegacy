@@ -73,6 +73,13 @@ public @interface ScreenTable {
 	String filterExpression() default "";
 
 	/**
+	 * A spring expression to define stop condition on current row. All columns are available and also rowText
+	 * 
+	 * @return
+	 */
+	String stopExpression() default "";
+
+	/**
 	 * Determines an order of table columns
 	 */
 	boolean rightToLeft() default false;

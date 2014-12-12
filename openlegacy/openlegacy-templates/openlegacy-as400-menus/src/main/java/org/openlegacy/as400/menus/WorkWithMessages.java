@@ -32,7 +32,7 @@ public class WorkWithMessages {
 
 	private List<WorkWithMessagesRecord> workWithMessagesRecords;
 
-	@ScreenTable(endRow = 13, startRow = 9)
+	@ScreenTable(endRow = 13, startRow = 9, stopExpression = "#text matches '.*No messages available.*'")
 	@ScreenTableActions(actions = { @TableAction(actionValue = "5", displayName = "Display", defaultAction = true) })
 	public static class WorkWithMessagesRecord {
 

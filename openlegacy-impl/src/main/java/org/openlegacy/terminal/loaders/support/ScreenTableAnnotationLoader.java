@@ -68,6 +68,9 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 		if (screenTableAnnotation.filterExpression().length() > 0) {
 			tableDefinition.setFilterExpression(screenTableAnnotation.filterExpression());
 		}
+		if (screenTableAnnotation.stopExpression().length() > 0) {
+			tableDefinition.setStopExpression(screenTableAnnotation.stopExpression());
+		}
 		tableDefinition.setRightToLeft(screenTableAnnotation.rightToLeft());
 
 		tableDefinition.setNextScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.nextScreenAction()));

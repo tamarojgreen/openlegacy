@@ -144,6 +144,17 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 				}
 				boolean filter = false;
 				if (allKeysAreEmpty == null || allKeysAreEmpty == false) {
+					if (tableDefinition.getStopExpression() != null) {
+						final Map<String, Object> expressionVars = new HashMap<String, Object>();
+						expressionVars.put("row", row);
+						expressionVars.put("text", terminalSnapshot.getRow(currentRow).getText());
+						final EvaluationContext evaluationContext = ExpressionUtils.createEvaluationContext(row, expressionVars);
+						Expression expr = expressionParser.parseExpression(tableDefinition.getStopExpression());
+						Boolean stop = expr.getValue(evaluationContext, Boolean.class);
+						if (stop) {
+							break;
+						}
+					}
 					if (tableDefinition.getFilterExpression() != null) {
 						StandardEvaluationContext evaluationContext = new StandardEvaluationContext(row);
 						Expression expr = expressionParser.parseExpression(tableDefinition.getFilterExpression());
