@@ -204,6 +204,13 @@ public class IdentifiersPage extends AbstractPage {
 				if (structuredSelection.size() == 1) {
 					IdentifierModel model = (IdentifierModel)structuredSelection.getFirstElement();
 					identifiersModel.getIdentifiers().remove(model);
+
+					// remove validation markers
+					String validationMarkerKey = MessageFormat.format("{0}-{1}", model.getUuid(), "screenBounds");//$NON-NLS-1$ //$NON-NLS-2$
+					ScreenEntityEditor editor = (ScreenEntityEditor)getEntityEditor();
+					managedForm.getMessageManager().removeMessage(validationMarkerKey);
+					editor.removeValidationMarker(validationMarkerKey);
+
 					tableViewer.setInput(identifiersModel);
 					updateModel();
 					tableViewer.getTable().select(tableViewer.getTable().getItemCount() - 1);
