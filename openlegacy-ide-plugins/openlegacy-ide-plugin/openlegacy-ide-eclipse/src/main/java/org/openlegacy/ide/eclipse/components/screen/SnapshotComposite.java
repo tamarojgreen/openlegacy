@@ -169,6 +169,7 @@ public class SnapshotComposite extends ImageComposite {
 						startPosition.getColumn(), endPosition.getColumn(), terminalSnapshotCopy.getText(startPosition,
 								field.getLength())));
 				this.selectedObject.setEditable(field.isEditable());
+				this.selectedObject.setStartsWithSeparator(isSelectionStartsWithSeparator(this.selectedObject.getFieldRectangle()));
 			}
 		} else {
 			int row = (int)(renderer.fromHeight(startY) / scale) + LEFT_START_OFFSET;
@@ -203,8 +204,20 @@ public class SnapshotComposite extends ImageComposite {
 					endCol = 1;
 				}
 				this.selectedObject.setFieldRectangle(new FieldRectangle(row, endRow, col, endCol, ""));
+				this.selectedObject.setStartsWithSeparator(isSelectionStartsWithSeparator(this.selectedObject.getFieldRectangle()));
 			}
 		}
+	}
+	
+	private boolean isSelectionStartsWithSeparator(FieldRectangle rectangle) {
+		if (terminalSnapshotCopy != null) {
+			for (TerminalPosition position : terminalSnapshotCopy.getFieldSeperators()) {
+				if (rectangle.getColumn() == position.getColumn() && rectangle.getRow() == position.getRow()) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	private void clearCursorLabel() {
@@ -838,6 +851,7 @@ public class SnapshotComposite extends ImageComposite {
 						startPosition.getColumn(), endPosition.getColumn(), terminalSnapshotCopy.getText(startPosition,
 								field.getLength())));
 				selectedObject.setEditable(field.isEditable());
+				selectedObject.setStartsWithSeparator(isSelectionStartsWithSeparator(selectedObject.getFieldRectangle()));
 				fillSelectedObject(selectedObject, field);
 				return selectedObject;
 			}

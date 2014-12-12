@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -174,6 +175,12 @@ public class IdentifiersPage extends AbstractPage {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				if (!ScreenPreview.canCreateFieldFromSelection()) {
+					MessageDialog.openError(getEditorSite().getShell(), Messages.getString("error.problem.occurred"),//$NON-NLS-1$
+							Messages.getString("error.add.new.identifier.cannot.start.from.separator"));//$NON-NLS-1$
+					return;
+				}
+
 				IdentifierModel identifier = new IdentifierModel(0, 0, "");//$NON-NLS-1$
 				fillNewIdentifier(identifier);
 				identifiersModel.getIdentifiers().add(identifier);
