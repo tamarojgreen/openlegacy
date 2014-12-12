@@ -537,7 +537,8 @@ function bindKeyboard() {
 						win.doc,
 						"keydown",
 						function(e) {
-							if (document.getElementById("loadingMessage").style.display != "none") {
+							var loadingMessage = document.getElementById("loadingMessage");
+							if (loadingMessage != null && loadingMessage.style.display != "none") {
 								return;
 							}
 							var handled = true;
