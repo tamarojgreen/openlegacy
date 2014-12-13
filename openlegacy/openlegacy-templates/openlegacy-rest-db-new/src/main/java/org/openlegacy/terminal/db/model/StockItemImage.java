@@ -1,5 +1,8 @@
 package org.openlegacy.terminal.db.model;
 
+import org.openlegacy.annotations.db.DbColumn;
+import org.openlegacy.annotations.db.DbNavigation;
+
 import java.io.Serializable;
 
 import javax.persistence.Basic;
@@ -12,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
+@DbNavigation(category = "Stock Item Images")
 public class StockItemImage implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -22,6 +26,7 @@ public class StockItemImage implements Serializable {
 
 	@Basic(fetch = FetchType.LAZY)
 	@Column(columnDefinition = "BLOB NOT NULL")
+	@DbColumn(displayName = "Image", mainDisplayField = true)
 	private byte[] image;
 
 	@ManyToOne

@@ -163,7 +163,10 @@
 								 controller: "menuCtrl"
 							 }
 						 },
-						 resolve: { auth: auth }
+						 resolve: { auth: auth },
+						 params: {
+							 keys:[]
+						 }
 					});
 				}
 				

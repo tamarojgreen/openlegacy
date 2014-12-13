@@ -64,6 +64,7 @@ public class DbColumnAnnotationLoader implements FieldLoader {
 					ParameterizedType aType = (ParameterizedType)genericFieldType;
 					Type[] fieldArgTypes = aType.getActualTypeArguments();
 					columnFieldDefinition.setJavaType((Class)fieldArgTypes[fieldArgTypes.length - 1]);
+					columnFieldDefinition.setJavaTypeName(((Class)fieldArgTypes[fieldArgTypes.length - 1]).getSimpleName());
 
 				}
 

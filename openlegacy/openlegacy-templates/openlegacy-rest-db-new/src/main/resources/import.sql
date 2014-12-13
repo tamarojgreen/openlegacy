@@ -32,3 +32,7 @@ INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('30', 'test_des
 INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('1', 'test_text1', '1');
 INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('2', 'test_text2', '1');
 INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('3', 'test_text3', '2');
+
+INSERT INTO STOCK_ITEM_IMAGE (image_id, image, stock_item) VALUES ('1', 'test_text1', '1');
+INSERT INTO STOCK_ITEM_IMAGE (image_id, image, stock_item) VALUES ('2', 'test_text2', '2');
+INSERT INTO STOCK_ITEM_IMAGE (image_id, image, stock_item) VALUES ('3', 'test_text3', '2');

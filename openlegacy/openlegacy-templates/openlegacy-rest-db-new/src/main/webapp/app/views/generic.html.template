@@ -18,7 +18,7 @@
 											</#if>
 										</#if>	
 									</label>
-									<span>{{model.${key.name}}}</span>												
+									<span>{{model.entity.${key.name}}}</span>												
 								</div>
 							</div>
 						</#list>
@@ -37,15 +37,18 @@
 													</#if>
 												</#if>
 											</label>
-											<input ng-model="model.${column.name}"></input>
+											<input ng-model="model.entity.${column.name}"></input>
 										</div>
 									</div>
-								</#if>													
-							</#list>
-							<#list childPagesDefinitions as childPageDefinition>
-								<#assign innerEntityDefinition = childPageDefinition.entityDefinition/>							
-											
-								<@generateTable entity=innerEntityDefinition/>								
+								</#if>
+								<#if (!column.internal?? || column.internal == false) && column.oneToManyDefinition??>
+									<#list childPagesDefinitions as childPageDefinition>
+										<#assign innerEntityDefinition = childPageDefinition.entityDefinition/>							
+										<#if childPageDefinition.entityDefinition.entityName == column.javaTypeName>
+											<@generateTable entity=innerEntityDefinition showActionsToolbar=false propertyName=column.name />
+										</#if>						
+									</#list>								
+								</#if>											
 							</#list>
 						</#if>
 					</div>			
@@ -62,8 +65,7 @@
 </div>
 
 
-<#macro actionToolbar entity>
-	<#assign isREADAction = false>
+<#macro actionToolbar entity>	
 	<#if (entity.actions?size > 0)>
 		<nav class="navbar navbar-default" role="navigation">
 		    <form class="navbar-form xnavbar-left" role="navigation">		    	
@@ -84,10 +86,22 @@
 	</#if>    
 </#macro>
 
-<#macro generateTable entity>
+<#macro generateTable entity showActionsToolbar=true propertyName="">
+	<#assign keyNames = []>
+	<#list entity.keys as key>
+		<#assign keyNames = keyNames + [key.name]>		
+	</#list>	
 	<h2>${entity.displayName}</h2>
-	
-	<@actionToolbar entity=entity/>
+	<#assign isREADAction = false>
+	<#if showActionsToolbar>
+		<@actionToolbar entity=entity/>
+	<#else>
+		<#list entity.actions as action>
+	        <#if action.actionName == "READ">
+	        	<#assign isREADAction = true>
+	        </#if>
+        </#list>	
+	</#if>
 	<div class="panel panel-default">
 		<div class="panel-body">				
 			<div class="table-responsive">
@@ -126,8 +140,9 @@
 							</#if>
 						</tr>
 					</thead>
-					<tbody>				
-			            <tr ng-repeat="item in items" <#if isREADAction>ng-click="rowClick('${entity.entityName}', $index)"</#if>>                    	
+					<tbody>
+					
+			            <tr ng-repeat="item in model.entity<#if propertyName != "">.${propertyName}</#if>" <#if isREADAction>ng-click="rowClick('${entity.entityName}', $index, '${propertyName}')"</#if>>			                               	
 			            	<#list columnsToDisplay as columnName>
 			            	<td>{{item.${columnName}}}</td>
 			            	</#list>												  		

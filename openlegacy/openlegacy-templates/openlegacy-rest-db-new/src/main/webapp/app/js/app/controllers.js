@@ -78,19 +78,21 @@
 		<#list entityDefinition.actions as action>
 			<#switch action.actionName>
 				<#case "READ">
-	module = module.controller('${entityDefinition.entityName}DetailsCtrl', function($scope, $stateParams, $olHttp) {		
+	module = module.controller('${entityDefinition.entityName}DetailsCtrl', function($scope, $stateParams, $olHttp, $state) {		
 		$scope.currentAction = "READ";		
-		$olHttp.get('${entityDefinition.entityName}/' + $stateParams.itemId, function(data) {
+
+		$olHttp.get('${entityDefinition.entityName}/' + $stateParams[Object.keys($stateParams)[0]], function(data) {
 			$scope.entityName = data.model.entityName;
-			$scope.model = data.model.entity;
-			console.log($scope.model);
-			$scope.innerObjects = [];
-			$.each($scope.model, function(key, element) {
-			    if (typeof element == 'object') {
-			    	$scope.innerObjects.push(key);			    	
-			    }
-			});
-			console.log($scope.model.notes);			
+			$scope.model = data.model;						
+			$scope.rowClick = function(targetEntityName, rowIndex, propertyName) {				
+	        	<#list entitiesDefinitions as entity>
+	        		if (targetEntityName == "${entity.entityName}") {
+	        			var targetData = $scope.model.entity[propertyName]
+	        			var keys = Object.keys( targetData );	        			    
+    			    	$state.go(targetEntityName + "Details", {<#list entity.keys as key>${key.name?replace(".", "_")}:targetData[keys[rowIndex]].${key.name}<#if key_has_next>+</#if></#list>});
+	        		}
+	        	</#list>		      
+        	}			
 		});
 	});
 				<#break>
@@ -116,10 +118,8 @@
 			
 			queryParamsString = queryParamsString.substring(0, queryParamsString.length - 1);
 			
-			$olHttp.get('${entityDefinition.entityName}' + queryParamsString, function(data) {
-				console.log(data);
-				$scope.items = data.model.entity;					
-		        $scope.actions = data.model.actions;		        
+			$olHttp.get('${entityDefinition.entityName}' + queryParamsString, function(data) {				
+				$scope.model = data.model;
 		        if (page == parseInt(data.model.pageCount)) {
 		        	$scope.showNext = false;
 		        	$scope.showPrev = true;
@@ -149,12 +149,13 @@
 	        		getItems();			        	
 		        };
 		        
-		        $scope.rowClick = function(entityName, rowIndex) {
-		        	console.log($scope.items);
-		        	console.log(rowIndex +1 );
-		        	//$state.go(entityName + "Details", {<#list entityDefinition.keys as key>${key.name?replace(".", "_")}:$scope.items[rowIndex].${key.name}<#if key_has_next>,</#if></#list>});
-		        	$state.go(entityName + "Details", {<#list entityDefinition.keys as key>${key.name?replace(".", "_")}:$scope.items[rowIndex].${key.name}<#if key_has_next>,</#if></#list>});
-		        }
+		        $scope.rowClick = function(entityName, rowIndex) {		        	
+		        	<#list entitiesDefinitions as entity>
+		        		if (entityName == "${entity.entityName}") {		        			
+		        			$state.go(entityName + "Details", {<#list entity.keys as key>${key.name?replace(".", "_")}:$scope.model.entity[rowIndex].${key.name}<#if key_has_next>+</#if></#list>});
+		        		}
+		        	</#list>		      
+	        	}
 		        
 //		        $scope.postAction = function(actionAlias) {			        				        	
 //		        	$olHttp.post('${entityDefinition.entityName}' + "?action=" + actionAlias, data.model.entity, function(data) {			        		
