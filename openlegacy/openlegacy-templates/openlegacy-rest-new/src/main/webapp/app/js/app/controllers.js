@@ -7,6 +7,15 @@
 	var module = angular.module('controllers', ["ui.bootstrap"]);
 
 	module = module.controller(
+			'emulationCtrl',
+			function($scope, $olHttp, $rootScope, $state, $stateParams) {
+				$scope.doAction = function(key){
+					$('#KeyboardKey').value = key;
+					$('#EmulationForm').submit();
+				}
+			});
+
+	module = module.controller(
 			'loginCtrl',
 			function($scope, $olHttp, $rootScope, $state, $stateParams) {
 				$scope.login = function(username, password) {				

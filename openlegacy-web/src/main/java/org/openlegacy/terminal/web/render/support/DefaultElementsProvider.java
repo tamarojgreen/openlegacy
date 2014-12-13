@@ -224,6 +224,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 		Element element = createInput(parentTag, null);
 		element.setAttribute(HtmlConstants.TYPE, HtmlConstants.HIDDEN);
 		element.setAttribute(HtmlConstants.NAME, name);
+		element.setAttribute(HtmlConstants.ID, name);
 		return element;
 	}
 

@@ -115,6 +115,9 @@ public class MenuController {
 	public Object getFlatMenuEntries(HttpServletResponse response) throws IOException {
 		try {
 			Menu menus = terminalSession.getModule(Menu.class);
+			if (menus.getFlatMenuEntries().isEmpty()) {
+				return null;
+			}
 			return menus.getFlatMenuEntries();
 		} catch (RuntimeException e) {
 			handleException(response, e);
