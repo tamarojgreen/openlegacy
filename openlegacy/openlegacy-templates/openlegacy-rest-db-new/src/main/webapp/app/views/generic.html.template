@@ -1,6 +1,8 @@
 <div ng-switch on="currentAction">
-	<div ng-switch-when="READ">
+	<div ng-switch-when="READ">		
 		<h2>${entityDefinition.displayName} Details</h2>
+		<#assign isUPDATEAction = false>
+		<@actionToolbar entity=entityDefinition allowCREATE=false allowREAD=false/>
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<form role="form">
@@ -36,8 +38,8 @@
 														<column>${column.name}:
 													</#if>
 												</#if>
-											</label>
-											<input ng-model="model.entity.${column.name}"></input>
+											</label>											
+											<input ng-model="model.entity.${column.name}" ng-disabled="<#if isUPDATEAction && column.editable>false<#else>true</#if>"></input>
 										</div>
 									</div>
 								</#if>
@@ -65,36 +67,50 @@
 </div>
 
 
-<#macro actionToolbar entity>	
+<#macro actionToolbar entity allowCREATE=true allowREAD=true allowUPDATE=true allowDELETE=true>	
 	<#if (entity.actions?size > 0)>
-		<nav class="navbar navbar-default" role="navigation">
-		    <form class="navbar-form xnavbar-left" role="navigation">		    	
-		        <#list entity.actions as action>
-			        <#switch action.actionName>
-			        	<#case "READ">
-						    <#assign isREADAction = true>
-						    <#break>
-					    <#case "CREATE">
-					    	<a ng-href="#/${entity.entityName}/new" class="btn btn-primary navbar-btn">${action.displayName}</a>			    
-					    	<#break>
-				    	<#default>
-				    		<button class="btn btn-primary navbar-btn">${action.displayName}</button>
-					</#switch>		
-				</#list>
-		    </form>
-		</nav>
+		<#assign actions = []>		    	
+	    <#list entity.actions as action>
+	        <#switch action.actionName>
+	        	<#case "READ">
+	        		<#if allowREAD>			        			
+				    	<#assign isREADAction = true>
+				    </#if>
+				    <#break>
+			    <#case "CREATE">
+			    	<#if allowCREATE>
+			    		<#assign actions = actions + ['<a ng-href="#/${entity.entityName}/new" class="btn btn-primary navbar-btn">${action.displayName}</a>']>					    		
+			    	</#if>
+			    	<#break>
+		    	<#case "UPDATE">
+		    		<#if allowUPDATE>
+		    			<#assign isUPDATEAction = true>				    			
+		    			<#assign actions = actions + ['<button class="btn btn-primary navbar-btn">${action.displayName}</button>']>
+		    		</#if>
+		    		<#break>
+		    	<#case "DELETE">
+		    		<#if allowDELETE>			    				
+		    			<#assign actions = actions + ['<button class="btn btn-primary navbar-btn">${action.displayName}</button>']>
+		    		</#if>
+			</#switch>		
+		</#list>
+		<#if (actions?size > 0)>
+			<nav class="navbar navbar-default" role="navigation">
+				<form class="navbar-form xnavbar-left" role="navigation">
+					<#list actions as action>
+						${action}
+					</#list>
+			    </form>
+			</nav>
+		</#if>
 	</#if>    
 </#macro>
 
-<#macro generateTable entity showActionsToolbar=true propertyName="">
-	<#assign keyNames = []>
-	<#list entity.keys as key>
-		<#assign keyNames = keyNames + [key.name]>		
-	</#list>	
+<#macro generateTable entity showActionsToolbar=true propertyName="">	
 	<h2>${entity.displayName}</h2>
 	<#assign isREADAction = false>
 	<#if showActionsToolbar>
-		<@actionToolbar entity=entity/>
+		<@actionToolbar entity=entity allowUPDATE=false allowDELETE=false/>
 	<#else>
 		<#list entity.actions as action>
 	        <#if action.actionName == "READ">
@@ -142,7 +158,7 @@
 					</thead>
 					<tbody>
 					
-			            <tr ng-repeat="item in model.entity<#if propertyName != "">.${propertyName}</#if>" <#if isREADAction>ng-click="rowClick('${entity.entityName}', $index, '${propertyName}')"</#if>>			                               	
+			            <tr ng-repeat="item in model.entity<#if propertyName != "">.${propertyName}</#if>" <#if isREADAction>ng-click="doREADAction('${entity.entityName}', $index, '${propertyName}')"</#if>>			                               	
 			            	<#list columnsToDisplay as columnName>
 			            	<td>{{item.${columnName}}}</td>
 			            	</#list>												  		

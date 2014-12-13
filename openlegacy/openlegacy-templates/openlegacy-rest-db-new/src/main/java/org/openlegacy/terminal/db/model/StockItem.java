@@ -22,13 +22,14 @@ import javax.persistence.OneToMany;
 @DbNavigation(category = "StockItem")
 @DbActions(actions = {
 		@Action(action = org.openlegacy.db.actions.DbActions.CREATE.class, displayName = "Create", alias = "create"),
-		@Action(action = org.openlegacy.db.actions.DbActions.READ.class, displayName = "READ", alias = "read") })
+		@Action(action = org.openlegacy.db.actions.DbActions.READ.class, displayName = "READ", alias = "read"),
+		@Action(action = org.openlegacy.db.actions.DbActions.UPDATE.class, displayName = "UPDATE", alias = "update") })
 public class StockItem {
 
 	@Id
 	private Integer itemId;
 
-	@DbColumn(displayName = "Description", mainDisplayField = true)
+	@DbColumn(displayName = "Description", mainDisplayField = true, editable = true)
 	private String description;
 
 	@DbColumn(displayName = "Video Url", mainDisplayField = true)

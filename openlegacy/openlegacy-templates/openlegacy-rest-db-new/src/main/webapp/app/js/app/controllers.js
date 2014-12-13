@@ -84,7 +84,7 @@
 		$olHttp.get('${entityDefinition.entityName}/' + $stateParams[Object.keys($stateParams)[0]], function(data) {
 			$scope.entityName = data.model.entityName;
 			$scope.model = data.model;						
-			$scope.rowClick = function(targetEntityName, rowIndex, propertyName) {				
+			$scope.doREADAction = function(targetEntityName, rowIndex, propertyName) {				
 	        	<#list entitiesDefinitions as entity>
 	        		if (targetEntityName == "${entity.entityName}") {
 	        			var targetData = $scope.model.entity[propertyName]
@@ -149,7 +149,7 @@
 	        		getItems();			        	
 		        };
 		        
-		        $scope.rowClick = function(entityName, rowIndex) {		        	
+		        $scope.doREADAction = function(entityName, rowIndex) {		        	
 		        	<#list entitiesDefinitions as entity>
 		        		if (entityName == "${entity.entityName}") {		        			
 		        			$state.go(entityName + "Details", {<#list entity.keys as key>${key.name?replace(".", "_")}:$scope.model.entity[rowIndex].${key.name}<#if key_has_next>+</#if></#list>});
