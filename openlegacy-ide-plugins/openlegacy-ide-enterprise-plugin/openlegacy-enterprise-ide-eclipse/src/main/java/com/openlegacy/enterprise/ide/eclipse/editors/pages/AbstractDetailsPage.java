@@ -153,7 +153,7 @@ public abstract class AbstractDetailsPage implements IOpenLegacyDetailsPage, IDe
 		return map;
 	}
 
-	protected void updateModel(String key) {
+	public void updateModel(String key) {
 		try {
 			doUpdateModel(key);
 		} catch (Exception e) {

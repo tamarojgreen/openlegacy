@@ -22,20 +22,22 @@ public class TableActionModel extends ScreenNamedObject {
 
 	private static final int DEFAULT_INT = 0;
 	private static final String DEFAULT_WHEN = ".*";
+	private static final Class<? extends TerminalDrilldownAction> DEFAULT_ACTION = EnterDrilldownAction.class;
+	private static final Class<?> DEFAULT_TARGET_ENTITY = ScreenEntity.NONE.class;
 
 	// annotations attributes
-	private Class<? extends TerminalDrilldownAction> action = EnterDrilldownAction.class;
+	private Class<? extends TerminalDrilldownAction> action = DEFAULT_ACTION;
 	private boolean defaultAction = false;
 	private String actionValue = "";
 	private String displayName = "";
 	private String alias = "";
-	private Class<?> targetEntity = ScreenEntity.NONE.class;
+	private Class<?> targetEntity = DEFAULT_TARGET_ENTITY;
 	private int row = DEFAULT_INT;
 	private int column = DEFAULT_INT;
 	private int length = DEFAULT_INT;
 	private String when = DEFAULT_WHEN;
 
-	private String targetEntityName = ScreenEntity.NONE.class.getSimpleName();
+	private String targetEntityName = DEFAULT_TARGET_ENTITY.getSimpleName();
 	private String previousActionValue = "";
 
 	private boolean initialized = false;
@@ -224,6 +226,14 @@ public class TableActionModel extends ScreenNamedObject {
 
 	public String getDefaultWhen() {
 		return DEFAULT_WHEN;
+	}
+
+	public Class<? extends TerminalDrilldownAction> getDefaultAction() {
+		return DEFAULT_ACTION;
+	}
+
+	public Class<?> getDefaultTargetEntity() {
+		return DEFAULT_TARGET_ENTITY;
 	}
 
 }

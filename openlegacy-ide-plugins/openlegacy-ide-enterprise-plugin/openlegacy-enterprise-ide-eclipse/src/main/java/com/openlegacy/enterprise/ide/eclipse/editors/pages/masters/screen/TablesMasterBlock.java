@@ -14,6 +14,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenColumnM
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenTableModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.TableActionModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.IOpenLegacyDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.screen.TablesScreenColumnDetailsPage;
@@ -57,11 +58,11 @@ import org.eclipse.ui.forms.SectionPart;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
+import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.ide.eclipse.preview.screen.ScreenPreview;
 import org.openlegacy.ide.eclipse.preview.screen.SelectedObject;
 
 import java.text.MessageFormat;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -312,7 +313,7 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 
 		Table t = toolkit.createTable(client, SWT.NULL);
 		gd = new GridData(SWT.FILL, SWT.FILL, true, true);
-		gd.heightHint = 100;
+		gd.heightHint = 130;
 		t.setLayoutData(gd);
 		toolkit.paintBordersFor(client);
 
@@ -335,6 +336,7 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 		createRemoveTableActionButton(toolkit, composite, actionsTableViewer);
 		createMoveTableActionUpButton(toolkit, composite, actionsTableViewer);
 		createMoveTableActionDownButton(toolkit, composite, actionsTableViewer);
+		createResetTableActionButton(toolkit, composite, actionsTableViewer);
 		return section;
 	}
 
@@ -363,9 +365,10 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 			if (selectedObject != null && selectedObject.getFieldRectangle() != null) {
 				newModel.setStartColumn(selectedObject.getFieldRectangle().getColumn());
 				newModel.setEndColumn(selectedObject.getFieldRectangle().getEndColumn());
-				//get one row above
-				SelectedObject aboveSelectedObject = screenPreview.getSelectedObject(selectedObject.getFieldRectangle().getRow()-1, selectedObject.getFieldRectangle().getColumn());
-				if (aboveSelectedObject != null){
+				// get one row above
+				SelectedObject aboveSelectedObject = screenPreview.getSelectedObject(
+						selectedObject.getFieldRectangle().getRow() - 1, selectedObject.getFieldRectangle().getColumn());
+				if (aboveSelectedObject != null) {
 					newModel.setDisplayName(aboveSelectedObject.getDisplayName());
 					newModel.setFieldName(aboveSelectedObject.getFieldName());
 				}
@@ -571,7 +574,7 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 					if (model != null) {
 						ScreenTableModel tableModel = (ScreenTableModel)model.getParent();
 						ScreenEntity entity = getEntity();
-						
+
 						entity.moveTableActionModelUp(model);
 						if (!tableModel.getSortedActions().equals(tableModel.getOriginalSortedActions())) {
 							entity.addAction(new SortTableActionsAction(tableModel));
@@ -619,6 +622,37 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 			}
 		});
 		viewer.setMoveDownButton(moveDownButton);
+	}
+
+	private void createResetTableActionButton(FormToolkit toolkit, Composite parent, OLTableViewer viewer) {
+		Button resetButton = toolkit.createButton(parent, Messages.getString("Button.reset"), SWT.PUSH);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
+		resetButton.setLayoutData(gd);
+		resetButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				IStructuredSelection selection = (IStructuredSelection)actionsTableViewer.getSelection();
+				if (selection.size() > 0) {
+					TableActionModel model = (TableActionModel)selection.getFirstElement();
+					model.setAction(model.getDefaultAction());
+					model.setTargetEntity(model.getDefaultTargetEntity());
+					model.setTargetEntityName(model.getDefaultTargetEntity().getSimpleName());
+					tableViewer.setInput(getEntity());
+					tableViewerSetSelectionByModelUUID(actionsTableViewer, model.getUUID());
+
+					for (IDetailsPage detailsPage : detailsPages) {
+						if (detailsPage instanceof TablesTableActionDetailsPage) {
+							((AbstractDetailsPage)detailsPage).updateModel(AnnotationConstants.ACTION);
+							((AbstractDetailsPage)detailsPage).updateModel(AnnotationConstants.TARGET_ENTITY);
+							break;
+						}
+					}
+					page.getEditor().editorDirtyStateChanged();
+				}
+			}
+
+		});
 	}
 
 	private void tableViewerSetSelection(TableViewer tableViewer, int index) {
