@@ -84,6 +84,12 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 	private Map<TerminalAction, String> keyboardMappings;
 
+	private boolean renderActionButtons = false;
+
+	private int actionButtonsInLine = 16;
+
+	private String onclickProperty = "onclick";
+
 	@Override
 	public String render(TerminalSnapshot terminalSnapshot) {
 		String htmlContent = renderHtml(terminalSnapshot);
@@ -106,6 +112,7 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 		// elementsProvider is prototype
 		elementsProvider = (DefaultElementsProvider)applicationContext.getBean(ElementsProvider.class);
+		elementsProvider.setOnclickProperty(onclickProperty);
 		elementsProvider.setSnapshot(terminalSnapshot);
 
 		DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
@@ -129,6 +136,8 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 			createMappings(formTag);
 
+			renderActionButtons((Element)formTag.getParentNode());
+
 			// generate style before the document. cause non aligned page when it's part of the document
 			styleSettings = MessageFormat.format("<style>{0}</style>", styleSettings);
 			return generate(styleSettings, doc);
@@ -139,6 +148,32 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 			throw (new OpenLegacyRuntimeException(e));
 		}
 
+	}
+
+	private void renderActionButtons(Element parentTag) {
+		if (!renderActionButtons) {
+			return;
+		}
+		Set<TerminalAction> actions = keyboardMappings.keySet();
+		int count = 0;
+		for (TerminalAction terminalAction : actions) {
+			if (count == actionButtonsInLine) {
+				Element br = elementsProvider.createTag(parentTag, "BR");
+				parentTag.appendChild(br);
+				count = 0;
+			}
+			String actionName = terminalAction.getClass().getSimpleName();
+			if (terminalAction instanceof CombinedTerminalAction) {
+				CombinedTerminalAction combined = (CombinedTerminalAction)terminalAction;
+				if (combined.getAdditionalKey() == AdditionalKey.NONE) {
+					actionName = combined.getTerminalAction().getSimpleName();
+				} else {
+					actionName = combined.getAdditionalKey() + "-" + combined.getTerminalAction().getSimpleName();
+				}
+			}
+			elementsProvider.createButton(parentTag, "doAction('" + actionName + "');", actionName);
+			count++;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -308,5 +343,21 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 	public void setKeyboardMappings(Map<TerminalAction, String> keyboardMappings) {
 		this.keyboardMappings = keyboardMappings;
+	}
+
+	public void setRenderActionButtons(boolean renderActionButtons) {
+		this.renderActionButtons = renderActionButtons;
+	}
+
+	public void setActionButtonsInLine(int actionButtonsInLine) {
+		this.actionButtonsInLine = actionButtonsInLine;
+	}
+
+	public DefaultElementsProvider getElementsProvider() {
+		return elementsProvider;
+	}
+
+	public void setOnclickProperty(String onclickProperty) {
+		this.onclickProperty = onclickProperty;
 	}
 }

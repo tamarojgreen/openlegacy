@@ -10,8 +10,20 @@
 			'emulationCtrl',
 			function($scope, $olHttp, $rootScope, $state, $stateParams) {
 				$scope.doAction = function(key){
-					$('#KeyboardKey').value = key;
-					$('#EmulationForm').submit();
+					var url = "emulation?";
+					$("form :input").each(function(){
+						//data[$(this).attr('name')] = $(this).val();
+						var val = $(this).val();
+						if ($(this).attr('name') == "KeyboardKey"){
+							val = key;
+						}
+						url = url + $(this).attr('name') + "=" + val + "&"; 
+					});
+					$olHttp.get(url,
+							function(){
+								//$state.go("emulation");
+								location.reload();
+						}); 
 				}
 			});
 
