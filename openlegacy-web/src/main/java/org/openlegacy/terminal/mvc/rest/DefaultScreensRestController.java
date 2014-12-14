@@ -20,8 +20,10 @@ import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.TableDefinition;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.messages.Messages;
+import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.mvc.AbstractRestController;
+import org.openlegacy.support.SimpleEntityWrapper;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSendActionBuilder;
@@ -221,7 +223,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXmlWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-					throws IOException {
+			throws IOException {
 		return super.postEntityXmlWithKey(entityName, key, action, xml, response);
 	}
 
@@ -229,7 +231,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXml(@PathVariable("entity") String entityName,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-					throws IOException {
+			throws IOException {
 		return super.postEntityXml(entityName, action, xml, response);
 	}
 
@@ -284,15 +286,19 @@ public class DefaultScreensRestController extends AbstractRestController {
 	}
 
 	@RequestMapping(value = "/emulation", consumes = { JSON, XML })
-	public void emulation(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public ModelAndView emulation(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		if (!enableEmulation) {
 			logger.warn("emulation for REST controller not enabled");
-			return;
+			return null;
 		}
 		TerminalSendAction action = sendActionBuilder.buildSendAction(terminalSession.getSnapshot(), request);
 
 		terminalSession.doAction(action);
-		response.setStatus(HttpServletResponse.SC_OK);
+		ScreenEntity entity = terminalSession.getEntity();
+		Navigation navigationModule = getSession().getModule(Navigation.class);
+		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(ProxyUtil.getTargetObject(entity),
+				navigationModule != null ? navigationModule.getPaths() : null, getActions(entity));
+		return new ModelAndView(MODEL, MODEL, wrapper);
 
 	}
 
@@ -377,4 +383,5 @@ public class DefaultScreensRestController extends AbstractRestController {
 	public void setEnableIncrementalLoading(boolean enableIncrementalLoading) {
 		this.enableIncrementalLoading = enableIncrementalLoading;
 	}
+
 }

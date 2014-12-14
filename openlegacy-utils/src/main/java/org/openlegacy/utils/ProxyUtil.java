@@ -42,6 +42,11 @@ public class ProxyUtil {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T getTargetObject(Object proxy, boolean deep) {
+
+		if (proxy == null) {
+			return null;
+		}
+
 		while (proxy instanceof Advised) {
 			try {
 				if (deep) {

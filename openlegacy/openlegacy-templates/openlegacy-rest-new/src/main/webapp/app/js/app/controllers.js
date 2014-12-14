@@ -20,9 +20,13 @@
 						url = url + $(this).attr('name') + "=" + val + "&"; 
 					});
 					$olHttp.get(url,
-							function(){
-								//$state.go("emulation");
-								location.reload();
+							function(data){
+								if (data.model.entity == null){
+									location.reload();
+								}
+								else{
+									$state.go(data.model.entityName);
+								}
 						}); 
 				}
 				
@@ -285,6 +289,10 @@
 				    	}  
 						$olHttp.post(url,clearObjectsFromPost($scope.model), 
 							function(data) {
+								if (data == ""){
+									$state.go("emulation");
+									return;
+								}
 								if (data.model.entityName == '${entityDefinition.entityName}'){
 									$rootScope.hidePreloader();
 									$scope.model = data.model.entity;								
@@ -433,6 +441,10 @@
 				    		var url = entityName + "?action=" + actionAlias;
 				    	}					
 						$olHttp.post(url,clearObjectsFromPost($scope.model), 
+							if (data == ""){
+								$state.go("emulation");
+								return;
+							}
 							function(data) {
 								if (data.model.entityName == '${entityName}'){
 									$scope.model = data.model.entity;

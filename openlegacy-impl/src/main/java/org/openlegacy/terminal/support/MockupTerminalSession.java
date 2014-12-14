@@ -65,7 +65,7 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 					screenEntityClass.getSimpleName())));
 		}
 		SnapshotInfo<TerminalSnapshot> snapshotInfo = snapshotsList.getCurrent();
-		if (!screenEntityClass.isAssignableFrom(getEntity().getClass())) {
+		if (getEntity() == null || !screenEntityClass.isAssignableFrom(getEntity().getClass())) {
 			setLastSequence(snapshotInfo.getSnapshot().getSequence());
 			resetEntity();
 			getConnection().setCurrentIndex(snapshotInfo.getIndexInSession());
