@@ -4,7 +4,7 @@
 
 	/* App Module */
 	
-	var olApp = angular.module( 'olApp', ['controllers', 'services', 'directives', 'ngRoute', 'ui.router']).run(['$themeService', '$rootScope', function($themeService, $rootScope) {
+	var olApp = angular.module( 'olApp', ['controllers', 'services', 'directives', 'ngRoute', 'ui.router']).run(['$themeService', '$rootScope', '$state', function($themeService, $rootScope, $state) {
 		$rootScope.allowHidePreloader = true;
 		$rootScope.allowShowPreloader = true;
 		
@@ -25,15 +25,27 @@
 				$rootScope.allowShowPreloader = true;
 			} else {
 				$rootScope.allowHidePreloader = true;
-			}		
+			}
+			if ($("#sessionImage") != null){
+				$("#sessionImage").attr("src","../sessionViewer/image?" + new Date().getTime());
+			}
 		}
 		
-		$rootScope.$on("$locationChangeStart", function(){		
+		$rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams, error) {
 			$rootScope.showPreloader();
 		});
 		
-		$rootScope.$on("$locationChangeSuccess", function(){		
+		$rootScope.$on("$stateChangeSuccess", function() {
 			$rootScope.hidePreloader();
+		});
+		
+		$rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {			
+			$rootScope.hidePreloader();
+			if (toState.name === "login") {
+				$state.go(toParams.redirectTo.name);
+			} else {
+				$state.go("login", {"redirectTo":{"name": toState.name, "params":toParams}}, {"reload":true});
+			}
 		});		
 		
 		$rootScope.changeTheme = function() {
@@ -45,6 +57,58 @@
 	olApp.config( ['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 		
 		$urlRouterProvider.otherwise("/login");
+		
+		var header = { templateUrl: "views/partials/header.html", controller: "headerCtrl" };
+		var auth = function($q, $http) {
+			var deferred = $q.defer();
+				$http(
+					{						
+						method: 'GET',
+						data: '',
+						url: olConfig.baseUrl + 'authenticate',												 
+						headers: {
+							'Content-Type' : 'application/json',
+							'Accept' : 'application/json'
+						}
+					}).then(function() {
+						deferred.resolve();
+					}, function(response) {						
+						if (response.data) {
+							alert(response.data.error);
+						} else {
+							alert(response.data);
+						}
+						deferred.reject();						
+					});			 		
+			
+			
+			return deferred.promise;
+		}
+		
+		var authLogin = function($q, $http, $state) {			
+			var deferred = $q.defer();			
+			if ($state.current.name != "" && $state.current.name != "logoff") {
+				$http(
+					{						
+						method: 'GET',
+						data: '',
+						url: olConfig.baseUrl + 'authenticate',												 
+						headers: {
+							'Content-Type' : 'application/json',
+							'Accept' : 'application/json'
+						}
+					}).then(function() {
+						deferred.reject();
+					}, function(response) {						
+						deferred.resolve();						
+					});
+				
+			} else {
+				deferred.resolve();
+			}
+			
+			return deferred.promise;
+		}
 		 
 		 $stateProvider
 		 .state('login', {
@@ -53,12 +117,16 @@
 				 "": {
 					 templateUrl: "views/login.html",
 					 controller: 'loginCtrl'
-				 },
-				 "header": {
-					 templateUrl: "views/partials/header.html",
-					 controller: "headerCtrl"
 				 }
-			 }		     
+			 },
+			 params: {
+				 redirectTo: {
+					 name: "menu"
+				 }
+			 },
+			 resolve: {
+				 authLogin: authLogin
+			 }
 		})
 		 .state('logoff', {
 			 url: '/logoff',
@@ -66,10 +134,6 @@
 				 "": {
 					 templateUrl: "views/logoff.html",
 					 controller: 'logoffCtrl'
-				 },
-				 "header": {
-					 templateUrl: "views/partials/header.html",
-					 controller: "headerCtrl"
 				 }
 			 }		     
 		})
@@ -80,15 +144,13 @@
 					 templateUrl: "views/menu.html",
 					 controller: 'menuCtrl'
 				 },
-				 "header": {
-					 templateUrl: "views/partials/header.html",
-					 controller: "headerCtrl"
-				 },
+				 "header": header,
 				 "sideMenu": {
 					 templateUrl: "views/partials/sideMenu.html",
 					 controller: "menuCtrl"
 				 }
-			 }		     
+			 },
+			 resolve: { auth: auth }
 		});
 		
 		 function addRoute(stateName, entityName, url) {
@@ -99,10 +161,7 @@
 							 templateUrl: "views/" + entityName + ".html",
 							 controller: entityName + 'Ctrl'
 						 },
-						 "header": {
-							 templateUrl: "views/partials/header.html",
-							 controller: "headerCtrl"
-						 },
+						 "header": header,
 						 "breadcrumbs": {
 							 templateUrl: "views/partials/breadcrumbs.html",
 							 controller: "breadcrumbsCtrl"
@@ -111,12 +170,14 @@
 							 templateUrl: "views/partials/sideMenu.html",
 							 controller: "menuCtrl"
 						 }
-					 }		     
+					 },
+					 resolve: { auth: auth }
 				});
 			}		 
 			
 			var urlsToFilter = [];
 
+			addRoute("emulation", "emulation", "/emulation");
 			/* Register controller place-holder start
 			<#if entityName??>
 				<#if keys?size &gt; 0>				

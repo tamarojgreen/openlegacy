@@ -7,11 +7,73 @@
 	var module = angular.module('controllers', ["ui.bootstrap"]);
 
 	module = module.controller(
-			'loginCtrl',
-			function($scope, $olHttp, $rootScope, $state) {			
-				if ($.cookie('loggedInUser') != undefined) {
-					$state.go("menu");
+			'emulationCtrl',
+			function($scope, $olHttp, $rootScope, $state, $stateParams) {
+				
+				$scope.doAction = function(key){
+					var url = "emulation?";
+					$("form :input").each(function(){
+						var val = $(this).val();
+						if ($(this).attr('name') == "KeyboardKey"){
+							val = key;
+						}
+						url = url + $(this).attr('name') + "=" + val + "&"; 
+					});
+					$olHttp.get(url,
+							function(data){
+								if (data.model.entity == null){
+									location.reload();
+								}
+								else{
+									$state.go(data.model.entityName);
+								}
+						}); 
 				}
+				
+				$scope.handleEmulation = function(){
+					// set onload focus
+					var focusInput = $("#" + $("#TerminalCursor").val());
+					window.setTimeout(function(){focusInput.focus()},500);
+					// capture focus event
+					$("form :input").each(function(){
+						$(this).focus(function(){
+							$("#TerminalCursor").val($(this).attr("name"));
+						});
+						$(this).keydown(function(e){
+							if (window.keyboardMappings != null){
+								for (var i=0;i<keyboardMappings.mappings.length;i++){
+									var mapping = keyboardMappings.mappings[i];
+									if (e.keyCode == eval("keyCode." + mapping.KeyboardKey)){
+										var keyPrefix = "";
+										if (e.shiftKey || e.ctrlKey || e.altKey){
+											if (e.shiftKey && mapping.additionalKey == "SHIFT"){
+												keyPrefix = "SHIFT-";
+											}
+											else if (e.ctrlKey && mapping.additionalKey == "CTRL"){
+												keyPrefix = "CTRL-";
+											}
+											else if (e.altKey && mapping.additionalKey == "ALT"){
+												keyPrefix = "ALT-";
+											}
+											else{
+												continue;
+											}
+										}
+										e.stopPropagation(e);
+										$scope.doAction(keyPrefix + mapping.KeyboardKey);
+										break;
+									}
+								}
+							}
+						});
+					});
+				}
+				$scope.handleEmulation();
+			});
+
+	module = module.controller(
+			'loginCtrl',
+			function($scope, $olHttp, $rootScope, $state, $stateParams) {
 				$scope.login = function(username, password) {				
 				var data = {"user":username,"password":password}
 				$olHttp.post('login',data, 
@@ -22,7 +84,7 @@
 								
 								$.cookie('loggedInUser', username, {expires: $expiration, path: '/'});
 								$rootScope.$broadcast("olApp:login:authorized", username);
-								$state.go("menu");
+								$state.go($stateParams.redirectTo.name, $stateParams.redirectTo.params);
 							}
 						);
 				};		
@@ -227,6 +289,10 @@
 				    	}  
 						$olHttp.post(url,clearObjectsFromPost($scope.model), 
 							function(data) {
+								if (data == ""){
+									$state.go("emulation");
+									return;
+								}
 								if (data.model.entityName == '${entityDefinition.entityName}'){
 									$rootScope.hidePreloader();
 									$scope.model = data.model.entity;								
@@ -375,6 +441,10 @@
 				    		var url = entityName + "?action=" + actionAlias;
 				    	}					
 						$olHttp.post(url,clearObjectsFromPost($scope.model), 
+							if (data == ""){
+								$state.go("emulation");
+								return;
+							}
 							function(data) {
 								if (data.model.entityName == '${entityName}'){
 									$scope.model = data.model.entity;
@@ -429,3 +499,40 @@
 	</#if>
  	Controller with JSONP code place-holder end */
 })();
+
+var keyCode = {
+    BACKSPACE: 8,
+    COMMA: 188,
+    DELETE: 46,
+    DOWN: 40,
+    END: 35,
+    ENTER: 13,
+    ESCAPE: 27,
+    HOME: 36,
+    LEFT: 37,
+    NUMPAD_ADD: 107,
+    NUMPAD_DECIMAL: 110,
+    NUMPAD_DIVIDE: 111,
+    NUMPAD_ENTER: 108,
+    NUMPAD_MULTIPLY: 106,
+    NUMPAD_SUBTRACT: 109,
+    PAGE_DOWN: 34,
+    PAGE_UP: 33,
+    PERIOD: 190,
+    RIGHT: 39,
+    SPACE: 32,
+    TAB: 9,
+    UP: 38,
+    F1: 112,
+    F2: 113,
+    F3: 114,
+    F4: 115,
+    F5: 116,
+    F6: 117,
+    F7: 118,
+    F8: 119,
+    F9: 120,
+    F10: 121,
+    F11: 122,
+    F11: 123
+}
