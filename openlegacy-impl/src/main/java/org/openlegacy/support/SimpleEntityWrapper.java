@@ -34,8 +34,9 @@ public class SimpleEntityWrapper implements EntityWrapper {
 
 	public SimpleEntityWrapper(Object entity, List<EntityDescriptor> paths, List<ActionDefinition> actions) {
 		this.entity = entity;
-
-		this.entityName = entity.getClass().getSimpleName();
+		if (entity != null) {
+			this.entityName = entity.getClass().getSimpleName();
+		}
 		this.paths = paths;
 		this.actions = actions;
 	}

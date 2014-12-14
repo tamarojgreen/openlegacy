@@ -59,6 +59,8 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 
 	private TerminalSnapshot terminalSnapshot;
 
+	private String onclickProperty = "onclick";
+
 	@Override
 	public Element createLabel(Element rootNode, TerminalField field, ScreenSize screenSize) {
 
@@ -224,6 +226,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 		Element element = createInput(parentTag, null);
 		element.setAttribute(HtmlConstants.TYPE, HtmlConstants.HIDDEN);
 		element.setAttribute(HtmlConstants.NAME, name);
+		element.setAttribute(HtmlConstants.ID, name);
 		return element;
 	}
 
@@ -314,5 +317,18 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 
 	public void setSnapshot(TerminalSnapshot terminalSnapshot) {
 		this.terminalSnapshot = terminalSnapshot;
+	}
+
+	@Override
+	public Element createButton(Element rootTag, String action, String label) {
+		Element element = createInput(rootTag, null);
+		element.setAttribute(HtmlConstants.TYPE, HtmlConstants.BUTTON);
+		element.setAttribute(onclickProperty, action);
+		element.setAttribute(HtmlConstants.VALUE, label);
+		return element;
+	}
+
+	public void setOnclickProperty(String onclickProperty) {
+		this.onclickProperty = onclickProperty;
 	}
 }

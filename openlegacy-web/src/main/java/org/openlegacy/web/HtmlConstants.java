@@ -44,4 +44,6 @@ public class HtmlConstants {
 	public static final String DATA_RIGHT_ADJUST = "data-ra";
 	public static final String DIR = "dir";
 	public static final String RTL = "rtl";
+	public static final String BUTTON = "button";
+	public static final String ONCLICK = "onclick";
 }

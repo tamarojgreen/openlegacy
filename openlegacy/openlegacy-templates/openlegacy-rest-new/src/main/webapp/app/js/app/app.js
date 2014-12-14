@@ -177,6 +177,7 @@
 			
 			var urlsToFilter = [];
 
+			addRoute("emulation", "emulation", "/emulation");
 			/* Register controller place-holder start
 			<#if entityName??>
 				<#if keys?size &gt; 0>				
