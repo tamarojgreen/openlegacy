@@ -32,6 +32,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.openlegacy.ide.eclipse.components.ImageComposite;
 import org.openlegacy.ide.eclipse.components.screen.SnapshotComposite;
@@ -324,4 +325,17 @@ public class ScreenPreview extends AbstractEntityPreview {
 	public SelectedObject getSelectedObject(int row, int column){
 		return snapshotComposite.getSelectedObject(row, column);
 	}
+
+	public static boolean canCreateFieldFromSelection() {
+		ScreenPreview screenPreview = (ScreenPreview)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(
+				ScreenPreview.ID);
+		if (screenPreview != null) {
+			SelectedObject selectedObject = screenPreview.getSelectedObject();
+			if (selectedObject != null) {
+				return !selectedObject.isStartsWithSeparator();
+			}
+		}
+		return true;
+	}
+
 }

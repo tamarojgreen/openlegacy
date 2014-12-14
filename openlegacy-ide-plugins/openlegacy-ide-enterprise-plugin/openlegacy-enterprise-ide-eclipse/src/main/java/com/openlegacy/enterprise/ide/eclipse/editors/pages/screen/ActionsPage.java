@@ -25,8 +25,10 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -114,12 +116,25 @@ public class ActionsPage extends AbstractPage {
 		gl.numColumns = 2;
 		client.setLayout(gl);
 
-		Table t = toolkit.createTable(client, SWT.FULL_SELECTION);
+		ScrolledComposite scrolledComposite = new ScrolledComposite(client, SWT.NONE);
 		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
+		gd.heightHint = 200;
+		Point size = client.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		gd.widthHint = size.x;
+		scrolledComposite.setLayoutData(gd);
+
+		Table t = toolkit.createTable(scrolledComposite, SWT.FULL_SELECTION);
+		gd = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gd.heightHint = 300;
 		t.setLayoutData(gd);
 		t.setHeaderVisible(true);
 		t.setLinesVisible(true);
+
+		scrolledComposite.setContent(t);
+		scrolledComposite.setExpandHorizontal(true);
+		scrolledComposite.setExpandVertical(true);
+		scrolledComposite.setMinSize(t.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+
 		// add buttons
 		addPanelWithButtons(toolkit, client);
 
@@ -228,6 +243,30 @@ public class ActionsPage extends AbstractPage {
 			}
 
 		});
+
+		// reset button
+		Button resetButton = toolkit.createButton(panel, Messages.getString("Button.reset"), SWT.PUSH);//$NON-NLS-1$
+		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
+		resetButton.setLayoutData(gd);
+		resetButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				IStructuredSelection structuredSelection = (IStructuredSelection)tableViewer.getSelection();
+				if (structuredSelection.size() == 1) {
+					ActionModel model = (ActionModel)structuredSelection.getFirstElement();
+					model.setAction(null);
+					model.setActionName("");
+					model.setKeyboardKey(model.getDefaultKeyboardKey());
+					model.setKeyboardKeyName(model.getDefaultKeyboardKey().getSimpleName());
+					tableViewer.setInput(actionsModel);
+					updateModel();
+					tableViewer.setSelection(structuredSelection);
+				}
+			}
+
+		});
+
 	}
 
 	private void createColumns(TableViewer viewer, ScreenEntity entity) {
@@ -498,12 +537,12 @@ public class ActionsPage extends AbstractPage {
 			}
 		});
 	}
-	
+
 	private static ActionModel createActionModel() {
 		ActionModel model = new ActionModel("", "", "", AdditionalKey.NONE, 0, 0, 0, null, "", ActionType.GENERAL,//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				org.openlegacy.terminal.ScreenEntity.NONE.class.getSimpleName(), 0, true,
 				TerminalActions.NONE.class.getSimpleName());
-		
+
 		ScreenPreview screenPreview = (ScreenPreview)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(
 				ScreenPreview.ID);
 		if (screenPreview != null) {
@@ -519,7 +558,7 @@ public class ActionsPage extends AbstractPage {
 					if (selectedTextParts.length == 2) {
 						String key = selectedTextParts[0];
 						String label = selectedTextParts[1];
-						
+
 						TerminalAction terminalAction = TerminalActions.newAction(key);
 						if (terminalAction != null) {
 							model.setAction(terminalAction);
@@ -544,7 +583,7 @@ public class ActionsPage extends AbstractPage {
 				}
 			}
 		}
-		
+
 		return model;
 	}
 

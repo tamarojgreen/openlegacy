@@ -35,6 +35,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -542,6 +543,12 @@ public class PartsMasterBlock extends AbstractScreenEntityMasterBlock implements
 
 		@Override
 		public void widgetSelected(SelectionEvent e) {
+			if (!ScreenPreview.canCreateFieldFromSelection()) {
+				MessageDialog.openError(page.getEditorSite().getShell(), Messages.getString("error.problem.occurred"),//$NON-NLS-1$
+						Messages.getString("error.add.new.field.cannot.start.from.separator"));// $NON-NLS1$
+				return;
+			}
+
 			creator.createNewField(targetClass);
 		}
 

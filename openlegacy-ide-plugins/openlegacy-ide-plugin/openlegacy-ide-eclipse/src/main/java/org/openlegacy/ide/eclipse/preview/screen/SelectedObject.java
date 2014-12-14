@@ -19,6 +19,7 @@ public class SelectedObject {
 	private FieldRectangle fieldRectangle;
 	private boolean isEditable = false;
 	private Integer labelColumn;
+	private boolean isStartsWithSeparator = false;
 
 	public SelectedObject() {}
 
@@ -42,6 +43,10 @@ public class SelectedObject {
 		return isEditable;
 	}
 
+	public boolean isStartsWithSeparator() {
+		return isStartsWithSeparator;
+	}
+
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
@@ -60,6 +65,10 @@ public class SelectedObject {
 
 	public void setLabelColumn(Integer labelColumn) {
 		this.labelColumn = labelColumn;
+	}
+
+	public void setStartsWithSeparator(boolean isStartsWithSeparator) {
+		this.isStartsWithSeparator = isStartsWithSeparator;
 	}
 
 	@Override
