@@ -552,7 +552,7 @@ public class ActionsPage extends AbstractPage {
 				FieldRectangle fieldRectangle = selectedObject.getFieldRectangle();
 				String selectedText = fieldRectangle.getValue();
 
-				if (selectedText != null && !selectedText.isEmpty()) {
+				if (selectedText != null && !(selectedText = selectedText.trim()).isEmpty()) {
 					String[] selectedTextParts = selectedText.split("-|=");
 
 					if (selectedTextParts.length == 2) {
@@ -576,8 +576,8 @@ public class ActionsPage extends AbstractPage {
 						model.setAlias(StringUtil.toJavaFieldName(label));
 
 						model.setRow(fieldRectangle.getRow());
-						model.setColumn(fieldRectangle.getColumn());
-						model.setLength(fieldRectangle.getEndColumn() - fieldRectangle.getColumn());
+						model.setColumn(fieldRectangle.getColumn() + fieldRectangle.getValue().indexOf(selectedText));
+						model.setLength(selectedText.length());
 						model.setWhen(".*" + key + ".*");
 					}
 				}
