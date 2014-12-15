@@ -59,7 +59,7 @@
 												continue;
 											}
 										}
-										e.stopPropagation(e);
+										e.preventDefault();
 										$scope.doAction(keyPrefix + mapping.KeyboardKey);
 										break;
 									}
@@ -75,16 +75,21 @@
 			'loginCtrl',
 			function($scope, $olHttp, $rootScope, $state, $stateParams) {
 				$scope.login = function(username, password) {				
-				var data = {"user":username,"password":password}
-				$olHttp.post('login',data, 
-							function() {
+				var userData = {"user":username,"password":password}
+				$olHttp.post('login',userData, 
+							function(data) {
 								var $expiration = new Date();
 								var minutes = olConfig.expiration;
 								$expiration.setTime($expiration.getTime() + minutes*60*1000)
 								
 								$.cookie('loggedInUser', username, {expires: $expiration, path: '/'});
 								$rootScope.$broadcast("olApp:login:authorized", username);
-								$state.go("menu");
+								if (data == ""){
+									$state.go("emulation");
+								}
+								else{
+									$state.go("menu");
+								}
 							}
 						);
 				};		
@@ -534,5 +539,5 @@ var keyCode = {
     F9: 120,
     F10: 121,
     F11: 122,
-    F11: 123
+    F12: 123
 }
