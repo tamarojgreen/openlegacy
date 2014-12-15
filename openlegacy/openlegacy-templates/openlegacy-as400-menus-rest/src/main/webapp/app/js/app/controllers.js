@@ -25,46 +25,56 @@
 									location.reload();
 								}
 								else{
+									$(document).off();
 									$state.go(data.model.entityName);
 								}
 						}); 
 				}
 				
+				$scope.handleKeyboard = function(e){
+					if (window.keyboardMappings != null){
+						for (var i=0;i<keyboardMappings.mappings.length;i++){
+							var mapping = keyboardMappings.mappings[i];
+							if (e.keyCode == eval("keyCode." + mapping.KeyboardKey)){
+								var keyPrefix = "";
+								if (e.shiftKey || e.ctrlKey || e.altKey){
+									if (e.shiftKey && mapping.additionalKey == "SHIFT"){
+										keyPrefix = "SHIFT-";
+									}
+									else if (e.ctrlKey && mapping.additionalKey == "CTRL"){
+										keyPrefix = "CTRL-";
+									}
+									else if (e.altKey && mapping.additionalKey == "ALT"){
+										keyPrefix = "ALT-";
+									}
+									else{
+										continue;
+									}
+								}
+								e.stopPropagation();
+								e.preventDefault();
+								$scope.doAction(keyPrefix + mapping.KeyboardKey);
+								break;
+							}
+						}
+					}
+				}
 				$scope.handleEmulation = function(){
 					// set onload focus
 					var focusInput = $("#" + $("#TerminalCursor").val());
 					window.setTimeout(function(){focusInput.focus()},500);
 					// capture focus event
+					
+					$(document).keydown(function(e) {
+						$scope.handleKeyboard(e);
+					});
 					$("form :input").each(function(){
 						$(this).focus(function(){
 							$("#TerminalCursor").val($(this).attr("name"));
 						});
+						// capture keydown event
 						$(this).keydown(function(e){
-							if (window.keyboardMappings != null){
-								for (var i=0;i<keyboardMappings.mappings.length;i++){
-									var mapping = keyboardMappings.mappings[i];
-									if (e.keyCode == eval("keyCode." + mapping.KeyboardKey)){
-										var keyPrefix = "";
-										if (e.shiftKey || e.ctrlKey || e.altKey){
-											if (e.shiftKey && mapping.additionalKey == "SHIFT"){
-												keyPrefix = "SHIFT-";
-											}
-											else if (e.ctrlKey && mapping.additionalKey == "CTRL"){
-												keyPrefix = "CTRL-";
-											}
-											else if (e.altKey && mapping.additionalKey == "ALT"){
-												keyPrefix = "ALT-";
-											}
-											else{
-												continue;
-											}
-										}
-										e.preventDefault();
-										$scope.doAction(keyPrefix + mapping.KeyboardKey);
-										break;
-									}
-								}
-							}
+							$scope.handleKeyboard(e);
 						});
 					});
 				}
