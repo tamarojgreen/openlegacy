@@ -58,13 +58,16 @@ public class TrailUtil {
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HHmm");
 		try {
-			File trailFile = new File(trailPath, MessageFormat.format("{0}_{1}.trail", session.getProperties().getId(),
+			String sessionId = session.getProperties().getId();
+			File trailFile = new File(trailPath, MessageFormat.format("{0}_{1}.trail", sessionId != null ? sessionId : "",
 					dateFormat.format(cal.getTime())));
 			if (!trailFile.getParentFile().exists()) {
 				trailFile.getParentFile().mkdirs();
 			}
+			trailFile.getParentFile().mkdirs();
 			trailOut = new FileOutputStream(trailFile);
 			trailWriter.write(trail, trailOut);
+			logger.info("*** Trail file create in:" + trailFile.getAbsolutePath());
 		} catch (IOException e) {
 			logger.fatal("Failed to save trail file", e);
 		} finally {
