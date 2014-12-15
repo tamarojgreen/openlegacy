@@ -84,7 +84,7 @@
 								
 								$.cookie('loggedInUser', username, {expires: $expiration, path: '/'});
 								$rootScope.$broadcast("olApp:login:authorized", username);
-								$state.go($stateParams.redirectTo.name, $stateParams.redirectTo.params);
+								$state.go("menu");
 							}
 						);
 				};		
