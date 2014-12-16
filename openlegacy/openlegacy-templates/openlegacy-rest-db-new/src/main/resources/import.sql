@@ -28,6 +28,27 @@ INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('27', 'test_des
 INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('28', 'test_descr28', 'test_video_url28');
 INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('29', 'test_descr29', 'test_video_url29');
 INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('30', 'test_descr30', 'test_video_url30');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('31', 'test_descr10', 'test_video_url10');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('32', 'test_descr11', 'test_video_url11');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('33', 'test_descr12', 'test_video_url12');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('34', 'test_descr13', 'test_video_url13');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('35', 'test_descr14', 'test_video_url14');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('36', 'test_descr15', 'test_video_url15');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('37', 'test_descr16', 'test_video_url16');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('38', 'test_descr17', 'test_video_url17');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('39', 'test_descr18', 'test_video_url18');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('40', 'test_descr19', 'test_video_url19');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('41', 'test_descr20', 'test_video_url20');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('42', 'test_descr21', 'test_video_url21');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('43', 'test_descr22', 'test_video_url22');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('44', 'test_descr23', 'test_video_url23');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('45', 'test_descr24', 'test_video_url24');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('46', 'test_descr25', 'test_video_url25');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('47', 'test_descr26', 'test_video_url26');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('48', 'test_descr27', 'test_video_url27');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('49', 'test_descr28', 'test_video_url28');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('50', 'test_descr29', 'test_video_url29');
+INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('51', 'test_descr30', 'test_video_url30');
 
 INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('1', 'test_text1', '1');
 INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('2', 'test_text2', '1');

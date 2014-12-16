@@ -24,6 +24,7 @@ import org.openlegacy.db.DbSession;
 import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.db.definitions.DbNavigationDefinition;
 import org.openlegacy.db.services.DbEntitiesRegistry;
+import org.openlegacy.db.services.DbService;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.exceptions.RegistryException;
@@ -35,6 +36,7 @@ import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.support.SimpleEntityWrapper;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,14 +56,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
@@ -75,6 +71,9 @@ public class DefaultDbRestController {
 	protected static final String ACTION = "action";
 
 	@Inject
+	private DbService dbService;
+
+	@Inject
 	private DbSession dbSession;
 
 	@Inject
@@ -83,9 +82,6 @@ public class DefaultDbRestController {
 	@Inject
 	private DbEntitiesRegistry dbEntitiesRegistry;
 
-	@PersistenceContext
-	private EntityManager entityManager;
-
 	private Integer pageSize = 20;
 
 	public void setRequiresLogin(boolean requiresLogin) {
@@ -93,8 +89,6 @@ public class DefaultDbRestController {
 	}
 
 	private Integer pageNumber = 1;
-
-	private Integer pageCount = 0;
 
 	private boolean requiresLogin = false;
 
@@ -183,6 +177,18 @@ public class DefaultDbRestController {
 		}
 	}
 
+	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.DELETE)
+	protected void deleteEntityWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
+			HttpServletResponse response) throws IOException {
+		try {
+			deleteEntityRequest(entityName, key, response);
+		} catch (EntityNotFoundException e) {
+			sendError(HttpServletResponse.SC_NOT_FOUND, e.getMessage(), response);
+		} catch (Exception e) {
+			sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage(), response);
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/menu", method = RequestMethod.GET, consumes = { JSON, XML })
 	public JSONArray getMenu(HttpServletResponse response) throws IOException {
@@ -226,6 +232,12 @@ public class DefaultDbRestController {
 		}
 	}
 
+	protected void deleteEntityRequest(String entityName, String key, HttpServletResponse response)
+			throws EntityNotFoundException, Exception {
+		Class<?> entityClass = dbEntitiesRegistry.get(entityName).getEntityClass();
+		dbService.deleteEntityById(entityClass, toObject(getFirstIdJavaType(entityClass), key.split("\\+")[0]));
+	}
+
 	protected Object postApiEntity(String entityName, Class<?> entityClass, String key) {
 		return getApiEntity(entityClass, null, key);
 	}
@@ -235,40 +247,12 @@ public class DefaultDbRestController {
 		if (key != null) {
 			keys = key.split("\\+");
 
-			return entityManager.find(entityClass, toObject(getFirstIdJavaType(entityClass), (String)keys[0]));
+			return dbService.getEntityById(entityClass, toObject(getFirstIdJavaType(entityClass), (String)keys[0]));
 		} else {
 			if (queryConditions != null && queryConditions.size() != 0) {
-				String query = "FROM " + entityClass.getSimpleName() + " WHERE ";
-				boolean firstIteration = true;
-				for (Entry<String, String> entry : queryConditions.entrySet()) {
-					if (!firstIteration) {
-						query += " AND ";
-					} else {
-						firstIteration = false;
-					}
-					query += entry.getKey() + "=" + entry.getValue();
-				}
-				return entityManager.createQuery(query).getResultList();
+				return dbService.getEntitiesWithConditions(entityClass, queryConditions);
 			} else {
-				CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-				CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
-				countQuery.select(criteriaBuilder.count(countQuery.from(entityClass)));
-				Long count = entityManager.createQuery(countQuery).getSingleResult();
-				Query query = entityManager.createQuery(String.format("FROM %s", entityClass.getSimpleName()));
-				pageCount = (int)Math.ceil((count.intValue() * 1.0) / pageSize);
-				if (pageNumber > pageCount) {
-					pageNumber = 1;
-				}
-
-				if (pageNumber == 1) {
-					query.setFirstResult(0);
-				} else if (pageNumber <= pageCount) {
-					query.setFirstResult(pageSize * (pageNumber - 1));
-				}
-
-				query.setMaxResults(pageSize);
-
-				return query.getResultList();
+				return dbService.getEntitiesPerPage(entityClass, pageSize, pageNumber);
 			}
 		}
 	}
@@ -325,7 +309,7 @@ public class DefaultDbRestController {
 
 		entity = ProxyUtil.getTargetJpaObject(entity, children);
 		// entity = ProxyUtil.getTargetObject(entity, children);
-		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(entity, null, getActions(entity), pageCount);
+		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(entity, null, getActions(entity), dbService.getPageCount());
 		return new ModelAndView(MODEL, MODEL, wrapper);
 	}
 
@@ -495,10 +479,12 @@ public class DefaultDbRestController {
 		return;
 	}
 
-	protected Object sendEntity(Object entity, String action) {
+	@Transactional
+	public Object sendEntity(Object entity, String action) {
 		Object resultEntity = null;
 		if (action == "") {
-			resultEntity = entityManager.merge(entity);
+			resultEntity = dbService.createOrUpdateEntity(entity);
+
 		}
 		return resultEntity;
 	}

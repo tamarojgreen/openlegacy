@@ -85,12 +85,12 @@
 		    	<#case "UPDATE">
 		    		<#if allowUPDATE>
 		    			<#assign isUPDATEAction = true>				    			
-		    			<#assign actions = actions + ['<button class="btn btn-primary navbar-btn">${action.displayName}</button>']>
+		    			<#assign actions = actions + ['<button class="btn btn-primary navbar-btn" ng-click="doUPDATEAction()">${action.displayName}</button>']>
 		    		</#if>
 		    		<#break>
 		    	<#case "DELETE">
 		    		<#if allowDELETE>			    				
-		    			<#assign actions = actions + ['<button class="btn btn-primary navbar-btn">${action.displayName}</button>']>
+		    			<#assign actions = actions + ['<button class="btn btn-primary navbar-btn" ng-click="doDELETEAction()">${action.displayName}</button>']>
 		    		</#if>
 			</#switch>		
 		</#list>

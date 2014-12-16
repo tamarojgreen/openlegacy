@@ -23,7 +23,8 @@ import javax.persistence.OneToMany;
 @DbActions(actions = {
 		@Action(action = org.openlegacy.db.actions.DbActions.CREATE.class, displayName = "Create", alias = "create"),
 		@Action(action = org.openlegacy.db.actions.DbActions.READ.class, displayName = "READ", alias = "read"),
-		@Action(action = org.openlegacy.db.actions.DbActions.UPDATE.class, displayName = "UPDATE", alias = "update") })
+		@Action(action = org.openlegacy.db.actions.DbActions.UPDATE.class, displayName = "Update", alias = "update"),
+		@Action(action = org.openlegacy.db.actions.DbActions.DELETE.class, displayName = "Delete", alias = "delete") })
 public class StockItem {
 
 	@Id

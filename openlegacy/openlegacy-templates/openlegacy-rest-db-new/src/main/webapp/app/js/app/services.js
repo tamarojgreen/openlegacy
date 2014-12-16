@@ -54,8 +54,26 @@
 				}).error(function(data, status, headers, config) {
 					alert(data);
 				});
-			}
-		
+			},
+			remove:function(url, callback){	
+				console.log("asdasd");
+				$http(
+						{
+							method : 'DELETE',
+							url : olConfig.baseUrl + url,
+							headers : {
+								'Content-Type' : 'application/json',
+								'Accept' : 'application/json'
+							}
+						})
+				.success(function(data, status, headers, config) {
+					console.log("succ")
+					callback(data);
+				}).error(function(data, status, headers, config) {
+					console.log("error")
+					alert(data);
+				});
+			}		
 		
 		};
 	} )

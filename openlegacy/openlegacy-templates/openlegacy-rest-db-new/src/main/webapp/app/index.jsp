@@ -22,16 +22,17 @@
 		
 		<!-- jquery js -->
 		<script src="lib/jquery/jquery-2.1.1.min.js"></script>	
-		<script src="lib/jquery/jquery.cookie.js"></script>
+		<script src="lib/jquery/jquery.cookie.js"></script>		
 		
 		<!-- bootstrap js -->
-		<script src="lib/bootstrap/js/bootstrap.min.js"></script>	
+		<script src="lib/bootstrap/js/bootstrap.min.js"></script>
 		
 		<!-- angular js -->	
 		<script src="lib/angular/js/angular.min.js"></script>
 		<script src="lib/angular/js/angular-route.min.js"></script>
-		<script src="lib/angular/js/angular-ui-router.min.js"></script>
+		<script src="lib/angular/js/angular-ui-router.min.js"></script>		
 		
+		<script src="lib/bootstrap/js/ui-bootstrap-tpls-0.12.0.min.js"></script>		
 		
 		<!-- project js -->
 		<script src="js/app/app.js_ng" type="text/javascript"></script>
