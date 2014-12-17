@@ -22,6 +22,7 @@ import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.modules.SessionModule;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.Login.LoginEntity;
+import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.login.User;
 import org.openlegacy.support.AbstractSession;
 import org.openlegacy.terminal.ConnectionProperties;
@@ -113,6 +114,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	private Integer lastSequence = 0;
 
 	private boolean forceAuthorization = true;
+
+	private boolean enableConnectWithoutDevice = true;
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -310,6 +313,10 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		if (!terminalConnection.isConnected()) {
 			notifyModulesBeforeConnect();
 			newSession = true;
+
+			if (!enableConnectWithoutDevice && getConnectionProperties().getDeviceName() == null) {
+				throw (new LoginException("Device cannot be empty"));
+			}
 		}
 		TerminalSnapshot snapshot = terminalConnection.getSnapshot();
 
@@ -526,5 +533,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	protected void setLastSequence(Integer lastSequence) {
 		this.lastSequence = lastSequence;
+	}
+
+	public void setEnableConnectWithoutDevice(boolean enableConnectWithoutDevice) {
+		this.enableConnectWithoutDevice = enableConnectWithoutDevice;
 	}
 }
