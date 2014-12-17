@@ -40,27 +40,28 @@ public class TrailUtil {
 	@Inject
 	private TrailWriter trailWriter;
 
-	public void saveTrail(Session session) {
+	public File saveTrail(Session session) {
 
 		String trailPath = openLegacyProperties.getProperty(OpenLegacyProperties.TRAIL_FOLDER_PATH);
 
 		if (trailPath == null) {
-			return;
+			return null;
 		}
 
 		if (session == null || !session.isConnected()) {
-			return;
+			return null;
 		}
 
 		SessionTrail<? extends Snapshot> trail = session.getModule(Trail.class).getSessionTrail();
 		OutputStream trailOut = null;
 
 		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("HHmm");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMdd_HHmm");
+		File trailFile = null;
 		try {
 			String sessionId = session.getProperties().getId();
-			File trailFile = new File(trailPath, MessageFormat.format("{0}_{1}.trail", sessionId != null ? sessionId : "",
-					dateFormat.format(cal.getTime())));
+			trailFile = new File(trailPath, MessageFormat.format("{0}{1}.trail", dateFormat.format(cal.getTime()),
+					sessionId != null ? "_" + sessionId : ""));
 			if (!trailFile.getParentFile().exists()) {
 				trailFile.getParentFile().mkdirs();
 			}
@@ -73,6 +74,7 @@ public class TrailUtil {
 		} finally {
 			IOUtils.closeQuietly(trailOut);
 		}
+		return trailFile;
 	}
 
 	public void saveTestTrail(Session session) {

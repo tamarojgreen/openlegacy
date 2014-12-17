@@ -30,7 +30,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -207,11 +209,16 @@ public class SessionRunner extends AbstractMojo {
 	}
 
 	private void handleLogoff(HttpServletResponse response) throws IOException {
-		getBean(TrailUtil.class).saveTrail(terminalSession);
+		File trailFile = getBean(TrailUtil.class).saveTrail(terminalSession);
 
 		getTerminalSession().disconnect();
 		terminalSession = null;
 		response.getWriter().write(LOGOFF_PAGE_CONTENT);
+		if (trailFile != null) {
+			response.getWriter().write(
+					MessageFormat.format("<br/><br/>Trail file: {0} <br/>created in:{1}", trailFile.getName(),
+							trailFile.getParentFile().getAbsolutePath()));
+		}
 	}
 
 	private TrailUtil getBean(Class<TrailUtil> class1) {

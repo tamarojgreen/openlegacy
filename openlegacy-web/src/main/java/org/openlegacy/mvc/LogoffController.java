@@ -16,10 +16,13 @@ import org.openlegacy.Session;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.trail.TrailUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,11 +45,15 @@ public class LogoffController {
 	private boolean invalidateWebSession = true;
 
 	@RequestMapping(value = "/logoff", method = RequestMethod.GET)
-	public String logoff(HttpSession webSession) throws IOException {
+	public String logoff(HttpSession webSession, Model uiModel) throws IOException {
 
+		List<String> trailFiles = new ArrayList<String>();
 		for (Session session : sessions) {
 			try {
-				trailUtil.saveTrail(session);
+				File trailFile = trailUtil.saveTrail(session);
+				if (trailFile != null) {
+					trailFiles.add(trailFile.getAbsolutePath());
+				}
 			} catch (Exception e) {
 				logger.warn("Failed to save trail - " + e.getMessage(), e);
 			} finally {
@@ -57,15 +64,17 @@ public class LogoffController {
 					session.disconnect();
 				}
 			}
-			
+
 		}
-		if (invalidateWebSession){
+		if (invalidateWebSession) {
 			webSession.invalidate();
 		}
-
+		if (trailFiles.size() > 0) {
+			uiModel.addAttribute("trail", trailFiles.get(0));
+		}
 		return "logoff";
 	}
-	
+
 	public void setInvalidateWebSession(boolean invalidateWebSession) {
 		this.invalidateWebSession = invalidateWebSession;
 	}
