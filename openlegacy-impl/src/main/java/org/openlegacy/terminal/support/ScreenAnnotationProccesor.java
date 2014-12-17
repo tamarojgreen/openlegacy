@@ -13,6 +13,8 @@ package org.openlegacy.terminal.support;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.support.AbstractAnnotationProccesor;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.validations.support.ScreenEntityValidator;
+import org.openlegacy.validations.EntityValidator;
 import org.springframework.beans.factory.BeanFactory;
 
 /**
@@ -26,6 +28,11 @@ public class ScreenAnnotationProccesor extends AbstractAnnotationProccesor {
 	@Override
 	protected EntitiesRegistry<?, ?, ?> getEntitiesRegistry(BeanFactory beanFactory) {
 		return beanFactory.getBean(ScreenEntitiesRegistry.class);
+	}
+
+	@Override
+	protected EntityValidator<?, ?> getEntityValidator(BeanFactory beanFactory) {
+		return beanFactory.getBean(ScreenEntityValidator.class);
 	}
 
 }

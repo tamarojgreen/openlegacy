@@ -13,6 +13,7 @@ package org.openlegacy.db.support;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.db.services.DbEntitiesRegistry;
 import org.openlegacy.support.AbstractAnnotationProccesor;
+import org.openlegacy.validations.EntityValidator;
 import org.springframework.beans.factory.BeanFactory;
 
 /**
@@ -26,6 +27,12 @@ public class DbAnnotationProccesor extends AbstractAnnotationProccesor {
 	@Override
 	protected EntitiesRegistry<?, ?, ?> getEntitiesRegistry(BeanFactory beanFactory) {
 		return beanFactory.getBean(DbEntitiesRegistry.class);
+	}
+
+	@Override
+	protected EntityValidator<?, ?> getEntityValidator(BeanFactory beanFactory) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

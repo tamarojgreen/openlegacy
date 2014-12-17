@@ -13,6 +13,7 @@ package org.openlegacy.rpc.support;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.openlegacy.support.AbstractAnnotationProccesor;
+import org.openlegacy.validations.EntityValidator;
 import org.springframework.beans.factory.BeanFactory;
 
 /**
@@ -26,6 +27,12 @@ public class RpcAnnotationProccesor extends AbstractAnnotationProccesor {
 	@Override
 	protected EntitiesRegistry<?, ?, ?> getEntitiesRegistry(BeanFactory beanFactory) {
 		return beanFactory.getBean(RpcEntitiesRegistry.class);
+	}
+
+	@Override
+	protected EntityValidator<?, ?> getEntityValidator(BeanFactory beanFactory) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

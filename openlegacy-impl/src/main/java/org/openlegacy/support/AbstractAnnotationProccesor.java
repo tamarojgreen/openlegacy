@@ -17,6 +17,7 @@ import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.loaders.FieldLoader;
 import org.openlegacy.loaders.RegistryLoader;
+import org.openlegacy.validations.EntityValidator;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -48,6 +49,7 @@ public abstract class AbstractAnnotationProccesor implements BeanFactoryPostProc
 		registryLoader.setFieldLoaders(fieldLoaders);
 		registryLoader.setBeanFactory(beanFactory);
 
+		registryLoader.setEntityValidator(getEntityValidator(beanFactory));
 		registryLoader.load(entitiesRegistry);
 	}
 
@@ -63,6 +65,8 @@ public abstract class AbstractAnnotationProccesor implements BeanFactoryPostProc
 	}
 
 	protected abstract EntitiesRegistry<?, ?, ?> getEntitiesRegistry(BeanFactory beanFactory);
+
+	protected abstract EntityValidator<?, ?> getEntityValidator(BeanFactory beanFactory);
 
 	public void setLoadersPackages(List<String> loadersPackages) {
 		this.loadersPackages = loadersPackages;

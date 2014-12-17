@@ -131,10 +131,13 @@
 	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder" />
 	<!-- Default. Should be overrides by web apps -->
 	<bean id="sessionPropertiesProvider" class="org.openlegacy.support.SimpleSessionPropertiesProvider" />
-	
+
+			
 	<bean id="authorizationService" class="org.openlegacy.authorization.DefaultAuthorizationService" />
 	
-		<!-- Providers may override the default beans -->
+	<import resource="classpath*:/META-INF/openlegacy-terminal-rt-dt-shared-context.xml" />
+	 
+	<!-- Providers may override the default beans -->
 	<import resource="classpath*:/META-INF/*-openlegacy-terminal-provider.xml" /> 
 
 	<context:annotation-config />

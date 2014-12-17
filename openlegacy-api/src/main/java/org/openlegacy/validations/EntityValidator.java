@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface EntityValidator<E extends EntityDefinition<F>, F extends FieldDefinition> {
 
-	List<Validation> getValidations(E entityDefinition);
+	List<Validation> validate(EntityDefinition<?> entityDefinition);
 }

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.support;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
@@ -20,12 +22,15 @@ import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.FieldWithValuesTypeDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.definitions.support.SimpleFieldWthValuesTypeDefinition;
+import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.loaders.FieldLoader;
 import org.openlegacy.loaders.RegistryLoader;
 import org.openlegacy.loaders.support.AbstractClassAnnotationLoader;
 import org.openlegacy.utils.TypesUtil;
+import org.openlegacy.validations.EntityValidator;
+import org.openlegacy.validations.Validation;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -54,6 +59,8 @@ public class DefaultRegistryLoader implements RegistryLoader {
 	private List<ClassAnnotationsLoader> classAnnotationLoaders;
 
 	private ConfigurableListableBeanFactory beanFactory;
+
+	private EntityValidator<?, ?> entityValidator;
 
 	@Override
 	public void load(EntitiesRegistry<?, ?, ?> entitiesRegistry) {
@@ -85,6 +92,7 @@ public class DefaultRegistryLoader implements RegistryLoader {
 				for (Resource resource : resources) {
 					Class<?> beanClass = getClassFromResource(packagePath, resource);
 					handleEntityFields(fieldLoaders, entitiesRegistry, beanClass);
+
 				}
 
 			} catch (Exception e) {
@@ -116,8 +124,15 @@ public class DefaultRegistryLoader implements RegistryLoader {
 		handleEntityAnnotationFields(fieldAnnotationLoaders, entitiesRegistry, beanClass);
 		handleEntityFields(fieldLoaders, entitiesRegistry, beanClass);
 
+		EntityDefinition<?> entityDefinition = entitiesRegistry.get(beanClass);
 		if (loadReferences) {
-			fillEntityReferences(entitiesRegistry, entitiesRegistry.get(beanClass));
+			fillEntityReferences(entitiesRegistry, entityDefinition);
+		}
+		if (entityDefinition != null) {
+			List<Validation> validations = entityValidator.validate(entityDefinition);
+			if (validations.size() > 0) {
+				throw (new RegistryException(StringUtils.join(validations, SystemUtils.LINE_SEPARATOR)));
+			}
 		}
 	}
 
@@ -330,5 +345,9 @@ public class DefaultRegistryLoader implements RegistryLoader {
 	private static class CounterContainer {
 
 		public int counter = 0;
+	}
+
+	public void setEntityValidator(EntityValidator<?, ?> entityValidator) {
+		this.entityValidator = entityValidator;
 	}
 }

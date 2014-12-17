@@ -123,5 +123,6 @@
 	<bean id="cobolNameRecognizer" class="org.openlegacy.designtime.rpc.source.parsers.DefaultCobolNameRecognizer"/>
 	<bean id="copyBookFetcher" class="org.openlegacy.designtime.rpc.source.parsers.DefaultCopyBookFetcher"/>
 	<bean id="CobolLocalPartNamesFethcher" class="org.openlegacy.designtime.rpc.source.parsers.DefaultCobolLocalPartNamesFethcher"/>
-	
+
+	<bean id="screenEntityValidator" class="org.openlegacy.terminal.validations.support.ScreenEntityValidator" />
 </beans>
