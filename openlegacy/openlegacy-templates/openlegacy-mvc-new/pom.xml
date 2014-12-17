@@ -224,11 +224,13 @@
 			<artifactId>html-emulation-plugin</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
+		<!--
 		<dependency>
 			<groupId>com.openlegacy.enterprise.plugins</groupId>
 			<artifactId>management-plugin</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
+		-->
 <!-- commented dependency start
 		<dependency>
 			<groupId>org.openlegacy</groupId>
