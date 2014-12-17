@@ -114,6 +114,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	private boolean forceAuthorization = true;
 
+	private boolean enableConnectWithoutDevice = true;
+	
 	@SuppressWarnings("unchecked")
 	public <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
 
@@ -303,6 +305,10 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		if (!terminalConnection.isConnected()) {
 			notifyModulesBeforeConnect();
 			newSession = true;
+
+			if (!enableConnectWithoutDevice && getConnectionProperties().getDeviceName() == null) {
+				throw (new LoginException("Device cannot be empty"));
+			}
 		}
 		TerminalSnapshot snapshot = terminalConnection.getSnapshot();
 
@@ -511,5 +517,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	protected void setLastSequence(Integer lastSequence) {
 		this.lastSequence = lastSequence;
+	}
+
+	public void setEnableConnectWithoutDevice(boolean enableConnectWithoutDevice) {
+		this.enableConnectWithoutDevice = enableConnectWithoutDevice;
 	}
 }
