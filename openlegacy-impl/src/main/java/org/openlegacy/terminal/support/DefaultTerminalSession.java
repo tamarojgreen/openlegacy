@@ -14,6 +14,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.ApplicationConnectionListener;
+import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.authorization.AuthorizationService;
 import org.openlegacy.exceptions.EntityNotAccessibleException;
