@@ -3,63 +3,12 @@
 		<h2>${entityDefinition.displayName} Details</h2>
 		<#assign isUPDATEAction = false>
 		<@actionToolbar entity=entityDefinition allowCREATE=false allowREAD=false/>
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<form role="form">
-					<div class="form-group">
-						<#list entityDefinition.keys as key>							
-							<#assign colWidth = (6/entityDefinition.keys?size)?ceiling>
-							<div class="row">
-								<div class="col-sm-${colWidth}">
-									<label>
-										<#if key.displayName??>
-											${key.displayName}:
-										<#else>
-											<#if key.name??>
-												${key.name}:
-											</#if>
-										</#if>	
-									</label>
-									<span>{{model.entity.${key.name}}}</span>												
-								</div>
-							</div>
-						</#list>
-						<#if entityDefinition.columnFieldsDefinitions??>
-							<#list entityDefinition.columnFieldsDefinitions?keys as key>								
-								<#assign column = entityDefinition.columnFieldsDefinitions[key]>								
-								<#if (!column.internal?? || column.internal == false) && !column.oneToManyDefinition??>								
-									<div class="row">
-										<div class="col-sm-${colWidth}">
-											<label>
-												<#if column.displayName??>
-													${column.displayName}:							
-												<#else>
-													<#if column.name??>
-														<column>${column.name}:
-													</#if>
-												</#if>
-											</label>											
-											<input ng-model="model.entity.${column.name}" ng-disabled="<#if isUPDATEAction && column.editable>false<#else>true</#if>"></input>
-										</div>
-									</div>
-								</#if>
-								<#if (!column.internal?? || column.internal == false) && column.oneToManyDefinition??>
-									<#list childPagesDefinitions as childPageDefinition>
-										<#assign innerEntityDefinition = childPageDefinition.entityDefinition/>							
-										<#if childPageDefinition.entityDefinition.entityName == column.javaTypeName>
-											<@generateTable entity=innerEntityDefinition showActionsToolbar=false propertyName=column.name />
-										</#if>						
-									</#list>								
-								</#if>											
-							</#list>
-						</#if>
-					</div>			
-				</form>		
-			</div>
-		</div>
+		<@entityDetails/>
 	</div>	
 	<div ng-switch-when="CREATE">
 		<h2>New ${entityDefinition.displayName}</h2>
+		<@actionToolbar entity=entityDefinition allowCREATE=false allowREAD=false allowDELETE=false/>
+		<@entityDetails isCREATEAction=true/>
 	</div>
 	<div ng-switch-default>
 		<@generateTable entity=entityDefinition/>
@@ -176,6 +125,64 @@
 			        Prev
 			    </button>
 			</div>
+		</div>
+	</div>
+</#macro>
+<#macro entityDetails isCREATEAction=false>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<form role="form">
+				<div class="form-group">
+					<#if !isCREATEAction>
+						<#list entityDefinition.keys as key>							
+							<#assign colWidth = (6/entityDefinition.keys?size)?ceiling>
+							<div class="row">
+								<div class="col-sm-${colWidth}">
+									<label>
+										<#if key.displayName??>
+											${key.displayName}:
+										<#else>
+											<#if key.name??>
+												${key.name}:
+											</#if>
+										</#if>	
+									</label>
+									<span>{{model.entity.${key.name}}}</span>												
+								</div>
+							</div>
+						</#list>
+					</#if>
+					<#if entityDefinition.columnFieldsDefinitions??>
+						<#list entityDefinition.columnFieldsDefinitions?keys as key>								
+							<#assign column = entityDefinition.columnFieldsDefinitions[key]>								
+							<#if (!column.internal?? || column.internal == false) && !column.oneToManyDefinition??>								
+								<div class="row">
+									<div class="col-sm-${colWidth}">
+										<label>
+											<#if column.displayName??>
+												${column.displayName}:							
+											<#else>
+												<#if column.name??>
+													<column>${column.name}:
+												</#if>
+											</#if>
+										</label>											
+										<input ng-model="model.entity.${column.name}" ng-disabled="<#if isUPDATEAction && column.editable>false<#else>true</#if>"></input>
+									</div>
+								</div>
+							</#if>
+							<#if (!column.internal?? || column.internal == false) && column.oneToManyDefinition??>
+								<#list childPagesDefinitions as childPageDefinition>
+									<#assign innerEntityDefinition = childPageDefinition.entityDefinition/>							
+									<#if childPageDefinition.entityDefinition.entityName == column.javaTypeName>
+										<@generateTable entity=innerEntityDefinition showActionsToolbar=false propertyName=column.name />
+									</#if>						
+								</#list>								
+							</#if>											
+						</#list>
+					</#if>
+				</div>			
+			</form>		
 		</div>
 	</div>
 </#macro>

@@ -105,8 +105,24 @@
 	});
 				<#break>
 				<#case "CREATE">
-	module = module.controller('${entityDefinition.entityName}NewCtrl', function($scope) {
+	module = module.controller('${entityDefinition.entityName}NewCtrl', function($scope, $modal, $olHttp) {
 		$scope.currentAction = "CREATE";
+		$scope.model = {"entity":{"itemId":123}};
+		$scope.doUPDATEAction = function() {				
+			var modalInstance = $modal.open({
+				templateUrl: 'views/partials/confirmation_dialog.html',
+				controller: 'ConfirmationDialogCtrl',
+				resolve: {
+					func: function () {
+						return function() {
+							$olHttp.post('${entityDefinition.entityName}?action=', $scope.model.entity, function(data) {					
+								alert("Entity was successfully updated!");
+							});
+						} 
+					}
+				}
+		    });				
+		}
 	});
 			</#switch>
 		</#list>
@@ -125,9 +141,7 @@
 			});
 			
 			queryParamsString = queryParamsString.substring(0, queryParamsString.length - 1);			
-			$olHttp.get('${entityDefinition.entityName}' + queryParamsString, function(data) {
-				console.log(page);
-				console.log(data.model.pageCount);	
+			$olHttp.get('${entityDefinition.entityName}' + queryParamsString, function(data) {				
 				$scope.model = data.model;				
 				var setPageNavigators = function() {
 					if (parseInt(data.model.pageCount) <= 1) {
