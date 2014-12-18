@@ -60,7 +60,8 @@
 
 		$olHttp.get('${entityDefinition.entityName}/' + $stateParams[Object.keys($stateParams)[0]], function(data) {
 			$scope.entityName = data.model.entityName;
-			$scope.model = data.model;						
+			$scope.model = data.model;
+			console.log($scope.model.entity.notes);
 			$scope.doREADAction = function(targetEntityName, rowIndex, propertyName) {				
 	        	<#list entitiesDefinitions as entity>
 	        		if (targetEntityName == "${entity.entityName}") {
@@ -107,7 +108,15 @@
 				<#case "CREATE">
 	module = module.controller('${entityDefinition.entityName}NewCtrl', function($scope, $modal, $olHttp) {
 		$scope.currentAction = "CREATE";
-		$scope.model = {"entity":{}};
+		$scope.model = {'entity':{}};		
+		<#list entityDefinition.columnFieldsDefinitions?keys as key>								
+			<#assign column = entityDefinition.columnFieldsDefinitions[key]>
+			<#if (!column.internal?? || column.internal == false) && column.oneToManyDefinition??>			
+				$scope.model['entity']['${column.name}'] = {};
+			</#if>			
+		</#list>
+		console.log($scope.model);
+		
 		$scope.doUPDATEAction = function() {				
 			var modalInstance = $modal.open({
 				templateUrl: 'views/partials/confirmation_dialog.html',
@@ -115,8 +124,9 @@
 				resolve: {
 					func: function () {
 						return function() {
+							console.log($scope.model);
 							$olHttp.post('${entityDefinition.entityName}?action=', $scope.model.entity, function(data) {					
-								alert("Entity was successfully updated!");
+								alert("Entity was successfully created!");
 							});
 						} 
 					}
