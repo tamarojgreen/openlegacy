@@ -107,7 +107,7 @@
 				<#case "CREATE">
 	module = module.controller('${entityDefinition.entityName}NewCtrl', function($scope, $modal, $olHttp) {
 		$scope.currentAction = "CREATE";
-		$scope.model = {"entity":{"itemId":123}};
+		$scope.model = {"entity":{}};
 		$scope.doUPDATEAction = function() {				
 			var modalInstance = $modal.open({
 				templateUrl: 'views/partials/confirmation_dialog.html',
