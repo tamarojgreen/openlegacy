@@ -1,16 +1,15 @@
 package org.openlegacy.terminal.db.model;
 
+import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.hibernate.annotations.Cascade;
 import org.openlegacy.annotations.db.Action;
 import org.openlegacy.annotations.db.DbActions;
 import org.openlegacy.annotations.db.DbColumn;
 import org.openlegacy.annotations.db.DbNavigation;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -36,22 +35,25 @@ public class StockItem {
 	@DbColumn(displayName = "Video Url", mainDisplayField = true)
 	private String videoUrl;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	// @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "stockItem")
+	@OneToMany(fetch = FetchType.LAZY)
+	@DbColumn(displayName = "Notes", mainDisplayField = false, internal = false)
 	@JoinColumn(name = "stock_item")
 	@MapKey(name = "noteId")
-	@DbColumn(displayName = "Notes", mainDisplayField = false, internal = false)
+	@JsonManagedReference
+	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
 	private Map<String, StockItemNote> notes = new TreeMap<String, StockItemNote>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "stock_item")
-	@MapKey(name = "noteId")
-	private Map<String, StockItemNote> notes2 = new TreeMap<String, StockItemNote>();
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "stock_item")
-	@MapKey(name = "noteId")
-	@DbColumn(displayName = "Images", mainDisplayField = false, internal = false)
-	private List<StockItemImage> images = new ArrayList<StockItemImage>();
+	// @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	// @JoinColumn(name = "stock_item")
+	// @MapKey(name = "noteId")
+	// private Map<String, StockItemNote> notes2 = new TreeMap<String, StockItemNote>();
+	//
+	// @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	// @JoinColumn(name = "stock_item")
+	// @MapKey(name = "imageId")
+	// @DbColumn(displayName = "Images", mainDisplayField = false, internal = false)
+	// private List<StockItemImage> images = new ArrayList<StockItemImage>();
 
 	public Integer getItemId() {
 		return itemId;
@@ -73,9 +75,9 @@ public class StockItem {
 		return notes;
 	}
 
-	public List<StockItemImage> getImages() {
-		return images;
-	}
+	// public List<StockItemImage> getImages() {
+	// return images;
+	// }
 
 	public String getVideoUrl() {
 		return videoUrl;
@@ -85,8 +87,8 @@ public class StockItem {
 		this.videoUrl = videoUrl;
 	}
 
-	public Map<String, StockItemNote> getNotes2() {
-		return notes2;
-	}
+	// public Map<String, StockItemNote> getNotes2() {
+	// return notes2;
+	// }
 
 }

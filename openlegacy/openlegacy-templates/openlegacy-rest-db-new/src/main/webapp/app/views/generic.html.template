@@ -55,7 +55,7 @@
 	</#if>    
 </#macro>
 
-<#macro generateTable entity showActionsToolbar=true propertyName="">	
+<#macro generateTable entity showActionsToolbar=true propertyName="" isCREATEAction=false>	
 	<h2>${entity.displayName}</h2>
 	<#assign isREADAction = false>
 	<#if showActionsToolbar>
@@ -72,8 +72,11 @@
 			<div class="table-responsive">
 				<#assign columnsToDisplay = []>
 				<table class="table">
-					<thead>
+					<thead>						
 						<tr>
+							<#if isCREATEAction>
+								<th></th>
+							</#if>
 							<#if entity.keys??>												
 							<#list entity.keys as key>
 							<#assign columnsToDisplay = columnsToDisplay + [key.name]>						
@@ -105,8 +108,11 @@
 							</#if>
 						</tr>
 					</thead>
-					<tbody>					
-			            <tr ng-repeat="item in model.entity<#if propertyName != "">.${propertyName}</#if>" <#if isREADAction>ng-click="doREADAction('${entity.entityName}', $index, '${propertyName}')"</#if>>			                               	
+					<tbody>						
+			            <tr ng-repeat="item in model.entity<#if propertyName != "">.${propertyName}</#if>" <#if isREADAction && !isCREATEAction>ng-click="doREADAction('${entity.entityName}', $index, '${propertyName}')"</#if>>
+			            <#if isCREATEAction>
+							<td><input type="checkbox" name="vehicle" value="Bike"></td>
+						</#if>			                               	
 			            	<#list columnsToDisplay as columnName>
 			            	<td>{{item.${columnName}}}</td>
 			            	</#list>												  		
@@ -115,11 +121,11 @@
 				</table>
 			</div>
 			<div class="top-margin-50">
-			    <button ng-click="next()" type="button" class="btn btn-default navbar-btn pull-right" ng-disabled="!showNext">
+			    <button ng-click="${propertyName}_next()" type="button" class="btn btn-default navbar-btn pull-right" ng-disabled="!${propertyName}_showNext">
 			        Next
 			        <span class="glyphicon glyphicon-forward"></span>
 			    </button>
-			    <button ng-click="prev()" type="button" class="btn btn-default navbar-btn pull-left" ng-disabled="!showPrev">
+			    <button ng-click="${propertyName}_prev()" type="button" class="btn btn-default navbar-btn pull-left" ng-disabled="!${propertyName}_showPrev">
 			        <span class="glyphicon glyphicon-backward"></span>
 			        Prev
 			    </button>
@@ -127,7 +133,7 @@
 		</div>
 	</div>
 </#macro>
-<#macro entityDetails entity isCREATEAction=false addChildsIfExist=true propertyName="">
+<#macro entityDetails entity isCREATEAction=false propertyName="">
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<form role="form">
@@ -187,10 +193,9 @@
 	<#list childColumns as childColumn>
 		<#list childPagesDefinitions as childPageDefinition>
 			<#assign innerEntityDefinition = childPageDefinition.entityDefinition/>							
-			<#if childPageDefinition.entityDefinition.entityName == childColumn.javaTypeName>				
-				<#if isCREATEAction && addChildsIfExist>
-					<h4>New <#if entity.displayName??>${innerEntityDefinition.displayName}<#else>${innerEntityDefinition.entityName}</#if></h4>
-					<@entityDetails isCREATEAction=true addChildsIfExist=false propertyName=childColumn.name entity=innerEntityDefinition/>
+			<#if childPageDefinition.entityDefinition.entityName == childColumn.javaTypeName>							
+				<#if isCREATEAction>
+					<@generateTable entity=innerEntityDefinition showActionsToolbar=false propertyName=childColumn.name isCREATEAction=true/>
 				<#else>
 					<@generateTable entity=innerEntityDefinition showActionsToolbar=false propertyName=childColumn.name />
 				</#if>

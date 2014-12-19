@@ -50,10 +50,24 @@ INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('49', 'test_des
 INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('50', 'test_descr29', 'test_video_url29');
 INSERT INTO STOCK_ITEM (item_id, description, video_url) VALUES ('51', 'test_descr30', 'test_video_url30');
 
-INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('1', 'test_text1', '1');
-INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('2', 'test_text2', '1');
-INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('3', 'test_text3', '2');
-
-INSERT INTO STOCK_ITEM_IMAGE (image_id, image, stock_item) VALUES ('1', 'test_text1', '1');
-INSERT INTO STOCK_ITEM_IMAGE (image_id, image, stock_item) VALUES ('2', 'test_text2', '2');
-INSERT INTO STOCK_ITEM_IMAGE (image_id, image, stock_item) VALUES ('3', 'test_text3', '2');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId1', 'test_text1', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId2', 'test_text2', '2');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId3', 'test_text3', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId4', 'test_text1', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId5', 'test_text2', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId6', 'test_text3', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId7', 'test_text1', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId8', 'test_text2', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId9', 'test_text3', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId10', 'test_text1', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId11', 'test_text2', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId12', 'test_text3', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId13', 'test_text1', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId14', 'test_text2', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId15', 'test_text3', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId16', 'test_text1', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId17', 'test_text2', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId18', 'test_text3', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId19', 'test_text1', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId20', 'test_text2', '1');
+INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('noteId21', 'test_text3', '1');

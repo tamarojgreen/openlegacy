@@ -20,12 +20,6 @@ public class DbService {
 	@PersistenceContext
 	transient EntityManager entityManager;
 
-	private int pageCount = 0;
-
-	public int getPageCount() {
-		return pageCount;
-	}
-
 	public Object createOrUpdateEntity(Object entity) {
 		return entityManager.merge(entity);
 	}
@@ -36,7 +30,7 @@ public class DbService {
 		countQuery.select(criteriaBuilder.count(countQuery.from(entityClass)));
 		Long count = entityManager.createQuery(countQuery).getSingleResult();
 		Query query = entityManager.createQuery(String.format("FROM %s", entityClass.getSimpleName()));
-		pageCount = (int)Math.ceil((count.intValue() * 1.0) / pageSize);
+		int pageCount = (int)Math.ceil((count.intValue() * 1.0) / pageSize);
 		if (pageNumber > pageCount || pageNumber <= 0) {
 			pageNumber = 1;
 		}
@@ -48,8 +42,8 @@ public class DbService {
 		}
 
 		query.setMaxResults(pageSize);
-
-		return query.getResultList();
+		TableDbObject tableDbObject = new TableDbObject(query.getResultList(), pageCount);
+		return tableDbObject;
 	}
 
 	public Object getEntitiesWithConditions(Class<?> entityClass, Map<String, String> queryConditions) {
@@ -78,6 +72,25 @@ public class DbService {
 			throw new EntityNotFoundException(e.getMessage());
 		} catch (Exception e) {
 			throw new Exception(e);
+		}
+	}
+
+	public class TableDbObject {
+
+		private int pageCount = 1;
+		private Object result;
+
+		public TableDbObject(Object result, int pageCount) {
+			this.pageCount = pageCount;
+			this.result = result;
+		}
+
+		public int getPageCount() {
+			return pageCount;
+		}
+
+		public Object getResult() {
+			return result;
 		}
 	}
 }

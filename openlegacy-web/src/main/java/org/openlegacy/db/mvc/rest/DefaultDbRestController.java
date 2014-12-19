@@ -25,6 +25,7 @@ import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.db.definitions.DbNavigationDefinition;
 import org.openlegacy.db.services.DbEntitiesRegistry;
 import org.openlegacy.db.services.DbService;
+import org.openlegacy.db.services.DbService.TableDbObject;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.exceptions.RegistryException;
@@ -162,6 +163,9 @@ public class DefaultDbRestController {
 			@RequestParam(value = ACTION, required = false) String action,
 			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children,
 			@RequestBody String json, HttpServletResponse response) throws IOException {
+
+		// json =
+		// "{\"itemId\":\"111\",\"description\":\"sadasd\", \"notes\":{\"1\":{\"text\":\"qqqq\", \"noteId\":\"1\"},\"2\":{\"text\":\"sssss\", \"noteId\":\"2\"}}}";
 		return postEntityJson(entityName, action, children, json, response);
 	}
 
@@ -306,10 +310,12 @@ public class DefaultDbRestController {
 		if (entity == null) {
 			throw (new EntityNotFoundException("No entity found"));
 		}
-
-		entity = ProxyUtil.getTargetJpaObject(entity, children);
-		// entity = ProxyUtil.getTargetObject(entity, children);
-		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(entity, null, getActions(entity), dbService.getPageCount());
+		int pageCount = 0;
+		if (entity.getClass() == TableDbObject.class) {
+			pageCount = ((TableDbObject)entity).getPageCount();
+			entity = ProxyUtil.getTargetJpaObject(((TableDbObject)entity).getResult(), children);
+		}
+		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(entity, null, getActions(entity), pageCount);
 		return new ModelAndView(MODEL, MODEL, wrapper);
 	}
 
@@ -382,6 +388,7 @@ public class DefaultDbRestController {
 			if (json.length() == 0) {
 				json = "{}";
 			}
+
 			entity = EntitySerializationUtils.deserialize(json, entityClass);
 		} catch (Exception e) {
 			handleDeserializationException(entityName, response, e);

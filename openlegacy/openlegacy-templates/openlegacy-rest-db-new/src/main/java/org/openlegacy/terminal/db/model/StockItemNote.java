@@ -1,5 +1,12 @@
 package org.openlegacy.terminal.db.model;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.openlegacy.annotations.db.Action;
+import org.openlegacy.annotations.db.DbActions;
+import org.openlegacy.annotations.db.DbColumn;
+import org.openlegacy.annotations.db.DbNavigation;
+import org.openlegacy.db.actions.DbActions.READ;
+
 import java.io.Serializable;
 
 import javax.persistence.Entity;
@@ -7,12 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-
-import org.openlegacy.annotations.db.Action;
-import org.openlegacy.annotations.db.DbActions;
-import org.openlegacy.annotations.db.DbColumn;
-import org.openlegacy.annotations.db.DbNavigation;
-import org.openlegacy.db.actions.DbActions.READ;
 
 @Entity
 @DbNavigation(category = "Stock Item Notes")
@@ -28,6 +29,9 @@ public class StockItemNote implements Serializable {
 	private String noteId;
 
 	@ManyToOne
+	@JsonBackReference
+	// @JoinColumn(name = "stock_item", insertable = true, referencedColumnName = "itemId")
+	// @JoinColumn(name = "stock_item")
 	private StockItem stockItem;
 
 	@DbColumn(displayName = "Text", mainDisplayField = true, editable = true)

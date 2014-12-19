@@ -55,13 +55,14 @@
 		<#list entityDefinition.actions as action>
 			<#switch action.actionName>
 				<#case "READ">
+	//=================================READ======================================
 	module = module.controller('${entityDefinition.entityName}DetailsCtrl', function($scope, $stateParams, $olHttp, $state, $modal) {		
-		$scope.currentAction = "READ";		
-
-		$olHttp.get('${entityDefinition.entityName}/' + $stateParams[Object.keys($stateParams)[0]], function(data) {
+		$scope.currentAction = "READ";
+		
+		$olHttp.get('${entityDefinition.entityName}/' + $stateParams[Object.keys($stateParams)[0]], function(data) {			
 			$scope.entityName = data.model.entityName;
 			$scope.model = data.model;
-			console.log($scope.model.entity.notes);
+			
 			$scope.doREADAction = function(targetEntityName, rowIndex, propertyName) {				
 	        	<#list entitiesDefinitions as entity>
 	        		if (targetEntityName == "${entity.entityName}") {
@@ -72,6 +73,7 @@
 	        	</#list>
         	}
 			$scope.doUPDATEAction = function() {				
+				console.log($scope.model);
 				var modalInstance = $modal.open({
 					templateUrl: 'views/partials/confirmation_dialog.html',
 					controller: 'ConfirmationDialogCtrl',
@@ -106,16 +108,21 @@
 	});
 				<#break>
 				<#case "CREATE">
-	module = module.controller('${entityDefinition.entityName}NewCtrl', function($scope, $modal, $olHttp) {
+	//==========================================CREATE========================================================			
+	module = module.controller('${entityDefinition.entityName}NewCtrl', function($scope, $modal, $olHttp, $state) {
 		$scope.currentAction = "CREATE";
 		$scope.model = {'entity':{}};		
+		
+		<#if entityDefinition.columnFieldsDefinitions??>
 		<#list entityDefinition.columnFieldsDefinitions?keys as key>								
 			<#assign column = entityDefinition.columnFieldsDefinitions[key]>
-			<#if (!column.internal?? || column.internal == false) && column.oneToManyDefinition??>			
-				$scope.model['entity']['${column.name}'] = {};
-			</#if>			
+			<#if (!column.internal?? || column.internal == false) && column.oneToManyDefinition??>
+				$scope.${column.name}_showNext = true;
+				$scope.${column.name}_showPrev = true;				
+				getItems('${column.javaTypeName}', '${column.name}', false, 1, $scope, $olHttp, $state, null);			
+			</#if>
 		</#list>
-		console.log($scope.model);
+		</#if>		
 		
 		$scope.doUPDATEAction = function() {				
 			var modalInstance = $modal.open({
@@ -124,7 +131,7 @@
 				resolve: {
 					func: function () {
 						return function() {
-							console.log($scope.model);
+							console.log($scope.entity);
 							$olHttp.post('${entityDefinition.entityName}?action=', $scope.model.entity, function(data) {					
 								alert("Entity was successfully created!");
 							});
@@ -136,74 +143,11 @@
 	});
 			</#switch>
 		</#list>
+	//=============================================LIST============================================================
 	module = module.controller('${entityDefinition.entityName}Ctrl', function($olHttp, $scope, $location, $state, $stateParams) {		
-		$scope.showNext = true;
-		$scope.showPrev = true;
-		var getItems = function() {
-			var queryParamsString = "?";
-			var page = 1;
-			angular.forEach($location.search(), function(value, key) {
-				queryParamsString += key + "=" + value + "&";
-				if (key == "page") {
-					page = parseInt(value);
-				}
-				
-			});
-			
-			queryParamsString = queryParamsString.substring(0, queryParamsString.length - 1);			
-			$olHttp.get('${entityDefinition.entityName}' + queryParamsString, function(data) {				
-				$scope.model = data.model;				
-				var setPageNavigators = function() {
-					if (parseInt(data.model.pageCount) <= 1) {
-						$scope.showNext = false;
-			        	$scope.showPrev = false;
-					} else if (page == parseInt(data.model.pageCount)) {
-			        	$scope.showNext = false;
-			        	$scope.showPrev = true;
-			        } else if (page > parseInt(data.model.pageCount) || page <= 0) {
-			        	page = 1;
-			        	$location.search('page', '1');
-			        	setPageNavigators();
-			        } else if (page == null || page == 1) {			        	
-			        	$scope.showPrev = false;
-			        	$scope.showNext = true;
-			        } else {
-			        	$scope.showPrev = true;
-			        	$scope.showNext = true;
-			        }
-				}
-				
-				setPageNavigators();
-		        
-		        $scope.next = function() {
-		        	if (page == 0 || page == null) {			        		
-		        		$location.url("/${entityDefinition.entityName}?page=2");
-		        		getItems();
-		        	} else {			        		
-		        		$location.url("/${entityDefinition.entityName}?page=" + (page + 1));
-		        		getItems();
-		        	}
-		        };
-		        
-		        $scope.prev = function() {			        	
-	        		$location.url("/${entityDefinition.entityName}?page=" + (page - 1));
-	        		getItems();			        	
-		        };
-		        
-		        $scope.doREADAction = function(entityName, rowIndex) {		        	
-		        	<#list entitiesDefinitions as entity>
-		        		if (entityName == "${entity.entityName}") {		        			
-		        			$state.go(entityName + "Details", {${entity.keys[0].name?replace(".", "_")}:<#list entity.keys as key>$scope.model.entity[rowIndex].${key.name}<#if key_has_next>+</#if></#list>});
-		        		}
-		        	</#list>		      
-	        	}
-		        
-		        $scope.exportExcelUrl = olConfig.baseUrl + data.model.entityName + "/excel";        
-					
-			});
-		}
-		
-		getItems();
+		$scope._showNext = true;
+		$scope._showPrev = true;
+		getItems('${entityDefinition.entityName}', null, true, 1, $scope, $olHttp, $state, $location);		
 	});				
 	</#list>
 	</#if>
@@ -218,4 +162,80 @@
 		    $modalInstance.dismiss();
 		  };
 		});
+	
+	var getItems = function(entityName, propertyName, doREADAction, page, $scope, $olHttp, $state, $location) {
+		if (propertyName == null) {
+			propertyName = "";
+		}
+		var queryParamsString = "?";
+			if ($location != null) {
+			angular.forEach($location.search(), function(value, key) {
+				if (key != "page") {
+					queryParamsString += key + "=" + value + "&";
+				}
+			});
+		}
+		queryParamsString += "page=" + page;
+		
+		$olHttp.get(entityName + queryParamsString, function(data) {
+			$scope.model = {"entity":{}};
+			
+			if (propertyName != "") {
+				$scope.model.entity[propertyName] = data.model.entity;
+				var showNextBtn = propertyName + "_showNext";
+				var showPrevBtn = propertyName + "_showPrev";				
+			} else {
+				$scope.model.entity = data.model.entity;
+				var showNextBtn = "_showNext";
+				var showPrevBtn = "_showPrev";
+			}
+			
+			var setPageNavigators = function() {
+				console.log(propertyName);
+				if (parseInt(data.model.pageCount) <= 1) {
+					$scope[showNextBtn] = false;
+		        	$scope[showPrevBtn] = false;
+				} else if (page == parseInt(data.model.pageCount)) {
+		        	$scope[showNextBtn] = false;
+		        	$scope[showPrevBtn] = true;
+		        } else if (page > parseInt(data.model.pageCount) || page <= 0) {
+		        	page = 1;		
+		        	setPageNavigators();
+		        } else if (page == null || page == 1) {			        	
+		        	$scope[showPrevBtn] = false;
+		        	$scope[showNextBtn] = true;
+		        } else {
+		        	$scope[showPrevBtn] = true;
+		        	$scope[showNextBtn] = true;
+		        }
+			}
+			
+			setPageNavigators();
+	        
+	        $scope[propertyName + '_next'] = function() {	        	
+	        	if (page == 0 || page == null) {
+	        		page = 1;
+	        		getItems(entityName, propertyName, doREADAction, page, $scope, $olHttp, $state, $location);
+	        	} else {
+	        		page = page + 1;
+	        		getItems(entityName, propertyName, doREADAction, page, $scope, $olHttp, $state, $location);
+	        	}
+	        };
+	        
+	        $scope[propertyName + '_prev'] = function() {
+	        	page = page - 1;
+        		getItems(entityName, propertyName, doREADAction, page, $scope, $olHttp, $state, $location);
+	        };
+	        
+	        if (doREADAction == true) {
+		        $scope.doREADAction = function(entityName, rowIndex) {		        	
+		        	<#list entitiesDefinitions as entity>
+		        		if (entityName == "${entity.entityName}") {		        			
+		        			$state.go(entityName + "Details", {${entity.keys[0].name?replace(".", "_")}:<#list entity.keys as key>$scope.model.entity[rowIndex].${key.name}<#if key_has_next>+</#if></#list>});
+		        		}
+		        	</#list>		      
+	        	}
+	        }
+		});
+	}
 })();

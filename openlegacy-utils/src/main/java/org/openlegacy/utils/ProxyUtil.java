@@ -155,7 +155,7 @@ public class ProxyUtil {
 			if (children || (otmAnnotation != null && otmAnnotation.fetch().equals(FetchType.EAGER))
 					|| (mtoAnnotation != null && mtoAnnotation.fetch().equals(FetchType.EAGER))) {
 				for (Method method : proxy.getClass().getMethods()) {
-					if (method.getName().startsWith("get" + StringUtils.capitalize(field.getName()))) {
+					if (method.getName().equals("get" + StringUtils.capitalize(field.getName()))) {
 						Object res = method.invoke(proxy, new Object[0]);
 						res.toString();
 						res = dehibernator.clean(res);
@@ -171,7 +171,7 @@ public class ProxyUtil {
 	}
 
 	private static void setFieldValue(Field field, Object proxy, Object value) throws IllegalAccessException,
-			IllegalArgumentException {
+	IllegalArgumentException {
 		field.setAccessible(true);
 		field.set(proxy, value);
 
