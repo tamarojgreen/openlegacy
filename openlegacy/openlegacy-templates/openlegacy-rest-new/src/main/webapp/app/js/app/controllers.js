@@ -411,6 +411,10 @@
 								$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {														
 									
 									$olHttp.post('${entityName}/', clearObjectsFromPost($scope.model), function(data) {
+										if (data == ""){
+											$state.go("emulation");
+											return;
+										}
 										if (data.model.entityName == '${entityName}'){
 											$scope.model = data.model.entity;
 											$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
@@ -456,11 +460,11 @@
 				    		var url = entityName + "?action=" + actionAlias;
 				    	}					
 						$olHttp.post(url,clearObjectsFromPost($scope.model), 
-							if (data == ""){
-								$state.go("emulation");
-								return;
-							}
 							function(data) {
+								if (data == ""){
+									$state.go("emulation");
+									return;
+								}
 								if (data.model.entityName == '${entityName}'){
 									$scope.model = data.model.entity;
 									$rootScope.hidePreloader();								
