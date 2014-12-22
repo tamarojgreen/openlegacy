@@ -375,4 +375,9 @@ public class EclipseDesignTimeExecuter {
 		return designTimeExecuter.translate(text, projectPath);
 	}
 
+	public boolean isSupportDirectDeployment(IProject project) {
+		// XXX Ivan: Auto-generated method stub
+		return true;
+	}
+
 }
