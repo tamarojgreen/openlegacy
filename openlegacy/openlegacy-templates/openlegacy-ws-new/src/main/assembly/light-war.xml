@@ -12,10 +12,19 @@
 	<dependencySets>
 		<dependencySet>
 			<includes>
-				<include>org.openlegacy*:*</include>
-				<include>com.openlegacy*:*</include>
+				<include>org.openlegacy:openlegacy-impl</include>
+				<include>org.openlegacy:openlegacy-utils</include>
+				<include>org.openlegacy:openlegacy-web</include>
+				<include>org.openlegacy.providers:*</include>
+				<include>org.openlegacy.templates:*</include>
+				<include>org.openlegacy.plugins:*</include>
+				<include>com.openlegacy.enterprise.plugins:*</include>
+				<include>com.openlegacy.enterprise.connectors:*</include>
+				<include>commons-lang:commons-lang</include>
+				<include>com.ibm.icu:icu4j</include>
 			</includes>
 			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<useProjectArtifact>false</useProjectArtifact>
 			<useTransitiveDependencies>true</useTransitiveDependencies>
 		</dependencySet>
 	</dependencySets>
