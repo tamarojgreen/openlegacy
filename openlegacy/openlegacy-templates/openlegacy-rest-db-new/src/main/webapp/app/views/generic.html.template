@@ -111,7 +111,7 @@
 					<tbody>						
 			            <tr ng-repeat="item in model.entity<#if propertyName != "">.${propertyName}</#if>" <#if isREADAction && !isCREATEAction>ng-click="doREADAction('${entity.entityName}', $index, '${propertyName}')"</#if>>
 			            <#if isCREATEAction>
-							<td><input type="checkbox" name="vehicle" value="Bike"></td>
+							<td><input type="checkbox" ng-model="isChecked" ng-change="toggleSelection(item, nestedModels.${propertyName})"></td>
 						</#if>			                               	
 			            	<#list columnsToDisplay as columnName>
 			            	<td>{{item.${columnName}}}</td>

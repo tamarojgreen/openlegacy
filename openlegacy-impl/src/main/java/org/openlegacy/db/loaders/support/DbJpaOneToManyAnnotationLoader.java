@@ -45,6 +45,10 @@ public class DbJpaOneToManyAnnotationLoader implements FieldLoader {
 				simpleDbOneToMany.setTargetEntity(oneToMany.targetEntity());
 				simpleDbOneToMany.setTargetEntityClassName(oneToMany.targetEntity().getSimpleName());
 				columnFieldDefinition.setOneToManyDefinition(simpleDbOneToMany);
+				// MapKey mapKey = field.getAnnotation(MapKey.class);
+				// if (mapKey != null) {
+				// simpleDbOneToMany.setMapKey(mapKey);
+				// }
 			}
 			dbEntityDefinition.getColumnFieldsDefinitions().put(field.getName(), dbFieldDefinition);
 		}

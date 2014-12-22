@@ -9,11 +9,11 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.custommonkey.xmlunit.XMLAssert;
+import org.json.simple.parser.ParseException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.json.EntitySerializationUtils;
-import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
@@ -42,8 +42,7 @@ public class ScreenEntitySerializerTest extends AbstractTest {
 		TerminalSession terminalSession = newTerminalSession();
 		ItemsList itemList = terminalSession.getEntity(ItemsList.class);
 		ScreenEntityDefinition definitions = screenEntitiesRegistry.get(ItemsList.class);
-		Object result = EntitySerializationUtils.createSerializationContainer((ScreenEntity)itemList, terminalSession,
-				definitions);
+		Object result = EntitySerializationUtils.createSerializationContainer(itemList, terminalSession, definitions);
 		ObjectMapper mapper = new ObjectMapper();
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -56,7 +55,8 @@ public class ScreenEntitySerializerTest extends AbstractTest {
 	}
 
 	@Test
-	public void testJsonDesiralization() throws JsonParseException, JsonMappingException, IOException {
+	public void testJsonDesiralization() throws JsonParseException, JsonMappingException, IOException, IllegalArgumentException,
+			IllegalAccessException, InstantiationException, ClassNotFoundException, ParseException {
 		ItemsList itemsList = EntitySerializationUtils.deserialize("{\"positionTo\":\"5\",\"focusField\":\"positionTo\"}",
 				ItemsList.class);
 		Assert.notNull(itemsList);
@@ -67,8 +67,7 @@ public class ScreenEntitySerializerTest extends AbstractTest {
 		TerminalSession terminalSession = newTerminalSession();
 		ItemsList itemList = terminalSession.getEntity(ItemsList.class);
 		ScreenEntityDefinition definitions = screenEntitiesRegistry.get(ItemsList.class);
-		Object wrapper = EntitySerializationUtils.createSerializationContainer((ScreenEntity)itemList, terminalSession,
-				definitions);
+		Object wrapper = EntitySerializationUtils.createSerializationContainer(itemList, terminalSession, definitions);
 
 		ByteArrayOutputStream bos = new ByteArrayOutputStream(2048);
 		CastorMarshaller marshaller = new CastorMarshaller();

@@ -42,6 +42,7 @@ public class StockItem {
 	@MapKey(name = "noteId")
 	@JsonManagedReference
 	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
+	// private List<StockItemNote> notes = new ArrayList<StockItemNote>();
 	private Map<String, StockItemNote> notes = new TreeMap<String, StockItemNote>();
 
 	// @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -74,6 +75,10 @@ public class StockItem {
 	public Map<String, StockItemNote> getNotes() {
 		return notes;
 	}
+
+	// public List<StockItemNote> getNotes() {
+	// return notes;
+	// }
 
 	// public List<StockItemImage> getImages() {
 	// return images;

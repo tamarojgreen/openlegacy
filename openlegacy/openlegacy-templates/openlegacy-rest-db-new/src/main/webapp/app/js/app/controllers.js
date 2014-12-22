@@ -62,7 +62,7 @@
 		$olHttp.get('${entityDefinition.entityName}/' + $stateParams[Object.keys($stateParams)[0]], function(data) {			
 			$scope.entityName = data.model.entityName;
 			$scope.model = data.model;
-			
+			console.log(data);
 			$scope.doREADAction = function(targetEntityName, rowIndex, propertyName) {				
 	        	<#list entitiesDefinitions as entity>
 	        		if (targetEntityName == "${entity.entityName}") {
@@ -111,7 +111,9 @@
 	//==========================================CREATE========================================================			
 	module = module.controller('${entityDefinition.entityName}NewCtrl', function($scope, $modal, $olHttp, $state) {
 		$scope.currentAction = "CREATE";
-		$scope.model = {'entity':{}};		
+		$scope.model = {'entity':{}};
+		$scope.nestedModels = {};
+		
 		
 		<#if entityDefinition.columnFieldsDefinitions??>
 		<#list entityDefinition.columnFieldsDefinitions?keys as key>								
@@ -119,10 +121,22 @@
 			<#if (!column.internal?? || column.internal == false) && column.oneToManyDefinition??>
 				$scope.${column.name}_showNext = true;
 				$scope.${column.name}_showPrev = true;				
-				getItems('${column.javaTypeName}', '${column.name}', false, 1, $scope, $olHttp, $state, null);			
+				getItems('${column.javaTypeName}', '${column.name}', false, 1, $scope, $olHttp, $state, null);
+				$scope.nestedModels['${column.name}'] = [];						
 			</#if>
 		</#list>
-		</#if>		
+		</#if>
+		
+		$scope.toggleSelection = function toggleSelection(item, itemArray) {			
+		    var idx = itemArray.indexOf(item);
+
+		    if (idx > -1) {
+		    	itemArray.splice(idx, 1);
+		    } else {
+		    	itemArray.push(item);
+		    }    
+
+		  };
 		
 		$scope.doUPDATEAction = function() {				
 			var modalInstance = $modal.open({
@@ -131,10 +145,10 @@
 				resolve: {
 					func: function () {
 						return function() {
-							console.log($scope.entity);
-							$olHttp.post('${entityDefinition.entityName}?action=', $scope.model.entity, function(data) {					
+							var entity = $.extend($scope.model.entity, $scope.nestedModels);							
+							$olHttp.post('${entityDefinition.entityName}?action=', entity, function(data) {					
 								alert("Entity was successfully created!");
-							});
+							});							
 						} 
 					}
 				}
@@ -144,7 +158,8 @@
 			</#switch>
 		</#list>
 	//=============================================LIST============================================================
-	module = module.controller('${entityDefinition.entityName}Ctrl', function($olHttp, $scope, $location, $state, $stateParams) {		
+	module = module.controller('${entityDefinition.entityName}Ctrl', function($olHttp, $scope, $location, $state, $stateParams) {
+		$scope.model = {"entity":{}};
 		$scope._showNext = true;
 		$scope._showPrev = true;
 		getItems('${entityDefinition.entityName}', null, true, 1, $scope, $olHttp, $state, $location);		
@@ -178,7 +193,7 @@
 		queryParamsString += "page=" + page;
 		
 		$olHttp.get(entityName + queryParamsString, function(data) {
-			$scope.model = {"entity":{}};
+			//$scope.model = {"entity":{}};
 			
 			if (propertyName != "") {
 				$scope.model.entity[propertyName] = data.model.entity;

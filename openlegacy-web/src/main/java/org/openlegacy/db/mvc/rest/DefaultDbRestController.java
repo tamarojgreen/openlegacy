@@ -166,6 +166,7 @@ public class DefaultDbRestController {
 
 		// json =
 		// "{\"itemId\":\"111\",\"description\":\"sadasd\", \"notes\":{\"1\":{\"text\":\"qqqq\", \"noteId\":\"1\"},\"2\":{\"text\":\"sssss\", \"noteId\":\"2\"}}}";
+		json = "{\"itemId\":\"111\",\"description\":\"sadasd\", \"notes\":[{\"text\":\"qqqq\", \"noteId\":\"1\"},{\"text\":\"sssss\", \"noteId\":\"2\"}]}";
 		return postEntityJson(entityName, action, children, json, response);
 	}
 
