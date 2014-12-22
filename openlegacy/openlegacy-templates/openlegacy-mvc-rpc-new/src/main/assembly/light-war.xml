@@ -21,6 +21,7 @@
 				<include>com.openlegacy.enterprise.plugins:*</include>
 				<include>com.openlegacy.enterprise.connectors:*</include>
 				<include>commons-lang:commons-lang</include>
+				<include>org.apache.tiles:tiles-el</include>
 				<include>com.ibm.icu:icu4j</include>
 			</includes>
 			<outputDirectory>WEB-INF/lib</outputDirectory>
