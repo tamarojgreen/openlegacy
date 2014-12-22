@@ -11,10 +11,13 @@
 
 package org.openlegacy.ide.eclipse.actions;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -22,6 +25,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.openlegacy.ide.eclipse.Messages;
 
 /**
@@ -35,8 +40,23 @@ public class DeployToServerDialog extends TitleAreaDialog {
 	private static final int DEFAULT_LABEL_WIDTH = 100;
 	private static final int DEFAULT_WIDTH = 200;
 
-	protected DeployToServerDialog(Shell parentShell) {
+	private IProject project;
+
+	private JSONArray serversList = new JSONArray();
+
+	private CCombo snCombo;
+
+	private Text spText;
+
+	private Text uText;
+
+	private Text pText;
+
+	@SuppressWarnings("unchecked")
+	protected DeployToServerDialog(Shell parentShell, IProject project) {
 		super(parentShell);
+		this.project = project;
+		serversList.addAll(EclipseDesignTimeExecuter.instance().loadServersList(project));
 	}
 
 	@Override
@@ -86,10 +106,15 @@ public class DeployToServerDialog extends TitleAreaDialog {
 		gd.widthHint = DEFAULT_LABEL_WIDTH;
 		snLabel.setLayoutData(gd);
 
-		CCombo snCombo = new CCombo(container, SWT.BORDER);
+		snCombo = new CCombo(container, SWT.BORDER);
 		gd = new GridData();
 		gd.widthHint = DEFAULT_WIDTH + 7;
 		snCombo.setLayoutData(gd);
+
+		for (Object obj : serversList) {
+			JSONObject jsonObject = (JSONObject)obj;
+			snCombo.add((String)jsonObject.get("serverName"));
+		}
 
 		// create row for "Server port"
 		Label spLabel = new Label(container, SWT.NONE);
@@ -99,10 +124,29 @@ public class DeployToServerDialog extends TitleAreaDialog {
 		gd.widthHint = DEFAULT_LABEL_WIDTH;
 		spLabel.setLayoutData(gd);
 
-		Text spText = new Text(container, SWT.BORDER);
+		spText = new Text(container, SWT.BORDER);
 		gd = new GridData();
 		gd.widthHint = DEFAULT_WIDTH;
 		spText.setLayoutData(gd);
+		spText.addVerifyListener(new VerifyListener() {
+
+			@Override
+			public void verifyText(VerifyEvent e) {
+				switch (e.keyCode) {
+					case SWT.BS:
+					case SWT.DEL:
+					case SWT.HOME:
+					case SWT.END:
+					case SWT.ARROW_LEFT:
+					case SWT.ARROW_RIGHT:
+						return;
+				}
+
+				if (!Character.isDigit(e.character)) {
+					e.doit = false; // disallow the action
+				}
+			}
+		});
 
 		// create row for "User"
 		Label uLabel = new Label(container, SWT.NONE);
@@ -112,7 +156,7 @@ public class DeployToServerDialog extends TitleAreaDialog {
 		gd.widthHint = DEFAULT_LABEL_WIDTH;
 		uLabel.setLayoutData(gd);
 
-		Text uText = new Text(container, SWT.BORDER);
+		uText = new Text(container, SWT.BORDER);
 		gd = new GridData();
 		gd.widthHint = DEFAULT_WIDTH;
 		uText.setLayoutData(gd);
@@ -125,11 +169,21 @@ public class DeployToServerDialog extends TitleAreaDialog {
 		gd.widthHint = DEFAULT_LABEL_WIDTH;
 		pLabel.setLayoutData(gd);
 
-		Text pText = new Text(container, SWT.PASSWORD | SWT.BORDER);
+		pText = new Text(container, SWT.PASSWORD | SWT.BORDER);
 		gd = new GridData();
 		gd.widthHint = DEFAULT_WIDTH;
 		pText.setLayoutData(gd);
+	}
 
+	@Override
+	protected void okPressed() {
+		String serverName = snCombo.getText();
+		String serverPort = spText.getText();
+		String userName = uText.getText();
+		String password = pText.getText();
+
+		EclipseDesignTimeExecuter.instance().performDirectDeploy(project, serverName, serverPort, userName, password);
+		super.okPressed();
 	}
 
 }

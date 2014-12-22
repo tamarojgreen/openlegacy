@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse.actions;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -26,6 +28,9 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.actions.GlobalBuildAction;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.PreferencesConstants;
@@ -376,8 +381,49 @@ public class EclipseDesignTimeExecuter {
 	}
 
 	public boolean isSupportDirectDeployment(IProject project) {
+		IFile pomFile = project.getFile("pom.xml");
+		if (!pomFile.exists()) {
+			return false;
+		}
+		try {
+			String content = IOUtils.toString(pomFile.getContents());
+			boolean matches = content.matches(".*<packaging>war</packaging>.*");
+			return matches;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public void performDirectDeploy(IProject project, String serverName, String serverPort, String userName, String password) {
 		// XXX Ivan: Auto-generated method stub
-		return true;
+		saveServer(project, serverName, serverPort, userName);
+	}
+
+	@SuppressWarnings("unchecked")
+	public JSONArray loadServersList(IProject project) {
+		JSONArray serversList = new JSONArray();
+		// get servers list
+		String jsonServersList = EclipseDesignTimeExecuter.instance().getPreference(project, "SERVERS_LIST");
+		if (!StringUtils.isEmpty(jsonServersList)) {
+			Object obj = JSONValue.parse(jsonServersList);
+			serversList.clear();
+			serversList.addAll((JSONArray)obj);
+		} else {
+			serversList.clear();
+		}
+		return serversList;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void saveServer(IProject project, String serverName, String serverPort, String userName) {
+		JSONArray serversList = loadServersList(project);
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("serverName", serverName);
+		jsonObject.put("serverPort", serverPort);
+		jsonObject.put("userName", userName);
+		serversList.add(jsonObject);
+		savePreference(project, "SERVERS_LIST", serversList.toJSONString());
 	}
 
 }
