@@ -11,7 +11,12 @@
 
 package org.openlegacy.ide.eclipse.actions;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
@@ -27,7 +32,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.openlegacy.ide.eclipse.Messages;
+
+import java.text.MessageFormat;
 
 /**
  * @author Ivan Bort
@@ -56,7 +64,7 @@ public class DeployToServerDialog extends TitleAreaDialog {
 	protected DeployToServerDialog(Shell parentShell, IProject project) {
 		super(parentShell);
 		this.project = project;
-		serversList.addAll(EclipseDesignTimeExecuter.instance().loadServersList(project));
+		serversList.addAll(loadServersList(project));
 	}
 
 	@Override
@@ -182,8 +190,53 @@ public class DeployToServerDialog extends TitleAreaDialog {
 		String userName = uText.getText();
 		String password = pText.getText();
 
-		EclipseDesignTimeExecuter.instance().performDirectDeploy(project, serverName, serverPort, userName, password);
+		performDirectDeploy(project, serverName, serverPort, userName, password);
+
 		super.okPressed();
+	}
+
+	public void performDirectDeploy(final IProject project, final String serverName, final String serverPort,
+			final String userName, final String password) {
+		Job job = new Job(MessageFormat.format(Messages.getString("job_deploying_to_server"), serverName)) {
+
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				monitor.beginTask(Messages.getString("deploying"), 2);
+				monitor.worked(1);
+
+				// XXX Ivan: deploy to server
+				saveServer(project, serverName, serverPort, userName);
+				monitor.done();
+				return Status.OK_STATUS;
+			}
+		};
+		job.schedule();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static JSONArray loadServersList(IProject project) {
+		JSONArray serversList = new JSONArray();
+		// get servers list
+		String jsonServersList = EclipseDesignTimeExecuter.instance().getPreference(project, "SERVERS_LIST");
+		if (!StringUtils.isEmpty(jsonServersList)) {
+			Object obj = JSONValue.parse(jsonServersList);
+			serversList.clear();
+			serversList.addAll((JSONArray)obj);
+		} else {
+			serversList.clear();
+		}
+		return serversList;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void saveServer(IProject project, String serverName, String serverPort, String userName) {
+		JSONArray serversList = loadServersList(project);
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("serverName", serverName);
+		jsonObject.put("serverPort", serverPort);
+		jsonObject.put("userName", userName);
+		serversList.add(jsonObject);
+		EclipseDesignTimeExecuter.instance().savePreference(project, "SERVERS_LIST", serversList.toJSONString());
 	}
 
 }

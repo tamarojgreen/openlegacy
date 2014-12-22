@@ -11,8 +11,15 @@
 
 package org.openlegacy.ide.eclipse.actions;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchConfigurationType;
+import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.openlegacy.ide.eclipse.Messages;
@@ -43,7 +50,19 @@ public class DeployToServerAction extends AbstractAction {
 			boolean answer = PopupUtil.question(MessageFormat.format(Messages.getString("question_run_build_war_launch"),
 					warFileName));
 			if (answer) {
-				// XXX Ivan: run launch here
+				ILaunchManager lm = DebugPlugin.getDefault().getLaunchManager();
+				ILaunchConfigurationType type = lm.getLaunchConfigurationType("org.eclipse.m2e.Maven2LaunchConfigurationType");
+				try {
+					ILaunchConfiguration[] configurations = lm.getLaunchConfigurations(type);
+					for (ILaunchConfiguration configuration : configurations) {
+						if (StringUtils.equals(configuration.getName(), "build-war")) {
+							DebugUITools.launch(configuration, ILaunchManager.RUN_MODE);
+							break;
+						}
+					}
+				} catch (CoreException e) {
+					e.printStackTrace();
+				}
 			}
 			return;
 		}
