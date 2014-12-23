@@ -1,4 +1,4 @@
-package org.openlegacy.terminal.db.modules;
+package org.openlegacy.db.modules.login;
 
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.login.Login;

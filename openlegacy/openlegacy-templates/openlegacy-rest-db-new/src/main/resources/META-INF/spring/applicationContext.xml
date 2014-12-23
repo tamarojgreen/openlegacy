@@ -52,7 +52,7 @@
         <property name="persistenceUnitName" value="persistenceUnitWeb"/>
         <property name="dataSource" ref="dataSource"/>
     </bean>
-	<bean id="dbLoginModule" class="org.openlegacy.terminal.db.modules.LoginModule"/>
+	<bean id="dbLoginModule" class="org.openlegacy.db.modules.login.LoginModule"/>
  	<bean id="dbService" class="org.openlegacy.db.services.DbService"/>
 	<bean id="dbSession" class="org.openlegacy.db.support.DefaultDbSession" scope="prototype" parent="abstractDbSession"/>
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>	
