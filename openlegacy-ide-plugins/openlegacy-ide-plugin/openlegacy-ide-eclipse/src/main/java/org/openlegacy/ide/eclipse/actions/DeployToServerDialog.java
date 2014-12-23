@@ -248,8 +248,9 @@ public class DeployToServerDialog extends TitleAreaDialog {
 				}
 
 				try {
-					URL url = new URL(MessageFormat.format("http://{0}:{1}/manager/text/deploy?path=/{2}&update=true",
-							serverName, serverPort, project.getName()));
+					String serverURL = MessageFormat.format("http://{0}:{1}", serverName, serverPort);
+					URL url = new URL(MessageFormat.format("{0}/manager/text/deploy?path=/{1}&update=true", serverURL,
+							project.getName()));
 					HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 					connection.setDoInput(true);
 					connection.setDoOutput(true);
@@ -273,6 +274,8 @@ public class DeployToServerDialog extends TitleAreaDialog {
 					int responseCode = connection.getResponseCode();
 					if (responseCode == 200) {
 						saveServer(project, serverName, serverPort, userName);
+						PopupUtil.message(MessageFormat.format(Messages.getString("message_success_deploy_to_server"),
+								warFileName, serverURL));
 					} else if (responseCode == 401) {
 						PopupUtil.warn(Messages.getString("warn_user_not_authorized"));
 					}

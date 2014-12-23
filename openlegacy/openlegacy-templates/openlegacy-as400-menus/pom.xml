@@ -439,6 +439,7 @@ End Uncomment for OpenLegacy enterprise managemenent plugin -->
 									<goal>single</goal>
 								</goals>
 								<configuration>
+									<appendAssemblyId>false</appendAssemblyId>
 									<archive>
 										<manifest>
 											<addDefaultImplementationEntries>true</addDefaultImplementationEntries>

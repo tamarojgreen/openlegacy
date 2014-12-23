@@ -399,6 +399,7 @@
 									<goal>single</goal>
 								</goals>
 								<configuration>
+									<appendAssemblyId>false</appendAssemblyId>
 									<archive>
 										<manifest>
 											<addDefaultImplementationEntries>true</addDefaultImplementationEntries>

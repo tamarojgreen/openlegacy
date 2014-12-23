@@ -47,7 +47,7 @@ public class DeployToServerAction extends AbstractAction {
 		String warFileName = project.getName() + ".war";
 		IFile warFile = project.getFile("target/" + warFileName);
 		if (!warFile.exists()) {
-			boolean answer = PopupUtil.question(MessageFormat.format(Messages.getString("question_run_build_war_launch"),
+			boolean answer = PopupUtil.question(MessageFormat.format(Messages.getString("question_run_build_light_war_launch"),
 					warFileName));
 			if (answer) {
 				ILaunchManager lm = DebugPlugin.getDefault().getLaunchManager();
@@ -55,7 +55,7 @@ public class DeployToServerAction extends AbstractAction {
 				try {
 					ILaunchConfiguration[] configurations = lm.getLaunchConfigurations(type);
 					for (ILaunchConfiguration configuration : configurations) {
-						if (StringUtils.equals(configuration.getName(), "build-war")) {
+						if (StringUtils.equals(configuration.getName(), "build-light-war")) {
 							DebugUITools.launch(configuration, ILaunchManager.RUN_MODE);
 							break;
 						}
