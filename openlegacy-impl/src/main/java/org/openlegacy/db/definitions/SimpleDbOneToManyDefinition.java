@@ -14,6 +14,7 @@ public class SimpleDbOneToManyDefinition implements DbOneToManyDefinition {
 	private boolean orphanRemoval = false;
 	private Class<?> targetEntity = void.class;
 	private String targetEntityClassName = void.class.getSimpleName();
+	private String joinColumnName = "";
 
 	@Override
 	public String[] getCascadeTypeNames() {
@@ -67,6 +68,15 @@ public class SimpleDbOneToManyDefinition implements DbOneToManyDefinition {
 
 	public void setTargetEntityClassName(String targetEntityClassName) {
 		this.targetEntityClassName = targetEntityClassName;
+	}
+
+	@Override
+	public String getJoinColumnName() {
+		return joinColumnName;
+	}
+
+	public void setJoinColumnName(String joinColumnName) {
+		this.joinColumnName = joinColumnName;
 	}
 
 }

@@ -1,20 +1,18 @@
 package org.openlegacy.terminal.db.model;
 
-import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.Cascade;
 import org.openlegacy.annotations.db.Action;
 import org.openlegacy.annotations.db.DbActions;
 import org.openlegacy.annotations.db.DbColumn;
 import org.openlegacy.annotations.db.DbNavigation;
 
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -35,21 +33,17 @@ public class StockItem {
 	@DbColumn(displayName = "Video Url", mainDisplayField = true)
 	private String videoUrl;
 
-	// @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "stockItem")
 	@OneToMany(fetch = FetchType.LAZY)
 	@DbColumn(displayName = "Notes", mainDisplayField = false, internal = false)
 	@JoinColumn(name = "stock_item")
-	@MapKey(name = "noteId")
-	@JsonManagedReference
 	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
-	// private List<StockItemNote> notes = new ArrayList<StockItemNote>();
-	private Map<String, StockItemNote> notes = new TreeMap<String, StockItemNote>();
+	private List<StockItemNote> notes = new ArrayList<StockItemNote>();
 
-	// @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	// @JoinColumn(name = "stock_item")
-	// @MapKey(name = "noteId")
-	// private Map<String, StockItemNote> notes2 = new TreeMap<String, StockItemNote>();
-	//
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "stock_item")
+	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
+	private List<StockItemNote> notes2 = new ArrayList<StockItemNote>();
+
 	// @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	// @JoinColumn(name = "stock_item")
 	// @MapKey(name = "imageId")
@@ -72,13 +66,9 @@ public class StockItem {
 		this.description = description;
 	}
 
-	public Map<String, StockItemNote> getNotes() {
+	public List<StockItemNote> getNotes() {
 		return notes;
 	}
-
-	// public List<StockItemNote> getNotes() {
-	// return notes;
-	// }
 
 	// public List<StockItemImage> getImages() {
 	// return images;
@@ -92,8 +82,8 @@ public class StockItem {
 		this.videoUrl = videoUrl;
 	}
 
-	// public Map<String, StockItemNote> getNotes2() {
-	// return notes2;
-	// }
+	public List<StockItemNote> getNotes2() {
+		return notes2;
+	}
 
 }

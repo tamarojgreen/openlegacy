@@ -55,7 +55,7 @@
 	</#if>    
 </#macro>
 
-<#macro generateTable entity showActionsToolbar=true propertyName="" isCREATEAction=false>	
+<#macro generateTable entity showActionsToolbar=true propertyName="" joinColumnName="" isCREATEAction=false>	
 	<h2>${entity.displayName}</h2>
 	<#assign isREADAction = false>
 	<#if showActionsToolbar>
@@ -108,10 +108,10 @@
 							</#if>
 						</tr>
 					</thead>
-					<tbody>						
+					<tbody>											
 			            <tr ng-repeat="item in model.entity<#if propertyName != "">.${propertyName}</#if>" <#if isREADAction && !isCREATEAction>ng-click="doREADAction('${entity.entityName}', $index, '${propertyName}')"</#if>>
 			            <#if isCREATEAction>
-							<td><input type="checkbox" ng-model="isChecked" ng-change="toggleSelection(item, nestedModels.${propertyName})"></td>
+							<td><input type="checkbox" ng-model="isChecked" ng-change="toggleSelection(item, nestedModels.${propertyName}, joinColumnName)"></td>							
 						</#if>			                               	
 			            	<#list columnsToDisplay as columnName>
 			            	<td>{{item.${columnName}}}</td>
@@ -195,7 +195,7 @@
 			<#assign innerEntityDefinition = childPageDefinition.entityDefinition/>							
 			<#if childPageDefinition.entityDefinition.entityName == childColumn.javaTypeName>							
 				<#if isCREATEAction>
-					<@generateTable entity=innerEntityDefinition showActionsToolbar=false propertyName=childColumn.name isCREATEAction=true/>
+					<@generateTable entity=innerEntityDefinition showActionsToolbar=false propertyName=childColumn.name joinColumnName=childColumn.joinColumnName isCREATEAction=true/>
 				<#else>
 					<@generateTable entity=innerEntityDefinition showActionsToolbar=false propertyName=childColumn.name />
 				</#if>

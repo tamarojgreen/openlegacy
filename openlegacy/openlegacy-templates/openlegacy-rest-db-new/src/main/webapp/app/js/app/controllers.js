@@ -61,8 +61,7 @@
 		
 		$olHttp.get('${entityDefinition.entityName}/' + $stateParams[Object.keys($stateParams)[0]], function(data) {			
 			$scope.entityName = data.model.entityName;
-			$scope.model = data.model;
-			console.log(data);
+			$scope.model = data.model;			
 			$scope.doREADAction = function(targetEntityName, rowIndex, propertyName) {				
 	        	<#list entitiesDefinitions as entity>
 	        		if (targetEntityName == "${entity.entityName}") {
@@ -73,7 +72,6 @@
 	        	</#list>
         	}
 			$scope.doUPDATEAction = function() {				
-				console.log($scope.model);
 				var modalInstance = $modal.open({
 					templateUrl: 'views/partials/confirmation_dialog.html',
 					controller: 'ConfirmationDialogCtrl',
@@ -122,20 +120,20 @@
 				$scope.${column.name}_showNext = true;
 				$scope.${column.name}_showPrev = true;				
 				getItems('${column.javaTypeName}', '${column.name}', false, 1, $scope, $olHttp, $state, null);
-				$scope.nestedModels['${column.name}'] = [];						
+				$scope.nestedModels['${column.name}'] = [];
 			</#if>
 		</#list>
 		</#if>
 		
-		$scope.toggleSelection = function toggleSelection(item, itemArray) {			
+		$scope.toggleSelection = function toggleSelection(item, itemArray, joinColumnName) {
+			delete item[joinColumnName];
 		    var idx = itemArray.indexOf(item);
 
 		    if (idx > -1) {
 		    	itemArray.splice(idx, 1);
-		    } else {
+		    } else {		    	
 		    	itemArray.push(item);
-		    }    
-
+		    }
 		  };
 		
 		$scope.doUPDATEAction = function() {				
@@ -146,9 +144,10 @@
 					func: function () {
 						return function() {
 							var entity = $.extend($scope.model.entity, $scope.nestedModels);							
-							$olHttp.post('${entityDefinition.entityName}?action=', entity, function(data) {					
-								alert("Entity was successfully created!");
-							});							
+							$olHttp.post('${entityDefinition.entityName}?action=', entity, function(data) {
+								alert("Entity was created successfully!");
+								$state.go('${entityDefinition.entityName}');
+							});												
 						} 
 					}
 				}
@@ -193,8 +192,6 @@
 		queryParamsString += "page=" + page;
 		
 		$olHttp.get(entityName + queryParamsString, function(data) {
-			//$scope.model = {"entity":{}};
-			
 			if (propertyName != "") {
 				$scope.model.entity[propertyName] = data.model.entity;
 				var showNextBtn = propertyName + "_showNext";
@@ -205,8 +202,7 @@
 				var showPrevBtn = "_showPrev";
 			}
 			
-			var setPageNavigators = function() {
-				console.log(propertyName);
+			var setPageNavigators = function() {				
 				if (parseInt(data.model.pageCount) <= 1) {
 					$scope[showNextBtn] = false;
 		        	$scope[showPrevBtn] = false;

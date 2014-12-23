@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Component
@@ -44,11 +45,12 @@ public class DbJpaOneToManyAnnotationLoader implements FieldLoader {
 				simpleDbOneToMany.setOrphanRemoval(oneToMany.orphanRemoval());
 				simpleDbOneToMany.setTargetEntity(oneToMany.targetEntity());
 				simpleDbOneToMany.setTargetEntityClassName(oneToMany.targetEntity().getSimpleName());
+				JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
+				if (joinColumn != null) {
+					simpleDbOneToMany.setJoinColumnName(joinColumn.name());
+				}
+
 				columnFieldDefinition.setOneToManyDefinition(simpleDbOneToMany);
-				// MapKey mapKey = field.getAnnotation(MapKey.class);
-				// if (mapKey != null) {
-				// simpleDbOneToMany.setMapKey(mapKey);
-				// }
 			}
 			dbEntityDefinition.getColumnFieldsDefinitions().put(field.getName(), dbFieldDefinition);
 		}

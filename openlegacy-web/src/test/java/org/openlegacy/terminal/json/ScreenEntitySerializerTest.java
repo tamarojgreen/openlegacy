@@ -9,7 +9,6 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.custommonkey.xmlunit.XMLAssert;
-import org.json.simple.parser.ParseException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
@@ -55,8 +54,7 @@ public class ScreenEntitySerializerTest extends AbstractTest {
 	}
 
 	@Test
-	public void testJsonDesiralization() throws JsonParseException, JsonMappingException, IOException, IllegalArgumentException,
-			IllegalAccessException, InstantiationException, ClassNotFoundException, ParseException {
+	public void testJsonDesiralization() throws JsonParseException, JsonMappingException, IOException {
 		ItemsList itemsList = EntitySerializationUtils.deserialize("{\"positionTo\":\"5\",\"focusField\":\"positionTo\"}",
 				ItemsList.class);
 		Assert.notNull(itemsList);

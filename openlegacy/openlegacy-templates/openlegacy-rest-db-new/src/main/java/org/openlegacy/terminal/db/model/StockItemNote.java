@@ -1,6 +1,5 @@
 package org.openlegacy.terminal.db.model;
 
-import org.codehaus.jackson.annotate.JsonBackReference;
 import org.openlegacy.annotations.db.Action;
 import org.openlegacy.annotations.db.DbActions;
 import org.openlegacy.annotations.db.DbColumn;
@@ -26,12 +25,7 @@ public class StockItemNote implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	private String noteId;
-
 	@ManyToOne
-	@JsonBackReference
-	// @JoinColumn(name = "stock_item", insertable = true, referencedColumnName = "itemId")
-	// @JoinColumn(name = "stock_item")
 	private StockItem stockItem;
 
 	@DbColumn(displayName = "Text", mainDisplayField = true, editable = true)
@@ -45,16 +39,8 @@ public class StockItemNote implements Serializable {
 		return stockItem;
 	}
 
-	public String getNoteId() {
-		return noteId;
-	}
-
 	public String getText() {
 		return text;
-	}
-
-	public void setNoteId(String noteId) {
-		this.noteId = noteId;
 	}
 
 	public void setText(String text) {

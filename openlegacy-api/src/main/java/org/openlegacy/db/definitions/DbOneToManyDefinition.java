@@ -17,4 +17,6 @@ public interface DbOneToManyDefinition {
 	Class<?> getTargetEntity();
 
 	String getTargetEntityClassName();
+
+	String getJoinColumnName();
 }

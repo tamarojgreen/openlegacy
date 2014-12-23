@@ -164,9 +164,7 @@ public class DefaultDbRestController {
 			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children,
 			@RequestBody String json, HttpServletResponse response) throws IOException {
 
-		// json =
-		// "{\"itemId\":\"111\",\"description\":\"sadasd\", \"notes\":{\"1\":{\"text\":\"qqqq\", \"noteId\":\"1\"},\"2\":{\"text\":\"sssss\", \"noteId\":\"2\"}}}";
-		json = "{\"itemId\":\"111\",\"description\":\"sadasd\", \"notes\":[{\"text\":\"qqqq\", \"noteId\":\"1\"},{\"text\":\"sssss\", \"noteId\":\"2\"}]}";
+		// json = "{\"itemId\":\"111\",\"description\":\"sadasd\", \"notes\":[{\"text\":\"qqqq\"},{\"text\":\"sssss\"}]}";
 		return postEntityJson(entityName, action, children, json, response);
 	}
 
@@ -315,6 +313,8 @@ public class DefaultDbRestController {
 		if (entity.getClass() == TableDbObject.class) {
 			pageCount = ((TableDbObject)entity).getPageCount();
 			entity = ProxyUtil.getTargetJpaObject(((TableDbObject)entity).getResult(), children);
+		} else {
+			entity = ProxyUtil.getTargetJpaObject(entity, children);
 		}
 		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(entity, null, getActions(entity), pageCount);
 		return new ModelAndView(MODEL, MODEL, wrapper);
