@@ -12,6 +12,7 @@
 package org.openlegacy.ide.eclipse.actions;
 
 import org.apache.commons.lang.StringUtils;
+import org.drools.util.codec.Base64;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -21,6 +22,8 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.GridData;
@@ -34,7 +37,16 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.openlegacy.ide.eclipse.Messages;
+import org.openlegacy.ide.eclipse.util.PopupUtil;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.MessageFormat;
 
 /**
@@ -59,6 +71,8 @@ public class DeployToServerDialog extends TitleAreaDialog {
 	private Text uText;
 
 	private Text pText;
+
+	private boolean updatingControls = false;
 
 	@SuppressWarnings("unchecked")
 	protected DeployToServerDialog(Shell parentShell, IProject project) {
@@ -124,6 +138,25 @@ public class DeployToServerDialog extends TitleAreaDialog {
 			snCombo.add((String)jsonObject.get("serverName"));
 		}
 
+		snCombo.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				CCombo combo = (CCombo)e.widget;
+				for (Object obj : serversList) {
+					JSONObject jsonObject = (JSONObject)obj;
+					if (StringUtils.equals((String)jsonObject.get("serverName"), combo.getText())) {
+						updatingControls = true;
+						spText.setText((String)jsonObject.get("serverPort"));
+						uText.setText((String)jsonObject.get("userName"));
+						updatingControls = false;
+						break;
+					}
+				}
+			}
+
+		});
+
 		// create row for "Server port"
 		Label spLabel = new Label(container, SWT.NONE);
 		spLabel.setText(Messages.getString("label_server_port"));
@@ -140,6 +173,9 @@ public class DeployToServerDialog extends TitleAreaDialog {
 
 			@Override
 			public void verifyText(VerifyEvent e) {
+				if (updatingControls) {
+					return;
+				}
 				switch (e.keyCode) {
 					case SWT.BS:
 					case SWT.DEL:
@@ -199,13 +235,53 @@ public class DeployToServerDialog extends TitleAreaDialog {
 			final String userName, final String password) {
 		Job job = new Job(MessageFormat.format(Messages.getString("job_deploying_to_server"), serverName)) {
 
+			@SuppressWarnings("resource")
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				monitor.beginTask(Messages.getString("deploying"), 2);
 				monitor.worked(1);
+				String warFileName = MessageFormat.format("{0}.war", project.getName());
+				File warFile = new File(project.getFile("target/" + warFileName).getLocationURI());
+				if (!warFile.exists()) {
+					monitor.done();
+					return Status.CANCEL_STATUS;
+				}
 
-				// XXX Ivan: deploy to server
-				saveServer(project, serverName, serverPort, userName);
+				try {
+					URL url = new URL(MessageFormat.format("http://{0}:{1}/manager/text/deploy?path=/{2}&update=true",
+							serverName, serverPort, project.getName()));
+					HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+					connection.setDoInput(true);
+					connection.setDoOutput(true);
+					connection.setRequestMethod("PUT");
+					connection.setRequestProperty("Content-Type", "multipart/form-data");
+
+					String authString = MessageFormat.format("{0}:{1}", userName, password);
+					byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
+					connection.setRequestProperty("Authorization", "Basic " + new String(authEncBytes));
+
+					BufferedOutputStream bos = new BufferedOutputStream(connection.getOutputStream());
+					BufferedInputStream bis = new BufferedInputStream(new FileInputStream(warFile));
+					int i;
+					// read byte by byte until end of stream
+					while ((i = bis.read()) >= 0) {
+						bos.write(i);
+					}
+					bos.flush();
+					bos.close();
+
+					int responseCode = connection.getResponseCode();
+					if (responseCode == 200) {
+						saveServer(project, serverName, serverPort, userName);
+					} else if (responseCode == 401) {
+						PopupUtil.warn(Messages.getString("warn_user_not_authorized"));
+					}
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
 				monitor.done();
 				return Status.OK_STATUS;
 			}
@@ -231,6 +307,16 @@ public class DeployToServerDialog extends TitleAreaDialog {
 	@SuppressWarnings("unchecked")
 	private void saveServer(IProject project, String serverName, String serverPort, String userName) {
 		JSONArray serversList = loadServersList(project);
+		// modify existing
+		for (Object obj : serversList) {
+			JSONObject jsonObject = (JSONObject)obj;
+			if (StringUtils.equals((String)jsonObject.get("serverName"), serverName)) {
+				jsonObject.put("serverPort", serverPort);
+				jsonObject.put("userName", userName);
+				EclipseDesignTimeExecuter.instance().savePreference(project, "SERVERS_LIST", serversList.toJSONString());
+				return;
+			}
+		}
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("serverName", serverName);
 		jsonObject.put("serverPort", serverPort);
