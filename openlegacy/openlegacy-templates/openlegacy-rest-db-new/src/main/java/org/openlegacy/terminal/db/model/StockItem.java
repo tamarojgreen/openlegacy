@@ -1,11 +1,5 @@
 package org.openlegacy.terminal.db.model;
 
-import org.hibernate.annotations.Cascade;
-import org.openlegacy.annotations.db.Action;
-import org.openlegacy.annotations.db.DbActions;
-import org.openlegacy.annotations.db.DbColumn;
-import org.openlegacy.annotations.db.DbNavigation;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +9,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.hibernate.annotations.Cascade;
+import org.openlegacy.annotations.db.Action;
+import org.openlegacy.annotations.db.DbActions;
+import org.openlegacy.annotations.db.DbColumn;
+import org.openlegacy.annotations.db.DbEntity;
+import org.openlegacy.annotations.db.DbNavigation;
+
 @Entity
-@DbNavigation(category = "StockItem")
+@DbEntity(pluralName = "Stock Items")
+@DbNavigation(category = "Stock Items")
 @DbActions(actions = {
 		@Action(action = org.openlegacy.db.actions.DbActions.CREATE.class, displayName = "Create", alias = "create"),
 		@Action(action = org.openlegacy.db.actions.DbActions.READ.class, displayName = "READ", alias = "read"),
@@ -37,18 +40,8 @@ public class StockItem {
 	@DbColumn(displayName = "Notes", mainDisplayField = false, internal = false)
 	@JoinColumn(name = "stock_item")
 	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
+	@JsonManagedReference
 	private List<StockItemNote> notes = new ArrayList<StockItemNote>();
-
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "stock_item")
-	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
-	private List<StockItemNote> notes2 = new ArrayList<StockItemNote>();
-
-	// @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	// @JoinColumn(name = "stock_item")
-	// @MapKey(name = "imageId")
-	// @DbColumn(displayName = "Images", mainDisplayField = false, internal = false)
-	// private List<StockItemImage> images = new ArrayList<StockItemImage>();
 
 	public Integer getItemId() {
 		return itemId;
@@ -80,10 +73,6 @@ public class StockItem {
 
 	public void setVideoUrl(String videoUrl) {
 		this.videoUrl = videoUrl;
-	}
-
-	public List<StockItemNote> getNotes2() {
-		return notes2;
 	}
 
 }

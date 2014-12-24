@@ -1,6 +1,6 @@
 <div ng-switch on="currentAction">
 	<div ng-switch-when="READ">		
-		<h2>${entityDefinition.displayName} Details</h2>
+		<h2>${entityDefinition.displayName}</h2>
 		<#assign isUPDATEAction = false>
 		<@actionToolbar entity=entityDefinition allowCREATE=false allowREAD=false/>
 		<@entityDetails entity=entityDefinition/>
@@ -56,7 +56,7 @@
 </#macro>
 
 <#macro generateTable entity showActionsToolbar=true propertyName="" joinColumnName="" isCREATEAction=false>	
-	<h2>${entity.displayName}</h2>
+	<h2><#if entity.pluralName??>${entity.pluralName}<#else>${entity.entityName}</#if></h2>
 	<#assign isREADAction = false>
 	<#if showActionsToolbar>
 		<@actionToolbar entity=entity allowUPDATE=false allowDELETE=false/>
