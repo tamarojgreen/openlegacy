@@ -24,6 +24,7 @@ public class JpaEntity extends AbstractEntity {
 
 	private JpaEntityModel entityModel;
 	private JpaTableModel tableModel;
+	private JpaNavigationModel navigationModel;
 
 	private Map<UUID, JpaFieldModel> fields = new HashMap<UUID, JpaFieldModel>();
 	private List<JpaFieldModel> sortedFields = new ArrayList<JpaFieldModel>();
@@ -42,6 +43,8 @@ public class JpaEntity extends AbstractEntity {
 		if (!entityDefinition.getColumnFieldsDefinitions().isEmpty()) {
 			fields = JpaEntityUtils.getJpaFieldsModels(entityModel, entityDefinition.getColumnFieldsDefinitions(), sortedFields);
 		}
+
+		navigationModel = JpaEntityUtils.getJpaNavigationModel(entityDefinition);
 	}
 
 	@Override
@@ -86,6 +89,10 @@ public class JpaEntity extends AbstractEntity {
 
 	public List<JpaFieldModel> getSortedFields() {
 		return sortedFields;
+	}
+
+	public JpaNavigationModel getNavigationModel() {
+		return navigationModel;
 	}
 
 }

@@ -7,6 +7,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbEntityActi
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaListFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaNavigationAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaTableAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.AbstractEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntity;
@@ -24,6 +25,7 @@ import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
 import org.openlegacy.annotations.db.DbColumn;
 import org.openlegacy.annotations.db.DbEntity;
+import org.openlegacy.annotations.db.DbNavigation;
 
 import java.util.List;
 
@@ -84,6 +86,10 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 					// @DbEntity
 					JpaEntityBuilder.INSTANCE.processJpaDbEntityAnnotation(ast, cu, rewriter, listRewriter, annotation,
 							JpaEntityUtils.getActionList(entity, JpaDbEntityAction.class));
+				} else if (DbNavigation.class.getSimpleName().equals(fullyQualifiedName)) {
+					// @DbNavigation
+					JpaEntityBuilder.INSTANCE.processJpaNavigationAnnotation(ast, cu, rewriter, listRewriter, annotation,
+							JpaEntityUtils.getActionList(entity, JpaNavigationAction.class));
 				}
 			}
 		}

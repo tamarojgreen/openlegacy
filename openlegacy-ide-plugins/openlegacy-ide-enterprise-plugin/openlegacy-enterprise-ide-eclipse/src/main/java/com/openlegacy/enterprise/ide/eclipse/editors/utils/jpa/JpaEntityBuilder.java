@@ -10,6 +10,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaEntityAction
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaIntegerFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaListFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaNavigationAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaTableAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
@@ -38,6 +39,7 @@ import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
 import org.openlegacy.annotations.db.DbColumn;
 import org.openlegacy.annotations.db.DbEntity;
+import org.openlegacy.annotations.db.DbNavigation;
 import org.openlegacy.db.definitions.DbTableDefinition.UniqueConstraintDefinition;
 
 import java.util.ArrayList;
@@ -91,7 +93,8 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 	public void addEntityTopLevelAnnotations(AST ast, CompilationUnit cu, ASTRewrite rewriter, ListRewrite listRewriter,
 			List<AbstractAction> list) {
 		for (AbstractAction action : list) {
-			if (!action.getAnnotationClass().equals(Table.class) && !action.getAnnotationClass().equals(DbEntity.class)) {
+			if (!action.getAnnotationClass().equals(Table.class) && !action.getAnnotationClass().equals(DbEntity.class)
+					&& !action.getAnnotationClass().equals(DbNavigation.class)) {
 				continue;
 			}
 			if (action.getActionType().equals(ActionType.ADD) && (action.getTarget() == ASTNode.NORMAL_ANNOTATION)) {
@@ -135,7 +138,8 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 		List<ASTNode> nodeList = listRewriter.getOriginalList();
 
 		for (AbstractAction action : list) {
-			if (!action.getAnnotationClass().equals(Table.class) && !action.getAnnotationClass().equals(DbEntity.class)) {
+			if (!action.getAnnotationClass().equals(Table.class) && !action.getAnnotationClass().equals(DbEntity.class)
+					&& !action.getAnnotationClass().equals(DbNavigation.class)) {
 				continue;
 			}
 			if (action.getActionType().equals(ActionType.REMOVE) && (action.getTarget() == ASTNode.NORMAL_ANNOTATION)) {
@@ -489,6 +493,12 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 			newField.modifiers().addAll(ASTNode.copySubtrees(ast, field.modifiers()));
 			listRewriter.replace(field, newField, null);
 		}
+	}
+
+	public void processJpaNavigationAnnotation(AST ast, CompilationUnit cu, ASTRewrite rewriter, ListRewrite listRewriter,
+			Annotation annotation, List<JpaNavigationAction> list) {
+		processSimpleAnnotation(ast, cu, rewriter, listRewriter, annotation, list, JpaEntityASTUtils.INSTANCE,
+				JpaEntityActionsSorter.INSTANCE);
 	}
 
 }

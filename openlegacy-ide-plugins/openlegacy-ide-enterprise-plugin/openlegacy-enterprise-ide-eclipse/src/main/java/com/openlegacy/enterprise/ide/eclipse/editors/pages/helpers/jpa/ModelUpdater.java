@@ -5,6 +5,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaNavigationModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaTableModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.Utils;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.jpa.JpaEntityUtils;
@@ -138,6 +139,15 @@ public class ModelUpdater {
 			}
 		}
 		JpaEntityUtils.ActionGenerator.generateJpaListFieldActions(entity, model);
+	}
+
+	public static void updateJpaNavigationModel(JpaEntity entity, JpaNavigationModel model, String key, String text) {
+		if (text != null) {
+			if (key.equals(DbAnnotationConstants.CATEGORY)) {
+				model.setCategory(text);
+			}
+		}
+		JpaEntityUtils.ActionGenerator.generateJpaNavigationActions(entity, model);
 	}
 
 }

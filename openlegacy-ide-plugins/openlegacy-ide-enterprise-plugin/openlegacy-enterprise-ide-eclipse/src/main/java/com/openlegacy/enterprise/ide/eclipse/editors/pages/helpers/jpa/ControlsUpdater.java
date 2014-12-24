@@ -4,6 +4,7 @@ import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaNavigationModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaTableModel;
 
 import org.apache.commons.lang.StringUtils;
@@ -172,6 +173,19 @@ public class ControlsUpdater {
 				mapCombos.get(key).setText(StringUtils.join(model.getCascade(), ","));
 			} else if (key.equals(DbAnnotationConstants.FETCH)) {
 				mapCombos.get(key).setText(model.getFetch().toString());
+			}
+		}
+	}
+
+	public static void updateJpaNavigationDetailsControls(JpaNavigationModel model, Map<String, Text> mapTexts) {
+		if (model == null) {
+			return;
+		}
+		// update text controls
+		Set<String> mapKeys = mapTexts.keySet();
+		for (String key : mapKeys) {
+			if (key.equals(DbAnnotationConstants.CATEGORY)) {
+				mapTexts.get(key).setText(model.getCategory());
 			}
 		}
 	}

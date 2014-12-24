@@ -5,6 +5,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.IOpenLegacyDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa.GeneralJpaEntityDetailsPage;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa.GeneralJpaNavigationDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa.GeneralJpaTableDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.jpa.GeneralMasterBlockContentProvider;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.jpa.GeneralMasterBlockLabelProvider;
@@ -111,6 +112,7 @@ public class GeneralMasterBlock extends AbstractJpaEntityMasterBlock {
 	protected void registerPages(DetailsPart detailsPart) {
 		detailsPages.add(new GeneralJpaEntityDetailsPage(this));
 		detailsPages.add(new GeneralJpaTableDetailsPage(this));
+		detailsPages.add(new GeneralJpaNavigationDetailsPage(this));
 		for (IDetailsPage page : detailsPages) {
 			detailsPart.registerPage(((IOpenLegacyDetailsPage)page).getDetailsModel(), page);
 		}

@@ -9,6 +9,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaEntityAction
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaIdFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaListFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaNavigationAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaTableAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaBooleanFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaByteFieldModel;
@@ -18,6 +19,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaNavigationModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaTableModel;
 
 import org.apache.commons.lang.StringUtils;
@@ -356,6 +358,35 @@ public class JpaEntityUtils {
 					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.TARGET_ENTITY, model.getTargetEntity());
 		}
 
+		public static void generateJpaNavigationActions(JpaEntity entity, JpaNavigationModel model) {
+			boolean isPrevious = true;
+			boolean isDefault = true;
+			JpaNavigationModel entityModel = entity.getNavigationModel();
+			// add @DbNavigation annotation
+			if (entityModel.isDefaultDbEntityAttrs() && !model.isDefaultDbEntityAttrs()) {
+				entity.addAction(new JpaNavigationAction(model.getUUID(), model, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
+						DbAnnotationConstants.DB_NAVIGATION_ANNOTATION, null));
+			}
+			// remove @DbEntity annotation
+			if (!entityModel.isDefaultDbEntityAttrs() && model.isDefaultDbEntityAttrs()) {
+				entity.addAction(new JpaNavigationAction(model.getUUID(), model, ActionType.REMOVE, ASTNode.NORMAL_ANNOTATION,
+						DbAnnotationConstants.DB_NAVIGATION_ANNOTATION, null));
+			}
+			if (entityModel.equalsDbEntityAttrs(model)) {
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_NAVIGATION_ANNOTATION);
+			}
+			// if attrs are not default in editable model then delete "remove @DbEntity" action
+			if (!model.isDefaultDbEntityAttrs()) {
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_NAVIGATION_ANNOTATION, ActionType.REMOVE);
+			}
+
+			// @DbNavigation.category: default none
+			isPrevious = StringUtils.equals(entityModel.getCategory(), model.getCategory());
+			isDefault = StringUtils.isEmpty(model.getCategory());
+			PrivateMethods.addRemoveJpaNavigationAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.CATEGORY, model.getCategory());
+		}
+
 	}
 
 	private static class PrivateMethods {
@@ -421,6 +452,17 @@ public class JpaEntityUtils {
 				entity.addAction(new JpaDbColumnAction(model.getUUID(), model, ActionType.MODIFY, target, key, value));
 			} else if (!isPrevious && isDefault) {
 				entity.addAction(new JpaDbColumnAction(model.getUUID(), model, ActionType.REMOVE, target, key, null));
+			} else {
+				entity.removeAction(model.getUUID(), key);
+			}
+		}
+
+		public static void addRemoveJpaNavigationAction(JpaEntity entity, JpaNavigationModel model, boolean isPrevious,
+				boolean isDefault, int target, String key, Object value) {
+			if (!isPrevious && !isDefault) {
+				entity.addAction(new JpaNavigationAction(model.getUUID(), model, ActionType.MODIFY, target, key, value));
+			} else if (!isPrevious && isDefault) {
+				entity.addAction(new JpaNavigationAction(model.getUUID(), model, ActionType.REMOVE, target, key, null));
 			} else {
 				entity.removeAction(model.getUUID(), key);
 			}
@@ -576,6 +618,12 @@ public class JpaEntityUtils {
 			}
 		}
 		return map;
+	}
+
+	public static JpaNavigationModel getJpaNavigationModel(DbEntityDefinition entityDefinition) {
+		JpaNavigationModel model = new JpaNavigationModel();
+		model.init((CodeBasedDbEntityDefinition)entityDefinition);
+		return model;
 	}
 
 }
