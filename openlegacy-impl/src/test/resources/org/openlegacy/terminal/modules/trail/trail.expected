@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <terminal-trail>
-    <snapshot type="INCOMING" sequence="1">
+    <snapshot sequence="1" type="INCOMING">
         <row rowNumber="1">
             <field column="2" value="                    " length="20"/>
             <field column="23" value="             Sign On             " length="33"/>
@@ -67,7 +67,7 @@
         <size rows="24" columns="80"/>
         <cursor row="6" column="53"/>
     </snapshot>
-    <snapshot type="OUTGOING" command="[enter]" sequence="2">
+    <snapshot sequence="2" type="OUTGOING" command="[enter]">
         <row rowNumber="1">
             <field column="2" value="                    " length="20"/>
             <field column="23" value="             Sign On             " length="33"/>
@@ -134,7 +134,7 @@
         <size rows="24" columns="80"/>
         <cursor row="6" column="53"/>
     </snapshot>
-    <snapshot type="INCOMING" sequence="3">
+    <snapshot sequence="3" type="INCOMING">
         <row rowNumber="1">
             <field column="2" value="STUDENT2  " length="10"/>
             <field column="13" value="            " length="12"/>
