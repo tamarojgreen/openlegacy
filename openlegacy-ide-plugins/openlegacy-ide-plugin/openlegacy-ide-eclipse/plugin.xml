@@ -1,246 +1,245 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+	<extension point="org.eclipse.ui.popupMenus">
+		<objectContribution
+			objectClass="org.eclipse.core.resources.IProject"
+			id="org.openlegacy.ide.eclipse.generate_trail_contribution">
+			<menu
+				label="OpenLegacy"
+				path="additions"
+				id="org.openlegacy.ide.eclipse.right_menu">
+				<separator name="customize"></separator>
+			</menu>
+			<action
+				label="%customize_code_templates"
+				class="org.openlegacy.ide.eclipse.actions.CustomizeCodeTemplatesAction"
+				menubarPath="org.openlegacy.ide.eclipse.right_menu/customize"
+				enablesFor="1"
+				id="org.openlegacy.ide.eclipse.actions.customizeCodeTemplate">
+			</action>
+			<action
+				label="%customize_designtime_context"
+				class="org.openlegacy.ide.eclipse.actions.CustomizeDesigntimeContextAction"
+				menubarPath="org.openlegacy.ide.eclipse.right_menu/customize"
+				enablesFor="1"
+				id="org.openlegacy.ide.eclipse.actions.customizeContext">
+			</action>
+			<action
+				label="%import_source"
+				class="org.openlegacy.ide.eclipse.actions.ImportSourceAction"
+				menubarPath="org.openlegacy.ide.eclipse.right_menu/import"
+				enablesFor="1"
+				id="org.openlegacy.ide.eclipse.actions.import_source">
+			</action>
+			<action 
+				label="%deploy_to_server"
+				class="org.openlegacy.ide.eclipse.actions.DeployToServerAction"
+				menubarPath="org.openlegacy.ide.eclipse.right_menu/server"
+				enablesFor="1"
+				id="org.openlegacy.ide.eclipse.actions.deploy_to_server">
+			</action>
+		</objectContribution>
+		<objectContribution
+			objectClass="org.eclipse.core.resources.IFile"
+			nameFilter="*.trail"
+			id="org.openlegacy.ide.eclipse.generate_trail_contribution">
+			<menu
+				label="%openlegacy_menu_label"
+				path="additions"
+				id="org.openlegacy.ide.eclipse.right_menu">
+				<separator name="generate">
+				</separator>
+			</menu>
+			<action
+				label="%generate_model_menu_label"
+				class="org.openlegacy.ide.eclipse.actions.screen.GenerateScreenModelAction"
+				menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
+				enablesFor="1"
+				id="org.openlegacy.ide.eclipse.actions.generateModel">
+			</action>
+		</objectContribution>
+		<objectContribution
+			objectClass="org.eclipse.jdt.core.ICompilationUnit"
+			id="org.openlegacy.ide.eclipse.generate_view">
+			<menu
+				label="%openlegacy"
+				path="additions"
+				id="org.openlegacy.ide.eclipse.right_menu">
+				<separator name="generate">
+				</separator>
+			</menu>
+			<action
+				label="%generate_view"
+				class="org.openlegacy.ide.eclipse.actions.GenerateViewAction"
+				menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
+				id="org.openlegacy.ide.eclipse.actions.generateView">
+			</action>
+		</objectContribution>
+		<objectContribution
+			objectClass="org.eclipse.jdt.core.ICompilationUnit"
+			id="org.openlegacy.ide.eclipse.generate_controller">
+			<menu
+				label="%openlegacy"
+				path="additions"
+				id="org.openlegacy.ide.eclipse.right_menu">
+				<separator name="generate">
+				</separator>
+			</menu>
+			<action
+				label="%generate_controller"
+				class="org.openlegacy.ide.eclipse.actions.GenerateControllerAction"
+				menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
+				id="org.openlegacy.ide.eclipse.actions.generateController">
+			</action>
+		</objectContribution>
+		<objectContribution
+			objectClass="org.eclipse.jdt.core.ICompilationUnit"
+			id="org.openlegacy.ide.eclipse.generate_service">
+			<menu
+				label="%openlegacy"
+				path="additions"
+				id="org.openlegacy.ide.eclipse.right_menu">
+				<separator name="generate">
+				</separator>
+			</menu>
+			<action
+				label="%generate_service"
+				class="org.openlegacy.ide.eclipse.actions.GenerateServiceAction"
+				menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
+				id="org.openlegacy.ide.eclipse.actions.generateService">
+			</action>
+		</objectContribution>
+		<objectContribution
+			objectClass="org.eclipse.core.resources.IFile"
+			nameFilter="*.cbl"
+			id="org.openlegacy.ide.eclipse.generate_cobol_contribution">
+			<menu
+				label="%openlegacy_menu_label"
+				path="additions"
+				id="org.openlegacy.ide.eclipse.right_menu">
+				<separator name="generate">
+				</separator>
+			</menu>
+			<action
+				label="%generate_model_menu_label"
+				class="org.openlegacy.ide.eclipse.actions.rpc.GenerateRpcModelAction"
+				menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
+				enablesFor="1"
+				id="org.openlegacy.ide.eclipse.actions.generateRpcModel">
+			</action>
+		</objectContribution>
+		<objectContribution
+			objectClass="org.eclipse.core.resources.IFile"
+			nameFilter="*.rpg"
+			id="org.openlegacy.ide.eclipse.generate_rpg_contribution">
+			<menu
+				label="%openlegacy_menu_label"
+				path="additions"
+				id="org.openlegacy.ide.eclipse.right_menu">
+				<separator name="generate">
+				</separator>
+			</menu>
+			<action
+				label="%generate_model_menu_label"
+				class="org.openlegacy.ide.eclipse.actions.rpc.GenerateRpcModelAction"
+				menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
+				enablesFor="1"
+				id="org.openlegacy.ide.eclipse.actions.generateRpcModel">
+			</action>
+		</objectContribution>
+		<objectContribution
+			objectClass="org.eclipse.core.resources.IFile"
+			nameFilter="*.cpy"
+			id="org.openlegacy.ide.eclipse.generate_copybook_contribution">
+			<menu
+				label="%openlegacy_menu_label"
+				path="additions"
+				id="org.openlegacy.ide.eclipse.right_menu">
+				<separator name="generate">
+				</separator>
+			</menu>
+			<action
+				label="%generate_model_menu_label"
+				class="org.openlegacy.ide.eclipse.actions.rpc.GenerateRpcModelAction"
+				menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
+				enablesFor="1"
+				id="org.openlegacy.ide.eclipse.actions.generateRpcModel">
+			</action>
+		</objectContribution>
+		<objectContribution
+			objectClass="org.eclipse.core.resources.IFile"
+			nameFilter="*.pcml"
+			id="org.openlegacy.ide.eclipse.generate_pcml_contribution">
+			<menu
+				label="%openlegacy_menu_label"
+				path="additions"
+				id="org.openlegacy.ide.eclipse.right_menu">
+				<separator name="generate">
+				</separator>
+			</menu>
+			<action
+				label="%generate_model_menu_label"
+				class="org.openlegacy.ide.eclipse.actions.rpc.GenerateRpcModelAction"
+				menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
+				enablesFor="1"
+				id="org.openlegacy.ide.eclipse.actions.generateRpcModel">
+			</action>
+		</objectContribution>
+	</extension>
 
-   <extension
-         point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            objectClass="org.eclipse.core.resources.IProject"
-            id="org.openlegacy.ide.eclipse.generate_trail_contribution">
-         <menu
-               label="OpenLegacy"
-               path="additions"
-               id="org.openlegacy.ide.eclipse.right_menu">
-            <separator
-                  name="customize">
-            </separator>
-         </menu>
-         <action
-               label="%customize_code_templates"
-               class="org.openlegacy.ide.eclipse.actions.CustomizeCodeTemplatesAction"
-               menubarPath="org.openlegacy.ide.eclipse.right_menu/customize"
-               enablesFor="1"
-               id="org.openlegacy.ide.eclipse.actions.customizeCodeTemplate">
-         </action>
-         <action
-               label="%customize_designtime_context"
-               class="org.openlegacy.ide.eclipse.actions.CustomizeDesigntimeContextAction"
-               menubarPath="org.openlegacy.ide.eclipse.right_menu/customize"
-               enablesFor="1"
-               id="org.openlegacy.ide.eclipse.actions.customizeContext">
-         </action>
-          <action
-               label="%import_source"
-               class="org.openlegacy.ide.eclipse.actions.ImportSourceAction"
-               menubarPath="org.openlegacy.ide.eclipse.right_menu/import"
-               enablesFor="1"
-               id="org.openlegacy.ide.eclipse.actions.import_source">
-         </action>
-      </objectContribution>
-      <objectContribution
-            objectClass="org.eclipse.core.resources.IFile"
-            nameFilter="*.trail" 
-            id="org.openlegacy.ide.eclipse.generate_trail_contribution">
-         <menu
-               label="%openlegacy_menu_label"
-               path="additions"
-               id="org.openlegacy.ide.eclipse.right_menu">
-            <separator
-                  name="generate">
-            </separator>
-         </menu>
-         <action
-               label="%generate_model_menu_label"
-               class="org.openlegacy.ide.eclipse.actions.screen.GenerateScreenModelAction"
-               menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
-               enablesFor="1"
-               id="org.openlegacy.ide.eclipse.actions.generateModel">
-         </action>
-      </objectContribution>
-      <objectContribution
-            objectClass="org.eclipse.jdt.core.ICompilationUnit"
-            id="org.openlegacy.ide.eclipse.generate_view">
-         <menu
-               label="%openlegacy"
-               path="additions"
-               id="org.openlegacy.ide.eclipse.right_menu">
-            <separator
-                  name="generate">
-            </separator>
-         </menu>
-         <action
-               label="%generate_view"
-               class="org.openlegacy.ide.eclipse.actions.GenerateViewAction"
-               menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
-               id="org.openlegacy.ide.eclipse.actions.generateView">
-         </action>
-      </objectContribution>
-      <objectContribution
-            objectClass="org.eclipse.jdt.core.ICompilationUnit"
-            id="org.openlegacy.ide.eclipse.generate_controller">
-         <menu
-               label="%openlegacy"
-               path="additions"
-               id="org.openlegacy.ide.eclipse.right_menu">
-            <separator
-                  name="generate">
-            </separator>
-         </menu>
-         <action
-               label="%generate_controller"
-               class="org.openlegacy.ide.eclipse.actions.GenerateControllerAction"
-               menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
-               id="org.openlegacy.ide.eclipse.actions.generateController">
-         </action>
-      </objectContribution>
-      <objectContribution
-            objectClass="org.eclipse.jdt.core.ICompilationUnit"
-            id="org.openlegacy.ide.eclipse.generate_service">
-         <menu
-               label="%openlegacy"
-               path="additions"
-               id="org.openlegacy.ide.eclipse.right_menu">
-            <separator
-                  name="generate">
-            </separator>
-         </menu>
-         <action
-               label="%generate_service"
-               class="org.openlegacy.ide.eclipse.actions.GenerateServiceAction"
-               menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
-               id="org.openlegacy.ide.eclipse.actions.generateService">
-         </action>
-      </objectContribution>
-      <objectContribution
-            objectClass="org.eclipse.core.resources.IFile"
-            nameFilter="*.cbl" 
-            id="org.openlegacy.ide.eclipse.generate_cobol_contribution">
-         <menu
-               label="%openlegacy_menu_label"
-               path="additions"
-               id="org.openlegacy.ide.eclipse.right_menu">
-            <separator
-                  name="generate">
-            </separator>
-         </menu>
-         <action
-               label="%generate_model_menu_label"
-               class="org.openlegacy.ide.eclipse.actions.rpc.GenerateRpcModelAction"
-               menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
-               enablesFor="1"
-               id="org.openlegacy.ide.eclipse.actions.generateRpcModel">
-         </action>
-      </objectContribution>
-      <objectContribution
-            objectClass="org.eclipse.core.resources.IFile"
-            nameFilter="*.rpg" 
-            id="org.openlegacy.ide.eclipse.generate_rpg_contribution">
-         <menu
-               label="%openlegacy_menu_label"
-               path="additions"
-               id="org.openlegacy.ide.eclipse.right_menu">
-            <separator
-                  name="generate">
-            </separator>
-         </menu>
-         <action
-               label="%generate_model_menu_label"
-               class="org.openlegacy.ide.eclipse.actions.rpc.GenerateRpcModelAction"
-               menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
-               enablesFor="1"
-               id="org.openlegacy.ide.eclipse.actions.generateRpcModel">
-         </action>
-      </objectContribution>
-      <objectContribution
-            objectClass="org.eclipse.core.resources.IFile"
-            nameFilter="*.cpy" 
-            id="org.openlegacy.ide.eclipse.generate_copybook_contribution">
-         <menu
-               label="%openlegacy_menu_label"
-               path="additions"
-               id="org.openlegacy.ide.eclipse.right_menu">
-            <separator
-                  name="generate">
-            </separator>
-         </menu>
-         <action
-               label="%generate_model_menu_label"
-               class="org.openlegacy.ide.eclipse.actions.rpc.GenerateRpcModelAction"
-               menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
-               enablesFor="1"
-               id="org.openlegacy.ide.eclipse.actions.generateRpcModel">
-         </action>
-      </objectContribution>
-      <objectContribution
-            objectClass="org.eclipse.core.resources.IFile"
-            nameFilter="*.pcml" 
-            id="org.openlegacy.ide.eclipse.generate_pcml_contribution">
-         <menu
-               label="%openlegacy_menu_label"
-               path="additions"
-               id="org.openlegacy.ide.eclipse.right_menu">
-            <separator
-                  name="generate">
-            </separator>
-         </menu>
-         <action
-               label="%generate_model_menu_label"
-               class="org.openlegacy.ide.eclipse.actions.rpc.GenerateRpcModelAction"
-               menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
-               enablesFor="1"
-               id="org.openlegacy.ide.eclipse.actions.generateRpcModel">
-         </action>
-      </objectContribution>
-   </extension>
-   
-   <extension
-         point="org.eclipse.ui.newWizards">
-      <category
-            name="%openlegacy"
-            id="org.openlegacy.ide.eclipse">
-      </category>
-      <wizard
-            name="%openlegacy_project"
-            icon="icons/openlegacy.png"
-            category="org.openlegacy.ide.eclipse"
-            class="org.openlegacy.ide.eclipse.wizards.project.organized.OpenLegacyNewProjectWizard"
-            project="true"
-            id="org.openlegacy.ide.eclipse.wizards.organized.OpenLegacyNewProjectWizard">
-      </wizard>
-   </extension>
+	<extension point="org.eclipse.ui.newWizards">
+		<category
+			name="%openlegacy"
+			id="org.openlegacy.ide.eclipse">
+		</category>
+		<wizard
+			name="%openlegacy_project"
+			icon="icons/openlegacy.png"
+			category="org.openlegacy.ide.eclipse"
+			class="org.openlegacy.ide.eclipse.wizards.project.organized.OpenLegacyNewProjectWizard"
+			project="true"
+			id="org.openlegacy.ide.eclipse.wizards.organized.OpenLegacyNewProjectWizard">
+		</wizard>
+	</extension>
 
-   <extension
-         id="org.openlegacy.ide.eclipse.builder"
-         name="OpenLegacy Project Builder"
-         point="org.eclipse.core.resources.builders">
-      <builder
-            hasNature="true">
-         <run
-               class="org.openlegacy.ide.eclipse.builder.OpenLegacyBuilder">
-         </run>
-      </builder>
-   </extension>
-   <extension
-         id="org.openlegacy.ide.eclipse.nature"
-         name="OpenLegacy Project Nature"
-         point="org.eclipse.core.resources.natures">
-      <runtime>
-         <run
-               class="org.openlegacy.ide.eclipse.builder.OpenLegacyNature">
-         </run>
-      </runtime>
-      <builder
-            id="org.openlegacy.ide.eclipse.builder">
-      </builder>
-   </extension>
+	<extension
+		id="org.openlegacy.ide.eclipse.builder"
+		name="OpenLegacy Project Builder"
+		point="org.eclipse.core.resources.builders">
+		<builder hasNature="true">
+			<run class="org.openlegacy.ide.eclipse.builder.OpenLegacyBuilder">
+			</run>
+		</builder>
+	</extension>
+	<extension
+		id="org.openlegacy.ide.eclipse.nature"
+		name="OpenLegacy Project Nature"
+		point="org.eclipse.core.resources.natures">
+		<runtime>
+			<run class="org.openlegacy.ide.eclipse.builder.OpenLegacyNature">
+			</run>
+		</runtime>
+		<builder id="org.openlegacy.ide.eclipse.builder">
+		</builder>
+	</extension>
 
 	<extension point="org.eclipse.ui.perspectives">
-		<perspective name="OpenLegacy" icon="icons/openlegacy.png" class="org.openlegacy.ide.eclipse.OpenLegacyPerspective" id="org.openlegacy.ide.eclipse.openlegacyPerspective">
+		<perspective
+			name="OpenLegacy"
+			icon="icons/openlegacy.png"
+			class="org.openlegacy.ide.eclipse.OpenLegacyPerspective"
+			id="org.openlegacy.ide.eclipse.openlegacyPerspective">
 		</perspective>
 	</extension>
 
 	<extension point="org.eclipse.ui.navigator.navigatorContent">
-		<commonFilter class="org.openlegacy.ide.eclipse.OpenLegacyProjectFilter" description="Hides generated aspects" id="org.openlegacy.ide.eclipse.OpenLegacyProjectFilter" name="OpenLegacy Aspect hidden resources" activeByDefault="true" />
+		<commonFilter
+			class="org.openlegacy.ide.eclipse.OpenLegacyProjectFilter"
+			description="Hides generated aspects"
+			id="org.openlegacy.ide.eclipse.OpenLegacyProjectFilter"
+			name="OpenLegacy Aspect hidden resources"
+			activeByDefault="true" />
 	</extension>
 
 	<extension point="org.eclipse.ui.navigator.viewer">
@@ -251,112 +250,104 @@
 		</viewerContentBinding>
 	</extension>
 
-   <extension
-         point="org.eclipse.ui.editors">
-      <editor
-            name="Trail Editor"
-            icon="icons/trail.png"
-            class="org.openlegacy.ide.eclipse.editors.TrailEditor"
-            id="org.openlegacy.ide.eclipse.editors.TrailEditor">
-            <contentTypeBinding contentTypeId="org.openlegacy.ide.eclipse.editors.trailXmlFile" />
-      </editor>
-   </extension>
+	<extension point="org.eclipse.ui.editors">
+		<editor
+			name="Trail Editor"
+			icon="icons/trail.png"
+			class="org.openlegacy.ide.eclipse.editors.TrailEditor"
+			id="org.openlegacy.ide.eclipse.editors.TrailEditor">
+			<contentTypeBinding contentTypeId="org.openlegacy.ide.eclipse.editors.trailXmlFile" />
+		</editor>
+	</extension>
 
 	<extension point="org.eclipse.core.contenttype.contentTypes">
-      	<content-type id="org.openlegacy.ide.eclipse.editors.trailXmlFile" 
-      		base-type="org.eclipse.core.runtime.xml"
-			file-extensions="trail" 
-			name="%openlegacy_trail_file" 
+		<content-type
+			id="org.openlegacy.ide.eclipse.editors.trailXmlFile"
+			base-type="org.eclipse.core.runtime.xml"
+			file-extensions="trail"
+			name="%openlegacy_trail_file"
 			priority="normal">
-		 </content-type>
-	</extension> 
+		</content-type>
+	</extension>
 
-   <extension
-         point="org.eclipse.ui.views">
-      <category
-            name="OpenLegacy"
-            id="org.openlegacy.ide.eclipse.preview">
-      </category>
-      <view
-            name="Screen Preview"
-            icon="icons/openlegacy.png"
-            category="org.openlegacy.ide.eclipse.preview"
-            class="org.openlegacy.ide.eclipse.preview.screen.ScreenPreview"
-            id="org.openlegacy.ide.eclipse.preview.ScreenPreview">
-      </view>
-      <view
-            name="RPC Preview"
-            icon="icons/openlegacy.png"
-            category="org.openlegacy.ide.eclipse.preview"
-            class="org.openlegacy.ide.eclipse.preview.rpc.RpcPreview"
-            id="org.openlegacy.ide.eclipse.preview.RpcPreview">
-      </view>
-   </extension>
-   
-   <extension
-         point="org.eclipse.ui.preferencePages">
-      <page
-            class="org.openlegacy.ide.eclipse.ui.preferences.OpenLegacyPreferencePage"
-            id="org.openlegacy.ide.eclipse.ui.preferences.OpenLegacyPreferencePage"
-            name="%openlegacy_preference_page_name">
-      </page>
-   </extension>
-   <extension
-         point="org.eclipse.core.runtime.preferences">
-      <initializer
-            class="org.openlegacy.ide.eclipse.ui.preferences.PreferenceInitializer">
-      </initializer>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="menu:org.openlegacy.ide.eclipse.preview.ScreenPreview">
-         <command
-               commandId="org.openlegacy.ide.eclipse.preview.ZoomIn"
-               icon="icons/zoom-in.png"
-               label="Zoom In"
-               style="push"
-               tooltip="Zoom In trail image">
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="menu:org.openlegacy.ide.eclipse.preview.RpcPreview">
-         <command
-               commandId="org.openlegacy.ide.eclipse.preview.ZoomIn"
-               icon="icons/zoom-in.png"
-               label="Zoom In"
-               style="push"
-               tooltip="Zoom In trail image">
-         </command>
-      </menuContribution>
-   </extension>
-   <extension
-         point="org.eclipse.ui.commands">
-      <command
-            defaultHandler="org.openlegacy.ide.eclipse.preview.commands.ZoomInHandler"
-            id="org.openlegacy.ide.eclipse.preview.ZoomIn"
-            name="Zoom In">
-      </command>
-   </extension>
-   <extension point="org.eclipse.ltk.core.refactoring.renameParticipants">
-      <renameParticipant
-            class="org.openlegacy.ide.eclipse.refactoring.OpenLegacyEntityRenameParticipant"
-            id="org.openlegacy.ide.eclipse.refactoring.OpenLegacyEntityRenameParticipant"
-            name="OpenLegacy Entity Rename Participant">
-         <enablement>
-             <with variable="affectedNatures">
-                <iterate operator="or">
-                    <equals value="org.openlegacy.ide.eclipse.nature"/>
-                </iterate>
-             </with>
-             <with variable="element">
-                 <instanceof value="org.eclipse.jdt.core.ICompilationUnit"/>
-             </with>
-         </enablement>
-      </renameParticipant>
-   </extension>
-   
-   
+	<extension point="org.eclipse.ui.views">
+		<category
+			name="OpenLegacy"
+			id="org.openlegacy.ide.eclipse.preview">
+		</category>
+		<view
+			name="Screen Preview"
+			icon="icons/openlegacy.png"
+			category="org.openlegacy.ide.eclipse.preview"
+			class="org.openlegacy.ide.eclipse.preview.screen.ScreenPreview"
+			id="org.openlegacy.ide.eclipse.preview.ScreenPreview">
+		</view>
+		<view
+			name="RPC Preview"
+			icon="icons/openlegacy.png"
+			category="org.openlegacy.ide.eclipse.preview"
+			class="org.openlegacy.ide.eclipse.preview.rpc.RpcPreview"
+			id="org.openlegacy.ide.eclipse.preview.RpcPreview">
+		</view>
+	</extension>
+
+	<extension point="org.eclipse.ui.preferencePages">
+		<page
+			class="org.openlegacy.ide.eclipse.ui.preferences.OpenLegacyPreferencePage"
+			id="org.openlegacy.ide.eclipse.ui.preferences.OpenLegacyPreferencePage"
+			name="%openlegacy_preference_page_name">
+		</page>
+	</extension>
+	<extension point="org.eclipse.core.runtime.preferences">
+		<initializer class="org.openlegacy.ide.eclipse.ui.preferences.PreferenceInitializer">
+		</initializer>
+	</extension>
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution
+			allPopups="false"
+			locationURI="menu:org.openlegacy.ide.eclipse.preview.ScreenPreview">
+			<command
+				commandId="org.openlegacy.ide.eclipse.preview.ZoomIn"
+				icon="icons/zoom-in.png"
+				label="Zoom In"
+				style="push"
+				tooltip="Zoom In trail image">
+			</command>
+		</menuContribution>
+		<menuContribution
+			allPopups="false"
+			locationURI="menu:org.openlegacy.ide.eclipse.preview.RpcPreview">
+			<command
+				commandId="org.openlegacy.ide.eclipse.preview.ZoomIn"
+				icon="icons/zoom-in.png"
+				label="Zoom In"
+				style="push"
+				tooltip="Zoom In trail image">
+			</command>
+		</menuContribution>
+	</extension>
+	<extension point="org.eclipse.ui.commands">
+		<command
+			defaultHandler="org.openlegacy.ide.eclipse.preview.commands.ZoomInHandler"
+			id="org.openlegacy.ide.eclipse.preview.ZoomIn"
+			name="Zoom In">
+		</command>
+	</extension>
+	<extension point="org.eclipse.ltk.core.refactoring.renameParticipants">
+		<renameParticipant
+			class="org.openlegacy.ide.eclipse.refactoring.OpenLegacyEntityRenameParticipant"
+			id="org.openlegacy.ide.eclipse.refactoring.OpenLegacyEntityRenameParticipant"
+			name="OpenLegacy Entity Rename Participant">
+			<enablement>
+				<with variable="affectedNatures">
+					<iterate operator="or">
+						<equals value="org.openlegacy.ide.eclipse.nature" />
+					</iterate>
+				</with>
+				<with variable="element">
+					<instanceof value="org.eclipse.jdt.core.ICompilationUnit" />
+				</with>
+			</enablement>
+		</renameParticipant>
+	</extension>
 </plugin>

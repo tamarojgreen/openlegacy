@@ -35,7 +35,7 @@
 				<!-- Properties relative to the 
 				distant host where to upload the repo -->
 				<updatesite.ftp.url>ftp://eclipse.openlegacy.org</updatesite.ftp.url>
-				<updatesite.ftp.toDir>/updatesite/1.2/</updatesite.ftp.toDir>
+				<updatesite.ftp.toDir>/updatesite/2.1/</updatesite.ftp.toDir>
 				<!-- Relative path to the repo being uploaded -->
 				<repo.path>${project.build.directory}/repository/</repo.path>
 			</properties>

@@ -50,6 +50,9 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 
 	private static final long serialVersionUID = 1L;
 
+	@XmlAttribute
+	private Integer sequence = 0;
+
 	@XmlAttribute(name = "type")
 	private SnapshotType snapshotType;
 
@@ -73,9 +76,6 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 
 	@XmlTransient
 	private List<TerminalField> fields;
-
-	@XmlAttribute
-	private Integer sequence = 0;
 
 	@XmlAttribute
 	private Boolean rightToLeft = false;

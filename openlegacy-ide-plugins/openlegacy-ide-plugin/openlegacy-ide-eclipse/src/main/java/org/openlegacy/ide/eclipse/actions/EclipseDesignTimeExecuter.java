@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse.actions;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -373,6 +374,19 @@ public class EclipseDesignTimeExecuter {
 
 	public String translate(String text, File projectPath) {
 		return designTimeExecuter.translate(text, projectPath);
+	}
+
+	public boolean isSupportDirectDeployment(IProject project) {
+		IFile pomFile = project.getFile("pom.xml");
+		if (!pomFile.exists()) {
+			return false;
+		}
+		try {
+			String content = IOUtils.toString(pomFile.getContents());
+			return content.matches("(?s).*<packaging>war</packaging>.*");
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 }

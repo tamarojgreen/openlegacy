@@ -428,6 +428,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		pomFileContent = replaceFirstAttribute("artifactId", projectName, pomFileContent);
 		pomFileContent = replaceFirstAttribute("groupId", projectName, pomFileContent);
 		pomFileContent = replaceFirstAttribute("name", projectName, pomFileContent);
+		pomFileContent = replaceFirstAttribute("finalName", projectName, pomFileContent);
 		pomFileContent = replaceFirstAttribute("warName", projectName, pomFileContent);
 		pomFileContent = replaceFirstAttribute("version", DEFAULT_NEW_PROJECT_VERSION, pomFileContent);
 		String openlegacyVersion = DesignTimeExecuterImpl.class.getPackage().getImplementationVersion();
