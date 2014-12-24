@@ -48,7 +48,7 @@ public class ScreenEntityActionsSorter implements IEntityActionsSorter {
 			ScreenAnnotationConstants.PREV_SCREEN_ACTION, ScreenAnnotationConstants.SUPPORT_TERMINAL_DATA,
 			ScreenAnnotationConstants.SCROLLABLE, ScreenAnnotationConstants.TABLE_COLLECTOR, ScreenAnnotationConstants.ROW_GAPS,
 			ScreenAnnotationConstants.SCREENS_COUNT, ScreenAnnotationConstants.FILTER_EXPRESSION,
-			ScreenAnnotationConstants.RIGHT_TO_LEFT);
+			ScreenAnnotationConstants.STOP_EXPRESSION, ScreenAnnotationConstants.RIGHT_TO_LEFT);
 
 	public List<AbstractAction> sort(List<AbstractAction> actions) {
 		if ((actions == null) || actions.isEmpty()) {

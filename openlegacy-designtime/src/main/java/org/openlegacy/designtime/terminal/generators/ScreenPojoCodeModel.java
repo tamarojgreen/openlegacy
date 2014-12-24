@@ -74,4 +74,6 @@ public interface ScreenPojoCodeModel extends PojoCodeModel {
 
 	String getFilterExpression();
 
+	String getStopExpression();
+
 }

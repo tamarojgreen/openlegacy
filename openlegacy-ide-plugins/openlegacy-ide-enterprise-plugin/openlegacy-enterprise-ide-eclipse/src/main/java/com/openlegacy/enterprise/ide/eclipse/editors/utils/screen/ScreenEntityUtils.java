@@ -966,6 +966,11 @@ public class ScreenEntityUtils {
 			isDefault = !model.isRightToLeft();
 			PrivateMethods.addRemoveScreenTableAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, ScreenAnnotationConstants.RIGHT_TO_LEFT, model.isRightToLeft());
+			// @ScreenTable.stopExpression: default ""
+			isPrevious = StringUtils.equals(entityModel.getStopExpression(), model.getStopExpression());
+			isDefault = StringUtils.isEmpty(model.getStopExpression());
+			PrivateMethods.addRemoveScreenTableAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, ScreenAnnotationConstants.STOP_EXPRESSION, model.getStopExpression());
 		}
 
 		/**

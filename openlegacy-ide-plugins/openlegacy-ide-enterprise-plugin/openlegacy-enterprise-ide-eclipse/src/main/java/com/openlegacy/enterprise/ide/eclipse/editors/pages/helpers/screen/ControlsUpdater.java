@@ -486,6 +486,8 @@ public class ControlsUpdater {
 				text.setText(Integer.toString(tableModel.getScreensCount()));
 			} else if (key.equals(ScreenAnnotationConstants.FILTER_EXPRESSION)) {
 				text.setText(tableModel.getFilterExpression());
+			} else if (key.equals(ScreenAnnotationConstants.STOP_EXPRESSION)) {
+				text.setText(tableModel.getStopExpression());
 			}
 		}
 		// update Combo controls

@@ -694,6 +694,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	// @ScreenTable, refs assembla #185
 	private String filterExpression = "";
 
+	private String stopExpression = "";
+
 	private ClassOrInterfaceDeclaration entityDeclaration;
 
 	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
@@ -906,6 +908,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		String screensCountFromAnnotation = null;
 		String autoMapKeyboardActionsFromAnnotation = null;
 		String filterExpressionFromAnnotation = null;
+		String stopExpressionFromAnnotation = null;
 
 		if (annotationExpr instanceof NormalAnnotationExpr) {
 			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
@@ -938,6 +941,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 					pairs);
 
 			filterExpressionFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.FILTER_EXPRESSION, pairs);
+			stopExpressionFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.STOP_EXPRESSION, pairs);
 		}
 		supportTerminalData = supportTerminalDataString != null && supportTerminalDataString.equals(AnnotationConstants.TRUE);
 
@@ -983,6 +987,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		screensCount = screensCountFromAnnotation != null ? Integer.valueOf(screensCountFromAnnotation) : 1;
 		autoMapKeyboardActions = StringConstants.TRUE.equals(autoMapKeyboardActionsFromAnnotation) ? true : false;
 		filterExpression = filterExpressionFromAnnotation != null ? StringUtil.stripQuotes(filterExpressionFromAnnotation) : "";
+		stopExpression = stopExpressionFromAnnotation != null ? StringUtil.stripQuotes(stopExpressionFromAnnotation) : "";
 	}
 
 	@Override
@@ -1183,6 +1188,11 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	@Override
 	public String getFilterExpression() {
 		return filterExpression;
+	}
+
+	@Override
+	public String getStopExpression() {
+		return stopExpression;
 	}
 
 }

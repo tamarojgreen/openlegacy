@@ -510,6 +510,8 @@ public class ModelUpdater {
 				model.setScreensCount(text.isEmpty() ? 0 : Integer.valueOf(text));
 			} else if (key.equals(ScreenAnnotationConstants.FILTER_EXPRESSION)) {
 				model.setFilterExpression(StringUtils.isEmpty(text) ? "" : text);
+			} else if (key.equals(ScreenAnnotationConstants.STOP_EXPRESSION)) {
+				model.setStopExpression(StringUtils.isEmpty(text) ? "" : text);
 			}
 		}
 		if (selection != null) {

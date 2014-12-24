@@ -44,6 +44,7 @@ public class ScreenTableModel extends ScreenNamedObject {
 	private int screensCount = 1;
 	private String filterExpression = "";
 	private boolean rightToLeft = false;
+	private String stopExpression = "";
 	// other
 	private Map<UUID, ScreenColumnModel> columns = new HashMap<UUID, ScreenColumnModel>();
 	private Map<UUID, TableActionModel> actions = new HashMap<UUID, TableActionModel>();
@@ -127,6 +128,7 @@ public class ScreenTableModel extends ScreenNamedObject {
 		}
 		this.filterExpression = tableDefinition.getFilterExpression();
 		this.rightToLeft = tableDefinition.isRightToLeft();
+		this.stopExpression = tableDefinition.getStopExpression();
 
 		this.nextScreenActionName = tableDefinition.getNextScreenActionName();
 		this.previousScreenActionName = tableDefinition.getPreviousScreenActionName();
@@ -152,6 +154,7 @@ public class ScreenTableModel extends ScreenNamedObject {
 		model.setScreensCount(this.screensCount);
 		model.setFilterExpression(this.filterExpression);
 		model.setRightToLeft(this.rightToLeft);
+		model.setStopExpression(this.stopExpression);
 
 		model.setNextScreenActionName(this.nextScreenActionName);
 		model.setPreviousScreenActionName(this.previousScreenActionName);
@@ -362,6 +365,14 @@ public class ScreenTableModel extends ScreenNamedObject {
 
 	public void setRightToLeft(boolean rightToLeft) {
 		this.rightToLeft = rightToLeft;
+	}
+
+	public String getStopExpression() {
+		return stopExpression;
+	}
+
+	public void setStopExpression(String stopExpression) {
+		this.stopExpression = stopExpression;
 	}
 
 	public boolean isInitialized() {

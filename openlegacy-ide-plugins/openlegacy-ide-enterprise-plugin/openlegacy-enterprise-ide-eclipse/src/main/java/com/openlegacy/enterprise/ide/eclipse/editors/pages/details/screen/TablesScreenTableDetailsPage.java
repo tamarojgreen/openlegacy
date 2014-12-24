@@ -169,6 +169,9 @@ public class TablesScreenTableDetailsPage extends AbstractScreenDetailsPage {
 		// create row for "rightToLeft"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
 				Messages.getString("ScreenTable.rightToLeft"), false, ScreenAnnotationConstants.RIGHT_TO_LEFT);//$NON-NLS-1$
+		// create row for "stopExpression"
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("ScreenTable.stopExpression"), "", ScreenAnnotationConstants.STOP_EXPRESSION);//$NON-NLS-1$ //$NON-NLS-2$
 
 		toolkit.paintBordersFor(section);
 		section.setClient(client);

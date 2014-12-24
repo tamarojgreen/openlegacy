@@ -87,7 +87,6 @@ import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.utils.StringUtil;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;

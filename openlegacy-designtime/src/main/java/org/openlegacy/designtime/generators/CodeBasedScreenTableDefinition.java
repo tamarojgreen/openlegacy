@@ -304,8 +304,7 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 
 	@Override
 	public String getStopExpression() {
-		throwNotImplemented();
-		return null;
+		return codeModel.getStopExpression();
 	}
 
 }
