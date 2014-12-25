@@ -383,7 +383,7 @@ public abstract class AbstractRestController {
 			getSession().getModule(org.openlegacy.modules.login.Login.class).login(login.getUser(), login.getPassword());
 		} catch (LoginException e) {
 			getSession().disconnect();
-			sendError(HttpServletResponse.SC_UNAUTHORIZED, "User unauthorized!", response);
+			sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage(), response);
 		} catch (Exception e) {
 			sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid login", response);
 			logger.fatal("Invalid login", e);

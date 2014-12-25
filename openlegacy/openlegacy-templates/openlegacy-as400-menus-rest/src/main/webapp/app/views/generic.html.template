@@ -10,7 +10,7 @@
 </#if>
 
 <div class="panel panel-default">
-	<div class="panel-body">
+	<div class="panel-body">	
 		<#if (entityDefinition.childEntitiesDefinitions?size > 0)>
 			<div class="tab-content top-margin-10">
 				<ul class="nav nav-tabs">
@@ -21,7 +21,7 @@
 				</ul>
 				<div class="tab-content"><!-- Tab panes -->
 					<div class="tab-pane active" id="${entityDefinition.entityName}">
-						<@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>
+						<#if !entityDefinition.window><@navMacro entity=entityDefinition showExcelBtn=hasTable?string/></#if>
 						<#list pageParts as part>
 							<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>
 							<@pagePart entity=entityDefinition part=part/>
@@ -30,7 +30,7 @@
 					
 					<#list childPagesDefinitions as childPage>		            			
 	        			<div class="tab-pane" id="${childPage.entityDefinition.entityName}">			            					            				
-						    <@navMacro entity=childPage.entityDefinition showExcelBtn=hasTable?string/>
+						    <#if !entityDefinition.window><@navMacro entity=childPage.entityDefinition showExcelBtn=hasTable?string/></#if>
 						    <#if (childPage.pageParts?size > 0)>
 						    	<#list childPage.pageParts as part>
 									<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>		
@@ -46,12 +46,13 @@
 				</div><!-- /Tab panes -->
 			</div>
 		<#else>
-			<@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>
+			<#if !entityDefinition.window><@navMacro entity=entityDefinition showExcelBtn=hasTable?string/></#if>
 			<#list pageParts as part>
 				<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>
 				<@pagePart entity=entityDefinition part=part/>
 			</#list>
 		</#if>
+		<#if !entityDefinition.window>
 		<a data-toggle="modal" data-target=".ol-screenshot" class="clickable">Show screenshot</a>
 		<div class="modal fade ol-screenshot" tabindex="-1" role="dialog" aria-labelledby="screenshotModal" aria-hidden="true">
         	<div class="modal-dialog modal-lg">
@@ -59,7 +60,8 @@
                     <img src="{{baseUrl}}sessionViewer/image?random=${entityDefinition.entityName}" class="img-thumbnail">
                 </div>
             </div>
-        </div> 
+        </div>
+        </#if> 
 	</div>
 </div>									
 										
@@ -157,13 +159,13 @@
 		            </button>
 		        </div>                
 			<#else>
-				<form role="form">			
+				<form role="form">
 					<#list part.partRows as partRow>
 							<div class="row">
 							<#assign colWidth = (6/partRow.fields?size)?ceiling>
 							<#list partRow.fields as field>
 								<div class="col-sm-${colWidth}">
-									<#if field??>
+									<#if field??>									
 									<@fieldMacro field=field/>
 									</#if>
 								</div>
@@ -179,14 +181,14 @@
 
 <#macro fieldMacro field>
 	<div class="form-group">		
-		<label for="${field.name}" class="control-label">${field.displayName}<#if field.displayName?length &gt; 0>:</#if></label>
+		<label for="${field.name}" class="control-label">${field.displayName}<#if field.displayName?length &gt; 0>:</#if></label>		
 		<#if field.editable>
 			<#if field.fieldTypeDefinition??>
 				<#if field.fieldTypeDefinition.typeName == 'date'>
-					<input type="text" id="${field.name}" class="form-control" placeholder="mm/dd/yyyy" ng-model="model.${field.name}" bdatepicker />
+					<input type="text" id="${field.name}" placeholder="mm/dd/yyyy" ng-model="model.${field.name}" bdatepicker />
 				<#elseif field.fieldTypeDefinition.typeName == 'fieldWithValues'>				
 					<div class="input-group">
-					  <input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
+					  <input type="text" id="${field.name}" ng-model="model.${field.name}">
 					  <div class="input-group-btn">
 						  <button id="dropdownMenu" class="btn dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</button>
 						  <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu">
@@ -197,19 +199,19 @@
 					  </div>
 					</div>														
 				<#elseif field.fieldTypeDefinition.typeName == 'boolean'>
-					<input type="checkbox" class="form-control" id="${field.name}" ng-checked="model.${field.name}">											
+					<input type="checkbox" id="${field.name}" ng-checked="model.${field.name}">											
 				<#elseif field.fieldTypeDefinition.typeName == 'enum'>
-					<select class="form-control" id="${field.name}" ng-model="model.${field.name}">
+					<select id="${field.name}" ng-model="model.${field.name}">
 						<option value="">-- Select --</option>
 				        <#list field.fieldTypeDefinition.enums?keys as key>		
 							<option value="${key}">${field.fieldTypeDefinition.enums[key]}</option>
 						</#list>			
 					</select>											
 				<#else>
-					<input data-ng-class="readOnlyCss(model,'${field.name}')" data-ng-readonly="isReadOnly(model,'${field.name}')" type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
+					<input data-ng-class="readOnlyCss(model,'${field.name}')" data-ng-readonly="isReadOnly(model,'${field.name}')" type="text" id="${field.name}" ng-model="model.${field.name}">
 				</#if>
 	   		<#else>
-	   			<input data-ng-class="readOnlyCss(model,'${field.name}')" data-ng-readonly="isReadOnly(model,'${field.name}')" type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">	   			   			
+	   			<input data-ng-class="readOnlyCss(model,'${field.name}')" data-ng-readonly="isReadOnly(model,'${field.name}')" type="text" id="${field.name}" ng-model="model.${field.name}">	   				   			   			
 	   		</#if>
 	   	<#else>
 			<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'boolean'>
@@ -221,7 +223,10 @@
    				<span id="${field.name}Description" ng-model="model.${field.name}Description" class="readonly">{{model.${field.name}Description}}</span>
    				</#if>
 			</#if>		   	
-   		</#if>		
+   		</#if>
+   		<#if field.enableLookup>
+   			<img class="search" ng-click="doAction('${entityDefinition.entityName}', 'lookup-${field.name}')" src="icons/search.png" id="printerToUseSearch">
+   		</#if>			
 	</div>
 </#macro>
 

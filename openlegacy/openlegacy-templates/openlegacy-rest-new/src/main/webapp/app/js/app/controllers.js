@@ -108,9 +108,9 @@
 			'logoffCtrl',
 			function($scope, $olHttp, $rootScope) {				
 				$olHttp.get('logoff', 
-					function() {
-						$rootScope.hidePreloader();
+					function() {						
 						$.removeCookie("loggedInUser", {path: '/'});
+						$rootScope.hidePreloader();
 					}
 				);
 			});
@@ -123,11 +123,9 @@
 				
 				if ($.cookie('loggedInUser') != undefined) {
 					$scope.username = $.cookie('loggedInUser');
-				}
+				}				
 				
-				
-				$scope.logout = function(){
-					$rootScope.allowHidePreloader = false;
+				$scope.logout = function(){					
 					delete $scope.username
 					$state.go("logoff");
 				}
@@ -137,8 +135,7 @@
 				};
 				
 				$scope.showMessages = false;
-				$olHttp.get("messages", function(data){
-					$rootScope.hidePreloader();
+				$olHttp.get("messages", function(data){					
 					if (data.model != null && data.model != undefined && data.model != "") {						
 						$scope.showMessages = true;
 						
@@ -174,6 +171,9 @@
 			function($scope, flatMenu) {
 				flatMenu(function(data) {				
 					$scope.menuArray = data;
+					if ($state.current.name == 'menu') {
+						$rootScope.hidePreloader();
+					};
 				});
 			});
 		
@@ -249,8 +249,7 @@
 					}
 					$scope.read = function(){						  
 					      $olHttp.get('${entityDefinition.entityName}/' <#if entityDefinition.keys?size &gt; 0>+ $stateParams.${entityDefinition.keys[0].name?replace(".", "_")}</#if> + "?children=false",
-							function(data) {
-					    	  	$rootScope.hidePreloader();
+							function(data) {					    	  	
 								$scope.model = data.model.entity;							
 								$scope.baseUrl = olConfig.baseUrl;
 								$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
@@ -259,14 +258,20 @@
 								$scope.doActionNoTargetEntity = function() {					
 								    
 									$olHttp.post('${entityDefinition.entityName}/', clearObjectsFromPost($scope.model), function(data) {
-										if (data.model.entityName == '${entityDefinition.entityName}'){
+										if (data.model.entityName == '${entityDefinition.entityName}'){											
 											$scope.model = data.model.entity;
 											$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
 											$rootScope.hidePreloader();
-										}
-										else{
-											$rootScope.allowHidePreloader = false;
+										} else {
+											<#if entityDefinition.window>																						
+											$state.transitionTo($state.current, $stateParams, {
+											    reload: true,
+											    inherit: false,
+											    notify: true
+											});
+											<#else>
 											$state.go(data.model.entityName);
+											</#if>
 										}
 									});
 								};
@@ -278,16 +283,23 @@
 										if (tabsContent[entityName] == null) { 
 											$scope.model.actions=null;											
 											$olHttp.get(entityName + '/' <#if (entityDefinition.keys?size > 0)>+ $stateParams.${entityDefinition.keys[0].name}</#if> + "?children=false", 
-												function(data) {
-													$rootScope.hidePreloader();
+												function(data) {													
 													$scope.model = data.model.entity;
-													tabsContent[entityName] = data.model.entity; 
+													tabsContent[entityName] = data.model.entity;
+													$rootScope.hidePreloader();
 												});
 										} else {
 											$scope.model = tabsContent[entityName];
 										}					
 									};
 								</#if>
+								
+								$rootScope.hidePreloader();
+					    	  	<#if entityDefinition.window>
+					    	  		$rootScope.allowShowPreloader = false;
+					    	  	<#else>	
+					    	  		$rootScope.allowShowPreloader = true;
+					    	  	</#if>
 							}							
 						);
 					};		
@@ -302,6 +314,11 @@
 				    	} else {
 				    		var url = entityName + "?action=" + actionAlias;
 				    	}  
+						
+						if (actionAlias.indexOf("lookup-") > -1 || ${entityDefinition.window?string} == 'true') {
+							$rootScope.showPreloader(false);
+						}
+						
 						$olHttp.post(url,clearObjectsFromPost($scope.model), 
 							function(data) {
 								if (data == ""){
@@ -311,10 +328,19 @@
 								if (data.model.entityName == '${entityDefinition.entityName}'){
 									$rootScope.hidePreloader();
 									$scope.model = data.model.entity;								
-								}
-								else{					
-									$rootScope.allowHidePreloader = false;
-									$state.go(data.model.entityName);
+								} else {
+									<#list entitiesDefinitions as entity>
+										if ('${entity.entityName}' == data.model.entityName) {
+											<#if entity.window>						
+												$rootScope.modalInstance = $modal.open({
+													templateUrl: $state.get(data.model.entityName).views[""].templateUrl,
+													controller: $state.get(data.model.entityName).views[""].controller,										
+												});
+											<#else>
+												$state.go(data.model.entityName);
+											</#if>
+										}
+									</#list>									
 								}
 							}
 						);
@@ -341,13 +367,15 @@
 	
 		/* Controller code place-holder start
 		<#if entityName??>
-		module = module.controller('${entityName}Ctrl',
-					function($scope, $olHttp,$stateParams, flatMenu, $rootScope, $state) {
+				module = module.controller('${entityDefinition.entityName}Ctrl',
+				function($scope, $olHttp,$stateParams, flatMenu, $themeService, $rootScope, $state) {
 					$scope.noTargetScreenEntityAlert = function() {
 						alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 					}; 
 					
 					$scope.isReadOnly = function(data,column){
+						if (data == null) data = $scope.model;
+						if (data == null) return true;
 						var dataField = data[column + "Field"];
 						if (dataField != null){
 							return !dataField.editable;
@@ -355,6 +383,7 @@
 						return false;
 					}
 					$scope.readOnlyCss = function(data,column){
+						if (data == null) return "";
 						var dataField = data[column + "Field"];
 						if (dataField != null && !dataField.editable){
 							return "readonly";
@@ -378,7 +407,7 @@
 						if (data == null) return;
 						for (var key in data) {
 							  if (data.hasOwnProperty(key)) {
-					  			  if (key.indexOf("Field") > 0 || key.toLowerCase().indexOf("actions") >= 0 || key.indexOf("Snapshot") >= 0){
+								  if (key.indexOf("Field") > 0 || key.toLowerCase().indexOf("actions") >= 0 || key.indexOf("Snapshot") >= 0){
 							    	data[key] = null;
 								  }
 							  }
@@ -399,87 +428,108 @@
 						}
 						return data;
 					}
-					$scope.read = function(){						
-						$olHttp.get('${entityName}/'  <#if keys?size &gt; 0>+ $stateParams.${keys[0].name?replace(".", "_")}</#if> + "?children=false",
-							function(data) {
-								$rootScope.hidePreloader();						
+					$scope.read = function(){						  
+					      $olHttp.get('${entityDefinition.entityName}/' <#if entityDefinition.keys?size &gt; 0>+ $stateParams.${entityDefinition.keys[0].name?replace(".", "_")}</#if> + "?children=false",
+							function(data) {					    	  	
 								$scope.model = data.model.entity;							
 								$scope.baseUrl = olConfig.baseUrl;
 								$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
 								
 								
-								$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {														
-									
-									$olHttp.post('${entityName}/', clearObjectsFromPost($scope.model), function(data) {
-										if (data == ""){
-											$state.go("emulation");
-											return;
-										}
-										if (data.model.entityName == '${entityName}'){
+								$scope.doActionNoTargetEntity = function() {					
+								    
+									$olHttp.post('${entityDefinition.entityName}/', clearObjectsFromPost($scope.model), function(data) {
+										if (data.model.entityName == '${entityDefinition.entityName}'){											
 											$scope.model = data.model.entity;
 											$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
-											$rootScope.hidePreloader();								
-										}
-										else{					
-											$rootScope.allowHidePreloader = false;;
+											$rootScope.hidePreloader();
+										} else {
+											<#if entityDefinition.window>																						
+											$state.transitionTo($state.current, $stateParams, {
+											    reload: true,
+											    inherit: false,
+											    notify: true
+											});
+											<#else>
 											$state.go(data.model.entityName);
+											</#if>
 										}
 									});
 								};
 								
-								<#if (childEntitiesDefinitions?size > 0)>
+								<#if (entityDefinition.childEntitiesDefinitions?size > 0)>
 									var tabsContent = {};						
-									tabsContent["${entityName}"] = $scope.model;
+									tabsContent["${entityDefinition.entityName}"] = $scope.model;
 									$scope.loadTab = function(entityName) {
 										if (tabsContent[entityName] == null) { 
 											$scope.model.actions=null;											
-											$olHttp.get(entityName + '/' <#if (keys?size > 0)>+ $stateParams.${keys[0].name}</#if> + "?children=false", 
+											$olHttp.get(entityName + '/' <#if (entityDefinition.keys?size > 0)>+ $stateParams.${entityDefinition.keys[0].name}</#if> + "?children=false", 
 												function(data) {													
 													$scope.model = data.model.entity;
 													tabsContent[entityName] = data.model.entity;
-													$rootScope.hidePreloader(); 
+													$rootScope.hidePreloader();
 												});
 										} else {
 											$scope.model = tabsContent[entityName];
 										}					
 									};
 								</#if>
-							}
+								
+								$rootScope.hidePreloader();
+					    	  	<#if entityDefinition.window>
+					    	  		$rootScope.allowShowPreloader = false;
+					    	  	<#else>	
+					    	  		$rootScope.allowShowPreloader = true;
+					    	  	</#if>
+							}							
 						);
 					};		
 
 					flatMenu(function(data) {
 						$scope.menuArray = data;
-					});	
-		
+					});
 					
-					$scope.doAction = function(entityName, actionAlias) {											
+					$scope.doAction = function(entityName, actionAlias) {						
 						if (actionAlias == "") {
 				    		var url = entityName + actionAlias;
 				    	} else {
 				    		var url = entityName + "?action=" + actionAlias;
-				    	}					
+				    	}  
+						
+						if (actionAlias.indexOf("lookup-") > -1 || ${entityDefinition.window?string} == 'true') {
+							$rootScope.showPreloader(false);
+						}
+						
 						$olHttp.post(url,clearObjectsFromPost($scope.model), 
 							function(data) {
 								if (data == ""){
 									$state.go("emulation");
 									return;
 								}
-								if (data.model.entityName == '${entityName}'){
-									$scope.model = data.model.entity;
-									$rootScope.hidePreloader();								
-								}
-								else{					
-									$rootScope.allowHidePreloader = false;
-									$state.go(data.model.entityName);
+								if (data.model.entityName == '${entityDefinition.entityName}'){
+									$rootScope.hidePreloader();
+									$scope.model = data.model.entity;								
+								} else {
+									<#list entitiesDefinitions as entity>
+										if ('${entity.entityName}' == data.model.entityName) {
+											<#if entity.window>						
+												$rootScope.modalInstance = $modal.open({
+													templateUrl: $state.get(data.model.entityName).views[""].templateUrl,
+													controller: $state.get(data.model.entityName).views[""].controller,										
+												});
+											<#else>
+												$state.go(data.model.entityName);
+											</#if>
+										}
+									</#list>									
 								}
 							}
 						);
 					};
 					
-					<#if (sortedFields?size > 0)>
-						<#list sortedFields as field>
-							<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'fieldWithValues'>						
+					<#if (entityDefinition.sortedFields?size > 0)>
+						<#list entityDefinition.sortedFields as field>
+							<#if field.fieldTypeDefinition.typeName == 'fieldWithValues'>						
 							$olHttp.get("${field.name?cap_first}s", function(data) {							
 								$scope.${field.name}s = data.model.entity.${field.name}sRecords;							
 								$scope.${field.name?cap_first}Click = function(${field.name}) {								
@@ -488,7 +538,7 @@
 							});
 							</#if>						
 						</#list>
-					</#if>				
+					</#if>
 					
 					$scope.read();
 				});

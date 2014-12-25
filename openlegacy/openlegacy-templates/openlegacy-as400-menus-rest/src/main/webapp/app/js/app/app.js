@@ -6,40 +6,31 @@
 	
 	var olApp = angular.module( 'olApp', ['controllers', 'services', 'directives', 'ngRoute', 'ui.router']).run(['$themeService', '$rootScope', '$state', function($themeService, $rootScope, $state) {
 		$rootScope.allowHidePreloader = true;
-		$rootScope.allowShowPreloader = true;
+		$rootScope.allowShowPreloader = true;		
 		
-		$rootScope.showPreloader = function() {
+		$rootScope._showPreloader = false;
+		$rootScope._showContent = true;
+		
+		$rootScope.showPreloader = function(hideContent) {
 			if ($rootScope.allowShowPreloader == true) {
-				console.log("location start");
-				$(".preloader").show();
-				$(".content-wrapper").hide();
-				$rootScope.allowShowPreloader = false;
+				$rootScope._showPreloader = true;				
+				$rootScope._showContent = hideContent !== undefined ? !hideContent : false;
 			}		
 		}
 		
-		$rootScope.hidePreloader = function() {		
+		$rootScope.hidePreloader = function() {						
 			if ($rootScope.allowHidePreloader == true) {
-				console.log("location end");
-				$(".preloader").hide();
-				$(".content-wrapper").show();
-				$rootScope.allowShowPreloader = true;
-			} else {
-				$rootScope.allowHidePreloader = true;
-			}
-			if ($("#sessionImage") != null){
-				$("#sessionImage").attr("src","../sessionViewer/image?" + new Date().getTime());
-			}
+				$rootScope._showPreloader = false;
+				$rootScope._showContent = true;
+			}			
 		}
-		
-		$rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams, error) {
-			$rootScope.showPreloader();
-		});
-		
-		$rootScope.$on("$stateChangeSuccess", function() {
-			$rootScope.hidePreloader();
-		});
-		
-		$rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {			
+	
+		if ($("#sessionImage") != null){
+			$("#sessionImage").attr("src","../sessionViewer/image?" + new Date().getTime());
+		}		
+	
+		$rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
+			console.log("stateChangeError");
 			$rootScope.hidePreloader();
 			if (toState.name === "login") {
 				$state.go(toParams.redirectTo.name);
@@ -59,7 +50,7 @@
 		$urlRouterProvider.otherwise("/login");
 		
 		var header = { templateUrl: "views/partials/header.html", controller: "headerCtrl" };
-		var auth = function($q, $http) {
+		var auth = function($q, $http) {			
 			var deferred = $q.defer();
 				$http(
 					{						
@@ -86,8 +77,8 @@
 		}
 		
 		var authLogin = function($q, $http, $state) {			
-			var deferred = $q.defer();			
-			if ($state.current.name != "" && $state.current.name != "logoff") {
+			var deferred = $q.defer();
+			if ($state.current.name != "" && $state.current.name != "logoff") {				
 				$http(
 					{						
 						method: 'GET',
@@ -103,7 +94,7 @@
 						deferred.resolve();						
 					});
 				
-			} else {
+			} else {				
 				deferred.resolve();
 			}
 			
@@ -141,8 +132,7 @@
 			 url: '/menu',
 			 views: {
 				 "": {
-					 templateUrl: "views/menu.html",
-					 controller: 'menuCtrl'
+					 templateUrl: "views/menu.html"					 
 				 },
 				 "header": header,
 				 "sideMenu": {

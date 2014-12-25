@@ -6,38 +6,28 @@
 	
 	var olApp = angular.module( 'olApp', ['controllers', 'services', 'directives', 'ngRoute', 'ui.router']).run(['$themeService', '$rootScope', '$state', function($themeService, $rootScope, $state) {
 		$rootScope.allowHidePreloader = true;
-		$rootScope.allowShowPreloader = true;
+		$rootScope.allowShowPreloader = true;		
 		
-		$rootScope.showPreloader = function() {
+		$rootScope._showPreloader = false;
+		$rootScope._showContent = true;
+		
+		$rootScope.showPreloader = function(hideContent) {
 			if ($rootScope.allowShowPreloader == true) {
-				console.log("location start");
-				$(".preloader").show();
-				$(".content-wrapper").hide();
-				$rootScope.allowShowPreloader = false;
+				$rootScope._showPreloader = true;				
+				$rootScope._showContent = hideContent !== undefined ? !hideContent : false;
 			}		
 		}
 		
-		$rootScope.hidePreloader = function() {		
+		$rootScope.hidePreloader = function() {						
 			if ($rootScope.allowHidePreloader == true) {
-				console.log("location end");
-				$(".preloader").hide();
-				$(".content-wrapper").show();
-				$rootScope.allowShowPreloader = true;
-			} else {
-				$rootScope.allowHidePreloader = true;
-			}
-			if ($("#sessionImage") != null){
+				$rootScope._showPreloader = false;
+				$rootScope._showContent = true;
+			}			
+		}
+		if ($("#sessionImage") != null){
 				$("#sessionImage").attr("src","../sessionViewer/image?" + new Date().getTime());
 			}
-		}
-		
-		$rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams, error) {
-			$rootScope.showPreloader();
-		});
-		
-		$rootScope.$on("$stateChangeSuccess", function() {
-			$rootScope.hidePreloader();
-		});
+		}	
 		
 		$rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {			
 			$rootScope.hidePreloader();

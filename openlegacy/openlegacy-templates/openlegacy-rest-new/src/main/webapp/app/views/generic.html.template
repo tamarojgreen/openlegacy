@@ -21,7 +21,7 @@
 				</ul>
 				<div class="tab-content"><!-- Tab panes -->
 					<div class="tab-pane active" id="${entityDefinition.entityName}">
-						<@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>
+						<#if !entityDefinition.window><@navMacro entity=entityDefinition showExcelBtn=hasTable?string/></#if>
 						<#list pageParts as part>
 							<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>
 							<@pagePart entity=entityDefinition part=part/>
@@ -30,7 +30,7 @@
 					
 					<#list childPagesDefinitions as childPage>		            			
 	        			<div class="tab-pane" id="${childPage.entityDefinition.entityName}">			            					            				
-						    <@navMacro entity=childPage.entityDefinition showExcelBtn=hasTable?string/>
+						    <#if !entityDefinition.window><@navMacro entity=childPage.entityDefinition showExcelBtn=hasTable?string/></#if>
 						    <#if (childPage.pageParts?size > 0)>
 						    	<#list childPage.pageParts as part>
 									<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>		
@@ -46,7 +46,7 @@
 				</div><!-- /Tab panes -->
 			</div>
 		<#else>
-			<@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>
+			<#if !entityDefinition.window><@navMacro entity=entityDefinition showExcelBtn=hasTable?string/></#if>
 			<#list pageParts as part>
 				<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>
 				<@pagePart entity=entityDefinition part=part/>

@@ -19,7 +19,7 @@
 	.factory( '$olHttp', function( $http, $rootScope ) {
 		
 		return{
-			get:function(url,callback){
+			get:function(url,callback){				
 				$rootScope.showPreloader();
 				$http(
 						{
@@ -33,7 +33,7 @@
 						})
 				.success(function(data, status, headers, config) {
 					callback(data);
-				}).error(function(data, status, headers, config) {
+				}).error(function(data, status, headers, config) {					
 					$rootScope.hidePreloader();
 					if(data.error){
 						alert('Error: ' + data.error);
@@ -44,8 +44,8 @@
 				
 			},
 
-			post:function(url,model,callback){
-				$rootScope.showPreloader();
+			post:function(url,model,callback){				
+				$rootScope.showPreloader();				
 				$http(
 						{
 							method : 'POST',
@@ -58,7 +58,7 @@
 						})
 				.success(function(data, status, headers, config) {
 					callback(data);
-				}).error(function(data, status, headers, config) {
+				}).error(function(data, status, headers, config) {					
 					$rootScope.hidePreloader();
 					if(data.error){
 						alert('Error: ' + data.error);
@@ -89,7 +89,7 @@
 						getMenuString(value.menuItems);
 				    });					     
 				}
-				getMenuString(data.simpleMenuItemList);
+				getMenuString(data.simpleMenuItemList);				
 				callback(menuArray);
 			}).error(function(data, status, headers, config) {
 				if(data.error){

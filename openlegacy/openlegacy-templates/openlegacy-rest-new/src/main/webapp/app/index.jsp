@@ -42,8 +42,8 @@
 		<script src="js/app/config.js" type="text/javascript"></script>
 	</head>
 	<body class="main" ng-class="theme">
-		<img src="img/preloader.gif" class="preloader">
-		<div class="content-wrapper">	
+		<img src="img/preloader.gif" class="preloader" ng-show="_showPreloader" style="z-index:99">
+		<div class="content-wrapper" ng-show="_showContent">	
 			<div ui-view="header" ng-cloak></div>	
 			<div class="container-fluid">    
 		    	<div class="row">		  			  			

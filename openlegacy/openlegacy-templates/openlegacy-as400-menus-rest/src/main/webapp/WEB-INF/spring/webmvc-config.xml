@@ -50,10 +50,15 @@
 	Also registers default Formatters and Validators for use across all @Controllers -->
 	<mvc:annotation-driven conversion-service="applicationConversionService" />
 
+	
+	<!-- icons in openlegacy-web-resources.jar -->
+	<mvc:resources cache-period="86400" location="classpath:/icons/" mapping="/app/icons/**"/>
+	
 	<!-- themes in from various openlegacy themes -->
 	<mvc:resources cache-period="86400" location="classpath:/themes/" mapping="/app/themes/**"/>	
 	<mvc:resources cache-period="86400" location="/app/" mapping="/app/**"/>
-	<mvc:resources cache-period="86400" location="/" mapping="/webapp/**"/>
+	<mvc:resources cache-period="86400" location="/" mapping="/webapp/**"/>	
+	
 	
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 	
