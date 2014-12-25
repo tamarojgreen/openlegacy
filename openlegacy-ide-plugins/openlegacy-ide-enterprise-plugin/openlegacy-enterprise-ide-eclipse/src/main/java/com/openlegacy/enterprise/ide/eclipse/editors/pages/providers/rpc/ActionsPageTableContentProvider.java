@@ -36,12 +36,12 @@ public class ActionsPageTableContentProvider implements IStructuredContentProvid
 	 */
 	@Override
 	public Object[] getElements(Object inputElement) {
-		if (inputElement instanceof RpcActionsModel) {
+		if (inputElement != null && inputElement instanceof RpcActionsModel) {
 			RpcActionsModel model = (RpcActionsModel)inputElement;
-			if ((model != null) && (!model.getActions().isEmpty())) {
+			if (!model.getActions().isEmpty()) {
 				return model.getActions().toArray();
 			}
-		} else if (inputElement instanceof RpcPartModel) {
+		} else if (inputElement != null && inputElement instanceof RpcPartModel) {
 			RpcPartModel model = (RpcPartModel)inputElement;
 			if (!model.getActionsModel().getActions().isEmpty()) {
 				return model.getActionsModel().getActions().toArray();

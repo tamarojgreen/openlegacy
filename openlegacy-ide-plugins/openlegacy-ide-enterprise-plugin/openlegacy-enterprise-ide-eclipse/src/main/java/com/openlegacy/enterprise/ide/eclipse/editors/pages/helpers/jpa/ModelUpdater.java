@@ -1,6 +1,7 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa;
 
 import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaActionsModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
@@ -148,6 +149,10 @@ public class ModelUpdater {
 			}
 		}
 		JpaEntityUtils.ActionGenerator.generateJpaNavigationActions(entity, model);
+	}
+
+	public static void updateJpaActionsModel(JpaEntity entity, JpaActionsModel model) {
+		JpaEntityUtils.ActionGenerator.generateJpaActionsAction(entity, model);
 	}
 
 }

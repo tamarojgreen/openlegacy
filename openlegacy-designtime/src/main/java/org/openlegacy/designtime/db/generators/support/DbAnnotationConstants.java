@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.designtime.db.generators.support;
 
+import org.openlegacy.annotations.db.DbActions;
 import org.openlegacy.annotations.db.DbColumn;
 import org.openlegacy.annotations.db.DbEntity;
 import org.openlegacy.annotations.db.DbNavigation;
@@ -26,8 +27,8 @@ public class DbAnnotationConstants {
 	public static final String DB_JPA_ENTITY_ANNOTATION = Entity.class.getSimpleName();
 	public static final String DB_ENTITY_ANNOTATION = DbEntity.class.getSimpleName();
 	public static final String DB_ENTITY_SUPER_CLASS_ANNOTATION = MappedSuperclass.class.getSimpleName();
+	public static final String DB_ACTIONS_ANNOTATION = DbActions.class.getSimpleName();
 	// TODO
-	public static final String DB_ACTIONS_ANNOTATION = null;
 	public static final String DB_FIELD_ANNOTATION = null;
 
 	public static final String DB_TABLE_ANNOTATION = Table.class.getSimpleName();

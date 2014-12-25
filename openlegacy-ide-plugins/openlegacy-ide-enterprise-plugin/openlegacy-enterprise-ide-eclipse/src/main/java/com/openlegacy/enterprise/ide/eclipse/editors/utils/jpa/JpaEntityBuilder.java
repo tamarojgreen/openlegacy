@@ -2,6 +2,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.utils.jpa;
 
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaActionsAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaBooleanFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaByteFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDateFieldAction;
@@ -13,6 +14,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaListFieldAct
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaNavigationAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaTableAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
@@ -23,7 +25,9 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Annotation;
+import org.eclipse.jdt.core.dom.ArrayInitializer;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
+import org.eclipse.jdt.core.dom.BooleanLiteral;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
@@ -33,14 +37,21 @@ import org.eclipse.jdt.core.dom.Modifier.ModifierKeyword;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.ParameterizedType;
 import org.eclipse.jdt.core.dom.PrimitiveType;
+import org.eclipse.jdt.core.dom.SimpleType;
+import org.eclipse.jdt.core.dom.StringLiteral;
 import org.eclipse.jdt.core.dom.Type;
+import org.eclipse.jdt.core.dom.TypeLiteral;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
+import org.openlegacy.annotations.db.Action;
+import org.openlegacy.annotations.db.DbActions;
 import org.openlegacy.annotations.db.DbColumn;
 import org.openlegacy.annotations.db.DbEntity;
 import org.openlegacy.annotations.db.DbNavigation;
 import org.openlegacy.db.definitions.DbTableDefinition.UniqueConstraintDefinition;
+import org.openlegacy.designtime.generators.AnnotationConstants;
+import org.openlegacy.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -87,6 +98,152 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 			}
 			return false;
 		}
+
+		@SuppressWarnings("unchecked")
+		public static void manageExistingActions(AST ast, CompilationUnit cu, ASTRewrite rewriter, MemberValuePair target,
+				List<ActionModel> models) {
+
+			ArrayInitializer newValue = ast.newArrayInitializer();
+
+			// helps determine what action models should be added
+			List<ActionModel> toRemove = new ArrayList<ActionModel>();
+
+			// get pair value
+			ArrayInitializer arrayLiteral = (ArrayInitializer)target.getValue();
+			// get annotations from value
+			List<NormalAnnotation> expressions = arrayLiteral.expressions();
+			for (NormalAnnotation normalAnnotation : expressions) {
+				// get annotation pairs
+				List<MemberValuePair> pairs = normalAnnotation.values();
+				// get current @Action attributes: action name, display name, alias, path, global
+				String actionName = "";//$NON-NLS-1$
+				MemberValuePair actionPair = null;
+				String displayName = null;
+				String alias = null;
+				boolean global = true;
+				String targetEntityName = void.class.getSimpleName();
+				MemberValuePair targetEntityPair = null;
+
+				for (MemberValuePair pair : pairs) {
+					if (pair.getName().getFullyQualifiedName().equals(AnnotationConstants.ACTION)) {
+						String[] split = ((SimpleType)((TypeLiteral)pair.getValue()).getType()).getName().getFullyQualifiedName().split(
+								"\\.");//$NON-NLS-1$
+						actionName = split[split.length - 1];
+						actionPair = pair;
+						// set displayName and alias into accordance of SimpleActionDefinition getters logic
+						if (displayName == null) {
+							displayName = StringUtil.toDisplayName(actionName.toLowerCase());
+						}
+						if (alias == null) {
+							alias = actionName.toLowerCase();
+						}
+					} else if (pair.getName().getFullyQualifiedName().equals(AnnotationConstants.DISPLAY_NAME)) {
+						displayName = ((StringLiteral)pair.getValue()).getLiteralValue();
+					} else if (pair.getName().getFullyQualifiedName().equals(AnnotationConstants.ALIAS)) {
+						alias = ((StringLiteral)pair.getValue()).getLiteralValue();
+					} else if (pair.getName().getFullyQualifiedName().equals(AnnotationConstants.GLOBAL)) {
+						global = ((BooleanLiteral)pair.getValue()).booleanValue();
+					} else if (pair.getName().getFullyQualifiedName().equals(AnnotationConstants.TARGET_ENTITY)) {
+						String[] split = ((SimpleType)((TypeLiteral)pair.getValue()).getType()).getName().getFullyQualifiedName().split(
+								"\\.");//$NON-NLS-1$
+						targetEntityName = split[split.length - 1];
+						targetEntityPair = pair;
+					}
+				}
+				for (ActionModel model : models) {
+					// check, if model represents current @Action annotation
+					if (actionName.equals(model.getPrevActionName()) && displayName.equals(model.getPrevDisplayName())
+							&& alias.equals(model.getPrevAlias()) && (global == model.isPrevGlobal())
+							&& StringUtils.equals(targetEntityName, model.getPrevTargetEntityClassName())) {
+						NormalAnnotation newAnnotation = ast.newNormalAnnotation();
+						newAnnotation.setTypeName(ast.newSimpleName(Action.class.getSimpleName()));
+						// determine what should we do, change existing or create new @Action annotation
+						// for myself: why use '||' instead '&&'? Because user can change action value and after return it back
+						// before
+						// saving
+						if (model.getAction() == null || model.getActionName().equals(model.getPrevActionName())) {
+							// get existing action type
+							MemberValuePair newPair = ast.newMemberValuePair();
+							newAnnotation.values().add(ASTNode.copySubtree(newPair.getAST(), actionPair));
+						} else {
+							// add new
+							newAnnotation.values().add(
+									JpaEntityASTUtils.INSTANCE.createTypePair(ast, AnnotationConstants.ACTION,
+											model.getAction().getClass()));
+							ASTUtils.addImport(ast, cu, rewriter, model.getAction().getClass());
+						}
+						if (!model.getDisplayName().isEmpty()
+								&& !StringUtils.equals(model.getDisplayName(), model.getDefaultDisplayName())) {
+							newAnnotation.values().add(
+									JpaEntityASTUtils.INSTANCE.createStringPair(ast, AnnotationConstants.DISPLAY_NAME,
+											model.getDisplayName()));
+						}
+						if (!model.getAlias().isEmpty() && !StringUtils.equals(model.getAlias(), model.getDefaultAlias())) {
+							newAnnotation.values().add(
+									JpaEntityASTUtils.INSTANCE.createStringPair(ast, AnnotationConstants.ALIAS, model.getAlias()));
+						}
+						if (!model.isGlobal()) {
+							newAnnotation.values().add(
+									JpaEntityASTUtils.INSTANCE.createBooleanPair(ast, AnnotationConstants.GLOBAL,
+											model.isGlobal()));
+						}
+						if ((model.getTargetEntity() == null || model.getTargetEntityClassName().equals(
+								model.getPrevTargetEntityClassName()))
+								&& targetEntityPair != null) {
+							// get existing action type
+							MemberValuePair newPair = ast.newMemberValuePair();
+							newAnnotation.values().add(ASTNode.copySubtree(newPair.getAST(), targetEntityPair));
+						} else if (model.getTargetEntity() != null
+								&& !model.getTargetEntityClassName().equals(model.getPrevTargetEntityClassName())) {
+							// add new
+							newAnnotation.values().add(
+									JpaEntityASTUtils.INSTANCE.createTypePair(ast, AnnotationConstants.TARGET_ENTITY,
+											model.getTargetEntity()));
+							ASTUtils.addImport(ast, cu, rewriter, model.getTargetEntity());
+						}
+						newValue.expressions().add(newAnnotation);
+						toRemove.add(model);
+					}
+				}
+			}
+			// add new @Action annotations
+			models.removeAll(toRemove);
+			for (ActionModel model : models) {
+				NormalAnnotation newAnnotation = ast.newNormalAnnotation();
+				newAnnotation.setTypeName(ast.newSimpleName(Action.class.getSimpleName()));
+				// 'action' attribute
+				newAnnotation.values().add(
+						JpaEntityASTUtils.INSTANCE.createTypePair(ast, AnnotationConstants.ACTION, model.getAction().getClass()));
+				ASTUtils.addImport(ast, cu, rewriter, model.getAction().getClass());
+				// 'displayName' attribute
+				if (!model.getDisplayName().isEmpty()) {
+					newAnnotation.values().add(
+							JpaEntityASTUtils.INSTANCE.createStringPair(ast, AnnotationConstants.DISPLAY_NAME,
+									model.getDisplayName()));
+				}
+				// 'alias' attribute
+				if (!model.getAlias().isEmpty()) {
+					newAnnotation.values().add(
+							JpaEntityASTUtils.INSTANCE.createStringPair(ast, AnnotationConstants.ALIAS, model.getAlias()));
+				}
+				// 'global' attribute
+				if (!model.isGlobal()) {
+					newAnnotation.values().add(
+							JpaEntityASTUtils.INSTANCE.createBooleanPair(ast, AnnotationConstants.GLOBAL, model.isGlobal()));
+				}
+				// 'targetEntity' attribute
+				if (model.getTargetEntity() != null
+						&& !model.getTargetEntity().getName().equals(model.getDefaultTargetEntity().getName())) {
+					newAnnotation.values().add(
+							JpaEntityASTUtils.INSTANCE.createTypePair(ast, AnnotationConstants.TARGET_ENTITY,
+									model.getTargetEntity()));
+					ASTUtils.addImport(ast, cu, rewriter, model.getTargetEntity());
+				}
+
+				newValue.expressions().add(newAnnotation);
+			}
+			target.setValue(newValue);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -94,7 +251,8 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 			List<AbstractAction> list) {
 		for (AbstractAction action : list) {
 			if (!action.getAnnotationClass().equals(Table.class) && !action.getAnnotationClass().equals(DbEntity.class)
-					&& !action.getAnnotationClass().equals(DbNavigation.class)) {
+					&& !action.getAnnotationClass().equals(DbNavigation.class)
+					&& !action.getAnnotationClass().equals(DbActions.class)) {
 				continue;
 			}
 			if (action.getActionType().equals(ActionType.ADD) && (action.getTarget() == ASTNode.NORMAL_ANNOTATION)) {
@@ -139,7 +297,8 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 
 		for (AbstractAction action : list) {
 			if (!action.getAnnotationClass().equals(Table.class) && !action.getAnnotationClass().equals(DbEntity.class)
-					&& !action.getAnnotationClass().equals(DbNavigation.class)) {
+					&& !action.getAnnotationClass().equals(DbNavigation.class)
+					&& !action.getAnnotationClass().equals(DbActions.class)) {
 				continue;
 			}
 			if (action.getActionType().equals(ActionType.REMOVE) && (action.getTarget() == ASTNode.NORMAL_ANNOTATION)) {
@@ -499,6 +658,71 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 			Annotation annotation, List<JpaNavigationAction> list) {
 		processSimpleAnnotation(ast, cu, rewriter, listRewriter, annotation, list, JpaEntityASTUtils.INSTANCE,
 				JpaEntityActionsSorter.INSTANCE);
+	}
+
+	@SuppressWarnings("unchecked")
+	public void processJpaDbActionsAnnotation(AST ast, CompilationUnit cu, ASTRewrite rewriter, ListRewrite listRewriter,
+			NormalAnnotation annotation, List<? extends JpaActionsAction> list) {
+
+		NormalAnnotation newAnnotation = null;
+
+		for (AbstractAction action : list) {
+			if (!action.getActionType().equals(ActionType.MODIFY) && !action.getActionType().equals(ActionType.REMOVE)) {
+				continue;
+			}
+			if (action.getNamedObject().getModelName().equals(annotation.getTypeName().getFullyQualifiedName())
+					&& (action.getTarget() == (ASTNode.NORMAL_ANNOTATION | ASTNode.MEMBER_VALUE_PAIR))) {
+				if (newAnnotation == null) {
+					newAnnotation = ast.newNormalAnnotation();
+					newAnnotation.setTypeName(ast.newSimpleName(annotation.getTypeName().getFullyQualifiedName()));
+					newAnnotation.values().addAll(ASTNode.copySubtrees(ast, annotation.values()));
+				}
+				List<MemberValuePair> pairs = newAnnotation.values();
+				Object val = action.getValue();
+				MemberValuePair pair = AbstractEntityBuilder.findPair(pairs, action.getKey());
+				// if pair equals null then it means that pair should be added
+				if (pair == null) {
+					if (val instanceof List) {
+						MemberValuePair arrPair = JpaEntityASTUtils.INSTANCE.createArrayPair(ast, cu, rewriter, action.getKey(),
+								(List<ActionModel>)val);
+						if (arrPair != null) {
+							pairs.add(arrPair);
+							// add imports
+							for (ActionModel model : (List<ActionModel>)val) {
+								if (model.getAction() != null) {
+									ASTUtils.addImport(ast, cu, rewriter, model.getAction().getClass());
+								}
+								if (model.getTargetEntity() != null
+										&& !model.getTargetEntity().equals(model.getDefaultTargetEntity())) {
+									ASTUtils.addImport(ast, cu, rewriter, model.getTargetEntity().getClass());
+								}
+							}
+							ASTUtils.addImport(ast, cu, rewriter, Action.class);
+						}
+					}
+					continue;
+				}
+				// existing
+				switch (action.getActionType()) {
+					case MODIFY:
+						if (val instanceof List) {
+							// Remark: In case with actions we cannot create array literal and replace existed in pair.
+							// This situation appears because CodeBasedRpcEntityDefinition returns actions names only
+							// (without instance of action)
+							PrivateMethods.manageExistingActions(ast, cu, rewriter, pair, (List<ActionModel>)val);
+						}
+						break;
+					case REMOVE:
+						pairs.remove(pair);
+						break;
+					default:
+						break;
+				}
+			}
+		}
+		if ((newAnnotation != null) && (listRewriter != null)) {
+			listRewriter.replace(annotation, newAnnotation, null);
+		}
 	}
 
 }

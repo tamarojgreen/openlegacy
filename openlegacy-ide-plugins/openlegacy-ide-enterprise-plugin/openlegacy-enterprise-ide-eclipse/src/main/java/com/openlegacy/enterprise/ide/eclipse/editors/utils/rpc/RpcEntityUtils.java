@@ -248,7 +248,8 @@ public class RpcEntityUtils {
 						RpcAnnotationConstants.RPC_ACTIONS_ANNOTATION, null));
 			}
 			// remove addAnnotation action if all of actions were deleted
-			if (entity.getActionsModel().getActions().isEmpty() && model.getActions().isEmpty()) {
+			if ((entity.getActionsModel().getActions().isEmpty() && (model.getActions() == null || model.getActions().isEmpty()))
+					|| (!entity.getActionsModel().getActions().isEmpty() && model.getActions() != null && !model.getActions().isEmpty())) {
 				entity.removeAction(model.getUUID(), RpcAnnotationConstants.RPC_ACTIONS_ANNOTATION);
 			}
 			// @RpcActions.actions: default {}

@@ -24,6 +24,7 @@ public class CodeBasedDbEntityDefinition extends
 		implements DbEntityDefinition {
 
 	private Map<String, DbFieldDefinition> columnFields;
+	private List<ActionDefinition> actions;
 
 	public CodeBasedDbEntityDefinition(DbPojoCodeModel codeModel,
 			File packageDir) {
@@ -93,8 +94,10 @@ public class CodeBasedDbEntityDefinition extends
 	 */
 	@Override
 	public List<ActionDefinition> getActions() {
-		throwNotImplemented();
-		return null;
+		if (actions == null) {
+			actions = DbCodeBasedDefinitionUtils.getActionsFromCodeModel(getCodeModel(), getPackageDir());
+		}
+		return actions;
 	}
 
 	/*

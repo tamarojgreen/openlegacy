@@ -3,6 +3,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.utils.jpa;
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaActionsAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbColumnAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaEntityAction;
@@ -11,6 +12,8 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaIdFieldActio
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaListFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaNavigationAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaTableAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.ActionModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaActionsModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaBooleanFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaByteFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaDateFieldModel;
@@ -30,6 +33,7 @@ import org.openlegacy.db.definitions.DbTableDefinition.UniqueConstraintDefinitio
 import org.openlegacy.db.definitions.SimpleDbColumnFieldDefinition;
 import org.openlegacy.designtime.db.generators.support.CodeBasedDbEntityDefinition;
 import org.openlegacy.designtime.db.generators.support.DbAnnotationConstants;
+import org.openlegacy.designtime.generators.AnnotationConstants;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -387,6 +391,33 @@ public class JpaEntityUtils {
 					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.CATEGORY, model.getCategory());
 		}
 
+		public static void generateJpaActionsAction(JpaEntity entity, JpaActionsModel model) {
+			boolean isPrevious = true;
+			boolean isDefault = true;
+			// add @DbActions annotation
+			if (entity.getActionsModel().getActions().isEmpty() && (model.getActions() != null)
+					&& (!model.getActions().isEmpty())) {
+				entity.addAction(new JpaActionsAction(model.getUUID(), model, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
+						DbAnnotationConstants.DB_ACTIONS_ANNOTATION, null));
+			}
+			// remove @DbActions annotation
+			if (!entity.getActionsModel().getActions().isEmpty()
+					&& ((model.getActions() == null) || (model.getActions().isEmpty()))) {
+				entity.addAction(new JpaActionsAction(model.getUUID(), model, ActionType.REMOVE, ASTNode.NORMAL_ANNOTATION,
+						DbAnnotationConstants.DB_ACTIONS_ANNOTATION, null));
+			}
+			// remove addAnnotation action if all of actions were deleted
+			if ((entity.getActionsModel().getActions().isEmpty() && (model.getActions() == null || model.getActions().isEmpty()))
+					|| (!entity.getActionsModel().getActions().isEmpty() && model.getActions() != null && !model.getActions().isEmpty())) {
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_ACTIONS_ANNOTATION);
+			}
+			// @RpcActions.actions: default {}
+			isPrevious = PrivateMethods.compareActionsModels(model.getActions(), entity.getActionsModel().getActions());
+			isDefault = ((model.getActions() == null) || (model.getActions().isEmpty()));
+			PrivateMethods.addRemoveJpaActionsAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.ACTIONS, model.getActions());
+		}
+
 	}
 
 	private static class PrivateMethods {
@@ -468,6 +499,17 @@ public class JpaEntityUtils {
 			}
 		}
 
+		private static void addRemoveJpaActionsAction(JpaEntity entity, JpaActionsModel model, boolean isPrevious,
+				boolean isDefault, int target, String key, Object value) {
+			if (!isPrevious && !isDefault) {
+				entity.addAction(new JpaActionsAction(model.getUUID(), model, ActionType.MODIFY, target, key, value));
+			} else if (!isPrevious && isDefault) {
+				entity.addAction(new JpaActionsAction(model.getUUID(), model, ActionType.REMOVE, target, key, null));
+			} else {
+				entity.removeAction(model.getUUID(), key);
+			}
+		}
+
 		private static boolean compareUniqueConstraintsDefintions(List<UniqueConstraintDefinition> a,
 				List<UniqueConstraintDefinition> b) {
 			if (a.size() != b.size()) {
@@ -506,6 +548,22 @@ public class JpaEntityUtils {
 
 			for (int i = 0; i < a.length; i++) {
 				if (!StringUtils.equals(a[i].toString(), b[i].toString())) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		private static boolean compareActionsModels(List<ActionModel> a, List<ActionModel> b) {
+			if (a.size() != b.size()) {
+				return false;
+			}
+			for (int i = 0; i < a.size(); i++) {
+				ActionModel aClass = a.get(i);
+				ActionModel bClass = b.get(i);
+				if (!aClass.getActionName().equals(bClass.getActionName()) || !aClass.getAlias().equals(bClass.getAlias())
+						|| !aClass.getDisplayName().equals(bClass.getDisplayName()) || (aClass.isGlobal() != bClass.isGlobal())
+						|| !StringUtils.equals(aClass.getTargetEntityClassName(), bClass.getTargetEntityClassName())) {
 					return false;
 				}
 			}
@@ -622,6 +680,12 @@ public class JpaEntityUtils {
 
 	public static JpaNavigationModel getJpaNavigationModel(DbEntityDefinition entityDefinition) {
 		JpaNavigationModel model = new JpaNavigationModel();
+		model.init((CodeBasedDbEntityDefinition)entityDefinition);
+		return model;
+	}
+
+	public static JpaActionsModel getJpaActionsModel(DbEntityDefinition entityDefinition) {
+		JpaActionsModel model = new JpaActionsModel();
 		model.init((CodeBasedDbEntityDefinition)entityDefinition);
 		return model;
 	}

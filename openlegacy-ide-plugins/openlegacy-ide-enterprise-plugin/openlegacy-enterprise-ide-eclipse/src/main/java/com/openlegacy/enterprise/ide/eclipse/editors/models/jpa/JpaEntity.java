@@ -29,6 +29,8 @@ public class JpaEntity extends AbstractEntity {
 	private Map<UUID, JpaFieldModel> fields = new HashMap<UUID, JpaFieldModel>();
 	private List<JpaFieldModel> sortedFields = new ArrayList<JpaFieldModel>();
 
+	private JpaActionsModel actionsModel;
+
 	public JpaEntity(DbEntityDefinition dbEntityDefinition) {
 		Assert.isNotNull(dbEntityDefinition, Messages.getString("jpa.error.entity.creation.definition.is.null"));
 		this.entityDefinition = dbEntityDefinition;
@@ -45,6 +47,13 @@ public class JpaEntity extends AbstractEntity {
 		}
 
 		navigationModel = JpaEntityUtils.getJpaNavigationModel(entityDefinition);
+
+		// initialize actions model
+		actionsModel = JpaEntityUtils.getJpaActionsModel(entityDefinition);
+		if (actionsModel == null) {
+			actionsModel = new JpaActionsModel();
+		}
+
 	}
 
 	@Override
@@ -93,6 +102,10 @@ public class JpaEntity extends AbstractEntity {
 
 	public JpaNavigationModel getNavigationModel() {
 		return navigationModel;
+	}
+
+	public JpaActionsModel getActionsModel() {
+		return actionsModel;
 	}
 
 }

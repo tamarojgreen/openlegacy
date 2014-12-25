@@ -38,6 +38,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Abstract graphical editor for Java files containing @..Entity annotations
@@ -225,6 +227,45 @@ public abstract class AbstractEditor extends FormEditor implements IOpenLegacyEd
 				}
 			}
 			markers.clear();
+		}
+	}
+
+	public void removeValidationMarker(String key) {
+		if (markers.containsKey(key)) {
+			try {
+				markers.get(key).delete();
+				markers.remove(key);
+				if (markers.isEmpty()) {
+					setTitleImage(Activator.getDefault().getImage(Activator.IMG_EDITOR_NORMAL));
+				}
+			} catch (CoreException e) {
+			}
+		}
+	}
+
+	public void removeValidationMarkers(UUID uuid) {
+		if (!markers.isEmpty()) {
+			Set<String> keySet = markers.keySet();
+			for (String key : keySet) {
+				if (key.startsWith(uuid.toString())) {
+					removeValidationMarker(key);
+				}
+			}
+		}
+	}
+
+	public void addValidationMarker(String key, String text) {
+		if (!markers.containsKey(key)) {
+			IResource resource = (IResource)getEditorInput().getAdapter(IResource.class);
+			try {
+				IMarker marker = resource.createMarker(IMarker.PROBLEM);
+				marker.setAttribute(IMarker.MESSAGE, text);
+				marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
+				marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+				markers.put(key, marker);
+				setTitleImage(Activator.getDefault().getImage(Activator.IMG_EDITOR_ERROR));
+			} catch (CoreException e) {
+			}
 		}
 	}
 }
