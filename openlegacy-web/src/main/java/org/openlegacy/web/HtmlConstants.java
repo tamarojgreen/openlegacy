@@ -46,4 +46,5 @@ public class HtmlConstants {
 	public static final String RTL = "rtl";
 	public static final String BUTTON = "button";
 	public static final String ONCLICK = "onclick";
+	public static final String ONKEYPRESS = "onkeypress";
 }

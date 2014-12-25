@@ -283,13 +283,13 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 				textarea.setAttribute(
 						HtmlConstants.STYLE,
 						MessageFormat.format("{0};height:{1}px", textarea.getAttribute(HtmlConstants.STYLE),
-								String.valueOf(getProportionHandler().toHeight(rows) - 8))); // 8 - avoid overlap
+								String.valueOf(getProportionHandler().toHeight(rows+1)-5)));
 				;
 			} else {
 				textarea.setAttribute(HtmlConstants.ROWS, "1");
 				textarea.setAttribute(HtmlConstants.COLUMNS, String.valueOf(field.getLength()));
 			}
-			textarea.setAttribute(HtmlConstants.ONKEYUP,
+			textarea.setAttribute(HtmlConstants.ONKEYPRESS,
 					MessageFormat.format("return (this.value.length <= {0});", field.getLength()));
 
 			if (field.isUppercase() || openLegacyProperties.isUppercaseInput()) {

@@ -10,6 +10,16 @@
  *******************************************************************************/
 package org.openlegacy.tools.maven;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.text.MessageFormat;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -29,14 +39,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.MessageFormat;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * An embedded terminal session HTML runner. Runs an HTML session within an embedded Jetty and serves ALL requests: get, post, JS
@@ -139,7 +141,7 @@ public class SessionRunner extends AbstractMojo {
 		Object browserPath = getProperty(BROWSER_PATH, null);
 		if (browserPath != null) {
 			try {
-				Runtime.getRuntime().exec(browserPath + " http://localhost:" + port);
+				Desktop.getDesktop().browse(new URL("http://localhost:" + port).toURI());
 			} catch (Exception e) {
 				getLog().warn("Unable to open browser at:" + browserPath);
 			}
