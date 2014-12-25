@@ -376,4 +376,69 @@ public class StringUtil {
 		return path.replaceAll("/", "_").replaceAll("\\.", "_");
 	}
 
+	public static boolean containsRTLChar(String str) {
+		return containsArabicChar(str) || containsHebrewChar(str);
+	}
+
+	public static boolean containsHebrewChar(String str) {
+		boolean reply = false;
+		for (int i = 0; i < str.length(); i++) {
+			if (isHebrewChar(str.charAt(i))) {
+				reply = true;
+				break;
+			}
+		}
+		return reply;
+	}
+
+	public static boolean containsArabicChar(String str) {
+		boolean reply = false;
+		for (int i = 0; i < str.length(); i++) {
+			if (isArabicChar(str.charAt(i))) {
+				reply = true;
+				break;
+			}
+		}
+		return reply;
+	}
+
+	public static boolean isHebrewChar(char inputChar) {
+		if (inputChar >= 0x5D0 && inputChar <= 0x5EA) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static boolean isThaiChar(char inputChar) {
+		return ((inputChar >= 0xE01 && inputChar <= 0xE3A) || (inputChar >= 0xE3F && inputChar <= 0xE5B));
+	}
+
+	public static boolean isArabicChar(char inputChar) {
+		if ((inputChar >= 0x0600 && inputChar <= 0x06FF)
+				|| (inputChar >= 0xFB50 && inputChar <= 0xFDFD) //FB50-FDFD Unicode Characters in the Arabic Presentation Forms-A Block
+				|| (isArabicCharFormB(inputChar)) //FE70-FEFC Unicode Characters in the Arabic Presentation Forms-B Block
+		) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public static boolean isArabicCharFormB(char inputChar) {
+		if (inputChar >= 0xFE70 && inputChar <= 0xFEFC) //FE70-FEFC Unicode Characters in the Arabic Presentation Forms-B Block
+		{
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static boolean isArabicNumber(char inputChar) {
+		if (inputChar >= 0x0660 && inputChar <= 0x0669) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }
