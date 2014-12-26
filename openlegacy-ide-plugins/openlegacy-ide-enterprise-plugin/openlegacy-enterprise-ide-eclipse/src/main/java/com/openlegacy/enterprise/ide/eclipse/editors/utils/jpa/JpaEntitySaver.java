@@ -12,16 +12,23 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaNavigationAc
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaTableAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.AbstractEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntity;
+import com.openlegacy.enterprise.ide.eclipse.editors.utils.ASTUtils;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.AbstractEntitySaver;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
+import org.eclipse.jdt.core.dom.Modifier.ModifierKeyword;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
+import org.eclipse.jdt.core.dom.NumberLiteral;
+import org.eclipse.jdt.core.dom.PrimitiveType;
+import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
 import org.openlegacy.annotations.db.DbActions;
@@ -29,6 +36,7 @@ import org.openlegacy.annotations.db.DbColumn;
 import org.openlegacy.annotations.db.DbEntity;
 import org.openlegacy.annotations.db.DbNavigation;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -53,6 +61,9 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 		// process annotations that located inside root:
 		// @Column, @OneToMany, @Id, @DbColumn
 		processEntityInnerAnnotations(ast, cu, rewriter, root, (JpaEntity)entity);
+
+		// add serialVersionUID
+		processSerializableDeclaration(ast, cu, rewriter, root);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -186,6 +197,67 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 					}
 				}
 			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private static void processSerializableDeclaration(AST ast, CompilationUnit cu, ASTRewrite rewriter,
+			AbstractTypeDeclaration root) {
+		boolean serializableInterfaceExist = false;
+		boolean serializableIdExist = false;
+
+		ListRewrite listRewrite = rewriter.getListRewrite(root, TypeDeclaration.SUPER_INTERFACE_TYPES_PROPERTY);
+		List<ASTNode> nodeList = listRewrite.getRewrittenList();
+		for (ASTNode node : nodeList) {
+			if (node.getNodeType() == ASTNode.SIMPLE_TYPE) {
+				SimpleType simpleType = (SimpleType)node;
+				if (StringUtils.equals(simpleType.getName().getFullyQualifiedName(), Serializable.class.getSimpleName())) {
+					serializableInterfaceExist = true;
+					break;
+				}
+			}
+		}
+
+		if (!serializableInterfaceExist) {
+			// add "implements Serializable"
+			SimpleType simpleType = ast.newSimpleType(ast.newSimpleName(Serializable.class.getSimpleName()));
+			listRewrite.insertLast(simpleType, null);
+			ASTUtils.addImport(ast, cu, rewriter, Serializable.class);
+		}
+
+		listRewrite = rewriter.getListRewrite(root, TypeDeclaration.BODY_DECLARATIONS_PROPERTY);
+		nodeList = listRewrite.getRewrittenList();
+		for (ASTNode node : nodeList) {
+			if (node.getNodeType() == ASTNode.FIELD_DECLARATION) {
+				FieldDeclaration field = (FieldDeclaration)node;
+				// get field name
+				String fieldName = "";
+				List<VariableDeclarationFragment> fragments = field.fragments();
+				if (fragments.size() > 0) {
+					fieldName = fragments.get(0).getName().getFullyQualifiedName();
+				}
+				// compare
+				if (StringUtils.equals(fieldName, "serialVersionUID")) {
+					serializableIdExist = true;
+					break;
+				}
+			}
+		}
+		if (!serializableIdExist) {
+			// add "private static final long serialVersionUID = 1L;"
+			VariableDeclarationFragment fragment = ast.newVariableDeclarationFragment();
+			fragment.setName(ast.newSimpleName("serialVersionUID"));
+
+			NumberLiteral numberLiteral = ast.newNumberLiteral("1L");
+			fragment.setInitializer(numberLiteral);
+
+			FieldDeclaration fieldDeclaration = ast.newFieldDeclaration(fragment);
+			fieldDeclaration.setType(ast.newPrimitiveType(PrimitiveType.LONG));
+			fieldDeclaration.modifiers().add(ast.newModifier(ModifierKeyword.PRIVATE_KEYWORD));
+			fieldDeclaration.modifiers().add(ast.newModifier(ModifierKeyword.STATIC_KEYWORD));
+			fieldDeclaration.modifiers().add(ast.newModifier(ModifierKeyword.FINAL_KEYWORD));
+
+			listRewrite.insertFirst(fieldDeclaration, null);
 		}
 	}
 
