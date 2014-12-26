@@ -650,6 +650,10 @@ public class JpaEntityUtils {
 		for (String key : keySet) {
 			JpaFieldModel model = null;
 			SimpleDbColumnFieldDefinition fieldDefinition = (SimpleDbColumnFieldDefinition)fieldsDefinitions.get(key);
+			// skip static fields
+			if (fieldDefinition.isStaticField()) {
+				continue;
+			}
 			String javaTypeName = fieldDefinition.getJavaTypeName();
 			if (javaTypeName.equalsIgnoreCase(Boolean.class.getSimpleName())) {
 				model = new JpaBooleanFieldModel(parent);

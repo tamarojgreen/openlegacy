@@ -20,6 +20,7 @@ import org.openlegacy.loaders.FieldLoader;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 import javax.persistence.Column;
 
@@ -44,6 +45,9 @@ public class DbJpaColumnAnnotationLoader implements FieldLoader {
 			DbFieldDefinition dbFieldDefinition = dbEntityDefinition.getColumnFieldsDefinitions().get(field.getName());
 			if (dbFieldDefinition == null) {
 				dbFieldDefinition = new SimpleDbColumnFieldDefinition(field.getName(), FieldType.General.class);
+				if (Modifier.isStatic(field.getModifiers())) {
+					((SimpleDbColumnFieldDefinition)dbFieldDefinition).setStaticField(true);
+				}
 			}
 			if (dbFieldDefinition instanceof SimpleDbColumnFieldDefinition) {
 				Column column = field.getAnnotation(Column.class);

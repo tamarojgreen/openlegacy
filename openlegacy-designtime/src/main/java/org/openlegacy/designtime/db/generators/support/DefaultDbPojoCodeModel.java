@@ -32,6 +32,7 @@ import japa.parser.ast.body.BodyDeclaration;
 import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
+import japa.parser.ast.body.ModifierSet;
 import japa.parser.ast.body.VariableDeclarator;
 import japa.parser.ast.expr.AnnotationExpr;
 import japa.parser.ast.expr.NormalAnnotationExpr;
@@ -289,6 +290,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		private String fieldName;
 		private String fieldType;
 		private String fieldTypeArgs;
+		private boolean staticField = false;
 		// @Column annotation properties
 		private String name = "";
 		private boolean unique = false;
@@ -499,6 +501,14 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 			this.mainDisplayField = mainDisplayField;
 		}
 
+		public boolean isStaticField() {
+			return staticField;
+		}
+
+		public void setStaticField(boolean staticField) {
+			this.staticField = staticField;
+		}
+
 	}
 
 	private String className;
@@ -642,6 +652,9 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 						fieldType = type.toString();
 					}
 					ColumnField columnField = new ColumnField(fieldName, fieldType, fieldTypeArgs);
+					if (ModifierSet.hasModifier(fieldDeclaration.getModifiers(), ModifierSet.STATIC)) {
+						columnField.setStaticField(true);
+					}
 					if (fieldAnnotations != null && !fieldAnnotations.isEmpty()) {
 						for (AnnotationExpr annotationExpr : fieldAnnotations) {
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,

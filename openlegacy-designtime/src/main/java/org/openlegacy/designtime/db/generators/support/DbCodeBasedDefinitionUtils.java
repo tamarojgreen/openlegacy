@@ -102,6 +102,7 @@ public class DbCodeBasedDefinitionUtils {
 			definition.setRightToLeft(javaColumnField.isRightToLeft());
 			definition.setInternal(javaColumnField.isInternal());
 			definition.setMainDisplayField(javaColumnField.isMainDisplayField());
+			definition.setStaticField(javaColumnField.isStaticField());
 
 			fieldDefinitions.put(javaColumnField.getFieldName(), definition);
 		}
