@@ -1,6 +1,5 @@
 package org.openlegacy.db.services;
 
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
@@ -14,7 +13,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
 @Transactional
-@Service
 public class DbService {
 
 	@PersistenceContext

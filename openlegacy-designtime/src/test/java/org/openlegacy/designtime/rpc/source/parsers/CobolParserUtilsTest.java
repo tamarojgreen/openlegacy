@@ -15,6 +15,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,6 +60,14 @@ public class CobolParserUtilsTest {
 
 		File copyBookDir = new File(copyBookPath);
 		String fileList[] = copyBookDir.list();
+
+		// the 'sort' method fix build test for
+		// Ubuntu 14.04
+		// java version "1.7.0_55"
+		// Java(TM) SE Runtime Environment (build 1.7.0_55-b13)
+		// Java HotSpot(TM) 64-Bit Server VM (build 24.55-b03, mixed mode)
+
+		Arrays.sort(fileList);
 		Assert.assertArrayEquals(streamMap.keySet().toArray(), fileList);
 
 	}
