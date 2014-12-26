@@ -15,17 +15,29 @@ import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.ValidationException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.db.DbSession;
+import org.openlegacy.db.definitions.DbEntityDefinition;
+import org.openlegacy.db.definitions.DbNavigationDefinition;
 import org.openlegacy.db.services.DbEntitiesRegistry;
+import org.openlegacy.db.services.DbService;
+import org.openlegacy.db.services.DbService.TableDbObject;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.json.EntitySerializationUtils;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
+import org.openlegacy.modules.menu.Menu;
+import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.support.SimpleEntityWrapper;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,20 +48,17 @@ import org.xml.sax.InputSource;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
@@ -63,28 +72,42 @@ public class DefaultDbRestController {
 	protected static final String ACTION = "action";
 
 	@Inject
+	private DbService dbService;
+
+	@Inject
+	private DbSession dbSession;
+
+	@Inject
 	private Login dbLoginModule;
 
 	@Inject
 	private DbEntitiesRegistry dbEntitiesRegistry;
 
-	@PersistenceContext
-	private EntityManager entityManager;
-
 	private Integer pageSize = 20;
+
+	public void setRequiresLogin(boolean requiresLogin) {
+		this.requiresLogin = requiresLogin;
+	}
 
 	private Integer pageNumber = 1;
 
-	private Integer pageCount = 0;
+	private boolean requiresLogin = false;
 
 	private final static Log logger = LogFactory.getLog(DefaultDbRestController.class);
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET, consumes = { JSON, XML })
-	public Object login(@RequestParam(USER) String user, @RequestParam(PASSWORD) String password, HttpServletResponse response)
-			throws IOException {
+	@RequestMapping(value = "/authenticate", method = RequestMethod.GET, consumes = { JSON, XML })
+	public void authenticateUser(HttpServletResponse response) throws IOException {
+		authenticate(response);
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = { JSON, XML })
+	public Object login(@RequestBody String json, HttpServletResponse response) throws IOException, ParseException {
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(json);
+		JSONObject jsonObj = (JSONObject)obj;
 		try {
 			if (dbLoginModule != null) {
-				dbLoginModule.login(user, password);
+				dbLoginModule.login(jsonObj.get("user").toString(), jsonObj.get("password").toString());
 			} else {
 				logger.warn("No login module defined. Skipping login");
 			}
@@ -94,7 +117,7 @@ public class DefaultDbRestController {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
 		}
 		response.setStatus(HttpServletResponse.SC_OK);
-		return null;
+		return getMenu();
 	}
 
 	@RequestMapping(value = "/logoff", consumes = { JSON, XML })
@@ -140,6 +163,8 @@ public class DefaultDbRestController {
 			@RequestParam(value = ACTION, required = false) String action,
 			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children,
 			@RequestBody String json, HttpServletResponse response) throws IOException {
+
+		// json = "{\"itemId\":\"111\",\"description\":\"sadasd\", \"notes\":[{\"text\":\"qqqq\"},{\"text\":\"sssss\"}]}";
 		return postEntityJson(entityName, action, children, json, response);
 	}
 
@@ -153,6 +178,39 @@ public class DefaultDbRestController {
 		} catch (RuntimeException e) {
 			return handleException(response, e);
 		}
+	}
+
+	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.DELETE)
+	protected void deleteEntityWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
+			HttpServletResponse response) throws IOException {
+		try {
+			deleteEntityRequest(entityName, key, response);
+		} catch (EntityNotFoundException e) {
+			sendError(HttpServletResponse.SC_NOT_FOUND, e.getMessage(), response);
+		} catch (Exception e) {
+			sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage(), response);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/menu", method = RequestMethod.GET, consumes = { JSON, XML })
+	public JSONArray getMenu(HttpServletResponse response) throws IOException {
+		Collection<DbEntityDefinition> entities = dbEntitiesRegistry.getEntitiesDefinitions();
+		JSONArray jsonArray = new JSONArray();
+		List<DbEntityDefinition> entityNames = new ArrayList<DbEntityDefinition>();
+		for (DbEntityDefinition dbEntityDefinition : entities) {
+			DbNavigationDefinition navDefinition = dbEntityDefinition.getNavigationDefinition();
+			if (navDefinition.getCategory() != null) {
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("displayName", navDefinition.getCategory());
+				jsonObject.put("entityName", dbEntityDefinition.getEntityName());
+				jsonArray.add(jsonObject);
+			}
+
+		}
+
+		return jsonArray;
+
 	}
 
 	protected ModelAndView getEntityDefinitions(String entityName, HttpServletResponse response) throws IOException {
@@ -177,6 +235,12 @@ public class DefaultDbRestController {
 		}
 	}
 
+	protected void deleteEntityRequest(String entityName, String key, HttpServletResponse response)
+			throws EntityNotFoundException, Exception {
+		Class<?> entityClass = dbEntitiesRegistry.get(entityName).getEntityClass();
+		dbService.deleteEntityById(entityClass, toObject(getFirstIdJavaType(entityClass), key.split("\\+")[0]));
+	}
+
 	protected Object postApiEntity(String entityName, Class<?> entityClass, String key) {
 		return getApiEntity(entityClass, null, key);
 	}
@@ -185,42 +249,53 @@ public class DefaultDbRestController {
 		Object[] keys = new Object[0];
 		if (key != null) {
 			keys = key.split("\\+");
-			return entityManager.find(entityClass, Integer.parseInt((String)keys[0]));
+
+			return dbService.getEntityById(entityClass, toObject(getFirstIdJavaType(entityClass), (String)keys[0]));
 		} else {
 			if (queryConditions != null && queryConditions.size() != 0) {
-				String query = "FROM " + entityClass.getSimpleName() + " WHERE ";
-				boolean firstIteration = true;
-				for (Entry<String, String> entry : queryConditions.entrySet()) {
-					if (!firstIteration) {
-						query += " AND ";
-					} else {
-						firstIteration = false;
-					}
-					query += entry.getKey() + "=" + entry.getValue();
-				}
-				return entityManager.createQuery(query).getResultList();
+				return dbService.getEntitiesWithConditions(entityClass, queryConditions);
 			} else {
-				CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-				CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
-				countQuery.select(criteriaBuilder.count(countQuery.from(entityClass)));
-				Long count = entityManager.createQuery(countQuery).getSingleResult();
-				Query query = entityManager.createQuery(String.format("FROM %s", entityClass.getSimpleName()));
-				pageCount = (int)Math.ceil((count.intValue() * 1.0) / pageSize);
-				if (pageNumber > pageCount) {
-					pageNumber = 1;
-				}
-
-				if (pageNumber == 1) {
-					query.setFirstResult(0);
-				} else if (pageNumber <= pageCount) {
-					query.setFirstResult(pageSize * (pageNumber - 1));
-				}
-
-				query.setMaxResults(pageSize);
-
-				return query.getResultList();
+				return dbService.getEntitiesPerPage(entityClass, pageSize, pageNumber);
 			}
 		}
+	}
+
+	private Class<?> getFirstIdJavaType(Class<?> entityClass) {
+		for (Field field : entityClass.getDeclaredFields()) {
+			Annotation[] annotations = field.getDeclaredAnnotations();
+			for (Annotation annotation : annotations) {
+				if (annotation.annotationType().equals(javax.persistence.Id.class)) {
+					return field.getType();
+				}
+			}
+		}
+
+		return null;
+	}
+
+	private static Object toObject(Class clazz, String value) {
+		if (Boolean.class == clazz || Boolean.TYPE == clazz) {
+			return Boolean.parseBoolean(value);
+		}
+		if (Byte.class == clazz || Byte.TYPE == clazz) {
+			return Byte.parseByte(value);
+		}
+		if (Short.class == clazz || Short.TYPE == clazz) {
+			return Short.parseShort(value);
+		}
+		if (Integer.class == clazz || Integer.TYPE == clazz) {
+			return Integer.parseInt(value);
+		}
+		if (Long.class == clazz || Long.TYPE == clazz) {
+			return Long.parseLong(value);
+		}
+		if (Float.class == clazz || Float.TYPE == clazz) {
+			return Float.parseFloat(value);
+		}
+		if (Double.class == clazz || Double.TYPE == clazz) {
+			return Double.parseDouble(value);
+		}
+		return value;
 	}
 
 	/**
@@ -234,9 +309,13 @@ public class DefaultDbRestController {
 		if (entity == null) {
 			throw (new EntityNotFoundException("No entity found"));
 		}
-
-		entity = ProxyUtil.getTargetJpaObject(entity, children);
-		// entity = ProxyUtil.getTargetObject(entity, children);
+		int pageCount = 0;
+		if (entity.getClass() == TableDbObject.class) {
+			pageCount = ((TableDbObject)entity).getPageCount();
+			entity = ProxyUtil.getTargetJpaObject(((TableDbObject)entity).getResult(), children);
+		} else {
+			entity = ProxyUtil.getTargetJpaObject(entity, children);
+		}
 		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(entity, null, getActions(entity), pageCount);
 		return new ModelAndView(MODEL, MODEL, wrapper);
 	}
@@ -265,7 +344,7 @@ public class DefaultDbRestController {
 		}
 	}
 
-	private static ModelAndView handleException(HttpServletResponse response, RuntimeException e) throws IOException {
+	protected static ModelAndView handleException(HttpServletResponse response, RuntimeException e) throws IOException {
 		response.setStatus(500);
 		response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
 		logger.fatal(e.getMessage(), e);
@@ -310,6 +389,7 @@ public class DefaultDbRestController {
 			if (json.length() == 0) {
 				json = "{}";
 			}
+
 			entity = EntitySerializationUtils.deserialize(json, entityClass);
 		} catch (Exception e) {
 			handleDeserializationException(entityName, response, e);
@@ -407,19 +487,52 @@ public class DefaultDbRestController {
 		return;
 	}
 
-	protected Object sendEntity(Object entity, String action) {
+	@Transactional
+	public Object sendEntity(Object entity, String action) {
 		Object resultEntity = null;
 		if (action == "") {
-			resultEntity = entityManager.merge(entity);
+			resultEntity = dbService.createOrUpdateEntity(entity);
+
 		}
 		return resultEntity;
 	}
 
 	protected boolean authenticate(HttpServletResponse response) throws IOException {
+		if (!requiresLogin) {
+			return true;
+		}
+
+		if (!dbLoginModule.isLoggedIn()) {
+			sendError(HttpServletResponse.SC_UNAUTHORIZED, "User unauthorized!", response);
+		}
+
 		return true;
 	}
 
 	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
 	}
+
+	private static void sendError(int errorCode, String message, HttpServletResponse response) throws IOException {
+		response.resetBuffer();
+		response.setStatus(errorCode);
+		response.setHeader("Content-Type", "application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(String.format("{\"error\":\"%s\"}", message));
+		response.flushBuffer();
+	}
+
+	public DbSession getSession() {
+		return dbSession;
+	}
+
+	private Object getMenu() {
+		Menu menuModule = getSession().getModule(Menu.class);
+		if (menuModule == null) {
+			return null;
+		}
+		MenuItem menus = menuModule.getMenuTree();
+		return menus;
+	}
+
 }

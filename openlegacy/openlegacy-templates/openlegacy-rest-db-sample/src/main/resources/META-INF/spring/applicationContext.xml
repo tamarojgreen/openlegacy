@@ -31,6 +31,8 @@
 	    </property>
     </bean>
 
+	<bean id="dbSession" class="org.openlegacy.db.support.DefaultDbSession" scope="prototype" parent="abstractDbSession"/>
+
 	<!-- database connection settings -->
     <bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" id="dataSource">
         <property name="driverClassName" value="${database.driverClassName}"/>
