@@ -57,7 +57,6 @@ public class DbRegistryTest {
 
 		// @DbColumn
 		Assert.assertEquals("Dummy db column name", dbColumnDefinition.getDisplayName());
-		Assert.assertTrue(dbColumnDefinition.isEditable());
 		Assert.assertTrue(dbColumnDefinition.isPassword());
 		Assert.assertEquals("Sample value", dbColumnDefinition.getSampleValue());
 		Assert.assertEquals("Default value", dbColumnDefinition.getDefaultValue());

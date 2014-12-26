@@ -95,7 +95,6 @@ public class DbCodeBasedDefinitionUtils {
 			definition.setKey(javaColumnField.isKey());
 
 			definition.setDisplayName(javaColumnField.getDisplayName());
-			definition.setEditable(javaColumnField.isEditable());
 			definition.setPassword(javaColumnField.isPassword());
 			definition.setSampleValue(javaColumnField.getSampleValue());
 			definition.setDefaultValue(javaColumnField.getDefaultValue());

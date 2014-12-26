@@ -125,9 +125,6 @@ public abstract class AbstractJpaFieldDetailsPage extends AbstractJpaDetailsPage
 		// create row for "displayName"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("jpa.field.display.name"), "", DbAnnotationConstants.DISPLAY_NAME);//$NON-NLS-1$ //$NON-NLS-2$
-		// create row for "editable"
-		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("jpa.field.editable"), false, DbAnnotationConstants.EDITABLE);//$NON-NLS-1$ 
 		// create row for "password"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
 				Messages.getString("jpa.field.password"), false, DbAnnotationConstants.PASSWORD);//$NON-NLS-1$ 

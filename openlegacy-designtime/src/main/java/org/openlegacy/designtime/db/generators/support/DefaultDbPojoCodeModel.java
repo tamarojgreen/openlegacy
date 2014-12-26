@@ -302,7 +302,6 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		private int scale = 0;
 		// @DbColumn annotation properties
 		private String displayName = "";
-		private boolean editable = false;
 		private boolean password = false;
 		private String sampleValue = "";
 		private String defaultValue = "";
@@ -442,14 +441,6 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 
 		public void setDisplayName(String displayName) {
 			this.displayName = displayName;
-		}
-
-		public boolean isEditable() {
-			return editable;
-		}
-
-		public void setEditable(boolean editable) {
-			this.editable = editable;
 		}
 
 		public boolean isPassword() {

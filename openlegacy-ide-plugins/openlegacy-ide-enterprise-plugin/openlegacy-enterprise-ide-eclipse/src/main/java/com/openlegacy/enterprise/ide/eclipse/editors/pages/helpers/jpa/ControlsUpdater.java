@@ -122,8 +122,6 @@ public class ControlsUpdater {
 				button.setSelection(model.isUpdatable());
 			} else if (key.equals(DbAnnotationConstants.DB_ID_ANNOTATION)) {
 				button.setSelection(model.isKey());
-			} else if (key.equals(DbAnnotationConstants.EDITABLE)) {
-				button.setSelection(model.isEditable());
 			} else if (key.equals(DbAnnotationConstants.PASSWORD)) {
 				button.setSelection(model.isPassword());
 			} else if (key.equals(DbAnnotationConstants.RIGHT_TO_LEFT)) {

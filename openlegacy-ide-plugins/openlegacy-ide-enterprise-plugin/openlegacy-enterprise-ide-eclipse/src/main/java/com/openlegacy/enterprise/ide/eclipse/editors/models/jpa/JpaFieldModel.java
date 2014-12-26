@@ -35,7 +35,6 @@ public class JpaFieldModel extends JpaNamedObject {
 	private boolean key = false;
 	// @DbColumn annotation
 	private String displayName = "";
-	private boolean editable = false;
 	private boolean password = false;
 	private String sampleValue = "";
 	private String defaultValue = "";
@@ -85,7 +84,6 @@ public class JpaFieldModel extends JpaNamedObject {
 			scale = definition.getScale();
 
 			displayName = definition.getDisplayName();
-			editable = definition.isEditable();
 			password = definition.isPassword();
 			sampleValue = definition.getSampleValue();
 			defaultValue = definition.getDefaultValue();
@@ -117,7 +115,6 @@ public class JpaFieldModel extends JpaNamedObject {
 		model.setKey(key);
 
 		model.setDisplayName(displayName);
-		model.setEditable(editable);
 		model.setPassword(password);
 		model.setSampleValue(sampleValue);
 		model.setDefaultValue(defaultValue);
@@ -138,7 +135,7 @@ public class JpaFieldModel extends JpaNamedObject {
 
 	public boolean isDefaultDbColumnAttrs() {
 		return StringUtils.isEmpty(displayName) && StringUtils.isEmpty(sampleValue) && StringUtils.isEmpty(defaultValue)
-				&& StringUtils.isEmpty(helpText) && !editable && !password && !rightToLeft && !internal && !mainDisplayFiled;
+				&& StringUtils.isEmpty(helpText) && !password && !rightToLeft && !internal && !mainDisplayFiled;
 	}
 
 	public boolean equalsColumnAttrs(JpaFieldModel model) {
@@ -152,8 +149,8 @@ public class JpaFieldModel extends JpaNamedObject {
 	public boolean equalsDbColumnAttrs(JpaFieldModel model) {
 		return StringUtils.equals(displayName, model.getDisplayName()) && StringUtils.equals(sampleValue, model.getSampleValue())
 				&& StringUtils.equals(defaultValue, model.getDefaultValue()) && StringUtils.equals(helpText, model.getHelpText())
-				&& editable == model.isEditable() && password == model.isPassword() && rightToLeft == model.isRightToLeft()
-				&& internal == model.isInternal() && mainDisplayFiled == model.isMainDisplayFiled();
+				&& password == model.isPassword() && rightToLeft == model.isRightToLeft() && internal == model.isInternal()
+				&& mainDisplayFiled == model.isMainDisplayFiled();
 	}
 
 	public String getName() {
@@ -270,14 +267,6 @@ public class JpaFieldModel extends JpaNamedObject {
 
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
-	}
-
-	public boolean isEditable() {
-		return editable;
-	}
-
-	public void setEditable(boolean editable) {
-		this.editable = editable;
 	}
 
 	public boolean isPassword() {

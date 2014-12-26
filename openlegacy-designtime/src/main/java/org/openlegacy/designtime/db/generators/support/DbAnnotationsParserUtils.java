@@ -215,7 +215,6 @@ public class DbAnnotationsParserUtils {
 
 	public static void loadDbColumnAnnotation(AnnotationExpr annotationExpr, ColumnField columnField) {
 		String displayNameValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.DISPLAY_NAME);
-		String editableValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.EDITABLE);
 		String passwordValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.PASSWORD);
 		String sampleValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.SAMPLE_VALUE);
 		String defaultValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.DEFAULT_VALUE);
@@ -226,9 +225,6 @@ public class DbAnnotationsParserUtils {
 
 		if (displayNameValue != null) {
 			columnField.setDisplayName(displayNameValue);
-		}
-		if (StringConstants.TRUE.equals(editableValue)) {
-			columnField.setEditable(true);
 		}
 		if (StringConstants.TRUE.equals(passwordValue)) {
 			columnField.setPassword(true);

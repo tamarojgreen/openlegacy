@@ -50,7 +50,6 @@ public class DbColumnAnnotationLoader implements FieldLoader {
 				DbColumn column = field.getAnnotation(DbColumn.class);
 				SimpleDbColumnFieldDefinition columnFieldDefinition = (SimpleDbColumnFieldDefinition)dbFieldDefinition;
 				columnFieldDefinition.setDisplayName(column.displayName());
-				columnFieldDefinition.setEditable(column.editable());
 				columnFieldDefinition.setPassword(column.password());
 				columnFieldDefinition.setSampleValue(column.sampleValue());
 				columnFieldDefinition.setDefaultValue(column.defaultValue());

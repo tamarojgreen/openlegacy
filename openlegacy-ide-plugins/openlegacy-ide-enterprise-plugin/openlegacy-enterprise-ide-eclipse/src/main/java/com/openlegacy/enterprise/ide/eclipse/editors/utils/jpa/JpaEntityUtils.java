@@ -265,11 +265,6 @@ public class JpaEntityUtils {
 			isDefault = StringUtils.isEmpty(model.getDisplayName());
 			PrivateMethods.addRemoveJpaDbColumnAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.DISPLAY_NAME, model.getDisplayName());
-			// @DbColumn.editable: default false
-			isPrevious = entityModel.isEditable() == model.isEditable();
-			isDefault = !model.isEditable();
-			PrivateMethods.addRemoveJpaDbColumnAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
-					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.EDITABLE, model.isEditable());
 			// @DbColumn.password: default false
 			isPrevious = entityModel.isPassword() == model.isPassword();
 			isDefault = !model.isPassword();

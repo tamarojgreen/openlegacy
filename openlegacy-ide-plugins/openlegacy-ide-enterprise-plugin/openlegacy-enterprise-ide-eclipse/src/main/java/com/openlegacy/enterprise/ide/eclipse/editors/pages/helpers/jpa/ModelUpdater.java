@@ -70,8 +70,6 @@ public class ModelUpdater {
 				model.setUpdatable(selection);
 			} else if (key.equals(DbAnnotationConstants.DB_ID_ANNOTATION)) {
 				model.setKey(selection);
-			} else if (key.equals(DbAnnotationConstants.EDITABLE)) {
-				model.setEditable(selection);
 			} else if (key.equals(DbAnnotationConstants.PASSWORD)) {
 				model.setPassword(selection);
 			} else if (key.equals(DbAnnotationConstants.RIGHT_TO_LEFT)) {

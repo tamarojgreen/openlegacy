@@ -78,7 +78,6 @@ public class DbAnnotationConstants {
 	public static final String SAMPLE_VALUE = "sampleValue";
 	public static final String DEFAULT_VALUE = "defaultValue";
 	public static final String HELP_TEXT = "helpText";
-	public static final String EDITABLE = "editable";
 	public static final String PASSWORD = "password";
 	public static final String RIGHT_TO_LEFT = "rightToLeft";
 	public static final String INTERNAL = "internal";
