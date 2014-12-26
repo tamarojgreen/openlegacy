@@ -55,17 +55,7 @@
 						<!-- content view -->				
 						<div ui-view ng-cloak></div>
 						<!-- /content view -->
-						<a data-toggle="modal" data-target=".ol-screenshot" class="clickable">Show screenshot</a>
-						<div class="modal fade ol-screenshot" tabindex="-1" role="dialog" aria-labelledby="screenshotModal" aria-hidden="true">
-				        	<div class="modal-dialog modal-lg">
-				                <div class="modal-content">
-				                    <img id="sessionImage" class="img-thumbnail">
-				                </div>
-				            </div>
-				        </div> 
-						
 					</div>
-					
 				</div>
 			</div>
 		</div>

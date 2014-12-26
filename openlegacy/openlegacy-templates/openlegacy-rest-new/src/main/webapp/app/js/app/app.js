@@ -25,9 +25,9 @@
 			}			
 		}
 		if ($("#sessionImage") != null){
-				$("#sessionImage").attr("src","../sessionViewer/image?" + new Date().getTime());
-			}
-		}	
+			$("#sessionImage").attr("src","../sessionViewer/image?" + new Date().getTime());
+		}
+		
 		
 		$rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {			
 			$rootScope.hidePreloader();
