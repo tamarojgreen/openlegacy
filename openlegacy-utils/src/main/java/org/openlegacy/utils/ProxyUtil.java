@@ -162,11 +162,13 @@ public class ProxyUtil {
 				for (Method method : proxy.getClass().getMethods()) {
 					if (method.getName().equals("get" + StringUtils.capitalize(field.getName()))) {
 						Object res = method.invoke(proxy, new Object[0]);
-						res.toString();
-						res = dehibernator.clean(res);
-						processed.put(proxy.getClass().getSimpleName(), proxy);
-						setFieldValue(field, proxy, res);
-						getTargetJpaObject(res, children, dehibernator, processed);
+						if (res != null) {
+							res.toString();
+							res = dehibernator.clean(res);
+							processed.put(proxy.getClass().getSimpleName(), proxy);
+							setFieldValue(field, proxy, res);
+							getTargetJpaObject(res, children, dehibernator, processed);
+						}
 					}
 				}
 			} else {

@@ -15,60 +15,63 @@
                 <li class="active">StockItem</li>
             </ol>
             
-            <h1>Items</h1>
+			<nav class="navbar navbar-default hidden-xs" role="navigation">
+				<form class="navbar-form xnavbar-left" role="navigation">                        	                                        	
+					<span ng-repeat="action in actions">
+						<button type="button" class="btn btn-primary navbar-btn" ng-click="postAction(action.alias)">	                            		
+                        	{{action.displayName}}
+                      		</button>                            	
+					</span>
+					<a href="{{exportExcelUrl}}" class="btn btn-primary navbar-btn pull-right" >
+						<span class="glyphicon glyphicon-export"></span>
+						Excel
+					</a>
+				</form>
+			</nav>
             
             <div class="panel panel-default">
-                <div class="panel-body">
-
-                    <nav class="navbar navbar-default hidden-xs" role="navigation">
-                       	<form class="navbar-form xnavbar-left" role="navigation">                        	                                        	
-                            <span ng-repeat="action in actions">
-           	               		<button type="button" class="btn btn-primary navbar-btn" ng-click="postAction(action.alias)">	                            		
-	                            	{{action.displayName}}
-                           		</button>                            	
-                            </span>
-                            <a href="{{exportExcelUrl}}" class="btn btn-primary navbar-btn pull-right" >
-                    			<span class="glyphicon glyphicon-export"></span>
-                                 Excel
-							</a>
-                        </form>
-                    </nav>                    
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th class="hidden-xs">Actions</th>                                    
-                                    <th>Item Description</th>
-                                    <th>Item Number</th>                                      
-                                </tr>
-                            </thead>
-                            <tbody>
-                            	<tr ng-repeat="item in items" >
-                                    <td class="hidden-xs">
-                                        <a href="#/StockItem/{{item.itemId}}"><span class="label label-primary"><span class="glyphicon glyphicon-repeat"></span></span></a>
-                                        <a href="#/StockItem/{{item.itemId}}"><span class="label label-danger"><span class="glyphicon glyphicon-remove-sign"></span></span></a>
-                                        <a href="#/StockItem/{{item.itemId}}"><span class="label label-success"><span class="glyphicon glyphicon-share-alt"></span></span></a>
-                                    </td>                                    
-                                    <td>{{item.description}}</td>
-                                    <td>{{item.itemId}}</td>
-                            	</tr>                            
-                            </tbody>
-                        </table>
-                    </div><!-- /table responsive -->
-                    <div class="top-margin-50">
-                        <button type="button" class="btn btn-default navbar-btn pull-right" ng-click="next()" ng-disabled="!showNext">
-                            Next
-                            <span class="glyphicon glyphicon-forward"></span>
-                        </button>
-                        <button type="button" class="btn btn-default navbar-btn pull-left" ng-click="prev()" ng-disabled="!showPrev">
-                            <span class="glyphicon glyphicon-backward"></span>
-                            Prev
-                        </button>
-                    </div>
-                </div>
-            </div><!-- /main panel -->                                                					
-            <div class="top-margin-50"></div>
-            
+              	<div class="panel-heading">
+              		<h4 class="panel-title">
+              			<a data-toggle="collapse" data-target="#items">Items</a>
+		    		</h4>
+	    		</div>                	
+              	<div id="items" class="panel-collapse collapse in">
+          			<div class="panel-body">
+	                    <div class="table-responsive">
+	                        <table class="table">
+	                            <thead>
+	                                <tr>
+	                                    <th class="hidden-xs">Actions</th>                                    
+	                                    <th>Item Description</th>
+	                                    <th>Item Number</th>                                      
+	                                </tr>
+	                            </thead>
+	                            <tbody>
+	                            	<tr ng-repeat="item in items" >
+	                                    <td class="hidden-xs">
+	                                        <a href="#/StockItem/{{item.itemId}}"><span class="label label-primary"><span class="glyphicon glyphicon-repeat"></span></span></a>
+	                                        <a href="#/StockItem/{{item.itemId}}"><span class="label label-danger"><span class="glyphicon glyphicon-remove-sign"></span></span></a>
+	                                        <a href="#/StockItem/{{item.itemId}}"><span class="label label-success"><span class="glyphicon glyphicon-share-alt"></span></span></a>
+	                                    </td>                                    
+	                                    <td>{{item.description}}</td>
+	                                    <td>{{item.itemId}}</td>
+	                            	</tr>                            
+	                            </tbody>
+	                        </table>
+	                    </div><!-- /table responsive -->
+	                    <div class="top-margin-50">
+	                        <button type="button" class="btn btn-default navbar-btn pull-right" ng-click="next()" ng-disabled="!showNext">
+	                            Next
+	                            <span class="glyphicon glyphicon-forward"></span>
+	                        </button>
+	                        <button type="button" class="btn btn-default navbar-btn pull-left" ng-click="prev()" ng-disabled="!showPrev">
+	                            <span class="glyphicon glyphicon-backward"></span>
+	                            Prev
+	                        </button>
+	                    </div>
+                	</div>
+            	</div>                                                            					
+            </div>            
         </div><!--      /main  col      -->
         
     </div><!--/row -->
