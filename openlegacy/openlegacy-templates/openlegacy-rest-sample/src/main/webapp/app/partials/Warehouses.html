@@ -37,82 +37,87 @@
 				</li>
 			</ol>
             
-            <h1>Warehouses</h1>            
             
-            <div class="panel panel-default">
-                <div class="panel-body">
-
-                    <nav class="navbar navbar-default" role="navigation">
-                        <form class="navbar-form xnavbar-left" role="navigation">
-                            <button type="button" class="btn btn-primary navbar-btn" ng-click="doAction('')" >
-                                <span class="glyphicon glyphicon-share-alt"></span>
-                                 Submit
-                            </button>
-                            
-                            <span ng-repeat="action in entity.actions">
-                            	<span ng-switch="action.alias">
-                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="help" ng-click="doAction(action.alias)">
-	                            		<span class="glyphicon glyphicon-question-sign"></span>
-		                            	{{action.displayName}}
-                            		</button>
-                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="exit" ng-click="doAction(action.alias)">
-	                            		<span class="glyphicon glyphicon-log-out"></span>
-		                            	{{action.displayName}}
-                            		</button>
-                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="create" ng-click="doAction(action.alias)">
-	                            		<span class="glyphicon glyphicon-pencil"></span>
-		                            	{{action.displayName}}
-                            		</button>
-                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="cancel" ng-click="doAction(action.alias)">
-	                            		<span class="glyphicon glyphicon-remove-circle"></span>
-		                            	{{action.displayName}}
-                            		</button>
-                            	</span>
-                            </span>
-                            <a href="{{exportExcelUrl}}" class="btn btn-primary navbar-btn pull-right" >
-                    			<span class="glyphicon glyphicon-export"></span>
-                                 Excel
-							</a>
-
-                        </form>
-                    </nav>
-                    
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                	<th>Actions</th>
-                                    <th>Serial Number</th>
-                                    <th>Warehouse Description</th>                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                            	<tr ng-repeat="warehouse in entity.warehousesRecords" >
-                            		<td>
-                                        <a href="#/WarehouseDetails/{{warehouse.whse}}"><span class="label label-primary"><span class="glyphicon glyphicon-repeat"></span></span></a>
-                                        <a href="#/WarehouseDetails/{{warehouse.whse}}"><span class="label label-danger"><span class="glyphicon glyphicon-remove-sign"></span></span></a>
-                                        <a href="#/WarehouseDetails/{{warehouse.whse}}"><span class="label label-success"><span class="glyphicon glyphicon-share-alt"></span></span></a>
-                                    </td>                                                                		
-                                    <td>{{warehouse.whse}}</td>
-                                    <td><a href="#/WarehouseDetails/{{warehouse.whse}}">{{warehouse.description}}</a></td>
-                            	</tr>                            
-                            </tbody>
-                        </table>
-                    </div><!-- /table responsive -->
-
-                    
-                    <div class="top-margin-50">
-                        <button type="button" class="btn btn-default navbar-btn pull-right" ng-click="doAction('next')">
-                            Next
-                            <span class="glyphicon glyphicon-forward"></span>
-                        </button>
-                        <button type="button" class="btn btn-default navbar-btn pull-left" ng-click="doAction('previous')">
-                            <span class="glyphicon glyphicon-backward"></span>
-                            Prev
-                        </button>
-                    </div>
-                </div>
-            </div><!-- /main panel -->
+			<nav class="navbar navbar-default" role="navigation">                      	
+				<form class="navbar-form xnavbar-left" role="navigation">
+					<button type="button" class="btn btn-primary navbar-btn" ng-click="doAction('')" >
+					    <span class="glyphicon glyphicon-share-alt"></span>
+					     Submit
+					</button>
+				        
+					<span ng-repeat="action in entity.actions">
+						<span ng-switch="action.alias">
+							<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="help" ng-click="doAction(action.alias)">
+					 		<span class="glyphicon glyphicon-question-sign"></span>
+					  	{{action.displayName}}
+							</button>
+							<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="exit" ng-click="doAction(action.alias)">
+					 		<span class="glyphicon glyphicon-log-out"></span>
+					  	{{action.displayName}}
+							</button>
+							<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="create" ng-click="doAction(action.alias)">
+					 		<span class="glyphicon glyphicon-pencil"></span>
+					  	{{action.displayName}}
+							</button>
+							<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="cancel" ng-click="doAction(action.alias)">
+					 		<span class="glyphicon glyphicon-remove-circle"></span>
+					  	{{action.displayName}}
+							</button>
+						</span>
+					</span>
+					<a href="{{exportExcelUrl}}" class="btn btn-primary navbar-btn pull-right" >
+						<span class="glyphicon glyphicon-export"></span>
+						Excel
+					</a>	
+				</form>
+			</nav>
+            
+            
+      		<div class="panel panel-default">
+              	<div class="panel-heading">
+              		<h4 class="panel-title">
+              			<a data-toggle="collapse" data-target="#warehouses">Warehouses</a>
+		    		</h4>
+	    		</div>                	
+              	<div id="warehouses" class="panel-collapse collapse in">
+          			<div class="panel-body">
+	      				<div class="table-responsive">
+	                        <table class="table">
+	                            <thead>
+	                                <tr>
+	                                	<th>Actions</th>
+	                                    <th>Serial Number</th>
+	                                    <th>Warehouse Description</th>                                    
+	                                </tr>
+	                            </thead>
+	                            <tbody>
+	                            	<tr ng-repeat="warehouse in entity.warehousesRecords" >
+	                            		<td>
+	                                        <a href="#/WarehouseDetails/{{warehouse.whse}}"><span class="label label-primary"><span class="glyphicon glyphicon-repeat"></span></span></a>
+	                                        <a href="#/WarehouseDetails/{{warehouse.whse}}"><span class="label label-danger"><span class="glyphicon glyphicon-remove-sign"></span></span></a>
+	                                        <a href="#/WarehouseDetails/{{warehouse.whse}}"><span class="label label-success"><span class="glyphicon glyphicon-share-alt"></span></span></a>
+	                                    </td>                                                                		
+	                                    <td>{{warehouse.whse}}</td>
+	                                    <td><a href="#/WarehouseDetails/{{warehouse.whse}}">{{warehouse.description}}</a></td>
+	                            	</tr>                            
+	                            </tbody>
+	                        </table>
+	                    </div><!-- /table responsive -->
+	
+	                    
+	                    <div class="top-margin-50">
+	                        <button type="button" class="btn btn-default navbar-btn pull-right" ng-click="doAction('next')">
+	                            Next
+	                            <span class="glyphicon glyphicon-forward"></span>
+	                        </button>
+	                        <button type="button" class="btn btn-default navbar-btn pull-left" ng-click="doAction('previous')">
+	                            <span class="glyphicon glyphicon-backward"></span>
+	                            Prev
+	                        </button>
+	                    </div>
+          			</div>
+       			</div>
+   			</div>
                 
             <!-- screenshot -->
             <a href="#" data-toggle="modal" data-target=".ol-screenshot">Show screenshot</a>
