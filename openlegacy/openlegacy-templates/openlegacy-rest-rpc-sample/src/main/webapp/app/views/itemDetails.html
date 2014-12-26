@@ -15,55 +15,70 @@
                  <li><a href="#/items">Items</a></li>
                 <li class="active">Item Details</li>
             </ol>
-	      	<div class="panel panel-default">
-	        	<div class="panel-body">
-			   		<nav class="navbar navbar-default top-margin-10" role="navigation">
-			   			<form class="navbar-form xnavbar-left" role="navigation">
-			            	<span ng-repeat="action in actions">                            	                            		
-			                	<button type="button" class="btn btn-primary navbar-btn" ng-click="postAction(action.alias)">	                            		
-			                    	{{action.displayName}}
-		                  		</button>
-							</span>	
+            
+   			<nav class="navbar navbar-default top-margin-10" role="navigation">
+   				<form class="navbar-form xnavbar-left" role="navigation">
+   					<span ng-repeat="action in actions">
+   						<button type="button" class="btn btn-primary navbar-btn" ng-click="postAction(action.alias)">
+   							{{action.displayName}}
+  						</button>
+					</span>	
+				</form>
+			</nav>			
+	      	
+					
+			<div class="panel panel-default">
+              	<div class="panel-heading">
+              		<h4 class="panel-title">
+              			<a data-toggle="collapse" data-target="#itemDetails">Item Details</a>
+		    		</h4>
+	    		</div>                	
+              	<div id="itemDetails" class="panel-collapse collapse in">
+          			<div class="panel-body">
+	          			<form role="form">
+							<div class="row">							
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label for="alphaSearch" class="control-label">Alpha Search:</label>
+										<input type="text" class="form-control" id="alphaSearch" placeholder="Alpha Search" ng-model="itemDetails.itemRecord.itemName">
+									</div>
+									<div class="form-group">
+										<label for="itemNumber" class="control-label">Item Number:</label>
+										<input type="text" class="form-control" id="itemNumber" placeholder="Item No" ng-model="itemDetails.itemNum">
+									</div>
+									<div class="form-group">
+										<label for="itemDescription" class="control-label">Item Description:</label>
+										<input type="text" class="form-control" id="itemDescription" placeholder="Item Description" ng-model="itemDetails.itemRecord.description">
+									</div>
+									<div class="form-group">
+										<label for="itemWeight" class="control-label">item Weight:</label>
+										<input type="text" class="form-control touchspin" id="itemWeight" placeholder="item Weight" ng-model="itemDetails.itemRecord.weight">
+									</div>								
+									<div class="form-group">
+										<label for="itemCreatedDate" class="control-label">item CreatedDate:</label>
+										<input type="text" class="form-control touchspin" id="itemCreatedDate" placeholder="mm/dd/yyyy" ng-model="itemDetails.itemRecord.created_date" datepicker/>
+									</div>
+									<div class="form-group">
+										<label for="itemAval" class="control-label">item Availability:</label>
+										<input type="checkbox" class="touchspin" id="itemAval" placeholder="item Availability" ng-model="itemDetails.itemRecord.availability">
+									</div>
+																	
+								</div>		
+							</div>	<!-- /row -->
 						</form>
-					</nav>                
-		              
-					<h1>Item Details</h1>
-		              
-					<form role="form">
-						<div class="row">							
-							<div class="col-sm-6">
-								<div class="form-group">
-									<label for="alphaSearch" class="control-label">Alpha Search:</label>
-									<input type="text" class="form-control" id="alphaSearch" placeholder="Alpha Search" ng-model="itemDetails.itemRecord.itemName">
-								</div>
-								<div class="form-group">
-									<label for="itemNumber" class="control-label">Item Number:</label>
-									<input type="text" class="form-control" id="itemNumber" placeholder="Item No" ng-model="itemDetails.itemNum">
-								</div>
-								<div class="form-group">
-									<label for="itemDescription" class="control-label">Item Description:</label>
-									<input type="text" class="form-control" id="itemDescription" placeholder="Item Description" ng-model="itemDetails.itemRecord.description">
-								</div>
-								<div class="form-group">
-									<label for="itemWeight" class="control-label">item Weight:</label>
-									<input type="text" class="form-control touchspin" id="itemWeight" placeholder="item Weight" ng-model="itemDetails.itemRecord.weight">
-								</div>								
-								<div class="form-group">
-									<label for="itemCreatedDate" class="control-label">item CreatedDate:</label>
-									<input type="text" class="form-control touchspin" id="itemCreatedDate" placeholder="mm/dd/yyyy" ng-model="itemDetails.itemRecord.created_date" datepicker/>
-								</div>
-								<div class="form-group">
-									<label for="itemAval" class="control-label">item Availability:</label>
-									<input type="checkbox" class="touchspin" id="itemAval" placeholder="item Availability" ng-model="itemDetails.itemRecord.availability">
-								</div>
-																
-							</div>		
-						</div>	<!-- /row -->
-						
-							
-						<div class="row">							
-							<div class="col-sm-6">
-							<h1 class="top-margin-50">Shippment Details</h1>
+          			</div>
+       			</div>
+			</div>
+			<div class="panel panel-default">
+              	<div class="panel-heading">
+              		<h4 class="panel-title">
+              			<a data-toggle="collapse" data-target="#shippmentDetails">Shippment Details</a>
+		    		</h4>
+	    		</div>                	
+              	<div id="shippmentDetails" class="panel-collapse collapse in">
+          			<div class="panel-body">
+          				<div class="row">							
+							<div class="col-sm-6">								
 								<div class="form-group">
 									<label for="shippingMethod" class="control-label">Shipping Method:</label>
 									<input type="text" class="form-control" id="shippingMethod" placeholder="Shipping Method" ng-model="itemDetails.shipping.shippingMethod">
@@ -71,16 +86,12 @@
 								<div class="form-group">
 									<label for="days" class="control-label">Days:</label>
 									<input type="text" class="form-control" id="days" placeholder="Days" ng-model="itemDetails.shipping.days">
-								</div>								
-							</div>		
+								</div>
+							</div>
 						</div>	<!-- /row -->
-					</form>
-				</div>
-			</div> 					
-    	    <div class="top-margin-50"></div>
-            
-        </div><!--      /main  col      -->
-        
-    </div><!--/row -->
-    
+          			</div>
+       			</div>
+  			</div>			
+        </div><!--      /main  col      -->        
+    </div><!--/row -->    
 </div><!--/container -->
