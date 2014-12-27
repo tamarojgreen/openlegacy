@@ -12,93 +12,99 @@
 <div class="panel panel-default">
 	<div class="panel-body">
 		<@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>					
-		<#list pageParts as part>																	
-			<#if part.displayName??><div class="panel-heading"><h3>${part.displayName}</h3></div></#if>		
-			<@pagePart entity=entityDefinition part=part/>
+		<#list pageParts as part>
+			<@pagePart entity=entityDefinition part=part partPanelId=entityDefinition.entityName + "Part" + (part_index + 1)?string/>
 		</#list>
 	</div>
 </div>									
 
-<#macro pagePart entity part>
+<#macro pagePart entity part partPanelId>
 <div class="panel panel-default">
-<div class="panel-body">
-	<#if part.hasTable>
-		<#list entity.partsDefinitions?keys as key>
-			<#if key == part.tableDefinition.tableEntityName?uncap_first>
-				<#assign rowActions = entity.partsDefinitions[key].actions>
-			</#if>
-		</#list>
-		<div class="table-responsive">
-			<table class="table">
-				<thead>
-					<tr>
-						<#if rowActions??>
-							<th>Actions</th>
-						</#if>						
-						<#list part.tableDefinition.columnDefinitions as column>									
-							<#if column_has_next>
-								<th>${column.displayName}</th>
-							<#else>
-								<th>${column.displayName}</th>
-							</#if>
-				  		</#list>
-					</tr>
-				</thead>
-				<tbody>				
-                    <tr data-ng-repeat="${part.tableDefinition.tableEntityName?uncap_first} in model.${part.tableDefinition.tableEntityName?uncap_first}">
-                    	<#list entityDefinition.partsDefinitions?keys as key>                    	
-								<#if rowActions??>									
-									<td>
-										<#list rowActions as action>
-											<#if action.targetEntity??>												
-												<#if entityDefinition.allFieldsDefinitionsSorted[0]??>	
-													<#if entityDefinition.allFieldsDefinitionsSorted[0].sortedFields[0]??>
-														<a href="#/${action.targetEntity.simpleName}/{{${entityDefinition.allFieldsDefinitionsSorted[0].sortedFields[0].shortName}}}" class="${action.alias}">													
-															<@actionButton action=action/>												
+  	<div class="panel-heading" data-toggle="collapse" data-target="#${partPanelId?replace(" ", "_")?lower_case}">
+  		<h4 class="panel-title">
+  			<#if part.displayName??>${part.displayName}</#if>
+		</h4>
+	</div>                	
+  	<div id="${partPanelId?replace(" ", "_")?lower_case}" class="panel-collapse collapse in">
+		<div class="panel-body">
+			<#if part.hasTable>
+				<#list entity.partsDefinitions?keys as key>
+					<#if key == part.tableDefinition.tableEntityName?uncap_first>
+						<#assign rowActions = entity.partsDefinitions[key].actions>
+					</#if>
+				</#list>
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<#if rowActions??>
+									<th>Actions</th>
+								</#if>						
+								<#list part.tableDefinition.columnDefinitions as column>									
+									<#if column_has_next>
+										<th>${column.displayName}</th>
+									<#else>
+										<th>${column.displayName}</th>
+									</#if>
+						  		</#list>
+							</tr>
+						</thead>
+						<tbody>				
+		                    <tr data-ng-repeat="${part.tableDefinition.tableEntityName?uncap_first} in model.${part.tableDefinition.tableEntityName?uncap_first}">
+		                    	<#list entityDefinition.partsDefinitions?keys as key>                    	
+										<#if rowActions??>									
+											<td>
+												<#list rowActions as action>
+													<#if action.targetEntity??>												
+														<#if entityDefinition.allFieldsDefinitionsSorted[0]??>	
+															<#if entityDefinition.allFieldsDefinitionsSorted[0].sortedFields[0]??>
+																<a href="#/${action.targetEntity.simpleName}/{{${entityDefinition.allFieldsDefinitionsSorted[0].sortedFields[0].shortName}}}" class="${action.alias}">													
+																	<@actionButton action=action/>												
+																</a>
+															</#if>
+														</#if>
+													<#else>
+														<a href="" ng-click="doActionNoTargetEntity($index, '${action.action.actionValue}')">
+															<@actionButton action=action/>
 														</a>
-													</#if>
-												</#if>
-											<#else>
-												<a href="" ng-click="doActionNoTargetEntity($index, '${action.action.actionValue}')">
-													<@actionButton action=action/>
-												</a>
-											</#if>			                                        		                                        
-                                        </#list>							
-	                            	</td>									
-								</#if>								
-							</#list>                                                  
-						<#list part.tableDefinition.columnDefinitions as column>							
-							<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>
-				  		</#list>							  		
-					</tr>                            
-                </tbody>
-	  		</table>
-  		</div>
-  		
-  		 <div class="top-margin-50">
-            <button ng-click="doAction('${entity.entityName}', 'next')" type="button" class="btn btn-default navbar-btn pull-right">
-                Next
-                <span class="glyphicon glyphicon-forward"></span>
-            </button>
-            <button ng-click="doAction('${entity.entityName}', 'previous')" type="button" class="btn btn-default navbar-btn pull-left">
-                <span class="glyphicon glyphicon-backward"></span>
-                Prev
-            </button>
-        </div>                
-	<#else>
-		<form role="form">
-			<div class="row">
-				<div class="col-sm-6">
-					<#list part.partRows as partRow>					
-						<#list partRow.fields as field>																
-							<@fieldMacro field=field/>
-						</#list>				
-					</#list>
-				</div>				
-			</div>
-		</form>		
-	</#if>
-</div>
+													</#if>			                                        		                                        
+		                                        </#list>							
+			                            	</td>									
+										</#if>								
+									</#list>                                                  
+								<#list part.tableDefinition.columnDefinitions as column>							
+									<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>
+						  		</#list>							  		
+							</tr>                            
+		                </tbody>
+			  		</table>
+		  		</div>
+		  		
+		  		 <div class="top-margin-50">
+		            <button ng-click="doAction('${entity.entityName}', 'next')" type="button" class="btn btn-default navbar-btn pull-right">
+		                Next
+		                <span class="glyphicon glyphicon-forward"></span>
+		            </button>
+		            <button ng-click="doAction('${entity.entityName}', 'previous')" type="button" class="btn btn-default navbar-btn pull-left">
+		                <span class="glyphicon glyphicon-backward"></span>
+		                Prev
+		            </button>
+		        </div>                
+			<#else>
+				<form role="form">
+					<div class="row">
+						<div class="col-sm-6">
+							<#list part.partRows as partRow>					
+								<#list partRow.fields as field>																
+									<@fieldMacro field=field/>
+								</#list>				
+							</#list>
+						</div>				
+					</div>
+				</form>		
+			</#if>
+		</div>
+	</div>
 </div>	
 </#macro>
 
