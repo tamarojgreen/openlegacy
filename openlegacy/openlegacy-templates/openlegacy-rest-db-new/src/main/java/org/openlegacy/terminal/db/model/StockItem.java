@@ -18,7 +18,7 @@ import org.openlegacy.annotations.db.DbEntity;
 import org.openlegacy.annotations.db.DbNavigation;
 
 @Entity
-@DbEntity(pluralName = "Stock Items")
+@DbEntity(pluralName = "Stock Items", displayName = "Stock Item")
 @DbNavigation(category = "Stock Items")
 @DbActions(actions = {
 		@Action(action = org.openlegacy.db.actions.DbActions.CREATE.class, displayName = "Create", alias = "create"),

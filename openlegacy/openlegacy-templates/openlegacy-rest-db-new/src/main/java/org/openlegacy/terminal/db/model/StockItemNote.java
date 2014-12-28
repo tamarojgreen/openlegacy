@@ -12,8 +12,10 @@ import org.codehaus.jackson.annotate.JsonBackReference;
 import org.openlegacy.annotations.db.Action;
 import org.openlegacy.annotations.db.DbActions;
 import org.openlegacy.annotations.db.DbColumn;
+import org.openlegacy.annotations.db.DbEntity;
 import org.openlegacy.db.actions.DbActions.READ;
 
+@DbEntity(displayName = "Stock Item Note", pluralName = "Stock Item Notes")
 @Entity
 @DbActions(actions = { @Action(action = READ.class, alias = "read", displayName = "Read") })
 public class StockItemNote implements Serializable {

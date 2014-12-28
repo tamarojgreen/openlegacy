@@ -1,12 +1,10 @@
 <div ng-switch on="currentAction">
-	<div ng-switch-when="READ">		
-		<h2>${entityDefinition.displayName}</h2>
+	<div ng-switch-when="READ">
 		<#assign isUPDATEAction = false>
 		<@actionToolbar entity=entityDefinition allowCREATE=false allowREAD=false/>
 		<@entityDetails entity=entityDefinition/>
 	</div>	
 	<div ng-switch-when="CREATE">
-		<h2>New ${entityDefinition.displayName}</h2>
 		<@actionToolbar entity=entityDefinition allowCREATE=false allowREAD=false allowDELETE=false/>
 		<@entityDetails entity=entityDefinition isCREATEAction=true/>
 	</div>
@@ -55,8 +53,7 @@
 	</#if>    
 </#macro>
 
-<#macro generateTable entity showActionsToolbar=true propertyName="" joinColumnName="" isCREATEAction=false>	
-	<h2><#if entity.pluralName??>${entity.pluralName}<#else>${entity.entityName}</#if></h2>
+<#macro generateTable entity showActionsToolbar=true propertyName="" joinColumnName="" isCREATEAction=false>
 	<#assign isREADAction = false>
 	<#if showActionsToolbar>
 		<@actionToolbar entity=entity allowUPDATE=false allowDELETE=false/>
@@ -68,126 +65,140 @@
         </#list>	
 	</#if>
 	<div class="panel panel-default">
-		<div class="panel-body">				
-			<div class="table-responsive">
-				<#assign columnsToDisplay = []>
-				<table class="table">
-					<thead>						
-						<tr>
-							<#if isCREATEAction>
-								<th></th>
-							</#if>
-							<#if entity.keys??>												
-							<#list entity.keys as key>
-							<#assign columnsToDisplay = columnsToDisplay + [key.name]>						
-								<#if key.displayName??>
-									<th>${key.displayName}</th>
-								<#else>
-									<#if key.name??>
-										<th>${key.name}</th>
-									</#if>
-								</#if>							
-							</#list>
-							</#if>
-							<#if entity.columnFieldsDefinitions??>
-								<#list entity.columnFieldsDefinitions?keys as key>
-									<#assign column = entity.columnFieldsDefinitions[key]>
-									<#if column.internal?? && !column.internal>														
-										<#if column.mainDisplayField?? && column.mainDisplayField>
-											<#assign columnsToDisplay = columnsToDisplay + [column.name]>
-											<#if column.displayName??>
-												<th>${column.displayName}</th>
-											<#else>
-												<#if column.name??>
-													<column>${column.name}</th>
-												</#if>
-											</#if>	
+	  	<div class="panel-heading" data-toggle="collapse" data-target="#${entity.entityName}">
+	  		<h4 class="panel-title">
+	  			<#if entity.pluralName??>${entity.pluralName}</#if>
+			</h4>
+		</div>                	
+	  	<div id="${entity.entityName}" class="panel-collapse collapse in">
+			<div class="panel-body">				
+				<div class="table-responsive">
+					<#assign columnsToDisplay = []>
+					<table class="table">
+						<thead>						
+							<tr>
+								<#if isCREATEAction>
+									<th></th>
+								</#if>
+								<#if entity.keys??>												
+								<#list entity.keys as key>
+								<#assign columnsToDisplay = columnsToDisplay + [key.name]>						
+									<#if key.displayName??>
+										<th>${key.displayName}</th>
+									<#else>
+										<#if key.name??>
+											<th>${key.name}</th>
 										</#if>
-									</#if>
+									</#if>							
 								</#list>
-							</#if>
-						</tr>
-					</thead>
-					<tbody>											
-			            <tr ng-repeat="item in model.entity<#if propertyName != "">.${propertyName}</#if>" <#if isREADAction && !isCREATEAction>ng-click="doREADAction('${entity.entityName}', $index, '${propertyName}')"</#if>>
-			            <#if isCREATEAction>
-							<td><input type="checkbox" ng-model="isChecked" ng-change="toggleSelection(item, nestedModels.${propertyName}, joinColumnName)"></td>							
-						</#if>			                               	
-			            	<#list columnsToDisplay as columnName>
-			            	<td>{{item.${columnName}}}</td>
-			            	</#list>												  		
-						</tr>                            
-			        </tbody>
-				</table>
-			</div>
-			<div class="top-margin-50">
-			    <button ng-click="${propertyName}_next()" type="button" class="btn btn-default navbar-btn pull-right" ng-disabled="!${propertyName}_showNext">
-			        Next
-			        <span class="glyphicon glyphicon-forward"></span>
-			    </button>
-			    <button ng-click="${propertyName}_prev()" type="button" class="btn btn-default navbar-btn pull-left" ng-disabled="!${propertyName}_showPrev">
-			        <span class="glyphicon glyphicon-backward"></span>
-			        Prev
-			    </button>
+								</#if>
+								<#if entity.columnFieldsDefinitions??>
+									<#list entity.columnFieldsDefinitions?keys as key>
+										<#assign column = entity.columnFieldsDefinitions[key]>
+										<#if column.internal?? && !column.internal>														
+											<#if column.mainDisplayField?? && column.mainDisplayField>
+												<#assign columnsToDisplay = columnsToDisplay + [column.name]>
+												<#if column.displayName??>
+													<th>${column.displayName}</th>
+												<#else>
+													<#if column.name??>
+														<column>${column.name}</th>
+													</#if>
+												</#if>	
+											</#if>
+										</#if>
+									</#list>
+								</#if>
+							</tr>
+						</thead>
+						<tbody>											
+				            <tr ng-repeat="item in model.entity<#if propertyName != "">.${propertyName}</#if>" <#if isREADAction && !isCREATEAction>ng-click="doREADAction('${entity.entityName}', $index, '${propertyName}')"</#if>>
+				            <#if isCREATEAction>
+								<td><input type="checkbox" ng-model="isChecked" ng-change="toggleSelection(item, nestedModels.${propertyName}, joinColumnName)"></td>							
+							</#if>			                               	
+				            	<#list columnsToDisplay as columnName>
+				            	<td>{{item.${columnName}}}</td>
+				            	</#list>												  		
+							</tr>                            
+				        </tbody>
+					</table>
+				</div>
+				<div class="top-margin-50">
+				    <button ng-click="${propertyName}_next()" type="button" class="btn btn-default navbar-btn pull-right" ng-disabled="!${propertyName}_showNext">
+				        Next
+				        <span class="glyphicon glyphicon-forward"></span>
+				    </button>
+				    <button ng-click="${propertyName}_prev()" type="button" class="btn btn-default navbar-btn pull-left" ng-disabled="!${propertyName}_showPrev">
+				        <span class="glyphicon glyphicon-backward"></span>
+				        Prev
+				    </button>
+				</div>
 			</div>
 		</div>
 	</div>
 </#macro>
 <#macro entityDetails entity isCREATEAction=false propertyName="">
 	<div class="panel panel-default">
-		<div class="panel-body">
-			<form role="form">
-				<div class="form-group">					
-						<#list entity.keys as key>
-							<#assign colWidth = (6/entity.keys?size)?ceiling>
-							<#if !key.keyAutoGenerated>							
-							<div class="row">
-								<div class="col-sm-${colWidth}">
-									<label>
-										<#if key.displayName??>
-											${key.displayName}:
-										<#else>
-											<#if key.name??>
-												${key.name}:
-											</#if>
-										</#if>	
-									</label>
-									<#if isCREATEAction>
-										<input ng-model="model.entity.${key.name}"></input>
-									<#else>
-										<span>{{model.entity.<#if propertyName != "">${propertyName}['1'].</#if>${key.name}}}</span>
-									</#if>												
-								</div>
-							</div>
-							</#if>
-						</#list>
-					<#assign childColumns = []>
-					<#if entity.columnFieldsDefinitions??>
-						<#list entity.columnFieldsDefinitions?keys as key>								
-							<#assign column = entity.columnFieldsDefinitions[key]>								
-							<#if (!column.internal?? || column.internal == false) && !column.oneToManyDefinition??>								
+	  	<div class="panel-heading" data-toggle="collapse" data-target="#${entity.entityName}">
+	  		<h4 class="panel-title">
+	  			<#if entity.displayName??>${entity.displayName}</#if>
+			</h4>
+		</div>                	
+	  	<div id="${entity.entityName}" class="panel-collapse collapse in">
+			<div class="panel-body">	
+				<form role="form">
+					<div class="form-group">					
+							<#list entity.keys as key>
+								<#assign colWidth = (6/entity.keys?size)?ceiling>
+								<#if !key.keyAutoGenerated>							
 								<div class="row">
 									<div class="col-sm-${colWidth}">
 										<label>
-											<#if column.displayName??>
-												${column.displayName}:							
+											<#if key.displayName??>
+												${key.displayName}:
 											<#else>
-												<#if column.name??>
-													<column>${column.name}:
+												<#if key.name??>
+													${key.name}:
 												</#if>
-											</#if>
-										</label>											
-										<input ng-model="model.entity.<#if propertyName != "">${propertyName}['1'].</#if>${column.name}" ng-disabled="<#if isUPDATEAction && column.editable>false<#else>true</#if>"></input>
+											</#if>	
+										</label>
+										<#if isCREATEAction>
+											<input ng-model="model.entity.${key.name}"></input>
+										<#else>
+											<span>{{model.entity.<#if propertyName != "">${propertyName}['1'].</#if>${key.name}}}</span>
+										</#if>												
 									</div>
 								</div>
-							</#if>							
-							<#if (!column.internal?? || column.internal == false) && column.oneToManyDefinition??>							
-								<#assign childColumns = childColumns + [column]>																
-							</#if>											
-						</#list>
-					</#if>
-				</div>			
-			</form>		
+								</#if>
+							</#list>
+						<#assign childColumns = []>
+						<#if entity.columnFieldsDefinitions??>
+							<#list entity.columnFieldsDefinitions?keys as key>								
+								<#assign column = entity.columnFieldsDefinitions[key]>								
+								<#if (!column.internal?? || column.internal == false) && !column.oneToManyDefinition??>								
+									<div class="row">
+										<div class="col-sm-${colWidth}">
+											<label>
+												<#if column.displayName??>
+													${column.displayName}:							
+												<#else>
+													<#if column.name??>
+														<column>${column.name}:
+													</#if>
+												</#if>
+											</label>											
+											<input ng-model="model.entity.<#if propertyName != "">${propertyName}['1'].</#if>${column.name}" ng-disabled="<#if isUPDATEAction && column.editable>false<#else>true</#if>"></input>
+										</div>
+									</div>
+								</#if>							
+								<#if (!column.internal?? || column.internal == false) && column.oneToManyDefinition??>							
+									<#assign childColumns = childColumns + [column]>																
+								</#if>											
+							</#list>
+						</#if>
+					</div>			
+				</form>		
+			</div>
 		</div>
 	</div>	
 	<#list childColumns as childColumn>
