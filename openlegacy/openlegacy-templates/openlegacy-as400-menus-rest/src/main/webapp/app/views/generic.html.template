@@ -9,172 +9,174 @@
 	<h1>${entityDefinition.displayName}</h1>
 </#if>
 
-<div class="panel panel-default">
-	<div class="panel-body">	
-		<#if (entityDefinition.childEntitiesDefinitions?size > 0)>
-			<div class="tab-content top-margin-10">
-				<ul class="nav nav-tabs">
-					<li class="active"><a href="/#${entityDefinition.entityName}" data-toggle="tab" ng-click="loadTab('${entityDefinition.entityName}')">${entityDefinition.displayName}</a></li>
-					<#list entityDefinition.childEntitiesDefinitions as childEntity>
-						<li><a href="/#${childEntity.entityName}" data-toggle="tab" ng-click="loadTab('${childEntity.entityName}')">${childEntity.displayName}</a></li>
-					</#list>
-				</ul>
-				<div class="tab-content"><!-- Tab panes -->
-					<div class="tab-pane active" id="${entityDefinition.entityName}">
-						<#if !entityDefinition.window><@navMacro entity=entityDefinition showExcelBtn=hasTable?string/></#if>
-						<#list pageParts as part>
-							<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>
-							<@pagePart entity=entityDefinition part=part/>
-						</#list>
-					</div>
-					
-					<#list childPagesDefinitions as childPage>		            			
-	        			<div class="tab-pane" id="${childPage.entityDefinition.entityName}">			            					            				
-						    <#if !entityDefinition.window><@navMacro entity=childPage.entityDefinition showExcelBtn=hasTable?string/></#if>
-						    <#if (childPage.pageParts?size > 0)>
-						    	<#list childPage.pageParts as part>
-									<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>		
-									<@pagePart entity=childPage.entityDefinition part=part/>
-								</#list>
-				    		<#else>						    			
-				    			<#list childEntity.fieldsDefinitions?keys as key>						    			
-						    		<@fieldMacro field=childPage.entityDefinition.fieldsDefinitions[key]/>
-				    			</#list>							    		
-						    </#if>
-	        			</div>
-        		    </#list>						  
-				</div><!-- /Tab panes -->
-			</div>
-		<#else>
-			<#if !entityDefinition.window><@navMacro entity=entityDefinition showExcelBtn=hasTable?string/></#if>
-			<#list pageParts as part>
-				<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>
-				<@pagePart entity=entityDefinition part=part/>
+
+<#if (entityDefinition.childEntitiesDefinitions?size > 0)>
+	<div class="tab-content top-margin-10">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="/#${entityDefinition.entityName}" data-toggle="tab" ng-click="loadTab('${entityDefinition.entityName}')">${entityDefinition.displayName}</a></li>
+			<#list entityDefinition.childEntitiesDefinitions as childEntity>
+				<li><a href="/#${childEntity.entityName}" data-toggle="tab" ng-click="loadTab('${childEntity.entityName}')">${childEntity.displayName}</a></li>
 			</#list>
-		</#if>
-		<#if !entityDefinition.window>
-		<a data-toggle="modal" data-target=".ol-screenshot" class="clickable">Show screenshot</a>
-		<div class="modal fade ol-screenshot" tabindex="-1" role="dialog" aria-labelledby="screenshotModal" aria-hidden="true">
-        	<div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <img src="{{baseUrl}}sessionViewer/image?random=${entityDefinition.entityName}" class="img-thumbnail">
-                </div>
-            </div>
-        </div>
-        </#if> 
+		</ul>
+		<div class="tab-content"><!-- Tab panes -->
+			<div class="tab-pane active" id="${entityDefinition.entityName}">
+				<#if !entityDefinition.window><@navMacro entity=entityDefinition showExcelBtn=hasTable?string/></#if>
+				<#list pageParts as part>
+					<@pagePart entity=entityDefinition part=part partPanelId=entityDefinition.entityName + "Part" + (part_index + 1)?string/>
+				</#list>
+			</div>
+			
+			<#list childPagesDefinitions as childPage>		            			
+    			<div class="tab-pane" id="${childPage.entityDefinition.entityName}">			            					            				
+				    <#if !entityDefinition.window><@navMacro entity=childPage.entityDefinition showExcelBtn=hasTable?string/></#if>
+				    <#if (childPage.pageParts?size > 0)>
+				    	<#list childPage.pageParts as part>
+							<@pagePart entity=childPage.entityDefinition part=part partPanelId=childPage.entityDefinition.entityName + "Part" + (part_index + 1)?string/>
+						</#list>
+		    		<#else>						    			
+		    			<#list childEntity.fieldsDefinitions?keys as key>						    			
+				    		<@fieldMacro field=childPage.entityDefinition.fieldsDefinitions[key]/>
+		    			</#list>							    		
+				    </#if>
+    			</div>
+		    </#list>						  
+		</div><!-- /Tab panes -->
 	</div>
-</div>									
+<#else>
+	<#if !entityDefinition.window><@navMacro entity=entityDefinition showExcelBtn=hasTable?string/></#if>
+	<#list pageParts as part>
+		<@pagePart entity=entityDefinition part=part partPanelId=entityDefinition.entityName + "Part" + (part_index + 1)?string/>
+	</#list>
+</#if>
+<#if !entityDefinition.window>
+<a data-toggle="modal" data-target=".ol-screenshot" class="clickable">Show screenshot</a>
+<div class="modal fade ol-screenshot" tabindex="-1" role="dialog" aria-labelledby="screenshotModal" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <img src="{{baseUrl}}sessionViewer/image?random=${entityDefinition.entityName}" class="img-thumbnail">
+        </div>
+    </div>
+</div>
+</#if> 
+								
 										
 
-<#macro pagePart entity part>	
+<#macro pagePart entity part partPanelId>	
 	<div class="panel panel-default">
-		<div class="panel-body">	
-			<#if part.hasTable>
-				<div class="table-responsive">
-					<table class="table">
-						<thead>
-							<tr>
-							<#list part.tableDefinition.columnDefinitions as column>									
-								<#if column.selectionField>
-									<#assign selectionColumn = column>
-								</#if>
-								<#if column_has_next>
-									<th>${column.displayName}</th>
-								<#else>
-							<th>${column.displayName}</th>
-								</#if>
-					  		</#list>
-							</tr>
-						</thead>
-						<tbody>                            	
-		                    <tr data-ng-repeat="${part.tableDefinition.tableEntityName?uncap_first} in model.${part.tableDefinition.tableEntityName?uncap_first}s">                              
-								<#list part.tableDefinition.columnDefinitions as column>	
-									<#if column_index == 0>										
-										<td>
-											<#if (part.tableDefinition.actions?size > 3)>
-												<div class="dropdown">
-												  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-												    Select
-												    <span class="caret"></span>
-												  </button>
-												  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-												    <#list part.tableDefinition.actions as action>
-													    <#if action.defaultAction == true>
+	  	<div class="panel-heading" data-toggle="collapse" data-target="#${partPanelId?replace(" ", "_")?lower_case}">
+	  		<h4 class="panel-title">
+	  			<#if part.displayName??>${part.displayName}</#if>
+			</h4>
+		</div>                	
+	  	<div id="${partPanelId?replace(" ", "_")?lower_case}" class="panel-collapse collapse in">
+			<div class="panel-body">	
+				<#if part.hasTable>
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+								<#list part.tableDefinition.columnDefinitions as column>									
+									<#if column.selectionField>
+										<#assign selectionColumn = column>
+									</#if>
+									<#if column_has_next>
+										<th>${column.displayName}</th>
+									<#else>
+								<th>${column.displayName}</th>
+									</#if>
+						  		</#list>
+								</tr>
+							</thead>
+							<tbody>                            	
+			                    <tr data-ng-repeat="${part.tableDefinition.tableEntityName?uncap_first} in model.${part.tableDefinition.tableEntityName?uncap_first}s">                              
+									<#list part.tableDefinition.columnDefinitions as column>	
+										<#if column_index == 0>										
+											<td>
+												<#if (part.tableDefinition.actions?size > 3)>
+													<div class="dropdown">
+													  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+													    Select
+													    <span class="caret"></span>
+													  </button>
+													  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+													    <#list part.tableDefinition.actions as action>
+														    <#if action.defaultAction == true>
+																<#assign defaultAction = action defaultActionIndex = action_index>
+															</#if>
+														    <#if action.targetEntity??>
+														    	<li><a href="#/${action.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">${action.displayName}</a></li>
+														    <#else>
+														    	<li><a href="" ng-click="${part.tableDefinition.tableEntityName?uncap_first}.${selectionColumn.name}='${action.action.actionValue}';doActionNoTargetEntity()">${action.displayName}</a></li>
+														    </#if>																		                                        		                                        
+				                                        </#list>		                                        
+													  </ul>
+													</div>
+												<#else>
+													<#list part.tableDefinition.actions as action>
+														<#if action.defaultAction == true>
 															<#assign defaultAction = action defaultActionIndex = action_index>
 														</#if>
-													    <#if action.targetEntity??>
-													    	<li><a href="#/${action.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">${action.displayName}</a></li>
-													    <#else>
-													    	<li><a href="" ng-click="${part.tableDefinition.tableEntityName?uncap_first}.${selectionColumn.name}='${action.action.actionValue}';doActionNoTargetEntity()">${action.displayName}</a></li>
-													    </#if>																		                                        		                                        
-			                                        </#list>		                                        
-												  </ul>
-												</div>
+														<#if action.targetEntity??>
+															<#assign keyValues = "{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">
+															<#list part.tableDefinition.keyFieldNames as keyValue>
+																<#if (keyValue_index > 0)>
+																	<#assign keyValues = "${keyValues} + {{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[keyValue_index]}}}">
+																</#if>
+															</#list>
+															<a href="#/${action.targetEntity.simpleName}/${keyValues}" class="${action.alias}">
+																${action.displayName}												
+															</a>
+														<#else>
+															<a href="" ng-click="${part.tableDefinition.tableEntityName?uncap_first}.${selectionColumn.name}='${action.action.actionValue}';doActionNoTargetEntity()">
+																${action.displayName}
+															</a>
+														</#if>			                                        		                                        
+			                                        </#list>		                              
+												</#if>											
+			                            	</td>
+										<#else>	
+											<td>
+											<#if (column.editable)>
+												<input data-ng-class="readOnlyCss(${part.tableDefinition.tableEntityName?uncap_first},'${column.name}')" data-ng-readonly="isReadOnly(${part.tableDefinition.tableEntityName?uncap_first},'${column.name}')" type="text" size="${column.length}" ng-model="${part.tableDefinition.tableEntityName?uncap_first}.${column.name}" />
 											<#else>
-												<#list part.tableDefinition.actions as action>
-													<#if action.defaultAction == true>
-														<#assign defaultAction = action defaultActionIndex = action_index>
-													</#if>
-													<#if action.targetEntity??>
-														<#assign keyValues = "{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">
-														<#list part.tableDefinition.keyFieldNames as keyValue>
-															<#if (keyValue_index > 0)>
-																<#assign keyValues = "${keyValues} + {{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[keyValue_index]}}}">
-															</#if>
-														</#list>
-														<a href="#/${action.targetEntity.simpleName}/${keyValues}" class="${action.alias}">
-															${action.displayName}												
-														</a>
-													<#else>
-														<a href="" ng-click="${part.tableDefinition.tableEntityName?uncap_first}.${selectionColumn.name}='${action.action.actionValue}';doActionNoTargetEntity()">
-															${action.displayName}
-														</a>
-													</#if>			                                        		                                        
-		                                        </#list>		                              
-											</#if>											
-		                            	</td>
-									<#else>	
-										<td>
-										<#if (column.editable)>
-											<input data-ng-class="readOnlyCss(${part.tableDefinition.tableEntityName?uncap_first},'${column.name}')" data-ng-readonly="isReadOnly(${part.tableDefinition.tableEntityName?uncap_first},'${column.name}')" type="text" size="${column.length}" ng-model="${part.tableDefinition.tableEntityName?uncap_first}.${column.name}" />
-										<#else>
-											{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}
+												{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}
+											</#if>
+											</td>
+										</#if>										
+							  		</#list>							  		
+								</tr>                            
+			                </tbody>
+				  		</table>
+			  		</div>
+			  		
+			  		 <div class="top-margin-50">
+			            <button ng-click="doAction('${entity.entityName}', 'next')" type="button" class="btn btn-default navbar-btn pull-right">
+			                Next
+			                <span class="glyphicon glyphicon-forward"></span>
+			            </button>
+			            <button ng-click="doAction('${entity.entityName}', 'previous')" type="button" class="btn btn-default navbar-btn pull-left">
+			                <span class="glyphicon glyphicon-backward"></span>
+			                Prev
+			            </button>
+			        </div>                
+				<#else>
+					<form role="form">
+						<#list part.partRows as partRow>
+								<div class="row">
+								<#assign colWidth = (6/partRow.fields?size)?ceiling>
+								<#list partRow.fields as field>
+									<div class="col-sm-${colWidth}">
+										<#if field??>									
+										<@fieldMacro field=field/>
 										</#if>
-										</td>
-									</#if>										
-						  		</#list>							  		
-							</tr>                            
-		                </tbody>
-			  		</table>
-		  		</div>
-		  		
-		  		 <div class="top-margin-50">
-		            <button ng-click="doAction('${entity.entityName}', 'next')" type="button" class="btn btn-default navbar-btn pull-right">
-		                Next
-		                <span class="glyphicon glyphicon-forward"></span>
-		            </button>
-		            <button ng-click="doAction('${entity.entityName}', 'previous')" type="button" class="btn btn-default navbar-btn pull-left">
-		                <span class="glyphicon glyphicon-backward"></span>
-		                Prev
-		            </button>
-		        </div>                
-			<#else>
-				<form role="form">
-					<#list part.partRows as partRow>
-							<div class="row">
-							<#assign colWidth = (6/partRow.fields?size)?ceiling>
-							<#list partRow.fields as field>
-								<div class="col-sm-${colWidth}">
-									<#if field??>									
-									<@fieldMacro field=field/>
-									</#if>
+									</div>
+								</#list>
+	
 								</div>
-							</#list>
-
-							</div>
-					</#list>
-				</form>		
-			</#if>
+						</#list>
+					</form>		
+				</#if>
+			</div>	
 		</div>
 	</div>		
 </#macro>
