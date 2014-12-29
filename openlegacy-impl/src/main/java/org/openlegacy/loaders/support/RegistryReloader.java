@@ -6,6 +6,7 @@ import org.openlegacy.utils.FileUtils;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -87,6 +88,9 @@ public class RegistryReloader {
 				return file.getName().endsWith(".java");
 			}
 		});
+		if (files == null){
+			return new ArrayList<File>();
+		}
 		List<File> javaSources = Arrays.asList(files);
 		Collections.sort(javaSources, new Comparator<File>() {
 
