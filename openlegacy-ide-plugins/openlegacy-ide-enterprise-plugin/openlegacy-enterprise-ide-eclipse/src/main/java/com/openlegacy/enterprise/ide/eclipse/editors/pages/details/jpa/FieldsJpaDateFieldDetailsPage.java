@@ -51,7 +51,7 @@ public class FieldsJpaDateFieldDetailsPage extends AbstractJpaFieldDetailsPage {
 		if (fieldModel == null) {
 			return;
 		}
-		ControlsUpdater.updateJpaFieldDetailsControls(fieldModel, mapTexts, mapCheckBoxes, mapLabels);
+		ControlsUpdater.updateJpaFieldDetailsControls(fieldModel, mapTexts, mapCheckBoxes, mapLabels, mapCombos);
 		revalidate();
 	}
 
@@ -74,6 +74,11 @@ public class FieldsJpaDateFieldDetailsPage extends AbstractJpaFieldDetailsPage {
 		} else {
 			fieldModel = null;
 		}
+	}
+
+	@Override
+	protected boolean isAddManyToOneSection() {
+		return true;
 	}
 
 }

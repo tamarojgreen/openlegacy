@@ -45,4 +45,15 @@ public class Constants {
 	public static final String LIST_TYPE_ARG = "listTypeArg";
 
 	public static final String RPC_PART_ACTIONS = "rpcPartActions";
+
+	// @JoinColumn
+	public static final String JC_NAME = "name";
+	public static final String JC_REFERENCED_COLUMN_NAME = "referencedColumnName";
+	public static final String JC_UNIQUE = "unique";
+	public static final String JC_NULLABLE = "nullable";
+	public static final String JC_INSERTABLE = "insertable";
+	public static final String JC_UPDATABLE = "updatable";
+	public static final String JC_COLUMN_DEFINITION = "columnDefinition";
+	public static final String JC_TABLE = "table";
+
 }

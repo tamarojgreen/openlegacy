@@ -8,8 +8,7 @@ import org.openlegacy.definitions.support.AbstractFieldDefinition;
  * @author Ivan Bort
  * 
  */
-public class SimpleDbColumnFieldDefinition extends
-		AbstractFieldDefinition<DbFieldDefinition> implements DbFieldDefinition {
+public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFieldDefinition> implements DbFieldDefinition {
 
 	private static final long serialVersionUID = 1L;
 
@@ -25,15 +24,15 @@ public class SimpleDbColumnFieldDefinition extends
 	private int length = 255;
 	private int precision = 0;
 	private int scale = 0;
-	// @DbColumn annotation attributes
 
-	private String displayName = "";
-	private boolean password = false;
-	private String sampleValue = "";
-	private String defaultValue = "";
-	private String helpText = "";
-	private boolean rightToLeft = false;
-	private boolean internal = false;
+	// @DbColumn annotation attributes
+	// private String displayName = "";
+	// private boolean password = false;
+	// private String sampleValue = "";
+	// private String defaultValue = "";
+	// private String helpText = "";
+	// private boolean rightToLeft = false;
+	// private boolean internal = false;
 	private boolean mainDisplayField = false;
 
 	private DbOneToManyDefinition oneToManyDefinition = null;
@@ -41,12 +40,29 @@ public class SimpleDbColumnFieldDefinition extends
 
 	private boolean staticField = false;
 
-	public SimpleDbColumnFieldDefinition(String name, Class<? extends FieldType> type) {		super(name, type);
+	private DbManyToOneDefinition manyToOneDefinition = null;
+
+	public SimpleDbColumnFieldDefinition(String name, Class<? extends FieldType> type) {
+		super(name, type);
+		setDisplayName("");
+		setPassword(false);
+		setSampleValue("");
+		setDefaultValue("");
+		setHelpText("");
+		setRightToLeft(false);
+		setInternal(false);
 	}
 
 	public SimpleDbColumnFieldDefinition(String name, String fieldTypeArgs) {
 		super(name, null);
 		this.fieldTypeArgs = fieldTypeArgs;
+		setDisplayName("");
+		setPassword(false);
+		setSampleValue("");
+		setDefaultValue("");
+		setHelpText("");
+		setRightToLeft(false);
+		setInternal(false);
 	}
 
 	@Override
@@ -190,6 +206,15 @@ public class SimpleDbColumnFieldDefinition extends
 
 	public void setStaticField(boolean staticField) {
 		this.staticField = staticField;
+	}
+
+	@Override
+	public DbManyToOneDefinition getManyToOneDefinition() {
+		return manyToOneDefinition;
+	}
+
+	public void setManyToOneDefinition(DbManyToOneDefinition manyToOneDefinition) {
+		this.manyToOneDefinition = manyToOneDefinition;
 	}
 
 }

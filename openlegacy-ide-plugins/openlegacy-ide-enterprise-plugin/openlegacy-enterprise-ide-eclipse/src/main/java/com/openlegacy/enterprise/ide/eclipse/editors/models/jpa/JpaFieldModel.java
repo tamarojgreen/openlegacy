@@ -6,6 +6,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.utils.Utils;
 
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.db.definitions.DbFieldDefinition;
+import org.openlegacy.db.definitions.DbManyToOneDefinition;
 import org.openlegacy.db.definitions.SimpleDbColumnFieldDefinition;
 
 import java.util.UUID;
@@ -43,6 +44,9 @@ public class JpaFieldModel extends JpaNamedObject {
 	private boolean internal = false;
 	private boolean mainDisplayFiled = false;
 
+	// @ManyToOne
+	private JpaManyToOneModel manyToOneModel = null;
+
 	// other
 	private String fieldName = Messages.getString("Field.new");//$NON-NLS-1$
 	protected String javaTypeName = String.class.getSimpleName();
@@ -52,12 +56,14 @@ public class JpaFieldModel extends JpaNamedObject {
 	public JpaFieldModel(NamedObject parent) {
 		super(Column.class.getSimpleName());
 		this.parent = parent;
+		manyToOneModel = new JpaManyToOneModel(this);
 	}
 
 	public JpaFieldModel(UUID uuid, NamedObject parent) {
 		super(Column.class.getSimpleName());
 		this.uuid = uuid;
 		this.parent = parent;
+		manyToOneModel = new JpaManyToOneModel(this);
 	}
 
 	@Override
@@ -92,6 +98,10 @@ public class JpaFieldModel extends JpaNamedObject {
 			internal = definition.isInternal();
 			mainDisplayFiled = definition.isMainDisplayField();
 		}
+		DbManyToOneDefinition manyToOneDefinition = dbFieldDefinition.getManyToOneDefinition();
+		if (manyToOneDefinition != null) {
+			manyToOneModel.init(manyToOneDefinition);
+		}
 		initialized = true;
 	}
 
@@ -122,6 +132,8 @@ public class JpaFieldModel extends JpaNamedObject {
 		model.setRightToLeft(rightToLeft);
 		model.setInternal(internal);
 		model.setMainDisplayFiled(mainDisplayFiled);
+
+		model.setManyToOneModel(manyToOneModel.clone());
 
 		model.initialized = initialized;
 		return model;
@@ -323,6 +335,14 @@ public class JpaFieldModel extends JpaNamedObject {
 
 	public void setMainDisplayFiled(boolean mainDisplayFiled) {
 		this.mainDisplayFiled = mainDisplayFiled;
+	}
+
+	public JpaManyToOneModel getManyToOneModel() {
+		return manyToOneModel;
+	}
+
+	public void setManyToOneModel(JpaManyToOneModel manyToOneModel) {
+		this.manyToOneModel = manyToOneModel;
 	}
 
 }

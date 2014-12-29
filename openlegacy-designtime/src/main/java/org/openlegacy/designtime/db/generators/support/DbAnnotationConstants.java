@@ -83,4 +83,6 @@ public class DbAnnotationConstants {
 	public static final String INTERNAL = "internal";
 	public static final String MAIN_DISPLAY_FIELD = "mainDisplayField";
 
+	public static final String OPTIONAL = "optional";
+
 }

@@ -116,7 +116,7 @@ public class FieldsJpaListFieldDetailsPage extends AbstractJpaFieldDetailsPage {
 		if (fieldModel == null) {
 			return;
 		}
-		ControlsUpdater.updateJpaFieldDetailsControls(fieldModel, mapTexts, mapCheckBoxes, mapLabels);
+		ControlsUpdater.updateJpaFieldDetailsControls(fieldModel, mapTexts, mapCheckBoxes, mapLabels, mapCombos);
 		ControlsUpdater.updateJpaListFieldDetailsControls(fieldModel, mapTexts, mapCheckBoxes, mapCombos);
 		revalidate();
 	}
@@ -142,6 +142,11 @@ public class FieldsJpaListFieldDetailsPage extends AbstractJpaFieldDetailsPage {
 		} else {
 			fieldModel = null;
 		}
+	}
+
+	@Override
+	protected boolean isAddManyToOneSection() {
+		return false;
 	}
 
 	private static String[] getCascadeTypeItems() {

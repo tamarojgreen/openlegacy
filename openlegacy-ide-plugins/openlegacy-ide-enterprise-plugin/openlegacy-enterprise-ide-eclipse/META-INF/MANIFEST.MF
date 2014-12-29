@@ -46,7 +46,7 @@ Bundle-ClassPath: .,
  lib/spring-web-3.1.4.RELEASE.jar,
  lib/stringtemplate-3.2.1.jar,
  lib/koopa-105.jar,
- lib/persistence-api-1.0.jar
+ lib/hibernate-jpa-2.0-api-1.0.1.Final.jar
 Bundle-Activator: com.openlegacy.enterprise.ide.eclipse.Activator
 Bundle-Vendor: OpenLegacy
 Bundle-Localization: plugin

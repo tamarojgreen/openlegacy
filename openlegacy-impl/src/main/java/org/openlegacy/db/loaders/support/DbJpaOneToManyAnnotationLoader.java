@@ -19,11 +19,13 @@ import javax.persistence.OneToMany;
 @Component
 public class DbJpaOneToManyAnnotationLoader implements FieldLoader {
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean match(EntitiesRegistry entitiesRegistry, Field field) {
 		return field.getAnnotation(OneToMany.class) != null;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void load(EntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass, int fieldOrder) {
 		if (field.getAnnotation(DbColumn.class) == null) {
@@ -37,7 +39,6 @@ public class DbJpaOneToManyAnnotationLoader implements FieldLoader {
 			}
 			if (dbFieldDefinition instanceof SimpleDbColumnFieldDefinition) {
 				OneToMany oneToMany = field.getAnnotation(OneToMany.class);
-				SimpleDbColumnFieldDefinition columnFieldDefinition = (SimpleDbColumnFieldDefinition)dbFieldDefinition;
 				SimpleDbOneToManyDefinition simpleDbOneToMany = new SimpleDbOneToManyDefinition();
 				simpleDbOneToMany.setCascadeTypeNames(StringUtils.join(oneToMany.cascade(), ',').split(","));
 				simpleDbOneToMany.setFetchTypeName(oneToMany.fetch().name());
@@ -50,6 +51,7 @@ public class DbJpaOneToManyAnnotationLoader implements FieldLoader {
 					simpleDbOneToMany.setJoinColumnName(joinColumn.name());
 				}
 
+				SimpleDbColumnFieldDefinition columnFieldDefinition = (SimpleDbColumnFieldDefinition)dbFieldDefinition;
 				columnFieldDefinition.setOneToManyDefinition(simpleDbOneToMany);
 			}
 			dbEntityDefinition.getColumnFieldsDefinitions().put(field.getName(), dbFieldDefinition);

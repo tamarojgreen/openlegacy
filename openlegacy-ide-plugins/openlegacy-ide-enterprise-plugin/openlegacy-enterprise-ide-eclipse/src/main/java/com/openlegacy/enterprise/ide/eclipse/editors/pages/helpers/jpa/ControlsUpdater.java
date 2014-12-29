@@ -75,7 +75,7 @@ public class ControlsUpdater {
 	}
 
 	public static void updateJpaFieldDetailsControls(JpaFieldModel model, Map<String, Text> mapTexts,
-			Map<String, Button> mapCheckBoxes, Map<String, Label> mapLabels) {
+			Map<String, Button> mapCheckBoxes, Map<String, Label> mapLabels, Map<String, CCombo> mapCombos) {
 		if (model == null) {
 			return;
 		}
@@ -106,6 +106,16 @@ public class ControlsUpdater {
 				text.setText(model.getDefaultValue());
 			} else if (key.equals(DbAnnotationConstants.HELP_TEXT)) {
 				text.setText(model.getHelpText());
+			} else if (key.equals(DbAnnotationConstants.TARGET_ENTITY)) {// @ManyToOne
+				text.setText(model.getManyToOneModel().getTargetEntityClassName());
+			} else if (key.equals(Constants.JC_NAME)) {// @JoinColumn
+				text.setText(model.getManyToOneModel().getJoinColumnModel().getName());
+			} else if (key.equals(Constants.JC_REFERENCED_COLUMN_NAME)) {
+				text.setText(model.getManyToOneModel().getJoinColumnModel().getReferencedColumnName());
+			} else if (key.equals(Constants.JC_COLUMN_DEFINITION)) {
+				text.setText(model.getManyToOneModel().getJoinColumnModel().getColumnDefinition());
+			} else if (key.equals(Constants.JC_TABLE)) {
+				text.setText(model.getManyToOneModel().getJoinColumnModel().getTable());
 			}
 		}
 		// update CheckBox controls
@@ -130,6 +140,16 @@ public class ControlsUpdater {
 				button.setSelection(model.isInternal());
 			} else if (key.equals(DbAnnotationConstants.MAIN_DISPLAY_FIELD)) {
 				button.setSelection(model.isMainDisplayFiled());
+			} else if (key.equals(DbAnnotationConstants.OPTIONAL)) {// @ManyToOne
+				button.setSelection(model.getManyToOneModel().isOptional());
+			} else if (key.equals(Constants.JC_UNIQUE)) {// @JoinColumn
+				button.setSelection(model.getManyToOneModel().getJoinColumnModel().isUnique());
+			} else if (key.equals(Constants.JC_NULLABLE)) {
+				button.setSelection(model.getManyToOneModel().getJoinColumnModel().isNullable());
+			} else if (key.equals(Constants.JC_INSERTABLE)) {
+				button.setSelection(model.getManyToOneModel().getJoinColumnModel().isInsertable());
+			} else if (key.equals(Constants.JC_UPDATABLE)) {
+				button.setSelection(model.getManyToOneModel().getJoinColumnModel().isUpdatable());
 			}
 		}
 		// update Label controls
@@ -139,6 +159,16 @@ public class ControlsUpdater {
 				mapLabels.get(key).setText(model.getJavaTypeName());
 			}
 		}
+		// update CCombo controls
+		mapKeys = mapCombos.keySet();
+		for (String key : mapKeys) {
+			if (key.equals(DbAnnotationConstants.CASCADE)) {
+				mapCombos.get(key).setText(StringUtils.join(model.getManyToOneModel().getCascade(), ","));
+			} else if (key.equals(DbAnnotationConstants.FETCH)) {
+				mapCombos.get(key).setText(model.getManyToOneModel().getFetch().toString());
+			}
+		}
+
 	}
 
 	public static void updateJpaListFieldDetailsControls(JpaListFieldModel model, Map<String, Text> mapTexts,
