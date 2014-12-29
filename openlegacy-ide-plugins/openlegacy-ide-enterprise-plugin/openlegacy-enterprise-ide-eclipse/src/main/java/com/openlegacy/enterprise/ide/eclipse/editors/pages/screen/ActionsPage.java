@@ -572,6 +572,10 @@ public class ActionsPage extends AbstractPage {
 							model.setActionName(terminalAction.getClass().getSimpleName());
 						}
 
+						if (StringUtil.containsRTLChar(label)) {
+							label = StringUtils.reverse(label);
+						}
+
 						model.setDisplayName(label);
 						model.setAlias(StringUtil.toJavaFieldName(label));
 
