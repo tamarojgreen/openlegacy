@@ -35,7 +35,7 @@ public class TreeController {
 	private EntityManager entityManager;
 
 	@Inject
-	private DbService dbService;
+	private DbService localDbService;
 
 	private String defaultFileStoragePath = String.format("%s/olNodesFiles/", System.getProperty("user.home"));
 
@@ -80,7 +80,7 @@ public class TreeController {
 				uploadedFile.setFileName(file.getOriginalFilename());
 				uploadedFile.setFilePath(newFile.getAbsolutePath());
 				uploadedFile.setProductItem((ProductItem)result);
-				dbService.saveEntity(uploadedFile);
+				localDbService.saveEntity(uploadedFile);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

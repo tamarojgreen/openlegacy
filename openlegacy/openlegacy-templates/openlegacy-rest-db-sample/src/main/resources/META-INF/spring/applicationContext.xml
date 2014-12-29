@@ -31,6 +31,8 @@
 	    </property>
     </bean>
 
+	<bean id="dbSession" class="org.openlegacy.db.support.DefaultDbSession" scope="prototype" parent="abstractDbSession"/>
+
 	<!-- database connection settings -->
     <bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" id="dataSource">
         <property name="driverClassName" value="${database.driverClassName}"/>
@@ -53,7 +55,8 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 	<bean id="dbLoginModule" class="org.openlegacy.demo.db.modules.LoginModule"/>
-	<bean id="dbService" class="org.openlegacy.demo.db.services.DbService"/>
+	<bean id="dbService" class="org.openlegacy.db.services.DbService"/>
+	<bean id="localDbService" class="org.openlegacy.demo.db.services.DbService"/>
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 
 </beans>

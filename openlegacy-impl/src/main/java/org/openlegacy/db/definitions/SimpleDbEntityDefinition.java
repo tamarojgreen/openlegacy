@@ -10,18 +10,21 @@
  *******************************************************************************/
 package org.openlegacy.db.definitions;
 
-import org.openlegacy.definitions.support.AbstractEntityDefinition;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class SimpleDbEntityDefinition extends AbstractEntityDefinition<DbFieldDefinition> implements DbEntityDefinition {
+import org.openlegacy.definitions.support.AbstractEntityDefinition;
+
+public class SimpleDbEntityDefinition extends
+		AbstractEntityDefinition<DbFieldDefinition> implements
+		DbEntityDefinition {
 
 	private static final long serialVersionUID = 1L;
 
 	private boolean window;
 	private DbNavigationDefinition navigationDefinition = new SimpleDbNavigationDefinition();
 	private boolean child;
+	private String pluralName;
 
 	private final Map<String, DbFieldDefinition> columnsDefinitions = new LinkedHashMap<String, DbFieldDefinition>();
 
@@ -55,6 +58,15 @@ public class SimpleDbEntityDefinition extends AbstractEntityDefinition<DbFieldDe
 
 	public void setChild(boolean child) {
 		this.child = child;
+	}
+
+	@Override
+	public String getPluralName() {
+		return pluralName;
+	}
+
+	public void setPluralName(String pluralName) {
+		this.pluralName = pluralName;
 	}
 
 }

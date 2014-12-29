@@ -42,3 +42,11 @@ INSERT INTO PRODUCT_ITEM (product_name, parent_id) VALUES ('Product6', 5);
 INSERT INTO PRODUCT_ITEM (product_name, parent_id) VALUES ('Product7', 6);
 INSERT INTO PRODUCT_ITEM (product_name, parent_id) VALUES ('Product8', null);
 INSERT INTO PRODUCT_ITEM (product_name, parent_id) VALUES ('Product9', null);
+
+INSERT INTO STOCK_ITEM_HOLDER (id1, id2, description) VALUES (1,1,'demo holder 1-1');
+INSERT INTO STOCK_ITEM_HOLDER (id1, id2, description) VALUES (1,2,'demo holder 1-2');
+INSERT INTO STOCK_ITEM_HOLDER (id1, id2, description) VALUES (1,3,'demo holder 1-3');
+INSERT INTO STOCK_ITEM_HOLDER (id1, id2, description) VALUES (1,4,'demo holder 1-4');
+INSERT INTO STOCK_ITEM_HOLDER (id1, id2, description) VALUES (2,1,'demo holder 2-1');
+INSERT INTO STOCK_ITEM_HOLDER (id1, id2, description) VALUES (3,1,'demo holder 3-1');
+INSERT INTO STOCK_ITEM_HOLDER (id1, id2, description) VALUES (4,1,'demo holder 4-1');

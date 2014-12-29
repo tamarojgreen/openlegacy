@@ -11,6 +11,9 @@
 
 package org.openlegacy.db.loaders.support;
 
+import java.lang.annotation.Annotation;
+import java.text.MessageFormat;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
@@ -20,9 +23,6 @@ import org.openlegacy.db.definitions.SimpleDbEntityDefinition;
 import org.openlegacy.loaders.support.AbstractClassAnnotationLoader;
 import org.springframework.stereotype.Component;
 
-import java.lang.annotation.Annotation;
-import java.text.MessageFormat;
-
 /**
  * @author Ivan Bort
  * 
@@ -30,7 +30,8 @@ import java.text.MessageFormat;
 @Component
 public class DbEntityAnnotationLoader extends AbstractClassAnnotationLoader {
 
-	private final static Log logger = LogFactory.getLog(DbEntityAnnotationLoader.class);
+	private final static Log logger = LogFactory
+			.getLog(DbEntityAnnotationLoader.class);
 
 	@Override
 	public boolean match(Annotation annotation) {
@@ -39,22 +40,31 @@ public class DbEntityAnnotationLoader extends AbstractClassAnnotationLoader {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
-		DbEntityDefinition dbEntityDefinition = (DbEntityDefinition)entitiesRegistry.get(containingClass);
+	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation,
+			Class<?> containingClass) {
+		DbEntityDefinition dbEntityDefinition = (DbEntityDefinition) entitiesRegistry
+				.get(containingClass);
 
 		if (dbEntityDefinition == null) {
 			// entityName should be set while loading @Entity annotation
 			String entityName = containingClass.getSimpleName();
-			dbEntityDefinition = new SimpleDbEntityDefinition(entityName, containingClass);
+			dbEntityDefinition = new SimpleDbEntityDefinition(entityName,
+					containingClass);
 		}
 
 		if (dbEntityDefinition instanceof SimpleDbEntityDefinition) {
-			DbEntity dbEntity = (DbEntity)annotation;
-			((SimpleDbEntityDefinition)dbEntityDefinition).setDisplayName(dbEntity.displayName());
-			((SimpleDbEntityDefinition)dbEntityDefinition).setChild(dbEntity.child());
-			((SimpleDbEntityDefinition)dbEntityDefinition).setWindow(dbEntity.window());
+			DbEntity dbEntity = (DbEntity) annotation;
+			((SimpleDbEntityDefinition) dbEntityDefinition)
+					.setDisplayName(dbEntity.displayName());
+			((SimpleDbEntityDefinition) dbEntityDefinition)
+					.setPluralName(dbEntity.pluralName());
+			((SimpleDbEntityDefinition) dbEntityDefinition).setChild(dbEntity
+					.child());
+			((SimpleDbEntityDefinition) dbEntityDefinition).setWindow(dbEntity
+					.window());
 		}
-		logger.info(MessageFormat.format("DB entity \"{0}\" was added to the db registry ({1})",
+		logger.info(MessageFormat.format(
+				"DB entity \"{0}\" was added to the db registry ({1})",
 				dbEntityDefinition.getEntityName(), containingClass.getName()));
 
 		entitiesRegistry.add(dbEntityDefinition);

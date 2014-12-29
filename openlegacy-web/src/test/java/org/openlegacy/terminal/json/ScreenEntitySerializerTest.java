@@ -13,7 +13,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.json.EntitySerializationUtils;
-import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
@@ -42,8 +41,7 @@ public class ScreenEntitySerializerTest extends AbstractTest {
 		TerminalSession terminalSession = newTerminalSession();
 		ItemsList itemList = terminalSession.getEntity(ItemsList.class);
 		ScreenEntityDefinition definitions = screenEntitiesRegistry.get(ItemsList.class);
-		Object result = EntitySerializationUtils.createSerializationContainer((ScreenEntity)itemList, terminalSession,
-				definitions);
+		Object result = EntitySerializationUtils.createSerializationContainer(itemList, terminalSession, definitions);
 		ObjectMapper mapper = new ObjectMapper();
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -67,8 +65,7 @@ public class ScreenEntitySerializerTest extends AbstractTest {
 		TerminalSession terminalSession = newTerminalSession();
 		ItemsList itemList = terminalSession.getEntity(ItemsList.class);
 		ScreenEntityDefinition definitions = screenEntitiesRegistry.get(ItemsList.class);
-		Object wrapper = EntitySerializationUtils.createSerializationContainer((ScreenEntity)itemList, terminalSession,
-				definitions);
+		Object wrapper = EntitySerializationUtils.createSerializationContainer(itemList, terminalSession, definitions);
 
 		ByteArrayOutputStream bos = new ByteArrayOutputStream(2048);
 		CastorMarshaller marshaller = new CastorMarshaller();

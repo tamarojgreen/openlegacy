@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.openlegacy.db.definitions;
 
-import org.openlegacy.EntityDefinition;
-
 import java.util.Map;
+
+import org.openlegacy.EntityDefinition;
 
 public interface DbEntityDefinition extends EntityDefinition<DbFieldDefinition> {
 
@@ -21,5 +21,7 @@ public interface DbEntityDefinition extends EntityDefinition<DbFieldDefinition> 
 	DbNavigationDefinition getNavigationDefinition();
 
 	boolean isChild();
+
+	String getPluralName();
 
 }

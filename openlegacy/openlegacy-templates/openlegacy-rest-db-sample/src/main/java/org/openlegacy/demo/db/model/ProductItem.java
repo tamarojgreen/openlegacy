@@ -22,7 +22,7 @@ public class ProductItem {
 	private String productName;
 
 	@ManyToOne(cascade = { CascadeType.ALL })
-	@JoinColumn(name = "parent_id")
+	@JoinColumn(name = "parent_id", nullable = true)
 	private ProductItem parent;
 
 	@OneToMany(mappedBy = "parent")

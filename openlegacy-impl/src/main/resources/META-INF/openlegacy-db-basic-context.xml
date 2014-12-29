@@ -47,6 +47,7 @@
 	</bean>
 	
 	<bean id="menuBuilder" class="org.openlegacy.db.modules.menu.DefaultMenuBuilder"/>
+	<bean id="pageBuilder" class="org.openlegacy.db.layout.support.DefaultDbPageBuilder" />
 	
 	<context:annotation-config />
 

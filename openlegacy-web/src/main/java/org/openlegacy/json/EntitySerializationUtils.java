@@ -44,6 +44,7 @@ public class EntitySerializationUtils {
 	@SuppressWarnings("unchecked")
 	public static <T> T deserialize(String json, Class<T> entityClass) throws JsonParseException, JsonMappingException,
 			IOException {
+
 		ObjectMapper mapper = new ObjectMapper();
 		Object entity = mapper.readValue(json, entityClass);
 

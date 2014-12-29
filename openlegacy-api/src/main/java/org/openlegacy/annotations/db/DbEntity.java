@@ -26,6 +26,8 @@ public @interface DbEntity {
 
 	String displayName() default "";
 
+	String pluralName() default "";
+
 	boolean window() default false;
 
 	boolean child() default false;

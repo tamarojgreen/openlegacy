@@ -1,5 +1,10 @@
 package org.openlegacy.designtime.db.generators.support;
 
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.lang.NotImplementedException;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.db.definitions.DbEntityDefinition;
@@ -10,20 +15,18 @@ import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.designtime.db.generators.DbPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.support.AbstractCodeBasedEntityDefinition;
 
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 /**
  * @author Ivan Bort
  * 
  */
-public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefinition<DbFieldDefinition, DbPojoCodeModel> implements DbEntityDefinition {
+public class CodeBasedDbEntityDefinition extends
+		AbstractCodeBasedEntityDefinition<DbFieldDefinition, DbPojoCodeModel>
+		implements DbEntityDefinition {
 
 	private Map<String, DbFieldDefinition> columnFields;
 
-	public CodeBasedDbEntityDefinition(DbPojoCodeModel codeModel, File packageDir) {
+	public CodeBasedDbEntityDefinition(DbPojoCodeModel codeModel,
+			File packageDir) {
 		super(codeModel, packageDir);
 	}
 
@@ -73,7 +76,8 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.openlegacy.designtime.terminal.generators.support.AbstractCodeBasedEntityDefinition#getFieldsDefinitions()
+	 * @see org.openlegacy.designtime.terminal.generators.support.
+	 * AbstractCodeBasedEntityDefinition#getFieldsDefinitions()
 	 */
 	@Override
 	public Map<String, DbFieldDefinition> getFieldsDefinitions() {
@@ -84,7 +88,8 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.openlegacy.designtime.terminal.generators.support.AbstractCodeBasedEntityDefinition#getActions()
+	 * @see org.openlegacy.designtime.terminal.generators.support.
+	 * AbstractCodeBasedEntityDefinition#getActions()
 	 */
 	@Override
 	public List<ActionDefinition> getActions() {
@@ -95,7 +100,8 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.openlegacy.designtime.terminal.generators.support.AbstractCodeBasedEntityDefinition#getChildEntitiesDefinitions()
+	 * @see org.openlegacy.designtime.terminal.generators.support.
+	 * AbstractCodeBasedEntityDefinition#getChildEntitiesDefinitions()
 	 */
 	@Override
 	public List<EntityDefinition<?>> getChildEntitiesDefinitions() {
@@ -103,8 +109,10 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 		return null;
 	}
 
-	private static void throwNotImplemented() throws UnsupportedOperationException {
-		throw (new NotImplementedException("Code based screen entity has not implemented this method"));
+	private static void throwNotImplemented()
+			throws UnsupportedOperationException {
+		throw (new NotImplementedException(
+				"Code based screen entity has not implemented this method"));
 	}
 
 	public String getName() {
@@ -118,7 +126,8 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 	@Override
 	public Map<String, DbFieldDefinition> getColumnFieldsDefinitions() {
 		if (columnFields == null) {
-			columnFields = DbCodeBasedDefinitionUtils.getColumnFieldsFromCodeModel(getCodeModel());
+			columnFields = DbCodeBasedDefinitionUtils
+					.getColumnFieldsFromCodeModel(getCodeModel());
 		}
 		return columnFields;
 	}
@@ -131,6 +140,12 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 	@Override
 	public boolean isChild() {
 		return getCodeModel().isChild();
+	}
+
+	@Override
+	public String getPluralName() {
+		throwNotImplemented();
+		return null;
 	}
 
 }

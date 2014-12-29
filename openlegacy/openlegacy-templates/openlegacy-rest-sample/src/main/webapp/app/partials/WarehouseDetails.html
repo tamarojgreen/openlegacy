@@ -36,11 +36,6 @@
 					<span ng-if="bc.current">{{bc.displayName}}</span>
 				</li>
 			</ol>
-            
-            
-            <div class="panel panel-default">
-                <div class="panel-body">
-
 
                     <nav class="navbar navbar-default top-margin-10" role="navigation">
                         <form class="navbar-form xnavbar-left" role="navigation">
@@ -62,77 +57,77 @@
                             	</span>
                             </span>                          
                         </form>
-                    </nav>                
-                
-                	<h1>Stock Details</h1>
-                
-					<form role="form">
-						<div class="row">
-																			
-							<div class="col-sm-6">
-								<div class="form-group">
-									<label for="warehouseNumber" class="control-label">Warehouse Number:</label>
-									<input type="text" class="form-control" id="warehouseNumber" placeholder="Enter Warehouse Number" ng-model="entity.warehouseNumber">
-								</div>							
-								<div class="form-group">
-									<label for="warehouseDescription" class="control-label">Warehouse Description:</label>
-									<input type="text" class="form-control" id="warehouseDescription" placeholder="Enter Warehouse Description" ng-model="entity.warehouseDescription">
-								</div>													
-								<div class="form-group">
-									<label for="warehouseType" class="control-label">Warehouse Type:</label>										
-									<div class="input-group">
-									  <input type="text" class="form-control" id="warehouseType" placeholder="Enter Warehouse Type" ng-model="entity.warehouseType">
-									  <div class="input-group-btn">
-										  <button id="dropdownMenu" class="dropdown-toggle btn" data-toggle="dropdown"><span class="caret"></span></button>
-										  <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu">
-										    <li class="animate-repeat" ng-repeat="type in types">
-										      <a ng-click="WhTypeClick(type)" href="">{{type.description}}</a>
-										    </li>
-										  </ul>
-									  </div>
-									</div>									
-								</div>					
-								
-								<div class="form-group">
-									<label for="costingType" class="control-label">Costing Type:</label>
-									<input type="text" class="form-control" id="costingType" placeholder="Enter Costing Type" ng-model="entity.costingType">
-								</div>																					
-								<div class="form-group">
-									<label for="replenishmentCycleFlag" class="control-label">Replenishment Cycle Flag:</label>
-									<input type="text" class="form-control" id="replenishmentCycleFlag" placeholder="Enter Replenishment Cycle Flag" ng-model="entity.replenishmentCycleFlag">
-								</div>																					
-								<div class="form-group">
-									<label for="address" class="control-label">Address:</label>
-									<input type="text" class="form-control" id="address" placeholder="Enter Address" ng-model="entity.address">
-								</div>																					
-								<div class="form-group">
-									<label for="phone" class="control-label">Phone:</label>
-									<input type="text" class="form-control" id="phone" placeholder="Enter Phone" ng-model="entity.phone">
-								</div>																					
-								<div class="form-group">
-									<label for="email" class="control-label">Email:</label>
-									<input type="text" class="form-control" id="email" placeholder="Enter Email" ng-model="entity.email">
-								</div>								
-								<div class="form-group">
-									<label for="amendedDate" class="control-label">Amended Date:</label>																											
-									<input type="text" id="amendedDate" class="form-control" placeholder="mm/dd/yyyy" ng-model="entity.amendedDate" bdatepicker />
-								</div>																			
-								
-
-								<div>
-									<p>Created by {{entity.createdBy}} on {{entity.createdDate}}</p>									
-								</div>							
-							
-							
-							</div>		
-						</div>	<!-- /row -->
-					</form>
-
-
+                    </nav>
                     
-                    
-                </div>
-            </div><!-- /main panel -->
+  			<div class="panel panel-default">
+              	<div class="panel-heading">
+              		<h4 class="panel-title">
+              			<a data-toggle="collapse" data-target="#stockDetails">Stock Details</a>
+		    		</h4>
+	    		</div>                	
+              	<div id="stockDetails" class="panel-collapse collapse in">
+          			<div class="panel-body">                
+						<form role="form">
+							<div class="row">									
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label for="warehouseNumber" class="control-label">Warehouse Number:</label>
+										<input type="text" class="form-control" id="warehouseNumber" placeholder="Enter Warehouse Number" ng-model="entity.warehouseNumber">
+									</div>							
+									<div class="form-group">
+										<label for="warehouseDescription" class="control-label">Warehouse Description:</label>
+										<input type="text" class="form-control" id="warehouseDescription" placeholder="Enter Warehouse Description" ng-model="entity.warehouseDescription">
+									</div>													
+									<div class="form-group">
+										<label for="warehouseType" class="control-label">Warehouse Type:</label>										
+										<div class="input-group">
+										  <input type="text" class="form-control" id="warehouseType" placeholder="Enter Warehouse Type" ng-model="entity.warehouseType">
+										  <div class="input-group-btn">
+											  <button id="dropdownMenu" class="dropdown-toggle btn" data-toggle="dropdown"><span class="caret"></span></button>
+											  <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu">
+											    <li class="animate-repeat" ng-repeat="type in types">
+											      <a ng-click="WhTypeClick(type)" href="">{{type.description}}</a>
+											    </li>
+											  </ul>
+										  </div>
+										</div>									
+									</div>					
+									
+									<div class="form-group">
+										<label for="costingType" class="control-label">Costing Type:</label>
+										<input type="text" class="form-control" id="costingType" placeholder="Enter Costing Type" ng-model="entity.costingType">
+									</div>																					
+									<div class="form-group">
+										<label for="replenishmentCycleFlag" class="control-label">Replenishment Cycle Flag:</label>
+										<input type="text" class="form-control" id="replenishmentCycleFlag" placeholder="Enter Replenishment Cycle Flag" ng-model="entity.replenishmentCycleFlag">
+									</div>																					
+									<div class="form-group">
+										<label for="address" class="control-label">Address:</label>
+										<input type="text" class="form-control" id="address" placeholder="Enter Address" ng-model="entity.address">
+									</div>																					
+									<div class="form-group">
+										<label for="phone" class="control-label">Phone:</label>
+										<input type="text" class="form-control" id="phone" placeholder="Enter Phone" ng-model="entity.phone">
+									</div>																					
+									<div class="form-group">
+										<label for="email" class="control-label">Email:</label>
+										<input type="text" class="form-control" id="email" placeholder="Enter Email" ng-model="entity.email">
+									</div>								
+									<div class="form-group">
+										<label for="amendedDate" class="control-label">Amended Date:</label>																											
+										<input type="text" id="amendedDate" class="form-control" placeholder="mm/dd/yyyy" ng-model="entity.amendedDate" bdatepicker />
+									</div>																			
+									
+	
+									<div>
+										<p>Created by {{entity.createdBy}} on {{entity.createdDate}}</p>									
+									</div>
+								</div>		
+							</div>	<!-- /row -->
+						</form>
+					</div>
+            	</div>
+            </div>
                 
             <!-- screenshot -->
             <a  data-toggle="modal" data-target=".ol-screenshot" class="clickable">Show screenshot</a>

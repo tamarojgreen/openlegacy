@@ -168,7 +168,7 @@
 		
 		module = module.controller(
 			'menuCtrl',
-			function($scope, flatMenu) {
+			function($scope, flatMenu, $state, $rootScope) {
 				flatMenu(function(data) {				
 					$scope.menuArray = data;
 					if ($state.current.name == 'menu') {
