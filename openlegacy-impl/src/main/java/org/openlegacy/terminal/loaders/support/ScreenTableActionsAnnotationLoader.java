@@ -18,12 +18,15 @@ import org.openlegacy.annotations.screen.ScreenTableActions;
 import org.openlegacy.annotations.screen.TableAction;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.loaders.support.AbstractClassAnnotationLoader;
+import org.openlegacy.modules.table.drilldown.DrilldownAction;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
+import org.openlegacy.terminal.modules.table.TerminalDrilldownActions;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.table.TerminalDrilldownAction;
@@ -60,9 +63,16 @@ public class ScreenTableActionsAnnotationLoader extends AbstractClassAnnotationL
 		TerminalActionDefinition defaultAction = null;
 		if (actions.length > 0) {
 			for (TableAction action : actions) {
-				Class<? extends TerminalDrilldownAction> theAction = action.action();
-				TerminalDrilldownAction drilldownAction = ReflectionUtil.newInstance(theAction);
-				drilldownAction.setActionValue(action.actionValue());
+				Class<? extends TerminalAction> theAction = action.action();
+
+				TerminalDrilldownAction drilldownAction = null;
+				
+				if (TerminalDrilldownAction.class.isAssignableFrom(theAction)){ // for backward compatibility
+					drilldownAction = (TerminalDrilldownAction) ReflectionUtil.newInstance(theAction);
+				}
+				else{
+					drilldownAction = TerminalDrilldownActions.newAction(theAction, action.actionValue());
+				}
 				
 				TerminalPosition position = null;
 				if (action.row() > 0 && action.column() > 0){
