@@ -79,6 +79,7 @@
 					});
 				}
 				$scope.handleEmulation();
+				$rootScope.hidePreloader();
 			});
 
 	module = module.controller(
