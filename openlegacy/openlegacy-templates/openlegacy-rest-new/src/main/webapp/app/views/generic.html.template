@@ -174,7 +174,7 @@
 
 <#macro fieldMacro field>
 	<div class="form-group">		
-		<label for="${field.name}" class="control-label">${field.displayName}<#if field.displayName?length &gt; 0>:</#if></label>
+		<label for="${field.name}" class="control-label">${field.displayName}<#if field.displayName?length &gt; 0>:</#if>&nbsp;</label>
 		<#if field.editable>
 			<#if field.fieldTypeDefinition??>
 				<#if field.fieldTypeDefinition.typeName == 'date'>
