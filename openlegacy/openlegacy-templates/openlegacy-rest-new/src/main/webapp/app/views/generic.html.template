@@ -79,9 +79,8 @@
 								</tr>
 							</thead>
 							<tbody>                            	
-			                    <tr data-ng-repeat="${part.tableDefinition.tableEntityName?uncap_first} in model.${part.tableDefinition.tableEntityName?uncap_first}s">                              
-									<#list part.tableDefinition.columnDefinitions as column>	
-										<#if column_index == 0>										
+			                    <tr data-ng-repeat="${part.tableDefinition.tableEntityName?uncap_first} in model.${part.tableDefinition.tableEntityName?uncap_first}s">
+										<#if selectionColumn??>										
 											<td>
 												<#if (part.tableDefinition.actions?size > 3)>
 													<div class="dropdown">
@@ -125,7 +124,10 @@
 			                                        </#list>		                              
 												</#if>											
 			                            	</td>
-										<#else>	
+										</#if>										
+			                                                  
+									<#list part.tableDefinition.columnDefinitions as column>
+										<#if !column.selectionField>
 											<td>
 											<#if (column.editable)>
 												<input data-ng-class="readOnlyCss(${part.tableDefinition.tableEntityName?uncap_first},'${column.name}')" data-ng-readonly="isReadOnly(${part.tableDefinition.tableEntityName?uncap_first},'${column.name}')" type="text" size="${column.length}" ng-model="${part.tableDefinition.tableEntityName?uncap_first}.${column.name}" />
@@ -133,7 +135,7 @@
 												{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}
 											</#if>
 											</td>
-										</#if>										
+										</#if>
 							  		</#list>							  		
 								</tr>                            
 			                </tbody>
@@ -174,7 +176,7 @@
 
 <#macro fieldMacro field>
 	<div class="form-group">		
-		<label for="${field.name}" class="control-label">${field.displayName}<#if field.displayName?length &gt; 0>:</#if>&nbsp;</label>
+		<label for="${field.name}" class="control-label">${field.displayName}<#if field.displayName?length &gt; 0>:<#else>&nbsp;</#if></label>
 		<#if field.editable>
 			<#if field.fieldTypeDefinition??>
 				<#if field.fieldTypeDefinition.typeName == 'date'>
@@ -225,7 +227,7 @@
 <#macro navMacro entity showExcelBtn>
 	<nav class="navbar navbar-default" role="navigation">
 	    <form class="navbar-form xnavbar-left" role="navigation">
-	    	<button data-ng-click="doAction('${entity.entityName}', '')" class="btn btn-primary navbar-btn">Submit</button>
+	    	<button data-ng-click="doAction('${entity.entityName}', '')" class="btn btn-primary navbar-btn">המשך</button>
 	        <#list entity.actions as action>		
 				<button data-ng-show="isActionAvailable('${action.alias}')" data-ng-click="doAction('${entity.entityName}', '${action.alias}')" class="btn btn-primary navbar-btn">${action.displayName}</button>
 			</#list>			
