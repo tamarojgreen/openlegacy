@@ -61,7 +61,7 @@
 		<div class="actions-panel">
 			<#list pageDefinition.entityDefinition.actions as action>
 				<#if action.alias??>
-			<div class="action">
+			<div class="action" style="display:inline">
 				<button onclick="doPost('${action.alias}')">${action.displayName}</button>
 			</div>
 				</#if>
@@ -72,12 +72,10 @@
 		
 		<ul class="part">
 		<#list pageDefinition.pageParts as pagePart>														
-			<#if pagePart.oneField && pagePart.singleField??>
-				<#if pagePart.singleField.fieldTypeName == "General">
-					<li>
-						<input name="${pagePart.singleField.name}" value="${pagePart.singleField.sampleValue}" />
-					</li>
-				</#if>
+			<#if pagePart.oneField && pagePart.singleField??>				
+				<li>
+					<input name="${pagePart.singleField.name}" value="${pagePart.singleField.sampleValue}" />
+				</li>				
 			<#else>
 				<li>			
 					<div class="panel">
