@@ -98,7 +98,7 @@
 									$state.go("emulation");
 								}
 								else{
-									$state.go("menu");
+									$state.go($stateParams.redirectTo.name, $stateParams.redirectTo.params);
 								}
 							}
 						);

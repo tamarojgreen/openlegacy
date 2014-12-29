@@ -46,7 +46,11 @@
 
 	olApp.config( ['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 		
-		$urlRouterProvider.otherwise("/login");
+		if (olConfig.afterLoginView != undefined) {
+			var afterLoginView = olConfig.afterLoginView; 
+		} else {
+			var afterLoginView = "menu";
+		}
 		
 		var header = { templateUrl: "views/partials/header.html", controller: "headerCtrl" };
 		var auth = function($q, $http) {
@@ -111,7 +115,7 @@
 			 },
 			 params: {
 				 redirectTo: {
-					 name: "menu"
+					 name: afterLoginView
 				 }
 			 },
 			 resolve: {
@@ -191,7 +195,16 @@
 						addRoute("${entityDefinition.entityName}", "${entityDefinition.entityName}", url);
 					}				
 				</#list>
-			</#if>	
+			</#if>
+			
+			$urlRouterProvider.otherwise(function ($injector, $location) {
+		        var $state = $injector.get('$state');
+		        if (olConfig.defaultView != undefined) {
+		        	$state.go(olConfig.defaultView);
+		        } else {
+		        	$state.go("login");
+		        }		        
+		    });
 			
 		} ] );
 } )();
