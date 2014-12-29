@@ -51,6 +51,12 @@
 		<!-- OpenLegacy -->
 		<dependency>
 			<groupId>org.openlegacy</groupId>
+			<artifactId>openlegacy-impl</artifactId>
+			<version>${openlegacy-version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy</groupId>
 			<artifactId>openlegacy-web</artifactId>
 			<version>${openlegacy-version}</version>
 			<scope>compile</scope>

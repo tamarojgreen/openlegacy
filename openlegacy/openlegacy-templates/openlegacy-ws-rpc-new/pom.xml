@@ -51,13 +51,13 @@
 		<!-- OpenLegacy -->
 		<dependency>
 			<groupId>org.openlegacy</groupId>
-			<artifactId>openlegacy-web</artifactId>
+			<artifactId>openlegacy-impl</artifactId>
 			<version>${openlegacy-version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.openlegacy.providers</groupId>
-			<artifactId>openlegacy-jt400</artifactId>
+			<groupId>org.openlegacy</groupId>
+			<artifactId>openlegacy-web</artifactId>
 			<version>${openlegacy-version}</version>
 			<scope>compile</scope>
 		</dependency>
