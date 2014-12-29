@@ -132,6 +132,19 @@ body{
 	right: 0;	
 }
 
-.content-wrapper {
-	display:none;
+.panel-heading {
+	height:40px;
+	cursor: pointer;
+}
+
+.panel-heading:before {
+    font-family:'Glyphicons Halflings';
+    content:"\e114";
+    float: left;
+    color: grey;
+    margin-right:10px;
+    vertical-align: center;        
+}
+.panel-heading.collapsed:before {
+    content:"\e080";
 }

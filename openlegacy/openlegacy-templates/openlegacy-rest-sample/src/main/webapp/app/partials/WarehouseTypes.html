@@ -35,70 +35,77 @@
 					<a ng-if="!bc.current" data-ng-href="#/{{bc.entityName}}">{{bc.displayName}}</a>
 					<span ng-if="bc.current">{{bc.displayName}}</span>
 				</li>
-			</ol>			
-						
-			<h1>Warehouse Types</h1>
+			</ol>
 			
+			<nav class="navbar navbar-default top-margin-10" role="navigation">
+				<form class="navbar-form xnavbar-left" role="navigation">
+					<button type="button" class="btn btn-primary navbar-btn" ng-click="doAction('')">
+						<span class="glyphicon glyphicon-share-alt"></span>
+                        Submit
+                    </button>
+                      
+                    <span ng-repeat="action in entity.actions">
+                    	<span ng-switch="action.alias">
+                      		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="help" ng-click="doAction(action.alias)">
+                      			<span class="glyphicon glyphicon-question-sign"></span>
+                           	{{action.displayName}}
+                      		</button>
+                      		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="delete" ng-click="doAction(action.alias)">
+                      			<span class="glyphicon glyphicon-trash"></span>
+                           	{{action.displayName}}
+                      		</button>
+                      	</span>
+                    </span>
+                      
+                    <a href="{{exportExcelUrl}}" class="btn btn-primary navbar-btn pull-right" >
+              			<span class="glyphicon glyphicon-export"></span>
+                        Excel
+					</a>                           
+                </form>
+			</nav>
+		
 			<div class="panel panel-default">
-				<div class="panel-body">
+              	<div class="panel-heading" data-toggle="collapse" data-target="#warehouseTypes">
+              		<h4 class="panel-title">
+              			Warehouse Types
+		    		</h4>
+	    		</div>                	
+              	<div id="warehouseTypes" class="panel-collapse collapse in">
+          			<div class="panel-body">                
 
 
-                    <nav class="navbar navbar-default top-margin-10" role="navigation">
-                        <form class="navbar-form xnavbar-left" role="navigation">
-                            <button type="button" class="btn btn-primary navbar-btn" ng-click="doAction('')">
-                                <span class="glyphicon glyphicon-share-alt"></span>
-                                 Submit
-                            </button>
-                            
-                            <span ng-repeat="action in entity.actions">
-                            	<span ng-switch="action.alias">
-                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="help" ng-click="doAction(action.alias)">
-                            			<span class="glyphicon glyphicon-question-sign"></span>
-	                                	{{action.displayName}}
-                            		</button>
-                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="delete" ng-click="doAction(action.alias)">
-                            			<span class="glyphicon glyphicon-trash"></span>
-	                                	{{action.displayName}}
-                            		</button>
-                            	</span>
-                            </span>
-                            
-                            <a href="{{exportExcelUrl}}" class="btn btn-primary navbar-btn pull-right" >
-                    			<span class="glyphicon glyphicon-export"></span>
-                                 Excel
-							</a>                           
-                        </form>
-                    </nav> 
-									
-					<div class="table-responsive">
-						<table class="table">
-							<thead>
-								<tr>
-									<th>Action</th>
-									<th>Type</th>
-									<th>Description</th>
-								</tr>
-							</thead>
-							<tbody>                            	
-			                    <tr data-ng-repeat="warehouseTypesRecord in entity.warehouseTypesRecords">                              
-								<td></td>
-								<td>{{warehouseTypesRecord.type}}</td>											
-								<td>{{warehouseTypesRecord.description}}</td>											
-								</tr>                            
-			                </tbody>
-				  		</table>
-			  		</div>
-  		
-  		 <div class="top-margin-50">
-            <button ng-click="doAction('next')" type="button" class="btn btn-default navbar-btn pull-right">
-                Next
-                <span class="glyphicon glyphicon-forward"></span>
-            </button>
-            <button ng-click="doAction('previous')" type="button" class="btn btn-default navbar-btn pull-left">
-                <span class="glyphicon glyphicon-backward"></span>
-                Prev
-            </button>
-        </div>                
+	                     
+										
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Action</th>
+										<th>Type</th>
+										<th>Description</th>
+									</tr>
+								</thead>
+								<tbody>                            	
+				                    <tr data-ng-repeat="warehouseTypesRecord in entity.warehouseTypesRecords">                              
+									<td></td>
+									<td>{{warehouseTypesRecord.type}}</td>											
+									<td>{{warehouseTypesRecord.description}}</td>											
+									</tr>                            
+				                </tbody>
+					  		</table>
+				  		</div>
+	  		
+				  		 <div class="top-margin-50">
+				            <button ng-click="doAction('next')" type="button" class="btn btn-default navbar-btn pull-right">
+				                Next
+				                <span class="glyphicon glyphicon-forward"></span>
+				            </button>
+				            <button ng-click="doAction('previous')" type="button" class="btn btn-default navbar-btn pull-left">
+				                <span class="glyphicon glyphicon-backward"></span>
+				                Prev
+				            </button>
+				        </div>                
+					</div>
 				</div>
 			</div>
 		</div><!--  /main   -->
