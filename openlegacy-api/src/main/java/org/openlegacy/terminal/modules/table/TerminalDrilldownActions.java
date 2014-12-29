@@ -41,6 +41,12 @@ public class TerminalDrilldownActions implements Serializable {
 		return ddAction;
 	}
 	
+	/**
+	 * Use <code>TerminalDrilldownActions.newAction(ENTER.class,actionValue)</code> instead
+	 * @author Roi
+	 *
+	 */
+	@Deprecated
 	public static TerminalDrilldownAction enter(Object actionValue) {
 		EnterDrilldownAction action = new EnterDrilldownAction();
 		action.setActionValue(actionValue);
