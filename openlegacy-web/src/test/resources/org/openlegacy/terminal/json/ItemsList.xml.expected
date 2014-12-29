@@ -7,13 +7,12 @@
             column="0" defaultAction="false" row="0" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
             <position column="4" row="5" xsi:type="java:org.openlegacy.terminal.support.SimpleTerminalPosition"/>
             <additionalKey>NONE</additionalKey>
-            <action macro="false" xsi:type="java:org.openlegacy.terminal.modules.table.TerminalDrilldownActions$EnterDrilldownAction">
+            <action macro="false" xsi:type="java:org.openlegacy.terminal.modules.table.TerminalDrilldownActions$SimpleDrilldownAction">
                 <actionValue xsi:type="java:java.lang.String">2</actionValue>
-                <actionName>EnterDrilldownAction</actionName>
             </action>
             <alias>revise</alias>
-            <actionName>EnterDrilldownAction</actionName>
             <when>2.*</when>
+            <actionName>SimpleDrilldownAction</actionName>
             <displayName>Revise</displayName>
         </itemsListRowsActions>
         <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
@@ -108,8 +107,8 @@
                 <additionalKey>SHIFT</additionalKey>
             </action>
             <alias>numberSeq</alias>
-            <actionName>CombinedTerminalAction</actionName>
             <when>.*</when>
+            <actionName>CombinedTerminalAction</actionName>
             <displayName>Number Seq</displayName>
         </actions>
     </entity>

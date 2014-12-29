@@ -1,11 +1,10 @@
 
 	<h1>Screen For Page</h1>
 
-<div class="panel panel-default">
-	<div class="panel-body">
+
 	<nav class="navbar navbar-default" role="navigation">
 	    <form class="navbar-form xnavbar-left" role="navigation">
-	    	<button data-ng-click="doAction('ScreenForPage', '')" class="btn btn-primary navbar-btn">Submit</button>
+	    	<button data-ng-click="doAction('ScreenForPage', '')" class="btn btn-primary navbar-btn">המשך</button>
 				<button data-ng-show="isActionAvailable('help')" data-ng-click="doAction('ScreenForPage', 'help')" class="btn btn-primary navbar-btn">Help</button>
 				<button data-ng-show="isActionAvailable('exit')" data-ng-click="doAction('ScreenForPage', 'exit')" class="btn btn-primary navbar-btn">Exit</button>
 			<a ng-href="{{baseUrl}}ScreenForPage{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="true">
@@ -14,144 +13,178 @@
             </a>            
 	    </form>
 	</nav>    
-				
 	<div class="panel panel-default">
-		<div class="panel-body">	
-				<form role="form">			
-							<div class="row">
-								<div class="col-sm-6">
+	  	<div class="panel-heading" data-toggle="collapse" data-target="#screenforpagepart1">
+	  		<h4 class="panel-title">
+	  			
+			</h4>
+		</div>                	
+	  	<div id="screenforpagepart1" class="panel-collapse collapse in">
+			<div class="panel-body">
+	          				
+					<form role="form">			
+								<div class="row">
+									<div class="col-sm-6">
 	<div class="form-group">		
 		<label for="orphanFld" class="control-label">Orphan Fld:</label>
 				<span id="orphanFld" ng-model="model.orphanFld">{{model.orphanFld}}</span>
 	</div>
+									</div>
+	
 								</div>
-
-							</div>
-				</form>		
+					</form>		
+			</div>
 		</div>
 	</div>		
-				
 	<div class="panel panel-default">
-		<div class="panel-body">	
-				<form role="form">			
-							<div class="row">
-								<div class="col-sm-6">
+	  	<div class="panel-heading" data-toggle="collapse" data-target="#screenforpagepart2">
+	  		<h4 class="panel-title">
+	  			
+			</h4>
+		</div>                	
+	  	<div id="screenforpagepart2" class="panel-collapse collapse in">
+			<div class="panel-body">
+	          				
+					<form role="form">			
+								<div class="row">
+									<div class="col-sm-6">
 	<div class="form-group">		
 		<label for="fldCol12" class="control-label">Fld Col12:</label>
 	   			<input data-ng-class="readOnlyCss(model,'fldCol12')" data-ng-readonly="isReadOnly(model,'fldCol12')" type="text" class="form-control" id="fldCol12" ng-model="model.fldCol12">	   			   			
 	</div>
+									</div>
+	
 								</div>
-
-							</div>
-							<div class="row">
-								<div class="col-sm-6">
+								<div class="row">
+									<div class="col-sm-6">
 	<div class="form-group">		
 		<label for="fld2Col12" class="control-label">Fld2Col12:</label>
 	   			<input data-ng-class="readOnlyCss(model,'fld2Col12')" data-ng-readonly="isReadOnly(model,'fld2Col12')" type="text" class="form-control" id="fld2Col12" ng-model="model.fld2Col12">	   			   			
 	</div>
+									</div>
+	
 								</div>
-
-							</div>
-							<div class="row">
-								<div class="col-sm-6">
+								<div class="row">
+									<div class="col-sm-6">
 	<div class="form-group">		
 		<label for="fld3Col12" class="control-label">Fld3Col12:</label>
 	   			<input data-ng-class="readOnlyCss(model,'fld3Col12')" data-ng-readonly="isReadOnly(model,'fld3Col12')" type="text" class="form-control" id="fld3Col12" ng-model="model.fld3Col12">	   			   			
 	</div>
+									</div>
+	
 								</div>
-
-							</div>
-				</form>		
+					</form>		
+			</div>
 		</div>
 	</div>		
-				
 	<div class="panel panel-default">
-		<div class="panel-body">	
-				<form role="form">			
-							<div class="row">
-								<div class="col-sm-3">
+	  	<div class="panel-heading" data-toggle="collapse" data-target="#screenforpagepart3">
+	  		<h4 class="panel-title">
+	  			
+			</h4>
+		</div>                	
+	  	<div id="screenforpagepart3" class="panel-collapse collapse in">
+			<div class="panel-body">
+	          				
+					<form role="form">			
+								<div class="row">
+									<div class="col-sm-3">
 	<div class="form-group">		
 		<label for="fld2Row10" class="control-label">Fld2Row10:</label>
 				<span id="fld2Row10" ng-model="model.fld2Row10">{{model.fld2Row10}}</span>
 	</div>
-								</div>
-								<div class="col-sm-3">
+									</div>
+									<div class="col-sm-3">
 	<div class="form-group">		
 		<label for="fldRow10" class="control-label">Fld Row10:</label>
 				<span id="fldRow10" ng-model="model.fldRow10">{{model.fldRow10}}</span>
 	</div>
+									</div>
+	
 								</div>
-
-							</div>
-				</form>		
+					</form>		
+			</div>
 		</div>
 	</div>		
-				<div class="panel-heading">Screen For Page Part</div>
 	<div class="panel panel-default">
-		<div class="panel-body">	
-				<form role="form">			
-							<div class="row">
-								<div class="col-sm-3">
+	  	<div class="panel-heading" data-toggle="collapse" data-target="#screenforpagepart4">
+	  		<h4 class="panel-title">
+	  			Screen For Page Part
+			</h4>
+		</div>                	
+	  	<div id="screenforpagepart4" class="panel-collapse collapse in">
+			<div class="panel-body">
+	          				
+					<form role="form">			
+								<div class="row">
+									<div class="col-sm-3">
 	<div class="form-group">		
 		<label for="screenForPagePart.fld2Row20" class="control-label">Fld2Row20:</label>
 				<span id="screenForPagePart.fld2Row20" ng-model="model.screenForPagePart.fld2Row20">{{model.screenForPagePart.fld2Row20}}</span>
 	</div>
-								</div>
-								<div class="col-sm-3">
+									</div>
+									<div class="col-sm-3">
 	<div class="form-group">		
 		<label for="screenForPagePart.fldRow20" class="control-label">Fld Row20:</label>
 				<span id="screenForPagePart.fldRow20" ng-model="model.screenForPagePart.fldRow20">{{model.screenForPagePart.fldRow20}}</span>
 	</div>
+									</div>
+	
 								</div>
-
-							</div>
-				</form>		
+					</form>		
+			</div>
 		</div>
 	</div>		
-				
 	<div class="panel panel-default">
-		<div class="panel-body">	
-				<div class="table-responsive">
-					<table class="table">
-						<thead>
-							<tr>
-									<th>Action</th>
-									<th>Column1</th>
-							<th>Column2</th>
-							</tr>
-						</thead>
-						<tbody>                            	
-		                    <tr data-ng-repeat="screenForPageRow in model.screenForPageRows">                              
-										<td>
-														<a href="" ng-click="screenForPageRow.action='1';doActionNoTargetEntity()">
-															View
-														</a>
-														<a href="" ng-click="screenForPageRow.action='2';doActionNoTargetEntity()">
-															Revise
-														</a>
-		                            	</td>
-										<td>
-											{{screenForPageRow.column1}}
-										</td>
-										<td>
-											{{screenForPageRow.column2}}
-										</td>
-							</tr>                            
-		                </tbody>
-			  		</table>
-		  		</div>
-		  		
-		  		 <div class="top-margin-50">
-		            <button ng-click="doAction('ScreenForPage', 'next')" type="button" class="btn btn-default navbar-btn pull-right">
-		                Next
-		                <span class="glyphicon glyphicon-forward"></span>
-		            </button>
-		            <button ng-click="doAction('ScreenForPage', 'previous')" type="button" class="btn btn-default navbar-btn pull-left">
-		                <span class="glyphicon glyphicon-backward"></span>
-		                Prev
-		            </button>
-		        </div>                
+	  	<div class="panel-heading" data-toggle="collapse" data-target="#screenforpagepart5">
+	  		<h4 class="panel-title">
+	  			
+			</h4>
+		</div>                	
+	  	<div id="screenforpagepart5" class="panel-collapse collapse in">
+			<div class="panel-body">
+	          				
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+										<th>Action</th>
+										<th>Column1</th>
+								<th>Column2</th>
+								</tr>
+							</thead>
+							<tbody>                            	
+			                    <tr data-ng-repeat="screenForPageRow in model.screenForPageRows">
+											<td>
+															<a href="" ng-click="screenForPageRow.action='1';doActionNoTargetEntity()">
+																View
+															</a>
+															<a href="" ng-click="screenForPageRow.action='2';doActionNoTargetEntity()">
+																Revise
+															</a>
+			                            	</td>
+			                                                  
+											<td>
+												{{screenForPageRow.column1}}
+											</td>
+											<td>
+												{{screenForPageRow.column2}}
+											</td>
+								</tr>                            
+			                </tbody>
+				  		</table>
+			  		</div>
+			  		
+			  		 <div class="top-margin-50">
+			            <button ng-click="doAction('ScreenForPage', 'next')" type="button" class="btn btn-default navbar-btn pull-right">
+			                Next
+			                <span class="glyphicon glyphicon-forward"></span>
+			            </button>
+			            <button ng-click="doAction('ScreenForPage', 'previous')" type="button" class="btn btn-default navbar-btn pull-left">
+			                <span class="glyphicon glyphicon-backward"></span>
+			                Prev
+			            </button>
+			        </div>                
+			</div>
 		</div>
 	</div>		
-	</div>
-</div>									
