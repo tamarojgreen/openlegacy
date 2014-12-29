@@ -145,7 +145,7 @@ public class StringUtil {
 		StringBuilder sb = new StringBuilder(text.length());
 		for (int i = 0; i < chars.length; i++) {
 			char c = chars[i];
-			if (Character.isLetter(c) || Character.isDigit(c) || c == ' ' || c == '\\' || c == '/') {
+			if (Character.isLetter(c) || Character.isDigit(c) || c == ' ' || c == '\\' || c == '/' || c == '.') {
 				if (i == 0) {
 					sb.append(Character.toUpperCase(c));
 				} else {
@@ -159,7 +159,7 @@ public class StringUtil {
 			}
 
 		}
-		return sb.toString().trim();
+		return StringUtils.strip(sb.toString(), " .");
 	}
 
 	/**
