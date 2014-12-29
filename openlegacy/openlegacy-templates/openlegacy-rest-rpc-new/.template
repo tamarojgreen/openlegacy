@@ -60,7 +60,7 @@
 		<div class="actions-panel">
 			<#list pageDefinition.entityDefinition.actions as action>
 				<#if action.alias??>
-			<div class="action">
+			<div class="action" style="display:inline">
 				<button onclick="doPost('${action.alias}')">${action.displayName}</button>
 			</div>
 				</#if>
