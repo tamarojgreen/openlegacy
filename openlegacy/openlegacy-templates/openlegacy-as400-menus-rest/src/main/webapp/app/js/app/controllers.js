@@ -336,18 +336,15 @@
 									$scope.model = data.model.entity;
 									$rootScope.hidePreloader();
 								} else {
-									<#list entitiesDefinitions as entity>
-										if ('${entity.entityName}' == data.model.entityName) {
-											<#if entity.window>						
-												$rootScope.modalInstance = $modal.open({
-													templateUrl: $state.get(data.model.entityName).views[""].templateUrl,
-													controller: $state.get(data.model.entityName).views[""].controller,										
-												});
-											<#else>
-												$state.go(data.model.entityName);
-											</#if>
-										}
-									</#list>									
+									if (data.model.window){
+										$rootScope.modalInstance = $modal.open({
+											templateUrl: $state.get(data.model.entityName).views[""].templateUrl,
+											controller: $state.get(data.model.entityName).views[""].controller,										
+										});
+									}
+									else{
+										$state.go(data.model.entityName);
+									}
 								}
 							}
 						);
@@ -521,18 +518,15 @@
 									$scope.model = data.model.entity;
 									$rootScope.hidePreloader();
 								} else {
-									<#list entitiesDefinitions as entity>
-										if ('${entity.entityName}' == data.model.entityName) {
-											<#if entity.window>						
-												$rootScope.modalInstance = $modal.open({
-													templateUrl: $state.get(data.model.entityName).views[""].templateUrl,
-													controller: $state.get(data.model.entityName).views[""].controller,										
-												});
-											<#else>
-												$state.go(data.model.entityName);
-											</#if>
-										}
-									</#list>									
+									if (data.model.window){
+										$rootScope.modalInstance = $modal.open({
+											templateUrl: $state.get(data.model.entityName).views[""].templateUrl,
+											controller: $state.get(data.model.entityName).views[""].controller,										
+										});
+									}
+									else{
+										$state.go(data.model.entityName);
+									}
 								}
 							}
 						);

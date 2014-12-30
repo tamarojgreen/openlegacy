@@ -221,6 +221,9 @@
    				</#if>
 			</#if>		   	
    		</#if>		
+   		<#if field.enableLookup>
+   			<img class="search" ng-click="doAction('${entityDefinition.entityName}', 'lookup-${field.name}')" src="icons/search.png" id="printerToUseSearch">
+   		</#if>			
 	</div>
 </#macro>
 

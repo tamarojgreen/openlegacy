@@ -326,18 +326,15 @@
 									$rootScope.hidePreloader();
 									$scope.model = data.model.entity;								
 								} else {
-									<#list entitiesDefinitions as entity>
-										if ('${entity.entityName}' == data.model.entityName) {
-											<#if entity.window>						
-												$rootScope.modalInstance = $modal.open({
-													templateUrl: $state.get(data.model.entityName).views[""].templateUrl,
-													controller: $state.get(data.model.entityName).views[""].controller,										
-												});
-											<#else>
-												$state.go(data.model.entityName);
-											</#if>
-										}
-									</#list>									
+									if (data.model.window){
+										$rootScope.modalInstance = $modal.open({
+											templateUrl: $state.get(data.model.entityName).views[""].templateUrl,
+											controller: $state.get(data.model.entityName).views[""].controller,										
+										});
+									}
+									else{
+										$state.go(data.model.entityName);
+									}
 								}
 							}
 						);
@@ -364,7 +361,7 @@
 	
 		/* Controller code place-holder start
 		<#if entityName??>
-				module = module.controller('${entityDefinition.entityName}Ctrl',
+				module = module.controller('${entityName}Ctrl',
 				function($scope, $olHttp,$stateParams, $themeService, $rootScope, $state) {
 					$scope.noTargetScreenEntityAlert = function() {
 						alert('No target entity specified for table action in table class @ScreenTableActions annotation');
@@ -426,7 +423,7 @@
 						return data;
 					}
 					$scope.read = function(){						  
-					      $olHttp.get('${entityDefinition.entityName}/' <#if entityDefinition.keys?size &gt; 0>+ $stateParams.${entityDefinition.keys[0].name?replace(".", "_")}</#if> + "?children=false",
+					      $olHttp.get('${entityName}/' <#if keys?size &gt; 0>+ $stateParams.${keys[0].name?replace(".", "_")}</#if> + "?children=false",
 							function(data) {					    	  	
 								$scope.model = data.model.entity;							
 								$scope.baseUrl = olConfig.baseUrl;
@@ -435,13 +432,13 @@
 								
 								$scope.doActionNoTargetEntity = function() {					
 								    
-									$olHttp.post('${entityDefinition.entityName}/', clearObjectsFromPost($scope.model), function(data) {
-										if (data.model.entityName == '${entityDefinition.entityName}'){											
+									$olHttp.post('${entityName}/', clearObjectsFromPost($scope.model), function(data) {
+										if (data.model.entityName == '${entityName}'){											
 											$scope.model = data.model.entity;
 											$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
 											$rootScope.hidePreloader();
 										} else {
-											<#if entityDefinition.window>																						
+											<#if window>																						
 											$state.transitionTo($state.current, $stateParams, {
 											    reload: true,
 											    inherit: false,
@@ -454,13 +451,13 @@
 									});
 								};
 								
-								<#if (entityDefinition.childEntitiesDefinitions?size > 0)>
+								<#if (childEntitiesDefinitions?size > 0)>
 									var tabsContent = {};						
-									tabsContent["${entityDefinition.entityName}"] = $scope.model;
+									tabsContent["${entityName}"] = $scope.model;
 									$scope.loadTab = function(entityName) {
 										if (tabsContent[entityName] == null) { 
 											$scope.model.actions=null;											
-											$olHttp.get(entityName + '/' <#if (entityDefinition.keys?size > 0)>+ $stateParams.${entityDefinition.keys[0].name}</#if> + "?children=false", 
+											$olHttp.get(entityName + '/' <#if (keys?size > 0)>+ $stateParams.${keys[0].name}</#if> + "?children=false", 
 												function(data) {													
 													$scope.model = data.model.entity;
 													tabsContent[entityName] = data.model.entity;
@@ -473,7 +470,7 @@
 								</#if>
 								
 								$rootScope.hidePreloader();
-					    	  	<#if entityDefinition.window>
+					    	  	<#if window>
 					    	  		$rootScope.allowShowPreloader = false;
 					    	  	<#else>	
 					    	  		$rootScope.allowShowPreloader = true;
@@ -489,7 +486,7 @@
 				    		var url = entityName + "?action=" + actionAlias;
 				    	}  
 						
-						if (actionAlias.indexOf("lookup-") > -1 || ${entityDefinition.window?string} == 'true') {
+						if (actionAlias.indexOf("lookup-") > -1 || ${window?string} == 'true') {
 							$rootScope.showPreloader(false);
 						}
 						
@@ -499,29 +496,26 @@
 									$state.go("emulation");
 									return;
 								}
-								if (data.model.entityName == '${entityDefinition.entityName}'){
+								if (data.model.entityName == '${entityName}'){
 									$rootScope.hidePreloader();
 									$scope.model = data.model.entity;								
 								} else {
-									<#list entitiesDefinitions as entity>
-										if ('${entity.entityName}' == data.model.entityName) {
-											<#if entity.window>						
-												$rootScope.modalInstance = $modal.open({
-													templateUrl: $state.get(data.model.entityName).views[""].templateUrl,
-													controller: $state.get(data.model.entityName).views[""].controller,										
-												});
-											<#else>
-												$state.go(data.model.entityName);
-											</#if>
-										}
-									</#list>									
+									if (data.model.window){
+										$rootScope.modalInstance = $modal.open({
+											templateUrl: $state.get(data.model.entityName).views[""].templateUrl,
+											controller: $state.get(data.model.entityName).views[""].controller,										
+										});
+									}
+									else{
+										$state.go(data.model.entityName);
+									}
 								}
 							}
 						);
 					};
 					
-					<#if (entityDefinition.sortedFields?size > 0)>
-						<#list entityDefinition.sortedFields as field>
+					<#if (sortedFields?size > 0)>
+						<#list sortedFields as field>
 							<#if field.fieldTypeDefinition.typeName == 'fieldWithValues'>						
 							$olHttp.get("${field.name?cap_first}s", function(data) {							
 								$scope.${field.name}s = data.model.entity.${field.name}sRecords;							

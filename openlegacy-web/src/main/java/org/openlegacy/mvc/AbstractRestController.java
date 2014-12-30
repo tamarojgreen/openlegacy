@@ -174,8 +174,9 @@ public abstract class AbstractRestController {
 		}
 		entity = ProxyUtil.getTargetObject(entity, children);
 		Navigation navigationModule = getSession().getModule(Navigation.class);
+		boolean isWindow = getEntitiesRegistry().get(entity.getClass()).isWindow();
 		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(entity, navigationModule != null ? navigationModule.getPaths()
-				: null, getActions(entity));
+				: null, getActions(entity),isWindow);
 		return new ModelAndView(MODEL, MODEL, wrapper);
 	}
 
