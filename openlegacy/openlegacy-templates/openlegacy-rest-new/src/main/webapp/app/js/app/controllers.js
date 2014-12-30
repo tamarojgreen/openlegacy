@@ -516,7 +516,7 @@
 					
 					<#if (sortedFields?size > 0)>
 						<#list sortedFields as field>
-							<#if field.fieldTypeDefinition.typeName == 'fieldWithValues'>						
+							<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'fieldWithValues'>						
 							$olHttp.get("${field.name?cap_first}s", function(data) {							
 								$scope.${field.name}s = data.model.entity.${field.name}sRecords;							
 								$scope.${field.name?cap_first}Click = function(${field.name}) {								
