@@ -188,7 +188,7 @@
 		<#if entitiesDefinitions??>
 		<#list entitiesDefinitions as entityDefinition>	
 		module = module.controller('${entityDefinition.entityName}Ctrl',
-				function($scope, $olHttp,$stateParams, flatMenu, $themeService, $rootScope, $state) {
+				function($scope, $olHttp,$stateParams, $themeService, $rootScope, $state) {
 					$scope.noTargetScreenEntityAlert = function() {
 						alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 					}; 
@@ -303,12 +303,8 @@
 					    	  	</#if>
 							}							
 						);
-					};		
-
-					flatMenu(function(data) {
-						$scope.menuArray = data;
-					});
-					
+					};
+										
 					$scope.doAction = function(entityName, actionAlias) {						
 						if (actionAlias == "") {
 				    		var url = entityName + actionAlias;
@@ -369,7 +365,7 @@
 		/* Controller code place-holder start
 		<#if entityName??>
 				module = module.controller('${entityDefinition.entityName}Ctrl',
-				function($scope, $olHttp,$stateParams, flatMenu, $themeService, $rootScope, $state) {
+				function($scope, $olHttp,$stateParams, $themeService, $rootScope, $state) {
 					$scope.noTargetScreenEntityAlert = function() {
 						alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 					}; 
@@ -486,10 +482,6 @@
 						);
 					};		
 
-					flatMenu(function(data) {
-						$scope.menuArray = data;
-					});
-					
 					$scope.doAction = function(entityName, actionAlias) {						
 						if (actionAlias == "") {
 				    		var url = entityName + actionAlias;
