@@ -13,6 +13,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.models.jpa;
 
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 
+import org.apache.commons.lang.StringUtils;
 import org.openlegacy.db.definitions.DbJoinColumnDefinition;
 
 import java.util.UUID;
@@ -23,7 +24,7 @@ import javax.persistence.JoinColumn;
  * @author Ivan Bort
  * 
  */
-public class JpaJoinColumnModel extends JpaNamedObject {
+public class JpaJoinColumnModel extends JpaNamedObject implements IJpaNamedObject {
 
 	// annotation attributes
 	private String name = "";
@@ -136,6 +137,25 @@ public class JpaJoinColumnModel extends JpaNamedObject {
 
 	public void setTable(String table) {
 		this.table = table;
+	}
+
+	@Override
+	public boolean isDefaultAttrs() {
+		return StringUtils.isEmpty(name) && StringUtils.isEmpty(referencedColumnName) && StringUtils.isEmpty(columnDefinition)
+				&& StringUtils.isEmpty(table) && !unique && nullable && insertable && updatable;
+	}
+
+	@Override
+	public boolean equalsAttrs(IJpaNamedObject object) {
+		if (object instanceof JpaJoinColumnModel) {
+			JpaJoinColumnModel model = (JpaJoinColumnModel)object;
+			return StringUtils.equals(name, model.getName())
+					&& StringUtils.equals(referencedColumnName, model.getReferencedColumnName())
+					&& StringUtils.equals(columnDefinition, model.getColumnDefinition())
+					&& StringUtils.equals(table, model.getTable()) && unique == model.isUnique()
+					&& nullable == model.isNullable() && insertable == model.isInsertable() && updatable == model.isUpdatable();
+		}
+		return false;
 	}
 
 }

@@ -28,7 +28,6 @@ public class SimpleDbManyToOneDefinition implements DbManyToOneDefinition {
 
 	// other
 	private String targetEntityClassName = void.class.getSimpleName();
-	private DbJoinColumnDefinition dbJoinColumnDefinition = null;
 
 	@Override
 	public Class<?> getTargetEntity() {
@@ -72,15 +71,6 @@ public class SimpleDbManyToOneDefinition implements DbManyToOneDefinition {
 
 	public void setOptional(boolean optional) {
 		this.optional = optional;
-	}
-
-	@Override
-	public DbJoinColumnDefinition getDbJoinColumnDefinition() {
-		return dbJoinColumnDefinition;
-	}
-
-	public void setDbJoinColumnDefinition(DbJoinColumnDefinition dbJoinColumnDefinition) {
-		this.dbJoinColumnDefinition = dbJoinColumnDefinition;
 	}
 
 }

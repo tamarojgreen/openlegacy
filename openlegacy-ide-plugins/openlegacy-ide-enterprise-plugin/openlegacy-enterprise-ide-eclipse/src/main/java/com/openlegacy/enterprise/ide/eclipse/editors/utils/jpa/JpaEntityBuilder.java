@@ -59,6 +59,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -319,7 +321,9 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 			FieldDeclaration field, List<AbstractAction> list) {
 		for (AbstractAction action : list) {
 			if (!action.getAnnotationClass().equals(Column.class) && !action.getAnnotationClass().equals(OneToMany.class)
-					&& !action.getAnnotationClass().equals(Id.class) && !action.getAnnotationClass().equals(DbColumn.class)) {
+					&& !action.getAnnotationClass().equals(Id.class) && !action.getAnnotationClass().equals(DbColumn.class)
+					&& !action.getAnnotationClass().equals(ManyToOne.class)
+					&& !action.getAnnotationClass().equals(JoinColumn.class)) {
 				continue;
 			}
 			if (action.getActionType().equals(ActionType.ADD) && (action.getTarget() == ASTNode.NORMAL_ANNOTATION)
@@ -358,6 +362,9 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 						newField.modifiers().addAll(ASTNode.copySubtrees(ast, field.modifiers()));
 						listRewriter.replace(field, newField, null);
 						ASTUtils.addImport(ast, cu, rewriter, action.getAnnotationClass());
+						// if we are trying to add a few annotations at the same time we should replace new field in next
+						// iterations
+						field = newField;
 					}
 				}
 			}
@@ -369,7 +376,9 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 
 		for (AbstractAction action : list) {
 			if (!action.getAnnotationClass().equals(Column.class) && !action.getAnnotationClass().equals(OneToMany.class)
-					&& !action.getAnnotationClass().equals(Id.class) && !action.getAnnotationClass().equals(DbColumn.class)) {
+					&& !action.getAnnotationClass().equals(Id.class) && !action.getAnnotationClass().equals(DbColumn.class)
+					&& !action.getAnnotationClass().equals(ManyToOne.class)
+					&& !action.getAnnotationClass().equals(JoinColumn.class)) {
 				continue;
 			}
 			if (action.getActionType().equals(ActionType.REMOVE) && (action.getTarget() == ASTNode.NORMAL_ANNOTATION)

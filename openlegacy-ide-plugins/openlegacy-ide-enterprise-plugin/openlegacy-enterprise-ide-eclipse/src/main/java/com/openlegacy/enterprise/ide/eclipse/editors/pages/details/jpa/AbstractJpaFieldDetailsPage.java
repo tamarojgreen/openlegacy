@@ -214,6 +214,8 @@ public abstract class AbstractJpaFieldDetailsPage extends AbstractJpaDetailsPage
 
 			jcComposite.setLayout(glayout);
 
+			// NOTE: keys for controls must be unique
+
 			// create row for "name"
 			FormRowCreator.createStringRow(toolkit, jcComposite, mapTexts, getDefaultModifyListener(),
 					Messages.getString("jpa.field.name"), "", Constants.JC_NAME);//$NON-NLS-1$ //$NON-NLS-2$
@@ -293,7 +295,8 @@ public abstract class AbstractJpaFieldDetailsPage extends AbstractJpaDetailsPage
 			public void widgetSelected(SelectionEvent e) {
 				targetEntityControl.setText("");//$NON-NLS-1$
 				try {
-					ModelUpdater.updateJpaFieldModel(getEntity(), getFieldModel(), DbAnnotationConstants.TARGET_ENTITY, "", null);
+					ModelUpdater.updateJpaManyToOneModel(getEntity(), getFieldModel().getManyToOneModel(),
+							DbAnnotationConstants.TARGET_ENTITY, "", null, "");
 					setDirty(getEntity().isDirty());
 				} catch (Exception ex) {
 					ErrorDialog.openError(((IEditorPart)managedForm.getContainer()).getSite().getShell(),

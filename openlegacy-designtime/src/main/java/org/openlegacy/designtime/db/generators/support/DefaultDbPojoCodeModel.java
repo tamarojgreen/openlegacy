@@ -15,6 +15,8 @@ import static org.openlegacy.designtime.utils.JavaParserUtil.findAnnotationAttri
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.annotations.db.DbEntity;
 import org.openlegacy.annotations.rpc.Languages;
+import org.openlegacy.db.definitions.DbJoinColumnDefinition;
+import org.openlegacy.db.definitions.DbManyToOneDefinition;
 import org.openlegacy.db.definitions.DbNavigationDefinition;
 import org.openlegacy.db.definitions.DbOneToManyDefinition;
 import org.openlegacy.db.definitions.DbTableDefinition;
@@ -314,6 +316,8 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 
 		private boolean key = false;
 		private DbOneToManyDefinition oneToManyDefinition;
+		private DbManyToOneDefinition manyToOneDefinition;
+		private DbJoinColumnDefinition joinColumnDefinition;
 
 		public ColumnField(String fieldName, String fieldType, String fieldTypeArgs) {
 			this.fieldName = fieldName;
@@ -509,6 +513,22 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 			this.staticField = staticField;
 		}
 
+		public DbManyToOneDefinition getManyToOneDefinition() {
+			return manyToOneDefinition;
+		}
+
+		public void setManyToOneDefinition(DbManyToOneDefinition manyToOneDefinition) {
+			this.manyToOneDefinition = manyToOneDefinition;
+		}
+
+		public DbJoinColumnDefinition getJoinColumnDefinition() {
+			return joinColumnDefinition;
+		}
+
+		public void setJoinColumnDefinition(DbJoinColumnDefinition joinColumnDefinition) {
+			this.joinColumnDefinition = joinColumnDefinition;
+		}
+
 	}
 
 	private String className;
@@ -671,6 +691,14 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr, DbAnnotationConstants.DB_ID_ANNOTATION)) {
 								columnField.setKey(true);
+							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
+									DbAnnotationConstants.DB_MANY_TO_ONE_ANNOTATION)) {
+								columnField.setManyToOneDefinition(DbAnnotationsParserUtils.loadDbManyToOneDefinition(annotationExpr));
+							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
+									DbAnnotationConstants.DB_JOIN_COLUMN_ANNOTATION)) {
+								columnField.setJoinColumnDefinition(DbAnnotationsParserUtils.loadDbJoinColumnDefinition(annotationExpr));
 							}
 						}
 					}

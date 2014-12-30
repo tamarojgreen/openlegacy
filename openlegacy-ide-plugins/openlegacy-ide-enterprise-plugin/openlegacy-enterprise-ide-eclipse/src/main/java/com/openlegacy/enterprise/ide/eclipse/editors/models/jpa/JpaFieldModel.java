@@ -6,6 +6,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.utils.Utils;
 
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.db.definitions.DbFieldDefinition;
+import org.openlegacy.db.definitions.DbJoinColumnDefinition;
 import org.openlegacy.db.definitions.DbManyToOneDefinition;
 import org.openlegacy.db.definitions.SimpleDbColumnFieldDefinition;
 
@@ -46,6 +47,8 @@ public class JpaFieldModel extends JpaNamedObject {
 
 	// @ManyToOne
 	private JpaManyToOneModel manyToOneModel = null;
+	// @JoinColumn
+	private JpaJoinColumnModel joinColumnModel = null;
 
 	// other
 	private String fieldName = Messages.getString("Field.new");//$NON-NLS-1$
@@ -57,6 +60,7 @@ public class JpaFieldModel extends JpaNamedObject {
 		super(Column.class.getSimpleName());
 		this.parent = parent;
 		manyToOneModel = new JpaManyToOneModel(this);
+		joinColumnModel = new JpaJoinColumnModel(this);
 	}
 
 	public JpaFieldModel(UUID uuid, NamedObject parent) {
@@ -64,6 +68,7 @@ public class JpaFieldModel extends JpaNamedObject {
 		this.uuid = uuid;
 		this.parent = parent;
 		manyToOneModel = new JpaManyToOneModel(this);
+		joinColumnModel = new JpaJoinColumnModel(this);
 	}
 
 	@Override
@@ -102,6 +107,11 @@ public class JpaFieldModel extends JpaNamedObject {
 		if (manyToOneDefinition != null) {
 			manyToOneModel.init(manyToOneDefinition);
 		}
+		DbJoinColumnDefinition joinColumnDefinition = dbFieldDefinition.getJoinColumnDefinition();
+		if (joinColumnDefinition != null) {
+			joinColumnModel.init(joinColumnDefinition);
+		}
+
 		initialized = true;
 	}
 
@@ -134,6 +144,7 @@ public class JpaFieldModel extends JpaNamedObject {
 		model.setMainDisplayFiled(mainDisplayFiled);
 
 		model.setManyToOneModel(manyToOneModel.clone());
+		model.setJoinColumnModel(joinColumnModel.clone());
 
 		model.initialized = initialized;
 		return model;
@@ -343,6 +354,14 @@ public class JpaFieldModel extends JpaNamedObject {
 
 	public void setManyToOneModel(JpaManyToOneModel manyToOneModel) {
 		this.manyToOneModel = manyToOneModel;
+	}
+
+	public JpaJoinColumnModel getJoinColumnModel() {
+		return joinColumnModel;
+	}
+
+	public void setJoinColumnModel(JpaJoinColumnModel joinColumnModel) {
+		this.joinColumnModel = joinColumnModel;
 	}
 
 }

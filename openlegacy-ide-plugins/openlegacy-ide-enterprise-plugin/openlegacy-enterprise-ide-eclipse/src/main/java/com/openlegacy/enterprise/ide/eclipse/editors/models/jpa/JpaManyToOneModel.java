@@ -13,7 +13,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.models.jpa;
 
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 
-import org.openlegacy.db.definitions.DbJoinColumnDefinition;
+import org.apache.commons.lang.StringUtils;
 import org.openlegacy.db.definitions.DbManyToOneDefinition;
 
 import java.util.UUID;
@@ -26,7 +26,7 @@ import javax.persistence.ManyToOne;
  * @author Ivan Bort
  * 
  */
-public class JpaManyToOneModel extends JpaNamedObject {
+public class JpaManyToOneModel extends JpaNamedObject implements IJpaNamedObject {
 
 	// annotation attributes
 	private Class<?> targetEntity = void.class;
@@ -36,19 +36,16 @@ public class JpaManyToOneModel extends JpaNamedObject {
 
 	// other
 	private String targetEntityClassName = void.class.getSimpleName();
-	private JpaJoinColumnModel joinColumnModel = null;
 
 	public JpaManyToOneModel(NamedObject parent) {
 		super(ManyToOne.class.getSimpleName());
 		this.parent = parent;
-		joinColumnModel = new JpaJoinColumnModel(this);
 	}
 
 	public JpaManyToOneModel(UUID uuid, NamedObject parent) {
 		super(ManyToOne.class.getSimpleName());
 		this.parent = parent;
 		this.uuid = uuid;
-		joinColumnModel = new JpaJoinColumnModel(this);
 	}
 
 	public void init(DbManyToOneDefinition manyToOneDefinition) {
@@ -56,15 +53,11 @@ public class JpaManyToOneModel extends JpaNamedObject {
 			return;
 		}
 		targetEntity = manyToOneDefinition.getTargetEntity() == null ? void.class : manyToOneDefinition.getTargetEntity();
-		targetEntityClassName = targetEntity.getSimpleName();
+		targetEntityClassName = manyToOneDefinition.getTargetEntityClassName();
 		cascade = manyToOneDefinition.getCascade();
 		fetch = manyToOneDefinition.getFetch();
 		optional = manyToOneDefinition.isOptional();
 
-		DbJoinColumnDefinition joinColumnDefinition = manyToOneDefinition.getDbJoinColumnDefinition();
-		if (joinColumnDefinition != null) {
-			joinColumnModel.init(joinColumnDefinition);
-		}
 	}
 
 	@Override
@@ -75,7 +68,6 @@ public class JpaManyToOneModel extends JpaNamedObject {
 		model.setCascade(cascade.clone());
 		model.setFetch(fetch);
 		model.setOptional(optional);
-		model.setJoinColumnModel(joinColumnModel.clone());
 		return model;
 	}
 
@@ -119,12 +111,33 @@ public class JpaManyToOneModel extends JpaNamedObject {
 		this.targetEntityClassName = targetEntityClassName;
 	}
 
-	public JpaJoinColumnModel getJoinColumnModel() {
-		return joinColumnModel;
+	@Override
+	public boolean isDefaultAttrs() {
+		return (void.class.getSimpleName().equalsIgnoreCase(targetEntityClassName) || StringUtils.isEmpty(targetEntityClassName))
+				&& cascade.length == 0 && FetchType.EAGER.equals(fetch) && optional;
 	}
 
-	public void setJoinColumnModel(JpaJoinColumnModel joinColumnModel) {
-		this.joinColumnModel = joinColumnModel;
+	@Override
+	public boolean equalsAttrs(IJpaNamedObject object) {
+		if (object instanceof JpaManyToOneModel) {
+			JpaManyToOneModel model = (JpaManyToOneModel)object;
+			boolean cascadeEqual = isCascadeEqual(model.getCascade());
+			return cascadeEqual && StringUtils.equals(targetEntityClassName, model.getTargetEntityClassName())
+					&& fetch.equals(model.getFetch()) && optional == model.isOptional();
+		}
+		return false;
+	}
+
+	private boolean isCascadeEqual(CascadeType[] modelCascade) {
+		if (cascade.length != modelCascade.length) {
+			return false;
+		}
+		for (int i = 0; i < cascade.length; i++) {
+			if (!StringUtils.equals(cascade[i].toString(), modelCascade[i].toString())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

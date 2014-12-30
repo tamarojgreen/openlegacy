@@ -41,6 +41,7 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 	private boolean staticField = false;
 
 	private DbManyToOneDefinition manyToOneDefinition = null;
+	private DbJoinColumnDefinition joinColumnDefinition = null;
 
 	public SimpleDbColumnFieldDefinition(String name, Class<? extends FieldType> type) {
 		super(name, type);
@@ -215,6 +216,15 @@ public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFie
 
 	public void setManyToOneDefinition(DbManyToOneDefinition manyToOneDefinition) {
 		this.manyToOneDefinition = manyToOneDefinition;
+	}
+
+	@Override
+	public DbJoinColumnDefinition getJoinColumnDefinition() {
+		return joinColumnDefinition;
+	}
+
+	public void setJoinColumnDefinition(DbJoinColumnDefinition joinColumnDefinition) {
+		this.joinColumnDefinition = joinColumnDefinition;
 	}
 
 }

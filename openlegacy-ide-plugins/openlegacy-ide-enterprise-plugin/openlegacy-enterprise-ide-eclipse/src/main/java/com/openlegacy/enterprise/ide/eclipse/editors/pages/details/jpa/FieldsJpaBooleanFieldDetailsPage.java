@@ -51,7 +51,9 @@ public class FieldsJpaBooleanFieldDetailsPage extends AbstractJpaFieldDetailsPag
 		if (fieldModel == null) {
 			return;
 		}
-		ControlsUpdater.updateJpaFieldDetailsControls(fieldModel, mapTexts, mapCheckBoxes, mapLabels, mapCombos);
+		ControlsUpdater.updateJpaFieldDetailsControls(fieldModel, mapTexts, mapCheckBoxes, mapLabels);
+		ControlsUpdater.updateJpaManyToOneDetailsControls(fieldModel.getManyToOneModel(), mapTexts, mapCheckBoxes, mapCombos);
+		ControlsUpdater.updateJpaJoinColumnDetailsControls(fieldModel.getJoinColumnModel(), mapTexts, mapCheckBoxes);
 		revalidate();
 	}
 
@@ -60,6 +62,11 @@ public class FieldsJpaBooleanFieldDetailsPage extends AbstractJpaFieldDetailsPag
 		Map<String, Object> map = getValuesOfControlsForKey(key);
 		ModelUpdater.updateJpaFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE),
 				(Boolean)map.get(Constants.BOOL_VALUE));
+		ModelUpdater.updateJpaManyToOneModel(getEntity(), fieldModel.getManyToOneModel(), key,
+				(String)map.get(Constants.TEXT_VALUE), (Boolean)map.get(Constants.BOOL_VALUE),
+				(String)map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
+		ModelUpdater.updateJpaJoinColumnModel(getEntity(), fieldModel.getJoinColumnModel(), key,
+				(String)map.get(Constants.TEXT_VALUE), (Boolean)map.get(Constants.BOOL_VALUE));
 	}
 
 	@Override

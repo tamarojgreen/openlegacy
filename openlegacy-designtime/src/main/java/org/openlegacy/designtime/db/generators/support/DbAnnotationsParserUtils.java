@@ -13,10 +13,14 @@ package org.openlegacy.designtime.db.generators.support;
 import static org.openlegacy.designtime.utils.JavaParserUtil.getAnnotationValue;
 
 import org.apache.commons.lang.StringUtils;
+import org.openlegacy.db.definitions.DbJoinColumnDefinition;
+import org.openlegacy.db.definitions.DbManyToOneDefinition;
 import org.openlegacy.db.definitions.DbNavigationDefinition;
 import org.openlegacy.db.definitions.DbOneToManyDefinition;
 import org.openlegacy.db.definitions.DbTableDefinition;
 import org.openlegacy.db.definitions.DbTableDefinition.UniqueConstraintDefinition;
+import org.openlegacy.db.definitions.SimpleDbJoinColumnDefinition;
+import org.openlegacy.db.definitions.SimpleDbManyToOneDefinition;
 import org.openlegacy.db.definitions.SimpleDbNavigationDefinition;
 import org.openlegacy.db.definitions.SimpleDbOneToManyDefinition;
 import org.openlegacy.db.definitions.SimpleDbTableDefinition;
@@ -37,6 +41,9 @@ import japa.parser.ast.expr.NormalAnnotationExpr;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 
 public class DbAnnotationsParserUtils {
 
@@ -260,6 +267,8 @@ public class DbAnnotationsParserUtils {
 		if (!StringUtils.isEmpty(cascadeValue) || !StringUtils.isEmpty(fetchValue) || !StringUtils.isEmpty(mappedByValue)
 				|| !StringUtils.isEmpty(orphanRemovalValue) || !StringUtils.isEmpty(targetEntityValue)) {
 			definition = new SimpleDbOneToManyDefinition();
+		} else {
+			return null;
 		}
 		if (!StringUtils.isEmpty(cascadeValue)) {
 			definition.setCascadeTypeNames(parseCascadeValue(cascadeValue).toArray(new String[] {}));
@@ -310,5 +319,85 @@ public class DbAnnotationsParserUtils {
 			}
 		}
 		return navigationDefinition;
+	}
+
+	public static DbManyToOneDefinition loadDbManyToOneDefinition(AnnotationExpr annotationExpr) {
+		SimpleDbManyToOneDefinition definition = null;
+		String targetEntityValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.TARGET_ENTITY);
+		String cascadeValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.CASCADE);
+		String fetchValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.FETCH);
+		String optionalValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.OPTIONAL);
+
+		if (!StringUtils.isEmpty(targetEntityValue) || !StringUtils.isEmpty(cascadeValue) || !StringUtils.isEmpty(fetchValue)
+				|| !StringUtils.isEmpty(optionalValue)) {
+			definition = new SimpleDbManyToOneDefinition();
+		} else {
+			return null;
+		}
+		if (!StringUtils.isEmpty(targetEntityValue)) {
+			definition.setTargetEntityClassName(StringUtil.toClassName(targetEntityValue));
+		}
+		if (!StringUtils.isEmpty(cascadeValue)) {
+			List<String> list = parseCascadeValue(cascadeValue);
+			CascadeType[] cascadeTypes = new CascadeType[list.size()];
+			for (int i = 0; i < list.size(); i++) {
+				cascadeTypes[i] = CascadeType.valueOf(list.get(i));
+			}
+			definition.setCascade(cascadeTypes);
+		}
+		if (!StringUtils.isEmpty(fetchValue)) {
+			String[] split = fetchValue.split("\\.");
+			definition.setFetch(FetchType.valueOf(split[split.length - 1].trim()));
+		}
+		if (StringConstants.FALSE.equals(optionalValue)) {
+			definition.setOptional(false);
+		}
+		return definition;
+	}
+
+	public static DbJoinColumnDefinition loadDbJoinColumnDefinition(AnnotationExpr annotationExpr) {
+		SimpleDbJoinColumnDefinition definition = null;
+		String nameValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.NAME);
+		String referencedColumnNameValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.REFERENCED_COLUMN_NAME);
+		String uniqueValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.UNIQUE);
+		String nullableValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.NULLABLE);
+		String insertableValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.INSERTABLE);
+		String updatableValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.UPDATABLE);
+		String columnDefinitionValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.COLUMN_DEFINITION);
+		String tableValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.TABLE);
+
+		if (!StringUtils.isEmpty(nameValue) || !StringUtils.isEmpty(referencedColumnNameValue)
+				|| !StringUtils.isEmpty(uniqueValue) || !StringUtils.isEmpty(nullableValue)
+				|| !StringUtils.isEmpty(insertableValue) || !StringUtils.isEmpty(updatableValue)
+				|| !StringUtils.isEmpty(columnDefinitionValue) || !StringUtils.isEmpty(tableValue)) {
+			definition = new SimpleDbJoinColumnDefinition();
+		} else {
+			return null;
+		}
+		if (!StringUtils.isEmpty(nameValue)) {
+			definition.setName(nameValue);
+		}
+		if (!StringUtils.isEmpty(referencedColumnNameValue)) {
+			definition.setReferencedColumnName(referencedColumnNameValue);
+		}
+		if (StringConstants.TRUE.equals(uniqueValue)) {
+			definition.setUnique(true);
+		}
+		if (StringConstants.FALSE.equals(nullableValue)) {
+			definition.setNullable(false);
+		}
+		if (StringConstants.FALSE.equals(insertableValue)) {
+			definition.setInsertable(false);
+		}
+		if (StringConstants.FALSE.equals(updatableValue)) {
+			definition.setUpdatable(false);
+		}
+		if (!StringUtils.isEmpty(columnDefinitionValue)) {
+			definition.setColumnDefinition(columnDefinitionValue);
+		}
+		if (!StringUtils.isEmpty(tableValue)) {
+			definition.setTable(tableValue);
+		}
+		return definition;
 	}
 }

@@ -116,7 +116,7 @@ public class FieldsJpaListFieldDetailsPage extends AbstractJpaFieldDetailsPage {
 		if (fieldModel == null) {
 			return;
 		}
-		ControlsUpdater.updateJpaFieldDetailsControls(fieldModel, mapTexts, mapCheckBoxes, mapLabels, mapCombos);
+		ControlsUpdater.updateJpaFieldDetailsControls(fieldModel, mapTexts, mapCheckBoxes, mapLabels);
 		ControlsUpdater.updateJpaListFieldDetailsControls(fieldModel, mapTexts, mapCheckBoxes, mapCombos);
 		revalidate();
 	}

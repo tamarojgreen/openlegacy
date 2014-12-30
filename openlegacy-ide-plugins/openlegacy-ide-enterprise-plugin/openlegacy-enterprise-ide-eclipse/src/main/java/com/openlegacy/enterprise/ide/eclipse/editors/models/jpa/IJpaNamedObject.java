@@ -9,25 +9,15 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy.db.definitions;
-
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
+package com.openlegacy.enterprise.ide.eclipse.editors.models.jpa;
 
 /**
  * @author Ivan Bort
  * 
  */
-public interface DbManyToOneDefinition {
+public interface IJpaNamedObject {
 
-	Class<?> getTargetEntity();
+	boolean isDefaultAttrs();
 
-	CascadeType[] getCascade();
-
-	FetchType getFetch();
-
-	boolean isOptional();
-
-	String getTargetEntityClassName();
-
+	boolean equalsAttrs(IJpaNamedObject object);
 }

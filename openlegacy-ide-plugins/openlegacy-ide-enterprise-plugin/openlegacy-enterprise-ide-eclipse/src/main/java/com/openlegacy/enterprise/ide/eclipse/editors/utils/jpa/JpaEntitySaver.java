@@ -7,7 +7,9 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbColumnActi
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaJoinColumnAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaListFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaManyToOneAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaNavigationAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaTableAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.AbstractEntity;
@@ -41,6 +43,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -59,7 +63,7 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 		// process top level class annotations: @Entity, @Table, @DbEntity
 		processEntityTopLevelAnnotations(ast, cu, rewriter, root, (JpaEntity)entity);
 		// process annotations that located inside root:
-		// @Column, @OneToMany, @Id, @DbColumn
+		// @Column, @OneToMany, @Id, @DbColumn, @ManyToOne, @JoinColumn
 		processEntityInnerAnnotations(ast, cu, rewriter, root, (JpaEntity)entity);
 
 		// add serialVersionUID
@@ -157,7 +161,7 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 			}
 		}
 
-		// add/remove field annotations, such as @Column, @OneToMany, @Id
+		// add/remove field annotations, such as @Column, @OneToMany, @Id, @ManyToOne, @JoinColumn
 		nodeList = listRewriter.getRewrittenList();
 		for (ASTNode node : nodeList) {
 			if (node.getNodeType() == ASTNode.FIELD_DECLARATION) {
@@ -193,6 +197,12 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 						} else if (fullyQualifiedName.equals(DbColumn.class.getSimpleName())) {
 							JpaEntityBuilder.INSTANCE.processJpaFieldAnnotation(ast, cu, rewriter, fieldListRewrite, field,
 									fieldAnnotation, rootName, JpaEntityUtils.getActionList(entity, JpaDbColumnAction.class));
+						} else if (fullyQualifiedName.equals(ManyToOne.class.getSimpleName())) {
+							JpaEntityBuilder.INSTANCE.processJpaFieldAnnotation(ast, cu, rewriter, fieldListRewrite, field,
+									fieldAnnotation, rootName, JpaEntityUtils.getActionList(entity, JpaManyToOneAction.class));
+						} else if (fullyQualifiedName.equals(JoinColumn.class.getSimpleName())) {
+							JpaEntityBuilder.INSTANCE.processJpaFieldAnnotation(ast, cu, rewriter, fieldListRewrite, field,
+									fieldAnnotation, rootName, JpaEntityUtils.getActionList(entity, JpaJoinColumnAction.class));
 						}
 					}
 				}

@@ -18,6 +18,8 @@ public interface DbFieldDefinition extends FieldDefinition {
 
 	DbManyToOneDefinition getManyToOneDefinition();
 
+	DbJoinColumnDefinition getJoinColumnDefinition();
+
 	boolean isPassword();
 
 	boolean isMainDisplayField();

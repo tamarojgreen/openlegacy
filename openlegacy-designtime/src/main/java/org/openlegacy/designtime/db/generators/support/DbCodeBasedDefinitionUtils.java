@@ -104,6 +104,9 @@ public class DbCodeBasedDefinitionUtils {
 			definition.setMainDisplayField(javaColumnField.isMainDisplayField());
 			definition.setStaticField(javaColumnField.isStaticField());
 
+			definition.setManyToOneDefinition(javaColumnField.getManyToOneDefinition());
+			definition.setJoinColumnDefinition(javaColumnField.getJoinColumnDefinition());
+
 			fieldDefinitions.put(javaColumnField.getFieldName(), definition);
 		}
 

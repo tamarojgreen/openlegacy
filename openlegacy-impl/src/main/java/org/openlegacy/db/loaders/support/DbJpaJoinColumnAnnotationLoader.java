@@ -16,25 +16,25 @@ import org.openlegacy.FieldType;
 import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.db.definitions.DbFieldDefinition;
 import org.openlegacy.db.definitions.SimpleDbColumnFieldDefinition;
-import org.openlegacy.db.definitions.SimpleDbManyToOneDefinition;
+import org.openlegacy.db.definitions.SimpleDbJoinColumnDefinition;
 import org.openlegacy.loaders.FieldLoader;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 
 /**
  * @author Ivan Bort
  * 
  */
 @Component
-public class DbJpaManyToOneAnnotationLoader implements FieldLoader {
+public class DbJpaJoinColumnAnnotationLoader implements FieldLoader {
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean match(EntitiesRegistry entitiesRegistry, Field field) {
-		return field.getAnnotation(ManyToOne.class) != null;
+		return field.getAnnotation(JoinColumn.class) != null;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -47,20 +47,22 @@ public class DbJpaManyToOneAnnotationLoader implements FieldLoader {
 				dbFieldDefinition = new SimpleDbColumnFieldDefinition(field.getName(), FieldType.General.class);
 			}
 			if (dbFieldDefinition instanceof SimpleDbColumnFieldDefinition) {
-				ManyToOne manyToOne = field.getAnnotation(ManyToOne.class);
+				JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
+				SimpleDbJoinColumnDefinition joinColumnDefinition = new SimpleDbJoinColumnDefinition();
+				joinColumnDefinition.setName(joinColumn.name());
+				joinColumnDefinition.setReferencedColumnName(joinColumn.referencedColumnName());
+				joinColumnDefinition.setUnique(joinColumn.unique());
+				joinColumnDefinition.setNullable(joinColumn.nullable());
+				joinColumnDefinition.setInsertable(joinColumn.insertable());
+				joinColumnDefinition.setUpdatable(joinColumn.updatable());
+				joinColumnDefinition.setColumnDefinition(joinColumn.columnDefinition());
+				joinColumnDefinition.setTable(joinColumn.table());
 
-				SimpleDbManyToOneDefinition simpleDbManyToOne = new SimpleDbManyToOneDefinition();
-				simpleDbManyToOne.setTargetEntity(manyToOne.targetEntity());
-				simpleDbManyToOne.setTargetEntityClassName(manyToOne.targetEntity().getSimpleName());
-				simpleDbManyToOne.setCascade(manyToOne.cascade());
-				simpleDbManyToOne.setFetch(manyToOne.fetch());
-				simpleDbManyToOne.setOptional(manyToOne.optional());
+				((SimpleDbColumnFieldDefinition)dbFieldDefinition).setJoinColumnDefinition(joinColumnDefinition);
 
-				((SimpleDbColumnFieldDefinition)dbFieldDefinition).setManyToOneDefinition(simpleDbManyToOne);
 			}
 			dbEntityDefinition.getColumnFieldsDefinitions().put(field.getName(), dbFieldDefinition);
 		}
-
 	}
 
 }
