@@ -66,14 +66,14 @@
 						<table class="table">
 							<thead>
 								<tr>
+								<#if (part.tableDefinition.actions?size > 0)>										
+									<th></th>
+								</#if>
 								<#list part.tableDefinition.columnDefinitions as column>									
 									<#if column.selectionField>
 										<#assign selectionColumn = column>
-									</#if>
-									<#if column_has_next>
-										<th>${column.displayName}</th>
 									<#else>
-								<th>${column.displayName}</th>
+										<th>${column.displayName}</th>
 									</#if>
 						  		</#list>
 								</tr>
@@ -227,9 +227,6 @@
    				</#if>
 			</#if>		   	
    		</#if>		
-   		<#if field.enableLookup>
-   			<img class="search" ng-click="doAction('${entityDefinition.entityName}', 'lookup-${field.name}')" src="icons/search.png" id="printerToUseSearch">
-   		</#if>			
 	</div>
 </#macro>
 
