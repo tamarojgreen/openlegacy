@@ -80,7 +80,7 @@
 							</thead>
 							<tbody>                            	
 			                    <tr data-ng-repeat="${part.tableDefinition.tableEntityName?uncap_first} in model.${part.tableDefinition.tableEntityName?uncap_first}s">
-										<#if selectionColumn??>										
+										<#if (part.tableDefinition.actions?size > 0)>										
 											<td>
 												<#if (part.tableDefinition.actions?size > 3)>
 													<div class="dropdown">
@@ -117,9 +117,15 @@
 																${action.displayName}												
 															</a>
 														<#else>
-															<a href="" ng-click="${part.tableDefinition.tableEntityName?uncap_first}.${selectionColumn.name}='${action.action.actionValue}';doActionNoTargetEntity()">
-																${action.displayName}
-															</a>
+															<#if selectionColumn??>
+																<a href="" ng-click="${part.tableDefinition.tableEntityName?uncap_first}.${selectionColumn.name}='${action.action.actionValue}';doActionNoTargetEntity()">
+																	${action.displayName}
+																</a>
+															<#else>
+																<a href="" ng-click="${part.tableDefinition.tableEntityName?uncap_first}.focus='${action.action.actionValue}';doActionNoTargetEntity('${action.alias}')">
+																	${action.displayName}
+																</a>
+															</#if>
 														</#if>			                                        		                                        
 			                                        </#list>		                              
 												</#if>											

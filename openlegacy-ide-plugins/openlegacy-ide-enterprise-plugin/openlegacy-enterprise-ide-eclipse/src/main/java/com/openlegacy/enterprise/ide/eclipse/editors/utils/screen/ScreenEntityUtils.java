@@ -1,5 +1,43 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.utils.screen;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+import org.apache.commons.lang.StringUtils;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.openlegacy.EntityDefinition;
+import org.openlegacy.FieldType;
+import org.openlegacy.definitions.BooleanFieldTypeDefinition;
+import org.openlegacy.definitions.DateFieldTypeDefinition;
+import org.openlegacy.definitions.EnumFieldTypeDefinition;
+import org.openlegacy.definitions.FieldWithValuesTypeDefinition;
+import org.openlegacy.definitions.PartEntityDefinition;
+import org.openlegacy.designtime.generators.AnnotationConstants;
+import org.openlegacy.designtime.generators.CodeBasedScreenPartDefinition;
+import org.openlegacy.designtime.generators.CodeBasedScreenTableDefinition;
+import org.openlegacy.designtime.terminal.generators.support.CodeBasedScreenEntityDefinition;
+import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
+import org.openlegacy.terminal.FieldAttributeType;
+import org.openlegacy.terminal.ScreenEntityType;
+import org.openlegacy.terminal.ScreenRecordsProvider;
+import org.openlegacy.terminal.ScreenSize;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.actions.TerminalActions.ENTER;
+import org.openlegacy.terminal.definitions.FieldAssignDefinition;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
+import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
+import org.openlegacy.terminal.table.ScreenTableCollector;
+
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
@@ -42,44 +80,6 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenPartMod
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenTableModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.TableActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.holders.screen.ScreenEntityRole;
-
-import org.apache.commons.lang.StringUtils;
-import org.eclipse.jdt.core.dom.ASTNode;
-import org.openlegacy.EntityDefinition;
-import org.openlegacy.FieldType;
-import org.openlegacy.definitions.BooleanFieldTypeDefinition;
-import org.openlegacy.definitions.DateFieldTypeDefinition;
-import org.openlegacy.definitions.EnumFieldTypeDefinition;
-import org.openlegacy.definitions.FieldWithValuesTypeDefinition;
-import org.openlegacy.definitions.PartEntityDefinition;
-import org.openlegacy.designtime.generators.AnnotationConstants;
-import org.openlegacy.designtime.generators.CodeBasedScreenPartDefinition;
-import org.openlegacy.designtime.generators.CodeBasedScreenTableDefinition;
-import org.openlegacy.designtime.terminal.generators.support.CodeBasedScreenEntityDefinition;
-import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
-import org.openlegacy.terminal.FieldAttributeType;
-import org.openlegacy.terminal.ScreenEntityType;
-import org.openlegacy.terminal.ScreenRecordsProvider;
-import org.openlegacy.terminal.ScreenSize;
-import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
-import org.openlegacy.terminal.actions.TerminalActions;
-import org.openlegacy.terminal.definitions.FieldAssignDefinition;
-import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
-import org.openlegacy.terminal.definitions.ScreenTableDefinition;
-import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
-import org.openlegacy.terminal.modules.table.TerminalDrilldownActions.EnterDrilldownAction;
-import org.openlegacy.terminal.table.ScreenTableCollector;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 
 /**
  * @author Ivan Bort
@@ -983,7 +983,7 @@ public class ScreenEntityUtils {
 			TableActionModel entityModel = entity.getTables().get(model.getParent().getUUID()).getActions().get(model.getUUID());
 			// @TableAction.action: default EnterDrilldownAction.class;
 			isPrevious = entityModel.getAction().equals(model.getAction());
-			isDefault = model.getAction().equals(EnterDrilldownAction.class);
+			isDefault = model.getAction().equals(ENTER.class);
 			PrivateMethods.addRemoveTableActionAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.ACTION, model.getAction());
 			// @TableAction.defaultAction: default false;

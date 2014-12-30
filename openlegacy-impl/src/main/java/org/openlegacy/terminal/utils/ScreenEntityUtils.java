@@ -17,6 +17,7 @@ import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
@@ -27,6 +28,7 @@ import org.springframework.util.Assert;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,6 +103,17 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 				if (actionDefinition.getAlias().equals(actionAlias)) {
 					matchedActionDefinition = (TerminalActionDefinition)actionDefinition;
 					sessionAction = (TerminalAction)actionDefinition.getAction();
+				}
+			}
+			Collection<ScreenTableDefinition> tables = entityDefinitions.getTableDefinitions().values();
+			for (ScreenTableDefinition screenTableDefinition : tables) {
+				List<ActionDefinition> tableActions = screenTableDefinition.getActions();
+				for (ActionDefinition actionDefinition : tableActions) {
+					if (actionDefinition.getAlias().equals(actionAlias)) {
+						matchedActionDefinition = (TerminalActionDefinition)actionDefinition;
+						sessionAction = (TerminalAction)actionDefinition.getAction();
+						
+					}
 				}
 			}
 			if (sessionAction == null) {

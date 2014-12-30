@@ -256,9 +256,9 @@
 								$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
 								
 								
-								$scope.doActionNoTargetEntity = function() {					
-								    
-									$olHttp.post('${entityDefinition.entityName}/', clearObjectsFromPost($scope.model), function(data) {
+								$scope.doActionNoTargetEntity = function(alias) {					
+								    var suffix = alias != null ? "?action=" + alias : "";
+									$olHttp.post('${entityDefinition.entityName}/' + suffix, clearObjectsFromPost($scope.model), function(data) {
 										if (data.model.entityName == '${entityDefinition.entityName}'){											
 											$scope.model = data.model.entity;
 											$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
@@ -430,9 +430,9 @@
 								$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
 								
 								
-								$scope.doActionNoTargetEntity = function() {					
-								    
-									$olHttp.post('${entityName}/', clearObjectsFromPost($scope.model), function(data) {
+								$scope.doActionNoTargetEntity = function(alias) {					
+								    var suffix = alias != null ? "?action=" + alias : "";
+									$olHttp.post('${entityDefinition.entityName}/' + suffix, clearObjectsFromPost($scope.model), function(data) {
 										if (data.model.entityName == '${entityName}'){											
 											$scope.model = data.model.entity;
 											$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);

@@ -62,6 +62,13 @@ privileged @SuppressWarnings("unused") aspect ${formattedClassName}_Aspect {
             this.focusField = "${fields?first.getName()}";
         }</#if>
     }
+
+    public String ${formattedClassName}.getFocus() {
+        return focusField;
+    }
+    public void ${formattedClassName}.setFocus(String focus) {
+        this.focusField = focus;
+    }
 	</#if>
 		
     public int ${className}.hashCode(){
