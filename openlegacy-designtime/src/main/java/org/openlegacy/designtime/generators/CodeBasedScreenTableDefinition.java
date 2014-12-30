@@ -120,6 +120,9 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 
 			columnDefinition.setExpression(StringUtils.isEmpty(field.getExpression()) ? "" : field.getExpression());
 		}
+		if (isRightToLeft()){
+			Collections.reverse(columnDefinitions);
+		}
 		return columnDefinitions;
 	}
 
