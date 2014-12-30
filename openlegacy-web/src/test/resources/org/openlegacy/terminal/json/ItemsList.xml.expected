@@ -8,6 +8,9 @@
             <position column="4" row="5" xsi:type="java:org.openlegacy.terminal.support.SimpleTerminalPosition"/>
             <additionalKey>NONE</additionalKey>
             <action macro="false" xsi:type="java:org.openlegacy.terminal.modules.table.TerminalDrilldownActions$SimpleDrilldownAction">
+                <action macro="false" xsi:type="java:org.openlegacy.terminal.actions.TerminalActions$ENTER">
+                    <actionName>ENTER</actionName>
+                </action>
                 <actionValue xsi:type="java:java.lang.String">2</actionValue>
             </action>
             <alias>revise</alias>
