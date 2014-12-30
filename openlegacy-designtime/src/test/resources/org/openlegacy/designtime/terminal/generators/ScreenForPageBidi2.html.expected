@@ -148,20 +148,20 @@
 						<table class="table">
 							<thead>
 								<tr>
-										<th>Action</th>
+									<th></th>
 										<th>Column1</th>
-								<th>Column2</th>
+										<th>Column2</th>
 								</tr>
 							</thead>
 							<tbody>                            	
 			                    <tr data-ng-repeat="screenForPageRow in model.screenForPageRows">
 											<td>
-															<a href="" ng-click="screenForPageRow.action='1';doActionNoTargetEntity()">
-																View
-															</a>
-															<a href="" ng-click="screenForPageRow.action='2';doActionNoTargetEntity()">
-																Revise
-															</a>
+																<a href="" ng-click="screenForPageRow.action='1';doActionNoTargetEntity()">
+																	View
+																</a>
+																<a href="" ng-click="screenForPageRow.action='2';doActionNoTargetEntity()">
+																	Revise
+																</a>
 			                            	</td>
 			                                                  
 											<td>
