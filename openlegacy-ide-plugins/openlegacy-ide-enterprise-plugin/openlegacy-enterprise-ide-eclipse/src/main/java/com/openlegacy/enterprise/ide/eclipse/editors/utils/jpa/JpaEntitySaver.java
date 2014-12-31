@@ -67,7 +67,7 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 		processEntityInnerAnnotations(ast, cu, rewriter, root, (JpaEntity)entity);
 
 		// add serialVersionUID
-		processSerializableDeclaration(ast, cu, rewriter, root);
+		// processSerializableDeclaration(ast, cu, rewriter, root);
 	}
 
 	@SuppressWarnings("unchecked")
