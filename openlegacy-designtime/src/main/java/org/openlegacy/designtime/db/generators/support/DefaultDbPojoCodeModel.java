@@ -631,6 +631,9 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 									field.setFieldTypeDefinition(AnnotationsParserUtils.loadEnumField(mainType, fieldDeclaration));
 								}
 							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr, DbAnnotationConstants.DB_ID_ANNOTATION)) {
+								field.setKey(true);
+							}
 						}
 					}
 					if (Modifier.isStatic(fieldDeclaration.getModifiers()) || Modifier.isFinal(fieldDeclaration.getModifiers())) {

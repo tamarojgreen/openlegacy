@@ -8,6 +8,17 @@ import java.io.Serializable;
 import java.util.*;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+	<#assign idFields = []/>
+	<#list fields as field>
+		<#if field.key>
+			<#assign idFields = idFields + [field]/>
+		</#if>
+	</#list>
+//	size:  ${idFields?size}
+	<#if (idFields?size > 1)>
+import javax.persistence.IdClass; 
+	</#if>
+
 
 privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
 
@@ -29,4 +40,27 @@ privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
 		</#if>
 	</#list>	
 
+	<#if (idFields?size > 1)>
+	declare @type: ${className} : @IdClass(${className}CompositeKey.class);
+
+	public static class ${className}CompositeKey implements Serializable {
+
+		private static final long serialVersionUID = 1L;
+
+		<#list idFields as field>
+		${field.type} ${field.name};
+		</#list>
+
+		<#list idFields as field>
+		public ${field.type} get${field.name?cap_first}(){
+			return ${field.name};
+		}
+		
+		public void set${field.name?cap_first}(${field.type} ${field.name}){
+			this.${field.name} = ${field.name};
+		}
+		</#list>
+
+	}
+	</#if>
 }
