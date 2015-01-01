@@ -99,7 +99,7 @@
 									$state.go("emulation");
 								}
 								else{
-									$state.go($stateParams.redirectTo.name, $stateParams.redirectTo.params);
+									$state.go(olConfig.afterLoginView);
 								}
 							}
 						);
@@ -188,7 +188,7 @@
 		<#if entitiesDefinitions??>
 		<#list entitiesDefinitions as entityDefinition>	
 		module = module.controller('${entityDefinition.entityName}Ctrl',
-				function($scope, $olHttp,$stateParams, $themeService, $rootScope, $state) {
+				function($scope, $olHttp,$stateParams, $themeService, $rootScope, $state,$modal) {
 					$scope.noTargetScreenEntityAlert = function() {
 						alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 					}; 
@@ -264,7 +264,8 @@
 											$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
 											$rootScope.hidePreloader();
 										} else {
-											<#if entityDefinition.window>																						
+											<#if entityDefinition.window>
+											$rootScope.modalInstance.close();
 											$state.transitionTo($state.current, $stateParams, {
 											    reload: true,
 											    inherit: false,
