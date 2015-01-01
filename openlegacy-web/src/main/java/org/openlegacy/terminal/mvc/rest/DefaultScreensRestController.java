@@ -296,7 +296,8 @@ public class DefaultScreensRestController extends AbstractRestController {
 		terminalSession.doAction(action);
 		ScreenEntity entity = terminalSession.getEntity();
 		Navigation navigationModule = getSession().getModule(Navigation.class);
-		boolean isWindow = getEntitiesRegistry().get(entity.getClass()).isWindow();
+		boolean isWindow = entity != null ? getEntitiesRegistry().get(entity.getClass()).isWindow() : false;
+
 		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(ProxyUtil.getTargetObject(entity),
 				navigationModule != null ? navigationModule.getPaths() : null, getActions(entity),isWindow);
 		return new ModelAndView(MODEL, MODEL, wrapper);
