@@ -63,10 +63,6 @@
 																</a>
 															</#if>
 														</#if>
-													<#else>
-														<a href="" ng-click="doActionNoTargetEntity($index, '${action.action.actionValue}')">
-															<@actionButton action=action/>
-														</a>
 													</#if>			                                        		                                        
 		                                        </#list>							
 			                            	</td>									
