@@ -3,7 +3,7 @@
 
 	<nav class="navbar navbar-default" role="navigation">
 	    <form class="navbar-form xnavbar-left" role="navigation">
-	    	<button data-ng-click="doAction('ScreenForPage', '')" class="btn btn-primary navbar-btn">המשך</button>
+	    	<button data-ng-click="doAction('ScreenForPage', '')" class="btn btn-primary navbar-btn">Submit</button>
 				<button data-ng-show="isActionAvailable('help')" data-ng-click="doAction('ScreenForPage', 'help')" class="btn btn-primary navbar-btn">Help</button>
 				<button data-ng-show="isActionAvailable('exit')" data-ng-click="doAction('ScreenForPage', 'exit')" class="btn btn-primary navbar-btn">Exit</button>
 			<a ng-href="{{baseUrl}}ScreenForPage{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="true">
