@@ -14,11 +14,9 @@ import javax.persistence.Id;
 			<#assign idFields = idFields + [field]/>
 		</#if>
 	</#list>
-//	size:  ${idFields?size}
 	<#if (idFields?size > 1)>
 import javax.persistence.IdClass; 
 	</#if>
-
 
 privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
 
