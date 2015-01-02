@@ -240,4 +240,14 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		this.enableLookup = enableLookup;
 	}
 
+	@Override
+	public boolean isEditable() {
+		return super.isEditable();
+	}
+
+	@Override
+	public void setEditable(boolean editable) {
+		super.setEditable(editable);
+	}
+
 }

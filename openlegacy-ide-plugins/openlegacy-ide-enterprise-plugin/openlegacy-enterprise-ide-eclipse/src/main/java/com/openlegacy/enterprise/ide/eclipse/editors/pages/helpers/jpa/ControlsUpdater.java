@@ -3,7 +3,10 @@ package com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa;
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaJoinColumnModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaManyToOneModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaNavigationModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaTableModel;
 
 import org.apache.commons.lang.StringUtils;
@@ -121,8 +124,6 @@ public class ControlsUpdater {
 				button.setSelection(model.isUpdatable());
 			} else if (key.equals(DbAnnotationConstants.DB_ID_ANNOTATION)) {
 				button.setSelection(model.isKey());
-			} else if (key.equals(DbAnnotationConstants.EDITABLE)) {
-				button.setSelection(model.isEditable());
 			} else if (key.equals(DbAnnotationConstants.PASSWORD)) {
 				button.setSelection(model.isPassword());
 			} else if (key.equals(DbAnnotationConstants.RIGHT_TO_LEFT)) {
@@ -172,6 +173,86 @@ public class ControlsUpdater {
 				mapCombos.get(key).setText(StringUtils.join(model.getCascade(), ","));
 			} else if (key.equals(DbAnnotationConstants.FETCH)) {
 				mapCombos.get(key).setText(model.getFetch().toString());
+			}
+		}
+	}
+
+	public static void updateJpaNavigationDetailsControls(JpaNavigationModel model, Map<String, Text> mapTexts) {
+		if (model == null) {
+			return;
+		}
+		// update text controls
+		Set<String> mapKeys = mapTexts.keySet();
+		for (String key : mapKeys) {
+			if (key.equals(DbAnnotationConstants.CATEGORY)) {
+				mapTexts.get(key).setText(model.getCategory());
+			}
+		}
+	}
+
+	public static void updateJpaManyToOneDetailsControls(JpaManyToOneModel model, Map<String, Text> mapTexts,
+			Map<String, Button> mapCheckBoxes, Map<String, CCombo> mapCombos) {
+		if (model == null) {
+			return;
+		}
+		// update Text controls
+		Set<String> mapKeys = mapTexts.keySet();
+		for (String key : mapKeys) {
+			Text text = mapTexts.get(key);
+			if (key.equals(DbAnnotationConstants.TARGET_ENTITY)) {
+				text.setText(model.getTargetEntityClassName());
+			}
+		}
+		// update CheckBox controls
+		mapKeys = mapCheckBoxes.keySet();
+		for (String key : mapKeys) {
+			Button button = mapCheckBoxes.get(key);
+			if (key.equals(DbAnnotationConstants.OPTIONAL)) {
+				button.setSelection(model.isOptional());
+			}
+		}
+		// update CCombo controls
+		mapKeys = mapCombos.keySet();
+		for (String key : mapKeys) {
+			if (key.equals(DbAnnotationConstants.CASCADE)) {
+				mapCombos.get(key).setText(StringUtils.join(model.getCascade(), ","));
+			} else if (key.equals(DbAnnotationConstants.FETCH)) {
+				mapCombos.get(key).setText(model.getFetch().toString());
+			}
+		}
+	}
+
+	public static void updateJpaJoinColumnDetailsControls(JpaJoinColumnModel model, Map<String, Text> mapTexts,
+			Map<String, Button> mapCheckBoxes) {
+		if (model == null) {
+			return;
+		}
+		// update Text controls
+		Set<String> mapKeys = mapTexts.keySet();
+		for (String key : mapKeys) {
+			Text text = mapTexts.get(key);
+			if (key.equals(Constants.JC_NAME)) {
+				text.setText(model.getName());
+			} else if (key.equals(Constants.JC_REFERENCED_COLUMN_NAME)) {
+				text.setText(model.getReferencedColumnName());
+			} else if (key.equals(Constants.JC_COLUMN_DEFINITION)) {
+				text.setText(model.getColumnDefinition());
+			} else if (key.equals(Constants.JC_TABLE)) {
+				text.setText(model.getTable());
+			}
+		}
+		// update CheckBox controls
+		mapKeys = mapCheckBoxes.keySet();
+		for (String key : mapKeys) {
+			Button button = mapCheckBoxes.get(key);
+			if (key.equals(Constants.JC_UNIQUE)) {
+				button.setSelection(model.isUnique());
+			} else if (key.equals(Constants.JC_NULLABLE)) {
+				button.setSelection(model.isNullable());
+			} else if (key.equals(Constants.JC_INSERTABLE)) {
+				button.setSelection(model.isInsertable());
+			} else if (key.equals(Constants.JC_UPDATABLE)) {
+				button.setSelection(model.isUpdatable());
 			}
 		}
 	}

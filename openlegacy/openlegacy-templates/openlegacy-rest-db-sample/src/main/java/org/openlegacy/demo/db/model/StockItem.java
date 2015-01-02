@@ -38,40 +38,4 @@ public class StockItem {
 	@MapKey(name = "noteId")
 	private List<StockItemImage> images = new ArrayList<StockItemImage>();
 
-	public Integer getItemId() {
-		return itemId;
-	}
-
-	public void setItemId(Integer itemId) {
-		this.itemId = itemId;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Map<String, StockItemNote> getNotes() {
-		return notes;
-	}
-
-	public List<StockItemImage> getImages() {
-		return images;
-	}
-
-	public String getVideoUrl() {
-		return videoUrl;
-	}
-
-	public void setVideoUrl(String videoUrl) {
-		this.videoUrl = videoUrl;
-	}
-
-	public Map<String, StockItemNote> getNotes2() {
-		return notes2;
-	}
-
 }

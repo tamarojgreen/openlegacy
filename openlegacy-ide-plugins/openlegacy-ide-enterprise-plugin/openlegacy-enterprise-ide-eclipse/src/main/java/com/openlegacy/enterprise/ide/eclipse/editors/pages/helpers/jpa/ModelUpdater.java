@@ -1,10 +1,14 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa;
 
 import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaActionsModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaJoinColumnModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaManyToOneModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaNavigationModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaTableModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.Utils;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.jpa.JpaEntityUtils;
@@ -56,7 +60,8 @@ public class ModelUpdater {
 		JpaEntityUtils.ActionGenerator.generateJpaTableActions(entity, model);
 	}
 
-	public static void updateJpaFieldModel(JpaEntity entity, JpaFieldModel model, String key, String text, Boolean selection) {
+	public static void updateJpaFieldModel(JpaEntity entity, JpaFieldModel model, String key, String text, Boolean selection)
+			throws MalformedURLException, CoreException {
 		if (selection != null) {
 			if (key.equals(DbAnnotationConstants.UNIQUE)) {
 				model.setUnique(selection);
@@ -68,8 +73,6 @@ public class ModelUpdater {
 				model.setUpdatable(selection);
 			} else if (key.equals(DbAnnotationConstants.DB_ID_ANNOTATION)) {
 				model.setKey(selection);
-			} else if (key.equals(DbAnnotationConstants.EDITABLE)) {
-				model.setEditable(selection);
 			} else if (key.equals(DbAnnotationConstants.PASSWORD)) {
 				model.setPassword(selection);
 			} else if (key.equals(DbAnnotationConstants.RIGHT_TO_LEFT)) {
@@ -138,6 +141,71 @@ public class ModelUpdater {
 			}
 		}
 		JpaEntityUtils.ActionGenerator.generateJpaListFieldActions(entity, model);
+	}
+
+	public static void updateJpaNavigationModel(JpaEntity entity, JpaNavigationModel model, String key, String text) {
+		if (text != null) {
+			if (key.equals(DbAnnotationConstants.CATEGORY)) {
+				model.setCategory(text);
+			}
+		}
+		JpaEntityUtils.ActionGenerator.generateJpaNavigationActions(entity, model);
+	}
+
+	public static void updateJpaActionsModel(JpaEntity entity, JpaActionsModel model) {
+		JpaEntityUtils.ActionGenerator.generateJpaActionsAction(entity, model);
+	}
+
+	public static void updateJpaManyToOneModel(JpaEntity entity, JpaManyToOneModel model, String key, String text,
+			Boolean selection, String fullyQualifiedName) throws MalformedURLException, CoreException {
+
+		if (text != null) {
+			if (key.equals(DbAnnotationConstants.TARGET_ENTITY)) {
+				model.setTargetEntityClassName(text);
+				if (fullyQualifiedName != null) {
+					Class<?> clazz = Utils.getClazz(fullyQualifiedName);
+					model.setTargetEntity(clazz);
+				}
+			} else if (key.equals(DbAnnotationConstants.CASCADE)) {
+				model.setCascade(StringUtils.isEmpty(text) ? new CascadeType[] {}
+						: new CascadeType[] { CascadeType.valueOf(text) });
+			} else if (key.equals(DbAnnotationConstants.FETCH)) {
+				model.setFetch(StringUtils.isEmpty(text) ? FetchType.LAZY : FetchType.valueOf(text));
+			}
+		}
+		if (selection != null) {
+			if (key.equals(DbAnnotationConstants.OPTIONAL)) {
+				model.setOptional(selection);
+			}
+		}
+		JpaEntityUtils.ActionGenerator.generateJpaManyToOneAction(entity, model);
+	}
+
+	public static void updateJpaJoinColumnModel(JpaEntity entity, JpaJoinColumnModel model, String key, String text,
+			Boolean selection) {
+		if (text != null) {
+			if (key.equals(Constants.JC_NAME)) {
+				model.setName(text);
+			} else if (key.equals(Constants.JC_REFERENCED_COLUMN_NAME)) {
+				model.setReferencedColumnName(text);
+			} else if (key.equals(Constants.JC_COLUMN_DEFINITION)) {
+				model.setColumnDefinition(text);
+			} else if (key.equals(Constants.JC_TABLE)) {
+				model.setTable(text);
+			}
+		}
+		if (selection != null) {
+			if (key.equals(Constants.JC_UNIQUE)) {
+				model.setUnique(selection);
+			} else if (key.equals(Constants.JC_NULLABLE)) {
+				model.setNullable(selection);
+			} else if (key.equals(Constants.JC_INSERTABLE)) {
+				model.setInsertable(selection);
+			} else if (key.equals(Constants.JC_UPDATABLE)) {
+				model.setUpdatable(selection);
+			}
+		}
+		JpaEntityUtils.ActionGenerator.generateJpaJoinColumnAction(entity, model);
 	}
 
 }

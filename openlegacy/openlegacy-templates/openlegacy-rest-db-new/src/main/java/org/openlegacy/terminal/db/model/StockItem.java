@@ -1,14 +1,5 @@
 package org.openlegacy.terminal.db.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-
 import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.Cascade;
 import org.openlegacy.annotations.db.Action;
@@ -16,6 +7,16 @@ import org.openlegacy.annotations.db.DbActions;
 import org.openlegacy.annotations.db.DbColumn;
 import org.openlegacy.annotations.db.DbEntity;
 import org.openlegacy.annotations.db.DbNavigation;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 @Entity
 @DbEntity(pluralName = "Stock Items", displayName = "Stock Item")
@@ -30,9 +31,11 @@ public class StockItem {
 	@Id
 	private Integer itemId;
 
-	@DbColumn(displayName = "Description", mainDisplayField = true, editable = true)
+	@Column
+	@DbColumn(displayName = "Description", mainDisplayField = true)
 	private String description;
 
+	@Column(updatable = false)
 	@DbColumn(displayName = "Video Url", mainDisplayField = true)
 	private String videoUrl;
 

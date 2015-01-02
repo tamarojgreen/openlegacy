@@ -144,6 +144,11 @@ public class FieldsJpaListFieldDetailsPage extends AbstractJpaFieldDetailsPage {
 		}
 	}
 
+	@Override
+	protected boolean isAddManyToOneSection() {
+		return false;
+	}
+
 	private static String[] getCascadeTypeItems() {
 		List<String> list = new ArrayList<String>();
 		list.add(CascadeType.ALL.toString());

@@ -13,7 +13,7 @@ package org.openlegacy.demo.db.controllers;
 
 import org.openlegacy.db.mvc.rest.DefaultDbRestController;
 import org.openlegacy.db.services.DbEntitiesRegistry;
-import org.openlegacy.demo.db.model.StockItemHolderPK;
+import org.openlegacy.demo.db.model.StockItemHolder_Aspect.StockItemHolderCompositeKey;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.support.SimpleEntityWrapper;
 import org.openlegacy.utils.ProxyUtil;
@@ -54,7 +54,7 @@ public class StockItemHolderController {
 			Object[] keys = new Object[0];
 			if (key != null) {
 				keys = key.split("\\+");
-				StockItemHolderPK pk = new StockItemHolderPK();
+				StockItemHolderCompositeKey pk = new StockItemHolderCompositeKey();
 				pk.setId1(Integer.parseInt((String)keys[0]));
 				pk.setId2(Long.parseLong((String)keys[1]));
 				Object entity = entityManager.find(entityClass, pk);
@@ -78,6 +78,7 @@ public class StockItemHolderController {
 	}
 
 	private static ModelAndView handleException(HttpServletResponse response, RuntimeException e) throws IOException {
+		e.printStackTrace();
 		response.setStatus(500);
 		response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
 		return null;

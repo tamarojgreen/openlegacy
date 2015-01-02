@@ -3,13 +3,19 @@ package com.openlegacy.enterprise.ide.eclipse.editors.utils.jpa;
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaActionsAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbColumnAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaIdFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaJoinColumnAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaListFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaManyToOneAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaNavigationAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaTableAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.ActionModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaActionsModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaBooleanFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaByteFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaDateFieldModel;
@@ -17,7 +23,10 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaIntegerFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaJoinColumnModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaManyToOneModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaNavigationModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaTableModel;
 
 import org.apache.commons.lang.StringUtils;
@@ -28,6 +37,7 @@ import org.openlegacy.db.definitions.DbTableDefinition.UniqueConstraintDefinitio
 import org.openlegacy.db.definitions.SimpleDbColumnFieldDefinition;
 import org.openlegacy.designtime.db.generators.support.CodeBasedDbEntityDefinition;
 import org.openlegacy.designtime.db.generators.support.DbAnnotationConstants;
+import org.openlegacy.designtime.generators.AnnotationConstants;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -259,11 +269,6 @@ public class JpaEntityUtils {
 			isDefault = StringUtils.isEmpty(model.getDisplayName());
 			PrivateMethods.addRemoveJpaDbColumnAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.DISPLAY_NAME, model.getDisplayName());
-			// @DbColumn.editable: default false
-			isPrevious = entityModel.isEditable() == model.isEditable();
-			isDefault = !model.isEditable();
-			PrivateMethods.addRemoveJpaDbColumnAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
-					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.EDITABLE, model.isEditable());
 			// @DbColumn.password: default false
 			isPrevious = entityModel.isPassword() == model.isPassword();
 			isDefault = !model.isPassword();
@@ -356,6 +361,175 @@ public class JpaEntityUtils {
 					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.TARGET_ENTITY, model.getTargetEntity());
 		}
 
+		public static void generateJpaNavigationActions(JpaEntity entity, JpaNavigationModel model) {
+			boolean isPrevious = true;
+			boolean isDefault = true;
+			JpaNavigationModel entityModel = entity.getNavigationModel();
+			// add @DbNavigation annotation
+			if (entityModel.isDefaultDbEntityAttrs() && !model.isDefaultDbEntityAttrs()) {
+				entity.addAction(new JpaNavigationAction(model.getUUID(), model, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
+						DbAnnotationConstants.DB_NAVIGATION_ANNOTATION, null));
+			}
+			// remove @DbEntity annotation
+			if (!entityModel.isDefaultDbEntityAttrs() && model.isDefaultDbEntityAttrs()) {
+				entity.addAction(new JpaNavigationAction(model.getUUID(), model, ActionType.REMOVE, ASTNode.NORMAL_ANNOTATION,
+						DbAnnotationConstants.DB_NAVIGATION_ANNOTATION, null));
+			}
+			if (entityModel.equalsDbEntityAttrs(model)) {
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_NAVIGATION_ANNOTATION);
+			}
+			// if attrs are not default in editable model then delete "remove @DbEntity" action
+			if (!model.isDefaultDbEntityAttrs()) {
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_NAVIGATION_ANNOTATION, ActionType.REMOVE);
+			}
+
+			// @DbNavigation.category: default none
+			isPrevious = StringUtils.equals(entityModel.getCategory(), model.getCategory());
+			isDefault = StringUtils.isEmpty(model.getCategory());
+			PrivateMethods.addRemoveJpaNavigationAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.CATEGORY, model.getCategory());
+		}
+
+		public static void generateJpaActionsAction(JpaEntity entity, JpaActionsModel model) {
+			boolean isPrevious = true;
+			boolean isDefault = true;
+			// add @DbActions annotation
+			if (entity.getActionsModel().getActions().isEmpty() && (model.getActions() != null)
+					&& (!model.getActions().isEmpty())) {
+				entity.addAction(new JpaActionsAction(model.getUUID(), model, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
+						DbAnnotationConstants.DB_ACTIONS_ANNOTATION, null));
+			}
+			// remove @DbActions annotation
+			if (!entity.getActionsModel().getActions().isEmpty()
+					&& ((model.getActions() == null) || (model.getActions().isEmpty()))) {
+				entity.addAction(new JpaActionsAction(model.getUUID(), model, ActionType.REMOVE, ASTNode.NORMAL_ANNOTATION,
+						DbAnnotationConstants.DB_ACTIONS_ANNOTATION, null));
+			}
+			// remove addAnnotation action if all of actions were deleted
+			if ((entity.getActionsModel().getActions().isEmpty() && (model.getActions() == null || model.getActions().isEmpty()))
+					|| (!entity.getActionsModel().getActions().isEmpty() && model.getActions() != null && !model.getActions().isEmpty())) {
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_ACTIONS_ANNOTATION);
+			}
+			// @RpcActions.actions: default {}
+			isPrevious = PrivateMethods.compareActionsModels(model.getActions(), entity.getActionsModel().getActions());
+			isDefault = ((model.getActions() == null) || (model.getActions().isEmpty()));
+			PrivateMethods.addRemoveJpaActionsAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.ACTIONS, model.getActions());
+		}
+
+		public static void generateJpaManyToOneAction(JpaEntity entity, JpaManyToOneModel model) {
+			boolean isPrevious = true;
+			boolean isDefault = true;
+			JpaFieldModel fieldModel = (JpaFieldModel)model.getParent();
+			JpaManyToOneModel entityModel = entity.getFields().get(fieldModel.getUUID()).getManyToOneModel();
+			// add @ManyToOne annotation
+			if (entityModel.isDefaultAttrs() && !model.isDefaultAttrs()) {
+				entity.addAction(new JpaManyToOneAction(model.getUUID(), fieldModel, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
+						DbAnnotationConstants.DB_MANY_TO_ONE_ANNOTATION, null));
+			}
+			// remove @ManyToOne annotation
+			if (!entityModel.isDefaultAttrs() && model.isDefaultAttrs()) {
+				entity.addAction(new JpaManyToOneAction(model.getUUID(), fieldModel, ActionType.REMOVE,
+						ASTNode.NORMAL_ANNOTATION, DbAnnotationConstants.DB_MANY_TO_ONE_ANNOTATION, null));
+			}
+			// remove add/remove @ManyToOne action
+			if (entityModel.equalsAttrs(model)) {
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_MANY_TO_ONE_ANNOTATION);
+			}
+			// if attrs are not default in editable model then delete "remove @ManyToOne" action
+			if (!model.isDefaultAttrs()) {
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_MANY_TO_ONE_ANNOTATION, ActionType.REMOVE);
+			}
+
+			// @ManyToOne.targetEntity: default void.class
+			isPrevious = StringUtils.equals(entityModel.getTargetEntityClassName(), model.getTargetEntityClassName());
+			isDefault = StringUtils.isEmpty(model.getTargetEntityClassName())
+					|| void.class.getSimpleName().equalsIgnoreCase(model.getTargetEntityClassName());
+			PrivateMethods.addRemoveJpaManyToOneAction(entity, fieldModel, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.TARGET_ENTITY, model.getTargetEntity());
+			// @ManyToOne.cascade: default {}
+			isPrevious = PrivateMethods.compareCascadeTypes(entityModel.getCascade(), model.getCascade());
+			isDefault = model.getCascade().length == 0;
+			PrivateMethods.addRemoveJpaManyToOneAction(entity, fieldModel, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.CASCADE, model.getCascade());
+			// @ManyToOne.fetch: default FetchType.EAGER
+			isPrevious = entityModel.getFetch().equals(model.getFetch());
+			isDefault = FetchType.EAGER.equals(model.getFetch());
+			PrivateMethods.addRemoveJpaManyToOneAction(entity, fieldModel, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.FETCH, model.getFetch());
+			// @ManyToOne.optional: default true
+			isPrevious = entityModel.isOptional() == model.isOptional();
+			isDefault = model.isOptional();
+			PrivateMethods.addRemoveJpaManyToOneAction(entity, fieldModel, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.OPTIONAL, model.isOptional());
+		}
+
+		public static void generateJpaJoinColumnAction(JpaEntity entity, JpaJoinColumnModel model) {
+			boolean isPrevious = true;
+			boolean isDefault = true;
+			JpaFieldModel fieldModel = (JpaFieldModel)model.getParent();
+			JpaJoinColumnModel entityModel = entity.getFields().get(fieldModel.getUUID()).getJoinColumnModel();
+			// add @JoinColumn annotation
+			if (entityModel.isDefaultAttrs() && !model.isDefaultAttrs()) {
+				entity.addAction(new JpaJoinColumnAction(model.getUUID(), fieldModel, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
+						DbAnnotationConstants.DB_JOIN_COLUMN_ANNOTATION, null));
+			}
+			// remove @JoinColumn annotation
+			if (!entityModel.isDefaultAttrs() && model.isDefaultAttrs()) {
+				entity.addAction(new JpaJoinColumnAction(model.getUUID(), fieldModel, ActionType.REMOVE,
+						ASTNode.NORMAL_ANNOTATION, DbAnnotationConstants.DB_JOIN_COLUMN_ANNOTATION, null));
+			}
+			// remove add/remove @JoinColumn action
+			if (entityModel.equalsAttrs(model)) {
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_JOIN_COLUMN_ANNOTATION);
+			}
+			// if attrs are not default in editable model then delete "remove @JoinColumn" action
+			if (!model.isDefaultAttrs()) {
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_JOIN_COLUMN_ANNOTATION, ActionType.REMOVE);
+			}
+
+			// @JoinColumn.name: default ""
+			isPrevious = StringUtils.equals(entityModel.getName(), model.getName());
+			isDefault = StringUtils.isEmpty(model.getName());
+			PrivateMethods.addRemoveJpaJoinColumnAction(entity, fieldModel, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.NAME, model.getName());
+			// @JoinColumn.referencedColumnName: default ""
+			isPrevious = StringUtils.equals(entityModel.getReferencedColumnName(), model.getReferencedColumnName());
+			isDefault = StringUtils.isEmpty(model.getReferencedColumnName());
+			PrivateMethods.addRemoveJpaJoinColumnAction(entity, fieldModel, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.REFERENCED_COLUMN_NAME, model.getReferencedColumnName());
+			// @JoinColumn.unique: default false
+			isPrevious = entityModel.isUnique() == model.isUnique();
+			isDefault = !model.isUnique();
+			PrivateMethods.addRemoveJpaJoinColumnAction(entity, fieldModel, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.UNIQUE, model.isUnique());
+			// @JoinColumn.nullable: default true
+			isPrevious = entityModel.isNullable() == model.isNullable();
+			isDefault = model.isNullable();
+			PrivateMethods.addRemoveJpaJoinColumnAction(entity, fieldModel, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.NULLABLE, model.isNullable());
+			// @JoinColumn.insertable: default true
+			isPrevious = entityModel.isInsertable() == model.isInsertable();
+			isDefault = model.isInsertable();
+			PrivateMethods.addRemoveJpaJoinColumnAction(entity, fieldModel, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.INSERTABLE, model.isInsertable());
+			// @JoinColumn.updatable: default true
+			isPrevious = entityModel.isUpdatable() == model.isUpdatable();
+			isDefault = model.isUpdatable();
+			PrivateMethods.addRemoveJpaJoinColumnAction(entity, fieldModel, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.UPDATABLE, model.isUpdatable());
+			// @JoinColumn.columnDefinition: default ""
+			isPrevious = StringUtils.equals(entityModel.getColumnDefinition(), model.getColumnDefinition());
+			isDefault = StringUtils.isEmpty(model.getColumnDefinition());
+			PrivateMethods.addRemoveJpaJoinColumnAction(entity, fieldModel, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.COLUMN_DEFINITION, model.getColumnDefinition());
+			// @JoinColumn.table: default ""
+			isPrevious = StringUtils.equals(entityModel.getTable(), model.getTable());
+			isDefault = StringUtils.isEmpty(model.getTable());
+			PrivateMethods.addRemoveJpaJoinColumnAction(entity, fieldModel, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.TABLE, model.getTable());
+		}
+
 	}
 
 	private static class PrivateMethods {
@@ -426,6 +600,54 @@ public class JpaEntityUtils {
 			}
 		}
 
+		public static void addRemoveJpaNavigationAction(JpaEntity entity, JpaNavigationModel model, boolean isPrevious,
+				boolean isDefault, int target, String key, Object value) {
+			if (!isPrevious && !isDefault) {
+				entity.addAction(new JpaNavigationAction(model.getUUID(), model, ActionType.MODIFY, target, key, value));
+			} else if (!isPrevious && isDefault) {
+				entity.addAction(new JpaNavigationAction(model.getUUID(), model, ActionType.REMOVE, target, key, null));
+			} else {
+				entity.removeAction(model.getUUID(), key);
+			}
+		}
+
+		private static void addRemoveJpaActionsAction(JpaEntity entity, JpaActionsModel model, boolean isPrevious,
+				boolean isDefault, int target, String key, Object value) {
+			if (!isPrevious && !isDefault) {
+				entity.addAction(new JpaActionsAction(model.getUUID(), model, ActionType.MODIFY, target, key, value));
+			} else if (!isPrevious && isDefault) {
+				entity.addAction(new JpaActionsAction(model.getUUID(), model, ActionType.REMOVE, target, key, null));
+			} else {
+				entity.removeAction(model.getUUID(), key);
+			}
+		}
+
+		private static void addRemoveJpaManyToOneAction(JpaEntity entity, JpaFieldModel model, boolean isPrevious,
+				boolean isDefault, int target, String key, Object value) {
+			if (!isPrevious && !isDefault) {
+				entity.addAction(new JpaManyToOneAction(model.getManyToOneModel().getUUID(), model, ActionType.MODIFY, target,
+						key, value));
+			} else if (!isPrevious && isDefault) {
+				entity.addAction(new JpaManyToOneAction(model.getManyToOneModel().getUUID(), model, ActionType.REMOVE, target,
+						key, null));
+			} else {
+				entity.removeAction(model.getManyToOneModel().getUUID(), key);
+			}
+		}
+
+		private static void addRemoveJpaJoinColumnAction(JpaEntity entity, JpaFieldModel model, boolean isPrevious,
+				boolean isDefault, int target, String key, Object value) {
+			if (!isPrevious && !isDefault) {
+				entity.addAction(new JpaJoinColumnAction(model.getJoinColumnModel().getUUID(), model, ActionType.MODIFY, target,
+						key, value));
+			} else if (!isPrevious && isDefault) {
+				entity.addAction(new JpaJoinColumnAction(model.getJoinColumnModel().getUUID(), model, ActionType.REMOVE, target,
+						key, null));
+			} else {
+				entity.removeAction(model.getJoinColumnModel().getUUID(), key);
+			}
+		}
+
 		private static boolean compareUniqueConstraintsDefintions(List<UniqueConstraintDefinition> a,
 				List<UniqueConstraintDefinition> b) {
 			if (a.size() != b.size()) {
@@ -464,6 +686,22 @@ public class JpaEntityUtils {
 
 			for (int i = 0; i < a.length; i++) {
 				if (!StringUtils.equals(a[i].toString(), b[i].toString())) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		private static boolean compareActionsModels(List<ActionModel> a, List<ActionModel> b) {
+			if (a.size() != b.size()) {
+				return false;
+			}
+			for (int i = 0; i < a.size(); i++) {
+				ActionModel aClass = a.get(i);
+				ActionModel bClass = b.get(i);
+				if (!aClass.getActionName().equals(bClass.getActionName()) || !aClass.getAlias().equals(bClass.getAlias())
+						|| !aClass.getDisplayName().equals(bClass.getDisplayName()) || (aClass.isGlobal() != bClass.isGlobal())
+						|| !StringUtils.equals(aClass.getTargetEntityClassName(), bClass.getTargetEntityClassName())) {
 					return false;
 				}
 			}
@@ -555,6 +793,10 @@ public class JpaEntityUtils {
 		for (String key : keySet) {
 			JpaFieldModel model = null;
 			SimpleDbColumnFieldDefinition fieldDefinition = (SimpleDbColumnFieldDefinition)fieldsDefinitions.get(key);
+			// skip static fields
+			if (fieldDefinition.isStaticField()) {
+				continue;
+			}
 			String javaTypeName = fieldDefinition.getJavaTypeName();
 			if (javaTypeName.equalsIgnoreCase(Boolean.class.getSimpleName())) {
 				model = new JpaBooleanFieldModel(parent);
@@ -576,6 +818,18 @@ public class JpaEntityUtils {
 			}
 		}
 		return map;
+	}
+
+	public static JpaNavigationModel getJpaNavigationModel(DbEntityDefinition entityDefinition) {
+		JpaNavigationModel model = new JpaNavigationModel();
+		model.init((CodeBasedDbEntityDefinition)entityDefinition);
+		return model;
+	}
+
+	public static JpaActionsModel getJpaActionsModel(DbEntityDefinition entityDefinition) {
+		JpaActionsModel model = new JpaActionsModel();
+		model.init((CodeBasedDbEntityDefinition)entityDefinition);
+		return model;
 	}
 
 }

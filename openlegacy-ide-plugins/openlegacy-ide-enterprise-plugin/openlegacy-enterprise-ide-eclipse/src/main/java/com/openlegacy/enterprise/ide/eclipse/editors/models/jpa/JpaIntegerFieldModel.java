@@ -41,7 +41,6 @@ public class JpaIntegerFieldModel extends JpaFieldModel {
 		model.setKey(isKey());
 
 		model.setDisplayName(getDisplayName());
-		model.setEditable(isEditable());
 		model.setPassword(isPassword());
 		model.setSampleValue(getSampleValue());
 		model.setDefaultValue(getDefaultValue());

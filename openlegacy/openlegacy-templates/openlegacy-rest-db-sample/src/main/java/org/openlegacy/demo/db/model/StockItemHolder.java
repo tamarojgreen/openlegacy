@@ -20,7 +20,6 @@ import javax.persistence.IdClass;
  * 
  */
 @Entity
-@IdClass(StockItemHolderPK.class)
 public class StockItemHolder {
 
 	@Id
@@ -33,28 +32,5 @@ public class StockItemHolder {
 
 	public StockItemHolder() {}
 
-	public int getId1() {
-		return id1;
-	}
-
-	public void setId1(int id1) {
-		this.id1 = id1;
-	}
-
-	public long getId2() {
-		return id2;
-	}
-
-	public void setId2(long id2) {
-		this.id2 = id2;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
 
 }

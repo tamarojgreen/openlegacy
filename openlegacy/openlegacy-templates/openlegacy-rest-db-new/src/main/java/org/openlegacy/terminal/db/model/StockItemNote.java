@@ -1,7 +1,14 @@
 package org.openlegacy.terminal.db.model;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.openlegacy.annotations.db.Action;
+import org.openlegacy.annotations.db.DbActions;
+import org.openlegacy.annotations.db.DbColumn;
+import org.openlegacy.db.actions.DbActions.READ;
+
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +37,8 @@ public class StockItemNote implements Serializable {
 	@JsonBackReference
 	private StockItem stockItem;
 
-	@DbColumn(displayName = "Text", mainDisplayField = true, editable = true)
+	@Column
+	@DbColumn(displayName = "Text", mainDisplayField = true)
 	private String text;
 
 	public Long getId() {

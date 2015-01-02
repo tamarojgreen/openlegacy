@@ -15,6 +15,8 @@ import static org.openlegacy.designtime.utils.JavaParserUtil.findAnnotationAttri
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.annotations.db.DbEntity;
 import org.openlegacy.annotations.rpc.Languages;
+import org.openlegacy.db.definitions.DbJoinColumnDefinition;
+import org.openlegacy.db.definitions.DbManyToOneDefinition;
 import org.openlegacy.db.definitions.DbNavigationDefinition;
 import org.openlegacy.db.definitions.DbOneToManyDefinition;
 import org.openlegacy.db.definitions.DbTableDefinition;
@@ -32,6 +34,7 @@ import japa.parser.ast.body.BodyDeclaration;
 import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
+import japa.parser.ast.body.ModifierSet;
 import japa.parser.ast.body.VariableDeclarator;
 import japa.parser.ast.expr.AnnotationExpr;
 import japa.parser.ast.expr.NormalAnnotationExpr;
@@ -289,6 +292,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		private String fieldName;
 		private String fieldType;
 		private String fieldTypeArgs;
+		private boolean staticField = false;
 		// @Column annotation properties
 		private String name = "";
 		private boolean unique = false;
@@ -302,7 +306,6 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		private int scale = 0;
 		// @DbColumn annotation properties
 		private String displayName = "";
-		private boolean editable = false;
 		private boolean password = false;
 		private String sampleValue = "";
 		private String defaultValue = "";
@@ -313,6 +316,8 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 
 		private boolean key = false;
 		private DbOneToManyDefinition oneToManyDefinition;
+		private DbManyToOneDefinition manyToOneDefinition;
+		private DbJoinColumnDefinition joinColumnDefinition;
 
 		public ColumnField(String fieldName, String fieldType, String fieldTypeArgs) {
 			this.fieldName = fieldName;
@@ -444,14 +449,6 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 			this.displayName = displayName;
 		}
 
-		public boolean isEditable() {
-			return editable;
-		}
-
-		public void setEditable(boolean editable) {
-			this.editable = editable;
-		}
-
 		public boolean isPassword() {
 			return password;
 		}
@@ -506,6 +503,30 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 
 		public void setMainDisplayField(boolean mainDisplayField) {
 			this.mainDisplayField = mainDisplayField;
+		}
+
+		public boolean isStaticField() {
+			return staticField;
+		}
+
+		public void setStaticField(boolean staticField) {
+			this.staticField = staticField;
+		}
+
+		public DbManyToOneDefinition getManyToOneDefinition() {
+			return manyToOneDefinition;
+		}
+
+		public void setManyToOneDefinition(DbManyToOneDefinition manyToOneDefinition) {
+			this.manyToOneDefinition = manyToOneDefinition;
+		}
+
+		public DbJoinColumnDefinition getJoinColumnDefinition() {
+			return joinColumnDefinition;
+		}
+
+		public void setJoinColumnDefinition(DbJoinColumnDefinition joinColumnDefinition) {
+			this.joinColumnDefinition = joinColumnDefinition;
 		}
 
 	}
@@ -610,6 +631,9 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 									field.setFieldTypeDefinition(AnnotationsParserUtils.loadEnumField(mainType, fieldDeclaration));
 								}
 							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr, DbAnnotationConstants.DB_ID_ANNOTATION)) {
+								field.setKey(true);
+							}
 						}
 					}
 					if (Modifier.isStatic(fieldDeclaration.getModifiers()) || Modifier.isFinal(fieldDeclaration.getModifiers())) {
@@ -651,6 +675,9 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 						fieldType = type.toString();
 					}
 					ColumnField columnField = new ColumnField(fieldName, fieldType, fieldTypeArgs);
+					if (ModifierSet.hasModifier(fieldDeclaration.getModifiers(), ModifierSet.STATIC)) {
+						columnField.setStaticField(true);
+					}
 					if (fieldAnnotations != null && !fieldAnnotations.isEmpty()) {
 						for (AnnotationExpr annotationExpr : fieldAnnotations) {
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
@@ -667,6 +694,14 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr, DbAnnotationConstants.DB_ID_ANNOTATION)) {
 								columnField.setKey(true);
+							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
+									DbAnnotationConstants.DB_MANY_TO_ONE_ANNOTATION)) {
+								columnField.setManyToOneDefinition(DbAnnotationsParserUtils.loadDbManyToOneDefinition(annotationExpr));
+							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
+									DbAnnotationConstants.DB_JOIN_COLUMN_ANNOTATION)) {
+								columnField.setJoinColumnDefinition(DbAnnotationsParserUtils.loadDbJoinColumnDefinition(annotationExpr));
 							}
 						}
 					}

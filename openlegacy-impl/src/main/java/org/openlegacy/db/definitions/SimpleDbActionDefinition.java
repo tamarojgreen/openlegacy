@@ -25,4 +25,8 @@ public class SimpleDbActionDefinition extends SimpleActionDefinition implements 
 		super(action, displayName);
 	}
 
+	public SimpleDbActionDefinition(String actionName, String displayName) {
+		super(actionName, displayName);
+	}
+
 }

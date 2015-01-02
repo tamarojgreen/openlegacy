@@ -2,6 +2,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors;
 
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntity;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.jpa.ActionsPape;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.jpa.FieldsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.jpa.GeneralPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.jpa.JpaEntitySaver;
@@ -32,6 +33,7 @@ public class JpaEntityEditor extends AbstractEditor {
 
 	private GeneralPage generalPage;
 	private FieldsPage fieldsPage;
+	private ActionsPape actionsPape;
 
 	private JpaEntity entity;
 
@@ -39,9 +41,11 @@ public class JpaEntityEditor extends AbstractEditor {
 	protected void addEditorPages() throws PartInitException {
 		generalPage = new GeneralPage(this);
 		fieldsPage = new FieldsPage(this);
+		actionsPape = new ActionsPape(this);
 
 		addPage(generalPage);
 		addPage(fieldsPage);
+		addPage(actionsPape);
 		addSourcePage();
 	}
 
@@ -75,6 +79,7 @@ public class JpaEntityEditor extends AbstractEditor {
 	protected void doAfterSave() {
 		generalPage.refresh();
 		fieldsPage.refresh();
+		actionsPape.refresh();
 		editorDirtyStateChanged();
 	}
 
@@ -91,6 +96,7 @@ public class JpaEntityEditor extends AbstractEditor {
 	public void dispose() {
 		generalPage = null;
 		fieldsPage = null;
+		actionsPape = null;
 		super.dispose();
 	}
 

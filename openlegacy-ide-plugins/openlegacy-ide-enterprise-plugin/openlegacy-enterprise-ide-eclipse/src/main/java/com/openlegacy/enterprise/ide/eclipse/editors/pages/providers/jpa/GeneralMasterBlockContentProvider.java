@@ -45,6 +45,7 @@ public class GeneralMasterBlockContentProvider implements IStructuredContentProv
 		List<Object> list = new ArrayList<Object>();
 		list.add(entity.getEntityModel().clone());
 		list.add(entity.getTableModel().clone());
+		list.add(entity.getNavigationModel().clone());
 		return list.toArray();
 	}
 

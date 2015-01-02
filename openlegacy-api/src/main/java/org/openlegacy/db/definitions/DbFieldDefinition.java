@@ -16,7 +16,9 @@ public interface DbFieldDefinition extends FieldDefinition {
 
 	DbOneToManyDefinition getOneToManyDefinition();
 
-	boolean isEditable();
+	DbManyToOneDefinition getManyToOneDefinition();
+
+	DbJoinColumnDefinition getJoinColumnDefinition();
 
 	boolean isPassword();
 

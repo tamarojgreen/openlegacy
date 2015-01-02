@@ -27,7 +27,7 @@ public class DbDummyEntity implements org.openlegacy.db.DbEntity {
 
 	// insertable = true for CREATE action
 	@Column(name = "description", unique = true, nullable = false, insertable = true, updatable = false, columnDefinition = "VARCHAR(15)", length = 15, precision = 1, scale = 1)
-	@DbColumn(displayName = "Dummy db column name", editable = true, password = true, sampleValue = "Sample value", defaultValue = "Default value", helpText = "Help text", rightToLeft = true, internal = true, mainDisplayField = true)
+	@DbColumn(displayName = "Dummy db column name", password = true, sampleValue = "Sample value", defaultValue = "Default value", helpText = "Help text", rightToLeft = true, internal = true, mainDisplayField = true)
 	String description;
 
 	public DbDummyEntity() {}
