@@ -19,13 +19,19 @@ import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.messages.Messages;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
+import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.actions.TerminalActions.NONE;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.support.SimpleTerminalSendAction;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
+import org.openlegacy.terminal.support.wait_conditions.WaitWhileEntity;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
+import org.openlegacy.terminal.wait_conditions.WaitConditionFactory;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
@@ -51,6 +57,9 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 	private TerminalAction defaultSkipAction;
 
 	private int skipLimit = 5;
+
+	@Inject
+	private WaitConditionFactory waitConditionFactory;
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -107,7 +116,21 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 			NavigationDefinition navigationDefinition = entityDefinition.getNavigationDefinition();
 			if (navigationDefinition != null) {
 				TerminalAction exitAction = navigationDefinition.getExitAction();
-				if (navigationDefinition != null && exitAction != null) {
+				if (exitAction.getClass() == NONE.class && entityDefinition.getType() == Messages.IgnoreEntity.class){
+					final WaitWhileEntity wait = waitConditionFactory.create(WaitWhileEntity.class, entityDefinition.getEntityClass());
+					theSkipAction = new TerminalAction(){
+						public void perform(TerminalSession session,
+								Object entity, Object... keys) {
+							SimpleTerminalSendAction theAction = new SimpleTerminalSendAction("");
+							session.doAction(theAction, wait);
+						}
+						public boolean isMacro() {
+							return false;
+						}
+						
+					};
+				}
+				else if (navigationDefinition != null && exitAction != null) {
 					theSkipAction = exitAction;
 				}
 			}

@@ -10,40 +10,23 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support.wait_conditions;
 
-import org.apache.commons.lang.StringUtils;
 import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.terminal.wait_conditions.WaitCoditionAdapter;
 import org.openlegacy.utils.ProxyUtil;
 
-public class WaitForNonEmptyField extends WaitCoditionAdapter {
+public class WaitWhileEntity extends WaitCoditionAdapter {
 
-	private Class<?> entityClass;
-	private String fieldName;
+	private Class<? extends ScreenEntity> waitWhileEntityClass;
 
-	public WaitForNonEmptyField(Class<?> entityClass, String fieldName) {
-		this.entityClass = entityClass;
-		this.fieldName = fieldName;
-
+	public WaitWhileEntity(Class<? extends ScreenEntity> waitWhileEntityClass) {
+		this.waitWhileEntityClass = waitWhileEntityClass;
 	}
 
 	@Override
 	public boolean continueWait(TerminalSession terminalSession) {
 
 		ScreenEntity currentEntity = terminalSession.getEntity();
-		if (currentEntity == null) {
-			return false;
-		}
-		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(currentEntity);
-		if (ProxyUtil.isClassesMatch(currentEntity.getClass(), entityClass)) {
-			String fieldValue = (String)fieldAccessor.getFieldValue(fieldName);
-			if (StringUtils.isEmpty(fieldValue)) {
-				return true;
-			}
-		}
-		return false;
+		return (ProxyUtil.isClassesMatch(currentEntity.getClass(), waitWhileEntityClass));
 	}
-
 }
