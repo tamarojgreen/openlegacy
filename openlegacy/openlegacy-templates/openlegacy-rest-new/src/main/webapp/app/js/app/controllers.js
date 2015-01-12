@@ -343,7 +343,7 @@
 								
 								$scope.doActionNoTargetEntity = function(alias) {					
 								    var suffix = alias != null ? "?action=" + alias : "";
-									$olHttp.post('${entityDefinition.entityName}/' + suffix, $rootScope.clearObjectsFromPost($scope.model), function(data) {
+									$olHttp.post('${entityName}/' + suffix, $rootScope.clearObjectsFromPost($scope.model), function(data) {
 										if (data.model.entityName == '${entityName}'){											
 											$scope.model = data.model.entity;
 											$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
