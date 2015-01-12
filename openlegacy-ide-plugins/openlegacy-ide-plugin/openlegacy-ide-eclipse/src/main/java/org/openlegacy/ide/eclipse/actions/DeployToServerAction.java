@@ -99,6 +99,7 @@ public class DeployToServerAction extends AbstractAction {
 							if (debugEvent.getKind() == DebugEvent.TERMINATE && launchProcess.isTerminated()) {
 								performDirectDeploy(project, dialog.getServerName(), dialog.getServerPort(),
 										dialog.getUserName(), dialog.getPassword());
+								DebugPlugin.getDefault().removeDebugEventListener(this);
 							}
 						}
 					}
