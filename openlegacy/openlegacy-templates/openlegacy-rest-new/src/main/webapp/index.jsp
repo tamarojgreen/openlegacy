@@ -155,6 +155,7 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 			<option>emulation?KeyboardKey=ESCAPE</option>
 			<option>current</option>
 			<option>messages</option>
+			<option>globals</option>
 			<option>logoff</option>
 			<%
 			for (ScreenEntityDefinition definition : entityDefinitions){
