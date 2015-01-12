@@ -82,6 +82,28 @@
 				enablesFor="1"
 				id="com.openlegacy.enterprise.ide.eclipse.actions.generate_service">
 			</action>
+   <action
+         class="com.openlegacy.enterprise.ide.eclipse.views.ShowEntityMapViewAction"
+         enablesFor="1"
+         id="com.openlegacy.enterprise.ide.eclipse.actions.show_map_view"
+         label="Show Map View"
+         menubarPath="org.openlegacy.ide.eclipse.right_menu/show_map_view">
+   </action>
 		</objectContribution>
 	</extension>
+ <extension
+       point="org.eclipse.ui.views">
+        <category
+            name="OpenLegacy"
+            id="org.openlegacy.ide.eclipse.preview">
+      </category>
+	  <view
+	    	allowMultiple="true"
+            name="Entity Map"
+            icon="icons/openlegacy.png"
+            category="org.openlegacy.ide.eclipse.preview"
+            class="com.openlegacy.enterprise.ide.eclipse.views.EntityMapView"
+            id="com.openlegacy.enterprise.ide.eclipse.views.EntityMapView">
+      </view>
+ </extension>
 </plugin>
