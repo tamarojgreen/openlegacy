@@ -8,8 +8,8 @@
 
 	module = module.controller(
 			'emulationCtrl',
-			function($scope, $olHttp, $rootScope, $state, $stateParams) {
-				
+			function($scope, $olHttp, $rootScope, $state, $stateParams, $templateCache) {
+				$templateCache.remove('views/emulation.html');
 				$scope.doAction = function(key){
 					var url = "emulation?";
 					$("form :input").each(function(){
@@ -169,13 +169,25 @@
 		
 		module = module.controller(
 			'menuCtrl',
-			function($scope, flatMenu, $state, $rootScope) {
+			function($scope, flatMenu, $state, $rootScope, $olHttp) {
 				flatMenu(function(data) {				
 					$scope.menuArray = data;
 					if ($state.current.name == 'menu') {
 						$rootScope.hidePreloader();
 					};
 				});
+				
+				$rootScope.sessionView = function() {
+					if ($("#sessionImage") != null){				
+						$("#sessionImage").attr("src","../sessionViewer/image?" + new Date().getTime());
+					}
+				};
+				
+				$scope.reload = function() {
+					$olHttp.get('reload', function() {
+						location.reload();
+					});
+				};
 			});
 		
 		module = module.controller('breadcrumbsCtrl', function($scope, $rootScope, $olHttp, $state) {			

@@ -90,7 +90,8 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('menu', {
     	url: "/MainMenu",    	
-    	templateUrl: "partials/MainMenu.html"    		
+    	templateUrl: "partials/MainMenu.html",
+    	controller: "menuCtrl"
     })
     .state('InventoryMenu', {
     	url: "/InventoryMenu",    	

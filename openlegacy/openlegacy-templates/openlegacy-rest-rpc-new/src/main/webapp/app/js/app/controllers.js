@@ -59,10 +59,15 @@
 	
 	module = module.controller(
 		'menuCtrl',
-		function($scope, flatMenu) {
+		function($scope, flatMenu, $olHttp) {
 			flatMenu(function(data) {				
 				$scope.menuArray = data;
 			});
+			$scope.reload = function() {
+				$olHttp.get('reload', function() {
+					location.reload();
+				});
+			};
 		});
 	
 	module = module.controller('breadcrumbsCtrl', function($scope, $rootScope, $olHttp, $state) {

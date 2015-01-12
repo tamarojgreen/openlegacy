@@ -23,11 +23,7 @@
 				$rootScope._showPreloader = false;
 				$rootScope._showContent = true;
 			}			
-		}
-		if ($("#sessionImage") != null){
-			$("#sessionImage").attr("src","../sessionViewer/image?" + new Date().getTime());
-		}
-		
+		}	
 		
 		$rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {			
 			$rootScope.hidePreloader();
