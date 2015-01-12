@@ -24,6 +24,62 @@
 				$rootScope._showContent = true;
 			}			
 		}
+		
+		$rootScope.isReadOnly = function(data,column,model){
+			if (data == null) data = model;
+			if (data == null) return true;
+			var dataField = data[column + "Field"];
+			if (dataField != null){
+				return !dataField.editable;
+			}
+			return false;
+		}
+		$rootScope.readOnlyCss = function(data,column){
+			if (data == null) return "";
+			var dataField = data[column + "Field"];
+			if (dataField != null && !dataField.editable){
+				return "readonly";
+			}
+			return "";
+		}
+		$rootScope.isActionAvailable = function(alias,model){
+			if (model == null || model.actions == null){
+				return false;
+			}
+			for (var i=0;i<model.actions.length;i++){
+				if (model.actions[i].alias == alias){
+					return true;
+				}
+			}
+			return false;
+		};
+		
+		$rootScope.clearObjectsFromPost = function(data){
+			if (data == null) return;
+			for (var key in data) {
+				  if (data.hasOwnProperty(key)) {
+					  if (key.indexOf("Field") > 0 || key.toLowerCase().indexOf("actions") >= 0 || key.indexOf("Snapshot") >= 0){
+				    	data[key] = null;
+					  }
+				  }
+			}
+			for (var key in data) {
+				if (Array.isArray(data[key])){
+					for (var i=0;i<data[key].length;i++){
+						$rootScope.clearObjectsFromPost(data[key][i]);
+					}
+				}
+				else{
+					if (typeof data[key] == 'object'){
+						if (data[key] != null){
+							$rootScope.clearObjectsFromPost(data[key]);
+						}
+					}
+				}
+			}
+			return data;
+		}
+
 		if ($("#sessionImage") != null){
 			$("#sessionImage").attr("src","../sessionViewer/image?" + new Date().getTime());
 		}

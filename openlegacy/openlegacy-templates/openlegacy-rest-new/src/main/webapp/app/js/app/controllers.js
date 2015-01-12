@@ -194,60 +194,15 @@
 					}; 
 					
 					$scope.isReadOnly = function(data,column){
-						if (data == null) data = $scope.model;
-						if (data == null) return true;
-						var dataField = data[column + "Field"];
-						if (dataField != null){
-							return !dataField.editable;
-						}
-						return false;
+						return $rootScope.isReadOnly(data,column,$scope.model);
 					}
 					$scope.readOnlyCss = function(data,column){
-						if (data == null) return "";
-						var dataField = data[column + "Field"];
-						if (dataField != null && !dataField.editable){
-							return "readonly";
-						}
-						return "";
+						return $rootScope.readOnlyCss(data,column);
 					}
 					$scope.isActionAvailable = function(alias){
-						if ($scope.model == null || $scope.model.actions == null){
-							return false;
-						}
-						for (var i=0;i<$scope.model.actions.length;i++){
-							if ($scope.model.actions[i].alias == alias){
-								return true;
-							}
-						}
-						return false;
+						return $rootScope.isActionAvailable(alias,$scope.model);
 					};
 					
-					// clean JSON fields end with "Field" suffix created when activating "support terminal data" in the screen API editor 
-					var clearObjectsFromPost = function(data){
-						if (data == null) return;
-						for (var key in data) {
-							  if (data.hasOwnProperty(key)) {
-								  if (key.indexOf("Field") > 0 || key.toLowerCase().indexOf("actions") >= 0 || key.indexOf("Snapshot") >= 0){
-							    	data[key] = null;
-								  }
-							  }
-						}
-						for (var key in data) {
-							if (Array.isArray(data[key])){
-								for (var i=0;i<data[key].length;i++){
-									clearObjectsFromPost(data[key][i]);
-								}
-							}
-							else{
-								if (typeof data[key] == 'object'){
-									if (data[key] != null){
-										clearObjectsFromPost(data[key]);
-									}
-								}
-							}
-						}
-						return data;
-					}
 					$scope.read = function(){						  
 					      $olHttp.get('${entityDefinition.entityName}/' <#if entityDefinition.keys?size &gt; 0>+ $stateParams.${entityDefinition.keys[0].name?replace(".", "_")}</#if> + "?children=false",
 							function(data) {					    	  	
@@ -257,8 +212,8 @@
 								
 								
 								$scope.doActionNoTargetEntity = function(alias) {					
-								    var suffix = alias != null ? "?action=" + alias : "";
-									$olHttp.post('${entityDefinition.entityName}/' + suffix, clearObjectsFromPost($scope.model), function(data) {
+								    var suffix = alias != null ? "&action=" + alias : "";
+									$olHttp.post('${entityDefinition.entityName}/?children=false' + suffix, $rootScope.clearObjectsFromPost($scope.model), function(data) {
 										if (data.model.entityName == '${entityDefinition.entityName}'){											
 											$scope.model = data.model.entity;
 											$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
@@ -317,7 +272,7 @@
 							$rootScope.showPreloader(false);
 						}
 						
-						$olHttp.post(url,clearObjectsFromPost($scope.model), 
+						$olHttp.post(url,$rootScope.clearObjectsFromPost($scope.model), 
 							function(data) {
 								if (data == ""){
 									$state.go("emulation");
@@ -369,60 +324,15 @@
 					}; 
 					
 					$scope.isReadOnly = function(data,column){
-						if (data == null) data = $scope.model;
-						if (data == null) return true;
-						var dataField = data[column + "Field"];
-						if (dataField != null){
-							return !dataField.editable;
-						}
-						return false;
+						return $rootScope.isReadOnly(data,column,$scope.model);
 					}
 					$scope.readOnlyCss = function(data,column){
-						if (data == null) return "";
-						var dataField = data[column + "Field"];
-						if (dataField != null && !dataField.editable){
-							return "readonly";
-						}
-						return "";
+						return $rootScope.readOnlyCss(data,column);
 					}
 					$scope.isActionAvailable = function(alias){
-						if ($scope.model == null || $scope.model.actions == null){
-							return false;
-						}
-						for (var i=0;i<$scope.model.actions.length;i++){
-							if ($scope.model.actions[i].alias == alias){
-								return true;
-							}
-						}
-						return false;
+						return $rootScope.isActionAvailable(alias,$scope.model);
 					};
 					
-					// clean JSON fields end with "Field" suffix created when activating "support terminal data" in the screen API editor 
-					var clearObjectsFromPost = function(data){
-						if (data == null) return;
-						for (var key in data) {
-							  if (data.hasOwnProperty(key)) {
-								  if (key.indexOf("Field") > 0 || key.toLowerCase().indexOf("actions") >= 0 || key.indexOf("Snapshot") >= 0){
-							    	data[key] = null;
-								  }
-							  }
-						}
-						for (var key in data) {
-							if (Array.isArray(data[key])){
-								for (var i=0;i<data[key].length;i++){
-									clearObjectsFromPost(data[key][i]);
-								}
-							}
-							else{
-								if (typeof data[key] == 'object'){
-									if (data[key] != null){
-										clearObjectsFromPost(data[key]);
-									}
-								}
-							}
-						}
-						return data;
-					}
 					$scope.read = function(){						  
 					      $olHttp.get('${entityName}/' <#if keys?size &gt; 0>+ $stateParams.${keys[0].name?replace(".", "_")}</#if> + "?children=false",
 							function(data) {					    	  	
@@ -433,7 +343,7 @@
 								
 								$scope.doActionNoTargetEntity = function(alias) {					
 								    var suffix = alias != null ? "?action=" + alias : "";
-									$olHttp.post('${entityDefinition.entityName}/' + suffix, clearObjectsFromPost($scope.model), function(data) {
+									$olHttp.post('${entityDefinition.entityName}/' + suffix, $rootScope.clearObjectsFromPost($scope.model), function(data) {
 										if (data.model.entityName == '${entityName}'){											
 											$scope.model = data.model.entity;
 											$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
@@ -491,7 +401,7 @@
 							$rootScope.showPreloader(false);
 						}
 						
-						$olHttp.post(url,clearObjectsFromPost($scope.model), 
+						$olHttp.post(url,$rootScope.clearObjectsFromPost($scope.model), 
 							function(data) {
 								if (data == ""){
 									$state.go("emulation");
