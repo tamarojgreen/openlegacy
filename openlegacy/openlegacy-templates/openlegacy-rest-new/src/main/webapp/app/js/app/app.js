@@ -14,7 +14,6 @@
 		$rootScope.showPreloader = function(hideContent) {
 			if ($rootScope.allowShowPreloader == true) {
 				$rootScope._showPreloader = true;				
-				$rootScope._showContent = hideContent !== undefined ? !hideContent : false;
 			}		
 		}
 		
