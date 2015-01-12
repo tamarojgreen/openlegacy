@@ -18,7 +18,6 @@
 
 	<modules>
 		<module>openlegacy-ide-plugin</module>
-		<module>openlegacy-ide-enterprise-plugin</module>
 		<module>openlegacy-ide-plugins-updatesite</module>
 	</modules>
 

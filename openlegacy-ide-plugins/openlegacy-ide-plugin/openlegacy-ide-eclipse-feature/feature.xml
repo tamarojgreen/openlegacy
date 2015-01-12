@@ -2,8 +2,9 @@
 <feature
       id="org.openlegacy.ide.eclipse.feature"
       label="OpenLegacy IDE"
-      version="2.1.0.qualifier"
-      provider-name="OpenLegacy">
+      version="2.2.0.qualifier"
+      provider-name="OpenLegacy"
+      plugin="org.openlegacy.ide.eclipse">
 
    <description url="http://www.openlegacy.org/description">
       OpenLegacy is a next-generation Legacy modernization rapid application development platform for Java developers.

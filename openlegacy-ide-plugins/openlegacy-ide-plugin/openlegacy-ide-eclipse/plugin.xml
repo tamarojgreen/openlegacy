@@ -350,4 +350,88 @@
 			</enablement>
 		</renameParticipant>
 	</extension>
+	
+	<!-- ScreenEntity Editor-->
+	<extension point="org.eclipse.ui.editors">
+		<editor id="com.openlegacy.enterprise.ide.eclipse.editors.ScreenEntityEditor"
+			name="Screen Entity Editor"
+			icon="icons/openlegacy.png"
+			class="com.openlegacy.enterprise.ide.eclipse.editors.ScreenEntityEditor">
+			<contentTypeBinding contentTypeId="com.openlegacy.enterprise.ide.eclipse.editors.screenEntityFile" />
+		</editor>
+	</extension>
+
+	<extension point="org.eclipse.core.contenttype.contentTypes">
+		<content-type id="com.openlegacy.enterprise.ide.eclipse.editors.screenEntityFile" 
+			file-extensions="java" 
+			base-type="org.eclipse.jdt.core.javaSource"
+			name="%openlegacy_screen_entity_file" 
+			priority="high">
+			<describer class="com.openlegacy.enterprise.ide.eclipse.ScreenEntityDescriber"/>
+		 </content-type>
+	</extension> 
+	
+	<!-- RPCEntity Editor -->
+	<extension point="org.eclipse.ui.editors">
+		<editor id="com.openlegacy.enterprise.ide.eclipse.editors.RpcEntityEditor"
+			name="RPC Entity Editor"
+			icon="icons/openlegacy.png"
+			class="com.openlegacy.enterprise.ide.eclipse.editors.RpcEntityEditor">
+			<contentTypeBinding contentTypeId="com.openlegacy.enterprise.ide.eclipse.editors.rpcEntityFile" />
+		</editor>
+	</extension>
+	
+	<extension point="org.eclipse.core.contenttype.contentTypes">
+		<content-type id="com.openlegacy.enterprise.ide.eclipse.editors.rpcEntityFile"
+			file-extensions="java"
+			base-type="org.eclipse.jdt.core.javaSource"
+			name="%openlegacy_rpc_entity_file"
+			priority="high">
+			<describer class="com.openlegacy.enterprise.ide.eclipse.RpcEntityDescriber"/>
+		</content-type>
+	</extension>
+
+	<!-- JpaEntity Editor -->
+	<extension point="org.eclipse.ui.editors">
+		<editor id="com.openlegacy.enterprise.ide.eclipse.editors.JpaEntityEditor"
+			name="JPA Entity Editor"
+			icon="icons/openlegacy.png"
+			class="com.openlegacy.enterprise.ide.eclipse.editors.JpaEntityEditor">
+			<contentTypeBinding contentTypeId="com.openlegacy.enterprise.ide.eclipse.editors.jpaEntityFile" />
+		</editor>
+	</extension>
+	
+	<extension point="org.eclipse.core.contenttype.contentTypes">
+		<content-type id="com.openlegacy.enterprise.ide.eclipse.editors.jpaEntityFile"
+			file-extensions="java"
+			base-type="org.eclipse.jdt.core.javaSource"
+			name="%openlegacy_jpa_entity_file"
+			priority="high">
+			<describer class="com.openlegacy.enterprise.ide.eclipse.JpaEntityDescriber"/>
+		</content-type>
+	</extension>
+	
+	<!-- Service generator -->
+	<extension point="org.eclipse.ui.popupMenus">
+		<objectContribution
+			id="com.openlegacy.enterprise.ide.eclipse.generate_service"
+			objectClass="org.eclipse.core.resources.IProject">
+			<menu
+				label="%openlegacy"
+				path="additions"
+				id="org.openlegacy.ide.eclipse.right_menu">
+				<separator
+					name="customize">
+				</separator>
+			</menu>
+			<action
+				label="%openlegacy_generate_service"
+				class="com.openlegacy.enterprise.ide.eclipse.ws.generator.actions.GenerateServiceAction"
+				menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
+				enablesFor="1"
+				id="com.openlegacy.enterprise.ide.eclipse.actions.generate_service">
+			</action>
+		</objectContribution>
+	</extension>
+	
 </plugin>
