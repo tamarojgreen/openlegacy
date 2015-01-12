@@ -69,6 +69,7 @@ public class ScreenTableActionsAnnotationLoader extends AbstractClassAnnotationL
 				
 				if (TerminalDrilldownAction.class.isAssignableFrom(theAction)){ // for backward compatibility
 					drilldownAction = (TerminalDrilldownAction) ReflectionUtil.newInstance(theAction);
+					drilldownAction.setActionValue(action.actionValue());
 				}
 				else{
 					drilldownAction = TerminalDrilldownActions.newAction(theAction, action.actionValue());
