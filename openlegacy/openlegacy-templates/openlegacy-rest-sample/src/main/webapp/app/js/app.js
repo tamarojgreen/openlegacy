@@ -5,7 +5,7 @@ var olApp = angular.module('olApp', [
     'ngCookies',
     'services',
     "ui.bootstrap"
-]).run(['$rootScope', '$state', '$themeService', function ($rootScope, $state, $themeService) {
+]).run(['$rootScope', '$state', '$themeService', '$olHttp', function ($rootScope, $state, $themeService, $olHttp) {
 	$rootScope.allowHidePreloader = true;
 	$rootScope.allowShowPreloader = true;
 	
@@ -36,6 +36,18 @@ var olApp = angular.module('olApp', [
 	});
 	
     $rootScope.theme = $themeService.getCurrentTheme();
+    
+    $rootScope.sessionView = function() {
+		if ($("#sessionImage") != null){				
+			$("#sessionImage").attr("src","../sessionViewer/image?" + new Date().getTime());
+		}
+	};
+	
+	$rootScope.reload = function() {
+		$olHttp.get('reload', function() {
+			location.reload();
+		});
+	};
 }]);
  
 olApp.config(function($stateProvider, $urlRouterProvider) {
@@ -90,10 +102,14 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('menu', {
     	url: "/MainMenu",    	
-    	templateUrl: "partials/MainMenu.html"    		
+    	templateUrl: "partials/MainMenu.html"
     })
     .state('InventoryMenu', {
     	url: "/InventoryMenu",    	
 		templateUrl: "partials/InventoryMenu.html"
-    })    
+    })
+    .state('emulation', {
+    	url: "/emulation",
+    	templateUrl: 'views/emulation.html'    	
+    })
 });

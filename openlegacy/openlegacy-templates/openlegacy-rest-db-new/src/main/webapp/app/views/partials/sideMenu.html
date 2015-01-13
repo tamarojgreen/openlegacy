@@ -11,7 +11,9 @@
             	<li><h4>Navigation</h4></li>            			            
             	<li ng-repeat="menu in menuArray">
             		<a ng-href="#/{{menu.entityName}}">{{menu.displayName}}</a>			            		
-            	</li>			                	                
+            	</li>
+            	<li><h4>Tools</h4></li>            	
+            	<li><a href ng-click="reload()">Reload</a></li>			                	                
             </ul>
         </div><!--/.nav-collapse -->
     </div>

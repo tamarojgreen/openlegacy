@@ -2,12 +2,14 @@ package org.openlegacy.db.services;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -15,7 +17,7 @@ import javax.persistence.criteria.CriteriaQuery;
 @Transactional
 public class DbService {
 
-	@PersistenceContext
+	@PersistenceContext(type = PersistenceContextType.EXTENDED)
 	transient EntityManager entityManager;
 
 	public Object createOrUpdateEntity(Object entity) {
@@ -40,7 +42,8 @@ public class DbService {
 		}
 
 		query.setMaxResults(pageSize);
-		TableDbObject tableDbObject = new TableDbObject(query.getResultList(), pageCount);
+		List res = query.getResultList();
+		TableDbObject tableDbObject = new TableDbObject(res, pageCount);
 		return tableDbObject;
 	}
 

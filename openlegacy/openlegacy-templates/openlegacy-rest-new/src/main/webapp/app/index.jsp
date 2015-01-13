@@ -59,5 +59,12 @@
 				</div>
 			</div>
 		</div>
+		<div class="modal fade ol-screenshot" tabindex="-1" role="dialog" aria-labelledby="screenshotModal" aria-hidden="true">
+        	<div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <img id="sessionImage" class="img-thumbnail">
+               </div>
+        	</div>
+        </div>
 	</body>
 </html>

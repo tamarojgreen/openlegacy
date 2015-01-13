@@ -31,10 +31,15 @@
 				}
 			);
 		});
-	module = module.controller('menuCtrl', function(flatMenu, $scope) {		
+	module = module.controller('menuCtrl', function(flatMenu, $scope, $olHttp) {		
 		flatMenu(function(data) {
 			$scope.menuArray = data;			
 		});
+		$scope.reload = function() {
+			$olHttp.get('reload', function() {
+				location.reload();
+			});
+		};
 	});
 	module = module.controller('headerCtrl', function ($rootScope, $scope, $state) {
 		if ($.cookie('loggedInUser') != undefined) {

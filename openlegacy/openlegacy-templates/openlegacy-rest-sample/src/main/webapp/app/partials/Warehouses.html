@@ -20,7 +20,10 @@
 			            	<li ng-repeat="menu in menuArray">			            				            	
 			            		<h4 ng-if="menu.menuItems.length != 0">{{menu.displayName}}</h4>
 			            		<a ng-if="menu.menuItems.length == 0" ng-href="#/{{menu.targetEntityName}}">{{menu.displayName}}</a>			            		
-			            	</li>			                	                
+			            	</li>			     
+			            	<li><h4>Tools</h4></li>
+                			<li><a data-toggle="modal" href data-target=".ol-screenshot" class="clickable" ng-click="sessionView()">Show session</a></li>                			
+                			<li><a href ng-click="reload()">Reload</a></li>           	                
 			            </ul>
 			        </div><!--/.nav-collapse -->
 			    </div>
@@ -118,19 +121,7 @@
           			</div>
        			</div>
    			</div>
-                
-            <!-- screenshot -->
-            <a href="#" data-toggle="modal" data-target=".ol-screenshot">Show screenshot</a>
-
-            <div class="modal fade ol-screenshot" tabindex="-1" role="dialog" aria-labelledby="screenshotModal" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <img src="/openlegacy-rest-sample/sessionViewer/image" class="img-thumbnail">
-                    </div>
-                </div>
-            </div>                       					
-            <div class="top-margin-50"></div>
-            
+   			            
         </div><!--      /main  col      -->
         
     </div><!--/row -->

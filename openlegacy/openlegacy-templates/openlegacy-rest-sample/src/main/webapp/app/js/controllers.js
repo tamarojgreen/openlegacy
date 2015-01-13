@@ -82,7 +82,7 @@ olControllers.controller('messagesModalCtrl', function($scope, $modalInstance, m
 	
 });
 
-olControllers.controller('warehouseListCtrl', function ($rootScope, $scope, $state, $olHttp, flatMenu) {    
+olControllers.controller('warehouseListCtrl', function ($rootScope, $scope, $state, $olHttp, flatMenu) {	
     $olHttp.get("Warehouses", function(data) {
     	$rootScope.hidePreloader();    	
     	$scope.model = data.model;
@@ -115,7 +115,7 @@ olControllers.controller('warehouseListCtrl', function ($rootScope, $scope, $sta
     });
 });
 
-olControllers.controller('warehouseDetailsCtrl', function ($rootScope, $scope, $stateParams, $state, $olHttp, flatMenu) {
+olControllers.controller('warehouseDetailsCtrl', function ($rootScope, $scope, $stateParams, $state, $olHttp, flatMenu) {	
 	$olHttp.get("WarehouseDetails/" + $stateParams.warehouseId, function(data){
 		$rootScope.hidePreloader();
 		$scope.model = data.model;

@@ -22,7 +22,7 @@
 				$rootScope._showPreloader = false;
 				$rootScope._showContent = true;
 			}			
-		}
+		}	
 		
 		$rootScope.isReadOnly = function(data,column,model){
 			if (data == null) data = model;
@@ -79,10 +79,6 @@
 			return data;
 		}
 
-		if ($("#sessionImage") != null){
-			$("#sessionImage").attr("src","../sessionViewer/image?" + new Date().getTime());
-		}
-		
 		
 		$rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {			
 			$rootScope.hidePreloader();
