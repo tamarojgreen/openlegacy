@@ -27,16 +27,6 @@ olControllers.controller('logoffController', function ($rootScope, $state, $scop
 	);
 });
 
-olControllers.controller(
-		'menuCtrl',
-		function($rootScope) {
-//			$scope.sessionView = function() {
-//				if ($("#sessionImage") != null){				
-//					$("#sessionImage").attr("src","../sessionViewer/image?" + new Date().getTime());
-//				}
-//			};
-		});
-
 olControllers.controller('HeaderController', function ($rootScope, $state, $scope, $olHttp, $themeService, $modal) {	
 	$rootScope.$on("olApp:login:authorized", function(e, value) {
 		$scope.username = value;
@@ -92,12 +82,7 @@ olControllers.controller('messagesModalCtrl', function($scope, $modalInstance, m
 	
 });
 
-olControllers.controller('warehouseListCtrl', function ($rootScope, $scope, $state, $olHttp, flatMenu) {
-	$scope.sessionView = function() {
-		if ($("#sessionImage") != null){				
-			$("#sessionImage").attr("src","../sessionViewer/image?" + new Date().getTime());
-		}
-	};
+olControllers.controller('warehouseListCtrl', function ($rootScope, $scope, $state, $olHttp, flatMenu) {	
     $olHttp.get("Warehouses", function(data) {
     	$rootScope.hidePreloader();    	
     	$scope.model = data.model;
@@ -130,13 +115,7 @@ olControllers.controller('warehouseListCtrl', function ($rootScope, $scope, $sta
     });
 });
 
-olControllers.controller('warehouseDetailsCtrl', function ($rootScope, $scope, $stateParams, $state, $olHttp, flatMenu) {
-	$scope.sessionView = function() {
-		if ($("#sessionImage") != null){				
-			$("#sessionImage").attr("src","../sessionViewer/image?" + new Date().getTime());
-		}
-	};
-
+olControllers.controller('warehouseDetailsCtrl', function ($rootScope, $scope, $stateParams, $state, $olHttp, flatMenu) {	
 	$olHttp.get("WarehouseDetails/" + $stateParams.warehouseId, function(data){
 		$rootScope.hidePreloader();
 		$scope.model = data.model;
@@ -211,12 +190,7 @@ olControllers.controller('warehouseTypesCtrl', function ($rootScope, $scope, $st
 
 
 
-olControllers.controller('itemListCtrl', function ($rootScope, $scope, $state, $olHttp, flatMenu) {
-	$scope.sessionView = function() {
-		if ($("#sessionImage") != null){				
-			$("#sessionImage").attr("src","../sessionViewer/image?" + new Date().getTime());
-		}
-	};
+olControllers.controller('itemListCtrl', function ($rootScope, $scope, $state, $olHttp, flatMenu) {	
 	$olHttp.get("Items", function(data){
 		$rootScope.hidePreloader();
 		$scope.model = data.model;

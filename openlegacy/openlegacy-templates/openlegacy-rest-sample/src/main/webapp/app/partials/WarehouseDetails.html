@@ -22,7 +22,8 @@
 			            		<a ng-if="menu.menuItems.length == 0" ng-href="#/{{menu.targetEntityName}}">{{menu.displayName}}</a>			            		
 			            	</li>			          
 			            	<li><h4>Tools</h4></li>
-                			<li><a data-toggle="modal" href data-target=".ol-screenshot" class="clickable" ng-click="sessionView()">Show session</a></li>      	                
+                			<li><a data-toggle="modal" href data-target=".ol-screenshot" class="clickable" ng-click="sessionView()">Show session</a></li>                			
+                			<li><a href ng-click="reload()">Reload</a></li>      	                
 			            </ul>
 			        </div><!--/.nav-collapse -->
 			    </div>

@@ -20,9 +20,9 @@
 		            }
 		        )
 		        .success(function(data,status,headers,config){		        	
-		        	if (data != "" && data != null && data != undefined) {
-		        		data = angular.fromJson(data);
-		        	}		        	
+//		        	if (data != "" && data != null && data != undefined) {
+//		        		data = angular.fromJson(data);
+//		        	}		        	
 		        	
 		        	callback(data);
 		        })
