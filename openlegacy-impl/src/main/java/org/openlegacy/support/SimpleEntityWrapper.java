@@ -28,17 +28,20 @@ public class SimpleEntityWrapper implements EntityWrapper {
 
 	private Integer pageCount;
 
+	private boolean isWindow;
+
 	public SimpleEntityWrapper() {
 		// for de-serialization
 	}
 
-	public SimpleEntityWrapper(Object entity, List<EntityDescriptor> paths, List<ActionDefinition> actions) {
+	public SimpleEntityWrapper(Object entity, List<EntityDescriptor> paths, List<ActionDefinition> actions,boolean isWindow) {
 		this.entity = entity;
 		if (entity != null) {
 			this.entityName = entity.getClass().getSimpleName();
 		}
 		this.paths = paths;
 		this.actions = actions;
+		this.isWindow = isWindow;
 	}
 
 	public SimpleEntityWrapper(Object entity, List<EntityDescriptor> paths, List<ActionDefinition> actions, Integer pageCount) {
@@ -70,5 +73,9 @@ public class SimpleEntityWrapper implements EntityWrapper {
 
 	public Integer getPageCount() {
 		return pageCount;
+	}
+	
+	public boolean isWindow() {
+		return isWindow;
 	}
 }

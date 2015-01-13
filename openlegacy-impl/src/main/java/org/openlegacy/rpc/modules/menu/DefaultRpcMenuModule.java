@@ -27,9 +27,14 @@ public class DefaultRpcMenuModule extends RpcSessionModuleAdapter implements Men
 	@Inject
 	private MenuBuilder menuBuilder;
 
+	private MenuItem userMenu;
+	
 	@Override
 	public MenuItem getMenuTree() {
-		return menuBuilder.getMenuTree();
+		if (userMenu == null){
+			userMenu = menuBuilder.getMenuTree();
+		}
+		return userMenu;
 	}
 
 	public MenuItem getMenuTree(Class<?> menuEntityClass) {

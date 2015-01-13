@@ -18,6 +18,7 @@
 	<jsp:directive.attribute name="fixedFont" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the table should use fixed font" />
 	<jsp:directive.attribute name="colors" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the table should reflect column colors. Needs to enable support terminal data in the API table" />
 	<jsp:directive.attribute name="backColors" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the table should reflect column colors. Needs to enable support terminal data in the API table" />
+	<jsp:directive.attribute name="showHidePaging" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the table should next/prev buttons should be dynamically displayed" />
 
 	<jsp:output omit-xml-declaration="yes" />
 
@@ -50,6 +51,11 @@
 	<c:if test="${openLegacyProperties.rightToLeft}">
 		<c:set var="dir" value="rtl"/>
 	</c:if>
+
+	<c:if test="${empty showHidePaging}">
+		<c:set var="showHidePaging" value="true" />
+	</c:if>
+
 
 	<c:set var="tableDefinition" value="${definitions.tableDefinitions[property]}" />
 	<c:if test="${fn:length(data) &gt; 0}">
@@ -221,8 +227,17 @@
 				<spring:message code="label_next" var="label_next" htmlEscape="false" />
 				<spring:message code="label_prev" var="label_prev" htmlEscape="false" />
 				<div class="paging">
+				<c:if test="${showHidePaging}">
+					<c:set var="displayPrev" value="none" />
+				</c:if>
+				<script>
+				var pagingCounter=0;
+				</script>
+					<c:if test="${fn:length(data) &lt; tableDefinition.maxRowsCount and showHidePaging}">
+						<c:set var="displayNext" value="none" />
+					</c:if>
 					<div>
-						<a id="next" class="next" href="javascript:doAjaxPost('${formName}','${contentPaneId}','next','body',window.runOnloads)">
+						<a style="display: ${displayNext}" id="next" class="next" href="javascript:pagingCounter++;doAjaxPost('${formName}','${contentPaneId}','next','body',window.runOnloads)">
 							<c:choose>
 								<c:when test="${openLegacyProperties.rightToLeft}">
 									<span>&lt; ${label_next}</span>
@@ -233,8 +248,8 @@
 							</c:choose> 
 						</a>
 					</div>
-					<div>
-						<a id="previous" class="previous" href="javascript:doAjaxPost('${formName}','${contentPaneId}','previous','body',window.runOnloads)">
+					<div data-onload="document.getElementById('previous').style.display = (pagingCounter==0 ? '${displayPrev}':'')">
+						<a id="previous" style="display: ${displayPrev}" class="previous" href="javascript:if (pagingCounter > 0) pagingCounter--;doAjaxPost('${formName}','${contentPaneId}','previous','body',window.runOnloads)">
 							<c:choose>
 								<c:when test="${openLegacyProperties.rightToLeft}">
 									<span>${label_prev} &gt;</span> 

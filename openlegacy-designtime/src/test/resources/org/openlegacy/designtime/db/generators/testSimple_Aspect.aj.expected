@@ -3,25 +3,31 @@
 
 package com.someorg.examples.screens;
 
+import java.io.Serializable;
+
 import java.util.*;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
 
-    public Integer ItemDetails.getItemId(){
-    	return this.itemId;
-    }
-    
-    public void ItemDetails.setItemId(Integer itemId){
-    	this.itemId = itemId;
-    }
-    public String ItemDetails.getDescription(){
-    	return this.description;
-    }
-    
-    public void ItemDetails.setDescription(String description){
-    	this.description = description;
-    }
-    
+	declare parents: ItemDetails implements Serializable;
+	
+	private static final long ItemDetails.serialVersionUID = 1L;
+	
+	public Integer ItemDetails.getItemId(){
+		return this.itemId;
+	}
+
+	public void ItemDetails.setItemId(Integer itemId){
+		this.itemId = itemId;
+	}
+	public String ItemDetails.getDescription(){
+		return this.description;
+	}
+
+	public void ItemDetails.setDescription(String description){
+		this.description = description;
+	}
+
 }

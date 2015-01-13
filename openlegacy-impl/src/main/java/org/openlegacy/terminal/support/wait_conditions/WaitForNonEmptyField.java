@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support.wait_conditions;
 
+import org.apache.commons.lang.StringUtils;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
@@ -38,7 +39,7 @@ public class WaitForNonEmptyField extends WaitCoditionAdapter {
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(currentEntity);
 		if (ProxyUtil.isClassesMatch(currentEntity.getClass(), entityClass)) {
 			String fieldValue = (String)fieldAccessor.getFieldValue(fieldName);
-			if (fieldValue.isEmpty()) {
+			if (StringUtils.isEmpty(fieldValue)) {
 				return true;
 			}
 		}

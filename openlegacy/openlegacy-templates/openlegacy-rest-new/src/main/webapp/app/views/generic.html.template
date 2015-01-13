@@ -66,21 +66,21 @@
 						<table class="table">
 							<thead>
 								<tr>
+								<#if (part.tableDefinition.actions?size > 0)>										
+									<th></th>
+								</#if>
 								<#list part.tableDefinition.columnDefinitions as column>									
 									<#if column.selectionField>
 										<#assign selectionColumn = column>
-									</#if>
-									<#if column_has_next>
-										<th>${column.displayName}</th>
 									<#else>
-								<th>${column.displayName}</th>
+										<th>${column.displayName}</th>
 									</#if>
 						  		</#list>
 								</tr>
 							</thead>
 							<tbody>                            	
 			                    <tr data-ng-repeat="${part.tableDefinition.tableEntityName?uncap_first} in model.${part.tableDefinition.tableEntityName?uncap_first}s">
-										<#if selectionColumn??>										
+										<#if (part.tableDefinition.actions?size > 0)>										
 											<td>
 												<#if (part.tableDefinition.actions?size > 3)>
 													<div class="dropdown">
@@ -117,9 +117,15 @@
 																${action.displayName}												
 															</a>
 														<#else>
-															<a href="" ng-click="${part.tableDefinition.tableEntityName?uncap_first}.${selectionColumn.name}='${action.action.actionValue}';doActionNoTargetEntity()">
-																${action.displayName}
-															</a>
+															<#if selectionColumn??>
+																<a href="" ng-click="${part.tableDefinition.tableEntityName?uncap_first}.${selectionColumn.name}='${action.action.actionValue}';doActionNoTargetEntity()">
+																	${action.displayName}
+																</a>
+															<#else>
+																<a href="" ng-click="${part.tableDefinition.tableEntityName?uncap_first}.focus='${action.action.actionValue}';doActionNoTargetEntity('${action.alias}')">
+																	${action.displayName}
+																</a>
+															</#if>
 														</#if>			                                        		                                        
 			                                        </#list>		                              
 												</#if>											
@@ -227,7 +233,7 @@
 <#macro navMacro entity showExcelBtn>
 	<nav class="navbar navbar-default" role="navigation">
 	    <form class="navbar-form xnavbar-left" role="navigation">
-	    	<button data-ng-click="doAction('${entity.entityName}', '')" class="btn btn-primary navbar-btn">המשך</button>
+	    	<button data-ng-click="doAction('${entity.entityName}', '')" class="btn btn-primary navbar-btn">Submit</button>
 	        <#list entity.actions as action>		
 				<button data-ng-show="isActionAvailable('${action.alias}')" data-ng-click="doAction('${entity.entityName}', '${action.alias}')" class="btn btn-primary navbar-btn">${action.displayName}</button>
 			</#list>			

@@ -174,11 +174,11 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.password = password;
 	}
 
-	public boolean isEditable() {
+	protected boolean isEditable() {
 		return editable;
 	}
 
-	public void setEditable(boolean editable) {
+	protected void setEditable(boolean editable) {
 		this.editable = editable;
 	}
 

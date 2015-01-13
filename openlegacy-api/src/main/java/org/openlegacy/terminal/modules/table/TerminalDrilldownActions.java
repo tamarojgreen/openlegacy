@@ -90,6 +90,10 @@ public class TerminalDrilldownActions implements Serializable {
 			this.action = action;
 		}
 
+		public TerminalAction getAction() {
+			return action;
+		}
+		
 		@Override
 		public Object getActionValue() {
 			return actionValue;

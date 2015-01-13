@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.Modifier;
 
 /**
  * @author Ivan Bort
@@ -45,12 +46,14 @@ public class DbColumnAnnotationLoader implements FieldLoader {
 			DbFieldDefinition dbFieldDefinition = dbEntityDefinition.getColumnFieldsDefinitions().get(field.getName());
 			if (dbFieldDefinition == null) {
 				dbFieldDefinition = new SimpleDbColumnFieldDefinition(field.getName(), FieldType.General.class);
+				if (Modifier.isStatic(field.getModifiers())) {
+					((SimpleDbColumnFieldDefinition)dbFieldDefinition).setStaticField(true);
+				}
 			}
 			if (dbFieldDefinition instanceof SimpleDbColumnFieldDefinition) {
 				DbColumn column = field.getAnnotation(DbColumn.class);
 				SimpleDbColumnFieldDefinition columnFieldDefinition = (SimpleDbColumnFieldDefinition)dbFieldDefinition;
 				columnFieldDefinition.setDisplayName(column.displayName());
-				columnFieldDefinition.setEditable(column.editable());
 				columnFieldDefinition.setPassword(column.password());
 				columnFieldDefinition.setSampleValue(column.sampleValue());
 				columnFieldDefinition.setDefaultValue(column.defaultValue());

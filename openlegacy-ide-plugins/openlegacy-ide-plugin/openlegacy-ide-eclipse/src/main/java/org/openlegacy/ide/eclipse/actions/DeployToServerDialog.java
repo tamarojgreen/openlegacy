@@ -12,12 +12,6 @@
 package org.openlegacy.ide.eclipse.actions;
 
 import org.apache.commons.lang.StringUtils;
-import org.drools.util.codec.Base64;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
@@ -35,19 +29,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.openlegacy.ide.eclipse.Messages;
-import org.openlegacy.ide.eclipse.util.PopupUtil;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.MessageFormat;
 
 /**
  * @author Ivan Bort
@@ -60,7 +42,7 @@ public class DeployToServerDialog extends TitleAreaDialog {
 	private static final int DEFAULT_LABEL_WIDTH = 100;
 	private static final int DEFAULT_WIDTH = 200;
 
-	private IProject project;
+	// private IProject project;
 
 	private JSONArray serversList = new JSONArray();
 
@@ -74,11 +56,20 @@ public class DeployToServerDialog extends TitleAreaDialog {
 
 	private boolean updatingControls = false;
 
+	private String serverName;
+
+	private String serverPort;
+
+	private String userName;
+
+	private String password;
+
 	@SuppressWarnings("unchecked")
-	protected DeployToServerDialog(Shell parentShell, IProject project) {
+	protected DeployToServerDialog(Shell parentShell, JSONArray serversList) {
 		super(parentShell);
-		this.project = project;
-		serversList.addAll(loadServersList(project));
+		// this.project = project;
+		// serversList.addAll(loadServersList(project));
+		this.serversList.addAll(serversList);
 	}
 
 	@Override
@@ -221,111 +212,127 @@ public class DeployToServerDialog extends TitleAreaDialog {
 
 	@Override
 	protected void okPressed() {
-		String serverName = snCombo.getText();
-		String serverPort = spText.getText();
-		String userName = uText.getText();
-		String password = pText.getText();
+		serverName = snCombo.getText();
+		serverPort = spText.getText();
+		userName = uText.getText();
+		password = pText.getText();
 
-		performDirectDeploy(project, serverName, serverPort, userName, password);
+		// performDirectDeploy(project, serverName, serverPort, userName, password);
 
 		super.okPressed();
 	}
 
-	public void performDirectDeploy(final IProject project, final String serverName, final String serverPort,
-			final String userName, final String password) {
-		Job job = new Job(MessageFormat.format(Messages.getString("job_deploying_to_server"), serverName)) {
-
-			@SuppressWarnings("resource")
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				monitor.beginTask(Messages.getString("deploying"), 2);
-				monitor.worked(1);
-				String warFileName = MessageFormat.format("{0}.war", project.getName());
-				File warFile = new File(project.getFile("target/" + warFileName).getLocationURI());
-				if (!warFile.exists()) {
-					monitor.done();
-					return Status.CANCEL_STATUS;
-				}
-
-				try {
-					String serverURL = MessageFormat.format("http://{0}:{1}", serverName, serverPort);
-					URL url = new URL(MessageFormat.format("{0}/manager/text/deploy?path=/{1}&update=true", serverURL,
-							project.getName()));
-					HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-					connection.setDoInput(true);
-					connection.setDoOutput(true);
-					connection.setRequestMethod("PUT");
-					connection.setRequestProperty("Content-Type", "multipart/form-data");
-
-					String authString = MessageFormat.format("{0}:{1}", userName, password);
-					byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
-					connection.setRequestProperty("Authorization", "Basic " + new String(authEncBytes));
-
-					BufferedOutputStream bos = new BufferedOutputStream(connection.getOutputStream());
-					BufferedInputStream bis = new BufferedInputStream(new FileInputStream(warFile));
-					int i;
-					// read byte by byte until end of stream
-					while ((i = bis.read()) >= 0) {
-						bos.write(i);
-					}
-					bos.flush();
-					bos.close();
-
-					int responseCode = connection.getResponseCode();
-					if (responseCode == 200) {
-						saveServer(project, serverName, serverPort, userName);
-						PopupUtil.message(MessageFormat.format(Messages.getString("message_success_deploy_to_server"),
-								warFileName, serverURL));
-					} else if (responseCode == 401) {
-						PopupUtil.warn(Messages.getString("warn_user_not_authorized"));
-					}
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-				monitor.done();
-				return Status.OK_STATUS;
-			}
-		};
-		job.schedule();
+	public String getServerName() {
+		return serverName;
 	}
 
-	@SuppressWarnings("unchecked")
-	public static JSONArray loadServersList(IProject project) {
-		JSONArray serversList = new JSONArray();
-		// get servers list
-		String jsonServersList = EclipseDesignTimeExecuter.instance().getPreference(project, "SERVERS_LIST");
-		if (!StringUtils.isEmpty(jsonServersList)) {
-			Object obj = JSONValue.parse(jsonServersList);
-			serversList.clear();
-			serversList.addAll((JSONArray)obj);
-		} else {
-			serversList.clear();
-		}
-		return serversList;
+	public String getServerPort() {
+		return serverPort;
 	}
 
-	@SuppressWarnings("unchecked")
-	private void saveServer(IProject project, String serverName, String serverPort, String userName) {
-		JSONArray serversList = loadServersList(project);
-		// modify existing
-		for (Object obj : serversList) {
-			JSONObject jsonObject = (JSONObject)obj;
-			if (StringUtils.equals((String)jsonObject.get("serverName"), serverName)) {
-				jsonObject.put("serverPort", serverPort);
-				jsonObject.put("userName", userName);
-				EclipseDesignTimeExecuter.instance().savePreference(project, "SERVERS_LIST", serversList.toJSONString());
-				return;
-			}
-		}
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("serverName", serverName);
-		jsonObject.put("serverPort", serverPort);
-		jsonObject.put("userName", userName);
-		serversList.add(jsonObject);
-		EclipseDesignTimeExecuter.instance().savePreference(project, "SERVERS_LIST", serversList.toJSONString());
+	public String getUserName() {
+		return userName;
 	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	// public void performDirectDeploy(final IProject project, final String serverName, final String serverPort,
+	// final String userName, final String password) {
+	// Job job = new Job(MessageFormat.format(Messages.getString("job_deploying_to_server"), serverName)) {
+	//
+	// @SuppressWarnings("resource")
+	// @Override
+	// protected IStatus run(IProgressMonitor monitor) {
+	// monitor.beginTask(Messages.getString("deploying"), 2);
+	// monitor.worked(1);
+	// String warFileName = MessageFormat.format("{0}.war", project.getName());
+	// File warFile = new File(project.getFile("target/" + warFileName).getLocationURI());
+	// if (!warFile.exists()) {
+	// monitor.done();
+	// return Status.CANCEL_STATUS;
+	// }
+	//
+	// try {
+	// String serverURL = MessageFormat.format("http://{0}:{1}", serverName, serverPort);
+	// URL url = new URL(MessageFormat.format("{0}/manager/text/deploy?path=/{1}&update=true", serverURL,
+	// project.getName()));
+	// HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+	// connection.setDoInput(true);
+	// connection.setDoOutput(true);
+	// connection.setRequestMethod("PUT");
+	// connection.setRequestProperty("Content-Type", "multipart/form-data");
+	//
+	// String authString = MessageFormat.format("{0}:{1}", userName, password);
+	// byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
+	// connection.setRequestProperty("Authorization", "Basic " + new String(authEncBytes));
+	//
+	// BufferedOutputStream bos = new BufferedOutputStream(connection.getOutputStream());
+	// BufferedInputStream bis = new BufferedInputStream(new FileInputStream(warFile));
+	// int i;
+	// // read byte by byte until end of stream
+	// while ((i = bis.read()) >= 0) {
+	// bos.write(i);
+	// }
+	// bos.flush();
+	// bos.close();
+	//
+	// int responseCode = connection.getResponseCode();
+	// if (responseCode == 200) {
+	// saveServer(project, serverName, serverPort, userName);
+	// PopupUtil.message(MessageFormat.format(Messages.getString("message_success_deploy_to_server"),
+	// warFileName, serverURL));
+	// } else if (responseCode == 401) {
+	// PopupUtil.warn(Messages.getString("warn_user_not_authorized"));
+	// }
+	// } catch (MalformedURLException e) {
+	// e.printStackTrace();
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// }
+	//
+	// monitor.done();
+	// return Status.OK_STATUS;
+	// }
+	// };
+	// job.schedule();
+	// }
+
+	// @SuppressWarnings("unchecked")
+	// public static JSONArray loadServersList(IProject project) {
+	// JSONArray serversList = new JSONArray();
+	// // get servers list
+	// String jsonServersList = EclipseDesignTimeExecuter.instance().getPreference(project, "SERVERS_LIST");
+	// if (!StringUtils.isEmpty(jsonServersList)) {
+	// Object obj = JSONValue.parse(jsonServersList);
+	// serversList.clear();
+	// serversList.addAll((JSONArray)obj);
+	// } else {
+	// serversList.clear();
+	// }
+	// return serversList;
+	// }
+
+	// @SuppressWarnings("unchecked")
+	// public void saveServer(IProject project, String serverName, String serverPort, String userName) {
+	// JSONArray serversList = loadServersList(project);
+	// // modify existing
+	// for (Object obj : serversList) {
+	// JSONObject jsonObject = (JSONObject)obj;
+	// if (StringUtils.equals((String)jsonObject.get("serverName"), serverName)) {
+	// jsonObject.put("serverPort", serverPort);
+	// jsonObject.put("userName", userName);
+	// EclipseDesignTimeExecuter.instance().savePreference(project, "SERVERS_LIST", serversList.toJSONString());
+	// return;
+	// }
+	// }
+	// JSONObject jsonObject = new JSONObject();
+	// jsonObject.put("serverName", serverName);
+	// jsonObject.put("serverPort", serverPort);
+	// jsonObject.put("userName", userName);
+	// serversList.add(jsonObject);
+	// EclipseDesignTimeExecuter.instance().savePreference(project, "SERVERS_LIST", serversList.toJSONString());
+	// }
 
 }

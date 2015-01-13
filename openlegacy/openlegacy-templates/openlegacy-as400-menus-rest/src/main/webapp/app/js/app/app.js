@@ -24,13 +24,12 @@
 				$rootScope._showContent = true;
 			}			
 		}
-	
 		if ($("#sessionImage") != null){
 			$("#sessionImage").attr("src","../sessionViewer/image?" + new Date().getTime());
-		}		
-	
-		$rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
-			console.log("stateChangeError");
+		}
+		
+		
+		$rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {			
 			$rootScope.hidePreloader();
 			if (toState.name === "login") {
 				$state.go(toParams.redirectTo.name);
@@ -47,10 +46,14 @@
 
 	olApp.config( ['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 		
-		$urlRouterProvider.otherwise("/login");
+		if (olConfig.afterLoginView != undefined) {
+			var afterLoginView = olConfig.afterLoginView; 
+		} else {
+			var afterLoginView = "menu";
+		}
 		
 		var header = { templateUrl: "views/partials/header.html", controller: "headerCtrl" };
-		var auth = function($q, $http) {			
+		var auth = function($q, $http) {
 			var deferred = $q.defer();
 				$http(
 					{						
@@ -77,8 +80,8 @@
 		}
 		
 		var authLogin = function($q, $http, $state) {			
-			var deferred = $q.defer();
-			if ($state.current.name != "" && $state.current.name != "logoff") {				
+			var deferred = $q.defer();			
+			if ($state.current.name != "" && $state.current.name != "logoff") {
 				$http(
 					{						
 						method: 'GET',
@@ -94,7 +97,7 @@
 						deferred.resolve();						
 					});
 				
-			} else {				
+			} else {
 				deferred.resolve();
 			}
 			
@@ -112,7 +115,7 @@
 			 },
 			 params: {
 				 redirectTo: {
-					 name: "menu"
+					 name: afterLoginView
 				 }
 			 },
 			 resolve: {
@@ -132,7 +135,8 @@
 			 url: '/menu',
 			 views: {
 				 "": {
-					 templateUrl: "views/menu.html"					 
+					 templateUrl: "views/menu.html",
+					 controller: 'menuCtrl'
 				 },
 				 "header": header,
 				 "sideMenu": {
@@ -191,7 +195,16 @@
 						addRoute("${entityDefinition.entityName}", "${entityDefinition.entityName}", url);
 					}				
 				</#list>
-			</#if>	
+			</#if>
+			
+			$urlRouterProvider.otherwise(function ($injector, $location) {
+		        var $state = $injector.get('$state');
+		        if (olConfig.defaultView != undefined) {
+		        	$state.go(olConfig.defaultView);
+		        } else {
+		        	$state.go("login");
+		        }		        
+		    });
 			
 		} ] );
 } )();

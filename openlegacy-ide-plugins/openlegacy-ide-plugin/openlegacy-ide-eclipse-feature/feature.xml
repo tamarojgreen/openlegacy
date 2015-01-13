@@ -3,7 +3,8 @@
       id="org.openlegacy.ide.eclipse.feature"
       label="OpenLegacy IDE"
       version="2.1.0.qualifier"
-      provider-name="OpenLegacy">
+      provider-name="OpenLegacy"
+      plugin="org.openlegacy.ide.eclipse">
 
    <description url="http://www.openlegacy.org/description">
       OpenLegacy is a next-generation Legacy modernization rapid application development platform for Java developers.
@@ -129,6 +130,20 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <plugin
          id="org.apache.log4j"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.zest.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.zest.layouts"
          download-size="0"
          install-size="0"
          version="0.0.0"

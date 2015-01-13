@@ -41,6 +41,7 @@ import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
+import org.openlegacy.terminal.modules.table.TerminalDrilldownActions.SimpleDrilldownAction;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.services.ScreensRecognizer;
 import org.openlegacy.terminal.services.SessionNavigator;
@@ -257,6 +258,10 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			getEntity(screenEntity.getClass());
 		}
 
+		if (terminalAction instanceof SimpleDrilldownAction){
+			terminalAction = ((SimpleDrilldownAction)terminalAction).getAction();
+		}
+		
 		Object command = terminalActionMapper.getCommand(terminalAction);
 		if (command == null) {
 			terminalAction.perform(this, screenEntity);

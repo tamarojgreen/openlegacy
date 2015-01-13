@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.rpc.modules.menu;
 
+import org.apache.commons.lang.StringUtils;
 import org.openlegacy.modules.menu.MenuBuilder;
 import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.modules.support.menu.SimpleMenuItem;
@@ -53,7 +54,7 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 		Collection<RpcEntityDefinition> entityDefintions = getEntitiesRegistry().getEntitiesDefinitions();
 		for (RpcEntityDefinition rpcEntityDefinition : entityDefintions) {
 			String category = rpcEntityDefinition.getNavigationDefinition().getCategory();
-			if (category != null) {
+			if (!StringUtils.isEmpty(category)) {
 				if (!menuOptions.containsKey(category)) {
 					List<Class<?>> items = new ArrayList<Class<?>>();
 					menuOptions.put(category, items);

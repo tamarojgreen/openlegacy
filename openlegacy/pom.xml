@@ -78,9 +78,9 @@
 
 	<properties>
 		<java-version>1.6</java-version>
-		<spring.framework.version>3.1.0.RELEASE</spring.framework.version>
+		<spring.framework.version>3.1.4.RELEASE</spring.framework.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<aspectj.version>1.6.11</aspectj.version>
+		<aspectj.version>1.8.1</aspectj.version>
 		<deploy.dir>ftp://maven.openlegacy.org</deploy.dir>
 	</properties>
 

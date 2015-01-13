@@ -26,8 +26,6 @@ public @interface DbColumn {
 
 	String displayName() default "";
 
-	boolean editable() default false;
-
 	boolean password() default false;
 
 	String sampleValue() default "";

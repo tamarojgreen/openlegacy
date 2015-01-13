@@ -1,3 +1,7 @@
 .readonly{
 	border:0px;
 }
+
+.content-wrapper {
+	display: block;
+}

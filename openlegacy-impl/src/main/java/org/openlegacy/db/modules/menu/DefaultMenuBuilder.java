@@ -11,6 +11,7 @@
 
 package org.openlegacy.db.modules.menu;
 
+import org.apache.commons.lang.StringUtils;
 import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.db.modules.menu.DefaultDbMenuModule.DbMenuItem;
 import org.openlegacy.db.services.DbEntitiesRegistry;
@@ -50,7 +51,7 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 		Collection<DbEntityDefinition> entityDefinitions = getEntitiesRegistry().getEntitiesDefinitions();
 		for (DbEntityDefinition dbEntityDefinition : entityDefinitions) {
 			String category = dbEntityDefinition.getNavigationDefinition().getCategory();
-			if (category != null) {
+			if (!StringUtils.isEmpty(category)) {
 				if (!menuOptions.containsKey(category)) {
 					List<Class<?>> items = new ArrayList<Class<?>>();
 					menuOptions.put(category, items);

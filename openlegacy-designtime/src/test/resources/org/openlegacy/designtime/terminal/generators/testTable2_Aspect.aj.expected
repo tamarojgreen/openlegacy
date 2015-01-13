@@ -35,6 +35,13 @@ privileged @SuppressWarnings("unused") aspect TableScreenRecord_Aspect {
             this.focusField = "column1";
         }
     }
+
+    public String TableScreenRecord.getFocus() {
+        return focusField;
+    }
+    public void TableScreenRecord.setFocus(String focus) {
+        this.focusField = focus;
+    }
 		
     public int TableScreenRecord.hashCode(){
 		return HashCodeBuilder.reflectionHashCode(this);

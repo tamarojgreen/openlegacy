@@ -144,4 +144,14 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 		this.shortName = shortName;
 	}
 
+	@Override
+	public boolean isEditable() {
+		return super.isEditable();
+	}
+
+	@Override
+	public void setEditable(boolean editable) {
+		super.setEditable(editable);
+	}
+
 }
