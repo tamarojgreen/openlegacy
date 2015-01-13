@@ -187,7 +187,7 @@
 													</#if>
 												</#if>
 											</label>											
-											<input ng-model="model.entity.<#if propertyName != "">${propertyName}['1'].</#if>${column.name}" ng-disabled="<#if isUPDATEAction && column.editable>false<#else>true</#if>"></input>
+											<input ng-model="model.entity.<#if propertyName != "">${propertyName}['1'].</#if>${column.name}" ng-disabled="<#if isUPDATEAction && column.editable?? && column.editable>false<#else>true</#if>"></input>
 										</div>
 									</div>
 								</#if>							
