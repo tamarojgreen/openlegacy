@@ -12,6 +12,8 @@
 
 	<import resource="classpath*:/openlegacy-default-designtime-context.xml" />
 
-	<bean id="screenPageGenerator" class="org.openlegacy.designtime.terminal.generators.ScreenEntitySpaGenerator" />
+	<!-- Uncomment to configure columns count for rtl generated pages
+	<bean id="screenPageBuilder" class="org.openlegacy.terminal.layout.support.DefaultBidiScreenPageBuilder" p:defaultColumns="3" />
+	-->
 	 
 </beans>
