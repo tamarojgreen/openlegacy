@@ -51,8 +51,8 @@ public abstract class AbstractAngularController {
 			TemplateException {
 		URL resource = servletContext.getResource(MessageFormat.format(HTML_VIEW_PATH, entityName));
 		if (resource != null) {
-			String content = IOUtils.toString(resource);
-			IOUtils.write(content, response.getWriter());
+			String content = IOUtils.toString(resource,CharEncoding.UTF_8);
+			IOUtils.write(content, response.getOutputStream(),CharEncoding.UTF_8);
 		} else {
 			Template template = initTemplate(GENERIC_HTML_TEMPLATE);
 			EntityDefinition<?> entityDefinition = entitiesRegistry.get(entityName);
