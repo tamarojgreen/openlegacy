@@ -111,30 +111,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </url>
 
    <requires>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.apache.commons.io" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.apache.log4j" version="1.2.15" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.jdt.core" version="3.6.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.jdt.ui" version="3.6.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.navigator.resources" version="3.4.300" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.debug.ui" version="3.6.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.m2e.core" version="1.0.100" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.console" version="3.5.100" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.editors"/>
-      <import plugin="org.eclipse.jface.text"/>
-      <import plugin="org.eclipse.wst.sse.ui" version="1.3.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.wst.xml.ui" version="1.1.201" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.wst.sse.core" version="1.1.601" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.wst.common.ui" version="1.1.500" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.wst.xml.core" version="1.1.601" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ltk.core.refactoring" version="3.5.201" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.jdt.launching" version="3.6.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.forms" version="3.5.101" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.zest.core" version="1.5.100" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.zest.layouts" version="1.1.100" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.m2e.core"/>
    </requires>
 
    <plugin
@@ -153,6 +130,20 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <plugin
          id="org.apache.log4j"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.zest.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.zest.layouts"
          download-size="0"
          install-size="0"
          version="0.0.0"
