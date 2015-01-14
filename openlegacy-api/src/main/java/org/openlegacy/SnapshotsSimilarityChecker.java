@@ -8,11 +8,11 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.designtime.terminal.analyzer.support;
+package org.openlegacy;
 
-import org.openlegacy.designtime.analyzer.support.AbstractSnapshotsOrganizer;
-import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.Snapshot;
 
-public class DefaultTerminalSnapshotsOrganizer extends AbstractSnapshotsOrganizer<TerminalSnapshot> {
+public interface SnapshotsSimilarityChecker<S extends Snapshot> {
 
+	public int similarityPercent(S snapshot1, S snapshot2);
 }

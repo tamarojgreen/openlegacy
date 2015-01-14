@@ -1,16 +1,5 @@
 package org.openlegacy.designtime.analyzer;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.openlegacy.FieldFormatter;
-import org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsOrganizer;
-import org.openlegacy.designtime.terminal.analyzer.support.MostPopulatedSnapshotPickerStrategy;
-import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.TerminalSnapshotsLoader;
-import org.openlegacy.terminal.support.SimpleTerminalPosition;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -18,6 +7,17 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import junit.framework.Assert;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.openlegacy.FieldFormatter;
+import org.openlegacy.designtime.terminal.analyzer.support.MostPopulatedSnapshotPickerStrategy;
+import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.TerminalSnapshotsLoader;
+import org.openlegacy.terminal.support.DefaultTerminalSnapshotsOrganizer;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @ContextConfiguration("/test-designtime-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)

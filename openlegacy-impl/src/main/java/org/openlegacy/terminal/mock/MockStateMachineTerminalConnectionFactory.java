@@ -13,6 +13,8 @@ package org.openlegacy.terminal.mock;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.openlegacy.SnapshotsOrganizer;
+import org.openlegacy.SnapshotsSimilarityChecker;
 import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalOutgoingSnapshot;
@@ -20,19 +22,45 @@ import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import javax.inject.Inject;
 
 public class MockStateMachineTerminalConnectionFactory extends AbstractMockTerminalConnectionFactory {
 
-	private Map<SnapshotAndSendAction, TerminalSnapshot> snapshotsGraph = new HashMap<SnapshotAndSendAction, TerminalSnapshot>();
-	private TerminalSnapshot firstSnapshot = null;
+	private Map<TerminalSnapshot, List<SnapshotAndSendAction>> snapshotsGraph = new HashMap<TerminalSnapshot, List<SnapshotAndSendAction>>();
+
+	@Inject
+	private SnapshotsOrganizer<TerminalSnapshot> snapshotsOrganizer;
+
+	private TerminalSnapshot firstSnapshot;
+
+	@Inject
+	private SnapshotsSimilarityChecker<TerminalSnapshot> snapshotsSimilarityChecker;
+
+	private boolean exactCursor = false;
+
+	private boolean exactFields = true;
+
+	private boolean exactCommand = true;
+
+	private int similarityPercentage = 98;
 
 	@Override
 	public TerminalConnection getConnection(ConnectionProperties connectionProperties) {
-		initStateMachine();
-		return new MockStateMachineTerminalConnection(firstSnapshot, snapshotsGraph);
+		List<TerminalSnapshot> snapshots = fetchSnapshots();
+
+		initStateMachine(snapshots);
+		MockStateMachineTerminalConnection mockupConnection = new MockStateMachineTerminalConnection(snapshotsGraph, snapshots,
+				exactCursor, exactFields, exactCommand, similarityPercentage);
+		mockupConnection.setSnapshotsSimilarityChecker(snapshotsSimilarityChecker);
+		return mockupConnection;
+
 	}
 
 	@Override
@@ -40,30 +68,45 @@ public class MockStateMachineTerminalConnectionFactory extends AbstractMockTermi
 		((MockStateMachineTerminalConnection)terminalConnection).setCurrentSnapshot(firstSnapshot);
 	}
 
-	private void initStateMachine() {
-		List<TerminalSnapshot> snapshots = fetchSnapshots();
+	private void initStateMachine(List<TerminalSnapshot> snapshots) {
+		snapshotsOrganizer.add(snapshots);
 
-		TerminalSnapshot lastIncomingSnapshot = null;
-		SnapshotAndSendAction lastNodeAndArc = null;
-		for (TerminalSnapshot terminalSnapshot : snapshots) {
-			if (lastIncomingSnapshot == null) {
-				lastIncomingSnapshot = terminalSnapshot;
-				firstSnapshot = terminalSnapshot;
-			}
-			if (terminalSnapshot.getSnapshotType() == SnapshotType.INCOMING && lastNodeAndArc != null) {
-				snapshotsGraph.put(lastNodeAndArc, terminalSnapshot);
-				lastNodeAndArc = null;
-				lastIncomingSnapshot = terminalSnapshot;
-			}
+		Collection<Set<TerminalSnapshot>> groups = snapshotsOrganizer.getGroups();
 
-			if (terminalSnapshot.getSnapshotType() == SnapshotType.OUTGOING) {
-				TerminalSendAction terminalSendAction = ((TerminalOutgoingSnapshot)terminalSnapshot).getTerminalSendAction();
-				SnapshotAndSendAction nodeAndArc = new SnapshotAndSendAction(lastIncomingSnapshot, terminalSendAction);
-				if (!snapshotsGraph.containsKey(nodeAndArc)) {
-					lastNodeAndArc = nodeAndArc;
+		firstSnapshot = snapshots.get(0);
+		for (Set<TerminalSnapshot> group : groups) {
+			TerminalSnapshot firstGroupSnapshot = group.iterator().next();
+			List<SnapshotAndSendAction> target = new ArrayList<SnapshotAndSendAction>();
+			snapshotsGraph.put(firstGroupSnapshot, target);
+			int count = 0;
+			for (TerminalSnapshot snapshot : snapshots) {
+				if (snapshot.getSnapshotType() == SnapshotType.OUTGOING) {
+					TerminalSendAction terminalSendAction = ((TerminalOutgoingSnapshot)snapshot).getTerminalSendAction();
+					TerminalSnapshot nextSnapShot = snapshots.get(count + 1);
+					SnapshotAndSendAction snapshotAndAction = new SnapshotAndSendAction(nextSnapShot, terminalSendAction);
+					target.add(snapshotAndAction);
+
 				}
+				count++;
 			}
 		}
+
+	}
+
+	public void setExactCommand(boolean exactCommand) {
+		this.exactCommand = exactCommand;
+	}
+
+	public void setExactCursor(boolean exactCursor) {
+		this.exactCursor = exactCursor;
+	}
+
+	public void setExactFields(boolean exactFields) {
+		this.exactFields = exactFields;
+	}
+
+	public void setSimilarityPercentage(int similarityPercentage) {
+		this.similarityPercentage = similarityPercentage;
 	}
 
 	public static interface NodeAndArc<N, A> {

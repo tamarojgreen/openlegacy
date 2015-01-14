@@ -29,7 +29,7 @@
 	        <field value="DataA" length="9" column="5" />
 	    </row>
 	    <row rowNumber="4">
-	        <field value=" " length="1" column="2" editable="true"/>
+	        <field value="" length="1" column="2" editable="true" modified="true"/>
 	        <field value="DataB" length="9" column="5" />
 	    </row>
 	    <size rows="24" columns="80"/>
@@ -44,7 +44,7 @@
 	    </row>
 	    <size rows="24" columns="80"/>
 	</snapshot>
-	<snapshot type="OUTGOING" sequence="4" command="[pf12]">
+	<snapshot type="OUTGOING" sequence="4" command="[pf3]">
 	    <row rowNumber="1">
 	        <field value="** Form **" column="15" />
 	    </row>
@@ -79,7 +79,7 @@
 	        <field value="Column A" column="5" />
 	    </row>
 	    <row rowNumber="3">
-	        <field value="" length="1" column="2" editable="true" />
+	        <field value="" length="1" column="2" editable="true" modified="true"/>
 	        <field value="DataA" length="9" column="5" />
 	    </row>
 	    <row rowNumber="4">
