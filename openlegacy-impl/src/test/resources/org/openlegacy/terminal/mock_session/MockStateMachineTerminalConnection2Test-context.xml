@@ -15,9 +15,6 @@
 	    </property>
     </bean>
     
-	<bean class="org.openlegacy.terminal.support.DefaultTerminalSnapshotsOrganizer" />
-	<bean class="org.openlegacy.terminal.support.DefaultSnapshotSimilarityChecker" />
-	
 	<bean id="terminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockStateMachineTerminalConnectionFactory" 
 		p:verifySend="true" p:root="/org/openlegacy/terminal/mock_session/mock2" p:trailName="state_machine.trail" />
