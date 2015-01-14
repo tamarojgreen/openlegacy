@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<terminal-trail>
+	<snapshot type="INCOMING" sequence="1">
+	    <row rowNumber="1">
+	        <field value="** Table **" column="15" />
+	    </row>
+	    <row rowNumber="2">
+	        <field value="Column A" column="5" />
+	    </row>
+	    <row rowNumber="3">
+	        <field value=" " length="1" column="2" editable="true"/>
+	        <field value="DataA" length="9" column="5" />
+	    </row>
+	    <row rowNumber="4">
+	        <field value=" " length="1" column="2" editable="true"/>
+	        <field value="DataB" length="9" column="5" />
+	    </row>
+	    <size rows="24" columns="80"/>
+	</snapshot>
+	<snapshot type="OUTGOING" sequence="2" command="[enter]">
+	    <row rowNumber="1">
+	        <field value="** Table **" column="15" />
+	    </row>
+	    <row rowNumber="2">
+	        <field value="Column A" column="5" />
+	    </row>
+	    <row rowNumber="3">
+	        <field value="1" length="1" column="2" editable="true" modified="true"/>
+	        <field value="DataA" length="9" column="5" />
+	    </row>
+	    <row rowNumber="4">
+	        <field value=" " length="1" column="2" editable="true"/>
+	        <field value="DataB" length="9" column="5" />
+	    </row>
+	    <size rows="24" columns="80"/>
+	</snapshot>
+	<snapshot type="INCOMING" sequence="3">
+	    <row rowNumber="1">
+	        <field value="** Form **" column="15" />
+	    </row>
+	    <row rowNumber="4">
+	        <field value="Field1:" column="5" />
+	        <field value="DataA" column="15" editable="true"/>
+	    </row>
+	    <size rows="24" columns="80"/>
+	</snapshot>
+	<snapshot type="OUTGOING" sequence="4" command="[pf12]">
+	    <row rowNumber="1">
+	        <field value="** Form **" column="15" />
+	    </row>
+	    <row rowNumber="4">
+	        <field value="Field1:" column="5" />
+	        <field value="DataA" column="15" editable="true" />
+	    </row>
+	    <size rows="24" columns="80"/>
+	</snapshot>
+	<snapshot type="INCOMING" sequence="5">
+	    <row rowNumber="1">
+	        <field value="** Table **" column="15" />
+	    </row>
+	    <row rowNumber="2">
+	        <field value="Column A" column="5" />
+	    </row>
+	    <row rowNumber="3">
+	        <field value=" " length="1" column="2" editable="true"/>
+	        <field value="DataA" length="9" column="5" />
+	    </row>
+	    <row rowNumber="4">
+	        <field value=" " length="1" column="2" editable="true"/>
+	        <field value="DataB" length="9" column="5" />
+	    </row>
+	    <size rows="24" columns="80"/>
+	</snapshot>
+	<snapshot type="OUTGOING" sequence="6" command="[enter]">
+	    <row rowNumber="1">
+	        <field value="** Table **" column="15" />
+	    </row>
+	    <row rowNumber="2">
+	        <field value="Column A" column="5" />
+	    </row>
+	    <row rowNumber="3">
+	        <field value="" length="1" column="2" editable="true" />
+	        <field value="DataA" length="9" column="5" />
+	    </row>
+	    <row rowNumber="4">
+	        <field value="1" length="1" column="2" editable="true" modified="true"/>
+	        <field value="DataB" length="9" column="5" />
+	    </row>
+	    <size rows="24" columns="80"/>
+	</snapshot>
+	<snapshot type="INCOMING" sequence="7">
+	    <row rowNumber="1">
+	        <field value="** Form **" column="15" />
+	    </row>
+	    <row rowNumber="4">
+	        <field value="Field1:" column="5" />
+	        <field value="DataB" column="15" editable="true" />
+	    </row>
+	    <size rows="24" columns="80"/>
+	</snapshot>
+	<snapshot type="OUTGOING" sequence="8" command="[pf4]"> 
+	    <row rowNumber="1">
+	        <field value="** Form **" column="15" />
+	    </row>
+	    <row rowNumber="4">
+	        <field value="Field1:" column="5" />
+	        <field value="DataB" column="15" editable="true" />
+	    </row>
+	    <size rows="24" columns="80"/>
+       <cursor row="4" column="15"/>
+	</snapshot>
+	<snapshot type="INCOMING" sequence="9">
+	    <row rowNumber="3">
+	        <field value="** Window **" column="15" />
+	    </row>
+	    <row rowNumber="5">
+	        <field value="Column A" column="15" />
+	    </row>
+	    <row rowNumber="6">
+	        <field value=" " length="1" column="2" editable="true"/>
+	        <field value="Option A" length="9" column="5" />
+	    </row>
+	    <row rowNumber="7">
+	        <field value=" " length="1" column="2" editable="true"/>
+	        <field value="Option B" length="9" column="5" />
+	    </row>
+	    <size rows="24" columns="80"/>
+	</snapshot>
+</terminal-trail>
