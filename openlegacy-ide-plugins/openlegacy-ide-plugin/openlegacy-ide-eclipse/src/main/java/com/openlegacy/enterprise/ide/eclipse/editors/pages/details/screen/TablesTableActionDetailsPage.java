@@ -2,7 +2,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.screen;
 
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.Messages;
-import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.TerminalDrilldownActionViewerFilter;
+import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.TerminalActionViewerFilter;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.TableActionModel;
@@ -87,7 +87,7 @@ public class TablesTableActionDetailsPage extends AbstractScreenDetailsPage {
 		// create row for "action"
 		FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("TableAction.action"), "", AnnotationConstants.ACTION,//$NON-NLS-1$ //$NON-NLS-2$
-				new TerminalDrilldownActionViewerFilter());
+				new TerminalActionViewerFilter());
 		// create row for "defaultAction"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
 				Messages.getString("TableAction.defaultAction"), false, AnnotationConstants.DEFAULT_ACTION);//$NON-NLS-1$

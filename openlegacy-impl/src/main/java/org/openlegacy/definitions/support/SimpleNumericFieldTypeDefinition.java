@@ -48,6 +48,7 @@ public class SimpleNumericFieldTypeDefinition implements NumericFieldTypeDefinit
 		return "number";
 	}
 
+	@Override
 	public String getPattern() {
 		return pattern;
 	}

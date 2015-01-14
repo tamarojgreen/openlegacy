@@ -59,7 +59,8 @@ public class ScreenNavigationAnnotationLoader extends AbstractClassAnnotationLoa
 		if (!screenNavigation.drilldownValue().equals(AnnotationConstants.NULL)) {
 			if (screenNavigation.terminalAction() == ENTER.class) {
 				navigationDefinition.setDrilldownValue(screenNavigation.drilldownValue());
-				navigationDefinition.setTerminalAction(TerminalDrilldownActions.enter(screenNavigation.drilldownValue()));
+				navigationDefinition.setTerminalAction(TerminalDrilldownActions.newAction(ENTER.class,
+						screenNavigation.drilldownValue()));
 			} else {
 				if (!TerminalDrilldownAction.class.isAssignableFrom(screenNavigation.terminalAction())) {
 					throw (new RegistryException(MessageFormat.format(

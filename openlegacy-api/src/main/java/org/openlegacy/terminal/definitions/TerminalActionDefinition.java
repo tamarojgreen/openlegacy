@@ -39,6 +39,7 @@ public interface TerminalActionDefinition extends ActionDefinition, TerminalPosi
 	 * 
 	 * @return
 	 */
+	@Override
 	int getLength();
 
 	/**
@@ -46,6 +47,7 @@ public interface TerminalActionDefinition extends ActionDefinition, TerminalPosi
 	 * 
 	 * @return
 	 */
+	@Override
 	String getWhen();
 
 	int getSleep();

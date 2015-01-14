@@ -24,6 +24,7 @@ public class DbService {
 		return entityManager.merge(entity);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Object getEntitiesPerPage(Class<?> entityClass, int pageSize, int pageNumber) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
