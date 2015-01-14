@@ -49,6 +49,7 @@ public class SimpleDbManyToOneDefinition implements DbManyToOneDefinition {
 		return optional;
 	}
 
+	@Override
 	public String getTargetEntityClassName() {
 		return targetEntityClassName;
 	}

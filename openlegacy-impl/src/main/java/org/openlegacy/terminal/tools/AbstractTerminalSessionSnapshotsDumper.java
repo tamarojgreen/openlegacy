@@ -86,7 +86,7 @@ public abstract class AbstractTerminalSessionSnapshotsDumper implements Terminal
 					writeFileContentIfDifferent(baseDir, entityName, count, bytes, terminalSnapshotDumper.getDumpFileExtension());
 				}
 
-				terminalSession.doAction(TerminalActions.ENTER(), null);
+				terminalSession.doAction(TerminalActions.ENTER());
 			}
 
 		} catch (OpenLegacyRuntimeException e) {

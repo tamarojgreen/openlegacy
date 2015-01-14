@@ -1377,7 +1377,7 @@ public class ScreenEntityBuilder extends AbstractEntityBuilder {
 	 */
 	@SuppressWarnings("unchecked")
 	public void processScreenTableActionsAnnotation(AST ast, CompilationUnit cu, ASTRewrite rewriter, ListRewrite listRewriter,
-			NormalAnnotation annotation, String rootName, List<TableActionAction> list) {
+			NormalAnnotation annotation, String rootName, List<TableActionAction> list, List<ScreenTableModel> tableModels) {
 
 		List<TableActionAction> requiredActions = new ArrayList<TableActionAction>();
 		// find AbstractActions that related with current table
@@ -1450,8 +1450,15 @@ public class ScreenEntityBuilder extends AbstractEntityBuilder {
 		ArrayInitializer arrayLiteral = ScreenEntityASTUtils.INSTANCE.createArrayLiteral(ast, cu, rewriter, modelList);
 		// 3)
 		toSave.addAll(arrayLiteral.expressions());
+
 		// keep original order
-		ScreenTableModel tableModel = (ScreenTableModel)((TableActionModel)requiredActions.get(0).getNamedObject()).getParent();
+		ScreenTableModel tableModel = null;
+		for (ScreenTableModel item : tableModels) {
+			if (item.getUUID().equals(((TableActionModel)requiredActions.get(0).getNamedObject()).getParent().getUUID())) {
+				tableModel = item;
+				break;
+			}
+		}
 		List<NormalAnnotation> sortedToSave = new ArrayList<NormalAnnotation>(toSave.size());
 		for (TableActionModel actionModel : tableModel.getSortedActions()) {
 			for (NormalAnnotation toSaveAnnotation : toSave) {
@@ -1492,7 +1499,7 @@ public class ScreenEntityBuilder extends AbstractEntityBuilder {
 
 	@SuppressWarnings("unchecked")
 	public void sortScreenTableActionsAnnotation(AST ast, CompilationUnit cu, ASTRewrite rewriter, ListRewrite listRewriter,
-			NormalAnnotation annotation, String rootName, List<SortTableActionsAction> list) {
+			NormalAnnotation annotation, String rootName, List<SortTableActionsAction> list, List<ScreenTableModel> tableModels) {
 
 		List<SortTableActionsAction> requiredActions = new ArrayList<SortTableActionsAction>();
 		// find AbstractActions that related with current table
@@ -1515,7 +1522,13 @@ public class ScreenEntityBuilder extends AbstractEntityBuilder {
 		MemberValuePair actionsPair = PrivateMethods.findPair(annotation.values(), AnnotationConstants.ACTIONS);
 		if (actionsPair != null) {
 			List<NormalAnnotation> existedTableActions = ((ArrayInitializer)actionsPair.getValue()).expressions();
-			ScreenTableModel model = (ScreenTableModel)requiredActions.get(0).getNamedObject();
+			ScreenTableModel model = null;
+			for (ScreenTableModel item : tableModels) {
+				if (item.getUUID().equals(requiredActions.get(0).getNamedObject().getUUID())) {
+					model = item;
+					break;
+				}
+			}
 
 			List<NormalAnnotation> sortedTableActions = new ArrayList<NormalAnnotation>(existedTableActions.size());
 			for (TableActionModel actionModel : model.getSortedActions()) {

@@ -336,7 +336,7 @@ public class ScreenEntitySaver extends AbstractEntitySaver {
 				} else if (ScreenTableActions.class.getSimpleName().equals(fullyQualifiedName)) {
 					// @ScreenTableActions
 					ScreenEntityBuilder.INSTANCE.processScreenTableActionsAnnotation(ast, cu, rewriter, listRewriter, annotation,
-							rootName, ScreenEntityUtils.getActionList(entity, TableActionAction.class));
+							rootName, ScreenEntityUtils.getActionList(entity, TableActionAction.class), entity.getSortedTables());
 				} else if (PartPosition.class.getSimpleName().equals(fullyQualifiedName)) {
 					// @PartPosition
 					ScreenEntityBuilder.INSTANCE.processPartPositionAnnotation(ast, cu, rewriter, listRewriter, annotation,
@@ -354,7 +354,8 @@ public class ScreenEntitySaver extends AbstractEntitySaver {
 				if (ScreenTableActions.class.getSimpleName().equals(fullyQualifiedName)) {
 					// @ScreenTableActions
 					ScreenEntityBuilder.INSTANCE.sortScreenTableActionsAnnotation(ast, cu, rewriter, listRewriter, annotation,
-							rootName, ScreenEntityUtils.getActionList(entity, SortTableActionsAction.class));
+							rootName, ScreenEntityUtils.getActionList(entity, SortTableActionsAction.class),
+							entity.getSortedTables());
 				}
 			}
 		}
