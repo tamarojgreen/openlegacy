@@ -74,7 +74,12 @@
 		<#list pageDefinition.pageParts as pagePart>														
 			<#if pagePart.oneField && pagePart.singleField??>				
 				<li>
-					<input name="${pagePart.singleField.name}" value="${pagePart.singleField.sampleValue}" />
+					<#if pagePart.singleField.displayName?? && pagePart.singleField.displayName != "">
+						${pagePart.singleField.displayName}:
+					<#else>								
+						{${pagePart.singleField.name}}:
+					</#if>
+					<input name="${pagePart.singleField.name}" value="${pagePart.singleField.sampleValue}" <#if !pagePart.singleField.editable>disabled="true"</#if> />
 				</li>				
 			<#else>
 				<li>			
@@ -87,7 +92,7 @@
 								<#if field.displayName?? && field.displayName != "">
 									${field.displayName}:
 								<#else>
-									{field name}:
+									{${field.name}}:
 								</#if>			 						
 								</td>
 								<td>
