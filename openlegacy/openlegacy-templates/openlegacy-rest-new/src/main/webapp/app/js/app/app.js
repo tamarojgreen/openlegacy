@@ -83,7 +83,7 @@
 		$rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {			
 			$rootScope.hidePreloader();
 			if (toState.name === "login") {
-				$state.go(toParams.redirectTo.name);
+				$state.go('menu');
 			} else {
 				$state.go("login", {"redirectTo":{"name": toState.name, "params":toParams}}, {"reload":true});
 			}
@@ -132,7 +132,7 @@
 		
 		var authLogin = function($q, $http, $state) {			
 			var deferred = $q.defer();			
-			if ($state.current.name != "" && $state.current.name != "logoff") {
+			if ($state.current.name != "" && $state.current.name != "logoff" && $state.current.name != "login") {
 				$http(
 					{						
 						method: 'GET',
