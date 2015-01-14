@@ -64,6 +64,7 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 	public void doAction(TerminalSendAction terminalSendAction) {
 		List<SnapshotAndSendAction> group = findGroup(currentSnapshot);
 
+		int matchScore = 0;
 		for (SnapshotAndSendAction snapshotAndSendAction : group) {
 			TerminalSendAction comparedSendAction = snapshotAndSendAction.getArc();
 			// compare fields , command and cursor
@@ -72,33 +73,38 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 					&& terminalSendAction.getCommand().equals(comparedSendAction.getCommand()) && cursorPosition != null
 					&& cursorPosition.equals(comparedSendAction.getCursorPosition())) {
 				currentSnapshot = snapshotAndSendAction.getNode();
+				matchScore = 3;
 				return;
 			}
 			// compare fields and command
 			if (!exactCursor && Arrays.equals(terminalSendAction.getFields().toArray(), comparedSendAction.getFields().toArray())
 					&& terminalSendAction.getCommand().equals(comparedSendAction.getCommand())) {
-				currentSnapshot = snapshotAndSendAction.getNode();
-				return;
+				if (matchScore < 2) {
+					currentSnapshot = snapshotAndSendAction.getNode();
+				}
+				matchScore = 2;
 			}
 			// compare command only
 			if (!exactCursor && !exactFields && terminalSendAction.getCommand().equals(comparedSendAction.getCommand())) {
-				currentSnapshot = snapshotAndSendAction.getNode();
-				return;
-			}
-			// compare command only
-			if (!exactCursor && !exactFields && !exactCommand) {
-				int counter = 0;
-				for (TerminalSnapshot snapshot : snapshots) {
-					if (snapshot.getSequence().equals(currentSnapshot.getSequence())) {
-						if (snapshots.size() < counter + 1) {
-							currentSnapshot = snapshots.get(counter + 1);
-						} else {
-							currentSnapshot = snapshots.get(0);
-						}
-					}
-					counter++;
+				if (matchScore < 1) {
+					currentSnapshot = snapshotAndSendAction.getNode();
 				}
-				return;
+				matchScore = 1;
+			}
+			if (!exactCursor && !exactFields && !exactCommand) {
+				if (matchScore == 0) {
+					int counter = 0;
+					for (TerminalSnapshot snapshot : snapshots) {
+						if (snapshot.getSequence().equals(currentSnapshot.getSequence())) {
+							if (snapshots.size() < counter + 1) {
+								currentSnapshot = snapshots.get(counter + 1);
+							} else {
+								currentSnapshot = snapshots.get(0);
+							}
+						}
+						counter++;
+					}
+				}
 			}
 		}
 	}

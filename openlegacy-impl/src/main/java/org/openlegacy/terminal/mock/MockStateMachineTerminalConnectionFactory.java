@@ -49,7 +49,7 @@ public class MockStateMachineTerminalConnectionFactory extends AbstractMockTermi
 
 	private boolean exactCommand = true;
 
-	private int similarityPercentage = 98;
+	private int similarityPercentage = 95;
 
 	@Override
 	public TerminalConnection getConnection(ConnectionProperties connectionProperties) {
@@ -80,7 +80,8 @@ public class MockStateMachineTerminalConnectionFactory extends AbstractMockTermi
 			snapshotsGraph.put(firstGroupSnapshot, target);
 			int count = 0;
 			for (TerminalSnapshot snapshot : snapshots) {
-				if (snapshot.getSnapshotType() == SnapshotType.OUTGOING) {
+				if (snapshot.getSnapshotType() == SnapshotType.OUTGOING
+						&& snapshotsSimilarityChecker.similarityPercent(snapshot, firstGroupSnapshot) >= similarityPercentage) {
 					TerminalSendAction terminalSendAction = ((TerminalOutgoingSnapshot)snapshot).getTerminalSendAction();
 					TerminalSnapshot nextSnapShot = snapshots.get(count + 1);
 					SnapshotAndSendAction snapshotAndAction = new SnapshotAndSendAction(nextSnapShot, terminalSendAction);
