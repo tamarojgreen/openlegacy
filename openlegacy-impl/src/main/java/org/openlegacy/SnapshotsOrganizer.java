@@ -8,13 +8,22 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.designtime.terminal.analyzer;
+package org.openlegacy;
 
-import org.openlegacy.Snapshot;
-
+import java.util.Collection;
 import java.util.Set;
 
-public interface SnapshotPickerStrategy<S extends Snapshot> {
+import org.openlegacy.Snapshot;
+import org.openlegacy.terminal.SnapshotPickerStrategy;
 
-	S pickRepresenter(Set<S> group);
+public interface SnapshotsOrganizer<S extends Snapshot> {
+
+	void add(Collection<S> snapshots);
+
+	Collection<Set<S>> getGroups();
+
+	Collection<S> getGroupsRepresenters(SnapshotPickerStrategy<S> snapshotPickerStrategy);
+
+	void clear();
+
 }

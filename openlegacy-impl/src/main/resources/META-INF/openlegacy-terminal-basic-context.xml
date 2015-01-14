@@ -133,6 +133,9 @@
 	<bean id="sessionPropertiesProvider" class="org.openlegacy.support.SimpleSessionPropertiesProvider" />
 	
 	<bean id="authorizationService" class="org.openlegacy.authorization.DefaultAuthorizationService" />
+
+	<bean class="org.openlegacy.terminal.support.DefaultTerminalSnapshotsOrganizer" />
+	<bean class="org.openlegacy.terminal.support.DefaultSnapshotSimilarityChecker" />
 	
 		<!-- Providers may override the default beans -->
 	<import resource="classpath*:/META-INF/*-openlegacy-terminal-provider.xml" /> 

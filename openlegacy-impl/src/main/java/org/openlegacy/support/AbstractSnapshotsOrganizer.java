@@ -8,14 +8,7 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.designtime.analyzer.support;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openlegacy.Snapshot;
-import org.openlegacy.designtime.analyzer.SnapshotsOrganizer;
-import org.openlegacy.designtime.analyzer.SnapshotsSimilarityChecker;
-import org.openlegacy.designtime.terminal.analyzer.SnapshotPickerStrategy;
+package org.openlegacy.support;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +18,13 @@ import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openlegacy.Snapshot;
+import org.openlegacy.SnapshotsOrganizer;
+import org.openlegacy.SnapshotsSimilarityChecker;
+import org.openlegacy.terminal.SnapshotPickerStrategy;
 
 public abstract class AbstractSnapshotsOrganizer<S extends Snapshot> implements SnapshotsOrganizer<S> {
 

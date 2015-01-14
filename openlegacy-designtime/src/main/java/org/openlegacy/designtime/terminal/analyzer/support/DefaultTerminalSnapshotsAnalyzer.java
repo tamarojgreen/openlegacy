@@ -10,14 +10,23 @@
  *******************************************************************************/
 package org.openlegacy.designtime.terminal.analyzer.support;
 
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.xml.bind.JAXBException;
+
 import org.apache.log4j.Logger;
 import org.drools.KnowledgeBase;
 import org.drools.logger.KnowledgeRuntimeLogger;
 import org.drools.logger.KnowledgeRuntimeLoggerFactory;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.openlegacy.FieldFormatter;
-import org.openlegacy.designtime.analyzer.SnapshotsOrganizer;
-import org.openlegacy.designtime.analyzer.SnapshotsSimilarityChecker;
+import org.openlegacy.SnapshotsOrganizer;
+import org.openlegacy.SnapshotsSimilarityChecker;
 import org.openlegacy.designtime.rules.RuleDefinition;
 import org.openlegacy.designtime.rules.RuleParametersSet;
 import org.openlegacy.designtime.rules.support.RuleParametersSetBean;
@@ -32,15 +41,6 @@ import org.openlegacy.terminal.module.TerminalSessionTrail;
 import org.openlegacy.terminal.modules.trail.TerminalPersistedTrail;
 import org.openlegacy.utils.XmlSerializationUtil;
 import org.springframework.beans.factory.InitializingBean;
-
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.xml.bind.JAXBException;
 
 public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyzer, InitializingBean {
 

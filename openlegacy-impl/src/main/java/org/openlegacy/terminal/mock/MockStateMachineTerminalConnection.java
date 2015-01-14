@@ -11,26 +11,47 @@
 package org.openlegacy.terminal.mock;
 
 import org.apache.commons.lang.SerializationUtils;
-import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.SnapshotsSimilarityChecker;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.mock.MockStateMachineTerminalConnectionFactory.SnapshotAndSendAction;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class MockStateMachineTerminalConnection extends AbstractMockTerminalConnection implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Map<SnapshotAndSendAction, TerminalSnapshot> snapshotsGraph;
+	private Map<TerminalSnapshot, List<SnapshotAndSendAction>> snapshotsGraph;
 
 	private TerminalSnapshot currentSnapshot;
 
-	public MockStateMachineTerminalConnection(TerminalSnapshot firstSnapshot,
-			Map<SnapshotAndSendAction, TerminalSnapshot> snapshotsGraph) {
-		this.currentSnapshot = firstSnapshot;
+	private SnapshotsSimilarityChecker<TerminalSnapshot> snapshotsSimilarityChecker;
+
+	private int similarityPercentage = 100;
+
+	private boolean exactCursor;
+
+	private boolean exactFields;
+
+	private boolean exactCommand;
+
+	private List<TerminalSnapshot> snapshots;
+
+	public MockStateMachineTerminalConnection(Map<TerminalSnapshot, List<SnapshotAndSendAction>> snapshotsGraph,
+			List<TerminalSnapshot> snapshots, boolean exactCursor, boolean exactFields, boolean exactCommand,
+			int similarityPercentage) {
 		this.snapshotsGraph = snapshotsGraph;
+		this.currentSnapshot = snapshots.get(0);
+		this.snapshots = snapshots;
+		this.exactCommand = exactCommand;
+		this.exactCursor = exactCursor;
+		this.exactFields = exactFields;
 	}
 
 	@Override
@@ -41,12 +62,62 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 
 	@Override
 	public void doAction(TerminalSendAction terminalSendAction) {
-		SnapshotAndSendAction graphKey = new SnapshotAndSendAction(currentSnapshot, terminalSendAction);
-		TerminalSnapshot targetSnapshot = snapshotsGraph.get(graphKey);
-		if (targetSnapshot == null) {
-			throw (new OpenLegacyRuntimeException("No target screen found"));
+		List<SnapshotAndSendAction> group = findGroup(currentSnapshot);
+
+		int matchScore = 0;
+		for (SnapshotAndSendAction snapshotAndSendAction : group) {
+			TerminalSendAction comparedSendAction = snapshotAndSendAction.getArc();
+			// compare fields , command and cursor
+			TerminalPosition cursorPosition = terminalSendAction.getCursorPosition();
+			if (Arrays.equals(terminalSendAction.getFields().toArray(), comparedSendAction.getFields().toArray())
+					&& terminalSendAction.getCommand().equals(comparedSendAction.getCommand()) && cursorPosition != null
+					&& cursorPosition.equals(comparedSendAction.getCursorPosition())) {
+				currentSnapshot = snapshotAndSendAction.getNode();
+				matchScore = 3;
+				return;
+			}
+			// compare fields and command
+			if (!exactCursor && Arrays.equals(terminalSendAction.getFields().toArray(), comparedSendAction.getFields().toArray())
+					&& terminalSendAction.getCommand().equals(comparedSendAction.getCommand())) {
+				if (matchScore < 2) {
+					currentSnapshot = snapshotAndSendAction.getNode();
+				}
+				matchScore = 2;
+			}
+			// compare command only
+			if (!exactCursor && !exactFields && terminalSendAction.getCommand().equals(comparedSendAction.getCommand())) {
+				if (matchScore < 1) {
+					currentSnapshot = snapshotAndSendAction.getNode();
+				}
+				matchScore = 1;
+			}
+			if (!exactCursor && !exactFields && !exactCommand) {
+				if (matchScore == 0) {
+					int counter = 0;
+					for (TerminalSnapshot snapshot : snapshots) {
+						if (snapshot.getSequence().equals(currentSnapshot.getSequence())) {
+							if (snapshots.size() < counter + 1) {
+								currentSnapshot = snapshots.get(counter + 1);
+							} else {
+								currentSnapshot = snapshots.get(0);
+							}
+						}
+						counter++;
+					}
+				}
+			}
 		}
-		currentSnapshot = targetSnapshot;
+	}
+
+	private List<SnapshotAndSendAction> findGroup(TerminalSnapshot currentSnapshot) {
+		Set<TerminalSnapshot> snapshots = snapshotsGraph.keySet();
+		for (TerminalSnapshot terminalSnapshot : snapshots) {
+			if (snapshotsSimilarityChecker.similarityPercent(currentSnapshot, terminalSnapshot) >= similarityPercentage) {
+				return snapshotsGraph.get(terminalSnapshot);
+			}
+		}
+		return null;
+
 	}
 
 	@Override
@@ -76,5 +147,9 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 	@Override
 	public Integer getSequence() {
 		return currentSnapshot.getSequence();
+	}
+
+	public void setSnapshotsSimilarityChecker(SnapshotsSimilarityChecker<TerminalSnapshot> snapshotsSimilarityChecker) {
+		this.snapshotsSimilarityChecker = snapshotsSimilarityChecker;
 	}
 }
