@@ -9,10 +9,10 @@
         <div class="navbar-collapse collapse ol-sidebar-collapse">
             <ul class="nav navbar-nav nav-pills nav-stacked top-margin-10">
             	<li><h4>Navigation</h4></li>            			            
-            	<li ng-repeat="menu in menuArray">
-            		<a ng-href="#/{{menu.entityName}}">{{menu.displayName}}</a>			            		
+            	<li ng-repeat="menu in menuArray" ui-sref-active="active">
+            		<a ui-sref="{{menu.entityName}}">{{menu.displayName}}</a>			            		
             	</li>
-            	<li><h4>Tools</h4></li>            	
+            	<li><h4>Tools</h4></li>            	            	
             	<li><a href ng-click="reload()">Reload</a></li>			                	                
             </ul>
         </div><!--/.nav-collapse -->
