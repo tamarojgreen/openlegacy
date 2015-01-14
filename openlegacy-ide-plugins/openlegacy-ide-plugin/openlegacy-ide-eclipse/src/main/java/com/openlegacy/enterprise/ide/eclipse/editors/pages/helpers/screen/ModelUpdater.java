@@ -31,7 +31,6 @@ import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.table.ScreenTableCollector;
-import org.openlegacy.terminal.table.TerminalDrilldownAction;
 
 import java.net.MalformedURLException;
 
@@ -545,7 +544,7 @@ public class ModelUpdater {
 			if (key.equals(AnnotationConstants.ACTION)) {
 				if (fullyQualifiedName != null) {
 					Class<?> clazz = Utils.getClazz(fullyQualifiedName);
-					model.setAction((Class<? extends TerminalDrilldownAction>)clazz);
+					model.setAction((Class<? extends TerminalAction>)clazz);
 				}
 			} else if (key.equals(AnnotationConstants.ACTION_VALUE)) {
 				model.setActionValue(text);

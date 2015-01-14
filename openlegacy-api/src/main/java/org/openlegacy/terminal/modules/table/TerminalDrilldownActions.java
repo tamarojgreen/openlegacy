@@ -15,7 +15,6 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions.ENTER;
 import org.openlegacy.terminal.table.TerminalDrilldownAction;
-import org.springframework.util.ReflectionUtils;
 
 import java.io.Serializable;
 
@@ -36,15 +35,16 @@ public class TerminalDrilldownActions implements Serializable {
 			ddAction = new SimpleDrilldownAction(action.newInstance());
 			ddAction.setActionValue(actionValue);
 		} catch (Exception e) {
-			throw(new OpenLegacyRuntimeException(e));
+			throw (new OpenLegacyRuntimeException(e));
 		}
 		return ddAction;
 	}
-	
+
 	/**
 	 * Use <code>TerminalDrilldownActions.newAction(ENTER.class,actionValue)</code> instead
+	 * 
 	 * @author Roi
-	 *
+	 * 
 	 */
 	@Deprecated
 	public static TerminalDrilldownAction enter(Object actionValue) {
@@ -55,8 +55,9 @@ public class TerminalDrilldownActions implements Serializable {
 
 	/**
 	 * Use <code>TerminalDrilldownActions.newAction(ENTER.class,actionValue)</code> instead
+	 * 
 	 * @author Roi
-	 *
+	 * 
 	 */
 	@Deprecated
 	public static class EnterDrilldownAction extends ENTER implements TerminalDrilldownAction, Serializable {
@@ -93,7 +94,7 @@ public class TerminalDrilldownActions implements Serializable {
 		public TerminalAction getAction() {
 			return action;
 		}
-		
+
 		@Override
 		public Object getActionValue() {
 			return actionValue;
@@ -105,8 +106,7 @@ public class TerminalDrilldownActions implements Serializable {
 		}
 
 		@Override
-		public void perform(TerminalSession session, Object entity,
-				Object... keys) {
+		public void perform(TerminalSession session, Object entity, Object... keys) {
 			action.perform(session, entity, keys);
 		}
 

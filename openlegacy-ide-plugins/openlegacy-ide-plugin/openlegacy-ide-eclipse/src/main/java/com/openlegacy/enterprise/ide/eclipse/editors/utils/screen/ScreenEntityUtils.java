@@ -981,7 +981,7 @@ public class ScreenEntityUtils {
 			boolean isPrevious = true;
 			boolean isDefault = true;
 			TableActionModel entityModel = entity.getTables().get(model.getParent().getUUID()).getActions().get(model.getUUID());
-			// @TableAction.action: default EnterDrilldownAction.class;
+			// @TableAction.action: default ENTER.class;
 			isPrevious = entityModel.getAction().equals(model.getAction());
 			isDefault = model.getAction().equals(ENTER.class);
 			PrivateMethods.addRemoveTableActionAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION

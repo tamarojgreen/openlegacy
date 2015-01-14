@@ -197,7 +197,7 @@ public class DefaultDbRestController {
 	public JSONArray getMenu(HttpServletResponse response) throws IOException {
 		Collection<DbEntityDefinition> entities = dbEntitiesRegistry.getEntitiesDefinitions();
 		JSONArray jsonArray = new JSONArray();
-		List<DbEntityDefinition> entityNames = new ArrayList<DbEntityDefinition>();
+		// List<DbEntityDefinition> entityNames = new ArrayList<DbEntityDefinition>();
 		for (DbEntityDefinition dbEntityDefinition : entities) {
 			DbNavigationDefinition navDefinition = dbEntityDefinition.getNavigationDefinition();
 			if (navDefinition.getCategory() != null) {
@@ -260,7 +260,7 @@ public class DefaultDbRestController {
 		}
 	}
 
-	private Class<?> getFirstIdJavaType(Class<?> entityClass) {
+	private static Class<?> getFirstIdJavaType(Class<?> entityClass) {
 		for (Field field : entityClass.getDeclaredFields()) {
 			Annotation[] annotations = field.getDeclaredAnnotations();
 			for (Annotation annotation : annotations) {
@@ -273,7 +273,7 @@ public class DefaultDbRestController {
 		return null;
 	}
 
-	private static Object toObject(Class clazz, String value) {
+	private static Object toObject(Class<?> clazz, String value) {
 		if (Boolean.class == clazz || Boolean.TYPE == clazz) {
 			return Boolean.parseBoolean(value);
 		}

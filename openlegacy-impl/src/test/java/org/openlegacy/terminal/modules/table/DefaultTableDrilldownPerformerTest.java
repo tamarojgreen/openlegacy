@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.modules.table.Table;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.actions.TerminalActions.ENTER;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -21,7 +22,7 @@ public class DefaultTableDrilldownPerformerTest extends AbstractTest {
 		TerminalSession terminalSession = newTerminalSession();
 
 		ItemDetails1 itemDetails1 = terminalSession.getModule(Table.class).drillDown(ItemDetails1.class,
-				TerminalDrilldownActions.enter("2"), 2000);
+				TerminalDrilldownActions.newAction(ENTER.class, "2"), 2000);
 
 		Assert.assertNotNull(itemDetails1);
 	}

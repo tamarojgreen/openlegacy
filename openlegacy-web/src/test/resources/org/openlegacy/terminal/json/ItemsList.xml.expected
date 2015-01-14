@@ -14,7 +14,7 @@
                 <actionValue xsi:type="java:java.lang.String">2</actionValue>
             </action>
             <alias>revise</alias>
-            <actionName>SimpleDrilldownAction</actionName>
+            <actionName>ENTER</actionName>
             <when>2.*</when>
             <displayName>Revise</displayName>
         </itemsListRowsActions>

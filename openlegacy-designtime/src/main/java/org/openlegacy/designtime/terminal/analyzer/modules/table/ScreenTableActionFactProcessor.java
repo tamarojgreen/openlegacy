@@ -18,6 +18,7 @@ import org.openlegacy.designtime.terminal.analyzer.support.fact_processors.Scree
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+import org.openlegacy.terminal.actions.TerminalActions.ENTER;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
@@ -40,7 +41,7 @@ public class ScreenTableActionFactProcessor extends AbstractActionFactProcessor 
 
 	@Override
 	protected TerminalActionDefinition buildActionDefinition(String actionValue, String caption, TerminalPosition terminalPosition) {
-		TerminalDrilldownAction drilldownAction = TerminalDrilldownActions.enter(actionValue);
+		TerminalDrilldownAction drilldownAction = TerminalDrilldownActions.newAction(ENTER.class, actionValue);
 		TerminalActionDefinition actionDefinition = new SimpleTerminalActionDefinition(drilldownAction, AdditionalKey.NONE,
 				caption, terminalPosition);
 		return actionDefinition;

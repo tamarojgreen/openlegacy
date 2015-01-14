@@ -8,8 +8,10 @@ import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.designtime.terminal.generators.support.CodeBasedScreenEntityDefinition;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalActions.ENTER;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
-import org.openlegacy.terminal.modules.table.TerminalDrilldownActions.EnterDrilldownAction;
+import org.openlegacy.terminal.modules.table.TerminalDrilldownActions.SimpleDrilldownAction;
 import org.openlegacy.terminal.table.TerminalDrilldownAction;
 
 import java.util.UUID;
@@ -22,11 +24,11 @@ public class TableActionModel extends ScreenNamedObject {
 
 	private static final int DEFAULT_INT = 0;
 	private static final String DEFAULT_WHEN = ".*";
-	private static final Class<? extends TerminalDrilldownAction> DEFAULT_ACTION = EnterDrilldownAction.class;
+	private static final Class<? extends TerminalAction> DEFAULT_ACTION = ENTER.class;
 	private static final Class<?> DEFAULT_TARGET_ENTITY = ScreenEntity.NONE.class;
 
 	// annotations attributes
-	private Class<? extends TerminalDrilldownAction> action = DEFAULT_ACTION;
+	private Class<? extends TerminalAction> action = DEFAULT_ACTION;
 	private boolean defaultAction = false;
 	private String actionValue = "";
 	private String displayName = "";
@@ -79,9 +81,15 @@ public class TableActionModel extends ScreenNamedObject {
 
 	@SuppressWarnings("unchecked")
 	public void init(SimpleActionDefinition actionDefinition) {
-		this.action = (Class<? extends TerminalDrilldownAction>)actionDefinition.getAction().getClass();
+		if (actionDefinition.getAction() instanceof SimpleDrilldownAction) {
+			SimpleDrilldownAction simpleDrilldownAction = (SimpleDrilldownAction)actionDefinition.getAction();
+			this.action = simpleDrilldownAction.getAction().getClass();
+			this.actionValue = (String)simpleDrilldownAction.getActionValue();
+		} else {
+			this.action = (Class<? extends TerminalAction>)actionDefinition.getAction().getClass();
+			this.actionValue = (String)((TerminalDrilldownAction)actionDefinition.getAction()).getActionValue();
+		}
 		this.defaultAction = actionDefinition.isDefaultAction();
-		this.actionValue = (String)((EnterDrilldownAction)actionDefinition.getAction()).getActionValue();
 		this.displayName = actionDefinition.getDisplayName();
 		this.alias = actionDefinition.getAlias() != null ? actionDefinition.getAlias() : "";//$NON-NLS-1$
 		if (!StringUtils.isEmpty(actionDefinition.getTargetEntityName())) {
@@ -116,11 +124,11 @@ public class TableActionModel extends ScreenNamedObject {
 		return model;
 	}
 
-	public Class<? extends TerminalDrilldownAction> getAction() {
+	public Class<? extends TerminalAction> getAction() {
 		return action;
 	}
 
-	public void setAction(Class<? extends TerminalDrilldownAction> action) {
+	public void setAction(Class<? extends TerminalAction> action) {
 		this.action = action;
 	}
 
@@ -228,7 +236,7 @@ public class TableActionModel extends ScreenNamedObject {
 		return DEFAULT_WHEN;
 	}
 
-	public Class<? extends TerminalDrilldownAction> getDefaultAction() {
+	public Class<? extends TerminalAction> getDefaultAction() {
 		return DEFAULT_ACTION;
 	}
 

@@ -199,6 +199,7 @@ public class ScreenBinderLogic implements Serializable {
 	 * @param screenPojo
 	 * @param fieldMappingsDefinitions
 	 */
+	@SuppressWarnings("unchecked")
 	public void populateSendAction(TerminalSendAction sendAction, TerminalSnapshot terminalSnapshot, Object screenPojo,
 			Collection<ScreenFieldDefinition> fieldMappingsDefinitions) {
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenPojo);
@@ -261,8 +262,8 @@ public class ScreenBinderLogic implements Serializable {
 									fieldAccessor.setFieldValue(ScreenEntity.FOCUS_FIELD, SnapshotUtils.toAbsolutePosition(
 											screenRowNumber, columnNumber, SimpleScreenSize.DEFAULT));
 									// The focus based on position is evaluated at the end of this method
-				}
-			}
+								}
+							}
 							rowNumber++;
 						}
 					}

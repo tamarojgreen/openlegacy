@@ -53,7 +53,8 @@ public class GenerateUtil {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			OutputStreamWriter output = new OutputStreamWriter(baos, CharEncoding.UTF_8);
-			Template template = new Template("Template", templateString, new Configuration());
+			Template template = new Template("Template", templateString, new Configuration(
+					Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS));
 			template.process(model, output);
 			byte[] bytes = baos.toByteArray();
 			return new String(bytes, "UTF-8");
@@ -112,7 +113,7 @@ public class GenerateUtil {
 
 		try {
 
-			Configuration configuration = new Configuration();
+			Configuration configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
 			if (isUseCustomTemplates()) {
 				configuration.setDirectoryForTemplateLoading(templatesDir);
 			} else {

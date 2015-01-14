@@ -23,9 +23,12 @@ import org.openlegacy.terminal.PositionedPart;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.actions.TerminalActions.ENTER;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
+import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 import org.openlegacy.terminal.modules.table.TerminalDrilldownActions;
 import org.openlegacy.terminal.table.TerminalDrilldownAction;
@@ -120,7 +123,7 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 
 			columnDefinition.setExpression(StringUtils.isEmpty(field.getExpression()) ? "" : field.getExpression());
 		}
-		if (isRightToLeft()){
+		if (isRightToLeft()) {
 			Collections.reverse(columnDefinitions);
 		}
 		return columnDefinitions;
@@ -202,9 +205,28 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 			for (Action action : actionsFromCodeModel) {
 
 				// if action was set use it, if not use enter drill down action (default)
-				TerminalDrilldownAction sessionAction = TerminalDrilldownActions.enter(action.getActionValue());
+				TerminalDrilldownAction sessionAction = TerminalDrilldownActions.newAction(ENTER.class, action.getActionValue());
+
+				if (!StringUtils.isBlank(action.getActionName())) {
+					try {
+						TerminalAction terminalAction = TerminalActions.newAction(action.getActionName());
+						if (terminalAction != null) {
+							sessionAction = TerminalDrilldownActions.newAction(terminalAction.getClass(), action.getActionValue());
+						}
+					} catch (TerminalActionException e) {
+
+					}
+				}
+
 				SimpleActionDefinition actionDefinition = new SimpleTerminalActionDefinition(sessionAction,
 						action.getAdditionalKey(), StringUtil.stripQuotes(action.getDisplayName()), null);
+
+				if (!StringUtils.isBlank(action.getActionName())) {
+					actionDefinition = new SimpleTerminalActionDefinition(action.getActionName(),
+							StringUtil.stripQuotes(action.getDisplayName()), null);
+					actionDefinition.setAction(sessionAction);
+					((SimpleTerminalActionDefinition)actionDefinition).setAdditionalKey(action.getAdditionalKey());
+				}
 				if (action.getAlias() != null) {
 					actionDefinition.setAlias(StringUtil.stripQuotes(action.getAlias()));
 				}

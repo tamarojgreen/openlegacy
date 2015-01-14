@@ -14,6 +14,7 @@ import org.openlegacy.EntityDefinition;
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.terminal.modules.table.TerminalDrilldownActions.SimpleDrilldownAction;
 import org.openlegacy.utils.StringUtil;
 
 import java.io.Serializable;
@@ -56,7 +57,11 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 	 */
 	public SimpleActionDefinition(SessionAction<? extends Session> action, String displayName) {
 		this.action = action;
-		this.actionName = action.getClass().getSimpleName();
+		if (action instanceof SimpleDrilldownAction) {
+			this.actionName = ((SimpleDrilldownAction)action).getAction().getClass().getSimpleName();
+		} else {
+			this.actionName = action.getClass().getSimpleName();
+		}
 		this.displayName = displayName;
 	}
 

@@ -259,8 +259,8 @@ public class ScreenAnnotationsParserUtils {
 					global = false;
 				}
 
-				Action action = new Action(actionAlias, actionClassName, displayName, additionalKey, row, column, length, when,
-						focusFieldValue, type, sleep, global);
+				Action action = new Action(actionAlias, StringUtil.toClassName(actionClassName), displayName, additionalKey, row,
+						column, length, when, focusFieldValue, type, sleep, global);
 				action.setActionValue(actionValue == null ? "" : actionValue);
 				action.setTargetEntityName(StringUtil.toClassName(targetEntityName));
 				action.setKeyboardKeyName(StringUtil.toClassName(keyboardKeyValue));
