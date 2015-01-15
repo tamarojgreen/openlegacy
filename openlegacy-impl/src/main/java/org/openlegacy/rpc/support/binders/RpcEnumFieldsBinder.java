@@ -111,6 +111,9 @@ public class RpcEnumFieldsBinder implements RpcEntityBinder, Serializable {
 	@Override
 	public Object toLegacy(RpcFieldDefinition rpcFieldDefinition, Object apiFieldValue, RpcFlatField rpcFlatField) {
 		EnumFieldTypeDefinition enumFieldTypeDefinition = (EnumFieldTypeDefinition)rpcFieldDefinition.getFieldTypeDefinition();
+		if (!(apiFieldValue instanceof EnumGetValue)) {
+			return null;
+		}
 		EnumGetValue enumGetValue = (EnumGetValue)apiFieldValue;
 		return enumFieldTypeDefinition.getEnums().get(enumGetValue.getValue());
 	}
