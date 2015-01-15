@@ -61,7 +61,7 @@
 		<div class="actions-panel">
 			<#list pageDefinition.entityDefinition.actions as action>
 				<#if action.alias??>
-			<div class="action">
+			<div class="action" style="display:inline">
 				<button onclick="doPost('${action.alias}')">${action.displayName}</button>
 			</div>
 				</#if>
@@ -71,95 +71,131 @@
 		
 		
 		<ul class="part">
-		<#list pageDefinition.pageParts as pagePart>
-			<li>								
-			<#if pagePart.oneField>			
-			<input name="${pagePart.singleField.name}" value="${pagePart.singleField.sampleValue}" />
-			<#else>			
-				<div class="panel">
-					<table>
-					<#list pagePart.partRows as partRow>				
-						<tr>
-						<#list partRow.fields as field>
-							<td class="label-field">
-		 						${field.displayName}:
-							</td>
-							<td>
-								<#if field.fieldTypeDefinition??>								
-									<#switch field.fieldTypeDefinition.typeName>
-									  <#case "enum">
-									    <select <#if !field.editable>disabled="true"</#if>>
-									    	<option value="${field.sampleValue}">${field.displayName}</option>
-									    </select>
-									    <#break>
-									  <#case "fieldWithValues">
-									    <select  <#if !field.editable>disabled="true"</#if>>
-									    	<option value="${field.sampleValue}">${field.displayName}</option>
-									    </select>
-									    <#break>  
-									  <#case "boolean">								  
-									    <input type="checkbox" value="${field.sampleValue}" <#if !field.editable>disabled="true"</#if>/>
-									    <#break> 					
-								      <#case "date">								  
-									    <input  value="${field.sampleValue}" <#if !field.editable>disabled="true"</#if>/>
-									    <#break>
-									  <#default>
-									    <input  value="${field.sampleValue}" <#if !field.editable>disabled="true"</#if>/>
-									</#switch>
-								<#else>
-							  		<#if field.editable>
-				 						<input class="value-input" name="${field.name}" value="${field.sampleValue}" size="${field.length}"/>
-				 					<#else>
-				 						${field.sampleValue}
-				 					</#if>							
-								</#if>							
-							</td>
-						</#list>
-						</tr>
-						</#list>
-					</table>								
-					<#if pagePart.hasTable>
-						<table class="bordered">
-							<thead>
-								<tr>
-									<#list pagePart.tableDefinition.columnDefinitions as column>
-									<th>
-				 					 	${column.displayName}
-									</th>
-									</#list>
-								</tr>
-							</thead>
-							<tbody>						
-								<tr>						
-									<#list pagePart.tableDefinition.columnDefinitions as column>
-									<#if column_index == 0>								
-									<td>
-										<#if (pagePart.tableDefinition.actions?size > 3)>
-											<select>
-												<option>-Select-</option>
-												<#list pagePart.tableDefinition.actions as action>								
-								 					<option>${action.displayName}</option>
-					 					 		</#list>
-											</select>
-										<#else>
-											<#list pagePart.tableDefinition.actions as action>								
-		 					 					<a href="#">${action.displayName}</a>
-				 					 		</#list>
-										</#if>								
-									</td>								
-									<#else>
-									<td>
-				 					 	${column.sampleValue}
-									</td>
-									</#if>
-									</#list>							
-								</tr>
-							</tbody>						
-						</table>
+		<#list pageDefinition.pageParts as pagePart>														
+			<#if pagePart.oneField && pagePart.singleField??>				
+				<li>
+					<#if pagePart.singleField.displayName?? && pagePart.singleField.displayName != "">
+						${pagePart.singleField.displayName}:
 					</#if>
-				</div>
-			</#if>
-			</li>			
+					
+					<#if pagePart.singleField.editable>
+				  		<#if pagePart.singleField.displayName?? && pagePart.singleField.displayName != "">
+				  			<input name="${pagePart.singleField.name}" value="${pagePart.singleField.sampleValue}"/>
+						<#else>
+							<input name="${pagePart.singleField.name}" value="<#if pagePart.singleField.sampleValue?? && pagePart.singleField.sampleValue != "">${pagePart.singleField.sampleValue}<#else>{${pagePart.singleField.name}}</#if>"/>							
+						</#if>					 						
+ 					<#else>
+ 						<#if pagePart.singleField.displayName?? && pagePart.singleField.displayName != "">
+ 							${pagePart.singleField.sampleValue}
+ 						<#else> 						
+ 							<#if pagePart.singleField.sampleValue?? && pagePart.singleField.sampleValue != "">
+ 								${pagePart.singleField.sampleValue}
+ 							<#else>
+ 								{${pagePart.singleField.name}}
+ 							</#if>
+ 						</#if>					 						
+ 					</#if>					
+				</li>				
+			<#else>
+				<li>			
+					<div class="panel">
+						<table>
+						<#list pagePart.partRows as partRow>				
+							<tr>
+							<#list partRow.fields as field>
+								<td class="label-field">
+								<#if field.displayName?? && field.displayName != "">
+									${field.displayName}:																	
+								</#if>			 						
+								</td>
+								<td>
+									<#if field.fieldTypeDefinition??>
+										<#switch field.fieldTypeDefinition.typeName>									
+										  <#case "enum">
+										    <select <#if !field.editable>disabled="true"</#if>>
+										    	<option value="${field.sampleValue}">${field.displayName}</option>
+										    </select>
+										    <#break>
+										  <#case "fieldWithValues">
+										    <select  <#if !field.editable>disabled="true"</#if>>
+										    	<option value="${field.sampleValue}">${field.displayName}</option>
+										    </select>
+										    <#break>  
+										  <#case "boolean">								  
+										    <input type="checkbox" value="${field.sampleValue}" <#if !field.editable>disabled="true"</#if>/>
+										    <#break> 					
+									      <#case "date">								  
+										    <input  value="${field.sampleValue}" <#if !field.editable>disabled="true"</#if>/>
+										    <#break>
+										  <#default>
+										    <input  value="${field.sampleValue}" <#if !field.editable>disabled="true"</#if>/>
+										</#switch>
+									<#else>
+								  		<#if field.editable>
+									  		<#if field.displayName?? && field.displayName != "">
+									  			<input class="value-input" name="${field.name}" value="${field.sampleValue}" size="${field.length}"/>
+											<#else>
+												<input class="value-input" name="${field.name}" value="<#if field.sampleValue?? && field.sampleValue != "">${field.sampleValue}<#else>{${field.name}}</#if>" size="${field.length}"/>
+											</#if>					 						
+					 					<#else>
+					 						<#if field.displayName?? && field.displayName != "">
+					 							${field.sampleValue}
+					 						<#else>
+					 							<#if field.sampleValue?? && field.sampleValue != "">
+					 								${field.sampleValue}
+					 							<#else>
+					 								{${field.name}}
+					 							</#if>
+					 						</#if>					 						
+					 					</#if>								
+									</#if>							
+								</td>
+							</#list>
+							</tr>
+							</#list>
+						</table>								
+						<#if pagePart.hasTable>
+							<table class="bordered">
+								<thead>
+									<tr>
+										<#list pagePart.tableDefinition.columnDefinitions as column>
+										<th>
+					 					 	${column.displayName}
+										</th>
+										</#list>
+									</tr>
+								</thead>
+								<tbody>						
+									<tr>						
+										<#list pagePart.tableDefinition.columnDefinitions as column>
+										<#if column_index == 0>								
+										<td>
+											<#if (pagePart.tableDefinition.actions?size > 3)>
+												<select>
+													<option>-Select-</option>
+													<#list pagePart.tableDefinition.actions as action>								
+									 					<option>${action.displayName}</option>
+						 					 		</#list>
+												</select>
+											<#else>
+												<#list pagePart.tableDefinition.actions as action>								
+			 					 					<a href="#">${action.displayName}</a>
+					 					 		</#list>
+											</#if>								
+										</td>								
+										<#else>
+										<td>
+					 					 	${column.sampleValue}
+										</td>
+										</#if>
+										</#list>							
+									</tr>
+								</tbody>						
+							</table>
+						</#if>
+					</div>
+				</li>
+			</#if>						
 		</#list>
 		</ul>			
 	</body>

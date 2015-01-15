@@ -76,10 +76,25 @@
 				<li>
 					<#if pagePart.singleField.displayName?? && pagePart.singleField.displayName != "">
 						${pagePart.singleField.displayName}:
-					<#else>								
-						{${pagePart.singleField.name}}:
 					</#if>
-					<input name="${pagePart.singleField.name}" value="${pagePart.singleField.sampleValue}" <#if !pagePart.singleField.editable>disabled="true"</#if> />
+					
+					<#if pagePart.singleField.editable>
+				  		<#if pagePart.singleField.displayName?? && pagePart.singleField.displayName != "">
+				  			<input name="${pagePart.singleField.name}" value="${pagePart.singleField.sampleValue}"/>
+						<#else>
+							<input name="${pagePart.singleField.name}" value="<#if pagePart.singleField.sampleValue?? && pagePart.singleField.sampleValue != "">${pagePart.singleField.sampleValue}<#else>{${pagePart.singleField.name}}</#if>"/>							
+						</#if>					 						
+ 					<#else>
+ 						<#if pagePart.singleField.displayName?? && pagePart.singleField.displayName != "">
+ 							${pagePart.singleField.sampleValue}
+ 						<#else>
+ 							<#if pagePart.singleField.sampleValue?? && pagePart.singleField.sampleValue != "">
+ 								${pagePart.singleField.sampleValue}
+ 							<#else>
+ 								{${pagePart.singleField.name}}
+ 							</#if>
+ 						</#if>					 						
+ 					</#if>					
 				</li>				
 			<#else>
 				<li>			
@@ -90,9 +105,7 @@
 							<#list partRow.fields as field>
 								<td class="label-field">
 								<#if field.displayName?? && field.displayName != "">
-									${field.displayName}:
-								<#else>
-									{${field.name}}:
+									${field.displayName}:																	
 								</#if>			 						
 								</td>
 								<td>
@@ -119,10 +132,22 @@
 										</#switch>
 									<#else>
 								  		<#if field.editable>
-					 						<input class="value-input" name="${field.name}" value="${field.sampleValue}" size="${field.length}"/>
+									  		<#if field.displayName?? && field.displayName != "">
+									  			<input class="value-input" name="${field.name}" value="${field.sampleValue}" size="${field.length}"/>
+											<#else>
+												<input class="value-input" name="${field.name}" value="<#if field.sampleValue?? && field.sampleValue != "">${field.sampleValue}<#else>{${field.name}}</#if>" size="${field.length}"/>
+											</#if>					 						
 					 					<#else>
-					 						${field.sampleValue}
-					 					</#if>							
+					 						<#if field.displayName?? && field.displayName != "">
+					 							${field.sampleValue}
+					 						<#else>
+					 							<#if field.sampleValue?? && field.sampleValue != "">
+					 								${field.sampleValue}
+					 							<#else>
+					 								{${field.name}}
+					 							</#if>
+					 						</#if>					 						
+					 					</#if>								
 									</#if>							
 								</td>
 							</#list>
