@@ -8,15 +8,14 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.designtime.terminal.analyzer.support;
+package org.openlegacy.terminal.support;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.openlegacy.designtime.analyzer.SnapshotsSimilarityChecker;
+import org.openlegacy.SnapshotsSimilarityChecker;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -24,7 +23,6 @@ import java.util.List;
  * Terminal snapshot similarity checker. Check how much of the "space" on of the snapshot are similar in percentage.
  * 
  */
-@Component
 public class DefaultSnapshotSimilarityChecker implements SnapshotsSimilarityChecker<TerminalSnapshot> {
 
 	@Override

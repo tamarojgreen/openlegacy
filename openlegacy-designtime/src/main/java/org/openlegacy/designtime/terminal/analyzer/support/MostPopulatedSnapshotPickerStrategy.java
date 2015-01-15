@@ -10,15 +10,15 @@
  *******************************************************************************/
 package org.openlegacy.designtime.terminal.analyzer.support;
 
+import java.util.Collection;
+import java.util.Set;
+
 import org.openlegacy.FieldFormatter;
-import org.openlegacy.designtime.terminal.analyzer.SnapshotPickerStrategy;
+import org.openlegacy.terminal.SnapshotPickerStrategy;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
 import org.openlegacy.utils.StringUtil;
-
-import java.util.Collection;
-import java.util.Set;
 
 public class MostPopulatedSnapshotPickerStrategy implements SnapshotPickerStrategy<TerminalSnapshot> {
 

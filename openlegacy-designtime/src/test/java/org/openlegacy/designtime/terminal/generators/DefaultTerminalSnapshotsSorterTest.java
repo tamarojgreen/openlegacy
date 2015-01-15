@@ -1,16 +1,5 @@
 package org.openlegacy.designtime.terminal.generators;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.openlegacy.SnapshotsLoader;
-import org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsOrganizer;
-import org.openlegacy.terminal.TerminalSnapshot;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import java.io.FileNotFoundException;
 import java.util.Iterator;
 import java.util.List;
@@ -18,6 +7,17 @@ import java.util.Set;
 
 import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.openlegacy.SnapshotsLoader;
+import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.support.DefaultTerminalSnapshotsOrganizer;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @ContextConfiguration("/test-designtime-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)

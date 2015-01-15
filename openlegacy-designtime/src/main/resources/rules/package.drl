@@ -14,9 +14,9 @@ import org.openlegacy.designtime.utils.*;
 import java.util.List;
 
 import org.openlegacy.designtime.terminal.model.*;
-import org.openlegacy.designtime.analyzer.SnapshotsOrganizer;
+import org.openlegacy.SnapshotsOrganizer;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
-import org.openlegacy.designtime.analyzer.SnapshotsSimilarityChecker;
+import org.openlegacy.SnapshotsSimilarityChecker;
 import org.openlegacy.designtime.rules.*;
 import org.openlegacy.designtime.terminal.analyzer.*;
 

@@ -1,6 +1,11 @@
 package org.openlegacy.designtime.terminal.analyzer.support;
 
-import freemarker.template.TemplateException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.bind.JAXBException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,12 +17,7 @@ import org.openlegacy.utils.XmlSerializationUtil;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.bind.JAXBException;
+import freemarker.template.TemplateException;
 
 @ContextConfiguration("/test-designtime-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)

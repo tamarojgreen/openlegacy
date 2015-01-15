@@ -70,21 +70,9 @@
 					
 <!-- Use this definition to replay a mock-up session application
  	<bean id="terminalConnectionFactory"
-		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
-		<property name="root" value="/trails" />
-		<property name="trailName" value="demo_session.trail" />
-	</bean>
-	
-	<bean id="terminalSession" class="org.openlegacy.terminal.support.MockupTerminalSession" scope="session" parent="abstractTerminalSession">
-		<property name="terminalConnection">
-			<bean class="org.openlegacy.terminal.mock.MockTerminalConnection" factory-bean="terminalConnectionFactory" factory-method="getConnection">
-				<constructor-arg>
-					<bean class="org.openlegacy.terminal.support.SimpleConnectionProperties" />
-				</constructor-arg>
-			</bean>
-		</property>
-	    <aop:scoped-proxy/>
-	</bean>
+		class="org.openlegacy.terminal.mock.MockStateMachineTerminalConnectionFactory"
+		p:verifySend="true" p:root="/trails" p:trailName="demo_session.trail"
+		p:exactCursor="false" p:exactFields="false" p:exactCommand="true" />
 End use this definition to replay a mock-up session application -->
 
 	<!-- Uncomment for bidi support

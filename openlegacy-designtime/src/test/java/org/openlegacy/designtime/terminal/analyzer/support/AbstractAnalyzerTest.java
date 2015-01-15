@@ -1,6 +1,9 @@
 package org.openlegacy.designtime.terminal.analyzer.support;
 
-import freemarker.template.TemplateException;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import javax.inject.Inject;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.CharEncoding;
@@ -10,13 +13,11 @@ import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalSnapshotsLoader;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.support.DefaultTerminalSnapshotsOrganizer;
 import org.openlegacy.test.utils.AssertUtils;
 import org.springframework.context.ApplicationContext;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-
-import javax.inject.Inject;
+import freemarker.template.TemplateException;
 
 public class AbstractAnalyzerTest {
 

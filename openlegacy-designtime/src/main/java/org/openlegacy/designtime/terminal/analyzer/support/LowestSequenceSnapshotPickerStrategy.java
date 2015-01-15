@@ -10,11 +10,11 @@
  *******************************************************************************/
 package org.openlegacy.designtime.terminal.analyzer.support;
 
-import org.openlegacy.designtime.terminal.analyzer.SnapshotPickerStrategy;
+import java.util.Set;
+
+import org.openlegacy.terminal.SnapshotPickerStrategy;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
-
-import java.util.Set;
 
 public class LowestSequenceSnapshotPickerStrategy implements SnapshotPickerStrategy<TerminalSnapshot> {
 
