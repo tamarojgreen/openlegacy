@@ -18,6 +18,8 @@
 		<property name="removeChars" value=",:;" />	
 	</bean>
 	
+	<bean id="dbRegistry" class="org.openlegacy.db.support.DefaultDbEntitiesRegistry"/>
+	
 	<!-- OpenLegacy default terminal snapshot analyzer rules definition -->	 
 	<bean id="terminalSnapshotsAnalyzer" class="org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsAnalyzer" p:processName="screen-builder"
 		lazy-init="true">

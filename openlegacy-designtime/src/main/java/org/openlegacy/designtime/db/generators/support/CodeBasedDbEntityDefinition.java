@@ -11,6 +11,7 @@ import org.openlegacy.designtime.db.generators.DbPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.support.AbstractCodeBasedEntityDefinition;
 
 import java.io.File;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +24,7 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 
 	private Map<String, DbFieldDefinition> columnFields;
 	private List<ActionDefinition> actions;
+	private final Map<String, DbFieldDefinition> fieldsDefinitions = new LinkedHashMap<String, DbFieldDefinition>();
 
 	public CodeBasedDbEntityDefinition(DbPojoCodeModel codeModel, File packageDir) {
 		super(codeModel, packageDir);
@@ -78,8 +80,9 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 	 */
 	@Override
 	public Map<String, DbFieldDefinition> getFieldsDefinitions() {
-		throwNotImplemented();
-		return null;
+		// throwNotImplemented();
+		// return null;
+		return fieldsDefinitions;
 	}
 
 	/*

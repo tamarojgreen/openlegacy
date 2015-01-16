@@ -66,9 +66,10 @@
 
 	<bean id="screenPageBuilder" class="org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder" />
 	<bean id="rpcPageBuilder" class="org.openlegacy.rpc.layout.support.DefaultRpcPageBuilder" />
+	<bean id="dbPageBuilder" class="org.openlegacy.db.layout.support.DefaultDbPageBuilder" />
 
 	<bean id="screenPageGenerator" class="org.openlegacy.designtime.terminal.generators.ScreenEntityMvcGenerator" />
-	<bean id="rpcPageGenerator" class="org.openlegacy.designtime.rpc.generators.RpcEntityMvcGenerator" />
+	<bean id="rpcPageGenerator" class="org.openlegacy.designtime.rpc.generators.RpcEntityMvcGenerator" />	
 	
 	<bean id="helpGenerator" class="org.openlegacy.designtime.terminal.generators.HelpGenerator" />
 	<bean id="rpcHelpGenerator" class="org.openlegacy.designtime.rpc.generators.RpcHelpGenerator" />
