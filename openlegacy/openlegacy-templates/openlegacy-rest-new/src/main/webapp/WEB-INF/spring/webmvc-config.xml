@@ -49,6 +49,9 @@
 	<!-- Turns on support for mapping requests to Spring MVC @Controller methods 
 	Also registers default Formatters and Validators for use across all @Controllers -->
 	<mvc:annotation-driven conversion-service="applicationConversionService" />
+	
+	<!-- icons in openlegacy-web-resources.jar -->
+	<mvc:resources cache-period="86400" location="classpath:/icons/" mapping="/app/icons/**"/>
 
 	<!-- themes in from various openlegacy themes -->
 	<mvc:resources cache-period="86400" location="classpath:/themes/" mapping="/app/themes/**"/>	
