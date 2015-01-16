@@ -72,6 +72,7 @@ public class Activator extends AbstractUIPlugin {
 	public static final String ICON_ACTION = "action";//$NON-NLS-1$
 	public static final String ICON_BYTE = "byte";//$NON-NLS-1$
 	public static final String ICON_LIST = "list";//$NON-NLS-1$
+	public static final String ICON_MANY_TO_ONE = "manyToOne";//$NON-NLS-1$
 	// key fields icons
 	public static final String ICON_BOOLEAN_KEY = "boolean_key";//$NON-NLS-1$
 	public static final String ICON_DATE_KEY = "date_key";//$NON-NLS-1$
@@ -95,6 +96,7 @@ public class Activator extends AbstractUIPlugin {
 	public static final String ICON_ACTION_ERR = "action_err";//$NON-NLS-1$
 	public static final String ICON_BYTE_ERR = "byte_err";//$NON-NLS-1$
 	public static final String ICON_LIST_ERR = "list_err";//$NON-NLS-1$
+	public static final String ICON_MANY_TO_ONE_ERR = "manyToOne_err";//$NON-NLS-1$
 	// key field icons with validation errors
 	public static final String ICON_BOOLEAN_KEY_ERR = "boolean_key_err";//$NON-NLS-1$
 	public static final String ICON_DATE_KEY_ERR = "date_key_err";//$NON-NLS-1$
@@ -218,6 +220,7 @@ public class Activator extends AbstractUIPlugin {
 		registerImage(reg, ICON_ACTION, "fields/a.png");//$NON-NLS-1$
 		registerImage(reg, ICON_BYTE, "fields/bt.png");//$NON-NLS-1$
 		registerImage(reg, ICON_LIST, "fields/l.png");//$NON-NLS-1$
+		registerImage(reg, ICON_MANY_TO_ONE, "fields/m.png");//$NON-NLS-1$
 		// key fields icons
 		registerImage(reg, ICON_BOOLEAN_KEY, "fields/keys/b.png");//$NON-NLS-1$
 		registerImage(reg, ICON_DATE_KEY, "fields/keys/d.png");//$NON-NLS-1$
@@ -241,6 +244,7 @@ public class Activator extends AbstractUIPlugin {
 		registerImage(reg, ICON_ACTION_ERR, "fields/err/a.png");//$NON-NLS-1$
 		registerImage(reg, ICON_BYTE_ERR, "fields/err/bt.png");//$NON-NLS-1$
 		registerImage(reg, ICON_LIST_ERR, "fields/err/l.png");//$NON-NLS-1$
+		registerImage(reg, ICON_MANY_TO_ONE_ERR, "fields/err/m.png");//$NON-NLS-1$
 		// key fields icons with validation errors
 		registerImage(reg, ICON_BOOLEAN_KEY_ERR, "fields/keys/err/b.png");//$NON-NLS-1$
 		registerImage(reg, ICON_DATE_KEY_ERR, "fields/keys/err/d.png");//$NON-NLS-1$

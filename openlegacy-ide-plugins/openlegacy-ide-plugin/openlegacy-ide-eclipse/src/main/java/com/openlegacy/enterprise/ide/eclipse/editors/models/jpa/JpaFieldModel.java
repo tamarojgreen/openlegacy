@@ -55,6 +55,7 @@ public class JpaFieldModel extends JpaNamedObject {
 	protected String javaTypeName = String.class.getSimpleName();
 	protected String previousFieldName = Messages.getString("Field.new");//$NON-NLS-1$
 	protected boolean initialized = false;
+	protected Class<?> javaType = void.class;
 
 	public JpaFieldModel(NamedObject parent) {
 		super(Column.class.getSimpleName());

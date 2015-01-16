@@ -328,11 +328,10 @@ public class DbAnnotationsParserUtils {
 		String fetchValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.FETCH);
 		String optionalValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.OPTIONAL);
 
-		if (!StringUtils.isEmpty(targetEntityValue) || !StringUtils.isEmpty(cascadeValue) || !StringUtils.isEmpty(fetchValue)
-				|| !StringUtils.isEmpty(optionalValue)) {
-			definition = new SimpleDbManyToOneDefinition();
-		} else {
-			return null;
+		definition = new SimpleDbManyToOneDefinition();
+		if (StringUtils.isEmpty(targetEntityValue) && StringUtils.isEmpty(cascadeValue) && StringUtils.isEmpty(fetchValue)
+				&& StringUtils.isEmpty(optionalValue)) {
+			return definition;
 		}
 		if (!StringUtils.isEmpty(targetEntityValue)) {
 			definition.setTargetEntityClassName(StringUtil.toClassName(targetEntityValue));

@@ -10,6 +10,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaDateFieldMode
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaManyToOneFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.IOpenLegacyDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa.FieldsJpaBooleanFieldDetailsPage;
@@ -17,6 +18,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa.FieldsJpa
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa.FieldsJpaDateFieldDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa.FieldsJpaIntegerFieldDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa.FieldsJpaListFieldDetailsPage;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa.FieldsJpaManyToOneFieldDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa.FieldsJpaStringFieldDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.masters.jpa.helpers.FieldsCreator;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.masters.screen.helpers.IPartsMasterBlockCallback;
@@ -151,6 +153,7 @@ public class FieldsMasterBlock extends AbstractJpaEntityMasterBlock implements I
 		addNewIntegerFieldMenuItem(splitButton.getMenu());
 		addNewDateFieldMenuItem(splitButton.getMenu());
 		addNewListFieldMenuItem(splitButton.getMenu());
+		addNewManyToOneFieldMenuItem(splitButton.getMenu());
 
 		createRemoveButton(toolkit, composite);
 	}
@@ -169,6 +172,7 @@ public class FieldsMasterBlock extends AbstractJpaEntityMasterBlock implements I
 		detailsPages.add(new FieldsJpaIntegerFieldDetailsPage(this));
 		detailsPages.add(new FieldsJpaListFieldDetailsPage(this));
 		detailsPages.add(new FieldsJpaStringFieldDetailsPage(this));
+		detailsPages.add(new FieldsJpaManyToOneFieldDetailsPage(this));
 		for (IDetailsPage page : detailsPages) {
 			detailsPart.registerPage(((IOpenLegacyDetailsPage)page).getDetailsModel(), page);
 		}
@@ -249,6 +253,11 @@ public class FieldsMasterBlock extends AbstractJpaEntityMasterBlock implements I
 		// relevant for ScreenEntity editor
 	}
 
+	@Override
+	public void updateLabels() {
+		tableViewer.refresh();
+	}
+
 	private void tableViewerSetSelectionByLabel(String label) {
 		int itemCount = this.tableViewer.getTable().getItemCount();
 		if (itemCount > 0) {
@@ -305,6 +314,12 @@ public class FieldsMasterBlock extends AbstractJpaEntityMasterBlock implements I
 		MenuItem item = new MenuItem(menu, SWT.PUSH);
 		item.setText(Messages.getString("Button.add.list.field"));//$NON-NLS-1$
 		item.addSelectionListener(new CreateMenuItemSelectionAdapter(JpaListFieldModel.class));
+	}
+
+	private void addNewManyToOneFieldMenuItem(Menu menu) {
+		MenuItem item = new MenuItem(menu, SWT.PUSH);
+		item.setText(Messages.getString("Button.add.many.to.one.field"));//$NON-NLS-1$
+		item.addSelectionListener(new CreateMenuItemSelectionAdapter(JpaManyToOneFieldModel.class));
 	}
 
 	private void createRemoveButton(FormToolkit toolkit, Composite composite) {

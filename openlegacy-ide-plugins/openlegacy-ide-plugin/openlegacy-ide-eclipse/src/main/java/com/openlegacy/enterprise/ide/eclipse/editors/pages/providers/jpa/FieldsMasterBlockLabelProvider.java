@@ -6,6 +6,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaDateFieldMode
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaManyToOneFieldModel;
 
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
@@ -59,6 +60,11 @@ public class FieldsMasterBlockLabelProvider extends LabelProvider {
 			}
 			return (isKey) ? Activator.getDefault().getImage(Activator.ICON_LIST_KEY) : Activator.getDefault().getImage(
 					Activator.ICON_LIST);
+		} else if (element instanceof JpaManyToOneFieldModel) {
+			if (!((JpaManyToOneFieldModel)element).getValidationMessages().isEmpty()) {
+				return Activator.getDefault().getImage(Activator.ICON_MANY_TO_ONE_ERR);
+			}
+			return Activator.getDefault().getImage(Activator.ICON_MANY_TO_ONE);
 		} else if (element instanceof JpaFieldModel) {
 			boolean isKey = ((JpaFieldModel)element).isKey();
 			if (!((JpaFieldModel)element).getValidationMessages().isEmpty()) {
