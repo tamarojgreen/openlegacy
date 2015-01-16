@@ -7,6 +7,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaJoinColumnModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaManyToOneFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaManyToOneModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaNavigationModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaTableModel;
@@ -171,6 +172,12 @@ public class ModelUpdater {
 						: new CascadeType[] { CascadeType.valueOf(text) });
 			} else if (key.equals(DbAnnotationConstants.FETCH)) {
 				model.setFetch(StringUtils.isEmpty(text) ? FetchType.LAZY : FetchType.valueOf(text));
+			} else if (key.equals(Constants.JAVA_TYPE)) {
+				((JpaManyToOneFieldModel)model.getParent()).setJavaTypeName(text);
+				if (fullyQualifiedName != null) {
+					Class<?> clazz = Utils.getClazz(fullyQualifiedName);
+					((JpaManyToOneFieldModel)model.getParent()).setJavaType(clazz);
+				}
 			}
 		}
 		if (selection != null) {

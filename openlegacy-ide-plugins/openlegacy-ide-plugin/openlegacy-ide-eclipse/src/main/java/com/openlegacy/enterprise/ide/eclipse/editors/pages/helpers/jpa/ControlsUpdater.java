@@ -201,6 +201,8 @@ public class ControlsUpdater {
 			Text text = mapTexts.get(key);
 			if (key.equals(DbAnnotationConstants.TARGET_ENTITY)) {
 				text.setText(model.getTargetEntityClassName());
+			} else if (key.equals(Constants.JAVA_TYPE)) {
+				text.setText(((JpaFieldModel)model.getParent()).getJavaTypeName());
 			}
 		}
 		// update CheckBox controls

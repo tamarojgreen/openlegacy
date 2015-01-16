@@ -131,17 +131,13 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 				JpaEntityUtils.<AbstractAction> getActionList(entity, ASTNode.FIELD_DECLARATION,
 						new ActionType[] { ActionType.ADD }));
 
-		// before modifying screen field annotation properties we should change field name if appropriate actions are exist
+		// before modifying jpa field name we should change field type if appropriate actions are exist
 		List<ASTNode> nodeList = listRewriter.getRewrittenList();
 		for (ASTNode node : nodeList) {
 			if (node.getNodeType() == ASTNode.FIELD_DECLARATION) {
 				FieldDeclaration field = (FieldDeclaration)node;
-				// handle field declarations (in our case it is fieldName)
-				JpaEntityBuilder.INSTANCE.processJpaFieldDeclaration(ast, cu, rewriter, listRewriter, field, rootName,
-						JpaEntityUtils.<JpaFieldAction> getActionList(entity, ASTNode.FIELD_DECLARATION,
-								new ActionType[] { ActionType.MODIFY }));
 				// handle field parameterized type
-				JpaEntityBuilder.INSTANCE.processJpaFieldParameterizedType(
+				JpaEntityBuilder.INSTANCE.processJpaFieldType(
 						ast,
 						cu,
 						rewriter,
@@ -150,6 +146,21 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 						rootName,
 						JpaEntityUtils.<JpaFieldAction> getActionList(entity, ASTNode.FIELD_DECLARATION
 								| ASTNode.PARAMETERIZED_TYPE, new ActionType[] { ActionType.MODIFY }));
+				// handle field type (relates to ManyToOne)
+				JpaEntityBuilder.INSTANCE.processJpaFieldType(ast, cu, rewriter, listRewriter, field, rootName,
+						JpaEntityUtils.<JpaFieldAction> getActionList(entity, ASTNode.TYPE_DECLARATION,
+								new ActionType[] { ActionType.MODIFY }));
+			}
+		}
+		// before modifying jpa field annotation properties we should change field name if appropriate actions are exist
+		nodeList = listRewriter.getRewrittenList();
+		for (ASTNode node : nodeList) {
+			if (node.getNodeType() == ASTNode.FIELD_DECLARATION) {
+				FieldDeclaration field = (FieldDeclaration)node;
+				// handle field declarations (in our case it is fieldName)
+				JpaEntityBuilder.INSTANCE.processJpaFieldDeclaration(ast, cu, rewriter, listRewriter, field, rootName,
+						JpaEntityUtils.<JpaFieldAction> getActionList(entity, ASTNode.FIELD_DECLARATION,
+								new ActionType[] { ActionType.MODIFY }));
 			}
 		}
 

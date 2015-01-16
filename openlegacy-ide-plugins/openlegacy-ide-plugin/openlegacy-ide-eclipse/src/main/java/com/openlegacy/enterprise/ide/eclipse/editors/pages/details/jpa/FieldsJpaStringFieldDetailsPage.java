@@ -51,8 +51,6 @@ public class FieldsJpaStringFieldDetailsPage extends AbstractJpaFieldDetailsPage
 			return;
 		}
 		ControlsUpdater.updateJpaFieldDetailsControls(fieldModel, mapTexts, mapCheckBoxes, mapLabels);
-		ControlsUpdater.updateJpaManyToOneDetailsControls(fieldModel.getManyToOneModel(), mapTexts, mapCheckBoxes, mapCombos);
-		ControlsUpdater.updateJpaJoinColumnDetailsControls(fieldModel.getJoinColumnModel(), mapTexts, mapCheckBoxes);
 		revalidate();
 	}
 
@@ -61,11 +59,6 @@ public class FieldsJpaStringFieldDetailsPage extends AbstractJpaFieldDetailsPage
 		Map<String, Object> map = getValuesOfControlsForKey(key);
 		ModelUpdater.updateJpaFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE),
 				(Boolean)map.get(Constants.BOOL_VALUE));
-		ModelUpdater.updateJpaManyToOneModel(getEntity(), fieldModel.getManyToOneModel(), key,
-				(String)map.get(Constants.TEXT_VALUE), (Boolean)map.get(Constants.BOOL_VALUE),
-				(String)map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
-		ModelUpdater.updateJpaJoinColumnModel(getEntity(), fieldModel.getJoinColumnModel(), key,
-				(String)map.get(Constants.TEXT_VALUE), (Boolean)map.get(Constants.BOOL_VALUE));
 	}
 
 	@Override
@@ -80,11 +73,6 @@ public class FieldsJpaStringFieldDetailsPage extends AbstractJpaFieldDetailsPage
 		} else {
 			fieldModel = null;
 		}
-	}
-
-	@Override
-	protected boolean isAddManyToOneSection() {
-		return true;
 	}
 
 }

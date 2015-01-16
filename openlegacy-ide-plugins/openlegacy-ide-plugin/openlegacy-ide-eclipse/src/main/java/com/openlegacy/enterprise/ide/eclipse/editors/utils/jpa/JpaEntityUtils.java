@@ -12,6 +12,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaIdFieldActio
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaJoinColumnAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaListFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaManyToOneAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaManyToOneFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaNavigationAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaTableAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.ActionModel;
@@ -25,6 +26,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaJoinColumnModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaManyToOneFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaManyToOneModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaNavigationModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaTableModel;
@@ -420,26 +422,33 @@ public class JpaEntityUtils {
 		public static void generateJpaManyToOneAction(JpaEntity entity, JpaManyToOneModel model) {
 			boolean isPrevious = true;
 			boolean isDefault = true;
-			JpaFieldModel fieldModel = (JpaFieldModel)model.getParent();
-			JpaManyToOneModel entityModel = entity.getFields().get(fieldModel.getUUID()).getManyToOneModel();
-			// add @ManyToOne annotation
-			if (entityModel.isDefaultAttrs() && !model.isDefaultAttrs()) {
-				entity.addAction(new JpaManyToOneAction(model.getUUID(), fieldModel, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
-						DbAnnotationConstants.DB_MANY_TO_ONE_ANNOTATION, null));
-			}
-			// remove @ManyToOne annotation
-			if (!entityModel.isDefaultAttrs() && model.isDefaultAttrs()) {
-				entity.addAction(new JpaManyToOneAction(model.getUUID(), fieldModel, ActionType.REMOVE,
-						ASTNode.NORMAL_ANNOTATION, DbAnnotationConstants.DB_MANY_TO_ONE_ANNOTATION, null));
-			}
-			// remove add/remove @ManyToOne action
-			if (entityModel.equalsAttrs(model)) {
-				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_MANY_TO_ONE_ANNOTATION);
-			}
-			// if attrs are not default in editable model then delete "remove @ManyToOne" action
-			if (!model.isDefaultAttrs()) {
-				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_MANY_TO_ONE_ANNOTATION, ActionType.REMOVE);
-			}
+			JpaManyToOneFieldModel fieldModel = (JpaManyToOneFieldModel)model.getParent();
+			JpaManyToOneFieldModel entityFieldModel = (JpaManyToOneFieldModel)entity.getFields().get(fieldModel.getUUID());
+			JpaManyToOneModel entityModel = entityFieldModel.getManyToOneModel();
+			// // add @ManyToOne annotation
+			// if (entityModel.isDefaultAttrs() && !model.isDefaultAttrs()) {
+			// entity.addAction(new JpaManyToOneAction(model.getUUID(), fieldModel, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
+			// DbAnnotationConstants.DB_MANY_TO_ONE_ANNOTATION, null));
+			// }
+			// // remove @ManyToOne annotation
+			// if (!entityModel.isDefaultAttrs() && model.isDefaultAttrs()) {
+			// entity.addAction(new JpaManyToOneAction(model.getUUID(), fieldModel, ActionType.REMOVE,
+			// ASTNode.NORMAL_ANNOTATION, DbAnnotationConstants.DB_MANY_TO_ONE_ANNOTATION, null));
+			// }
+			// // remove add/remove @ManyToOne action
+			// if (entityModel.equalsAttrs(model)) {
+			// entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_MANY_TO_ONE_ANNOTATION);
+			// }
+			// // if attrs are not default in editable model then delete "remove @ManyToOne" action
+			// if (!model.isDefaultAttrs()) {
+			// entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_MANY_TO_ONE_ANNOTATION, ActionType.REMOVE);
+			// }
+
+			// javaType: default none;
+			isPrevious = StringUtils.equals(entityFieldModel.getJavaTypeName(), fieldModel.getJavaTypeName());
+			isDefault = StringUtils.equals(entityFieldModel.getJavaTypeName(), fieldModel.getJavaTypeName());
+			PrivateMethods.addRemoveJpaManyToOneFieldAction(entity, fieldModel, isPrevious, isDefault, ASTNode.TYPE_DECLARATION,
+					Constants.JAVA_TYPE, fieldModel.getJavaType());
 
 			// @ManyToOne.targetEntity: default void.class
 			isPrevious = StringUtils.equals(entityModel.getTargetEntityClassName(), model.getTargetEntityClassName());
@@ -617,6 +626,17 @@ public class JpaEntityUtils {
 				entity.addAction(new JpaActionsAction(model.getUUID(), model, ActionType.MODIFY, target, key, value));
 			} else if (!isPrevious && isDefault) {
 				entity.addAction(new JpaActionsAction(model.getUUID(), model, ActionType.REMOVE, target, key, null));
+			} else {
+				entity.removeAction(model.getUUID(), key);
+			}
+		}
+
+		private static void addRemoveJpaManyToOneFieldAction(JpaEntity entity, JpaManyToOneFieldModel model, boolean isPrevious,
+				boolean isDefault, int target, String key, Object value) {
+			if (!isPrevious && !isDefault) {
+				entity.addAction(new JpaManyToOneFieldAction(model.getUUID(), model, ActionType.MODIFY, target, key, value));
+			} else if (!isPrevious && isDefault) {
+				entity.addAction(new JpaManyToOneFieldAction(model.getUUID(), model, ActionType.REMOVE, target, key, null));
 			} else {
 				entity.removeAction(model.getUUID(), key);
 			}
@@ -808,6 +828,8 @@ public class JpaEntityUtils {
 				model = new JpaIntegerFieldModel(parent);
 			} else if (javaTypeName.equalsIgnoreCase(List.class.getSimpleName())) {
 				model = new JpaListFieldModel(parent);
+			} else if (fieldDefinition.getManyToOneDefinition() != null) {
+				model = new JpaManyToOneFieldModel(parent);
 			} else {
 				model = new JpaFieldModel(parent);
 			}

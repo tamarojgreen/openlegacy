@@ -11,6 +11,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaEntityAction
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaIntegerFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaListFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaManyToOneFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaNavigationAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaTableAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
@@ -18,6 +19,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaManyToOneFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.ASTUtils;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.AbstractEntityBuilder;
 
@@ -545,6 +547,13 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 					field.setType(listType);
 					ASTUtils.addImport(ast, cu, rewriter, List.class);
 				}
+				// ManyToOne field
+				if (action instanceof JpaManyToOneFieldAction) {
+					JpaManyToOneFieldModel model = (JpaManyToOneFieldModel)action.getNamedObject();
+					field.setType(ast.newSimpleType(ast.newSimpleName(model.getJavaType().getSimpleName())));
+					ASTUtils.addImport(ast, cu, rewriter, model.getJavaType());
+				}
+
 				// skip adding annotations
 				/*
 				 * // add @OneToMany annotation if (action instanceof JpaListFieldAction) {
@@ -627,7 +636,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void processJpaFieldParameterizedType(AST ast, CompilationUnit cu, ASTRewrite rewriter, ListRewrite listRewriter,
+	public void processJpaFieldType(AST ast, CompilationUnit cu, ASTRewrite rewriter, ListRewrite listRewriter,
 			FieldDeclaration field, String rootName, List<JpaFieldAction> list) {
 
 		// get field name
@@ -639,20 +648,35 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 
 		FieldDeclaration newField = null;
 		for (AbstractAction action : list) {
-			if ((PrivateMethods.isActionAvailableForField(action, rootName))
-					&& (action.getNamedObject() instanceof JpaListFieldModel)) {
-				JpaListFieldModel model = (JpaListFieldModel)action.getNamedObject();
-				// check whether is an action for current field
-				if (model.getPreviousFieldName().equals(fieldName)) {
-					if (newField == null) {
-						VariableDeclarationFragment fragment = ast.newVariableDeclarationFragment();
-						fragment.setName(ast.newSimpleName(fieldName));
-						newField = ast.newFieldDeclaration(fragment);
-						ParameterizedType listType = ast.newParameterizedType(ast.newSimpleType(ast.newSimpleName(List.class.getSimpleName())));
-						listType.typeArguments().add(
-								ast.newSimpleType(ast.newSimpleName(model.getFieldTypeArgsClass().getSimpleName())));
-						newField.setType(listType);
-						break;
+			if (PrivateMethods.isActionAvailableForField(action, rootName)) {
+				if (action.getNamedObject() instanceof JpaListFieldModel) {
+					JpaListFieldModel model = (JpaListFieldModel)action.getNamedObject();
+					// check whether is an action for current field
+					if (model.getPreviousFieldName().equals(fieldName)) {
+						if (newField == null) {
+							VariableDeclarationFragment fragment = ast.newVariableDeclarationFragment();
+							fragment.setName(ast.newSimpleName(fieldName));
+							newField = ast.newFieldDeclaration(fragment);
+							ParameterizedType listType = ast.newParameterizedType(ast.newSimpleType(ast.newSimpleName(List.class.getSimpleName())));
+							listType.typeArguments().add(
+									ast.newSimpleType(ast.newSimpleName(model.getFieldTypeArgsClass().getSimpleName())));
+							newField.setType(listType);
+							break;
+						}
+					}
+				} else if (action.getNamedObject() instanceof JpaManyToOneFieldModel) {
+					JpaFieldModel model = (JpaFieldModel)action.getNamedObject();
+					// check whether is an action for current field
+					if (model.getPreviousFieldName().equals(fieldName)) {
+						if (newField == null) {
+							VariableDeclarationFragment fragment = ast.newVariableDeclarationFragment();
+							fragment.setName(ast.newSimpleName(fieldName));
+							newField = ast.newFieldDeclaration(fragment);
+							Class<?> javaType = ((JpaManyToOneFieldModel)action.getNamedObject()).getJavaType();
+							newField.setType(ast.newSimpleType(ast.newSimpleName(javaType.getSimpleName())));
+							ASTUtils.addImport(ast, cu, rewriter, javaType);
+							break;
+						}
 					}
 				}
 			}

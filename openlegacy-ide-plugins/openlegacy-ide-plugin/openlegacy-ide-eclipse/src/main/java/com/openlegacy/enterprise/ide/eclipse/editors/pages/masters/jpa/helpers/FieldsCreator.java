@@ -9,6 +9,8 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDateFieldAct
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaIntegerFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaListFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaManyToOneAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaManyToOneFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaBooleanFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaByteFieldModel;
@@ -18,11 +20,13 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaManyToOneFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.masters.screen.helpers.IPartsMasterBlockCallback;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.jpa.JpaEntityUtils;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.openlegacy.designtime.db.generators.support.DbAnnotationConstants;
 
 import java.util.Iterator;
 import java.util.List;
@@ -59,6 +63,8 @@ public class FieldsCreator {
 			newModel = new JpaDateFieldModel(parent);
 		} else if (JpaListFieldModel.class.isAssignableFrom(modelClass)) {
 			newModel = new JpaListFieldModel(parent);
+		} else if (JpaManyToOneFieldModel.class.isAssignableFrom(modelClass)) {
+			newModel = new JpaManyToOneFieldModel(parent);
 		} else {
 			newModel = new JpaFieldModel(parent);
 		}
@@ -90,6 +96,14 @@ public class FieldsCreator {
 					ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
 			JpaEntityUtils.ActionGenerator.generateJpaFieldActions(entity, newModel);
 			JpaEntityUtils.ActionGenerator.generateJpaListFieldActions(entity, (JpaListFieldModel)newModel);
+		} else if (JpaManyToOneFieldModel.class.isAssignableFrom(modelClass)) {
+			entity.addAction(new JpaManyToOneFieldAction(newModel.getUUID(), (JpaManyToOneFieldModel)newModel, ActionType.ADD,
+					ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
+			entity.addAction(new JpaManyToOneAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
+					DbAnnotationConstants.DB_MANY_TO_ONE_ANNOTATION, null));
+			JpaEntityUtils.ActionGenerator.generateJpaFieldActions(entity, newModel);
+			JpaEntityUtils.ActionGenerator.generateJpaManyToOneAction(entity, newModel.getManyToOneModel());
+			JpaEntityUtils.ActionGenerator.generateJpaJoinColumnAction(entity, newModel.getJoinColumnModel());
 		} else {
 			entity.addAction(new JpaFieldAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.FIELD_DECLARATION,
 					newModel.getFieldName(), null));
