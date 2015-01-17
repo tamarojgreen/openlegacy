@@ -78,6 +78,25 @@ End use this definition to replay a mock-up session application -->
 	<!-- Uncomment for bidi support
 	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultBidiScreenPageBuilder" />
  	<bean id="menuOptionFinder" class="org.openlegacy.modules.support.menu.RightToLeftMenuOptionFinder" />
+
+	<bean id="elementsProvider" scope="prototype" class="org.openlegacy.terminal.web.render.support.DefaultBidiElementsProvider">
+		<property name="colorMapper">
+			<map>
+				<entry key="WHITE" value="black" />
+				<entry key="BLACK" value="white" />
+				<entry key="YELLOW" value="orange" />
+				<entry key="PINK" value="purple" />
+				<entry key="AQUA" value="#00E6FF" />
+			</map>
+		</property>
+		<property name="backcolorMapper">
+			<map>
+				<entry key="BLACK" value="white" />
+				<entry key="WHITE" value="black" />
+				<entry key="AQUA" value="#00E6FF" />
+			</map>
+		</property>
+	</bean>
 	End uncomment for bidi support -->
 	
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
