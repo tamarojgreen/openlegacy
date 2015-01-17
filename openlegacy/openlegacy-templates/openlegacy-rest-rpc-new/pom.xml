@@ -211,6 +211,13 @@
 			<version>49.1</version> 
 		</dependency>
  End uncomment for bidi support -->
+	<!-- Uncomment for mail support
+	<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+	-->
 	</dependencies>
 	<build>
 		<finalName>openlegacy-rest-rpc-new</finalName>

@@ -28,6 +28,7 @@ import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.support.SimpleEntityWrapper;
 import org.openlegacy.utils.ProxyUtil;
+import org.openlegacy.utils.UrlUtil;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.xml.sax.InputSource;
@@ -38,8 +39,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URLConnection;
 import java.text.MessageFormat;
 import java.util.List;
@@ -176,7 +175,7 @@ public abstract class AbstractRestController {
 		Navigation navigationModule = getSession().getModule(Navigation.class);
 		boolean isWindow = getEntitiesRegistry().get(entity.getClass()).isWindow();
 		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(entity, navigationModule != null ? navigationModule.getPaths()
-				: null, getActions(entity),isWindow);
+				: null, getActions(entity), isWindow);
 		return new ModelAndView(MODEL, MODEL, wrapper);
 	}
 
@@ -244,7 +243,7 @@ public abstract class AbstractRestController {
 
 	protected Object preSendJsonEntity(String entityName, String key, String json, HttpServletResponse response)
 			throws IOException {
-		json = decode(json, "{");
+		json = UrlUtil.decode(json, "{");
 
 		if (!authenticate(response)) {
 			return null;
@@ -291,7 +290,7 @@ public abstract class AbstractRestController {
 	private ModelAndView postEntityXmlInner(String entityName, String key, String action, String xml, HttpServletResponse response)
 			throws IOException {
 
-		xml = decode(xml, "<");
+		xml = UrlUtil.decode(xml, "<");
 
 		if (!authenticate(response)) {
 			return null;
@@ -318,19 +317,6 @@ public abstract class AbstractRestController {
 
 		Object resultEntity = sendEntity(entity, action);
 		return getEntityInner(resultEntity, false);
-	}
-
-	private static String decode(String content, String encodeIndicator) {
-		URI uri = null;
-		try {
-			if (content.length() > 0 && !content.contains(encodeIndicator)) {
-				uri = new URI(content);
-				content = uri.getPath();
-			}
-		} catch (URISyntaxException e) {
-			throw (new RuntimeException(e));
-		}
-		return content;
 	}
 
 	/**
@@ -374,7 +360,7 @@ public abstract class AbstractRestController {
 	}
 
 	public Object loginPostJson(String json, HttpServletResponse response) throws IOException {
-		json = decode(json, "{");
+		json = UrlUtil.decode(json, "{");
 		if (!enableLogin) {
 			throw (new UnsupportedOperationException("/login is not support"));
 		}
@@ -403,7 +389,7 @@ public abstract class AbstractRestController {
 	}
 
 	public Object loginPostXml(String xml, HttpServletResponse response) throws IOException {
-		xml = decode(xml, "{");
+		xml = UrlUtil.decode(xml, "{");
 		if (!enableLogin) {
 			throw (new UnsupportedOperationException("/login is not support"));
 		}

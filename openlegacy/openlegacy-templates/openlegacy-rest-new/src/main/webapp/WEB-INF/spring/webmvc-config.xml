@@ -30,6 +30,21 @@
 			type="annotation" />
 	</context:component-scan>
 	
+	<!-- mail controller
+ 	<context:component-scan base-package="org.openlegacy.mvc.mail"
+		use-default-filters="false" resource-pattern="*.class">
+		<context:include-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
+	 -->	
+	
+	<!-- mail controller
+ 	<context:component-scan base-package="org.openlegacy.mvc.mail"
+		use-default-filters="false" resource-pattern="*.class">
+		<context:include-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
+	 -->	
 	<context:component-scan base-package="org.openlegacy.terminal.spa"
 		use-default-filters="false" resource-pattern="*.class">
 		<context:include-filter expression="org.springframework.stereotype.Controller"
