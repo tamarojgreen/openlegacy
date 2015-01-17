@@ -290,7 +290,7 @@
 									$state.go("emulation");
 									return;
 								}
-								if (data.model.entityName == '${entityDefinition.entityName}'){
+								if (data.model.entityName == entityName){
 									$rootScope.hidePreloader();
 									$scope.model = data.model.entity;								
 								} else {
@@ -419,7 +419,7 @@
 									$state.go("emulation");
 									return;
 								}
-								if (data.model.entityName == '${entityName}'){
+								if (data.model.entityName == entityName){
 									$rootScope.hidePreloader();
 									$scope.model = data.model.entity;								
 								} else {
