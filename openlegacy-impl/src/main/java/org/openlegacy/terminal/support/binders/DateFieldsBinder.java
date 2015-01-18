@@ -172,6 +172,9 @@ public class DateFieldsBinder implements ScreenEntityBinder, Serializable {
 
 			Date dateFieldValue = (Date)fieldAccessor.evaluateFieldValue(fieldDefinition.getName());
 
+			if (dateFieldValue == null) {
+				continue;
+			}
 			Calendar calender = Calendar.getInstance();
 			calender.setTime(dateFieldValue);
 
