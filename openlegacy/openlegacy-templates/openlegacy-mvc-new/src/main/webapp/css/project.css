@@ -1,52 +1,52 @@
-.black{
+div .black{
 	color:black;	
 }
-.blue{
+div .blue{
 	color:blue;
 }
-.green{
+div .green{
 	color:green;
 }
-.aqua{
+div .aqua{
 	color: aqua;
 }
-.red{
+div .red{
 	color:red;
 }
-.purple{
+div .purple{
 	color: purple;	
 }
 
-.brown{
+div .brown{
 	color:brown;
 }
-.white{
+div .white{
 	color: white;
 }
-.gray{
+div .gray{
 	color: gray;
 }
 
-.light_blue{
+div .light_blue{
 	color: lightblue;
 }
 ,
-.light_green{
+div .light_green{
 	color:lightgreen;
 }
-.light_aqua{
+div .light_aqua{
 	color:aqua;
 }
-.light_red{
+div .light_red{
 	color: red;
 }
-.pink{
+div .pink{
 	color: pink;
 }
-.yellow{
+div .yellow{
 	color:yellow;
 }
-.light_white{
+div .light_white{
 	color: white;
 }
 
