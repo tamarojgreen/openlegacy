@@ -40,6 +40,9 @@ public class BidiTerminalFieldSplitter implements TerminalFieldSplitter {
 			part = BidiUtil.convertToLogical(part, false);
 			FieldSplitterUtil.addSplittedField(terminalField, part, fields, index, screenSize);
 		}
+		if (fields.size() == 0) {
+			fields.add(terminalField);
+		}
 		return fields;
 	}
 }

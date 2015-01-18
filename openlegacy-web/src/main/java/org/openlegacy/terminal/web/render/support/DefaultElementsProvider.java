@@ -132,7 +132,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 		return input;
 	}
 
-	private void populateCommonAttributes(Element element, TerminalField field) {
+	protected void populateCommonAttributes(Element element, TerminalField field) {
 		String value = field.getValue();
 
 		int top = getProportionHandler().toHeight(field.getPosition().getRow());
@@ -283,7 +283,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 				textarea.setAttribute(
 						HtmlConstants.STYLE,
 						MessageFormat.format("{0};height:{1}px", textarea.getAttribute(HtmlConstants.STYLE),
-								String.valueOf(getProportionHandler().toHeight(rows+1)-5)));
+								String.valueOf(getProportionHandler().toHeight(rows + 1) - 5)));
 				;
 			} else {
 				textarea.setAttribute(HtmlConstants.ROWS, "1");
