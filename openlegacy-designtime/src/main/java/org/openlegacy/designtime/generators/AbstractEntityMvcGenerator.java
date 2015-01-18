@@ -50,7 +50,8 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 	@Inject
 	private GenerateUtil generateUtil;
 
-	public abstract void generateHelp(PageDefinition pageDefinition, OutputStream out) throws TemplateException, IOException;
+	public abstract void generateHelp(PageDefinition pageDefinition, OutputStream out, File projectPath)
+			throws TemplateException, IOException;
 
 	/**
 	 * Generate all web page related content: jspx, controller, controller aspect file, and views.xml file
@@ -85,7 +86,7 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 					helpFile.getParentFile().mkdirs();
 					OutputStream out = new FileOutputStream(helpFile);
 					try {
-						generateHelp(pageDefinition, out);
+						generateHelp(pageDefinition, out, generateViewRequest.getProjectPath());
 
 					} finally {
 						IOUtils.closeQuietly(out);

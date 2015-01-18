@@ -21,9 +21,11 @@
 		<hr/>
 		<#list pagePart.partRows as partRow>
 			<#list partRow.fields as field>
-		<div>
-			<label>${field.displayName}:</label><span><#if field.helpText??>${field.helpText}<#else>Description for ${field.displayName}</#if></span>
-		</div>
+			<#if field??>
+			<div>
+				<label>${field.displayName}:</label><span><#if field.helpText??>${field.helpText}<#else>Description for ${field.displayName}</#if></span>
+			</div>
+			</#if>
 			</#list>
 		</#list>
 		<#if pagePart.tableDefinition??>

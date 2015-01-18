@@ -19,6 +19,7 @@ import org.openlegacy.EntityDefinition;
 import org.openlegacy.definitions.page.support.SimplePageDefinition;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.generators.AbstractEntityMvcGenerator;
+import org.openlegacy.designtime.generators.ProjectUtil;
 import org.openlegacy.designtime.mains.GenerateControllerRequest;
 import org.openlegacy.designtime.mains.GenerateViewRequest;
 import org.openlegacy.exceptions.GenerationException;
@@ -130,8 +131,11 @@ public class RpcEntityMvcGenerator extends AbstractEntityMvcGenerator implements
 	}
 
 	@Override
-	public void generateHelp(PageDefinition pageDefinition, OutputStream out) throws TemplateException, IOException {
+	public void generateHelp(PageDefinition pageDefinition, OutputStream out, File projectPath) throws TemplateException,
+	IOException {
 		helpGenerator.generate(pageDefinition, out);
+		ProjectUtil.generatEclipseEncodingSettings(projectPath,
+				MessageFormat.format("/src/main/webapp/help/{0}.html", pageDefinition.getEntityDefinition().getEntityName()));
 	}
 
 }
