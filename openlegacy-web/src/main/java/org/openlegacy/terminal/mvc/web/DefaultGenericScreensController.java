@@ -105,18 +105,26 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 	}
 
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST)
-	public String postEntity(@PathVariable("entity") String screenEntityName,
+	public String postEntity(@PathVariable("entity") String entityName,
 			@RequestParam(defaultValue = "", value = ACTION) String action,
 			@RequestParam(value = "partial", required = false) String partial,
 			@RequestParam(value = TARGET, required = false) String target, HttpServletRequest request,
 			HttpServletResponse response, Model uiModel) throws IOException {
+		return postEntityWithKey(entityName, null, action, partial, target, request, response, uiModel);
+	}
 
-		Class<?> entityClass = findAndHandleNotFound(screenEntityName, response);
+	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[:-_ ,]*[\\w\\p{L}]+]+}", method = RequestMethod.POST)
+	public String postEntityWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
+			@RequestParam(defaultValue = "", value = ACTION) String action,
+			@RequestParam(value = "partial", required = false) String partial,
+			@RequestParam(value = TARGET, required = false) String target, HttpServletRequest request,
+			HttpServletResponse response, Model uiModel) throws IOException {
+		Class<?> entityClass = findAndHandleNotFound(entityName, response);
 		if (entityClass == null) {
 			return null;
 		}
 
-		ScreenEntity screenEntity = (ScreenEntity)getSession().getEntity(screenEntityName);
+		ScreenEntity screenEntity = (ScreenEntity)getSession().getEntity(entityName, key);
 		boolean isPartial = request.getParameter("partial") != null;
 		if (screenEntity == null) {
 			ScreenEntity currentEntity = getSession().getEntity();

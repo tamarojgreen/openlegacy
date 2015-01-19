@@ -19,7 +19,7 @@ public class EnumPropertyAdapter extends PropertyEditorSupport {
 		Object[] enums = ((EnumFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition()).getEnumClass().getEnumConstants();
 		for (Object object : enums) {
 			if (object instanceof EnumGetValue) {
-				if (object.toString().equals(text)) {
+				if (object.toString().equals(text) || ((EnumGetValue)object).getValue().equals(text)) {
 					setValue(object);
 					break;
 				}
