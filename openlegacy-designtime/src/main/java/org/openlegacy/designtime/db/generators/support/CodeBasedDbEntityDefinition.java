@@ -141,8 +141,12 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 
 	@Override
 	public String getPluralName() {
-		throwNotImplemented();
-		return null;
+		return getCodeModel().getPluralName();
+	}
+
+	@Override
+	public String getEntityName() {
+		return getCodeModel().getEntityName();
 	}
 
 }

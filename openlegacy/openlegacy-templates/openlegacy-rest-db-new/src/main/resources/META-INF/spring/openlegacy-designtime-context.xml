@@ -12,6 +12,6 @@
 
 	<import resource="classpath*:/openlegacy-default-designtime-context.xml" />
 
-	<bean id="dbPageGenerator" class="org.openlegacy.designtime.rpc.generators.DbEntitySpaGenerator" />
+	<bean id="dbPageGenerator" class="org.openlegacy.designtime.db.generators.DbEntitySpaGenerator" />
 	 
 </beans>

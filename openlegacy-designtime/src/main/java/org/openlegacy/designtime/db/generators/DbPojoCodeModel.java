@@ -34,6 +34,8 @@ public interface DbPojoCodeModel extends PojoCodeModel {
 
 	String getName();
 
+	String getPluralName();
+
 	DbTableDefinition getTableDefinition();
 
 	Map<String, ColumnField> getColumnFields();

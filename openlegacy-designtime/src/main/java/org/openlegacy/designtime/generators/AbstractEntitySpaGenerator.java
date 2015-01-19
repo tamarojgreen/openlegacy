@@ -38,7 +38,7 @@ import javax.inject.Inject;
  */
 public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator {
 
-	private static final String SETTINGS_ORG_ECLIPSE_CORE_RESOURCES_PREFS = ".settings/org.eclipse.core.resources.prefs";
+	protected static final String SETTINGS_ORG_ECLIPSE_CORE_RESOURCES_PREFS = ".settings/org.eclipse.core.resources.prefs";
 	private static final String CONTROLLER_CODE_PLACE_HOLDER_START = "/* Controller code place-holder start";
 	private static final String CONTROLLER_CODE_PLACE_HOLDER_END = "Controller code place-holder end */";
 

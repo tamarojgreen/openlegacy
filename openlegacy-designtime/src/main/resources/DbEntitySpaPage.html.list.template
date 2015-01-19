@@ -1,18 +1,5 @@
-<div ng-switch on="currentAction">
-	<div ng-switch-when="READ">
-		<#assign isUPDATEAction = false>
-		<@actionToolbar entity=entityDefinition allowCREATE=false allowREAD=false/>
-		<@entityDetails entity=entityDefinition/>
-	</div>	
-	<div ng-switch-when="CREATE">
-		<@actionToolbar entity=entityDefinition allowCREATE=false allowREAD=false allowDELETE=false/>
-		<@entityDetails entity=entityDefinition isCREATEAction=true/>
-	</div>
-	<div ng-switch-default>
-		<@generateTable entity=entityDefinition/>
-	</div>
-</div>
 
+<@generateTable entity=entityDefinition/>
 
 <#macro actionToolbar entity allowCREATE=true allowREAD=true allowUPDATE=true allowDELETE=true>	
 	<#if (entity.actions?size > 0)>
