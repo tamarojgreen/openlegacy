@@ -90,4 +90,6 @@ public interface DesignTimeExecuter {
 
 	public ServiceType getServiceType(File projectPath);
 
+	public void obfuscateTrail(File osLocation);
+
 }

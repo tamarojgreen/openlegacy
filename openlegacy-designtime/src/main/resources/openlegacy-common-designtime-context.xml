@@ -125,5 +125,23 @@
 	<bean id="cobolNameRecognizer" class="org.openlegacy.designtime.rpc.source.parsers.DefaultCobolNameRecognizer"/>
 	<bean id="copyBookFetcher" class="org.openlegacy.designtime.rpc.source.parsers.DefaultCopyBookFetcher"/>
 	<bean id="CobolLocalPartNamesFethcher" class="org.openlegacy.designtime.rpc.source.parsers.DefaultCobolLocalPartNamesFethcher"/>
+
+	<bean id="trailObfuscator" class="org.openlegacy.terminal.support.obfuscator.DefaultTrailObfuscator">
+	    <property name="regExps">
+	        <list>
+	            <!-- number with ,.- chars -->
+	            <value>\s*[-\.]*[\d]+[\d\.,-]+\s*</value>
+	            <!-- Any long(8) sequence international text/numbers without spaces -->
+        		<value>\s*[\w\p{L}0-9]{8,}\s</value>
+	        </list>
+	    </property>
+	    <property name="charObfuscators">
+	        <list>
+	            <bean class="org.openlegacy.terminal.support.obfuscator.NumberObfuscator" />
+	            <bean class="org.openlegacy.terminal.support.obfuscator.EnglishUpperCaseObfuscator" />
+	            <bean class="org.openlegacy.terminal.support.obfuscator.EnglishLowerCaseObfuscator" />
+           	</list>
+	    </property>
+   	</bean>	
 	
 </beans>

@@ -389,4 +389,7 @@ public class EclipseDesignTimeExecuter {
 		}
 	}
 
+	public void obfuscateTrail(IFile trailFile) {
+		designTimeExecuter.obfuscateTrail(PathsUtil.toOsLocation(trailFile));
+	}
 }

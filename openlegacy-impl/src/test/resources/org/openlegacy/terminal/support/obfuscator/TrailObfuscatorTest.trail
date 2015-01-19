@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<terminal-trail>
+	<snapshot type="INCOMING" sequence="1">
+	    <row rowNumber="1">
+	        <field value="title no mix" column="15" />
+	    </row>
+	    <row rowNumber="2">
+	        <field value="number:" column="15" />
+	        <field value="1,234.00" column="25" />
+	    </row>
+	    <row rowNumber="3">
+	        <field value="input mix:" column="15" />
+	        <field value="john doe" editable="true" column="25" />
+	    </row>
+	    <row rowNumber="4">
+	        <field value="empty input no mix:" column="15" />
+	        <field value="  " column="40" editable="true" />
+	    </row>
+	    <size rows="24" columns="80"/>
+	</snapshot>
+	<snapshot type="OUTGOING" sequence="2" command="[enter]">
+	    <row rowNumber="1">
+	        <field value="title no mix" column="15" />
+	    </row>
+	    <row rowNumber="2">
+	        <field value="number:" column="15" />
+	        <field value="1,234.00" column="25" />
+	    </row>
+	    <row rowNumber="3">
+	        <field value="input mix:" column="15" />
+	        <field value="jon doey" editable="true" column="25" modified="true"/>
+	    </row>
+	    <row rowNumber="4">
+	        <field value="empty input no mix:" column="15" />
+	        <field value="  " column="40" editable="true" />
+	    </row>
+	    <size rows="24" columns="80"/>
+	</snapshot>
+</terminal-trail>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<terminal-trail>
+    <snapshot sequence="1" type="INCOMING">
+        <row rowNumber="1">
+            <field column="15" value="title no mix"/>
+        </row>
+        <row rowNumber="2">
+            <field column="15" value="number:"/>
+            <field column="25" value="8,330.03" modified="true"/>
+        </row>
+        <row rowNumber="3">
+            <field column="15" value="input mix:"/>
+            <field column="25" value="kxty qhj" modified="true" editable="true"/>
+        </row>
+        <row rowNumber="4">
+            <field column="15" value="empty input no mix:"/>
+            <field column="40" value="  " modified="true" editable="true"/>
+        </row>
+        <size rows="24" columns="80"/>
+    </snapshot>
+    <snapshot sequence="2" type="OUTGOING" command="[enter]">
+        <row rowNumber="1">
+            <field column="15" value="title no mix" modified="true"/>
+        </row>
+        <row rowNumber="2">
+            <field column="15" value="number:" modified="true"/>
+            <field column="25" value="8,330.03" modified="true"/>
+        </row>
+        <row rowNumber="3">
+            <field column="15" value="input mix:" modified="true"/>
+            <field column="25" value="jon doey" modified="true" editable="true"/>
+        </row>
+        <row rowNumber="4">
+            <field column="15" value="empty input no mix:" modified="true"/>
+            <field column="40" value="  " modified="true" editable="true"/>
+        </row>
+        <size rows="24" columns="80"/>
+    </snapshot>
+</terminal-trail>

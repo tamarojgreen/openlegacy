@@ -60,6 +60,25 @@
 			</action>
 		</objectContribution>
 		<objectContribution
+			objectClass="org.eclipse.core.resources.IFile"
+			nameFilter="*.trail"
+			id="org.openlegacy.ide.eclipse.generate_trail_contribution">
+			<menu
+				label="%openlegacy_menu_label"
+				path="additions"
+				id="org.openlegacy.ide.eclipse.right_menu">
+				<separator name="generate">
+				</separator>
+			</menu>
+			<action
+				label="%obfuscate_trail_file"
+				class="org.openlegacy.ide.eclipse.actions.screen.ObfuscateTrailAction"
+				menubarPath="org.openlegacy.ide.eclipse.right_menu/obfuscate"
+				enablesFor="1"
+				id="org.openlegacy.ide.eclipse.actions.obfuscateTrail">
+			</action>
+		</objectContribution>
+		<objectContribution
 			objectClass="org.eclipse.jdt.core.ICompilationUnit"
 			id="org.openlegacy.ide.eclipse.generate_view">
 			<menu

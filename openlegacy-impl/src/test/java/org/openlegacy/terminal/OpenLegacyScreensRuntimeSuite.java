@@ -35,21 +35,22 @@ import org.openlegacy.terminal.support.binders.ListFieldTest;
 import org.openlegacy.terminal.support.binders.ScreenEntityFieldAttributeTest;
 import org.openlegacy.terminal.support.binders.ScreenEntityTablesBinderTest;
 import org.openlegacy.terminal.support.binders.ScreenExpressionFieldsBinderTest;
+import org.openlegacy.terminal.support.obfuscator.TrailObfuscatorTest;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ RegistryTest.class, TerminalEqualsHashcodeTest.class, MockTerminalSessionSystemTest.class,
-	DefaultTerminalSessionKeysTest.class, RecognizersSuite.class, XmlTrailWriterTest.class, DefaultLoginModuleTest.class,
-	DefaultLoginModuleFailedTest.class, DefaultTerminalMessagesModuleTest.class, DefaultTerminalSessionTest.class,
-	WindowTest.class, DefaultSessionNavigatorTest.class, MockTerminalConnectionTest.class, MockTerminalSessionTest.class,
-	ScreenEntityTablesBinderTest.class, TableMultiLineTest.class, DateFieldsBinderTest.class, BooleanFieldsBinderTest.class,
-	DefaultNavigationModuleTest.class, DefaultTableDrilldownPerformerTest.class, DefaultTerminalMenuModuleTest.class,
-	MockStateMachineTerminalConnection2Test.class, DefaultScreenPageBuilderTest.class,
-		DefaultBidiScreenPageBuilderTest.class, DefaultScreenRecordsProviderTest.class, TerminalSnapshotImageRendererTest.class,
-		CustomBinderTest.class, MultyLineFieldTest.class, DefaultSessionsManagerTest.class, ListFieldTest.class,
-		ScreenEntityFieldAttributeTest.class, ConditionalFieldTest.class, ConditionalFieldTest.class, RpcRegistryTest.class,
-		RpcMockConnectionTest.class, RpcTrailSerializeTest.class, SimpleTerminalSessionPoolTest.class,
-		ScreenExpressionFieldsBinderTest.class })
+		DefaultTerminalSessionKeysTest.class, RecognizersSuite.class, XmlTrailWriterTest.class, DefaultLoginModuleTest.class,
+		DefaultLoginModuleFailedTest.class, DefaultTerminalMessagesModuleTest.class, DefaultTerminalSessionTest.class,
+		WindowTest.class, DefaultSessionNavigatorTest.class, MockTerminalConnectionTest.class, MockTerminalSessionTest.class,
+		ScreenEntityTablesBinderTest.class, TableMultiLineTest.class, DateFieldsBinderTest.class, BooleanFieldsBinderTest.class,
+		DefaultNavigationModuleTest.class, DefaultTableDrilldownPerformerTest.class, DefaultTerminalMenuModuleTest.class,
+		MockStateMachineTerminalConnection2Test.class, DefaultScreenPageBuilderTest.class,
+	DefaultBidiScreenPageBuilderTest.class, DefaultScreenRecordsProviderTest.class, TerminalSnapshotImageRendererTest.class,
+	CustomBinderTest.class, MultyLineFieldTest.class, DefaultSessionsManagerTest.class, ListFieldTest.class,
+	ScreenEntityFieldAttributeTest.class, ConditionalFieldTest.class, ConditionalFieldTest.class, RpcRegistryTest.class,
+	RpcMockConnectionTest.class, RpcTrailSerializeTest.class, SimpleTerminalSessionPoolTest.class,
+	ScreenExpressionFieldsBinderTest.class, TrailObfuscatorTest.class })
 public class OpenLegacyScreensRuntimeSuite {
 
 }

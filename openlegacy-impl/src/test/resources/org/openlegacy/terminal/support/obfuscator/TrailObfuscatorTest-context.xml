@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<bean class="org.openlegacy.terminal.support.obfuscator.DefaultTrailObfuscator">
+	    <property name="regExps">
+	        <list>
+	            <!-- number with ,.- chars -->
+	            <value>\s*[-\.]*[\d]+[\d\.,-]+\s*</value>
+	            <!-- Any long(8) sequence international text/numbers without spaces -->
+        		<value>\s*[\w\p{L}0-9]{8,}\s</value>
+	        </list>
+	    </property>
+	    <property name="charObfuscators">
+	        <list>
+	            <bean class="org.openlegacy.terminal.support.obfuscator.NumberObfuscator" />
+	            <bean class="org.openlegacy.terminal.support.obfuscator.EnglishUpperCaseObfuscator" />
+	            <bean class="org.openlegacy.terminal.support.obfuscator.EnglishLowerCaseObfuscator" />
+           	</list>
+	    </property>
+   	</bean>	
+</beans>
