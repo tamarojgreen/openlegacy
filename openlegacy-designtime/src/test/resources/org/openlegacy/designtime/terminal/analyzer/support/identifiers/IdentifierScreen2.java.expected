@@ -1,0 +1,22 @@
+package com.test;
+
+import org.openlegacy.annotations.screen.*;
+
+@ScreenEntity()
+@ScreenIdentifiers(identifiers = { 
+				@Identifier(row = 1, column = 2, value = "PPRT708V  "), 
+				@Identifier(row = 5, column = 21, value = "Policy Number"), 
+				@Identifier(row = 5, column = 36, value = "CT") 
+				})
+public class TransactionType {
+    
+	
+	@ScreenField(row = 7, column = 31, endColumn= 33 ,labelColumn= 21 ,editable= true ,displayName = "Initials", sampleValue = "DXL")
+    private String initials;
+
+
+    
+
+
+ 
+}

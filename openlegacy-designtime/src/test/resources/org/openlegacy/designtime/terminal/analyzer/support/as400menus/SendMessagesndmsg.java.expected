@@ -6,7 +6,7 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
 @ScreenEntity()
 @ScreenIdentifiers(identifiers = { 
-				@Identifier(row = 1, column = 20, value = "           Send Message (SNDMSG)           "), 
+				@Identifier(row = 1, column = 31, value = "Send Message (SNDMSG)           "), 
 				@Identifier(row = 5, column = 2, value = "Message text . . . . . . . . . ."), 
 				@Identifier(row = 12, column = 2, value = "To user profile  . . . . . . . .") 
 				})
