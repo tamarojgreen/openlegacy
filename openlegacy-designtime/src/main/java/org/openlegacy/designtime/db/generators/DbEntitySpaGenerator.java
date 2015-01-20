@@ -49,9 +49,12 @@ public class DbEntitySpaGenerator extends AbstractEntitySpaGenerator implements 
 	@Override
 	public void generatePage(PageDefinition pageDefinition, OutputStream output, String templateDirectoryPrefix)
 			throws GenerationException {
-		String typeName = MessageFormat.format("{0}{1}", templateDirectoryPrefix,
-				pageDefinition.getEntityDefinition().getTypeName());
-		getGenerateUtil().generate(pageDefinition, output, "DbEntitySpaPage.html.list.template", typeName);
+		String typeListName = MessageFormat.format("{0}{1}", templateDirectoryPrefix,
+				((DbEntityDefinition)pageDefinition.getEntityDefinition()).getPluralName().trim().replace(" ", ""));
+		getGenerateUtil().generate(pageDefinition, output, "DbEntitySpaPage.html.list.template", typeListName);
+		String typeEditName = MessageFormat.format("{0}{1}", templateDirectoryPrefix,
+				pageDefinition.getEntityDefinition().getEntityClassName());
+		getGenerateUtil().generate(pageDefinition, output, "DbEntitySpaPage.html.edit.template", typeEditName);
 
 	}
 
@@ -132,5 +135,32 @@ public class DbEntitySpaGenerator extends AbstractEntitySpaGenerator implements 
 			fileContent = MessageFormat.format("{0}\nencoding//src/main/webapp/app/views/{1}.html=UTF8", fileContent, fileName);
 		}
 		FileUtils.write(encodingFile, fileContent);
+	}
+
+	@Override
+	public void generateView(GenerateViewRequest generateViewRequest,
+			EntityDefinition<?> entityDefinition, String fileName)
+			throws GenerationException {
+		getGenerateUtil().setTemplateDirectory(generateViewRequest.getTemplatesDirectory());
+
+		UserInteraction userInteraction = generateViewRequest.getUserInteraction();
+		FileOutputStream fos = null;
+		try {
+
+			PageDefinition pageDefinition = buildPage(entityDefinition);
+
+			// generate web view
+			generateView(generateViewRequest, pageDefinition, SpaGenerateUtil.VIEWS_DIR, userInteraction, false,
+					fileName);
+
+			generateEclipseEncodingSettings(generateViewRequest, entityDefinition,
+					fileName);
+
+		} catch (Exception e) {
+			throw (new GenerationException(e));
+		} finally {
+			IOUtils.closeQuietly(fos);
+		}
+		
 	}
 }

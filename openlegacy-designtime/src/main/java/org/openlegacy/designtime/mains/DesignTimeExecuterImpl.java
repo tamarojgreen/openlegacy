@@ -22,12 +22,14 @@ import org.openlegacy.EntityDefinition;
 import org.openlegacy.annotations.db.DbEntity;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
 import org.openlegacy.designtime.analyzer.TextTranslator;
 import org.openlegacy.designtime.db.generators.DbEntityPageGenerator;
+import org.openlegacy.designtime.db.generators.DbEntitySpaGenerator;
 import org.openlegacy.designtime.db.generators.DbPojosAjGenerator;
 import org.openlegacy.designtime.db.generators.support.DbAnnotationConstants;
 import org.openlegacy.designtime.db.generators.support.DbCodeBasedDefinitionUtils;
@@ -984,7 +986,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		} else if (entityDefinition instanceof RpcEntityDefinition) {
 			entityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityPageGenerator.class);
 		} else {
-			entityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(DbEntityPageGenerator.class);
+			DbEntityPageGenerator dbEntityWebGenerator = (DbEntitySpaGenerator) getOrCreateApplicationContext(projectPath).getBean(DbEntityPageGenerator.class);
+			dbEntityWebGenerator.generateView(generateViewRequest, entityDefinition, ((DbEntityDefinition)entityDefinition).getPluralName().trim().replace(" ", ""));
+			dbEntityWebGenerator.generateView(generateViewRequest, entityDefinition, entityDefinition.getEntityClassName());
 		}
 		entityWebGenerator.generateView(generateViewRequest, entityDefinition);
 
