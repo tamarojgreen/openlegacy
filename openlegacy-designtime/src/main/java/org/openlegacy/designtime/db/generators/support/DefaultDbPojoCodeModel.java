@@ -584,6 +584,9 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		if (annotations == null) {
 			return;
 		}
+
+		entityName = mainType.getName();
+
 		for (AnnotationExpr annotationExpr : annotations) {
 			String annotationName = annotationExpr.getName().getName();
 			if (annotationName.equals(DbAnnotationConstants.DB_JPA_ENTITY_ANNOTATION)
@@ -774,7 +777,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 			nameFromAnnotation = findAnnotationAttribute(DbAnnotationConstants.NAME, normalAnnotationExpr.getPairs());
 
 			name = nameFromAnnotation != null ? StringUtil.stripQuotes(nameFromAnnotation) : "";
-			entityName = name != null ? StringUtil.stripQuotes(name) : StringUtil.toClassName(getClassName());
+			// entityName = name != null ? StringUtil.stripQuotes(name) : StringUtil.toClassName(getClassName());
 		}
 		if (annotationExpr instanceof NormalAnnotationExpr
 				&& annotationExpr.getName().getName().equals(DbEntity.class.getSimpleName())) {

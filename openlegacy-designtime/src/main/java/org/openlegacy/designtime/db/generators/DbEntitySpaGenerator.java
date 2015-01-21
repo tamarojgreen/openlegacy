@@ -60,7 +60,9 @@ public class DbEntitySpaGenerator extends AbstractEntitySpaGenerator implements 
 
 	@Override
 	protected PageDefinition buildPage(EntityDefinition<?> entityDefinition) {
-		return pageBuilder.build((DbEntityDefinition)entityDefinition);
+		// return pageBuilder.build((DbEntityDefinition)entityDefinition);
+		return pageBuilder.buildForCodeBasedModel((DbEntityDefinition)entityDefinition);
+
 	}
 
 	@Override
@@ -138,8 +140,7 @@ public class DbEntitySpaGenerator extends AbstractEntitySpaGenerator implements 
 	}
 
 	@Override
-	public void generateView(GenerateViewRequest generateViewRequest,
-			EntityDefinition<?> entityDefinition, String fileName)
+	public void generateView(GenerateViewRequest generateViewRequest, EntityDefinition<?> entityDefinition, String fileName)
 			throws GenerationException {
 		getGenerateUtil().setTemplateDirectory(generateViewRequest.getTemplatesDirectory());
 
@@ -150,17 +151,15 @@ public class DbEntitySpaGenerator extends AbstractEntitySpaGenerator implements 
 			PageDefinition pageDefinition = buildPage(entityDefinition);
 
 			// generate web view
-			generateView(generateViewRequest, pageDefinition, SpaGenerateUtil.VIEWS_DIR, userInteraction, false,
-					fileName);
+			generateView(generateViewRequest, pageDefinition, SpaGenerateUtil.VIEWS_DIR, userInteraction, false, fileName);
 
-			generateEclipseEncodingSettings(generateViewRequest, entityDefinition,
-					fileName);
+			generateEclipseEncodingSettings(generateViewRequest, entityDefinition, fileName);
 
 		} catch (Exception e) {
 			throw (new GenerationException(e));
 		} finally {
 			IOUtils.closeQuietly(fos);
 		}
-		
+
 	}
 }

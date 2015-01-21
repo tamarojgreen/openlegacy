@@ -1,8 +1,7 @@
-<div ng-switch-when="READ">
-	<#assign isUPDATEAction = false>
-	<@actionToolbar entity=entityDefinition allowCREATE=false allowREAD=false/>
-	<@entityDetails entity=entityDefinition/>
-</div>
+<#assign isUPDATEAction = false>
+<@actionToolbar entity=entityDefinition allowCREATE=false allowREAD=false/>
+<@entityDetails entity=entityDefinition/>
+
 
 <#macro actionToolbar entity allowCREATE=true allowREAD=true allowUPDATE=true allowDELETE=true>	
 	<#if (entity.actions?size > 0)>

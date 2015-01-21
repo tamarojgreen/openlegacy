@@ -24,7 +24,7 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 
 	private Map<String, DbFieldDefinition> columnFields;
 	private List<ActionDefinition> actions;
-	private final Map<String, DbFieldDefinition> fieldsDefinitions = new LinkedHashMap<String, DbFieldDefinition>();
+	private Map<String, DbFieldDefinition> fieldsDefinitions = new LinkedHashMap<String, DbFieldDefinition>();
 
 	public CodeBasedDbEntityDefinition(DbPojoCodeModel codeModel, File packageDir) {
 		super(codeModel, packageDir);
@@ -80,8 +80,9 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 	 */
 	@Override
 	public Map<String, DbFieldDefinition> getFieldsDefinitions() {
-		// throwNotImplemented();
-		// return null;
+		if (fieldsDefinitions.isEmpty()) {
+			fieldsDefinitions = DbCodeBasedDefinitionUtils.getFieldsFromCodeModel(getCodeModel());
+		}
 		return fieldsDefinitions;
 	}
 
@@ -105,8 +106,7 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 	 */
 	@Override
 	public List<EntityDefinition<?>> getChildEntitiesDefinitions() {
-		throwNotImplemented();
-		return null;
+		return DbCodeBasedDefinitionUtils.getChildEntitiesDefinitionsFromCodeModel(getCodeModel(), getPackageDir());
 	}
 
 	private static void throwNotImplemented() throws UnsupportedOperationException {
