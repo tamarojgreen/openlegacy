@@ -5,12 +5,12 @@
     </row>
     <row rowNumber="3">
         <field value="Boolean true:" column="3" />
-        <field value="Y" editable="true" modified="true" length="1" column="20" />
+        <field value="Y" editable="true" length="1" column="20" />
         <field value="Y/N" column="25" />
     </row>
     <row rowNumber="4">
         <field value="Boolean false:" column="3" />
-        <field value="N" editable="true" modified="true" length="1" column="20" />
+        <field value="N" editable="true" length="1" column="20" />
         <field value="Y/N" column="25" />
     </row>
     <row rowNumber="5">
