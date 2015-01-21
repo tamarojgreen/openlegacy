@@ -112,7 +112,7 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 					if (actionDefinition.getAlias().equals(actionAlias)) {
 						matchedActionDefinition = (TerminalActionDefinition)actionDefinition;
 						sessionAction = (TerminalAction)actionDefinition.getAction();
-						
+
 					}
 				}
 			}
@@ -122,7 +122,9 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 			}
 		}
 
-		focusField = matchedActionDefinition.getFocusField();
+		if (matchedActionDefinition.getFocusField() != null && focusField == null) {
+			focusField = matchedActionDefinition.getFocusField();
+		}
 		if (matchedActionDefinition != null && focusField != null) {
 			screenEntity.setFocusField(focusField);
 		}

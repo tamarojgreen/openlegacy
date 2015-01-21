@@ -51,7 +51,7 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 
 	@Override
 	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) throws EntityNotFoundException,
-			ScreenEntityNotAccessibleException {
+	ScreenEntityNotAccessibleException {
 
 		ScreenPojoFieldAccessor fieldAccessor = null;
 
@@ -136,19 +136,21 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 			if (Boolean.TRUE.equals(fieldValue)) {
 				if (!booleanField.getValue().equals(fieldTypeDefinition.getTrueValue())) {
 					booleanField.setValue(fieldTypeDefinition.getTrueValue());
+					sendAction.getFields().add(booleanField);
 				}
 			} else {
 				if (fieldValue == null && fieldTypeDefinition.isTreatNullAsEmpty()) {
 					if (!booleanField.getValue().equals("")) {
 						booleanField.setValue("");
+						sendAction.getFields().add(booleanField);
 					}
 				} else {
 					if (!booleanField.getValue().equals(fieldTypeDefinition.getFalseValue())) {
 						booleanField.setValue(fieldTypeDefinition.getFalseValue());
+						sendAction.getFields().add(booleanField);
 					}
 				}
 			}
-			sendAction.getFields().add(booleanField);
 		}
 	}
 
