@@ -330,7 +330,7 @@
 		/* Controller code place-holder start
 		<#if entityName??>
 				module = module.controller('${entityName}Ctrl',
-				function($scope, $olHttp,$stateParams, $themeService, $rootScope, $state) {
+				function($scope, $olHttp,$stateParams, $themeService, $rootScope, $state,$modal) {
 					$scope.noTargetScreenEntityAlert = function() {
 						alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 					}; 
