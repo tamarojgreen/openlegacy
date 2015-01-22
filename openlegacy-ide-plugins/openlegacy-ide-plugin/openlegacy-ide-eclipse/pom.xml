@@ -51,7 +51,7 @@
 						</goals>
 						<configuration>
 							<target>
-								<delete includeemptydirs="true">
+								<delete includeemptydirs="true" quiet="true">
 									<fileset dir="${project.basedir}/lib" includes="**/*"/>
 								</delete>
 							</target>
