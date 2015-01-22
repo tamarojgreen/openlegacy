@@ -226,7 +226,10 @@
    				<span id="${field.name}Description" ng-model="model.${field.name}Description" class="readonly">{{model.${field.name}Description}}</span>
    				</#if>
 			</#if>		   	
-   		</#if>		
+   		</#if>
+   		<#if field.enableLookup>
+   			<img class="search" ng-click="doAction('${entityDefinition.entityName}', 'lookup-${field.name}')" src="icons/search.png">
+   		</#if>					
 	</div>
 </#macro>
 
