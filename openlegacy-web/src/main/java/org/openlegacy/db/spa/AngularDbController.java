@@ -42,16 +42,21 @@ public class AngularDbController extends AbstractAngularController {
 	@RequestMapping(value = "app/views/{entityName}.html", method = RequestMethod.GET)
 	public void getView(@PathVariable("entityName") String entityName, HttpServletResponse response) throws IOException,
 	TemplateException {
-		String fileName = entityName + "s";
+		String fileName = entityName;
 		EntityDefinition<?> entityDefinition = entitiesRegistry.get(entityName);
 		if (entityDefinition != null) {
 			String pluralName = ((DbEntityDefinition)entityDefinition).getPluralName();
-			if (pluralName == null || pluralName == "") {
-				fileName = pluralName;
+			if (pluralName != null && pluralName != "") {
+				fileName = pluralName.replace(" ", "");
+			} else {
+				fileName = entityName + "s";
 			}
+		} else {
+
 		}
 
 		URL resource = servletContext.getResource(MessageFormat.format(HTML_VIEW_PATH, fileName));
+
 		if (resource != null) {
 			String content = IOUtils.toString(resource, CharEncoding.UTF_8);
 			IOUtils.write(content, response.getOutputStream(), CharEncoding.UTF_8);
