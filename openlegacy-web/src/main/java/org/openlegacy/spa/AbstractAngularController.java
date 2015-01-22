@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public abstract class AbstractAngularController {
 
-	private static final String HTML_VIEW_PATH = "app/views/{0}.html";
+	protected static final String HTML_VIEW_PATH = "app/views/{0}.html";
 
 	private static final String CONTROLLER_JS_PATH = "app/js/app/controllers.js";
 
@@ -48,7 +48,7 @@ public abstract class AbstractAngularController {
 
 	@RequestMapping(value = "app/views/{entityName}.html", method = RequestMethod.GET)
 	public void getView(@PathVariable("entityName") String entityName, HttpServletResponse response) throws IOException,
-			TemplateException {
+	TemplateException {
 		URL resource = servletContext.getResource(MessageFormat.format(HTML_VIEW_PATH, entityName));
 		if (resource != null) {
 			String content = IOUtils.toString(resource, CharEncoding.UTF_8);
@@ -78,7 +78,8 @@ public abstract class AbstractAngularController {
 		writeTemplate(template, entitiesRegistry, response.getWriter());
 	}
 
-	private static void writeTemplate(Template template, Object model, PrintWriter writer) throws TemplateException, IOException {
+	protected static void writeTemplate(Template template, Object model, PrintWriter writer) throws TemplateException,
+			IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		OutputStreamWriter output = new OutputStreamWriter(baos, CharEncoding.UTF_8);
 
@@ -89,7 +90,7 @@ public abstract class AbstractAngularController {
 
 	}
 
-	private Template initTemplate(String resourceName) throws MalformedURLException, IOException {
+	protected Template initTemplate(String resourceName) throws MalformedURLException, IOException {
 		URL genericTemplate = servletContext.getResource(resourceName);
 		String templateString = IOUtils.toString(genericTemplate);
 		Template template = new Template("Template", new StringReader(templateString), new Configuration(

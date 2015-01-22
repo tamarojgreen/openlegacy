@@ -990,8 +990,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			DbEntityPageGenerator dbEntityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(
 					DbEntityPageGenerator.class);
 			dbEntityWebGenerator.generateView(generateViewRequest, entityDefinition,
-					((DbEntityDefinition)entityDefinition).getPluralName().trim().replace(" ", ""));
-			dbEntityWebGenerator.generateView(generateViewRequest, entityDefinition, entityDefinition.getEntityClassName());
+					((DbEntityDefinition)entityDefinition).getPluralName().trim().replace(" ", ""),
+					dbEntityWebGenerator.LIST_MODE);
+			dbEntityWebGenerator.generateView(generateViewRequest, entityDefinition, entityDefinition.getEntityClassName(),
+					dbEntityWebGenerator.EDIT_MODE);
 		}
 
 	}

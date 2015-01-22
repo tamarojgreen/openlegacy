@@ -49,56 +49,37 @@ public class DbEntitySpaGenerator extends AbstractEntitySpaGenerator implements 
 	@Override
 	public void generatePage(PageDefinition pageDefinition, OutputStream output, String templateDirectoryPrefix)
 			throws GenerationException {
-		String typeListName = MessageFormat.format("{0}{1}", templateDirectoryPrefix,
-				((DbEntityDefinition)pageDefinition.getEntityDefinition()).getPluralName().trim().replace(" ", ""));
-		getGenerateUtil().generate(pageDefinition, output, "DbEntitySpaPage.html.list.template", typeListName);
 		String typeEditName = MessageFormat.format("{0}{1}", templateDirectoryPrefix,
 				pageDefinition.getEntityDefinition().getEntityClassName());
-		getGenerateUtil().generate(pageDefinition, output, "DbEntitySpaPage.html.edit.template", typeEditName);
+		getGenerateUtil().generate(pageDefinition, output, "DbEntitySpaPage.html.template", typeEditName);
 
+	}
+
+	@Override
+	public void generatePage(PageDefinition pageDefinition, OutputStream output, String templateDirectoryPrefix, String mode)
+			throws GenerationException {
+		if (mode == LIST_MODE) {
+			String typeListName = MessageFormat.format("{0}{1}", templateDirectoryPrefix,
+					((DbEntityDefinition)pageDefinition.getEntityDefinition()).getPluralName().trim().replace(" ", ""));
+			getGenerateUtil().generate(pageDefinition, output, "DbEntitySpaPage.html.list.template", typeListName);
+		} else if (mode == EDIT_MODE) {
+			String typeEditName = MessageFormat.format("{0}{1}", templateDirectoryPrefix,
+					pageDefinition.getEntityDefinition().getEntityClassName());
+			getGenerateUtil().generate(pageDefinition, output, "DbEntitySpaPage.html.edit.template", typeEditName);
+		}
 	}
 
 	@Override
 	protected PageDefinition buildPage(EntityDefinition<?> entityDefinition) {
-		// return pageBuilder.build((DbEntityDefinition)entityDefinition);
-		return pageBuilder.buildForCodeBasedModel((DbEntityDefinition)entityDefinition);
-
+		return pageBuilder.build((DbEntityDefinition)entityDefinition);
 	}
 
-	@Override
-	public void generateView(GenerateViewRequest generateViewRequest, EntityDefinition<?> entityDefinition)
-			throws GenerationException {
-
-		getGenerateUtil().setTemplateDirectory(generateViewRequest.getTemplatesDirectory());
-
-		UserInteraction userInteraction = generateViewRequest.getUserInteraction();
-		FileOutputStream fos = null;
-		try {
-
-			PageDefinition pageDefinition = buildPage(entityDefinition);
-			DbEntityDefinition dbEntityDefinition = (DbEntityDefinition)entityDefinition;
-
-			// generate web view
-			generateView(generateViewRequest, pageDefinition, SpaGenerateUtil.VIEWS_DIR, userInteraction, false,
-					dbEntityDefinition.getEntityClassName());
-
-			generateEclipseEncodingSettings(generateViewRequest, entityDefinition, dbEntityDefinition.getEntityClassName());
-
-			generateView(generateViewRequest, pageDefinition, SpaGenerateUtil.VIEWS_DIR, userInteraction, false,
-					dbEntityDefinition.getPluralName().trim().replace(" ", ""));
-
-			generateEclipseEncodingSettings(generateViewRequest, entityDefinition,
-					dbEntityDefinition.getPluralName().trim().replace(" ", ""));
-
-		} catch (Exception e) {
-			throw (new GenerationException(e));
-		} finally {
-			IOUtils.closeQuietly(fos);
-		}
+	protected PageDefinition buildPageForCodeBasedModel(EntityDefinition<?> entityDefinition) {
+		return pageBuilder.buildForCodeBasedModel((DbEntityDefinition)entityDefinition);
 	}
 
 	private void generateView(GenerateViewRequest generatePageRequest, PageDefinition pageDefinition, String viewsDir,
-			UserInteraction userInteraction, boolean isComposite, String fileName) throws IOException {
+			UserInteraction userInteraction, boolean isComposite, String fileName, String mode) throws IOException {
 
 		EntityDefinition<?> entityDefinition = pageDefinition.getEntityDefinition();
 		FileOutputStream fos = null;
@@ -116,7 +97,7 @@ public class DbEntitySpaGenerator extends AbstractEntitySpaGenerator implements 
 			pageFile.getParentFile().mkdirs();
 			fos = new FileOutputStream(pageFile);
 			try {
-				generatePage(pageDefinition, fos, "");
+				generatePage(pageDefinition, fos, "", mode);
 				logger.info(MessageFormat.format("Generated html file: {0}", pageFile.getAbsoluteFile()));
 			} finally {
 				IOUtils.closeQuietly(fos);
@@ -140,18 +121,18 @@ public class DbEntitySpaGenerator extends AbstractEntitySpaGenerator implements 
 	}
 
 	@Override
-	public void generateView(GenerateViewRequest generateViewRequest, EntityDefinition<?> entityDefinition, String fileName)
-			throws GenerationException {
+	public void generateView(GenerateViewRequest generateViewRequest, EntityDefinition<?> entityDefinition, String fileName,
+			String mode) throws GenerationException {
 		getGenerateUtil().setTemplateDirectory(generateViewRequest.getTemplatesDirectory());
 
 		UserInteraction userInteraction = generateViewRequest.getUserInteraction();
 		FileOutputStream fos = null;
 		try {
 
-			PageDefinition pageDefinition = buildPage(entityDefinition);
+			PageDefinition pageDefinition = buildPageForCodeBasedModel(entityDefinition);
 
 			// generate web view
-			generateView(generateViewRequest, pageDefinition, SpaGenerateUtil.VIEWS_DIR, userInteraction, false, fileName);
+			generateView(generateViewRequest, pageDefinition, SpaGenerateUtil.VIEWS_DIR, userInteraction, false, fileName, mode);
 
 			generateEclipseEncodingSettings(generateViewRequest, entityDefinition, fileName);
 
