@@ -164,16 +164,34 @@
 				
 				var urlsToFilter = [];
 
-				/* Register controller place-holder start
-				<#if entityName??>
-					<#if keys?size &gt; 0>				
-						addRoute("${entityName}WithKey", "${entityName}", "/${entityName}/:<#list keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>");
-						urlsToFilter.push('/${entityName}/:<#list keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>');				
-					</#if>			
-					addRoute("${entityName}", "${entityName}", "/${entityName}");
-					urlsToFilter.push('/${entityName}');
-				</#if>
-				Register controller place-holder end */									
+				/* Register controller place-holder start				
+					<#if entityName??>					
+						<#list actions as action>						
+							<#switch action.actionName>
+								<#case "READ">
+									<#if keys?size &gt; 0>
+										var url = "/${entityName}/:<#list keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>";
+										if ($.inArray(url, urlsToFilter) == -1) {
+											addRoute("${entityName}Details", "${entityName}.edit", "${entityName}DetailsCtrl", url);
+											urlsToFilter.push(url);
+										}
+									</#if>
+									<#break>
+								<#case "CREATE">
+									var url = "/${entityName}/new";
+									if ($.inArray(url, urlsToFilter) == -1) {
+										addRoute("${entityName}New", "${entityName}.edit", "${entityName}NewCtrl", url);
+										urlsToFilter.push(url);
+									}
+							</#switch>							
+						</#list>
+						var url = "/${entityName}";
+						if ($.inArray(url, urlsToFilter) == -1) {
+							addRoute("${entityName}", "${entityName}.list", "${entityName}Ctrl", url);
+							urlsToFilter.push(url);
+						}					
+					</#if>	
+				Register controller place-holder end */										
 				<#if entitiesDefinitions??>
 					<#list entitiesDefinitions as entityDefinition>					
 						<#list entityDefinition.actions as action>						

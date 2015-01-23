@@ -41,15 +41,17 @@ public class AngularDbController extends AbstractAngularController {
 	@Override
 	@RequestMapping(value = "app/views/{entityName}.html", method = RequestMethod.GET)
 	public void getView(@PathVariable("entityName") String entityName, HttpServletResponse response) throws IOException,
-	TemplateException {
+			TemplateException {
 		int idx = entityName.indexOf(".");
 		if (idx == -1) {
 			super.getView(entityName, response);
 		} else {
-			String[] partsArray = entityName.split("\\.");
+			String fileName = entityName;
+			String[] partsArray = fileName.split("\\.");
+			entityName = partsArray[0];
 			String mode = partsArray[partsArray.length - 1];
 
-			URL resource = servletContext.getResource(MessageFormat.format(HTML_VIEW_PATH, entityName));
+			URL resource = servletContext.getResource(MessageFormat.format(HTML_VIEW_PATH, fileName));
 
 			if (resource != null) {
 				String content = IOUtils.toString(resource, CharEncoding.UTF_8);

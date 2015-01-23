@@ -200,11 +200,7 @@
 	</div>	
 	<#list childColumns as childColumn>	
 		<#list childPagesDefinitions as childPageDefinition>		
-			<#assign innerEntityDefinition = childPageDefinition.entityDefinition/>
-			${innerEntityDefinition.entityName???string}
-			${innerEntityDefinition.entityName}
-			${childColumn.javaTypeName???string}							
-			${childColumn.javaTypeName}
+			<#assign innerEntityDefinition = childPageDefinition.entityDefinition/>			
 			<#if childPageDefinition.entityDefinition.entityName == childColumn.javaTypeName>			
 				<#if isCREATEAction>				
 					<@generateTable entity=innerEntityDefinition showActionsToolbar=false propertyName=childColumn.name joinColumnName=childColumn.joinColumnName isCREATEAction=true/>
