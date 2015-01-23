@@ -5,6 +5,7 @@ import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaTableModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ControlsUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ModelUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.UniqueConstraintsCellEditingSupport;
@@ -106,13 +107,13 @@ public class GeneralJpaTableDetailsPage extends AbstractJpaDetailsPage {
 		FormRowCreator.createSpacer(toolkit, client, 2);
 		// create row for "name"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.table.name"), "", DbAnnotationConstants.NAME);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.table.name"), "", DbAnnotationConstants.NAME, JAVA_DOCUMENTATION_TYPE.JPA, "Table");//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		// create row for "catalog"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.table.catalog"), "", DbAnnotationConstants.CATALOG);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.table.catalog"), "", DbAnnotationConstants.CATALOG, JAVA_DOCUMENTATION_TYPE.JPA, "Table");//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		// create row for "name"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.table.schema"), "", DbAnnotationConstants.SCHEMA);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.table.schema"), "", DbAnnotationConstants.SCHEMA, JAVA_DOCUMENTATION_TYPE.JPA, "Table");//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		// create section for "uniqueConstraints"
 
 		createUniqueConstraintsSection(managedForm.getForm(), toolkit, topClient, DbAnnotationConstants.UNIQUE_CONSTRAINTS);

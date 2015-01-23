@@ -1,20 +1,12 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc;
 
-import com.openlegacy.enterprise.ide.eclipse.Constants;
-import com.openlegacy.enterprise.ide.eclipse.Messages;
-import com.openlegacy.enterprise.ide.eclipse.editors.RpcEntityEditor;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.ActionModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcPartModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ActionsComboBoxCellEditingSupport;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ActionsDialogCellEditingSupport;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ActionsTextCellEditingSupport;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ControlsUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ModelUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.rpc.ActionsPageTableContentProvider;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
+import java.lang.annotation.Annotation;
+import java.net.MalformedURLException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.runtime.CoreException;
@@ -47,13 +39,22 @@ import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
 
-import java.lang.annotation.Annotation;
-import java.net.MalformedURLException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.Messages;
+import com.openlegacy.enterprise.ide.eclipse.editors.RpcEntityEditor;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.ActionModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcPartModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ActionsComboBoxCellEditingSupport;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ActionsDialogCellEditingSupport;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ActionsTextCellEditingSupport;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ControlsUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ModelUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.rpc.ActionsPageTableContentProvider;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
 
 /**
  * @author Ivan Bort
@@ -123,7 +124,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 		FormRowCreator.createSpacer(toolkit, client, 2);
 		// create row for "className"
 		Text classNameControl = FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("rpc.field.part.class.name.label"), "", Constants.JAVA_TYPE_NAME);
+				Messages.getString("rpc.field.part.class.name.label"), "", Constants.JAVA_TYPE_NAME, JAVA_DOCUMENTATION_TYPE.RPC, "");
 		classNameValidator = new TextValidator(master, managedForm, classNameControl, null) {
 
 			@Override
@@ -143,7 +144,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 		//				Messages.getString("rpc.field.part.name.label"), "", AnnotationConstants.NAME);//$NON-NLS-1$ //$NON-NLS-2$
 		// create row for 'displayName'
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("rpc.field.part.display.name.label"), "", AnnotationConstants.DISPLAY_NAME);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("rpc.field.part.display.name.label"), "", AnnotationConstants.DISPLAY_NAME, JAVA_DOCUMENTATION_TYPE.RPC, "RpcPart");//$NON-NLS-1$ //$NON-NLS-2$
 
 		// @RpcPartList section
 		addRpcPartListSection(toolkit, client);
@@ -250,7 +251,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 
 		// 'count' row
 		Text countControl = FormRowCreator.createIntRow(toolkit, composite, mapTexts, getDefaultModifyListener(),
-				getDefaultVerifyListener(), Messages.getString("rpc.part.list.count.label"), 0, RpcAnnotationConstants.COUNT);//$NON-NLS-1$
+				getDefaultVerifyListener(), Messages.getString("rpc.part.list.count.label"), 0, RpcAnnotationConstants.COUNT, JAVA_DOCUMENTATION_TYPE.RPC, "RpcPartList");//$NON-NLS-1$
 		countValidator = new TextValidator(master, managedForm, countControl, null) {
 
 			@Override

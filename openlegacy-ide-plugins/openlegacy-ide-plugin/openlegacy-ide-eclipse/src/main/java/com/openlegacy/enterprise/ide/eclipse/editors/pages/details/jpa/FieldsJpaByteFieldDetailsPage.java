@@ -6,6 +6,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaByteFieldMode
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ControlsUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ModelUpdater;
 
@@ -39,7 +40,7 @@ public class FieldsJpaByteFieldDetailsPage extends AbstractJpaFieldDetailsPage {
 	protected void addTopContent(FormToolkit toolkit, Composite client) {
 		// create row for displaying java type name
 		FormRowCreator.createLabelRow(toolkit, client, mapLabels,
-				Messages.getString("jpa.field.java.type"), "", Constants.JAVA_TYPE_NAME);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.field.java.type"), "", Constants.JAVA_TYPE_NAME, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	@Override

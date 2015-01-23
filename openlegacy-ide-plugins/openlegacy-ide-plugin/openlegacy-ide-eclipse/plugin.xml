@@ -470,12 +470,20 @@
 		</category>
 		<view
 			allowMultiple="true"
-			name="Entity Map"
-			icon="icons/openlegacy.png"
 			category="org.openlegacy.ide.eclipse.preview"
 			class="com.openlegacy.enterprise.ide.eclipse.views.EntityMapView"
-			id="com.openlegacy.enterprise.ide.eclipse.views.EntityMapView">
+			icon="icons/openlegacy.png"
+			id="com.openlegacy.enterprise.ide.eclipse.views.EntityMapView"
+			name="Entity Map">
 		</view>
- </extension>
+		<view
+			allowMultiple="true"
+			category="org.openlegacy.ide.eclipse.preview"
+			class="com.openlegacy.enterprise.ide.eclipse.views.OpenLegacyHelpView"
+			icon="icons/openlegacy.png"
+			id="com.openlegacy.enterprise.ide.eclipse.views.OpenLegacyHelpView"
+			name="OpenLegacy Help">
+		</view>
+	</extension>
 	
 </plugin>

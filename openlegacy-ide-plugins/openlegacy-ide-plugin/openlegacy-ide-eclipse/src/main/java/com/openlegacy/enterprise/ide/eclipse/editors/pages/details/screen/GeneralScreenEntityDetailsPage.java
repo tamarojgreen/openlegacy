@@ -1,20 +1,11 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.screen;
 
-import com.openlegacy.enterprise.ide.eclipse.Constants;
-import com.openlegacy.enterprise.ide.eclipse.Messages;
-import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.ScreenTypeViewerFilter;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEntityModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.IOpenLegacyPage;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ControlsUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ModelUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.RolesCellEditingSupport;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.holders.screen.ScreenEntityRole;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.screen.RolesTableContentProvider;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -47,12 +38,22 @@ import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
 import org.openlegacy.terminal.ScreenSize;
 
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.Messages;
+import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.ScreenTypeViewerFilter;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEntityModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.IOpenLegacyPage;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ControlsUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ModelUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.RolesCellEditingSupport;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.holders.screen.ScreenEntityRole;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.screen.RolesTableContentProvider;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
 
 /**
  * @author Ivan Bort
@@ -106,24 +107,24 @@ public class GeneralScreenEntityDetailsPage extends AbstractScreenDetailsPage {
 		FormRowCreator.createSpacer(toolkit, client, 2);
 		// create row for "name"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenEntity.name"), "", AnnotationConstants.NAME);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("ScreenEntity.name"), "", AnnotationConstants.NAME, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenEntity");//$NON-NLS-1$ //$NON-NLS-2$
 		// crate row for "displayName"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenEntity.displayName"), "", AnnotationConstants.DISPLAY_NAME);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("ScreenEntity.displayName"), "", AnnotationConstants.DISPLAY_NAME, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenEntity");//$NON-NLS-1$ //$NON-NLS-2$
 		// create row for "supportTerminalData"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("ScreenEntity.supportTerminalData"), false, ScreenAnnotationConstants.SUPPORT_TERMINAL_DATA);//$NON-NLS-1$
+				Messages.getString("ScreenEntity.supportTerminalData"), false, ScreenAnnotationConstants.SUPPORT_TERMINAL_DATA, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenEntity");//$NON-NLS-1$
 		// create row for "window"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("ScreenEntity.window"), false, ScreenAnnotationConstants.WINDOW);//$NON-NLS-1$
+				Messages.getString("ScreenEntity.window"), false, ScreenAnnotationConstants.WINDOW, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenEntity");//$NON-NLS-1$
 		// create row for "screenType"
 		FormRowCreator.createComboBoxRowWithBrowseButton(toolkit, client, mapCombos, getDefaultModifyListener(),
 				getDefaultComboBoxKeyListener(), Messages.getString("ScreenEntity.screenType"), getComboItems(), 0,//$NON-NLS-1$
-				ScreenAnnotationConstants.SCREEN_TYPE, new ScreenTypeViewerFilter());
+				ScreenAnnotationConstants.SCREEN_TYPE, new ScreenTypeViewerFilter(), JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenEntity");
 		// create row for "columns"
 		Text columnsControl = FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				getDefaultVerifyListener(),
-				Messages.getString("ScreenEntity.columns"), ScreenSize.DEFAULT_COLUMN, ScreenAnnotationConstants.COLUMNS);//$NON-NLS-1$
+				Messages.getString("ScreenEntity.columns"), ScreenSize.DEFAULT_COLUMN, ScreenAnnotationConstants.COLUMNS, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenEntity");//$NON-NLS-1$
 		// add validator
 		columnsValidator = new TextValidator(master, managedForm, columnsControl, null) {
 
@@ -141,7 +142,7 @@ public class GeneralScreenEntityDetailsPage extends AbstractScreenDetailsPage {
 		// create row for "rows"
 		Text rowsControl = FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				getDefaultVerifyListener(),
-				Messages.getString("ScreenEntity.rows"), ScreenSize.DEFAULT_ROWS, ScreenAnnotationConstants.ROWS);//$NON-NLS-1$
+				Messages.getString("ScreenEntity.rows"), ScreenSize.DEFAULT_ROWS, ScreenAnnotationConstants.ROWS, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenEntity");//$NON-NLS-1$
 		// add validator
 		rowsValidator = new TextValidator(master, managedForm, rowsControl, null) {
 
@@ -158,24 +159,24 @@ public class GeneralScreenEntityDetailsPage extends AbstractScreenDetailsPage {
 		};
 		// create row for "child"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("ScreenEntity.child"), false, ScreenAnnotationConstants.CHILD);//$NON-NLS-1$
+				Messages.getString("ScreenEntity.child"), false, ScreenAnnotationConstants.CHILD, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenEntity");//$NON-NLS-1$
 		// create row for "validateKeys"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("ScreenEntity.validateKeys"), true, ScreenAnnotationConstants.VALIDATE_KEYS);//$NON-NLS-1$
+				Messages.getString("ScreenEntity.validateKeys"), true, ScreenAnnotationConstants.VALIDATE_KEYS, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenEntity");//$NON-NLS-1$
 		// create row for "rightToLeft"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("ScreenEntity.rightToLeft"), false, ScreenAnnotationConstants.RIGHT_TO_LEFT);//$NON-NLS-1$
+				Messages.getString("ScreenEntity.rightToLeft"), false, ScreenAnnotationConstants.RIGHT_TO_LEFT, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenEntity");//$NON-NLS-1$
 		// create row for "autoMapKeyboardActions"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
 				Messages.getString("ScreenEntity.autoMapKeyboardActions"), false,//$NON-NLS-1$
-				ScreenAnnotationConstants.AUTO_MAP_KEYBOARD_ACTIONS);
+				ScreenAnnotationConstants.AUTO_MAP_KEYBOARD_ACTIONS, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenEntity");
 		// create section for "roles"
 		createRolesSection(managedForm.getForm(), toolkit, topClient, ScreenAnnotationConstants.ROLES);
 
 		toolkit.paintBordersFor(section);
 		section.setClient(topClient);
 	}
-
+	
 	@Override
 	public Class<?> getDetailsModel() {
 		return ScreenEntityModel.class;

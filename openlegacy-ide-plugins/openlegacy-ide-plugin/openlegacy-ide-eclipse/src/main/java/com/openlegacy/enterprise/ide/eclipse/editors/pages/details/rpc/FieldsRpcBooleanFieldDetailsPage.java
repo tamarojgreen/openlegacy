@@ -6,6 +6,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBooleanFieldM
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ControlsUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ModelUpdater;
 
@@ -43,14 +44,14 @@ public class FieldsRpcBooleanFieldDetailsPage extends AbstractRpcFieldDetailsPag
 		// create row for "trueValue"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("rpc.field.boolean.true.value.label"),//$NON-NLS-1$
-				"", AnnotationConstants.TRUE_VALUE);//$NON-NLS-1$
+				"", AnnotationConstants.TRUE_VALUE, JAVA_DOCUMENTATION_TYPE.RPC, "RpcBooleanField");//$NON-NLS-1$
 		// create row for "falseValue"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("rpc.field.boolean.false.value.label"),//$NON-NLS-1$
-				"", AnnotationConstants.FALSE_VALUE);//$NON-NLS-1$
+				"", AnnotationConstants.FALSE_VALUE, JAVA_DOCUMENTATION_TYPE.RPC, "RpcBooleanField");//$NON-NLS-1$
 		// create row for "treatEmptyIsNull"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("rpc.field.boolean.treat.empty.as.null.label"), false, AnnotationConstants.TREAT_EMPTY_AS_NULL);//$NON-NLS-1$
+				Messages.getString("rpc.field.boolean.treat.empty.as.null.label"), false, AnnotationConstants.TREAT_EMPTY_AS_NULL, JAVA_DOCUMENTATION_TYPE.RPC, "RpcBooleanField");//$NON-NLS-1$
 	}
 
 	/*

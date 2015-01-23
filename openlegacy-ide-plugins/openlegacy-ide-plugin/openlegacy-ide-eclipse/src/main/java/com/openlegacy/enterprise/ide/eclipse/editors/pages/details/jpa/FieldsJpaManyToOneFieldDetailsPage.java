@@ -18,6 +18,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaManyToOneFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ControlsUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ModelUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
@@ -80,7 +81,8 @@ public class FieldsJpaManyToOneFieldDetailsPage extends AbstractJpaFieldDetailsP
 	protected void addTopContent(FormToolkit toolkit, Composite client) {
 		// create row for javaType
 		javaTypeControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.field.java.type"), "", Constants.JAVA_TYPE, null, false, null);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.field.java.type"), "", Constants.JAVA_TYPE, null, false, null,//$NON-NLS-1$ //$NON-NLS-2$
+				JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$
 		javaTypeValidator = new TextValidator(master, managedForm, javaTypeControl, null) {
 
 			@Override
@@ -112,18 +114,20 @@ public class FieldsJpaManyToOneFieldDetailsPage extends AbstractJpaFieldDetailsP
 		// create row for "targetEntity"
 		targetEntityControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, composite, mapTexts,
 				getDefaultModifyListener(), Messages.getString("jpa.field.list.target.entity"), "",//$NON-NLS-1$ //$NON-NLS-2$
-				DbAnnotationConstants.TARGET_ENTITY, null, true, getTargetEntityClearListener());
+				DbAnnotationConstants.TARGET_ENTITY, null, true, getTargetEntityClearListener(), JAVA_DOCUMENTATION_TYPE.JPA,
+				"ManyToOne");//$NON-NLS-1$
 		// create row for "cascade"
 		FormRowCreator.createComboBoxRow(toolkit, composite, mapCombos, getDefaultModifyListener(),
-				getDefaultComboBoxKeyListener(), Messages.getString("jpa.field.list.cascade"), getCascadeItems(), 0,
-				DbAnnotationConstants.CASCADE, true);
+				getDefaultComboBoxKeyListener(), Messages.getString("jpa.field.list.cascade"), getCascadeItems(), 0,//$NON-NLS-1$
+				DbAnnotationConstants.CASCADE, true, JAVA_DOCUMENTATION_TYPE.JPA, "ManyToOne");//$NON-NLS-1$
 		// create row for "fetch"
 		FormRowCreator.createComboBoxRow(toolkit, composite, mapCombos, getDefaultModifyListener(),
 				getDefaultComboBoxKeyListener(), Messages.getString("jpa.field.list.fetch.type"), getFetchTypeItems(), 0,//$NON-NLS-1$
-				DbAnnotationConstants.FETCH, false);
+				DbAnnotationConstants.FETCH, false, JAVA_DOCUMENTATION_TYPE.JPA, "ManyToOne");//$NON-NLS-1$
 		// create row for "optional"
 		FormRowCreator.createBooleanRow(toolkit, composite, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("jpa.field.optional"), true, DbAnnotationConstants.OPTIONAL);//$NON-NLS-1$
+				Messages.getString("jpa.field.optional"), true, DbAnnotationConstants.OPTIONAL, JAVA_DOCUMENTATION_TYPE.JPA,//$NON-NLS-1$
+				"ManyToOne");//$NON-NLS-1$
 
 		mtoSection.setText(Messages.getString("jpa.fields.page.many.to.one.section.desc"));//$NON-NLS-1$
 		mtoSection.setClient(composite);
@@ -148,28 +152,32 @@ public class FieldsJpaManyToOneFieldDetailsPage extends AbstractJpaFieldDetailsP
 
 		// create row for "name"
 		FormRowCreator.createStringRow(toolkit, jcComposite, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.field.name"), "", Constants.JC_NAME);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.field.name"), "", Constants.JC_NAME, JAVA_DOCUMENTATION_TYPE.JPA, "JoinColumn");//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		// create row for "referencedColumnName"
 		FormRowCreator.createStringRow(toolkit, jcComposite, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.field.referenced.column.name"), "", Constants.JC_REFERENCED_COLUMN_NAME);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.field.referenced.column.name"), "", Constants.JC_REFERENCED_COLUMN_NAME,//$NON-NLS-1$ //$NON-NLS-2$
+				JAVA_DOCUMENTATION_TYPE.JPA, "JoinColumn");//$NON-NLS-1$
 		// create row for "unique"
 		FormRowCreator.createBooleanRow(toolkit, jcComposite, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("jpa.field.unique"), false, Constants.JC_UNIQUE);//$NON-NLS-1$
+				Messages.getString("jpa.field.unique"), false, Constants.JC_UNIQUE, JAVA_DOCUMENTATION_TYPE.JPA, "JoinColumn");//$NON-NLS-1$ //$NON-NLS-2$
 		// create row for "nullable"
 		FormRowCreator.createBooleanRow(toolkit, jcComposite, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("jpa.field.nullable"), true, Constants.JC_NULLABLE);//$NON-NLS-1$
+				Messages.getString("jpa.field.nullable"), true, Constants.JC_NULLABLE, JAVA_DOCUMENTATION_TYPE.JPA, "JoinColumn");//$NON-NLS-1$ //$NON-NLS-2$
 		// create row for "insertable"
 		FormRowCreator.createBooleanRow(toolkit, jcComposite, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("jpa.field.insertable"), true, Constants.JC_INSERTABLE);//$NON-NLS-1$
+				Messages.getString("jpa.field.insertable"), true, Constants.JC_INSERTABLE, JAVA_DOCUMENTATION_TYPE.JPA,//$NON-NLS-1$
+				"JoinColumn");//$NON-NLS-1$
 		// create row for "updatable"
 		FormRowCreator.createBooleanRow(toolkit, jcComposite, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("jpa.field.updatable"), true, Constants.JC_UPDATABLE);//$NON-NLS-1$
+				Messages.getString("jpa.field.updatable"), true, Constants.JC_UPDATABLE, JAVA_DOCUMENTATION_TYPE.JPA,//$NON-NLS-1$
+				"JoinColumn");//$NON-NLS-1$
 		// create row for "columnDefinition"
 		FormRowCreator.createStringRow(toolkit, jcComposite, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.field.column.definition"), "", Constants.JC_COLUMN_DEFINITION);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.field.column.definition"), "", Constants.JC_COLUMN_DEFINITION,//$NON-NLS-1$ //$NON-NLS-2$
+				JAVA_DOCUMENTATION_TYPE.JPA, "JoinColumn");//$NON-NLS-1$
 		// create row for "table"
 		FormRowCreator.createStringRow(toolkit, jcComposite, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.field.table"), "", Constants.JC_TABLE);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.field.table"), "", Constants.JC_TABLE, JAVA_DOCUMENTATION_TYPE.JPA, "JoinColumn");//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		jcSection.setText(Messages.getString("jpa.fields.page.join.column.section.desc"));//$NON-NLS-1$
 		jcSection.setClient(jcComposite);

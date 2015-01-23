@@ -7,6 +7,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ControlsUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ModelUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
@@ -68,9 +69,11 @@ public class FieldsJpaListFieldDetailsPage extends AbstractJpaFieldDetailsPage {
 	protected void addTopContent(FormToolkit toolkit, Composite client) {
 		// create row for displaying java type name
 		FormRowCreator.createLabelRow(toolkit, client, mapLabels,
-				Messages.getString("jpa.field.java.type"), "", Constants.JAVA_TYPE_NAME);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.field.java.type"), "", Constants.JAVA_TYPE_NAME, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		// create row for displaying List<?> parameter
 		listParameterControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts,
-				getDefaultModifyListener(), Messages.getString("jpa.field.list.arg"), "", Constants.LIST_TYPE_ARG, null);
+				getDefaultModifyListener(), Messages.getString("jpa.field.list.arg"), "", Constants.LIST_TYPE_ARG, null,//$NON-NLS-1$ //$NON-NLS-2$
+				JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$
 		listParameterValidator = new TextValidator(master, managedForm, listParameterControl, null) {
 
 			@Override
@@ -102,21 +105,30 @@ public class FieldsJpaListFieldDetailsPage extends AbstractJpaFieldDetailsPage {
 		// create row for "cascade"
 		FormRowCreator.createComboBoxRow(toolkit, composite, mapCombos, getDefaultModifyListener(),
 				getDefaultComboBoxKeyListener(), Messages.getString("jpa.field.list.cascade"), getCascadeTypeItems(), 0,//$NON-NLS-1$
-				DbAnnotationConstants.CASCADE, false);
+				DbAnnotationConstants.CASCADE, false, JAVA_DOCUMENTATION_TYPE.JPA, "Column");
 		// create row for "fetchType"
 		FormRowCreator.createComboBoxRow(toolkit, composite, mapCombos, getDefaultModifyListener(),
 				getDefaultComboBoxKeyListener(), Messages.getString("jpa.field.list.fetch.type"), getFetchTypeItems(), 0,//$NON-NLS-1$
-				DbAnnotationConstants.FETCH, false);
+				DbAnnotationConstants.FETCH, false, JAVA_DOCUMENTATION_TYPE.JPA, "Column");
 		// create row for "mappedBy"
-		FormRowCreator.createStringRow(toolkit, composite, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.field.list.mapped.by"), "", DbAnnotationConstants.MAPPED_BY);//$NON-NLS-1$ //$NON-NLS-2$
+		FormRowCreator.createStringRow(
+				toolkit,
+				composite,
+				mapTexts,
+				getDefaultModifyListener(),
+				Messages.getString("jpa.field.list.mapped.by"), "", DbAnnotationConstants.MAPPED_BY, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$ //$NON-NLS-2$
 		// create row for "orphalRemoval"
-		FormRowCreator.createBooleanRow(toolkit, composite, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("jpa.field.list.orphan.removal"), false, DbAnnotationConstants.ORPHAN_REMOVAL);//$NON-NLS-1$
+		FormRowCreator.createBooleanRow(
+				toolkit,
+				composite,
+				mapCheckBoxes,
+				getDefaultSelectionListener(),
+				Messages.getString("jpa.field.list.orphan.removal"), false, DbAnnotationConstants.ORPHAN_REMOVAL, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$
 		// create row for "targetEntity"
 		targetEntityControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, composite, mapTexts,
 				getDefaultModifyListener(), Messages.getString("jpa.field.list.target.entity"), "",//$NON-NLS-1$ //$NON-NLS-2$
-				DbAnnotationConstants.TARGET_ENTITY, null, true, getTargetEntityClearListener());
+				DbAnnotationConstants.TARGET_ENTITY, null, true, getTargetEntityClearListener(), JAVA_DOCUMENTATION_TYPE.JPA,
+				"Column");
 
 		section.setText(Messages.getString("jpa.fields.page.one.to.many.section.desc"));//$NON-NLS-1$
 		section.setClient(composite);

@@ -1,14 +1,10 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.screen;
 
-import com.openlegacy.enterprise.ide.eclipse.Constants;
-import com.openlegacy.enterprise.ide.eclipse.Messages;
-import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.FieldTypeViewerFilter;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -40,11 +36,16 @@ import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.Messages;
+import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.FieldTypeViewerFilter;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
 
 /**
  * @author Ivan Bort
@@ -269,11 +270,12 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 		Composite composite = toolkit.createComposite(section, SWT.WRAP);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
-
+		
 		composite.setLayout(layout);
+
 		// "row"
 		Text descRowControl = FormRowCreator.createIntRow(toolkit, composite, mapTexts, getDefaultModifyListener(),
-				getDefaultVerifyListener(), Messages.getString("ScreenField.row"), 0, Constants.DESC_ROW);
+				getDefaultVerifyListener(), Messages.getString("ScreenField.row"), 0, Constants.DESC_ROW, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDescriptionField");
 		descRowValidator = new TextValidator(master, managedForm, descRowControl, null) {
 
 			@Override
@@ -289,7 +291,7 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 		};
 		// "column"
 		Text descColumnControl = FormRowCreator.createIntRow(toolkit, composite, mapTexts, getDefaultModifyListener(),
-				getDefaultVerifyListener(), Messages.getString("ScreenField.column"), 0, Constants.DESC_COLUMN);
+				getDefaultVerifyListener(), Messages.getString("ScreenField.column"), 0, Constants.DESC_COLUMN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDescriptionField");
 		descColumnValidator = new TextValidator(master, managedForm, descColumnControl, null) {
 
 			@Override
@@ -306,7 +308,7 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 		};
 		// "end column"
 		Text descEndColumnControl = FormRowCreator.createIntRow(toolkit, composite, mapTexts, getDefaultModifyListener(),
-				getDefaultVerifyListener(), Messages.getString("ScreenField.endColumn"), 0, Constants.DESC_END_COLUMN);
+				getDefaultVerifyListener(), Messages.getString("ScreenField.endColumn"), 0, Constants.DESC_END_COLUMN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDescriptionField");
 		descEndColumnValidator = new TextValidator(master, managedForm, descEndColumnControl, null) {
 
 			@Override
@@ -377,10 +379,10 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 		FormRowCreator.createSpacer(toolkit, client, 2);
 		// create row for displaying java type name
 		FormRowCreator.createLabelRow(toolkit, client, mapLabels,
-				Messages.getString("ScreenField.javaType"), "", Constants.JAVA_TYPE_NAME);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("ScreenField.javaType"), "", Constants.JAVA_TYPE_NAME, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");//$NON-NLS-1$ //$NON-NLS-2$
 		// create row for "fieldName"
 		Text fieldNameControl = FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenField.fieldName"), "", Constants.FIELD_NAME);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("ScreenField.fieldName"), "", Constants.FIELD_NAME, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");//$NON-NLS-1$ //$NON-NLS-2$
 		fieldNameValidator = new TextValidator(master, managedForm, fieldNameControl, null) {
 
 			@Override
@@ -396,7 +398,7 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 		// create row for "row"
 		Text rowControl = FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				getDefaultVerifyListener(), Messages.getString("ScreenField.row"), -1,//$NON-NLS-1$
-				ScreenAnnotationConstants.ROW);
+				ScreenAnnotationConstants.ROW, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");
 		rowValidator = new TextValidator(master, managedForm, rowControl, null) {
 
 			@Override
@@ -413,7 +415,7 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 		// add validator
 		Text columnControl = FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				getDefaultVerifyListener(), Messages.getString("ScreenField.column"), -1,//$NON-NLS-1$
-				ScreenAnnotationConstants.COLUMN);
+				ScreenAnnotationConstants.COLUMN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");
 		columnValidator = new TextValidator(master, managedForm, columnControl, null) {
 
 			@Override
@@ -429,7 +431,7 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 		// create row for "endRow"
 		Text endRowControl = FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				getDefaultVerifyListener(), Messages.getString("ScreenField.endRow"), null,//$NON-NLS-1$
-				ScreenAnnotationConstants.END_ROW);
+				ScreenAnnotationConstants.END_ROW, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");
 		endRowValidator = new TextValidator(master, managedForm, endRowControl, null) {
 
 			@Override
@@ -445,7 +447,7 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 		// create row for "endColumn"
 		Text endColumnControl = FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				getDefaultVerifyListener(), Messages.getString("ScreenField.endColumn"), null,//$NON-NLS-1$
-				ScreenAnnotationConstants.END_COLUMN);
+				ScreenAnnotationConstants.END_COLUMN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");
 		endColumnValidator = new TextValidator(master, managedForm, endColumnControl, null) {
 
 			@Override
@@ -461,83 +463,84 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 		// create row for "rectangle"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
 				Messages.getString("ScreenField.rectangle"),//$NON-NLS-1$
-				false, ScreenAnnotationConstants.RECTANGLE);
+				false, ScreenAnnotationConstants.RECTANGLE, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");
 		// create row for "editable"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
 				Messages.getString("ScreenField.editable"),//$NON-NLS-1$
-				false, AnnotationConstants.EDITABLE);
+				false, AnnotationConstants.EDITABLE, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");
 		// create row for "password"
 		passwordButton = FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
 				Messages.getString("ScreenField.password"),//$NON-NLS-1$
-				false, AnnotationConstants.PASSWORD);
+				false, AnnotationConstants.PASSWORD, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");
 		// create row for "fieldType"
 		FormRowCreator.createComboBoxRowWithBrowseButton(toolkit, client, mapCombos, getFieldTypeModifyListener(),
 				getDefaultComboBoxKeyListener(), Messages.getString("ScreenField.fieldType"), getFieldTypes(), 0,//$NON-NLS-1$
-				AnnotationConstants.FIELD_TYPE, new FieldTypeViewerFilter());
+				AnnotationConstants.FIELD_TYPE, new FieldTypeViewerFilter(), JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");
 		// create row for "displayName"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("ScreenField.displayName"),//$NON-NLS-1$
-				org.openlegacy.annotations.screen.AnnotationConstants.NULL, AnnotationConstants.DISPLAY_NAME);
+				org.openlegacy.annotations.screen.AnnotationConstants.NULL, AnnotationConstants.DISPLAY_NAME, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");
 		// create row for "sampleValue"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("ScreenField.sampleValue"), "",//$NON-NLS-1$ //$NON-NLS-2$
-				AnnotationConstants.SAMPLE_VALUE);
+				AnnotationConstants.SAMPLE_VALUE, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");
 		// create row for "defaultValue"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("ScreenField.defaultValue"), "",//$NON-NLS-1$ //$NON-NLS-2$
-				AnnotationConstants.DEFAULT_VALUE);
+				AnnotationConstants.DEFAULT_VALUE, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");
 		// create row for "labelColumn"
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
 				Messages.getString("ScreenField.labelColumn"), 0,//$NON-NLS-1$
-				ScreenAnnotationConstants.LABEL_COLUMN);
+				ScreenAnnotationConstants.LABEL_COLUMN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");
 		// create row for "key"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
 				Messages.getString("ScreenField.key"), false,//$NON-NLS-1$
-				AnnotationConstants.KEY);
+				AnnotationConstants.KEY, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");
 		// create row for "helpText"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenField.helpText"), "", AnnotationConstants.HELP_TEXT);//$NON-NLS-1$
+				Messages.getString("ScreenField.helpText"), "", AnnotationConstants.HELP_TEXT, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");//$NON-NLS-1$
 		// create row for "rightToLeft"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("ScreenField.rightToLeft"), false, AnnotationConstants.RIGHT_TO_LEFT);//$NON-NLS-1$
+				Messages.getString("ScreenField.rightToLeft"), false, AnnotationConstants.RIGHT_TO_LEFT, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");//$NON-NLS-1$
 		// create row for "attribute"
 		FormRowCreator.createComboBoxRow(toolkit, client, mapCombos, getDefaultModifyListener(), getDefaultComboBoxKeyListener(),
-				Messages.getString("ScreenField.attribute"), getFieldAttributes(), 0, AnnotationConstants.ATTRIBUTE, false);//$NON-NLS-1$
+				Messages.getString("ScreenField.attribute"), getFieldAttributes(), 0, AnnotationConstants.ATTRIBUTE, false, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");//$NON-NLS-1$
 		// create row for "when"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenField.when"), "", ScreenAnnotationConstants.WHEN);//$NON-NLS-1$
+				Messages.getString("ScreenField.when"), "", ScreenAnnotationConstants.WHEN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");//$NON-NLS-1$
 		// create row for "unless"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenField.unless"), "", ScreenAnnotationConstants.UNLESS);//$NON-NLS-1$
+				Messages.getString("ScreenField.unless"), "", ScreenAnnotationConstants.UNLESS, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");//$NON-NLS-1$
 		// create row for "keyIndex"
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
-				Messages.getString("ScreenField.keyIndex"), -1, ScreenAnnotationConstants.KEY_INDEX);//$NON-NLS-1$
+				Messages.getString("ScreenField.keyIndex"), -1, ScreenAnnotationConstants.KEY_INDEX, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");//$NON-NLS-1$
 		// create row for "internal"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("ScreenField.internal"), false, ScreenAnnotationConstants.INTERNAL);
+				Messages.getString("ScreenField.internal"), false, ScreenAnnotationConstants.INTERNAL, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");
 		// create row for "global"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("ScreenField.global"), false, ScreenAnnotationConstants.GLOBAL);
+				Messages.getString("ScreenField.global"), false, ScreenAnnotationConstants.GLOBAL, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");
 		// create row for "nullValue"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenField.nullValue"), "", ScreenAnnotationConstants.NULL_VALUE);//$NON-NLS-1$
+				Messages.getString("ScreenField.nullValue"), "", ScreenAnnotationConstants.NULL_VALUE, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");//$NON-NLS-1$
 		// create row for "tableKey"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("ScreenField.tableKey"), false, ScreenAnnotationConstants.TABLE_KEY);//$NON-NLS-1$
+				Messages.getString("ScreenField.tableKey"), false, ScreenAnnotationConstants.TABLE_KEY, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");//$NON-NLS-1$
 		// create row for "forceUpdate"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("ScreenField.forceUpdate"), false, ScreenAnnotationConstants.FORCE_UPDATE);//$NON-NLS-1$
+				Messages.getString("ScreenField.forceUpdate"), false, ScreenAnnotationConstants.FORCE_UPDATE, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");//$NON-NLS-1$
 		// create row for "expression"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenField.expression"), "", ScreenAnnotationConstants.EXPRESSION);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("ScreenField.expression"), "", ScreenAnnotationConstants.EXPRESSION, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");//$NON-NLS-1$ //$NON-NLS-2$
 		// create row for "enableLookup"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("ScreenField.enableLookup"), false, ScreenAnnotationConstants.ENABLE_LOOKUP);//$NON-NLS-1$
+				Messages.getString("ScreenField.enableLookup"), false, ScreenAnnotationConstants.ENABLE_LOOKUP, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenField");//$NON-NLS-1$
 
 		addContent(toolkit, client);
 
 		toolkit.paintBordersFor(section);
 		section.setClient(client);
+		
 	}
 
 	@Override
