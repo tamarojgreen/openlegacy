@@ -7,6 +7,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEnumFie
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ControlsUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.EnumFieldEntryTextCellEditingSupport;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ModelUpdater;
@@ -68,7 +69,7 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 	protected void addContent(FormToolkit toolkit, Composite client) {
 		// create row for selecting Enum type
 		Text enumControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenEnumField.enum"), "", Constants.JAVA_TYPE, null, IJavaSearchConstants.ENUM, false, null);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("ScreenEnumField.enum"), "", Constants.JAVA_TYPE, null, IJavaSearchConstants.ENUM, false, null, JAVA_DOCUMENTATION_TYPE.SCREEN, "");//$NON-NLS-1$ //$NON-NLS-2$
 
 		enumControl.addModifyListener(getEnumModifyListener());
 

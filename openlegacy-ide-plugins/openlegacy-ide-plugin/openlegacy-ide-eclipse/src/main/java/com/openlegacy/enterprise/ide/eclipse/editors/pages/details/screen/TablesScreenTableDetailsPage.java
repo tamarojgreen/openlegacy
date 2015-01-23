@@ -1,18 +1,11 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.screen;
 
-import com.openlegacy.enterprise.ide.eclipse.Constants;
-import com.openlegacy.enterprise.ide.eclipse.Messages;
-import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.TableCollectorViewerFilter;
-import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.TerminalActionViewerFilter;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenColumnModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenTableModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ControlsUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ModelUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
+import java.net.MalformedURLException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -34,12 +27,20 @@ import org.openlegacy.ide.eclipse.preview.screen.ScreenPreview;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.actions.TerminalActions;
 
-import java.net.MalformedURLException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.Messages;
+import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.TableCollectorViewerFilter;
+import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.TerminalActionViewerFilter;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenColumnModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenTableModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ControlsUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ModelUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
 
 /**
  * @author Ivan Bort
@@ -90,7 +91,7 @@ public class TablesScreenTableDetailsPage extends AbstractScreenDetailsPage {
 		FormRowCreator.createSpacer(toolkit, client, 2);
 		// create row for "className"
 		Text classNameControl = FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenTable.className"), "", Constants.JAVA_TYPE_NAME);
+				Messages.getString("ScreenTable.className"), "", Constants.JAVA_TYPE_NAME, JAVA_DOCUMENTATION_TYPE.SCREEN, "");
 		classNameValidator = new TextValidator(master, managedForm, classNameControl, null) {
 
 			@Override
@@ -106,7 +107,7 @@ public class TablesScreenTableDetailsPage extends AbstractScreenDetailsPage {
 		};
 		// create row for "startRow"
 		Text startRowControl = FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				getDefaultVerifyListener(), Messages.getString("ScreenTable.startRow"), -1, ScreenAnnotationConstants.START_ROW);//$NON-NLS-1$
+				getDefaultVerifyListener(), Messages.getString("ScreenTable.startRow"), -1, ScreenAnnotationConstants.START_ROW, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenTable");//$NON-NLS-1$
 		startRowValidator = new TextValidator(master, managedForm, startRowControl, null) {
 
 			@Override
@@ -122,7 +123,7 @@ public class TablesScreenTableDetailsPage extends AbstractScreenDetailsPage {
 		};
 		// create row for "endRow"
 		Text endRowControl = FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				getDefaultVerifyListener(), Messages.getString("ScreenTable.endRow"), -1, ScreenAnnotationConstants.END_ROW);//$NON-NLS-1$
+				getDefaultVerifyListener(), Messages.getString("ScreenTable.endRow"), -1, ScreenAnnotationConstants.END_ROW, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenTable");//$NON-NLS-1$
 		endRowValidator = new TextValidator(master, managedForm, endRowControl, null) {
 
 			@Override
@@ -138,40 +139,40 @@ public class TablesScreenTableDetailsPage extends AbstractScreenDetailsPage {
 		};
 		// create row for "name"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenTable.name"), "", AnnotationConstants.NAME);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("ScreenTable.name"), "", AnnotationConstants.NAME, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenTable");//$NON-NLS-1$ //$NON-NLS-2$
 		// create row for "nextScreenAction"
 		FormRowCreator.createComboBoxRowWithBrowseButton(toolkit, client, mapCombos, getDefaultModifyListener(),
 				getDefaultComboBoxKeyListener(), Messages.getString("ScreenTable.nextScreenAction"), getTerminalActions(), 2,//$NON-NLS-1$
-				ScreenAnnotationConstants.NEXT_SCREEN_ACTION, new TerminalActionViewerFilter());
+				ScreenAnnotationConstants.NEXT_SCREEN_ACTION, new TerminalActionViewerFilter(), JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenTable");
 		// create row for "previousScreenAction"
 		FormRowCreator.createComboBoxRowWithBrowseButton(toolkit, client, mapCombos, getDefaultModifyListener(),
 				getDefaultComboBoxKeyListener(), Messages.getString("ScreenTable.prevScreenAction"), getTerminalActions(), 3,//$NON-NLS-1$
-				ScreenAnnotationConstants.PREV_SCREEN_ACTION, new TerminalActionViewerFilter());
+				ScreenAnnotationConstants.PREV_SCREEN_ACTION, new TerminalActionViewerFilter(), JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenTable");
 		// create row for "supportTerminalData"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("ScreenTable.supportTerminalData"), false, ScreenAnnotationConstants.SUPPORT_TERMINAL_DATA);//$NON-NLS-1$
+				Messages.getString("ScreenTable.supportTerminalData"), false, ScreenAnnotationConstants.SUPPORT_TERMINAL_DATA, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenTable");//$NON-NLS-1$
 		// create row for "scrollable"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("ScreenTable.scrollable"), true, ScreenAnnotationConstants.SCROLLABLE);//$NON-NLS-1$
+				Messages.getString("ScreenTable.scrollable"), true, ScreenAnnotationConstants.SCROLLABLE, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenTable");//$NON-NLS-1$
 		// create row for "tableCollector"
 		FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("ScreenTable.tableCollector"), "", ScreenAnnotationConstants.TABLE_COLLECTOR,//$NON-NLS-1$ //$NON-NLS-2$
-				new TableCollectorViewerFilter());
+				new TableCollectorViewerFilter(), JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenTable");
 		// create row for "rowGaps"
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
-				Messages.getString("ScreenTable.rowGaps"), 1, ScreenAnnotationConstants.ROW_GAPS);//$NON-NLS-1$
+				Messages.getString("ScreenTable.rowGaps"), 1, ScreenAnnotationConstants.ROW_GAPS, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenTable");//$NON-NLS-1$
 		// create row for "screensCount"
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
-				Messages.getString("ScreenTable.screensCount"), 1, ScreenAnnotationConstants.SCREENS_COUNT);//$NON-NLS-1$
+				Messages.getString("ScreenTable.screensCount"), 1, ScreenAnnotationConstants.SCREENS_COUNT, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenTable");//$NON-NLS-1$
 		// create row for "filterExpression"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenTable.filterExpression"), "", ScreenAnnotationConstants.FILTER_EXPRESSION);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("ScreenTable.filterExpression"), "", ScreenAnnotationConstants.FILTER_EXPRESSION, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenTable");//$NON-NLS-1$ //$NON-NLS-2$
 		// create row for "rightToLeft"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("ScreenTable.rightToLeft"), false, ScreenAnnotationConstants.RIGHT_TO_LEFT);//$NON-NLS-1$
+				Messages.getString("ScreenTable.rightToLeft"), false, ScreenAnnotationConstants.RIGHT_TO_LEFT, JAVA_DOCUMENTATION_TYPE.SCREEN, "");//$NON-NLS-1$
 		// create row for "stopExpression"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenTable.stopExpression"), "", ScreenAnnotationConstants.STOP_EXPRESSION);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("ScreenTable.stopExpression"), "", ScreenAnnotationConstants.STOP_EXPRESSION, JAVA_DOCUMENTATION_TYPE.SCREEN, "");//$NON-NLS-1$ //$NON-NLS-2$
 
 		toolkit.paintBordersFor(section);
 		section.setClient(client);

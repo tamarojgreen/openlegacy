@@ -1,19 +1,11 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.screen;
 
-import com.openlegacy.enterprise.ide.eclipse.Constants;
-import com.openlegacy.enterprise.ide.eclipse.Messages;
-import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.TerminalActionViewerFilter;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNavigationModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.AssignedFieldsCellEditingSupport;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ControlsUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ModelUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.screen.AssignedFieldsTableContentProvider;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
-import com.openlegacy.enterprise.ide.eclipse.editors.utils.Utils;
+import java.lang.annotation.Annotation;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.runtime.CoreException;
@@ -56,12 +48,21 @@ import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.SimpleFieldAssignDefinition;
 
-import java.lang.annotation.Annotation;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.Messages;
+import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.TerminalActionViewerFilter;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNavigationModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.AssignedFieldsCellEditingSupport;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ControlsUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ModelUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.screen.AssignedFieldsTableContentProvider;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
+import com.openlegacy.enterprise.ide.eclipse.editors.utils.Utils;
 
 /**
  * @author Ivan Bort
@@ -118,14 +119,14 @@ public class GeneralScreenNavigationDetailsPage extends AbstractScreenDetailsPag
 		glayout.marginWidth = glayout.marginHeight = 0;
 		glayout.numColumns = 2;
 		client.setLayout(glayout);
-
+		
 		// create empty row
 		FormRowCreator.createSpacer(toolkit, client, 2);
 
 		// create row for "accessedFrom"
 		accessedFromText = FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("ScreenNavigation.accessedFrom"), "", ScreenAnnotationConstants.ACCESSED_FROM, null, true,//$NON-NLS-1$ //$NON-NLS-2$
-				getAccessedFromClearListener());
+				getAccessedFromClearListener(), JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenNavigation");
 		accessedFromValidator = new TextValidator(master, managedForm, accessedFromText, null) {
 
 			@Override
@@ -144,27 +145,27 @@ public class GeneralScreenNavigationDetailsPage extends AbstractScreenDetailsPag
 				getDefaultModifyListener(), getDefaultComboBoxKeyListener(),
 				Messages.getString("ScreenNavigation.terminalAction"), getTerminalActions(), 0,//$NON-NLS-1$
 				ScreenAnnotationConstants.TERMINAL_ACTION, new TerminalActionViewerFilter(), true,
-				getTerminalActionClearListener());
+				getTerminalActionClearListener(), JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenNavigation");
 		// create row for "additionalKey"
 		FormRowCreator.createComboBoxRow(toolkit, client, mapCombos, getDefaultModifyListener(), getDefaultComboBoxKeyListener(),
 				Messages.getString("ScreenNavigation.additionalKey"), getAdditionalKeys(), 0,//$NON-NLS-1$
-				ScreenAnnotationConstants.ADDITIONAL_KEY, false);
+				ScreenAnnotationConstants.ADDITIONAL_KEY, false, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenNavigation");
 		// create row for "exitAction"
 		exitActionCombo = FormRowCreator.createComboBoxRowWithBrowseButton(toolkit, client, mapCombos,
 				getDefaultModifyListener(), getDefaultComboBoxKeyListener(),
 				Messages.getString("ScreenNavigation.exitAction"),//$NON-NLS-1$
 				getTerminalActions(), 6, ScreenAnnotationConstants.EXIT_ACTION, new TerminalActionViewerFilter(), true,
-				getExitActionClearListener());
+				getExitActionClearListener(), JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenNavigation");
 		// create row for "exitAdditionalKey"
 		FormRowCreator.createComboBoxRow(toolkit, client, mapCombos, getDefaultModifyListener(), getDefaultComboBoxKeyListener(),
 				Messages.getString("ScreenNavigation.exitAdditionalKey"), getAdditionalKeys(), 0,//$NON-NLS-1$
-				ScreenAnnotationConstants.EXIT_ADDITIONAL_KEY, false);
+				ScreenAnnotationConstants.EXIT_ADDITIONAL_KEY, false, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenNavigation");
 		// create row for "requiresParameters"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("ScreenNavigation.requiresParameter"), false, ScreenAnnotationConstants.REQUIRES_PARAMETERS);//$NON-NLS-1$
+				Messages.getString("ScreenNavigation.requiresParameter"), false, ScreenAnnotationConstants.REQUIRES_PARAMETERS, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenNavigation");//$NON-NLS-1$
 		// create row for "drilldownValue"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenNavigation.drilldownValue"), "", ScreenAnnotationConstants.DRILLDOWN_VALUE);//$NON-NLS-1$ $NON-NLS-2$
+				Messages.getString("ScreenNavigation.drilldownValue"), "", ScreenAnnotationConstants.DRILLDOWN_VALUE, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenNavigation");//$NON-NLS-1$ $NON-NLS-2$
 		// create section for "assignedFields"
 		createAssignedFieldsSection(managedForm.getForm(), toolkit, topClient, ScreenAnnotationConstants.ASSIGNED_FIELDS);
 

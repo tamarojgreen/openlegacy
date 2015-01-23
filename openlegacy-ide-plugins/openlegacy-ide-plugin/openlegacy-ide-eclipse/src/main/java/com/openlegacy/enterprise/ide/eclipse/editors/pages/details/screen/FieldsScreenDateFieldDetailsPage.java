@@ -6,11 +6,13 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenDateFie
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ControlsUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ModelUpdater;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.openlegacy.designtime.generators.AnnotationConstants;
@@ -38,21 +40,23 @@ public class FieldsScreenDateFieldDetailsPage extends AbstractScreenFieldDetails
 
 	@Override
 	protected void addContent(FormToolkit toolkit, Composite client) {
+
 		// create row for "yearColumn"
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
 				Messages.getString("ScreenDateField.yearColumn"),//$NON-NLS-1$
-				0, AnnotationConstants.YEAR_COLUMN);
+				0, AnnotationConstants.YEAR_COLUMN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDateField");
+		
 		// create row for "monthColumn"
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
 				Messages.getString("ScreenDateField.monthColumn"),//$NON-NLS-1$
-				0, AnnotationConstants.MONTH_COLUMN);
+				0, AnnotationConstants.MONTH_COLUMN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDateField");
 		// create row for "dayColumn"
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
 				Messages.getString("ScreenDateField.dayColumn"),//$NON-NLS-1$
-				0, AnnotationConstants.DAY_COLUMN);
+				0, AnnotationConstants.DAY_COLUMN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDateField");
 		// create row for "patter"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenDateField.pattern"), "", AnnotationConstants.PATTERN);//$NON-NLS-1$ $NON-NLS-2$
+				Messages.getString("ScreenDateField.pattern"), "", AnnotationConstants.PATTERN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDateField");//$NON-NLS-1$ $NON-NLS-2$
 		// create description section
 		addScreenDecriptionFieldSection(toolkit, client);
 	}

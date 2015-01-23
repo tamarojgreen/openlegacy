@@ -7,6 +7,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ControlsUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ModelUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
@@ -49,7 +50,7 @@ public class FieldsRpcIntegerFieldDetailsPage extends AbstractRpcFieldDetailsPag
 		// create row for "minimumValue"
 		Text minValueControl = FormRowCreator.createDoubleRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				getDefaultDoubleVerifyListener(), Messages.getString("rpc.field.integer.minimum.value.label"), 0.0,//$NON-NLS-1$
-				RpcAnnotationConstants.MINIMUM_VALUE);
+				RpcAnnotationConstants.MINIMUM_VALUE, JAVA_DOCUMENTATION_TYPE.RPC, "RpcNumericField");
 		minValueValidator = new TextValidator(master, managedForm, minValueControl, null) {
 
 			@Override
@@ -66,7 +67,7 @@ public class FieldsRpcIntegerFieldDetailsPage extends AbstractRpcFieldDetailsPag
 		// create row for "maximumValue"
 		Text maxValueControl = FormRowCreator.createDoubleRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				getDefaultDoubleVerifyListener(), Messages.getString("rpc.field.integer.maximum.value.label"), 0.0,//$NON-NLS-1$
-				RpcAnnotationConstants.MAXIMUM_VALUE);
+				RpcAnnotationConstants.MAXIMUM_VALUE, JAVA_DOCUMENTATION_TYPE.RPC, "RpcNumericField");
 		maxValueValidator = new TextValidator(master, managedForm, maxValueControl, null) {
 
 			@Override
@@ -82,7 +83,7 @@ public class FieldsRpcIntegerFieldDetailsPage extends AbstractRpcFieldDetailsPag
 		};
 		// create row for "decimalPlaces"
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
-				Messages.getString("rpc.field.integer.decimal.places.label"), 0, RpcAnnotationConstants.DECIMAL_PLACES);//$NON-NLS-1$ 
+				Messages.getString("rpc.field.integer.decimal.places.label"), 0, RpcAnnotationConstants.DECIMAL_PLACES, JAVA_DOCUMENTATION_TYPE.RPC, "RpcNumericField");//$NON-NLS-1$ 
 	}
 
 	/*

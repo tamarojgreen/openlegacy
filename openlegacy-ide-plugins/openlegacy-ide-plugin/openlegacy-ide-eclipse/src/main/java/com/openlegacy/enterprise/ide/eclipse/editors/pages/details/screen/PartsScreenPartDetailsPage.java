@@ -8,6 +8,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedOb
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenPartModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ControlsUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ModelUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
@@ -86,7 +87,7 @@ public class PartsScreenPartDetailsPage extends AbstractScreenDetailsPage {
 		FormRowCreator.createSpacer(toolkit, client, 2);
 		// create row for "className"
 		Text classNameControl = FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenPart.className"), "", Constants.JAVA_TYPE_NAME);
+				Messages.getString("ScreenPart.className"), "", Constants.JAVA_TYPE_NAME, JAVA_DOCUMENTATION_TYPE.SCREEN, "");
 		classNameValidator = new TextValidator(master, managedForm, classNameControl, null) {
 
 			@Override
@@ -102,13 +103,13 @@ public class PartsScreenPartDetailsPage extends AbstractScreenDetailsPage {
 		};
 		// create row for 'name'
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenPart.name"), "", AnnotationConstants.NAME);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("ScreenPart.name"), "", AnnotationConstants.NAME, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenPart");//$NON-NLS-1$ //$NON-NLS-2$
 		// create row for 'displayName'
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenPart.displayName"), "", AnnotationConstants.DISPLAY_NAME);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("ScreenPart.displayName"), "", AnnotationConstants.DISPLAY_NAME, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenPart");//$NON-NLS-1$ //$NON-NLS-2$
 		// create row for 'supportTerminalData'
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("ScreenPart.supportTerminalData"), false, ScreenAnnotationConstants.SUPPORT_TERMINAL_DATA);//$NON-NLS-1$
+				Messages.getString("ScreenPart.supportTerminalData"), false, ScreenAnnotationConstants.SUPPORT_TERMINAL_DATA, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenPart");//$NON-NLS-1$
 		// create empty row
 		FormRowCreator.createSpacer(toolkit, client, 2);
 		// create section for @PartPosition
@@ -171,16 +172,16 @@ public class PartsScreenPartDetailsPage extends AbstractScreenDetailsPage {
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		client.setLayout(layout);
-
+		
 		// create row for 'row'
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
-				Messages.getString("PartPosition.row"), 0, ScreenAnnotationConstants.ROW);
+				Messages.getString("PartPosition.row"), 0, ScreenAnnotationConstants.ROW, JAVA_DOCUMENTATION_TYPE.SCREEN, "PartPosition");
 		// create row for 'column'
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
-				Messages.getString("PartPosition.column"), 0, ScreenAnnotationConstants.COLUMN);
+				Messages.getString("PartPosition.column"), 0, ScreenAnnotationConstants.COLUMN, JAVA_DOCUMENTATION_TYPE.SCREEN, "PartPosition");
 		// create row for 'width'
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
-				Messages.getString("PartPosition.width"), 80, ScreenAnnotationConstants.WIDTH);
+				Messages.getString("PartPosition.width"), 80, ScreenAnnotationConstants.WIDTH, JAVA_DOCUMENTATION_TYPE.SCREEN, "PartPosition");
 
 		section.setText(Messages.getString("PartPosition.sectionDesc"));//$NON-NLS-1$
 		section.setClient(client);

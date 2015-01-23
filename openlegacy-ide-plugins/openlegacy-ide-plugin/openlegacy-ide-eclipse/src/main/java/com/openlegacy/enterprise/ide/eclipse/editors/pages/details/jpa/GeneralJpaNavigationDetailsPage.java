@@ -16,6 +16,7 @@ import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaNavigationModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ControlsUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ModelUpdater;
 
@@ -82,7 +83,7 @@ public class GeneralJpaNavigationDetailsPage extends AbstractJpaDetailsPage {
 		FormRowCreator.createSpacer(toolkit, client, 2);
 		// create row for "catalog"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.navigation.category"), "", DbAnnotationConstants.CATEGORY);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.navigation.category"), "", DbAnnotationConstants.CATEGORY , JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$ //$NON-NLS-2$
 
 		toolkit.paintBordersFor(section);
 		section.setClient(client);

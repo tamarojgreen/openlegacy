@@ -6,6 +6,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ControlsUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ModelUpdater;
 
@@ -61,7 +62,7 @@ public class FieldsJpaListFieldDetailsPage extends AbstractJpaFieldDetailsPage {
 	protected void addContent(FormToolkit toolkit, Composite client) {
 		// create row for List parameter
 		FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.field.list.arg"), "", Constants.LIST_TYPE_ARG, null);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.field.list.arg"), "", Constants.LIST_TYPE_ARG, null , JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$ //$NON-NLS-2$
 		// create section for @OneToMany annotation
 		Section section = toolkit.createSection(client, ExpandableComposite.TWISTIE | Section.DESCRIPTION);
 		section.setActiveToggleColor(toolkit.getHyperlinkGroup().getActiveForeground());
@@ -77,21 +78,21 @@ public class FieldsJpaListFieldDetailsPage extends AbstractJpaFieldDetailsPage {
 		// create row for "cascade"
 		FormRowCreator.createComboBoxRow(toolkit, composite, mapCombos, getDefaultModifyListener(),
 				getDefaultComboBoxKeyListener(), Messages.getString("jpa.field.list.cascade"), getCascadeTypeItems(), 0,//$NON-NLS-1$
-				DbAnnotationConstants.CASCADE, false);
+				DbAnnotationConstants.CASCADE, false , JAVA_DOCUMENTATION_TYPE.JPA, "Column");
 		// create row for "fetchType"
 		FormRowCreator.createComboBoxRow(toolkit, composite, mapCombos, getDefaultModifyListener(),
 				getDefaultComboBoxKeyListener(), Messages.getString("jpa.field.list.fetch.type"), getFetchTypeItems(), 0,//$NON-NLS-1$
-				DbAnnotationConstants.FETCH, false);
+				DbAnnotationConstants.FETCH, false , JAVA_DOCUMENTATION_TYPE.JPA, "Column");
 		// create row for "mappedBy"
 		FormRowCreator.createStringRow(toolkit, composite, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.field.list.mapped.by"), "", DbAnnotationConstants.MAPPED_BY);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.field.list.mapped.by"), "", DbAnnotationConstants.MAPPED_BY , JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$ //$NON-NLS-2$
 		// create row for "orphalRemoval"
 		FormRowCreator.createBooleanRow(toolkit, composite, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("jpa.field.list.orphan.removal"), false, DbAnnotationConstants.ORPHAN_REMOVAL);//$NON-NLS-1$
+				Messages.getString("jpa.field.list.orphan.removal"), false, DbAnnotationConstants.ORPHAN_REMOVAL , JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$
 		// create row for "targetEntity"
 		targetEntityControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, composite, mapTexts,
 				getDefaultModifyListener(), Messages.getString("jpa.field.list.target.entity"), "",//$NON-NLS-1$ //$NON-NLS-2$
-				DbAnnotationConstants.TARGET_ENTITY, null, true, getTargetEntityClearListener());
+				DbAnnotationConstants.TARGET_ENTITY, null, true, getTargetEntityClearListener() , JAVA_DOCUMENTATION_TYPE.JPA, "Column");
 
 		section.setText(Messages.getString("jpa.fields.page.one.to.many.section.desc"));//$NON-NLS-1$
 		section.setClient(composite);

@@ -5,6 +5,7 @@ import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ControlsUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ModelUpdater;
 
@@ -79,16 +80,16 @@ public class GeneralJpaEntityDetailsPage extends AbstractJpaDetailsPage {
 		FormRowCreator.createSpacer(toolkit, client, 2);
 		// create row for "name"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.entity.name"), "", DbAnnotationConstants.NAME);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.entity.name"), "", DbAnnotationConstants.NAME, JAVA_DOCUMENTATION_TYPE.JPA, "");//$NON-NLS-1$ //$NON-NLS-2$
 		// create row for "displayName"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.entity.displayName"), "", DbAnnotationConstants.DISPLAY_NAME);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.entity.displayName"), "", DbAnnotationConstants.DISPLAY_NAME, JAVA_DOCUMENTATION_TYPE.JPA, "");//$NON-NLS-1$ //$NON-NLS-2$
 		// create row for "window"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("jpa.entity.window"), false, DbAnnotationConstants.WINDOW);//$NON-NLS-1$
+				Messages.getString("jpa.entity.window"), false, DbAnnotationConstants.WINDOW, JAVA_DOCUMENTATION_TYPE.JPA, "");//$NON-NLS-1$
 		// create row for "child"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("jpa.entity.child"), false, DbAnnotationConstants.CHILD);//$NON-NLS-1$
+				Messages.getString("jpa.entity.child"), false, DbAnnotationConstants.CHILD, JAVA_DOCUMENTATION_TYPE.JPA, "");//$NON-NLS-1$
 
 		toolkit.paintBordersFor(section);
 		section.setClient(client);

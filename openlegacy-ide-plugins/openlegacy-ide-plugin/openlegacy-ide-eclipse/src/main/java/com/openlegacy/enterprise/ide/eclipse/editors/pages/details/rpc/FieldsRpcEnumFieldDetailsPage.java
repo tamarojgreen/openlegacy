@@ -18,6 +18,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEnumFieldMode
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ControlsUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.EnumFieldEntryTextCellEditingSupport;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ModelUpdater;
@@ -73,7 +74,7 @@ public class FieldsRpcEnumFieldDetailsPage extends AbstractRpcFieldDetailsPage {
 	protected void addContent(FormToolkit toolkit, Composite client) {
 		// create row for selecting Enum type
 		Text enumControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("rpc.field.enum"), "", Constants.JAVA_TYPE, null, IJavaSearchConstants.ENUM, false, null);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("rpc.field.enum"), "", Constants.JAVA_TYPE, null, IJavaSearchConstants.ENUM, false, null, JAVA_DOCUMENTATION_TYPE.RPC, "");//$NON-NLS-1$ //$NON-NLS-2$
 
 		enumControl.addModifyListener(getEnumModifyListener());
 

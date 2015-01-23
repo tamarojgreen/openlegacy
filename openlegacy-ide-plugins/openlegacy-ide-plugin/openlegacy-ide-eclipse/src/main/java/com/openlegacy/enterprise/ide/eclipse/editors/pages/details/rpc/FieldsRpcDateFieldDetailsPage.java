@@ -17,6 +17,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcDateFieldMode
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ControlsUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ModelUpdater;
 
@@ -46,7 +47,7 @@ public class FieldsRpcDateFieldDetailsPage extends AbstractRpcFieldDetailsPage {
 	protected void addContent(FormToolkit toolkit, Composite client) {
 		// create row for "pattern"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("rpc.field.pattern"), "", AnnotationConstants.PATTERN);//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("rpc.field.pattern"), "", AnnotationConstants.PATTERN, JAVA_DOCUMENTATION_TYPE.RPC, "RpcDateField");//$NON-NLS-1$ //$NON-NLS-2$
 
 	}
 

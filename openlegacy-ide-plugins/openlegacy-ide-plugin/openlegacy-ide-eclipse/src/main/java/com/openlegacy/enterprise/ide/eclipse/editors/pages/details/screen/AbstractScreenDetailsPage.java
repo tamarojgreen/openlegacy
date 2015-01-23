@@ -30,4 +30,5 @@ public abstract class AbstractScreenDetailsPage extends AbstractDetailsPage {
 	}
 
 	public abstract ScreenNamedObject getPageScreenNamedObject();
+	
 }

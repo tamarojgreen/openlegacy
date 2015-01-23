@@ -1,8 +1,7 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers;
 
-import com.openlegacy.enterprise.ide.eclipse.Messages;
-import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.TypesSelectionDialog;
-import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.AbstractViewerFilter;
+import java.text.MessageFormat;
+import java.util.Map;
 
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
@@ -22,6 +21,7 @@ import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -30,9 +30,19 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.openlegacy.utils.StringUtil;
 
-import java.util.Map;
+import com.openlegacy.enterprise.ide.eclipse.Messages;
+import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.TypesSelectionDialog;
+import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.AbstractViewerFilter;
+import com.openlegacy.enterprise.ide.eclipse.views.OpenLegacyHelpView;
 
 /**
  * @author Ivan Bort
@@ -45,7 +55,25 @@ public class FormRowCreator {
 
 	private static final int DEFAULT_WIDTH = 200;
 	private static final int DEFAULT_INDENT = 10;
+	private static final String HELP_VIEW_ID = "com.openlegacy.enterprise.ide.eclipse.views.OpenLegacyHelpView";
 
+	public enum JAVA_DOCUMENTATION_TYPE {
+		SCREEN("http://files.openlegacy.org/javadoc/org/openlegacy/annotations/screen/{0}.html#{1}()"),
+		RPC("http://files.openlegacy.org/javadoc/org/openlegacy/annotations/rpc/{0}.html#{1}()"),
+		JPA("http://docs.oracle.com/javaee/7/api/javax/persistence/{0}.html#{1}()");
+		
+		private static final long serialVersionUID = 1L;
+		
+		private String url;
+		
+		private JAVA_DOCUMENTATION_TYPE(String url) {
+			this.url = url;
+		}
+		
+		public String getUrl() {
+			return url;
+		}
+	}
 	/**
 	 * Create empty row
 	 * 
@@ -71,8 +99,8 @@ public class FormRowCreator {
 	 * @param value
 	 */
 	public static void createLabelRow(FormToolkit toolkit, Composite parent, Map<String, Label> mapLabels, String labelTitle,
-			String text, String key) {
-		createLabel(toolkit, parent, labelTitle);
+			String text, String key, JAVA_DOCUMENTATION_TYPE model, String submodel) {
+		createLabel(toolkit, parent, labelTitle, key, model, submodel);
 		Label label = toolkit.createLabel(parent, text);
 		GridData gd = new GridData();
 		gd.widthHint = DEFAULT_WIDTH;
@@ -99,9 +127,9 @@ public class FormRowCreator {
 	 * @param dataKey
 	 */
 	public static Button createBooleanRow(FormToolkit toolkit, Composite parent, Map<String, Button> map,
-			SelectionListener selectionListener, String label, boolean value, String key) {
+			SelectionListener selectionListener, String label, boolean value, String key, JAVA_DOCUMENTATION_TYPE model, String submodel) {
 
-		createLabel(toolkit, parent, label);
+		createLabel(toolkit, parent, label, key, model, submodel);
 
 		Button button = toolkit.createButton(parent, "", SWT.CHECK);//$NON-NLS-1$
 		GridData gd = new GridData();
@@ -137,9 +165,9 @@ public class FormRowCreator {
 	 * @param dataKey
 	 */
 	public static Text createIntRow(FormToolkit toolkit, Composite parent, Map<String, Text> map, ModifyListener modifyListener,
-			VerifyListener verifyListener, String label, Integer value, String key) {
+			VerifyListener verifyListener, String label, Integer value, String key, JAVA_DOCUMENTATION_TYPE model, String submodel) {
 
-		createLabel(toolkit, parent, label);
+		createLabel(toolkit, parent, label, key, model, submodel);
 
 		Text text = toolkit.createText(parent, (value != null) ? value.toString() : "", SWT.SINGLE);
 		GridData gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
@@ -158,7 +186,7 @@ public class FormRowCreator {
 		}
 		return text;
 	}
-
+	
 	/**
 	 * Creates Label and Text controls. Adds created Text to map with key parameter. Adds VerifyListener which allows typing
 	 * digits and one dot only.
@@ -177,9 +205,9 @@ public class FormRowCreator {
 	 * @param dataKey
 	 */
 	public static Text createDoubleRow(FormToolkit toolkit, Composite parent, Map<String, Text> map,
-			ModifyListener modifyListener, VerifyListener verifyListener, String label, Double value, String key) {
+			ModifyListener modifyListener, VerifyListener verifyListener, String label, Double value, String key, JAVA_DOCUMENTATION_TYPE model, String submodel) {
 
-		createLabel(toolkit, parent, label);
+		createLabel(toolkit, parent, label, key, model, submodel);
 
 		Text text = toolkit.createText(parent, (value != null) ? value.toString() : "", SWT.SINGLE);
 		GridData gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
@@ -214,9 +242,9 @@ public class FormRowCreator {
 	 * @param dataKey
 	 */
 	public static Text createStringRow(FormToolkit toolkit, Composite parent, Map<String, Text> map,
-			ModifyListener modifyListener, String label, String value, String key) {
+			ModifyListener modifyListener, String label, String value, String key, JAVA_DOCUMENTATION_TYPE model, String submodel) {
 
-		createLabel(toolkit, parent, label);
+		createLabel(toolkit, parent, label, key, model, submodel);
 
 		Text text = toolkit.createText(parent, value, SWT.SINGLE | SWT.BORDER);
 		GridData gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
@@ -248,9 +276,9 @@ public class FormRowCreator {
 	 */
 	public static void createComboBoxRow(FormToolkit toolkit, Composite parent, Map<String, CCombo> map,
 			ModifyListener modifyListener, KeyListener keyListener, String label, String[] items, int index, String key,
-			boolean editable) {
+			boolean editable, JAVA_DOCUMENTATION_TYPE model, String submodel) {
 
-		createLabel(toolkit, parent, label);
+		createLabel(toolkit, parent, label, key, model, submodel);
 
 		CCombo combo = new CCombo(parent, SWT.FLAT | SWT.DROP_DOWN | SWT.READ_ONLY | SWT.BORDER);
 		GridData gd = new GridData();
@@ -278,23 +306,23 @@ public class FormRowCreator {
 	}
 
 	public static Text createStringRowWithBrowseButton(FormToolkit toolkit, Composite parent, Map<String, Text> map,
-			ModifyListener modifyListener, String label, String value, String key, AbstractViewerFilter filter) {
+			ModifyListener modifyListener, String label, String value, String key, AbstractViewerFilter filter, JAVA_DOCUMENTATION_TYPE model, String submodel) {
 		return createStringRowWithBrowseButton(toolkit, parent, map, modifyListener, label, value, key, filter,
-				IJavaSearchConstants.CLASS, false, null);
+				IJavaSearchConstants.CLASS, false, null, model, submodel);
 	}
 
 	public static Text createStringRowWithBrowseButton(FormToolkit toolkit, Composite parent, Map<String, Text> map,
 			ModifyListener modifyListener, String label, String value, String key, AbstractViewerFilter filter,
-			boolean createClearButton, SelectionListener clearButtonSelectionListener) {
+			boolean createClearButton, SelectionListener clearButtonSelectionListener, JAVA_DOCUMENTATION_TYPE model, String submodel) {
 		return createStringRowWithBrowseButton(toolkit, parent, map, modifyListener, label, value, key, filter,
-				IJavaSearchConstants.CLASS, createClearButton, clearButtonSelectionListener);
+				IJavaSearchConstants.CLASS, createClearButton, clearButtonSelectionListener, model, submodel);
 	}
 
 	public static Text createStringRowWithBrowseButton(FormToolkit toolkit, Composite parent, Map<String, Text> map,
 			ModifyListener modifyListener, String label, String value, String key, final AbstractViewerFilter filter,
-			final int javaSearchConstants, boolean createClearButton, SelectionListener clearButtonSelectionListener) {
+			final int javaSearchConstants, boolean createClearButton, SelectionListener clearButtonSelectionListener, JAVA_DOCUMENTATION_TYPE model, String submodel) {
 
-		createLabel(toolkit, parent, label);
+		createLabel(toolkit, parent, label, key, model, submodel);
 
 		Composite composite = toolkit.createComposite(parent);
 		GridLayout gl = new GridLayout();
@@ -349,16 +377,16 @@ public class FormRowCreator {
 
 	public static CCombo createComboBoxRowWithBrowseButton(FormToolkit toolkit, Composite parent, Map<String, CCombo> map,
 			ModifyListener modifyListener, KeyListener keyListener, String label, String[] items, int index, String key,
-			final AbstractViewerFilter filter) {
+			final AbstractViewerFilter filter, JAVA_DOCUMENTATION_TYPE model, String submodel) {
 		return createComboBoxRowWithBrowseButton(toolkit, parent, map, modifyListener, keyListener, label, items, index, key,
-				filter, false, null);
+				filter, false, null, model, submodel);
 	}
 
 	public static CCombo createComboBoxRowWithBrowseButton(FormToolkit toolkit, Composite parent, Map<String, CCombo> map,
 			ModifyListener modifyListener, KeyListener keyListener, String label, String[] items, int index, String key,
-			final AbstractViewerFilter filter, boolean createClearButton, SelectionListener clearButtonSelectionListener) {
-
-		createLabel(toolkit, parent, label);
+			final AbstractViewerFilter filter, boolean createClearButton, SelectionListener clearButtonSelectionListener, JAVA_DOCUMENTATION_TYPE model, String submodel) {
+		
+		createLabel(toolkit, parent, label, key, model, submodel);
 
 		Composite composite = toolkit.createComposite(parent);
 		GridLayout gl = new GridLayout();
@@ -426,10 +454,106 @@ public class FormRowCreator {
 		return combo;
 	}
 
-	private static void createLabel(FormToolkit toolkit, Composite parent, String text) {
-		Label label = toolkit.createLabel(parent, text);
+	private static void createLabel(FormToolkit toolkit, final Composite parent, String text, final String key, final JAVA_DOCUMENTATION_TYPE docurl, final String submodel) {
+		Composite shared = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout(2, false);
+		GridData layoutData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
+		shared.setLayout(layout);
+		shared.setLayoutData(layoutData);
+		
+		final Button button = initHelpButton(parent, shared);
+	    button.addSelectionListener(new SelectionListener() {
+
+			public void widgetSelected(SelectionEvent event) {
+				showView(
+						key,
+						docurl,
+						submodel);
+	      }
+
+		public void widgetDefaultSelected(SelectionEvent event) {
+				//
+			}
+	    });
+	    
+		Label label = toolkit.createLabel(shared, text);
 		GridData gd = new GridData();
 		gd.widthHint = 160;
 		label.setLayoutData(gd);
+	}
+
+	private static Button initHelpButton(Composite parent, Composite shared) {
+		final Button button = new Button(shared, SWT.PUSH);
+		Image scaledImage = retrieveImage(parent);
+		button.setImage(scaledImage);
+	    GridData gdbtn = new GridData();
+	    gdbtn.widthHint = 10;
+	    gdbtn.heightHint = 10;
+		button.setLayoutData(gdbtn);
+		return button;
+	}
+
+	private static Image retrieveImage(Composite parent) {
+		Image systemImage = parent.getShell().getDisplay().getSystemImage(SWT.ICON_INFORMATION);
+		double zoom = 1d / 2; // scale to half of the size maintaining aspect
+		final int width = systemImage.getBounds().width;
+		final int height = systemImage.getBounds().height;
+		Image scaledImage = new Image(Display.getDefault(), systemImage.getImageData().scaledTo((int)(width * zoom),
+		(int)(height * zoom)));
+		return scaledImage;
+	}
+	
+	private static void showView(String key, JAVA_DOCUMENTATION_TYPE url, String submodel) {
+		if (!validateDocumentationParams(url, submodel)) {
+			return;
+		}
+		try {
+			OpenLegacyHelpView helpView = null;
+			IViewReference ref = getMapViewReference();
+			if (ref != null) {
+				IViewPart view = ref.getView(true);
+				if (view != null) {
+					helpView = (OpenLegacyHelpView) view;
+					PlatformUI
+							.getWorkbench()
+							.getActiveWorkbenchWindow()
+							.getActivePage()
+							.showView(HELP_VIEW_ID, "help",
+									IWorkbenchPage.VIEW_ACTIVATE);
+				}
+			}
+
+			if (helpView == null) {
+				helpView = (OpenLegacyHelpView) PlatformUI
+						.getWorkbench()
+						.getActiveWorkbenchWindow()
+						.getActivePage()
+						.showView(HELP_VIEW_ID, "help",
+								IWorkbenchPage.VIEW_VISIBLE);
+			}
+			helpView.setUrl(MessageFormat
+					.format(url.getUrl(),
+							submodel, key));
+
+		} catch (PartInitException ex) {
+			// TODO log
+		}
+	}
+	
+	private static boolean validateDocumentationParams(JAVA_DOCUMENTATION_TYPE url,
+			String submodel) {
+		if ((url == null) || StringUtil.isEmpty(submodel)){
+			//TODO log
+			return false;
+		}
+		return true;
+	}
+
+	public static IViewReference getMapViewReference() {
+		IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
+		if (windows != null && windows.length > 0) {
+			return windows[0].getActivePage().findViewReference(HELP_VIEW_ID);
+		}
+		return null;
 	}
 }
