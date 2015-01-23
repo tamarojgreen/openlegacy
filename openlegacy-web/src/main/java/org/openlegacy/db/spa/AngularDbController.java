@@ -7,7 +7,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.CharEncoding;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
-import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.layout.PageBuilder;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.spa.AbstractAngularController;
@@ -37,44 +36,38 @@ public class AngularDbController extends AbstractAngularController {
 	private PageBuilder<EntityDefinition<?>, ?> pageBuilder;
 
 	private static final String GENERIC_HTML_LIST_TEMPLATE = "app/views/generic.html.list.template";
+	private static final String GENERIC_HTML_EDIT_TEMPLATE = "app/views/generic.html.edit.template";
 
 	@Override
 	@RequestMapping(value = "app/views/{entityName}.html", method = RequestMethod.GET)
 	public void getView(@PathVariable("entityName") String entityName, HttpServletResponse response) throws IOException,
 	TemplateException {
-		String fileName = entityName;
-		EntityDefinition<?> entityDefinition = entitiesRegistry.get(entityName);
-		if (entityDefinition != null) {
-			String pluralName = ((DbEntityDefinition)entityDefinition).getPluralName();
-			if (pluralName != null && pluralName != "") {
-				fileName = pluralName.replace(" ", "");
+		int idx = entityName.indexOf(".");
+		if (idx == -1) {
+			super.getView(entityName, response);
+		} else {
+			String[] partsArray = entityName.split("\\.");
+			String mode = partsArray[partsArray.length - 1];
+
+			URL resource = servletContext.getResource(MessageFormat.format(HTML_VIEW_PATH, entityName));
+
+			if (resource != null) {
+				String content = IOUtils.toString(resource, CharEncoding.UTF_8);
+				IOUtils.write(content, response.getOutputStream(), CharEncoding.UTF_8);
 			} else {
-				fileName = entityName + "s";
+				Template template = null;
+				if (mode.equals("list")) {
+					template = initTemplate(GENERIC_HTML_LIST_TEMPLATE);
+				} else {
+					template = initTemplate(GENERIC_HTML_EDIT_TEMPLATE);
+				}
+
+				EntityDefinition<?> entityDefinition = entitiesRegistry.get(entityName);
+
+				PageDefinition pageDefinition = pageBuilder.build(entityDefinition);
+
+				writeTemplate(template, pageDefinition, response.getWriter());
 			}
-		} else {
-
-		}
-
-		URL resource = servletContext.getResource(MessageFormat.format(HTML_VIEW_PATH, fileName));
-
-		if (resource != null) {
-			String content = IOUtils.toString(resource, CharEncoding.UTF_8);
-			IOUtils.write(content, response.getOutputStream(), CharEncoding.UTF_8);
-		} else {
-			Template template = initTemplate(GENERIC_HTML_LIST_TEMPLATE);
-			// EntityDefinition<?> entityDefinition = entitiesRegistry.get(entityName);
-
-			PageDefinition pageDefinition = pageBuilder.build(entityDefinition);
-
-			writeTemplate(template, pageDefinition, response.getWriter());
 		}
 	}
-	//
-	// @RequestMapping(value = "app/views/{entityName}/{entityName}.html", method = RequestMethod.GET)
-	// public void getViewList(@PathVariable("entityName") String entityName, HttpServletResponse response) throws IOException,
-	// TemplateException {
-	// String asd = "";
-	// asd = "123";
-	// asd.length();
-	// }
 }

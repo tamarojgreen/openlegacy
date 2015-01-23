@@ -7,10 +7,7 @@
 	<div ng-switch-when="CREATE">
 		<@actionToolbar entity=entityDefinition allowCREATE=false allowREAD=false allowDELETE=false/>
 		<@entityDetails entity=entityDefinition isCREATEAction=true/>
-	</div>
-	<div ng-switch-default>
-		<@generateTable entity=entityDefinition/>
-	</div>
+	</div>	
 </div>
 
 

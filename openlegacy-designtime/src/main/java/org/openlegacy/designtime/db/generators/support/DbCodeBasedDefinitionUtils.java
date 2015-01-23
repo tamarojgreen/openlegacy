@@ -83,7 +83,7 @@ public class DbCodeBasedDefinitionUtils {
 		for (ColumnField javaColumnField : columnFields) {
 			SimpleDbColumnFieldDefinition definition = new SimpleDbColumnFieldDefinition(javaColumnField.getFieldName(),
 					javaColumnField.getFieldTypeArgs());
-			definition.setJavaTypeName(javaColumnField.getFieldType());
+			definition.setJavaTypeName(javaColumnField.getFieldTypeArgs());
 			definition.setNameAttr(javaColumnField.getName());
 			definition.setUnique(javaColumnField.isUnique());
 			definition.setNullable(javaColumnField.isNullable());
@@ -170,13 +170,11 @@ public class DbCodeBasedDefinitionUtils {
 		Map<String, ColumnField> columnFields = codeModel.getColumnFields();
 		List<EntityDefinition<?>> entitiesList = new ArrayList<EntityDefinition<?>>();
 		for (ColumnField columnField : columnFields.values()) {
-			if (columnField.getOneToManyDefinition() != null) {
+			if (columnField.getOneToManyDefinition() != null || columnField.getManyToOneDefinition() != null) {
 				String[] argsArray = columnField.getFieldTypeArgs().split(",");
 				String entityClassName = argsArray[argsArray.length - 1];
 				DbEntityDefinition entityDefiniton = getEntityDefinition(entityClassName, packageDir);
 				entitiesList.add(entityDefiniton);
-			} else if (columnField.getManyToOneDefinition() != null) {
-
 			}
 		}
 		return entitiesList;

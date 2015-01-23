@@ -182,20 +182,20 @@
 									<#if entityDefinition.keys?size &gt; 0>
 										var url = "/${entityDefinition.entityName}/:<#list entityDefinition.keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>";
 										if ($.inArray(url, urlsToFilter) == -1) {
-											addRoute("${entityDefinition.entityName}Details", "${entityDefinition.entityName}", "${entityDefinition.entityName}DetailsCtrl", url);
+											addRoute("${entityDefinition.entityName}Details", "${entityDefinition.entityName}.edit", "${entityDefinition.entityName}DetailsCtrl", url);
 										}
 									</#if>
 									<#break>
 								<#case "CREATE">
 									var url = "/${entityDefinition.entityName}/new";
 									if ($.inArray(url, urlsToFilter) == -1) {
-										addRoute("${entityDefinition.entityName}New", "${entityDefinition.entityName}", "${entityDefinition.entityName}NewCtrl", url);
+										addRoute("${entityDefinition.entityName}New", "${entityDefinition.entityName}.edit", "${entityDefinition.entityName}NewCtrl", url);
 									}
 							</#switch>							
 						</#list>
 						var url = "/${entityDefinition.entityName}";
 						if ($.inArray(url, urlsToFilter) == -1) {
-							addRoute("${entityDefinition.entityName}", "${entityDefinition.entityName}", "${entityDefinition.entityName}Ctrl", url);
+							addRoute("${entityDefinition.entityName}", "${entityDefinition.entityName}.list", "${entityDefinition.entityName}Ctrl", url);
 						}
 					</#list>
 				</#if>	
