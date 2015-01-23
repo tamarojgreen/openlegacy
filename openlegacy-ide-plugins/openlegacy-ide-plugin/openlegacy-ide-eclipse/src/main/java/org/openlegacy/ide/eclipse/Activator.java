@@ -110,6 +110,7 @@ public class Activator extends AbstractUIPlugin {
 	public static final String ICON_RPC_ENTITY = "rpcEntity";//$NON-NLS-1$
 
 	public static final String ICON_ZOOM_IN = "zoomIn";//$NON-NLS-1$
+	public static final String ICON_HELP = "help";//$NON-NLS-1$
 
 	/**
 	 * The constructor
@@ -254,6 +255,8 @@ public class Activator extends AbstractUIPlugin {
 		// entities icons
 		registerImage(reg, ICON_SCREEN_ENTITY, "entities/se.png");//$NON-NLS-1$
 		registerImage(reg, ICON_RPC_ENTITY, "entities/re.png");//$NON-NLS-1$
+
+		registerImage(reg, ICON_HELP, "help_contents.gif");//$NON-NLS-1$
 		super.initializeImageRegistry(reg);
 	}
 

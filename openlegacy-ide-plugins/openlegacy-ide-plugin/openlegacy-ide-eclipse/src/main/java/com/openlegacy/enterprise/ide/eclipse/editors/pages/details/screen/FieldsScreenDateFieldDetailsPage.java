@@ -12,7 +12,6 @@ import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ModelU
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.openlegacy.designtime.generators.AnnotationConstants;
@@ -45,7 +44,7 @@ public class FieldsScreenDateFieldDetailsPage extends AbstractScreenFieldDetails
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
 				Messages.getString("ScreenDateField.yearColumn"),//$NON-NLS-1$
 				0, AnnotationConstants.YEAR_COLUMN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDateField");
-		
+
 		// create row for "monthColumn"
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
 				Messages.getString("ScreenDateField.monthColumn"),//$NON-NLS-1$
@@ -55,7 +54,11 @@ public class FieldsScreenDateFieldDetailsPage extends AbstractScreenFieldDetails
 				Messages.getString("ScreenDateField.dayColumn"),//$NON-NLS-1$
 				0, AnnotationConstants.DAY_COLUMN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDateField");
 		// create row for "patter"
-		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+		FormRowCreator.createStringRow(
+				toolkit,
+				client,
+				mapTexts,
+				getDefaultModifyListener(),
 				Messages.getString("ScreenDateField.pattern"), "", AnnotationConstants.PATTERN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDateField");//$NON-NLS-1$ $NON-NLS-2$
 		// create description section
 		addScreenDecriptionFieldSection(toolkit, client);
