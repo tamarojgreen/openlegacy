@@ -6,7 +6,7 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
 @ScreenEntity()
 @ScreenIdentifiers(identifiers = { 
-				@Identifier(row = 1, column = 20, value = "          Change Profile (CHGPRF)          "), 
+				@Identifier(row = 1, column = 30, value = "Change Profile (CHGPRF)          "), 
 				@Identifier(row = 5, column = 2, value = "Assistance level . . . . . . . ."), 
 				@Identifier(row = 6, column = 2, value = "Current library  . . . . . . . .") 
 				})

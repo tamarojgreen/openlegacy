@@ -6,7 +6,7 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
 @ScreenEntity()
 @ScreenIdentifiers(identifiers = { 
-				@Identifier(row = 1, column = 20, value = "     Copy From PC Document (CPYFRMPCD)     "), 
+				@Identifier(row = 1, column = 25, value = "Copy From PC Document (CPYFRMPCD)     "), 
 				@Identifier(row = 5, column = 2, value = "From folder  . . . . . . . . . ."), 
 				@Identifier(row = 7, column = 2, value = "To file  . . . . . . . . . . . .") 
 				})

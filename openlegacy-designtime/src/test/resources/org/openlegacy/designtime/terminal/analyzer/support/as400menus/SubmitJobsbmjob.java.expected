@@ -6,7 +6,7 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
 @ScreenEntity()
 @ScreenIdentifiers(identifiers = { 
-				@Identifier(row = 1, column = 20, value = "            Submit Job (SBMJOB)            "), 
+				@Identifier(row = 1, column = 32, value = "Submit Job (SBMJOB)            "), 
 				@Identifier(row = 5, column = 2, value = "Command to run . . . . . . . . ."), 
 				@Identifier(row = 12, column = 2, value = "Job name . . . . . . . . . . . .") 
 				})

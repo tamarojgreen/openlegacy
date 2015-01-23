@@ -26,6 +26,7 @@ import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,6 +40,9 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 
 	@Inject
 	private BestEntityNameFieldComparator bestEntityNameFieldComparator;
+	
+	@Inject
+	private BestEntityNameFieldComparator bestEntityDescriptionFieldComparator;
 
 	@Inject
 	private TerminalFieldsSplitter terminalFieldsSplitter;
@@ -56,15 +60,21 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 
 		String bestMatchEntityName = null;
 		TerminalField bestMatchEntityField = null;
+		TerminalField bestMatchEntityFieldDesc = null;
 
+		possibleFields = terminalFieldsSplitter.splitFields(possibleFields, screenEntityDefinition.getSnapshot().getSize());
+		final List<TerminalField> possibleNameFields = new ArrayList<TerminalField>(possibleFields);
 		if (possibleFields.size() > 1) {
-			possibleFields = terminalFieldsSplitter.splitFields(possibleFields, screenEntityDefinition.getSnapshot().getSize());
-			Collections.sort(possibleFields, bestEntityNameFieldComparator);
+			//possibleNameFields.addAll(possibleFields);
+			Collections.sort(possibleFields, bestEntityDescriptionFieldComparator==null?
+					bestEntityNameFieldComparator:bestEntityDescriptionFieldComparator);
+			Collections.sort(possibleNameFields, bestEntityNameFieldComparator);
 		}
 
 		if (possibleFields.size() > 0) {
-			bestMatchEntityField = possibleFields.get(0);
-			String text = bestMatchEntityField.getValue();
+			bestMatchEntityField = possibleNameFields.get(0);
+			bestMatchEntityFieldDesc = possibleFields.get(0);
+			String text = bestMatchEntityFieldDesc.getValue();
 			String translatedText = textTranslator.translate(text);
 			if (!translatedText.equals(text)) {
 				screenEntityDefinition.setDisplayName(StringUtil.toDisplayName(text));
