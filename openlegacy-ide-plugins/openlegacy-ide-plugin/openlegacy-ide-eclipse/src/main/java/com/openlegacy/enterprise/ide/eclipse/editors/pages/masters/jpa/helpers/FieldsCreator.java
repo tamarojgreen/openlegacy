@@ -94,6 +94,8 @@ public class FieldsCreator {
 		} else if (JpaListFieldModel.class.isAssignableFrom(modelClass)) {
 			entity.addAction(new JpaListFieldAction(newModel.getUUID(), (JpaListFieldModel)newModel, ActionType.ADD,
 					ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
+			entity.addAction(new JpaListFieldAction(newModel.getUUID(), (JpaListFieldModel)newModel, ActionType.ADD,
+					ASTNode.NORMAL_ANNOTATION, DbAnnotationConstants.DB_ONE_TO_MANY_ANNOTATION, null));
 			JpaEntityUtils.ActionGenerator.generateJpaFieldActions(entity, newModel);
 			JpaEntityUtils.ActionGenerator.generateJpaListFieldActions(entity, (JpaListFieldModel)newModel);
 		} else if (JpaManyToOneFieldModel.class.isAssignableFrom(modelClass)) {

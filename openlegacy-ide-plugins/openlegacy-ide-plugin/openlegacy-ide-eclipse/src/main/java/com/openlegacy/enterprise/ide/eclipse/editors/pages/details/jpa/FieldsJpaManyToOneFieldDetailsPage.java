@@ -76,27 +76,11 @@ public class FieldsJpaManyToOneFieldDetailsPage extends AbstractJpaFieldDetailsP
 		return fieldModel;
 	}
 
-	// @Override
-	// protected boolean isAddManyToOneSection() {
-	// return true;
-	// }
-
 	@Override
-	protected void addContent(FormToolkit toolkit, Composite client) {
-		// create section for @ManyToOne annotation
-		Section mtoSection = toolkit.createSection(client, ExpandableComposite.TWISTIE | Section.DESCRIPTION);
-		mtoSection.setActiveToggleColor(toolkit.getHyperlinkGroup().getActiveForeground());
-		mtoSection.setToggleColor(toolkit.getColors().getColor(IFormColors.SEPARATOR));
-		toolkit.createCompositeSeparator(mtoSection);
-
-		Composite composite = toolkit.createComposite(mtoSection, SWT.WRAP);
-		GridLayout glayout = new GridLayout();
-		glayout.numColumns = 2;
-
-		composite.setLayout(glayout);
+	protected void addTopContent(FormToolkit toolkit, Composite client) {
 		// create row for javaType
-		javaTypeControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, composite, mapTexts,
-				getDefaultModifyListener(), Messages.getString("jpa.field.java.type"), "", Constants.JAVA_TYPE, null, false, null);//$NON-NLS-1$ //$NON-NLS-2$
+		javaTypeControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("jpa.field.java.type"), "", Constants.JAVA_TYPE, null, false, null);//$NON-NLS-1$ //$NON-NLS-2$
 		javaTypeValidator = new TextValidator(master, managedForm, javaTypeControl, null) {
 
 			@Override
@@ -109,6 +93,22 @@ public class FieldsJpaManyToOneFieldDetailsPage extends AbstractJpaFieldDetailsP
 				return fieldModel;
 			}
 		};
+	}
+
+	@Override
+	protected void addBottomContent(FormToolkit toolkit, Composite client) {
+		// create section for @ManyToOne annotation
+		Section mtoSection = toolkit.createSection(client, ExpandableComposite.TWISTIE | Section.DESCRIPTION);
+		mtoSection.setActiveToggleColor(toolkit.getHyperlinkGroup().getActiveForeground());
+		mtoSection.setToggleColor(toolkit.getColors().getColor(IFormColors.SEPARATOR));
+		toolkit.createCompositeSeparator(mtoSection);
+
+		Composite composite = toolkit.createComposite(mtoSection, SWT.WRAP);
+		GridLayout glayout = new GridLayout();
+		glayout.numColumns = 2;
+
+		composite.setLayout(glayout);
+
 		// create row for "targetEntity"
 		targetEntityControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, composite, mapTexts,
 				getDefaultModifyListener(), Messages.getString("jpa.field.list.target.entity"), "",//$NON-NLS-1$ //$NON-NLS-2$

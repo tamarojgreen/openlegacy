@@ -156,7 +156,9 @@ public class ControlsUpdater {
 			} else if (key.equals(DbAnnotationConstants.TARGET_ENTITY)) {
 				mapTexts.get(key).setText(model.getTargetEntityClassName());
 			} else if (key.equals(Constants.LIST_TYPE_ARG)) {
-				mapTexts.get(key).setText(model.getFieldTypeArgs());
+				mapTexts.get(key).setText(
+						!StringUtils.equals(model.getFieldTypeArgs(), Object.class.getSimpleName()) ? model.getFieldTypeArgs()
+								: "");
 			}
 		}
 		// update check boxes
@@ -202,7 +204,8 @@ public class ControlsUpdater {
 			if (key.equals(DbAnnotationConstants.TARGET_ENTITY)) {
 				text.setText(model.getTargetEntityClassName());
 			} else if (key.equals(Constants.JAVA_TYPE)) {
-				text.setText(((JpaFieldModel)model.getParent()).getJavaTypeName());
+				String javaTypeName = ((JpaFieldModel)model.getParent()).getJavaTypeName();
+				text.setText(!StringUtils.equals(javaTypeName, void.class.getSimpleName()) ? javaTypeName : "");
 			}
 		}
 		// update CheckBox controls

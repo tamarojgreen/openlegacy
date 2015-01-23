@@ -1,9 +1,11 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa;
 
 import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ControlsUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ModelUpdater;
 
@@ -34,7 +36,14 @@ public class FieldsJpaIntegerFieldDetailsPage extends AbstractJpaFieldDetailsPag
 	}
 
 	@Override
-	protected void addContent(FormToolkit toolkit, Composite client) {}
+	protected void addTopContent(FormToolkit toolkit, Composite client) {
+		// create row for displaying java type name
+		FormRowCreator.createLabelRow(toolkit, client, mapLabels,
+				Messages.getString("jpa.field.java.type"), "", Constants.JAVA_TYPE_NAME);//$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	@Override
+	protected void addBottomContent(FormToolkit toolkit, Composite client) {}
 
 	@Override
 	public Class<?> getDetailsModel() {

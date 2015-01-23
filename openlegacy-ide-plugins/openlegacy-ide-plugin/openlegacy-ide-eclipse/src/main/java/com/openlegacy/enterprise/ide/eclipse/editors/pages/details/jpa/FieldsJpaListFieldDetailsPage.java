@@ -2,17 +2,21 @@ package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa;
 
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.Messages;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ControlsUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ModelUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -47,6 +51,9 @@ public class FieldsJpaListFieldDetailsPage extends AbstractJpaFieldDetailsPage {
 
 	private JpaListFieldModel fieldModel;
 	private Text targetEntityControl;
+	private Text listParameterControl;
+
+	private TextValidator listParameterValidator;
 
 	public FieldsJpaListFieldDetailsPage(AbstractMasterBlock master) {
 		super(master);
@@ -58,10 +65,28 @@ public class FieldsJpaListFieldDetailsPage extends AbstractJpaFieldDetailsPage {
 	}
 
 	@Override
-	protected void addContent(FormToolkit toolkit, Composite client) {
-		// create row for List parameter
-		FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.field.list.arg"), "", Constants.LIST_TYPE_ARG, null);//$NON-NLS-1$ //$NON-NLS-2$
+	protected void addTopContent(FormToolkit toolkit, Composite client) {
+		// create row for displaying java type name
+		FormRowCreator.createLabelRow(toolkit, client, mapLabels,
+				Messages.getString("jpa.field.java.type"), "", Constants.JAVA_TYPE_NAME);//$NON-NLS-1$ //$NON-NLS-2$
+		listParameterControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts,
+				getDefaultModifyListener(), Messages.getString("jpa.field.list.arg"), "", Constants.LIST_TYPE_ARG, null);
+		listParameterValidator = new TextValidator(master, managedForm, listParameterControl, null) {
+
+			@Override
+			protected boolean validateControl(TextValidator validator, UUID uuid) {
+				return validateListParameterControl(validator, uuid);
+			}
+
+			@Override
+			protected NamedObject getModel() {
+				return fieldModel;
+			}
+		};
+	}
+
+	@Override
+	protected void addBottomContent(FormToolkit toolkit, Composite client) {
 		// create section for @OneToMany annotation
 		Section section = toolkit.createSection(client, ExpandableComposite.TWISTIE | Section.DESCRIPTION);
 		section.setActiveToggleColor(toolkit.getHyperlinkGroup().getActiveForeground());
@@ -144,6 +169,30 @@ public class FieldsJpaListFieldDetailsPage extends AbstractJpaFieldDetailsPage {
 		}
 	}
 
+	@Override
+	protected void updateValidators(UUID uuid) {
+		super.updateValidators(uuid);
+		if (uuid != null) {
+			listParameterValidator.setModelUUID(uuid);
+		}
+	}
+
+	@Override
+	public void revalidate() {
+		super.revalidate();
+		if (listParameterValidator != null) {
+			listParameterValidator.revalidate(getModelUUID());
+		}
+	}
+
+	@Override
+	public void removeValidationMarkers() {
+		super.removeValidationMarkers();
+		if (listParameterValidator != null) {
+			listParameterValidator.removeValidationMarker();
+		}
+	}
+
 	private static String[] getCascadeTypeItems() {
 		List<String> list = new ArrayList<String>();
 		list.add(CascadeType.ALL.toString());
@@ -178,6 +227,30 @@ public class FieldsJpaListFieldDetailsPage extends AbstractJpaFieldDetailsPage {
 			}
 
 		};
+	}
+
+	private boolean validateListParameterControl(TextValidator validator, UUID uuid) {
+		boolean isValid = true;
+		String text = validator.getControl().getText();
+		String fullyQuailifiedName = (String)validator.getControl().getData(FormRowCreator.ID_FULLY_QUALIFIED_NAME);
+		if (StringUtils.isEmpty(text)) {
+			isValid = false;
+		}
+		if (isValid && StringUtils.equalsIgnoreCase(text, Object.class.getSimpleName())) {
+			isValid = false;
+		}
+		if (!isValid) {
+			validator.addMessage(Messages.getString("validation.list.param.must.be.specified"), IMessageProvider.ERROR, uuid);//$NON-NLS-1$
+			return isValid;
+		}
+		if (getEntity().getEntityFullyQualifiedName().equals(fullyQuailifiedName)) {
+			isValid = false;
+		}
+		if (!isValid) {
+			validator.addMessage(
+					Messages.getString("validation.list.param.equal.to.current.entity"), IMessageProvider.ERROR, uuid);//$NON-NLS-1$
+		}
+		return isValid;
 	}
 
 }

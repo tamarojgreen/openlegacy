@@ -542,10 +542,13 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 				}
 				// List field
 				if (action instanceof JpaListFieldAction) {
+					JpaListFieldModel model = (JpaListFieldModel)action.getNamedObject();
 					ParameterizedType listType = ast.newParameterizedType(ast.newSimpleType(ast.newSimpleName(List.class.getSimpleName())));
-					listType.typeArguments().add(ast.newSimpleType(ast.newSimpleName(Object.class.getSimpleName())));
+					listType.typeArguments().add(
+							ast.newSimpleType(ast.newSimpleName(model.getFieldTypeArgsClass().getSimpleName())));
 					field.setType(listType);
 					ASTUtils.addImport(ast, cu, rewriter, List.class);
+					ASTUtils.addImport(ast, cu, rewriter, model.getFieldTypeArgsClass());
 				}
 				// ManyToOne field
 				if (action instanceof JpaManyToOneFieldAction) {

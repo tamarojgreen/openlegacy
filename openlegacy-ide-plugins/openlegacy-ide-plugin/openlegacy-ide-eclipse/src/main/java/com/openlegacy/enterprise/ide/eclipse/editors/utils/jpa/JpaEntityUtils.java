@@ -312,24 +312,24 @@ public class JpaEntityUtils {
 			boolean isPrevious = true;
 			boolean isDefault = true;
 			JpaListFieldModel entityModel = (JpaListFieldModel)entity.getFields().get(model.getUUID());
-			// add @OneToMany annotation
-			if (entityModel.isDefaultOneToManyAttrs() && !model.isDefaultOneToManyAttrs()) {
-				entity.addAction(new JpaListFieldAction(model.getUUID(), model, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
-						DbAnnotationConstants.DB_ONE_TO_MANY_ANNOTATION, null));
-			}
-			// remove @OneToMany annotation
-			if (!entityModel.isDefaultOneToManyAttrs() && model.isDefaultOneToManyAttrs()) {
-				entity.addAction(new JpaListFieldAction(model.getUUID(), model, ActionType.REMOVE, ASTNode.NORMAL_ANNOTATION,
-						DbAnnotationConstants.DB_ONE_TO_MANY_ANNOTATION, null));
-			}
-			// remove add/remove action
-			if (entityModel.equalsOneToManyAttrs(model)) {
-				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_ONE_TO_MANY_ANNOTATION);
-			}
-			// if attrs are not default in editable model then delete "remove @OneToMany" action
-			if (!model.isDefaultOneToManyAttrs()) {
-				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_ONE_TO_MANY_ANNOTATION, ActionType.REMOVE);
-			}
+			// // add @OneToMany annotation
+			// if (entityModel.isDefaultOneToManyAttrs() && !model.isDefaultOneToManyAttrs()) {
+			// entity.addAction(new JpaListFieldAction(model.getUUID(), model, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
+			// DbAnnotationConstants.DB_ONE_TO_MANY_ANNOTATION, null));
+			// }
+			// // remove @OneToMany annotation
+			// if (!entityModel.isDefaultOneToManyAttrs() && model.isDefaultOneToManyAttrs()) {
+			// entity.addAction(new JpaListFieldAction(model.getUUID(), model, ActionType.REMOVE, ASTNode.NORMAL_ANNOTATION,
+			// DbAnnotationConstants.DB_ONE_TO_MANY_ANNOTATION, null));
+			// }
+			// // remove add/remove action
+			// if (entityModel.equalsOneToManyAttrs(model)) {
+			// entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_ONE_TO_MANY_ANNOTATION);
+			// }
+			// // if attrs are not default in editable model then delete "remove @OneToMany" action
+			// if (!model.isDefaultOneToManyAttrs()) {
+			// entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_ONE_TO_MANY_ANNOTATION, ActionType.REMOVE);
+			// }
 			// List<?> parameter: default List<Object>
 			isPrevious = StringUtils.equals(entityModel.getFieldTypeArgs(), model.getFieldTypeArgs());
 			isDefault = StringUtils.equals(model.getFieldTypeArgs(), Object.class.getSimpleName());

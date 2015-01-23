@@ -36,12 +36,20 @@ public abstract class AbstractJpaFieldDetailsPage extends AbstractJpaDetailsPage
 	protected abstract JpaFieldModel getFieldModel();
 
 	/**
-	 * Allows the child class to add specific content
+	 * Allows the child class to add specific content on the top of main area
 	 * 
 	 * @param client
 	 * @param toolkit
 	 */
-	protected abstract void addContent(FormToolkit toolkit, Composite client);
+	protected abstract void addTopContent(FormToolkit toolkit, Composite client);
+
+	/**
+	 * Allows the child class to add specific content on the bottom of main area
+	 * 
+	 * @param client
+	 * @param toolkit
+	 */
+	protected abstract void addBottomContent(FormToolkit toolkit, Composite client);
 
 	@Override
 	public void createContents(Composite parent) {
@@ -69,9 +77,9 @@ public abstract class AbstractJpaFieldDetailsPage extends AbstractJpaDetailsPage
 
 		// create empty row
 		FormRowCreator.createSpacer(toolkit, client, 2);
-		// create row for displaying java type name
-		FormRowCreator.createLabelRow(toolkit, client, mapLabels,
-				Messages.getString("jpa.field.java.type"), "", Constants.JAVA_TYPE_NAME);//$NON-NLS-1$ //$NON-NLS-2$
+
+		addTopContent(toolkit, client);
+
 		// create row for "fieldName"
 		Text fieldNameControl = FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("jpa.field.field.name"), "", Constants.FIELD_NAME);//$NON-NLS-1$ //$NON-NLS-2$
@@ -147,7 +155,7 @@ public abstract class AbstractJpaFieldDetailsPage extends AbstractJpaDetailsPage
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
 				Messages.getString("jpa.field.main.display.field"), false, DbAnnotationConstants.MAIN_DISPLAY_FIELD);//$NON-NLS-1$
 
-		addContent(toolkit, client);
+		addBottomContent(toolkit, client);
 
 		toolkit.paintBordersFor(section);
 		section.setClient(client);
