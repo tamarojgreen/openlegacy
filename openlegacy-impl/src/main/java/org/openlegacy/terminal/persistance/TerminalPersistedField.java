@@ -159,6 +159,9 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 
 	@Override
 	public boolean isEditable() {
+		if (editable == null) {
+			return false;
+		}
 		return editable;
 	}
 
@@ -168,6 +171,9 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 
 	@Override
 	public boolean isModified() {
+		if (modified == null) {
+			return false;
+		}
 		return modified;
 	}
 
@@ -185,6 +191,9 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 
 	@Override
 	public boolean isHidden() {
+		if (hidden == null) {
+			return false;
+		}
 		return hidden;
 	}
 
@@ -221,6 +230,9 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 
 	@Override
 	public Color getBackColor() {
+		if (backColor == null) {
+			return Color.BLACK;
+		}
 		return backColor;
 	}
 
@@ -262,6 +274,9 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 
 	@Override
 	public boolean isBold() {
+		if (bold == null) {
+			return false;
+		}
 		return bold;
 	}
 

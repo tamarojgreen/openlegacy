@@ -1,15 +1,21 @@
 package org.openlegacy.terminal.support.obfuscator;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
 import org.openlegacy.terminal.TrailObfuscator;
 import org.openlegacy.terminal.module.TerminalSessionTrail;
+import org.openlegacy.terminal.support.ModifiableTerminalField;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 public class DefaultTrailObfuscator implements TrailObfuscator {
+
+	private final static Log logger = LogFactory.getLog(DefaultTrailObfuscator.class);
 
 	private List<String> regExps;
 
@@ -33,7 +39,7 @@ public class DefaultTrailObfuscator implements TrailObfuscator {
 							if (lastIncomingSnapshot != null) {
 								TerminalField incomingField = lastIncomingSnapshot.getField(terminalField.getPosition());
 								if (incomingField != null) {
-									terminalField.setValue(incomingField.getValue());
+									((ModifiableTerminalField)terminalField).setValue(incomingField.getValue(), false);
 								}
 							}
 						}
@@ -74,7 +80,8 @@ public class DefaultTrailObfuscator implements TrailObfuscator {
 				}
 			}
 		}
-		terminalField.setValue(newValue.toString());
+		logger.debug(MessageFormat.format("Obfuscated:{0}, to:{1}", value, newValue));
+		((ModifiableTerminalField)terminalField).setValue(newValue.toString(), false);
 	}
 
 	public void setRegExps(List<String> regExps) {

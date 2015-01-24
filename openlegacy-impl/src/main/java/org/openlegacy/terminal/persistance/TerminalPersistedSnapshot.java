@@ -157,6 +157,13 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 		return screenText;
 	}
 
+	public void placeText(TerminalPosition position, String text) {
+		StringBuilder sb = new StringBuilder(getText());
+		int absolutePosition = SnapshotUtils.toAbsolutePosition(position, getSize());
+		sb.replace(absolutePosition, absolutePosition + text.length(), text);
+		screenText = sb.toString();
+	}
+
 	private void initContent() {
 		if (screenText == null) {
 			fieldPositions = new ArrayList<TerminalPosition>();

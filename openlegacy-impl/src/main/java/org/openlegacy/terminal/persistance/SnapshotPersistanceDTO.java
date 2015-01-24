@@ -18,6 +18,7 @@ import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
 import org.openlegacy.terminal.support.SimpleTerminalOutgoingSnapshot;
+import org.openlegacy.utils.BidiUtil;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.StringUtil;
 
@@ -79,6 +80,12 @@ public class SnapshotPersistanceDTO {
 				value = convertToAsteriks(terminalField.getValue());
 			}
 			field.setValue(value, false);
+			if (field.getVisualValue() != null) {
+				field.setVisualValue(BidiUtil.convertToVisual(value));
+				persistedSnapshot.placeText(field.getPosition(), field.getVisualValue());
+			} else {
+				persistedSnapshot.placeText(field.getPosition(), field.getValue());
+			}
 			field.setModified(true);
 		}
 		return persistedSnapshot;
