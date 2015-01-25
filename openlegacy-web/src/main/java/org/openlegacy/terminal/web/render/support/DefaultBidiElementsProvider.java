@@ -26,7 +26,7 @@ public class DefaultBidiElementsProvider extends DefaultElementsProvider {
 
 	@Override
 	public Element createLabel(Element rootNode, TerminalField field, ScreenSize screenSize) {
-		String visualValue = field.getVisualValue();
+		String visualValue = field.getValue();
 
 		if (visualValue != null) {
 			TerminalFieldSplitter splitter = new BidiTerminalFieldSplitter();
@@ -53,7 +53,7 @@ public class DefaultBidiElementsProvider extends DefaultElementsProvider {
 
 	private Element createLabelInner(Element rootNode, TerminalField field, ScreenSize screenSize) {
 		String value = field.getVisualValue();
-		if (value == null) {
+		if (value == null || value.trim().length() > 0) {
 			value = field.getValue();
 		}
 		if (field.isHidden() || StringUtils.isWhitespace(value) && field.getBackColor() == Color.BLACK) {
