@@ -178,7 +178,7 @@ public class ProxyUtil {
 	}
 
 	private static void setFieldValue(Field field, Object proxy, Object value) throws IllegalAccessException,
-	IllegalArgumentException {
+			IllegalArgumentException {
 		field.setAccessible(true);
 		field.set(proxy, value);
 
@@ -192,7 +192,7 @@ public class ProxyUtil {
 	}
 
 	public static Class<?> getOriginalClass(Class<?> entityClass) {
-		while (Enhancer.isEnhanced(entityClass)) {
+		while (Enhancer.isEnhanced(entityClass) || entityClass.getName().contains("EnhancerBy")) {
 			entityClass = entityClass.getSuperclass();
 		}
 		return entityClass;
