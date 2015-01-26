@@ -152,7 +152,10 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 		if (resource == null) {
 			resource = new ClassPathResource("/host.properties");
 		}
-		hostProperties = PropertiesLoaderUtils.loadProperties(resource);
+		// do not override default properties
+		if (hostProperties == null){
+			hostProperties = PropertiesLoaderUtils.loadProperties(resource);
+		}
 
 	}
 
@@ -165,5 +168,9 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 			return "1";
 		}
 		return DEFAULT_HOST_MODEL;
+	}
+	
+	public void setHostProperties(Properties hostProperties) {
+		this.hostProperties = hostProperties;
 	}
 }
