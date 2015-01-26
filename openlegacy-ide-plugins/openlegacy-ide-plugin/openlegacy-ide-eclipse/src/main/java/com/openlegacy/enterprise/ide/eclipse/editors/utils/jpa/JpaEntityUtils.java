@@ -190,6 +190,20 @@ public class JpaEntityUtils {
 			if (entityModel.isKey() == model.isKey()) {
 				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_ID_ANNOTATION);
 			}
+			// add @GeneratedValue annotation
+			if (!entityModel.isGeneratedValue() && model.isGeneratedValue()) {
+				entity.addAction(new JpaIdFieldAction(model.getUUID(), model, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
+						DbAnnotationConstants.DB_ID_ANNOTATION, null));
+			}
+			// remove @GeneratedValue annotation
+			if (entityModel.isGeneratedValue() && !model.isGeneratedValue()) {
+				// entity.addAction(new JpaIdFieldAction(model.getUUID(), model, ActionType.REMOVE, ASTNode.NORMAL_ANNOTATION,
+				// DbAnnotationConstants.DB_ID_ANNOTATION, null));
+			}
+			// remove add/remove @GeneratedValue action
+			if (entityModel.isGeneratedValue() == model.isGeneratedValue()) {
+				// entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_ID_ANNOTATION);
+			}
 			// @Column -> fieldName: default equals to field name from entityModel
 			isPrevious = model.getFieldName().equals(entityModel.getFieldName());
 			isDefault = entityModel.getPreviousFieldName().equals(model.getFieldName());
