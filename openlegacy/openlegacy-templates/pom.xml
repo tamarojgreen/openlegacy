@@ -24,6 +24,7 @@
 		<!-- <module>remoting</module> -->
 		<module>openlegacy-as400-menus</module>
 		<module>openlegacy-as400-menus-rest</module>
+		<module>openlegacy-rest-db-new</module>
 		<module>openlegacy-rest-db-sample</module>
 	</modules>
 

@@ -30,6 +30,7 @@ public class PreferencesConstants {
 	public static final String PROJECT_PROVIDERS_FILENAME = "providers.xml"; //$NON-NLS-1$
 	public static final String PROJECT_HOST_TYPES_FILENAME = "host-types.xml";
 	public static final String PROJECT_THEMES_FILENAME = "themes.xml"; //$NON-NLS-1$
+	public static final String PROJECT_DB_TYPES_FILENAME = "db-types.xml";//$NON-NLS-1$
 
 	public static final String USER_NAME = "USER_NAME";
 	public static final String HOST_NAME = "HOST_NAME";
