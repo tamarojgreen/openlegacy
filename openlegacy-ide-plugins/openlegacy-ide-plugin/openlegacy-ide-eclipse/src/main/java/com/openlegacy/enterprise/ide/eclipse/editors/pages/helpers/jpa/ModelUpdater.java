@@ -74,6 +74,8 @@ public class ModelUpdater {
 				model.setUpdatable(selection);
 			} else if (key.equals(DbAnnotationConstants.DB_ID_ANNOTATION)) {
 				model.setKey(selection);
+			} else if (key.equals(DbAnnotationConstants.DB_GENERATED_VALUE_ANNOTATION)) {
+				model.setGeneratedValue(selection);
 			} else if (key.equals(DbAnnotationConstants.PASSWORD)) {
 				model.setPassword(selection);
 			} else if (key.equals(DbAnnotationConstants.RIGHT_TO_LEFT)) {
@@ -122,7 +124,7 @@ public class ModelUpdater {
 		if (text != null) {
 			if (key.equals(DbAnnotationConstants.CASCADE)) {
 				model.setCascade(StringUtils.isEmpty(text) ? new CascadeType[] {}
-						: new CascadeType[] { CascadeType.valueOf(text) });
+				: new CascadeType[] { CascadeType.valueOf(text) });
 			} else if (key.equals(DbAnnotationConstants.FETCH)) {
 				model.setFetch(StringUtils.isEmpty(text) ? FetchType.LAZY : FetchType.valueOf(text));
 			} else if (key.equals(DbAnnotationConstants.MAPPED_BY)) {
@@ -169,7 +171,7 @@ public class ModelUpdater {
 				}
 			} else if (key.equals(DbAnnotationConstants.CASCADE)) {
 				model.setCascade(StringUtils.isEmpty(text) ? new CascadeType[] {}
-						: new CascadeType[] { CascadeType.valueOf(text) });
+				: new CascadeType[] { CascadeType.valueOf(text) });
 			} else if (key.equals(DbAnnotationConstants.FETCH)) {
 				model.setFetch(StringUtils.isEmpty(text) ? FetchType.LAZY : FetchType.valueOf(text));
 			} else if (key.equals(Constants.JAVA_TYPE)) {
