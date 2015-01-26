@@ -2,6 +2,7 @@ package org.openlegacy.ide.eclipse.wizards.project.organized;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -101,6 +102,11 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 
 		setControl(container);
 		setPageComplete(false);
+	}
+
+	@Override
+	public IWizardPage getNextPage() {
+		return getWizard().getPage("wizardThemePage");
 	}
 
 	@Override

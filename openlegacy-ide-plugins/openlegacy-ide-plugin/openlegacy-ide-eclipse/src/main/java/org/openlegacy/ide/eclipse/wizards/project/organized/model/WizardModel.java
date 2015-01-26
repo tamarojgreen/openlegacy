@@ -1,6 +1,7 @@
 package org.openlegacy.ide.eclipse.wizards.project.organized.model;
 
 import org.openlegacy.designtime.newproject.model.ProjectTheme;
+import org.openlegacy.designtime.newproject.organized.model.DbType;
 import org.openlegacy.designtime.newproject.organized.model.HostType;
 import org.openlegacy.designtime.newproject.organized.model.ProjectType;
 
@@ -25,6 +26,13 @@ public class WizardModel {
 	private String codePage;
 	// theme
 	private ProjectTheme projectTheme;
+	// db type
+	private String dbTypeName;
+	private String dbUser;
+	private String dbPass;
+	private String dbDriver;
+	private String dbUrl;
+	private String dbMavenDependency;
 
 	private String backendSolution;
 	private String frontendSolution;
@@ -113,6 +121,46 @@ public class WizardModel {
 		return frontendSolution;
 	}
 
+	public String getDbTypeName() {
+		return dbTypeName;
+	}
+
+	public String getDbUser() {
+		return dbUser;
+	}
+
+	public void setDbUser(String dbUser) {
+		this.dbUser = dbUser;
+	}
+
+	public String getDbPass() {
+		return dbPass;
+	}
+
+	public void setDbPass(String dbPass) {
+		this.dbPass = dbPass;
+	}
+
+	public String getDbDriver() {
+		return dbDriver;
+	}
+
+	public void setDbDriver(String dbDriver) {
+		this.dbDriver = dbDriver;
+	}
+
+	public String getDbUrl() {
+		return dbUrl;
+	}
+
+	public void setDbUrl(String dbUrl) {
+		this.dbUrl = dbUrl;
+	}
+
+	public String getDbMavenDependency() {
+		return dbMavenDependency;
+	}
+
 	public void update(ProjectType projectType) {
 		if (projectType == null) {
 			clear();
@@ -137,6 +185,16 @@ public class WizardModel {
 		}
 	}
 
+	public void update(DbType dbType) {
+		if (dbType == null) {
+			clear();
+		} else {
+			dbTypeName = dbType.getName();
+			dbDriver = dbType.getDatabaseDriver();
+			dbMavenDependency = dbType.getMavenDependency();
+		}
+	}
+
 	public void clear() {
 		templateName = null;
 		demo = false;
@@ -152,6 +210,12 @@ public class WizardModel {
 		projectTheme = null;
 		backendSolution = null;
 		frontendSolution = null;
+		dbTypeName = null;
+		dbUser = null;
+		dbPass = null;
+		dbDriver = null;
+		dbUrl = null;
+		dbMavenDependency = null;
 	}
 
 }
