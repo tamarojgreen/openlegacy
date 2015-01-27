@@ -11,8 +11,10 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaTableModel;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.openlegacy.designtime.db.generators.support.DbAnnotationConstants;
@@ -124,6 +126,9 @@ public class ControlsUpdater {
 				button.setSelection(model.isUpdatable());
 			} else if (key.equals(DbAnnotationConstants.DB_ID_ANNOTATION)) {
 				button.setSelection(model.isKey());
+				button.notifyListeners(SWT.Selection, new Event());
+			} else if (key.equals(DbAnnotationConstants.DB_GENERATED_VALUE_ANNOTATION)) {
+				button.setSelection(model.isGeneratedValue());
 			} else if (key.equals(DbAnnotationConstants.PASSWORD)) {
 				button.setSelection(model.isPassword());
 			} else if (key.equals(DbAnnotationConstants.RIGHT_TO_LEFT)) {

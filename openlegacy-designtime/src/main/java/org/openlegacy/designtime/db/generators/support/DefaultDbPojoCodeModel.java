@@ -315,6 +315,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		private boolean mainDisplayField = false;
 
 		private boolean key = false;
+		private boolean generatedValue = false;
 		private DbOneToManyDefinition oneToManyDefinition;
 		private DbManyToOneDefinition manyToOneDefinition;
 		private DbJoinColumnDefinition joinColumnDefinition;
@@ -529,6 +530,13 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 			this.joinColumnDefinition = joinColumnDefinition;
 		}
 
+		public boolean isGeneratedValue() {
+			return generatedValue;
+		}
+
+		public void setGeneratedValue(boolean generatedValue) {
+			this.generatedValue = generatedValue;
+		}
 	}
 
 	private String className;
@@ -694,6 +702,10 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr, DbAnnotationConstants.DB_ID_ANNOTATION)) {
 								columnField.setKey(true);
+							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
+									DbAnnotationConstants.DB_GENERATED_VALUE_ANNOTATION)) {
+								columnField.setGeneratedValue(true);
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
 									DbAnnotationConstants.DB_MANY_TO_ONE_ANNOTATION)) {

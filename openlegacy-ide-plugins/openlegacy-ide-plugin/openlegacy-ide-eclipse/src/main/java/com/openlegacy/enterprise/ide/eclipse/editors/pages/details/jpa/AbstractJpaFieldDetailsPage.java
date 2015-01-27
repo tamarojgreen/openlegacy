@@ -10,7 +10,11 @@ import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreato
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
 
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -29,6 +33,7 @@ import java.util.UUID;
 public abstract class AbstractJpaFieldDetailsPage extends AbstractJpaDetailsPage {
 
 	private TextValidator fieldNameValidator;
+	private Button autoGeneretedKeyControl;
 
 	public AbstractJpaFieldDetailsPage(AbstractMasterBlock master) {
 		super(master);
@@ -97,9 +102,13 @@ public abstract class AbstractJpaFieldDetailsPage extends AbstractJpaDetailsPage
 			}
 		};
 		// create row for "key"
-		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getIsKeySelectionListener(),
 				Messages.getString("jpa.field.key"), false, DbAnnotationConstants.DB_ID_ANNOTATION, JAVA_DOCUMENTATION_TYPE.JPA,//$NON-NLS-1$
 				"Column");//$NON-NLS-1$
+		autoGeneretedKeyControl = FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("jpa.field.generated.value"), false,//$NON-NLS-1$
+				DbAnnotationConstants.DB_GENERATED_VALUE_ANNOTATION, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$
+		autoGeneretedKeyControl.setEnabled(false);
 		// create row for "name"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("jpa.field.name"), "", DbAnnotationConstants.NAME, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$ //$NON-NLS-2$
@@ -218,6 +227,7 @@ public abstract class AbstractJpaFieldDetailsPage extends AbstractJpaDetailsPage
 
 		toolkit.paintBordersFor(section);
 		section.setClient(client);
+
 	}
 
 	@Override
@@ -252,4 +262,18 @@ public abstract class AbstractJpaFieldDetailsPage extends AbstractJpaDetailsPage
 		return isValid;
 	}
 
+	private SelectionListener getIsKeySelectionListener() {
+		return new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				if (!updatingControls) {
+					String key = (String)event.widget.getData(FormRowCreator.ID_KEY);
+					updateModel(key);
+				}
+
+				autoGeneretedKeyControl.setEnabled(((Button)event.widget).getSelection());
+			}
+		};
+	}
 }

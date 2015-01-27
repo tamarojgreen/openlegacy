@@ -60,6 +60,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -325,7 +326,8 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 			if (!action.getAnnotationClass().equals(Column.class) && !action.getAnnotationClass().equals(OneToMany.class)
 					&& !action.getAnnotationClass().equals(Id.class) && !action.getAnnotationClass().equals(DbColumn.class)
 					&& !action.getAnnotationClass().equals(ManyToOne.class)
-					&& !action.getAnnotationClass().equals(JoinColumn.class)) {
+					&& !action.getAnnotationClass().equals(JoinColumn.class)
+					&& !action.getAnnotationClass().equals(GeneratedValue.class)) {
 				continue;
 			}
 			if (action.getActionType().equals(ActionType.ADD) && (action.getTarget() == ASTNode.NORMAL_ANNOTATION)
@@ -380,7 +382,8 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 			if (!action.getAnnotationClass().equals(Column.class) && !action.getAnnotationClass().equals(OneToMany.class)
 					&& !action.getAnnotationClass().equals(Id.class) && !action.getAnnotationClass().equals(DbColumn.class)
 					&& !action.getAnnotationClass().equals(ManyToOne.class)
-					&& !action.getAnnotationClass().equals(JoinColumn.class)) {
+					&& !action.getAnnotationClass().equals(JoinColumn.class)
+					&& !action.getAnnotationClass().equals(GeneratedValue.class)) {
 				continue;
 			}
 			if (action.getActionType().equals(ActionType.REMOVE) && (action.getTarget() == ASTNode.NORMAL_ANNOTATION)
