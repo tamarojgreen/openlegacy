@@ -8,6 +8,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbColumnActi
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaGeneratedValueFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaIdFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaJoinColumnAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaListFieldAction;
@@ -192,17 +193,17 @@ public class JpaEntityUtils {
 			}
 			// add @GeneratedValue annotation
 			if (!entityModel.isGeneratedValue() && model.isGeneratedValue()) {
-				entity.addAction(new JpaIdFieldAction(model.getUUID(), model, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
-						DbAnnotationConstants.DB_ID_ANNOTATION, null));
+				entity.addAction(new JpaGeneratedValueFieldAction(model.getUUID(), model, ActionType.ADD,
+						ASTNode.NORMAL_ANNOTATION, DbAnnotationConstants.DB_GENERATED_VALUE_ANNOTATION, null));
 			}
 			// remove @GeneratedValue annotation
 			if (entityModel.isGeneratedValue() && !model.isGeneratedValue()) {
-				// entity.addAction(new JpaIdFieldAction(model.getUUID(), model, ActionType.REMOVE, ASTNode.NORMAL_ANNOTATION,
-				// DbAnnotationConstants.DB_ID_ANNOTATION, null));
+				entity.addAction(new JpaGeneratedValueFieldAction(model.getUUID(), model, ActionType.REMOVE,
+						ASTNode.NORMAL_ANNOTATION, DbAnnotationConstants.DB_GENERATED_VALUE_ANNOTATION, null));
 			}
 			// remove add/remove @GeneratedValue action
 			if (entityModel.isGeneratedValue() == model.isGeneratedValue()) {
-				// entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_ID_ANNOTATION);
+				entity.removeAction(model.getUUID(), DbAnnotationConstants.DB_GENERATED_VALUE_ANNOTATION);
 			}
 			// @Column -> fieldName: default equals to field name from entityModel
 			isPrevious = model.getFieldName().equals(entityModel.getFieldName());
