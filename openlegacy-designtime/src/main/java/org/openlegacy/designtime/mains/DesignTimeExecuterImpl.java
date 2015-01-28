@@ -178,13 +178,17 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		// maven files
 		renameProjectProperties(projectCreationRequest.getProjectName(), targetPath);
-		renameProviderInPOM(projectCreationRequest.getProvider(), targetPath);
-		uncommentDependencies(targetPath);
+		if (projectCreationRequest.getBackendSolution().equals("JDBC")) {
+			addDbDriverDependency(targetPath, projectCreationRequest.getDbDriverMavenDependency());
+		} else {
+			renameProviderInPOM(projectCreationRequest.getProvider(), targetPath);
+			uncommentDependencies(targetPath);
+		}
 
 		if (projectCreationRequest.isSupportTheme()) {
 			renameThemeInPOM(projectCreationRequest.getProjectTheme(), targetPath);
 			renameThemeInAppProperties(projectCreationRequest.getProjectTheme(), targetPath);
-			renameThemeInIndexJSP(projectCreationRequest.getProjectTheme(), projectCreationRequest.isRightTotLeft(), targetPath);
+			renameThemeInIndexJSP(projectCreationRequest.getProjectTheme(), projectCreationRequest.isRightToLeft(), targetPath);
 		}
 
 		// spring files
@@ -206,7 +210,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		savePreference(targetPath, PreferencesConstants.BACKEND_SOLUTION,
 				projectCreationRequest.getBackendSolution() != null ? projectCreationRequest.getBackendSolution() : "SCREEN");
 
-		if (projectCreationRequest.isRightTotLeft()) {
+		if (projectCreationRequest.isRightToLeft()) {
 			handleRightToLeft(targetPath);
 		}
 
@@ -277,7 +281,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void uncommentMockSettings(String provider, File targetPath) throws IOException {
-		if (!provider.equals("mock-up") && !provider.equals("openlegacy-impl")) {
+		if (provider == null || (!provider.equals("mock-up") && !provider.equals("openlegacy-impl"))) {
 			return;
 		}
 
@@ -345,6 +349,22 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 					MessageFormat.format("terminalConnectionFactory.preferencePath={0}", projectCreationRequest.getProjectName()));
 
 			FileUtils.write(appPropertiesFileContent, appPropertiesFile);
+		}
+
+		File dbPropertiesFile = new File(targetPath, "src/main/resources/database.properties");
+		if (dbPropertiesFile.exists()) {
+			String dbPropertiesFileContent = IOUtils.toString(new FileInputStream(dbPropertiesFile));
+
+			dbPropertiesFileContent = dbPropertiesFileContent.replaceFirst("database.username=.*",
+					MessageFormat.format("database.username={0}", projectCreationRequest.getDbUser()));
+			dbPropertiesFileContent = dbPropertiesFileContent.replaceFirst("database.password=.*",
+					MessageFormat.format("database.password={0}", projectCreationRequest.getDbPass()));
+			dbPropertiesFileContent = dbPropertiesFileContent.replaceFirst("database.driverClassName=.*",
+					MessageFormat.format("database.driverClassName={0}", projectCreationRequest.getDbDriver()));
+			dbPropertiesFileContent = dbPropertiesFileContent.replaceFirst("database.url=.*",
+					MessageFormat.format("database.url={0}", projectCreationRequest.getDbUrl()));
+
+			FileUtils.write(dbPropertiesFileContent, dbPropertiesFile);
 		}
 	}
 
@@ -448,6 +468,35 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
+	private static void addDbDriverDependency(File targetPath, String mavenDependencyString) throws FileNotFoundException,
+			IOException {
+		File pomFile = new File(targetPath, "pom.xml");
+
+		if (!pomFile.exists()) {
+			logger.error(MessageFormat.format("Unable to find pom.xml within {0}", targetPath));
+			return;
+		}
+
+		if (StringUtils.isBlank(mavenDependencyString)) {
+			return;
+		}
+
+		String[] split = mavenDependencyString.split(":");
+		if (split.length != 3) {
+			logger.error("Maven dependency of DB driver is not specified. Should be in format {groupId}:{artifactId}:{version}");
+			return;
+		}
+
+		String pomFileContent = IOUtils.toString(new FileInputStream(pomFile));
+		pomFileContent = pomFileContent.replaceFirst(
+				"</dependencies>",
+				MessageFormat.format(
+						"\t<dependency>\n\t\t\t<groupId>{0}</groupId>\n\t\t\t<artifactId>{1}</artifactId>\n\t\t\t<version>{2}</version>\n\t\t</dependency>\n\n\t</dependencies>",
+						split[0], split[1], split[2]));
+
+		FileUtils.write(pomFileContent, pomFile);
+	}
+
 	private static void renameProviderInPOM(String provider, File targetPath) throws FileNotFoundException, IOException {
 		File pomFile = new File(targetPath, "pom.xml");
 
@@ -526,7 +575,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static void renameThemeInIndexJSP(ProjectTheme projectTheme, boolean rightToLeft, File targetPath)
 			throws FileNotFoundException, IOException {
-		File indexFile = new File(targetPath + "/src/main/webapp/app", "index.jsp");
+		File indexFile = new File(targetPath, INDEX_JSP_PATH);
 
 		if (!indexFile.exists()) {
 			logger.error(MessageFormat.format("Unable to find src/main/webapp/app/index.jsp within {0}", targetPath));
@@ -547,7 +596,6 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			if (rightToLeft) {
 				themeName = themeName + "_rtl";
 			}
-			String str = "<link ng-href=\"themes/{0}/{0}.css\" rel=\"stylesheet\" >";
 			indexFileContent = indexFileContent.replaceFirst("<link ng-href=\"themes/.+/.+\\.css\".+>",
 					MessageFormat.format("<link ng-href=\"themes/{0}/{1}.css\" rel=\"stylesheet\" >", themeFolderName, themeName));
 			FileUtils.write(indexFileContent, indexFile);
@@ -1378,7 +1426,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	public void obfuscateTrail(File trailFile) {
 		FileOutputStream out = null;
 		try {
-			TrailObfuscator trailObfuscater = getOrCreateApplicationContext(getProjectPath(trailFile)).getBean(TrailObfuscator.class);
+			TrailObfuscator trailObfuscater = getOrCreateApplicationContext(getProjectPath(trailFile)).getBean(
+					TrailObfuscator.class);
 			TerminalPersistedTrail trail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class, new FileInputStream(
 					trailFile));
 			trailObfuscater.obfuscate(trail);

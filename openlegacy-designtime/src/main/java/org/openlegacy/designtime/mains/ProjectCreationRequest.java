@@ -32,9 +32,15 @@ public class ProjectCreationRequest {
 	private String zipFile;
 
 	private ITemplateFetcher templateFetcher;
-	private boolean rightTotLeft;
+	private boolean rightToLeft;
 
 	private String backendSolution;
+
+	private String dbDriver;
+	private String dbUrl;
+	private String dbUser;
+	private String dbPass;
+	private String dbDriverMavenDependency;
 
 	public String getTemplateName() {
 		return templateName;
@@ -136,12 +142,12 @@ public class ProjectCreationRequest {
 		this.projectTheme = projectTheme;
 	}
 
-	public boolean isRightTotLeft() {
-		return rightTotLeft;
+	public boolean isRightToLeft() {
+		return rightToLeft;
 	}
 
-	public void setRightToLeft(boolean rightTotLeft) {
-		this.rightTotLeft = rightTotLeft;
+	public void setRightToLeft(boolean rightToLeft) {
+		this.rightToLeft = rightToLeft;
 	}
 
 	public void setBackendSolution(String backendSolution) {
@@ -150,6 +156,46 @@ public class ProjectCreationRequest {
 
 	public String getBackendSolution() {
 		return backendSolution;
+	}
+
+	public String getDbDriver() {
+		return dbDriver;
+	}
+
+	public void setDbDriver(String dbDriver) {
+		this.dbDriver = dbDriver;
+	}
+
+	public String getDbUrl() {
+		return dbUrl;
+	}
+
+	public void setDbUrl(String dbUrl) {
+		this.dbUrl = dbUrl;
+	}
+
+	public String getDbUser() {
+		return dbUser;
+	}
+
+	public void setDbUser(String dbUser) {
+		this.dbUser = dbUser;
+	}
+
+	public String getDbPass() {
+		return dbPass;
+	}
+
+	public void setDbPass(String dbPass) {
+		this.dbPass = dbPass;
+	}
+
+	public void setDbDriverMavenDependency(String dbDriverMavenDependency) {
+		this.dbDriverMavenDependency = dbDriverMavenDependency;
+	}
+
+	public String getDbDriverMavenDependency() {
+		return dbDriverMavenDependency;
 	}
 
 }

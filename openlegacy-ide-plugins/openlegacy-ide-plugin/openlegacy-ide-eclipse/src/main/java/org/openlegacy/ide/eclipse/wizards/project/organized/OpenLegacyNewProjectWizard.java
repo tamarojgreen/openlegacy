@@ -35,6 +35,7 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard implement
 	private OpenLegacyWizardGeneralPage generalPage;
 	private OpenLegacyWizardHostPage hostPage;
 	private OpenLegacyWizardThemePage themePage;
+	private OpenLegacyWizardDbPage dbPage;
 
 	private NewProjectMetadataRetriever retriever;
 
@@ -50,8 +51,10 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard implement
 		generalPage = new OpenLegacyWizardGeneralPage();
 		hostPage = new OpenLegacyWizardHostPage();
 		themePage = new OpenLegacyWizardThemePage();
+		dbPage = new OpenLegacyWizardDbPage();
 		addPage(generalPage);
 		addPage(hostPage);
+		addPage(dbPage);
 		addPage(themePage);
 	}
 
@@ -63,7 +66,7 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard implement
 	@Override
 	public boolean canFinish() {
 		return getWizardModel().isDemo()
-				|| (generalPage.isPageComplete() && hostPage.isPageComplete() && themePage.isPageComplete());
+				|| (generalPage.isPageComplete() && hostPage.isPageComplete() && themePage.isPageComplete() && dbPage.isPageComplete());
 	}
 
 	@Override
@@ -103,6 +106,11 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard implement
 			projectCreationRequest.setTemplateFetcher(retriever.getTemplateFetcher());
 			projectCreationRequest.setRightToLeft(wizardModel.isRightToLeft());
 			projectCreationRequest.setBackendSolution(wizardModel.getBackendSolution());
+			projectCreationRequest.setDbDriver(wizardModel.getDbDriver());
+			projectCreationRequest.setDbUrl(wizardModel.getDbUrl());
+			projectCreationRequest.setDbUser(wizardModel.getDbUser());
+			projectCreationRequest.setDbPass(wizardModel.getDbPass());
+			projectCreationRequest.setDbDriverMavenDependency(wizardModel.getDbMavenDependency());
 
 			EclipseDesignTimeExecuter.instance().createProject(projectCreationRequest);
 		} catch (Exception e) {
@@ -146,6 +154,7 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard implement
 				themePage.updateControlsData(retriever);
 				generalPage.updateControlsData(retriever);
 				hostPage.updateControlsData(retriever);
+				dbPage.updateControlsData(retriever);
 			}
 
 		});

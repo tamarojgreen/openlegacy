@@ -17,6 +17,7 @@ import org.openlegacy.annotations.db.DbNavigation;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -38,6 +39,7 @@ public class DbAnnotationConstants {
 	public static final String DB_COLUMN_ANNOTATION = DbColumn.class.getSimpleName();
 	public static final String DB_ONE_TO_MANY_ANNOTATION = OneToMany.class.getSimpleName();
 	public static final String DB_ID_ANNOTATION = Id.class.getSimpleName();
+	public static final String DB_GENERATED_VALUE_ANNOTATION = GeneratedValue.class.getSimpleName();
 
 	public static final String DB_NAVIGATION_ANNOTATION = DbNavigation.class.getSimpleName();
 

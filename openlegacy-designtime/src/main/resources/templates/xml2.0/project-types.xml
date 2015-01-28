@@ -3,6 +3,7 @@
 	<backend-solutions>
 		<solution>Screens</solution>
 		<solution>RPC</solution>
+		<solution>JDBC</solution>
 	</backend-solutions>
 	
 	<frontend-solutions>
@@ -97,6 +98,22 @@
 		<backend-solution>RPC</backend-solution>
 		<frontend-solution>REST/Mobile</frontend-solution>
 	</project-type>
+	<project-type>
+		<template-name>openlegacy-rest-db-new</template-name>
+		<is-demo>false</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-rest-db-new.zip</zip-file>
+		<backend-solution>JDBC</backend-solution>
+		<frontend-solution>REST/Mobile</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-rest-db-sample</template-name>
+		<is-demo>true</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-rest-db-sample.zip</zip-file>
+		<backend-solution>JDBC</backend-solution>
+		<frontend-solution>REST/Mobile</frontend-solution>
+	</project-type>
 	
 	<!-- Integration -->
 	<project-type>
@@ -131,4 +148,5 @@
 		<backend-solution>RPC</backend-solution>
 		<frontend-solution>Integration</frontend-solution>
 	</project-type>
+	
 </project-types>

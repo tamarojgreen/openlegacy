@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -39,6 +40,8 @@ import java.util.List;
  */
 public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 
+	private static final String JDBC_BACKEND_SOLUTION = "JDBC";
+
 	private Text projectNameText;
 	private Text defaultPackageText;
 	private Button rightToLeftButton;
@@ -49,6 +52,8 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 	private Button demoRadioButton;
 
 	public static final String FRONTENT_SOLUTION_REST = "REST/Mobile";
+	private List<String> backendSolutions;
+	private List<String> frontendSolutions;
 
 	protected OpenLegacyWizardGeneralPage() {
 		super("wizardFirstPage");//$NON-NLS-1$
@@ -74,7 +79,7 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 		backendCombo.setLayoutData(gd);
 		backendCombo.setItems(new String[] { "Pending..." });//$NON-NLS-1$
 		backendCombo.select(0);
-		backendCombo.addSelectionListener(getDefaultSelectionListener());
+		backendCombo.addSelectionListener(getBackendSelectionListener());
 
 		// Frontend solution type
 		label = new Label(container, SWT.NONE);
@@ -175,13 +180,27 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 	}
 
 	@Override
+	public IWizardPage getNextPage() {
+		OpenLegacyWizardHostPage hostPage = (OpenLegacyWizardHostPage)getWizard().getPage("wizardProviderPage");
+		OpenLegacyWizardDbPage dbPage = (OpenLegacyWizardDbPage)getWizard().getPage("wizardDbPage");
+		if (StringUtils.equals(getWizardModel().getBackendSolution(), JDBC_BACKEND_SOLUTION)) {
+			hostPage.setPageComplete(true);
+			dbPage.setPageComplete(false);
+			return dbPage;
+		}
+		dbPage.setPageComplete(true);
+		hostPage.setPageComplete(false);
+		return hostPage;
+	}
+
+	@Override
 	public void updateControlsData(NewProjectMetadataRetriever retriever) {
 		// if dialog was closed before coming here
 		if (getControl().isDisposed()) {
 			return;
 		}
-		final List<String> backendSolutions = retriever.getBackendSolutions();
-		final List<String> frontendSolutions = retriever.getFrontendSolutions();
+		backendSolutions = retriever.getBackendSolutions();
+		frontendSolutions = retriever.getFrontendSolutions();
 		projectTypes.clear();
 		projectTypes.addAll(retriever.getProjectTypes());
 
@@ -204,12 +223,22 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 				backendCombo.select(0);
 				backendCombo.notifyListeners(SWT.Selection, new Event());
 
-				frontendCombo.setItems(frontendSolutions.toArray(new String[] {}));
-				frontendCombo.select(0);
-				frontendCombo.notifyListeners(SWT.Selection, new Event());
+				fillFrontendCombo(frontendSolutions);
 			}
 
 		});
+	}
+
+	private void fillFrontendCombo(List<String> items) {
+		if (items != null && frontendCombo != null) {
+			if (items.size() > 0) {
+				frontendCombo.setItems(items.toArray(new String[] {}));
+				frontendCombo.select(0);
+				frontendCombo.notifyListeners(SWT.Selection, new Event());
+			} else {
+				frontendCombo.removeAll();
+			}
+		}
 	}
 
 	private void setControlsEnabled(boolean enabled) {
@@ -228,6 +257,22 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				checkAvailableProjects(backendCombo.getText(), frontendCombo.getText());
+				getWizardModel().update(
+						getProjectType(backendCombo.getText(), frontendCombo.getText(), demoRadioButton.getSelection()));
+				// validatePage method calls setPageComplete() and after that canFlipToNextPage() will be called
+				validatePage();
+			}
+
+		};
+	}
+
+	private SelectionListener getBackendSelectionListener() {
+		return new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				fillFrontendCombo(calculateFrontendSolutions(backendCombo.getText()));
 				checkAvailableProjects(backendCombo.getText(), frontendCombo.getText());
 				getWizardModel().update(
 						getProjectType(backendCombo.getText(), frontendCombo.getText(), demoRadioButton.getSelection()));
@@ -346,13 +391,29 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 
 	private void validatePage() {
 		// NOTE: first of all, we must update next pages. In other case canFinish() will return incorrect result
-		((OpenLegacyWizardHostPage)getNextPage()).updateControlsData(backendCombo.getText(), null);
+		IWizardPage nextPage = getNextPage();
+		if (nextPage instanceof OpenLegacyWizardHostPage) {
+			((OpenLegacyWizardHostPage)getNextPage()).updateControlsData(backendCombo.getText(), null);
+		}
 
 		if (!demoRadioButton.getSelection() && validateProjectName(projectNameText.getText())) {
 			validateDefaultPackage(defaultPackageText.getText());
 		} else if (demoRadioButton.getSelection()) {
 			updateStatus(null);
 		}
+	}
+
+	private List<String> calculateFrontendSolutions(String backendSolution) {
+		Assert.isTrue(!projectTypes.isEmpty(), "Retrieved metadata is empty.");
+		Assert.isTrue(!StringUtils.isEmpty(backendSolution), "Backend solution is empty.");
+
+		List<String> list = new ArrayList<String>();
+		for (ProjectType projectType : projectTypes) {
+			if (backendSolution.equals(projectType.getBackendSolution()) && !list.contains(projectType.getFrontendSolution())) {
+				list.add(projectType.getFrontendSolution());
+			}
+		}
+		return list.isEmpty() ? null : list;
 	}
 
 }

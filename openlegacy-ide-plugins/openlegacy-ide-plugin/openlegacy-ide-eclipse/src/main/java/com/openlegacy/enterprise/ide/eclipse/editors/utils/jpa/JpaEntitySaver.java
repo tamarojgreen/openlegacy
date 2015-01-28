@@ -164,7 +164,7 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 			}
 		}
 
-		// add/remove field annotations, such as @Column, @OneToMany, @Id, @ManyToOne, @JoinColumn
+		// add/remove field annotations, such as @Column, @OneToMany, @Id, @ManyToOne, @JoinColumn, @GeneratedValue
 		nodeList = listRewriter.getRewrittenList();
 		for (ASTNode node : nodeList) {
 			if (node.getNodeType() == ASTNode.FIELD_DECLARATION) {

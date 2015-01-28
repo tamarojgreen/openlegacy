@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.newproject.ITemplateFetcher;
 import org.openlegacy.designtime.newproject.model.ProjectTheme;
+import org.openlegacy.designtime.newproject.organized.model.DbType;
 import org.openlegacy.designtime.newproject.organized.model.HostType;
 import org.openlegacy.designtime.newproject.organized.model.ProjectType;
 import org.openlegacy.exceptions.OpenLegacyException;
@@ -51,6 +52,7 @@ public class NewProjectMetadataRetriever {
 	private ProjectTypeStore projectTypeStore = null;
 	private HostTypesStore hostTypeStore = null;
 	private ProjectThemeStore projectThemeStore = null;
+	private DbTypesStore dbTypesStore = null;
 
 	private String templatesUrl = null;
 
@@ -96,6 +98,13 @@ public class NewProjectMetadataRetriever {
 		return projectThemeStore.getThemes();
 	}
 
+	public List<DbType> getDbTypes() {
+		if (dbTypesStore == null) {
+			return new ArrayList<DbType>();
+		}
+		return dbTypesStore.getDbTypes();
+	}
+
 	public List<String> getBackendSolutions() {
 		if (projectTypeStore == null || projectTypeStore.getBackendSolutions() == null) {
 			return new ArrayList<String>();
@@ -126,10 +135,12 @@ public class NewProjectMetadataRetriever {
 		projectTypeStore = fetchStoreOnline(ProjectTypeStore.class, PreferencesConstants.PROJECT_TYPES_FILENAME);
 		hostTypeStore = fetchStoreOnline(HostTypesStore.class, PreferencesConstants.PROJECT_HOST_TYPES_FILENAME);
 		projectThemeStore = fetchStoreOnline(ProjectThemeStore.class, PreferencesConstants.PROJECT_THEMES_FILENAME);
+		dbTypesStore = fetchStoreOnline(DbTypesStore.class, PreferencesConstants.PROJECT_DB_TYPES_FILENAME);
 
 		fetchThemeImagesOnline();
 
-		if (!projectTypeStore.isDataExist() || !hostTypeStore.isDataExist() || !projectThemeStore.isDataExist()) {
+		if (!projectTypeStore.isDataExist() || !hostTypeStore.isDataExist() || !projectThemeStore.isDataExist()
+				|| !dbTypesStore.isDataExist()) {
 			throw new OpenLegacyException("Cannot retrieve metadata online from " + templatesUrl);
 		}
 	}
@@ -138,9 +149,11 @@ public class NewProjectMetadataRetriever {
 		this.projectTypeStore = this.fetchStore(ProjectTypeStore.class, PreferencesConstants.PROJECT_TYPES_FILENAME);
 		this.hostTypeStore = this.fetchStore(HostTypesStore.class, PreferencesConstants.PROJECT_HOST_TYPES_FILENAME);
 		this.projectThemeStore = this.fetchStore(ProjectThemeStore.class, PreferencesConstants.PROJECT_THEMES_FILENAME);
+		dbTypesStore = fetchStore(DbTypesStore.class, PreferencesConstants.PROJECT_DB_TYPES_FILENAME);
 
 		this.fetchThemeImages();
-		if (!projectTypeStore.isDataExist() || !hostTypeStore.isDataExist() || !projectThemeStore.isDataExist()) {
+		if (!projectTypeStore.isDataExist() || !hostTypeStore.isDataExist() || !projectThemeStore.isDataExist()
+				|| !dbTypesStore.isDataExist()) {
 			throw new OpenLegacyException("Cannot retrieve metadata from resources");
 		}
 	}
@@ -292,4 +305,24 @@ public class NewProjectMetadataRetriever {
 		}
 	}
 
+	@XmlRootElement(name = "db-types")
+	private static class DbTypesStore {
+
+		private List<DbType> dbTypes;
+
+		@XmlElements({ @XmlElement(name = "db-type", type = DbType.class) })
+		public List<DbType> getDbTypes() {
+			return dbTypes;
+		}
+
+		@SuppressWarnings("unused")
+		public void setDbTypes(List<DbType> dbTypes) {
+			this.dbTypes = dbTypes;
+		}
+
+		public boolean isDataExist() {
+			return dbTypes != null;
+		}
+
+	}
 }

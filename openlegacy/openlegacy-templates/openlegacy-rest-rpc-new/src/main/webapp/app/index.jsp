@@ -44,10 +44,10 @@
 		<div ui-view="header" ng-cloak></div>	
 		<div class="container-fluid">    
 	    	<div class="row">		  			  			
-				<div class="col-sm-3 col-md-2 no-gutters-sm">				
+				<div class="col-xs-12 col-sm-3 col-md-2 no-gutters-sm">				
 					<div ui-view="sideMenu" ng-cloak></div>
 				</div>						
-				<div class="col-sm-9 col-md-10">								
+				<div class="col-xs-12 col-sm-9 col-md-10">								
 					<div ui-view="breadcrumbs" ng-cloak></div>
 					<!-- content view -->				
 					<div ui-view ng-cloak></div>
