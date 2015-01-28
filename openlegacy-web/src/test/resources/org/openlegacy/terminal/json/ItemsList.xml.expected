@@ -2,6 +2,90 @@
 <simpleEntityWrapper window="false">
     <entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:java="http://java.sun.com" xsi:type="java:apps.inventory.screens.ItemsList">
+        <itemsListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>APPLE</alphaSearch>
+            <itemDescription>Red apple - FRT</itemDescription>
+            <itemNumber>1007</itemNumber>
+            <action></action>
+            <itemCategory>FRT</itemCategory>
+        </itemsListRows>
+        <itemsListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>BANANA</alphaSearch>
+            <itemDescription>Banana - FRT</itemDescription>
+            <itemNumber>1008</itemNumber>
+            <action></action>
+            <itemCategory>FRT</itemCategory>
+        </itemsListRows>
+        <itemsListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>CARROT</alphaSearch>
+            <itemDescription>Carrot - VEG</itemDescription>
+            <itemNumber>1005</itemNumber>
+            <action></action>
+            <itemCategory>VEG</itemCategory>
+        </itemsListRows>
+        <itemsListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>CHICKEN</alphaSearch>
+            <itemDescription>Chicken breast - MEAT</itemDescription>
+            <itemNumber>1006</itemNumber>
+            <action></action>
+            <itemCategory>MEAT</itemCategory>
+        </itemsListRows>
+        <itemsListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>CUCUMBER</alphaSearch>
+            <itemDescription>Cucumber - VEG</itemDescription>
+            <itemNumber>1004</itemNumber>
+            <action></action>
+            <itemCategory>VEG</itemCategory>
+        </itemsListRows>
+        <itemsListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>EANS</alphaSearch>
+            <itemDescription>Red beans - VEG</itemDescription>
+            <itemNumber>1018</itemNumber>
+            <action></action>
+            <itemCategory>VEG</itemCategory>
+        </itemsListRows>
+        <itemsListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>FIG</alphaSearch>
+            <itemDescription>Fresh fig - FRT</itemDescription>
+            <itemNumber>1020</itemNumber>
+            <action></action>
+            <itemCategory>FRT</itemCategory>
+        </itemsListRows>
+        <itemsListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>GRAPE</alphaSearch>
+            <itemDescription>White grapes - FRT</itemDescription>
+            <itemNumber>1011</itemNumber>
+            <action></action>
+            <itemCategory>FRT</itemCategory>
+        </itemsListRows>
+        <itemsListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>HAMBURGER</alphaSearch>
+            <itemDescription>Hamburger - MEAT</itemDescription>
+            <itemNumber>1000</itemNumber>
+            <action></action>
+            <itemCategory>MEAT</itemCategory>
+        </itemsListRows>
+        <itemsListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>MELON</alphaSearch>
+            <itemDescription>Yellow melon - FRT</itemDescription>
+            <itemNumber>1016</itemNumber>
+            <action></action>
+            <itemCategory>FRT</itemCategory>
+        </itemsListRows>
+        <itemsListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>MUSHROOM</alphaSearch>
+            <itemDescription>Champignon mushrooms - VEG</itemDescription>
+            <itemNumber>1013</itemNumber>
+            <action></action>
+            <itemCategory>VEG</itemCategory>
+        </itemsListRows>
+        <itemsListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>OLIVE</alphaSearch>
+            <itemDescription>Black olive - VEG</itemDescription>
+            <itemNumber>1015</itemNumber>
+            <action></action>
+            <itemCategory>VEG</itemCategory>
+        </itemsListRows>
         <positionTo></positionTo>
         <itemsListRowsActions sleep="0" global="false" length="8"
             column="0" defaultAction="false" row="0" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
@@ -14,94 +98,10 @@
                 <actionValue xsi:type="java:java.lang.String">2</actionValue>
             </action>
             <alias>revise</alias>
-            <actionName>ENTER</actionName>
             <when>2.*</when>
+            <actionName>ENTER</actionName>
             <displayName>Revise</displayName>
         </itemsListRowsActions>
-        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
-            <alphaSearch>APPLE</alphaSearch>
-            <itemDescription>Red apple - FRT</itemDescription>
-            <itemNumber>1007</itemNumber>
-            <action></action>
-            <itemCategory>FRT</itemCategory>
-        </itemListRows>
-        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
-            <alphaSearch>BANANA</alphaSearch>
-            <itemDescription>Banana - FRT</itemDescription>
-            <itemNumber>1008</itemNumber>
-            <action></action>
-            <itemCategory>FRT</itemCategory>
-        </itemListRows>
-        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
-            <alphaSearch>CARROT</alphaSearch>
-            <itemDescription>Carrot - VEG</itemDescription>
-            <itemNumber>1005</itemNumber>
-            <action></action>
-            <itemCategory>VEG</itemCategory>
-        </itemListRows>
-        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
-            <alphaSearch>CHICKEN</alphaSearch>
-            <itemDescription>Chicken breast - MEAT</itemDescription>
-            <itemNumber>1006</itemNumber>
-            <action></action>
-            <itemCategory>MEAT</itemCategory>
-        </itemListRows>
-        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
-            <alphaSearch>CUCUMBER</alphaSearch>
-            <itemDescription>Cucumber - VEG</itemDescription>
-            <itemNumber>1004</itemNumber>
-            <action></action>
-            <itemCategory>VEG</itemCategory>
-        </itemListRows>
-        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
-            <alphaSearch>EANS</alphaSearch>
-            <itemDescription>Red beans - VEG</itemDescription>
-            <itemNumber>1018</itemNumber>
-            <action></action>
-            <itemCategory>VEG</itemCategory>
-        </itemListRows>
-        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
-            <alphaSearch>FIG</alphaSearch>
-            <itemDescription>Fresh fig - FRT</itemDescription>
-            <itemNumber>1020</itemNumber>
-            <action></action>
-            <itemCategory>FRT</itemCategory>
-        </itemListRows>
-        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
-            <alphaSearch>GRAPE</alphaSearch>
-            <itemDescription>White grapes - FRT</itemDescription>
-            <itemNumber>1011</itemNumber>
-            <action></action>
-            <itemCategory>FRT</itemCategory>
-        </itemListRows>
-        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
-            <alphaSearch>HAMBURGER</alphaSearch>
-            <itemDescription>Hamburger - MEAT</itemDescription>
-            <itemNumber>1000</itemNumber>
-            <action></action>
-            <itemCategory>MEAT</itemCategory>
-        </itemListRows>
-        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
-            <alphaSearch>MELON</alphaSearch>
-            <itemDescription>Yellow melon - FRT</itemDescription>
-            <itemNumber>1016</itemNumber>
-            <action></action>
-            <itemCategory>FRT</itemCategory>
-        </itemListRows>
-        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
-            <alphaSearch>MUSHROOM</alphaSearch>
-            <itemDescription>Champignon mushrooms - VEG</itemDescription>
-            <itemNumber>1013</itemNumber>
-            <action></action>
-            <itemCategory>VEG</itemCategory>
-        </itemListRows>
-        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
-            <alphaSearch>OLIVE</alphaSearch>
-            <itemDescription>Black olive - VEG</itemDescription>
-            <itemNumber>1015</itemNumber>
-            <action></action>
-            <itemCategory>VEG</itemCategory>
-        </itemListRows>
         <actions sleep="0" global="true" length="0" column="0"
             defaultAction="false" row="0" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
             <additionalKey>SHIFT</additionalKey>
@@ -110,8 +110,8 @@
                 <additionalKey>SHIFT</additionalKey>
             </action>
             <alias>numberSeq</alias>
-            <actionName>CombinedTerminalAction</actionName>
             <when>.*</when>
+            <actionName>CombinedTerminalAction</actionName>
             <displayName>Number Seq</displayName>
         </actions>
     </entity>
