@@ -3,7 +3,9 @@
 
 package apps.inventory.screens;
 
-import apps.inventory.screens.ItemDetails2.StockInfo;
+import java.util.*;
+import org.openlegacy.terminal.Color;
+import apps.inventory.screens.ItemDetails2.*;
 
 privileged @SuppressWarnings("unused") aspect StockInfoPart_Aspect {
     private String StockInfo.standardUnitCostDescription;

@@ -3,14 +3,10 @@
 
 package apps.inventory.screens;
 
-import apps.inventory.screens.ItemDetails2.AuditDetails;
-import apps.inventory.screens.ItemDetails2.StockInfo;
-
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
-
-import java.util.ArrayList;
-import java.util.List;
 
 privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
 
@@ -31,21 +27,15 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     }
     
 
-
-
     public AuditDetails ItemDetails2.getAuditDetails(){
     	return this.auditDetails;
     }
     
 
-
-
     public StockInfo ItemDetails2.getStockInfo(){
     	return this.stockInfo;
     }
     
-
-
 
 
     public String ItemDetails2.getFocusField(){

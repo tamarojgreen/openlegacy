@@ -16,6 +16,7 @@ privileged @SuppressWarnings("unused") aspect WarehouseTypes_Aspect {
     
 	
 
+    private List<TerminalActionDefinition> WarehouseTypes.warehouseTypesRecordsActions = new ArrayList<TerminalActionDefinition>();
     
 
     public List<WarehouseTypesRecord> WarehouseTypes.getWarehouseTypesRecords(){
@@ -23,8 +24,9 @@ privileged @SuppressWarnings("unused") aspect WarehouseTypes_Aspect {
     }
     
 
-
-
+    public List<TerminalActionDefinition> WarehouseTypes.getWarehouseTypesRecordsActions(){
+    	return this.warehouseTypesRecordsActions;
+    }
 
     public String WarehouseTypes.getFocusField(){
     	return focusField;

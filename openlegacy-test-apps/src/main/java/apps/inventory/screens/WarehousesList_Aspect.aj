@@ -3,13 +3,10 @@
 
 package apps.inventory.screens;
 
-import apps.inventory.screens.WarehousesList.WarehousesListRow;
-
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
-
-import java.util.ArrayList;
-import java.util.List;
 
 privileged @SuppressWarnings("unused") aspect WarehousesList_Aspect {
 
@@ -19,6 +16,7 @@ privileged @SuppressWarnings("unused") aspect WarehousesList_Aspect {
     
 	
 
+    private List<TerminalActionDefinition> WarehousesList.warehousesListRowsActions = new ArrayList<TerminalActionDefinition>();
     
 
     public List<WarehousesListRow> WarehousesList.getWarehousesListRows(){
@@ -26,8 +24,9 @@ privileged @SuppressWarnings("unused") aspect WarehousesList_Aspect {
     }
     
 
-
-
+    public List<TerminalActionDefinition> WarehousesList.getWarehousesListRowsActions(){
+    	return this.warehousesListRowsActions;
+    }
 
     public String WarehousesList.getFocusField(){
     	return focusField;

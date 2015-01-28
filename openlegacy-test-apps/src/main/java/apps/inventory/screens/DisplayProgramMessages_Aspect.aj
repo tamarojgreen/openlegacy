@@ -3,11 +3,10 @@
 
 package apps.inventory.screens;
 
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
-
-import java.util.ArrayList;
-import java.util.List;
 
 privileged @SuppressWarnings("unused") aspect DisplayProgramMessages_Aspect {
 
@@ -23,8 +22,6 @@ privileged @SuppressWarnings("unused") aspect DisplayProgramMessages_Aspect {
     	return this.message;
     }
     
-
-
 
 
     public String DisplayProgramMessages.getFocusField(){

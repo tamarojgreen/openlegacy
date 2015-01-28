@@ -51,8 +51,6 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     	this.warehouseNumber = warehouseNumber;
     }
 
-
-
     public String WarehouseDetails.getWarehouseDescription(){
     	return this.warehouseDescription;
     }
@@ -60,8 +58,6 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     public void WarehouseDetails.setWarehouseDescription(String warehouseDescription){
     	this.warehouseDescription = warehouseDescription;
     }
-
-
 
     public String WarehouseDetails.getWarehouseType(){
     	return this.warehouseType;
@@ -74,14 +70,13 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     public Map<Object,Object> WarehouseDetails.getWarehouseTypeValues(){
     	return warehouseTypeValues;
     }
-
-
+    public Map<Object,Object> WarehouseDetails.getWarehouseTypeValues(String text){
+    	return warehouseTypeValues;
+    }
     public String WarehouseDetails.getWarehouseTypeName(){
     	return this.warehouseTypeName;
     }
     
-
-
 
     public Integer WarehouseDetails.getCostingType(){
     	return this.costingType;
@@ -91,8 +86,6 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     	this.costingType = costingType;
     }
 
-
-
     public String WarehouseDetails.getReplenishmentCycleFlag(){
     	return this.replenishmentCycleFlag;
     }
@@ -100,8 +93,6 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     public void WarehouseDetails.setReplenishmentCycleFlag(String replenishmentCycleFlag){
     	this.replenishmentCycleFlag = replenishmentCycleFlag;
     }
-
-
 
     public String WarehouseDetails.getAddress(){
     	return this.address;
@@ -111,8 +102,6 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     	this.address = address;
     }
 
-
-
     public String WarehouseDetails.getPhone(){
     	return this.phone;
     }
@@ -120,8 +109,6 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     public void WarehouseDetails.setPhone(String phone){
     	this.phone = phone;
     }
-
-
 
     public String WarehouseDetails.getEmail(){
     	return this.email;
@@ -131,8 +118,6 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     	this.email = email;
     }
 
-
-
     public Date WarehouseDetails.getAmendedDate(){
     	return this.amendedDate;
     }
@@ -141,28 +126,20 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     	this.amendedDate = amendedDate;
     }
 
-
-
     public String WarehouseDetails.getAmendedBy(){
     	return this.amendedBy;
     }
     
-
-
 
     public String WarehouseDetails.getCreatedDate(){
     	return this.createdDate;
     }
     
 
-
-
     public String WarehouseDetails.getCreatedBy(){
     	return this.createdBy;
     }
     
-
-
 
 
     public String WarehouseDetails.getFocusField(){

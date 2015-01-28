@@ -3,11 +3,10 @@
 
 package apps.inventory.screens;
 
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
-
-import java.util.ArrayList;
-import java.util.List;
 
 privileged @SuppressWarnings("unused") aspect MainMenu_Aspect {
 
@@ -29,8 +28,6 @@ privileged @SuppressWarnings("unused") aspect MainMenu_Aspect {
     	this.company = company;
     }
 
-
-
     public Integer MainMenu.getSelection(){
     	return this.selection;
     }
@@ -38,8 +35,6 @@ privileged @SuppressWarnings("unused") aspect MainMenu_Aspect {
     public void MainMenu.setSelection(Integer selection){
     	this.selection = selection;
     }
-
-
 
 
     public String MainMenu.getFocusField(){

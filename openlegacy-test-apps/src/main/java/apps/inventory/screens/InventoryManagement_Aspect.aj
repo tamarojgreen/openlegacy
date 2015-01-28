@@ -3,11 +3,10 @@
 
 package apps.inventory.screens;
 
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
-
-import java.util.ArrayList;
-import java.util.List;
 
 privileged @SuppressWarnings("unused") aspect InventoryManagement_Aspect {
 
@@ -26,8 +25,6 @@ privileged @SuppressWarnings("unused") aspect InventoryManagement_Aspect {
     public void InventoryManagement.setSelection(String selection){
     	this.selection = selection;
     }
-
-
 
 
     public String InventoryManagement.getFocusField(){

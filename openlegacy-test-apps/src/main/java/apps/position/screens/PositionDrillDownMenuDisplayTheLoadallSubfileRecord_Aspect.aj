@@ -4,13 +4,15 @@
 package apps.position.screens;
 
 import java.util.List;
-import org.openlegacy.terminal.Color;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import apps.position.screens.PositionDrillDownMenu.DisplayTheLoadallSubfileRecord;
 
 privileged @SuppressWarnings("unused") aspect DisplayTheLoadallSubfileRecord_Aspect {
+
+	
     
+	
     public Integer DisplayTheLoadallSubfileRecord.getColumn1(){
     	return this.column1;
     }
@@ -26,12 +28,10 @@ privileged @SuppressWarnings("unused") aspect DisplayTheLoadallSubfileRecord_Asp
     }
     
 
-    public String DisplayTheLoadallSubfileRecord.getFocusField(){
-    	return this.focusField;
-    }
     
 
 
+		
     public int DisplayTheLoadallSubfileRecord.hashCode(){
 		return HashCodeBuilder.reflectionHashCode(this);
     }

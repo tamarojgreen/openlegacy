@@ -18,6 +18,7 @@ privileged @SuppressWarnings("unused") aspect PositionDrillDownMenu_Aspect {
 
 	
 
+    private List<TerminalActionDefinition> PositionDrillDownMenu.displayTheLoadallSubfileRecordsActions = new ArrayList<TerminalActionDefinition>();
     
 
     public String PositionDrillDownMenu.getRrn(){
@@ -25,15 +26,14 @@ privileged @SuppressWarnings("unused") aspect PositionDrillDownMenu_Aspect {
     }
     
 
-
-
     public List<DisplayTheLoadallSubfileRecord> PositionDrillDownMenu.getDisplayTheLoadallSubfileRecords(){
     	return this.displayTheLoadallSubfileRecords;
     }
     
 
-
-
+    public List<TerminalActionDefinition> PositionDrillDownMenu.getDisplayTheLoadallSubfileRecordsActions(){
+    	return this.displayTheLoadallSubfileRecordsActions;
+    }
 
     public String PositionDrillDownMenu.getFocusField(){
     	return focusField;

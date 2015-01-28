@@ -24,8 +24,6 @@ privileged @SuppressWarnings("unused") aspect DisplayProgramMessages_Aspect {
     
 
 
-
-
     public String DisplayProgramMessages.getFocusField(){
     	return focusField;
     }

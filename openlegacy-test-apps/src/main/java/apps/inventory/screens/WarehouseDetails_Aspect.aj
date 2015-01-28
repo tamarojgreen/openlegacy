@@ -3,12 +3,10 @@
 
 package apps.inventory.screens;
 
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
 
@@ -42,8 +40,6 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     }
     
 
-
-
     public String WarehouseDetails.getWarehouseDescription(){
     	return this.warehouseDescription;
     }
@@ -51,8 +47,6 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     public void WarehouseDetails.setWarehouseDescription(String warehouseDescription){
     	this.warehouseDescription = warehouseDescription;
     }
-
-
 
     public Integer WarehouseDetails.getCostingType(){
     	return this.costingType;
@@ -62,8 +56,6 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     	this.costingType = costingType;
     }
 
-
-
     public String WarehouseDetails.getAddress(){
     	return this.address;
     }
@@ -71,8 +63,6 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     public void WarehouseDetails.setAddress(String address){
     	this.address = address;
     }
-
-
 
     public String WarehouseDetails.getPhone(){
     	return this.phone;
@@ -82,8 +72,6 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     	this.phone = phone;
     }
 
-
-
     public String WarehouseDetails.getEmail(){
     	return this.email;
     }
@@ -91,8 +79,6 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     public void WarehouseDetails.setEmail(String email){
     	this.email = email;
     }
-
-
 
     public String WarehouseDetails.getAmendedBy(){
     	return this.amendedBy;
@@ -102,8 +88,6 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     	this.amendedBy = amendedBy;
     }
 
-
-
     public String WarehouseDetails.getCreatedBy(){
     	return this.createdBy;
     }
@@ -111,8 +95,6 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     public void WarehouseDetails.setCreatedBy(String createdBy){
     	this.createdBy = createdBy;
     }
-
-
 
     public String WarehouseDetails.getWarehouseType(){
     	return this.warehouseType;
@@ -125,8 +107,9 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     public Map<Object,Object> WarehouseDetails.getWarehouseTypeValues(){
     	return warehouseTypeValues;
     }
-
-
+    public Map<Object,Object> WarehouseDetails.getWarehouseTypeValues(String text){
+    	return warehouseTypeValues;
+    }
 
     public String WarehouseDetails.getFocusField(){
     	return focusField;

@@ -39,21 +39,15 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     }
     
 
-
-
     public String SignOn.getSubsystem(){
     	return this.subsystem;
     }
     
 
-
-
     public String SignOn.getDisplay(){
     	return this.display;
     }
     
-
-
 
     public String SignOn.getUser(){
     	return this.user;
@@ -63,8 +57,6 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     	this.user = user;
     }
 
-
-
     public String SignOn.getPassword(){
     	return this.password;
     }
@@ -72,8 +64,6 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     public void SignOn.setPassword(String password){
     	this.password = password;
     }
-
-
 
     public String SignOn.getProgramprocedure(){
     	return this.programprocedure;
@@ -83,8 +73,6 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     	this.programprocedure = programprocedure;
     }
 
-
-
     public String SignOn.getMenu(){
     	return this.menu;
     }
@@ -92,8 +80,6 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     public void SignOn.setMenu(String menu){
     	this.menu = menu;
     }
-
-
 
     public String SignOn.getCurrentLibrary(){
     	return this.currentLibrary;
@@ -103,14 +89,10 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     	this.currentLibrary = currentLibrary;
     }
 
-
-
     public String SignOn.getErrorMessage(){
     	return this.errorMessage;
     }
     
-
-
 
 
     public String SignOn.getFocusField(){

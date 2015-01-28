@@ -49,8 +49,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     }
     
 
-
-
     public String ItemDetails2.getNlCostOfSalesAccount(){
     	return this.nlCostOfSalesAccount;
     }
@@ -58,8 +56,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     public void ItemDetails2.setNlCostOfSalesAccount(String nlCostOfSalesAccount){
     	this.nlCostOfSalesAccount = nlCostOfSalesAccount;
     }
-
-
 
     public String ItemDetails2.getNlSalesAccount(){
     	return this.nlSalesAccount;
@@ -69,8 +65,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     	this.nlSalesAccount = nlSalesAccount;
     }
 
-
-
     public String ItemDetails2.getNlStockAccount(){
     	return this.nlStockAccount;
     }
@@ -78,8 +72,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     public void ItemDetails2.setNlStockAccount(String nlStockAccount){
     	this.nlStockAccount = nlStockAccount;
     }
-
-
 
     public String ItemDetails2.getField2(){
     	return this.field2;
@@ -89,8 +81,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     	this.field2 = field2;
     }
 
-
-
     public String ItemDetails2.getField1(){
     	return this.field1;
     }
@@ -98,8 +88,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     public void ItemDetails2.setField1(String field1){
     	this.field1 = field1;
     }
-
-
 
     public String ItemDetails2.getField(){
     	return this.field;
@@ -109,8 +97,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     	this.field = field;
     }
 
-
-
     public String ItemDetails2.getItemTypeBusinessArea(){
     	return this.itemTypeBusinessArea;
     }
@@ -118,8 +104,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     public void ItemDetails2.setItemTypeBusinessArea(String itemTypeBusinessArea){
     	this.itemTypeBusinessArea = itemTypeBusinessArea;
     }
-
-
 
     public String ItemDetails2.getStockAnalysisCode(){
     	return this.stockAnalysisCode;
@@ -129,8 +113,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     	this.stockAnalysisCode = stockAnalysisCode;
     }
 
-
-
     public String ItemDetails2.getStockValueGroup(){
     	return this.stockValueGroup;
     }
@@ -138,8 +120,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     public void ItemDetails2.setStockValueGroup(String stockValueGroup){
     	this.stockValueGroup = stockValueGroup;
     }
-
-
 
     public String ItemDetails2.getStockInventoryGroup(){
     	return this.stockInventoryGroup;
@@ -149,8 +129,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     	this.stockInventoryGroup = stockInventoryGroup;
     }
 
-
-
     public Integer ItemDetails2.getListPrice(){
     	return this.listPrice;
     }
@@ -158,8 +136,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     public void ItemDetails2.setListPrice(Integer listPrice){
     	this.listPrice = listPrice;
     }
-
-
 
     public Integer ItemDetails2.getStandardUnitCost(){
     	return this.standardUnitCost;
@@ -169,14 +145,10 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     	this.standardUnitCost = standardUnitCost;
     }
 
-
-
     public StockInfo ItemDetails2.getStockInfo(){
     	return this.stockInfo;
     }
     
-
-
 
 
     public String ItemDetails2.getFocusField(){

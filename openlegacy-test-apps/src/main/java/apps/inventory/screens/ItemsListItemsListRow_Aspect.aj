@@ -9,7 +9,11 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import apps.inventory.screens.ItemsList.ItemsListRow;
 
 privileged @SuppressWarnings("unused") aspect ItemsListRow_Aspect {
+
+	
     
+    private String ItemsListRow.focusField;
+	
     public String ItemsListRow.getAction(){
     	return this.action;
     }
@@ -39,6 +43,24 @@ privileged @SuppressWarnings("unused") aspect ItemsListRow_Aspect {
     
 
 
+    /**
+    	Focus on the given field, or on the first field in the table if none is given
+    */
+    public void ItemsListRow.focus(String... field) {
+        if (field.length > 0) {
+            this.focusField = field[0];
+        } else {
+            this.focusField = "action";
+        }
+    }
+
+    public String ItemsListRow.getFocus() {
+        return focusField;
+    }
+    public void ItemsListRow.setFocus(String focus) {
+        this.focusField = focus;
+    }
+		
     public int ItemsListRow.hashCode(){
 		return HashCodeBuilder.reflectionHashCode(this);
     }

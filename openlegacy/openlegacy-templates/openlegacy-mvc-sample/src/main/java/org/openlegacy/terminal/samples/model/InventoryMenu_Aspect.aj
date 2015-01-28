@@ -27,8 +27,6 @@ privileged @SuppressWarnings("unused") aspect InventoryMenu_Aspect {
     }
 
 
-
-
     public String InventoryMenu.getFocusField(){
     	return focusField;
     }

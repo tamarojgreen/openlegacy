@@ -3,13 +3,10 @@
 
 package apps.inventory.screens;
 
-import apps.inventory.screens.ItemDetails1.OuterUnitOfMeasure;
-
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
-
-import java.util.ArrayList;
-import java.util.List;
 
 privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
 
@@ -48,8 +45,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     }
     
 
-
-
     public String ItemDetails1.getItemDescription(){
     	return this.itemDescription;
     }
@@ -57,8 +52,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     public void ItemDetails1.setItemDescription(String itemDescription){
     	this.itemDescription = itemDescription;
     }
-
-
 
     public String ItemDetails1.getSupercedingItemTo(){
     	return this.supercedingItemTo;
@@ -68,8 +61,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     	this.supercedingItemTo = supercedingItemTo;
     }
 
-
-
     public String ItemDetails1.getSupercedingItemFrom(){
     	return this.supercedingItemFrom;
     }
@@ -78,8 +69,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     	this.supercedingItemFrom = supercedingItemFrom;
     }
 
-
-
     public Long ItemDetails1.getItemWeight(){
     	return this.itemWeight;
     }
@@ -87,8 +76,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     public void ItemDetails1.setItemWeight(Long itemWeight){
     	this.itemWeight = itemWeight;
     }
-
-
 
     public String ItemDetails1.getItemClass(){
     	return this.itemClass;
@@ -101,8 +88,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     public String  ItemDetails1.getItemClassDescription(){
     	return this.itemClassDescription;
     }
-
-
     public String ItemDetails1.getStockGroup(){
     	return this.stockGroup;
     }
@@ -114,8 +99,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     public String  ItemDetails1.getStockGroupDescription(){
     	return this.stockGroupDescription;
     }
-
-
     public Integer ItemDetails1.getPackagingMultipler(){
     	return this.packagingMultipler;
     }
@@ -123,8 +106,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     public void ItemDetails1.setPackagingMultipler(Integer packagingMultipler){
     	this.packagingMultipler = packagingMultipler;
     }
-
-
 
     public Boolean ItemDetails1.getPalletLabelRequired(){
     	return this.palletLabelRequired;
@@ -134,8 +115,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     	this.palletLabelRequired = palletLabelRequired;
     }
 
-
-
     public OuterUnitOfMeasure ItemDetails1.getOuterUnitOfMeasure(){
     	return this.outerUnitOfMeasure;
     }
@@ -144,14 +123,10 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     	this.outerUnitOfMeasure = outerUnitOfMeasure;
     }
 
-
-
     public ItemDetails2 ItemDetails1.getItemDetails2(){
     	return this.itemDetails2;
     }
     
-
-
 
 
     public String ItemDetails1.getFocusField(){

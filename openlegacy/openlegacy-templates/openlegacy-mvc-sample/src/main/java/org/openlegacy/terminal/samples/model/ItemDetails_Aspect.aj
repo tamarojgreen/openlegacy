@@ -47,8 +47,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
     	this.itemNumber = itemNumber;
     }
 
-
-
     public String ItemDetails.getItemDescription(){
     	return this.itemDescription;
     }
@@ -56,8 +54,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
     public void ItemDetails.setItemDescription(String itemDescription){
     	this.itemDescription = itemDescription;
     }
-
-
 
     public String ItemDetails.getAlphaSearch(){
     	return this.alphaSearch;
@@ -67,8 +63,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
     	this.alphaSearch = alphaSearch;
     }
 
-
-
     public String ItemDetails.getSupercedingItemfrom(){
     	return this.supercedingItemfrom;
     }
@@ -76,8 +70,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
     public void ItemDetails.setSupercedingItemfrom(String supercedingItemfrom){
     	this.supercedingItemfrom = supercedingItemfrom;
     }
-
-
 
     public String ItemDetails.getSupercedingItemto(){
     	return this.supercedingItemto;
@@ -87,8 +79,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
     	this.supercedingItemto = supercedingItemto;
     }
 
-
-
     public String ItemDetails.getSubstituteItemNumber(){
     	return this.substituteItemNumber;
     }
@@ -97,8 +87,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
     	this.substituteItemNumber = substituteItemNumber;
     }
 
-
-
     public String ItemDetails.getManufacturersItemNo(){
     	return this.manufacturersItemNo;
     }
@@ -106,8 +94,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
     public void ItemDetails.setManufacturersItemNo(String manufacturersItemNo){
     	this.manufacturersItemNo = manufacturersItemNo;
     }
-
-
 
     public StockGroup ItemDetails.getStockGroup(){
     	return this.stockGroup;
@@ -120,8 +106,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
     public String  ItemDetails.getStockGroupDescription(){
     	return this.stockGroupDescription;
     }
-
-
     public Integer ItemDetails.getItemWeight(){
     	return this.itemWeight;
     }
@@ -129,8 +113,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
     public void ItemDetails.setItemWeight(Integer itemWeight){
     	this.itemWeight = itemWeight;
     }
-
-
 
     public Boolean ItemDetails.getPalletLabelRequired(){
     	return this.palletLabelRequired;
@@ -140,14 +122,10 @@ privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
     	this.palletLabelRequired = palletLabelRequired;
     }
 
-
-
     public ItemDetails2 ItemDetails.getItemDetails2(){
     	return this.itemDetails2;
     }
     
-
-
 
 
     public String ItemDetails.getFocusField(){

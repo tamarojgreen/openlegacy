@@ -28,8 +28,6 @@ privileged @SuppressWarnings("unused") aspect MainMenu_Aspect {
     	this.menuSelection = menuSelection;
     }
 
-
-
     public Integer MainMenu.getCompany(){
     	return this.company;
     }
@@ -37,8 +35,6 @@ privileged @SuppressWarnings("unused") aspect MainMenu_Aspect {
     public void MainMenu.setCompany(Integer company){
     	this.company = company;
     }
-
-
 
 
     public String MainMenu.getFocusField(){

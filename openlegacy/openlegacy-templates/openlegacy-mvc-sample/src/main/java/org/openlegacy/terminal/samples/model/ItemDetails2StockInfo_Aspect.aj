@@ -5,7 +5,7 @@ package org.openlegacy.terminal.samples.model;
 
 import java.util.*;
 import org.openlegacy.terminal.Color;
-import org.openlegacy.terminal.samples.model.ItemDetails2.StockInfo;
+import org.openlegacy.terminal.samples.model.ItemDetails2.*;
 
 privileged @SuppressWarnings("unused") aspect StockInfoPart_Aspect {
     

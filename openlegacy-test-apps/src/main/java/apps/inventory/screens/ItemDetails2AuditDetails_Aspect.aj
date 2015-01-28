@@ -3,9 +3,10 @@
 
 package apps.inventory.screens;
 
-import apps.inventory.screens.ItemDetails2.AuditDetails;
-
+import java.util.*;
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.TerminalField;
+import apps.inventory.screens.ItemDetails2.*;
 
 privileged @SuppressWarnings("unused") aspect AuditDetailsPart_Aspect {
     private TerminalField AuditDetails.createdDateField;

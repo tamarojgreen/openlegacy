@@ -3,13 +3,12 @@
 
 package apps.inventory.screens;
 
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.Color;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.definitions.TerminalActionDefinition;
-
-import java.util.ArrayList;
-import java.util.List;
 
 privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     private TerminalSnapshot SignOn.terminalSnapshot;
@@ -46,8 +45,6 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     }
     
 
-
-
     public String SignOn.getUser(){
     	return this.user;
     }
@@ -58,8 +55,6 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     public void SignOn.setUser(String user){
     	this.user = user;
     }
-
-
 
     public String SignOn.getPassword(){
     	return this.password;
@@ -72,8 +67,6 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     	this.password = password;
     }
 
-
-
     public String SignOn.getProgramProcedure(){
     	return this.programProcedure;
     }
@@ -85,8 +78,6 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     	this.programProcedure = programProcedure;
     }
 
-
-
     public String SignOn.getMessage(){
     	return this.message;
     }
@@ -94,8 +85,6 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     	return this.messageField;
     }
     
-
-
 
 
     public String SignOn.getFocusField(){

@@ -9,7 +9,11 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.terminal.samples.model.WarehouseTypes.WarehouseTypesRecord;
 
 privileged @SuppressWarnings("unused") aspect WarehouseTypesRecord_Aspect {
+
+	
     
+    private String WarehouseTypesRecord.focusField;
+	
     public Integer WarehouseTypesRecord.getAction_(){
     	return this.action_;
     }
@@ -29,6 +33,24 @@ privileged @SuppressWarnings("unused") aspect WarehouseTypesRecord_Aspect {
     
 
 
+    /**
+    	Focus on the given field, or on the first field in the table if none is given
+    */
+    public void WarehouseTypesRecord.focus(String... field) {
+        if (field.length > 0) {
+            this.focusField = field[0];
+        } else {
+            this.focusField = "action_";
+        }
+    }
+
+    public String WarehouseTypesRecord.getFocus() {
+        return focusField;
+    }
+    public void WarehouseTypesRecord.setFocus(String focus) {
+        this.focusField = focus;
+    }
+		
     public int WarehouseTypesRecord.hashCode(){
 		return HashCodeBuilder.reflectionHashCode(this);
     }

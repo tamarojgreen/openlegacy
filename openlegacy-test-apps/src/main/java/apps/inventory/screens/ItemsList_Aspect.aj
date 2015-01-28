@@ -14,11 +14,11 @@ privileged @SuppressWarnings("unused") aspect ItemsList_Aspect {
     private String ItemsList.focusField;
     private List<TerminalActionDefinition> ItemsList.actions = new ArrayList<TerminalActionDefinition>();
     
-    private List<TerminalActionDefinition> ItemsList.itemListRowsActions = new ArrayList<TerminalActionDefinition>();
 	
 
 	
 
+    private List<TerminalActionDefinition> ItemsList.itemsListRowsActions = new ArrayList<TerminalActionDefinition>();
 	
 
     
@@ -31,21 +31,18 @@ privileged @SuppressWarnings("unused") aspect ItemsList_Aspect {
     	this.positionTo = positionTo;
     }
 
-
-
-    public List<ItemsListRow> ItemsList.getItemListRows(){
-    	return this.itemListRows;
+    public List<ItemsListRow> ItemsList.getItemsListRows(){
+    	return this.itemsListRows;
     }
     
 
-
-
+    public List<TerminalActionDefinition> ItemsList.getItemsListRowsActions(){
+    	return this.itemsListRowsActions;
+    }
     public String ItemsList.getErrorMessage(){
     	return this.errorMessage;
     }
     
-
-
 
 
     public String ItemsList.getFocusField(){
@@ -58,9 +55,5 @@ privileged @SuppressWarnings("unused") aspect ItemsList_Aspect {
     public List<TerminalActionDefinition> ItemsList.getActions(){
     	return actions;
     }
-
-    public List<TerminalActionDefinition> ItemsList.getItemsListRowsActions(){
-    	return itemListRowsActions;
-    }
-  
+    
 }

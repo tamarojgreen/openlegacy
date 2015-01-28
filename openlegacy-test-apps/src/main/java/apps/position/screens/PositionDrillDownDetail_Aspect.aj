@@ -24,8 +24,6 @@ privileged @SuppressWarnings("unused") aspect PositionDrillDownDetail_Aspect {
     
 
 
-
-
     public String PositionDrillDownDetail.getFocusField(){
     	return focusField;
     }

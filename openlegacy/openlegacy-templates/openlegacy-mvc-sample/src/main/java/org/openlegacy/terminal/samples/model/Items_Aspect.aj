@@ -18,6 +18,7 @@ privileged @SuppressWarnings("unused") aspect Items_Aspect {
 
 	
 
+    private List<TerminalActionDefinition> Items.itemsRecordsActions = new ArrayList<TerminalActionDefinition>();
     
 
     public String Items.getPositionTo(){
@@ -28,15 +29,14 @@ privileged @SuppressWarnings("unused") aspect Items_Aspect {
     	this.positionTo = positionTo;
     }
 
-
-
     public List<ItemsRecord> Items.getItemsRecords(){
     	return this.itemsRecords;
     }
     
 
-
-
+    public List<TerminalActionDefinition> Items.getItemsRecordsActions(){
+    	return this.itemsRecordsActions;
+    }
 
     public String Items.getFocusField(){
     	return focusField;

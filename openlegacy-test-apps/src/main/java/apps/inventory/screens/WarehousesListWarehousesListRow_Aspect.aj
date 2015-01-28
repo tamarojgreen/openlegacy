@@ -3,13 +3,17 @@
 
 package apps.inventory.screens;
 
-import apps.inventory.screens.WarehousesList.WarehousesListRow;
-
+import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import apps.inventory.screens.WarehousesList.WarehousesListRow;
 
 privileged @SuppressWarnings("unused") aspect WarehousesListRow_Aspect {
+
+	
     
+    private String WarehousesListRow.focusField;
+	
     public String WarehousesListRow.getAction(){
     	return this.action;
     }
@@ -29,6 +33,24 @@ privileged @SuppressWarnings("unused") aspect WarehousesListRow_Aspect {
     
 
 
+    /**
+    	Focus on the given field, or on the first field in the table if none is given
+    */
+    public void WarehousesListRow.focus(String... field) {
+        if (field.length > 0) {
+            this.focusField = field[0];
+        } else {
+            this.focusField = "action";
+        }
+    }
+
+    public String WarehousesListRow.getFocus() {
+        return focusField;
+    }
+    public void WarehousesListRow.setFocus(String focus) {
+        this.focusField = focus;
+    }
+		
     public int WarehousesListRow.hashCode(){
 		return HashCodeBuilder.reflectionHashCode(this);
     }
