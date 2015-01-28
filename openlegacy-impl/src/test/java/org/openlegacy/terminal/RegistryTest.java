@@ -65,7 +65,7 @@ public class RegistryTest {
 	public void testScreenTable() {
 		ScreenEntityDefinition screenDefinition = assertScreenExists(ItemsList.class);
 		Assert.assertEquals(1, screenDefinition.getTableDefinitions().size());
-		Assert.assertEquals(2, screenDefinition.getTableDefinitions().get("itemListRows").getActions().size());
+		Assert.assertEquals(2, screenDefinition.getTableDefinitions().get("itemsListRows").getActions().size());
 	}
 
 	@Test

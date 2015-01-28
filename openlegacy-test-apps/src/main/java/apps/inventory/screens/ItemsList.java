@@ -29,7 +29,7 @@ public class ItemsList {
 	@ScreenField(row = 21, column = 19, editable = true)
 	private String positionTo;
 
-	private List<ItemsListRow> itemListRows;
+	private List<ItemsListRow> itemsListRows;
 
 	@ScreenField(row = 24, column = 2)
 	private String errorMessage;

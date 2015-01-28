@@ -27,7 +27,7 @@ public class ScreenEntityTablesBinderTest extends AbstractTest {
 		// only 1 of 2 table action should return - since 1 is conditioned wrongly
 		Assert.assertEquals(1, itemsList.getItemsListRowsActions().size());
 
-		List<ItemsListRow> rows = itemsList.getItemListRows();
+		List<ItemsListRow> rows = itemsList.getItemsListRows();
 		Assert.assertNotNull(rows);
 		Assert.assertEquals(12, rows.size());
 		Assert.assertEquals("APPLE", rows.get(0).getAlphaSearch());
