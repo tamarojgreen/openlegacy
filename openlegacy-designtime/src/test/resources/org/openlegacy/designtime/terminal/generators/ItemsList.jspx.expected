@@ -9,18 +9,20 @@
 	<jsp:output omit-xml-declaration="yes" /> 
 
 	<ol:form model="itemsList">
-			<ol:pagePart title="Position To">
-				<ol:row columns="1">
-					<ol:field name="positionTo" />
-				</ol:row>
-			</ol:pagePart>
-			<ol:pagePart title="Error Message">
-				<ol:row columns="1">
-					<ol:field name="errorMessage" />
-				</ol:row>
-			</ol:pagePart>
-			<ol:pagePart title="">
-					<ol:table data="${itemsList.itemsListRows}" property="itemListRows"  />
+					<ol:pagePart title="Position To">
+						<ol:row columns="1">
+							<ol:field name="positionTo" />
+						</ol:row>
+					</ol:pagePart>
+					<ol:pagePart title="Error Message">
+						<ol:row columns="1">
+							<ol:field name="errorMessage" />
+						</ol:row>
+					</ol:pagePart>
+			
+			
+			<ol:pagePart title="">			
+					<ol:table data="${itemsList.itemsListRows}" property="itemsListRows"  />
 			</ol:pagePart>
 	</ol:form>
 </jsp:root>
