@@ -13,9 +13,7 @@ package org.openlegacy.db.layout;
 import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.db.definitions.DbFieldDefinition;
 import org.openlegacy.layout.PageBuilder;
-import org.openlegacy.layout.PageDefinition;
 
 public interface DbPageBuilder extends PageBuilder<DbEntityDefinition, DbFieldDefinition> {
 
-	PageDefinition buildForCodeBasedModel(DbEntityDefinition entityDefinition);
 }

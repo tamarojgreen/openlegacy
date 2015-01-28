@@ -81,8 +81,9 @@ public class DbPojosAjGenerator extends AbstractPojosAjGenerator {
 			if (annotations == null) {
 				continue;
 			}
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
 			for (AnnotationExpr annotationExpr : annotations) {
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				DbPojoCodeModel dbEntityCodeModel = null;
 				try {
 					if (JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_JPA_ENTITY_ANNOTATION)
@@ -97,7 +98,6 @@ public class DbPojosAjGenerator extends AbstractPojosAjGenerator {
 							aspectGenerated = true;
 						}
 					}
-
 				} catch (Exception e) {
 					throw (new GenerationException(e));
 				}

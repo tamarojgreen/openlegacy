@@ -2,6 +2,7 @@ package org.openlegacy.db.loaders.support;
 
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.FieldType;
 import org.openlegacy.annotations.db.DbColumn;
 import org.openlegacy.db.definitions.DbEntityDefinition;
@@ -12,6 +13,8 @@ import org.openlegacy.loaders.FieldLoader;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -54,7 +57,20 @@ public class DbJpaOneToManyAnnotationLoader implements FieldLoader {
 				SimpleDbColumnFieldDefinition columnFieldDefinition = (SimpleDbColumnFieldDefinition)dbFieldDefinition;
 				columnFieldDefinition.setOneToManyDefinition(simpleDbOneToMany);
 			}
+
 			dbEntityDefinition.getColumnFieldsDefinitions().put(field.getName(), dbFieldDefinition);
+
+			Type genericFieldType = field.getGenericType();
+			if (genericFieldType instanceof ParameterizedType) {
+				ParameterizedType pType = (ParameterizedType)genericFieldType;
+				Type[] fieldArgTypes = pType.getActualTypeArguments();
+				Class actualClass = (Class)fieldArgTypes[fieldArgTypes.length - 1];
+				EntityDefinition entityDefinition = entitiesRegistry.get(actualClass);
+				if (entityDefinition != null) {
+					dbEntityDefinition.getChildEntitiesDefinitions().add(entityDefinition);
+				}
+			}
+
 		}
 	}
 

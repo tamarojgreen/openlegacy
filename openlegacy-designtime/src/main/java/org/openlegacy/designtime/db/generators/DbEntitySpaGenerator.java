@@ -74,10 +74,6 @@ public class DbEntitySpaGenerator extends AbstractEntitySpaGenerator implements 
 		return pageBuilder.build((DbEntityDefinition)entityDefinition);
 	}
 
-	protected PageDefinition buildPageForCodeBasedModel(EntityDefinition<?> entityDefinition) {
-		return pageBuilder.buildForCodeBasedModel((DbEntityDefinition)entityDefinition);
-	}
-
 	private void generateView(GenerateViewRequest generatePageRequest, PageDefinition pageDefinition, String viewsDir,
 			UserInteraction userInteraction, boolean isComposite, String fileName, String mode) throws IOException {
 
@@ -129,7 +125,7 @@ public class DbEntitySpaGenerator extends AbstractEntitySpaGenerator implements 
 		FileOutputStream fos = null;
 		try {
 
-			PageDefinition pageDefinition = buildPageForCodeBasedModel(entityDefinition);
+			PageDefinition pageDefinition = buildPage(entityDefinition);
 
 			// generate web view
 			generateView(generateViewRequest, pageDefinition, SpaGenerateUtil.VIEWS_DIR, userInteraction, false, fileName, mode);
