@@ -48,6 +48,7 @@ public class DbAnnotationConstants {
 
 	// @Entity
 	public static final String NAME = "name";
+	public static final String PLURAL_NAME = "pluralName";
 	// @Table
 	public static final String CATALOG = "catalog";
 	public static final String SCHEMA = "schema";

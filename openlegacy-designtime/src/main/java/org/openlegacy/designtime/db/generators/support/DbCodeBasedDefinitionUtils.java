@@ -3,14 +3,17 @@ package org.openlegacy.designtime.db.generators.support;
 import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.db.definitions.DbFieldDefinition;
 import org.openlegacy.db.definitions.SimpleDbActionDefinition;
 import org.openlegacy.db.definitions.SimpleDbColumnFieldDefinition;
+import org.openlegacy.db.definitions.SimpleDbFieldDefinition;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.designtime.db.generators.DbPojoCodeModel;
 import org.openlegacy.designtime.db.generators.support.DefaultDbPojoCodeModel.Action;
 import org.openlegacy.designtime.db.generators.support.DefaultDbPojoCodeModel.ColumnField;
+import org.openlegacy.designtime.db.generators.support.DefaultDbPojoCodeModel.Field;
 import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.exceptions.EntityNotAccessibleException;
 import org.openlegacy.utils.StringUtil;
@@ -80,7 +83,7 @@ public class DbCodeBasedDefinitionUtils {
 		for (ColumnField javaColumnField : columnFields) {
 			SimpleDbColumnFieldDefinition definition = new SimpleDbColumnFieldDefinition(javaColumnField.getFieldName(),
 					javaColumnField.getFieldTypeArgs());
-			definition.setJavaTypeName(javaColumnField.getFieldType());
+			definition.setJavaTypeName(javaColumnField.getFieldTypeArgs());
 			definition.setNameAttr(javaColumnField.getName());
 			definition.setUnique(javaColumnField.isUnique());
 			definition.setNullable(javaColumnField.isNullable());
@@ -109,6 +112,18 @@ public class DbCodeBasedDefinitionUtils {
 			definition.setJoinColumnDefinition(javaColumnField.getJoinColumnDefinition());
 
 			fieldDefinitions.put(javaColumnField.getFieldName(), definition);
+		}
+
+		return fieldDefinitions;
+	}
+
+	public static Map<String, DbFieldDefinition> getFieldsFromCodeModel(DbPojoCodeModel codeModel) {
+		Collection<Field> fields = codeModel.getFields();
+		Map<String, DbFieldDefinition> fieldDefinitions = new TreeMap<String, DbFieldDefinition>();
+		for (Field field : fields) {
+			SimpleDbFieldDefinition fieldDefinition = new SimpleDbFieldDefinition(field.getName());
+			fieldDefinition.setKey(field.isKey());
+			fieldDefinitions.put(field.getName(), fieldDefinition);
 		}
 
 		return fieldDefinitions;
@@ -152,4 +167,17 @@ public class DbCodeBasedDefinitionUtils {
 		return getEntityDefinition(compilationUnit, packageDir);
 	}
 
+	public static List<EntityDefinition<?>> getChildEntitiesDefinitionsFromCodeModel(DbPojoCodeModel codeModel, File packageDir) {
+		Map<String, ColumnField> columnFields = codeModel.getColumnFields();
+		List<EntityDefinition<?>> entitiesList = new ArrayList<EntityDefinition<?>>();
+		for (ColumnField columnField : columnFields.values()) {
+			if (columnField.getOneToManyDefinition() != null || columnField.getManyToOneDefinition() != null) {
+				String[] argsArray = columnField.getFieldTypeArgs().split(",");
+				String entityClassName = argsArray[argsArray.length - 1];
+				DbEntityDefinition entityDefiniton = getEntityDefinition(entityClassName, packageDir);
+				entitiesList.add(entityDefiniton);
+			}
+		}
+		return entitiesList;
+	}
 }

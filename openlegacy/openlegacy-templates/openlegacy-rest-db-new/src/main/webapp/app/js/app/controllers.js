@@ -254,4 +254,120 @@
 	        }
 		});
 	}
+	
+	/* Controller code place-holder start
+	<#if entityName??>
+		<#list actions as action>
+		<#switch action.actionName>
+			<#case "READ">
+		//=================================READ======================================
+		module = module.controller('${entityName}DetailsCtrl', function($scope, $stateParams, $olHttp, $state, $modal) {		
+			$scope.currentAction = "READ";
+			
+			$olHttp.get('${entityName}/' + $stateParams[Object.keys($stateParams)[0]], function(data) {			
+				$scope.entityName = data.model.entityName;
+				$scope.model = data.model;			
+				$scope.doREADAction = function(targetEntityName, rowIndex, propertyName) {				
+		        	
+        		if (targetEntityName == "${entityName}") {
+        			var targetData = $scope.model.entity[propertyName]
+        			var keys = Object.keys( targetData );	        			    
+			    	$state.go(targetEntityName + "Details", {${keys[0].name?replace(".", "_")}:<#list keys as key>targetData[keys[rowIndex]].${key.name}<#if key_has_next>+</#if></#list>});
+        		}
+		        	
+	        	}
+				$scope.doUPDATEAction = function() {				
+					var modalInstance = $modal.open({
+						templateUrl: 'views/partials/confirmation_dialog.html',
+						controller: 'ConfirmationDialogCtrl',
+						resolve: {
+							func: function () {
+								return function() {
+									$olHttp.post('${entityName}?action=', $scope.model.entity, function(data) {					
+										alert("Entity was successfully updated!");
+									});
+								} 
+							}
+						}
+				    });				
+				}
+				
+				$scope.doDELETEAction = function() {
+					var modalInstance = $modal.open({
+						templateUrl: 'views/partials/confirmation_dialog.html',
+						controller: 'ConfirmationDialogCtrl',					
+						resolve: {
+							func: function () {
+								return function() {
+									$olHttp.remove('${entityName}/' + $stateParams[Object.keys($stateParams)[0]], function(data) {
+										$state.go('${entityName}');
+									});
+								} 
+							}
+						}
+				    });
+				}
+			});
+		});
+					<#break>
+					<#case "CREATE">
+		//==========================================CREATE========================================================			
+		module = module.controller('${entityName}NewCtrl', function($scope, $modal, $olHttp, $state) {
+			$scope.currentAction = "CREATE";
+			$scope.model = {'entity':{}};
+			$scope.nestedModels = {};
+			
+			
+			<#if columnFieldsDefinitions??>
+			<#list columnFieldsDefinitions?keys as key>								
+				<#assign column = columnFieldsDefinitions[key]>
+				<#if (!column.internal?? || column.internal == false) && column.oneToManyDefinition??>
+					$scope.${column.name}_showNext = true;
+					$scope.${column.name}_showPrev = true;				
+					getItems('${column.javaTypeName}', '${column.name}', false, 1, $scope, $olHttp, $state, null);
+					$scope.nestedModels['${column.name}'] = [];
+				</#if>
+			</#list>
+			</#if>
+			
+			$scope.toggleSelection = function toggleSelection(item, itemArray, joinColumnName) {
+				delete item[joinColumnName];
+			    var idx = itemArray.indexOf(item);
+	
+			    if (idx > -1) {
+			    	itemArray.splice(idx, 1);
+			    } else {		    	
+			    	itemArray.push(item);
+			    }
+			  };
+			
+			$scope.doUPDATEAction = function() {				
+				var modalInstance = $modal.open({
+					templateUrl: 'views/partials/confirmation_dialog.html',
+					controller: 'ConfirmationDialogCtrl',
+					resolve: {
+						func: function () {
+							return function() {
+								var entity = $.extend($scope.model.entity, $scope.nestedModels);							
+								$olHttp.post('${entityName}?action=', entity, function(data) {
+									alert("Entity was created successfully!");
+									$state.go('${entityName}');
+								});												
+							} 
+						}
+					}
+			    });				
+			}
+		});
+				</#switch>
+			</#list>
+		//=============================================LIST============================================================
+		module = module.controller('${entityName}Ctrl', function($olHttp, $scope, $location, $state, $stateParams) {
+			$scope.model = {"entity":{}};
+			$scope._showNext = true;
+			$scope._showPrev = true;
+			getItems('${entityName}', null, true, 1, $scope, $olHttp, $state, $location);		
+		});
+	</#if>				
+	Controller code place-holder end */
 })();

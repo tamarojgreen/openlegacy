@@ -560,6 +560,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 	private boolean serviceInOut = false;
 
 	private String name = "";
+	private String pluralName = "";
 	private DbTableDefinition tableDefinition = null;
 	private Map<String, ColumnField> columnFields = new LinkedHashMap<String, ColumnField>();
 
@@ -591,6 +592,9 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		if (annotations == null) {
 			return;
 		}
+
+		entityName = mainType.getName();
+
 		for (AnnotationExpr annotationExpr : annotations) {
 			String annotationName = annotationExpr.getName().getName();
 			if (annotationName.equals(DbAnnotationConstants.DB_JPA_ENTITY_ANNOTATION)
@@ -776,6 +780,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		String displayNameFromAnnotation = null;
 		String windowFromAnnotation = null;
 		String childFromAnnotation = null;
+		String pluralNameFromAnnotation = null;
 
 		if (annotationExpr instanceof NormalAnnotationExpr
 				&& annotationExpr.getName().getName().equals(Entity.class.getSimpleName())) {
@@ -784,6 +789,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 			nameFromAnnotation = findAnnotationAttribute(DbAnnotationConstants.NAME, normalAnnotationExpr.getPairs());
 
 			name = nameFromAnnotation != null ? StringUtil.stripQuotes(nameFromAnnotation) : "";
+			// entityName = name != null ? StringUtil.stripQuotes(name) : StringUtil.toClassName(getClassName());
 		}
 		if (annotationExpr instanceof NormalAnnotationExpr
 				&& annotationExpr.getName().getName().equals(DbEntity.class.getSimpleName())) {
@@ -793,10 +799,12 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 					normalAnnotationExpr.getPairs());
 			windowFromAnnotation = findAnnotationAttribute(DbAnnotationConstants.WINDOW, normalAnnotationExpr.getPairs());
 			childFromAnnotation = findAnnotationAttribute(DbAnnotationConstants.CHILD, normalAnnotationExpr.getPairs());
+			pluralNameFromAnnotation = findAnnotationAttribute(DbAnnotationConstants.PLURAL_NAME, normalAnnotationExpr.getPairs());
 
 			displayName = displayNameFromAnnotation != null ? StringUtil.stripQuotes(displayNameFromAnnotation) : "";
 			window = windowFromAnnotation != null ? Boolean.valueOf(windowFromAnnotation) : false;
 			child = childFromAnnotation != null ? Boolean.valueOf(childFromAnnotation) : false;
+			pluralName = pluralNameFromAnnotation != null ? StringUtil.stripQuotes(pluralNameFromAnnotation) : "";
 		}
 	}
 
@@ -914,6 +922,11 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 	@Override
 	public boolean isChild() {
 		return child;
+	}
+
+	@Override
+	public String getPluralName() {
+		return pluralName;
 	}
 
 }

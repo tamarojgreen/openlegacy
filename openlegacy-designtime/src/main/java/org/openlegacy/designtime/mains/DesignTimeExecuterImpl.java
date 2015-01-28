@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.annotations.db.DbEntity;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.designtime.EntityUserInteraction;
@@ -26,8 +27,10 @@ import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
 import org.openlegacy.designtime.analyzer.TextTranslator;
+import org.openlegacy.designtime.db.generators.DbEntityPageGenerator;
 import org.openlegacy.designtime.db.generators.DbPojosAjGenerator;
 import org.openlegacy.designtime.db.generators.support.DbAnnotationConstants;
+import org.openlegacy.designtime.db.generators.support.DbCodeBasedDefinitionUtils;
 import org.openlegacy.designtime.generators.EntityPageGenerator;
 import org.openlegacy.designtime.generators.EntityServiceGenerator;
 import org.openlegacy.designtime.generators.GenerateUtil;
@@ -1029,11 +1032,18 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		EntityPageGenerator entityWebGenerator = null;
 		if (entityDefinition instanceof ScreenEntityDefinition) {
 			entityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(ScreenEntityPageGenerator.class);
-		} else {
+			entityWebGenerator.generateView(generateViewRequest, entityDefinition);
+		} else if (entityDefinition instanceof RpcEntityDefinition) {
 			entityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityPageGenerator.class);
-
+			entityWebGenerator.generateView(generateViewRequest, entityDefinition);
+		} else {
+			DbEntityPageGenerator dbEntityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(
+					DbEntityPageGenerator.class);
+			dbEntityWebGenerator.generateView(generateViewRequest, entityDefinition, entityDefinition.getEntityName() + ".list",
+					dbEntityWebGenerator.LIST_MODE);
+			dbEntityWebGenerator.generateView(generateViewRequest, entityDefinition, entityDefinition.getEntityName() + ".edit",
+					dbEntityWebGenerator.EDIT_MODE);
 		}
-		entityWebGenerator.generateView(generateViewRequest, entityDefinition);
 
 	}
 
@@ -1049,8 +1059,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		EntityPageGenerator entityPageGenerator = null;
 		if (entityDefinition instanceof ScreenEntityDefinition) {
 			entityPageGenerator = getOrCreateApplicationContext(projectPath).getBean(ScreenEntityPageGenerator.class);
-		} else {
+		} else if (entityDefinition instanceof RpcEntityDefinition) {
 			entityPageGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityPageGenerator.class);
+		} else {
+			entityPageGenerator = getOrCreateApplicationContext(projectPath).getBean(DbEntityPageGenerator.class);
 		}
 
 		if (entityPageGenerator.isSupportControllerGeneration()) {
@@ -1099,10 +1111,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			File packageDir = new File(sourceFile.getParent());
 			if (fileContent.contains(ScreenEntity.class.getSimpleName())) {
 				entityDefinition = ScreenCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
-			} else {
-				if (fileContent.contains(RpcEntity.class.getSimpleName())) {
-					entityDefinition = RpcCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
-				}
+			} else if (fileContent.contains(RpcEntity.class.getSimpleName())) {
+				entityDefinition = RpcCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
+			} else if (fileContent.contains(DbEntity.class.getSimpleName())) {
+				entityDefinition = DbCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
 			}
 		} catch (Exception e) {
 			throw (new GenerationException(e));

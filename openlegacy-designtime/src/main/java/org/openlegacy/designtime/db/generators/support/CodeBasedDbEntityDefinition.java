@@ -11,6 +11,7 @@ import org.openlegacy.designtime.db.generators.DbPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.support.AbstractCodeBasedEntityDefinition;
 
 import java.io.File;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +24,7 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 
 	private Map<String, DbFieldDefinition> columnFields;
 	private List<ActionDefinition> actions;
+	private Map<String, DbFieldDefinition> fieldsDefinitions = new LinkedHashMap<String, DbFieldDefinition>();
 
 	public CodeBasedDbEntityDefinition(DbPojoCodeModel codeModel, File packageDir) {
 		super(codeModel, packageDir);
@@ -78,8 +80,10 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 	 */
 	@Override
 	public Map<String, DbFieldDefinition> getFieldsDefinitions() {
-		throwNotImplemented();
-		return null;
+		if (fieldsDefinitions.isEmpty()) {
+			fieldsDefinitions = DbCodeBasedDefinitionUtils.getFieldsFromCodeModel(getCodeModel());
+		}
+		return fieldsDefinitions;
 	}
 
 	/*
@@ -102,8 +106,7 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 	 */
 	@Override
 	public List<EntityDefinition<?>> getChildEntitiesDefinitions() {
-		throwNotImplemented();
-		return null;
+		return DbCodeBasedDefinitionUtils.getChildEntitiesDefinitionsFromCodeModel(getCodeModel(), getPackageDir());
 	}
 
 	private static void throwNotImplemented() throws UnsupportedOperationException {
@@ -138,8 +141,12 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 
 	@Override
 	public String getPluralName() {
-		throwNotImplemented();
-		return null;
+		return getCodeModel().getPluralName();
+	}
+
+	@Override
+	public String getEntityName() {
+		return getCodeModel().getEntityName();
 	}
 
 }
