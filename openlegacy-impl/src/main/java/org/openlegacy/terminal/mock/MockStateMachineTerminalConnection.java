@@ -12,6 +12,7 @@ package org.openlegacy.terminal.mock;
 
 import org.apache.commons.lang.SerializationUtils;
 import org.openlegacy.SnapshotsSimilarityChecker;
+import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -65,6 +66,19 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 		List<SnapshotAndSendAction> group = findGroup(currentSnapshot);
 
 		int matchScore = 0;
+		if (group.isEmpty()) {
+			for (TerminalSnapshot snapshot : snapshots) {
+				int count = 0;
+				if (snapshot.equals(currentSnapshot)) {
+					if (snapshots.size() > count - 1) {
+						currentSnapshot = snapshots.get(count + 1);
+						return;
+					} else {
+						throw (new SessionEndedException("Mock session has been finished"));
+					}
+				}
+			}
+		}
 		for (SnapshotAndSendAction snapshotAndSendAction : group) {
 			TerminalSendAction comparedSendAction = snapshotAndSendAction.getArc();
 			// compare fields , command and cursor

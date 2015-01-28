@@ -83,9 +83,11 @@ public class MockStateMachineTerminalConnectionFactory extends AbstractMockTermi
 				if (snapshot.getSnapshotType() == SnapshotType.OUTGOING
 						&& snapshotsSimilarityChecker.similarityPercent(snapshot, firstGroupSnapshot) >= similarityPercentage) {
 					TerminalSendAction terminalSendAction = ((TerminalOutgoingSnapshot)snapshot).getTerminalSendAction();
-					TerminalSnapshot nextSnapShot = snapshots.get(count + 1);
-					SnapshotAndSendAction snapshotAndAction = new SnapshotAndSendAction(nextSnapShot, terminalSendAction);
-					target.add(snapshotAndAction);
+					if (snapshots.size() > count + 1) {
+						TerminalSnapshot nextSnapShot = snapshots.get(count + 1);
+						SnapshotAndSendAction snapshotAndAction = new SnapshotAndSendAction(nextSnapShot, terminalSendAction);
+						target.add(snapshotAndAction);
+					}
 
 				}
 				count++;
