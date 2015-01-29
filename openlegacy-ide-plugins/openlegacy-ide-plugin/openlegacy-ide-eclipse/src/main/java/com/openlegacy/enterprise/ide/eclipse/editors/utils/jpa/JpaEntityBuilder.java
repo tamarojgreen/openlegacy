@@ -30,7 +30,9 @@ import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.ArrayInitializer;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.BooleanLiteral;
+import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.MarkerAnnotation;
@@ -361,6 +363,10 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 						VariableDeclarationFragment fragment = ast.newVariableDeclarationFragment();
 						fragment.setName(ast.newSimpleName(StringUtils.uncapitalize(fieldName)));
 						FieldDeclaration newField = ast.newFieldDeclaration(fragment);
+						if (((VariableDeclarationFragment)field.fragments().get(0)).getInitializer() != null) {
+							fragment.setInitializer((Expression)ASTNode.copySubtree(ast,
+									((VariableDeclarationFragment)field.fragments().get(0)).getInitializer()));
+						}
 						newField.setType((Type)ASTNode.copySubtree(ast, field.getType()));
 						newField.modifiers().add(annotation);
 						newField.modifiers().addAll(ASTNode.copySubtrees(ast, field.modifiers()));
@@ -522,8 +528,8 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 				VariableDeclarationFragment fragment = ast.newVariableDeclarationFragment();
 				String fieldName = ((JpaFieldModel)action.getNamedObject()).getFieldName();
 				fragment.setName(ast.newSimpleName(StringUtils.uncapitalize(fieldName)));
-
 				FieldDeclaration field = ast.newFieldDeclaration(fragment);
+
 				// create String field
 				field.setType(ast.newSimpleType(ast.newSimpleName(String.class.getSimpleName())));
 				// boolean field
@@ -547,10 +553,17 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 				if (action instanceof JpaListFieldAction) {
 					JpaListFieldModel model = (JpaListFieldModel)action.getNamedObject();
 					ParameterizedType listType = ast.newParameterizedType(ast.newSimpleType(ast.newSimpleName(List.class.getSimpleName())));
-					listType.typeArguments().add(
-							ast.newSimpleType(ast.newSimpleName(model.getFieldTypeArgsClass().getSimpleName())));
+					listType.typeArguments().add(ast.newSimpleType(ast.newSimpleName(model.getFieldTypeArgs())));
 					field.setType(listType);
+
+					ClassInstanceCreation cic = ast.newClassInstanceCreation();
+					ParameterizedType ptype = ast.newParameterizedType(ast.newSimpleType(ast.newName(ArrayList.class.getSimpleName())));
+					ptype.typeArguments().add(ast.newSimpleType(ast.newSimpleName(model.getFieldTypeArgs())));
+					cic.setType(ptype);
+					((VariableDeclarationFragment)field.fragments().get(0)).setInitializer(cic);
+
 					ASTUtils.addImport(ast, cu, rewriter, List.class);
+					ASTUtils.addImport(ast, cu, rewriter, ArrayList.class);
 					ASTUtils.addImport(ast, cu, rewriter, model.getFieldTypeArgsClass());
 				}
 				// ManyToOne field
