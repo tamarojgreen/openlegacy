@@ -10,6 +10,19 @@
  *******************************************************************************/
 package org.openlegacy.terminal.persistance;
 
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+
+import org.openlegacy.definitions.DynamicFieldDefinition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalOutgoingSnapshot;
@@ -30,18 +43,6 @@ import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 import org.openlegacy.utils.BidiUtil;
 import org.openlegacy.utils.FeatureChecker;
 import org.openlegacy.utils.StringUtil;
-
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "snapshot")
 @XmlType
@@ -144,6 +145,60 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 	@Override
 	public TerminalField getField(TerminalPosition position) {
 		return SnapshotUtils.getField(this, position);
+	}
+	
+	public TerminalPosition getDynamicPosition(DynamicFieldDefinition dynamicField){
+		boolean isEntireScreen = isDynamicFieldCoversEntireScreen(dynamicField);
+		
+		int rowStart = isEntireScreen ? 0 : dynamicField.getRow();
+		int columnStart = isEntireScreen ? 0 : dynamicField.getColumn();
+		int rowEnd = isEntireScreen ? getSize().getRows() : dynamicField.getEndRow();
+		int columnEnd = isEntireScreen ? getSize().getColumns() : dynamicField.getEndColumn();
+		int fieldOffset = dynamicField.getFieldOffset();
+		String text = dynamicField.getText();
+		
+		for (int rowIndex = rowStart; rowIndex < rowEnd; rowIndex++) {
+
+			TerminalRow row = getRow(rowIndex);
+
+			List<TerminalField> fields = row.getFields();
+			for (int fieldIndex = 0; fieldIndex < fields.size(); fieldIndex++) {
+				TerminalField field = fields.get(fieldIndex);
+				if (field.getPosition().getColumn() < columnStart
+						|| field.getPosition().getColumn() > columnEnd) {
+					continue;
+				}
+
+				String fieldValue = field.getValue();
+				if (!fieldValue.contains(text) && !fieldValue.matches(text)) {
+					continue;
+				}
+
+				int dynamicFieldIndex = fieldIndex + fieldOffset;
+
+				if ((dynamicFieldIndex < 0)
+						|| dynamicFieldIndex > fields.size()) {
+					continue;
+				}
+
+				TerminalField requestedield = fields.get(dynamicFieldIndex);
+
+				int requestedFieldColumn = requestedield.getPosition()
+						.getColumn();
+				if (requestedFieldColumn > columnEnd
+						|| requestedFieldColumn < columnStart) {
+					continue;
+				}
+
+				return requestedield.getPosition();
+			}
+
+		}
+		return null;
+	}
+
+	private boolean isDynamicFieldCoversEntireScreen(DynamicFieldDefinition dynamicField) {
+		return (dynamicField.getRow()==0 && dynamicField.getColumn() == 0 && dynamicField.getEndRow() == 0 && dynamicField.getEndColumn() == 0);
 	}
 
 	@Override

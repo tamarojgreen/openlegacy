@@ -12,6 +12,7 @@ package org.openlegacy.terminal.definitions;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.openlegacy.FieldType;
+import org.openlegacy.definitions.DynamicFieldDefinition;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.support.AbstractFieldDefinition;
 import org.openlegacy.terminal.FieldAttributeType;
@@ -45,6 +46,8 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	private ScreenFieldDefinition descriptionFieldDefinition;
 
+	private DynamicFieldDefinition dynamicFieldDefinition;
+	
 	private boolean internal;
 	private boolean global;
 	private String nullValue;
@@ -248,6 +251,20 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	@Override
 	public void setEditable(boolean editable) {
 		super.setEditable(editable);
+	}
+
+	/**
+	 * @return the dynamicFieldDefinition
+	 */
+	public DynamicFieldDefinition getDynamicFieldDefinition() {
+		return dynamicFieldDefinition;
+	}
+
+	/**
+	 * @param dynamicFieldDefinition the dynamicFieldDefinition to set
+	 */
+	public void setDynamicFieldDefinition(DynamicFieldDefinition dynamicFieldDefinition) {
+		this.dynamicFieldDefinition = dynamicFieldDefinition;
 	}
 
 }

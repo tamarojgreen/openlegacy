@@ -11,6 +11,7 @@
 package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.annotations.screen.ScreenField;
+import org.openlegacy.definitions.DynamicFieldDefinition;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.TerminalField;
@@ -106,6 +107,8 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 	String getFieldTypeName();
 
 	ScreenFieldDefinition getDescriptionFieldDefinition();
+	
+	DynamicFieldDefinition getDynamicFieldDefinition();
 
 	boolean isTableKey();
 

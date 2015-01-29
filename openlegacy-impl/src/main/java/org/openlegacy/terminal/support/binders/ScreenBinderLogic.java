@@ -10,10 +10,21 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support.binders;
 
+import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.inject.Inject;
+
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.FieldFormatter;
+import org.openlegacy.definitions.DynamicFieldDefinition;
 import org.openlegacy.terminal.FieldComparator;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
@@ -30,6 +41,7 @@ import org.openlegacy.terminal.definitions.ScreenTableDefinition.DrilldownDefini
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.openlegacy.terminal.modules.table.DefaultTableDrilldownPerformer;
+import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SimpleScreenSize;
@@ -40,16 +52,6 @@ import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.TypesUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
-
-import java.io.Serializable;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.inject.Inject;
 
 public class ScreenBinderLogic implements Serializable {
 
@@ -78,8 +80,7 @@ public class ScreenBinderLogic implements Serializable {
 			Collection<ScreenFieldDefinition> fieldMappingDefinitions) {
 
 		for (ScreenFieldDefinition fieldMappingDefinition : fieldMappingDefinitions) {
-
-			TerminalPosition position = fieldMappingDefinition.getPosition();
+			TerminalPosition position = retrievePosition(fieldMappingDefinition, terminalSnapshot); 
 			TerminalField terminalField = terminalSnapshot.getField(position);
 			if (terminalField == null) {
 				logger.debug("A field mapping was not found " + fieldMappingDefinition.getName());
@@ -111,6 +112,20 @@ public class ScreenBinderLogic implements Serializable {
 			}
 
 		}
+	}
+
+	private TerminalPosition retrievePosition(ScreenFieldDefinition fieldMappingDefinition, TerminalSnapshot terminalSnapshot) {
+		DynamicFieldDefinition dynamicField = fieldMappingDefinition.getDynamicFieldDefinition();
+		if (dynamicField != null){
+			TerminalPersistedSnapshot persistantSnapshot = (TerminalPersistedSnapshot) terminalSnapshot;
+			return persistantSnapshot.getDynamicPosition(dynamicField);
+		}
+		
+		TerminalPosition position = fieldMappingDefinition.getPosition();
+		if (position == null){
+			throw (new TerminalActionException("No field position, static nor dynamic, was found for field: " + fieldMappingDefinition.getName()));
+		}
+		return position;
 	}
 
 	private void handleDescriptionField(ScreenPojoFieldAccessor fieldAccessor, TerminalSnapshot terminalSnapshot,
