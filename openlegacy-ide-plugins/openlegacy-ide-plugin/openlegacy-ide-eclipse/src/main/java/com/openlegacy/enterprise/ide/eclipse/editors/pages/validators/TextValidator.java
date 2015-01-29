@@ -1,6 +1,6 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.validators;
 
-import com.openlegacy.enterprise.ide.eclipse.editors.ScreenEntityEditor;
+import com.openlegacy.enterprise.ide.eclipse.editors.AbstractEditor;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.IOpenLegacyMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
@@ -29,7 +29,7 @@ public abstract class TextValidator {
 	private boolean isValid;
 	private IManagedForm managedForm;
 	private String currentText;
-	private ScreenEntityEditor editor;
+	private AbstractEditor editor;
 	private UUID uuid;
 	private String validationText = "";
 	private IOpenLegacyMasterBlock masterBlock;
@@ -52,9 +52,7 @@ public abstract class TextValidator {
 		Object container = managedForm.getContainer();
 		if (container instanceof FormPage) {
 			FormEditor formEditor = ((FormPage)container).getEditor();
-			if (formEditor instanceof ScreenEntityEditor) {
-				this.editor = (ScreenEntityEditor)formEditor;
-			}
+			this.editor = (AbstractEditor)formEditor;
 		}
 
 		currentText = control.getText();
