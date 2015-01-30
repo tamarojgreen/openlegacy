@@ -97,9 +97,13 @@
 								$rootScope.$broadcast("olApp:login:authorized", username);
 								if (data == ""){
 									$state.go("emulation");
-								}
-								else{
-									$state.go(olConfig.afterLoginView);
+								} else {									
+									var afterLoginView = 'menu';
+									if (data.afterLoginEntityName != undefined) {										
+										afterLoginView = data.afterLoginEntityName;
+									}									
+									$rootScope.$broadcast('olApp-login:change-after-login-view', { afterLoginView: afterLoginView });
+									$state.go($rootScope.afterLoginView);
 								}
 							}
 						);

@@ -10,28 +10,19 @@
  *******************************************************************************/
 package org.openlegacy.terminal.mvc.rest;
 
-import java.beans.PropertyDescriptor;
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.simple.JSONObject;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.EntityType;
 import org.openlegacy.Session;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.TableDefinition;
 import org.openlegacy.modules.globals.Globals;
 import org.openlegacy.modules.login.LoginException;
+import org.openlegacy.modules.menu.Menu.MenuEntity;
 import org.openlegacy.modules.messages.Messages;
 import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.modules.table.TableWriter;
@@ -59,6 +50,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.beans.PropertyDescriptor;
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * OpenLegacy default REST API controller. Handles GET/POST requests in the format of JSON or XML. Also handles login /logoff of
@@ -142,8 +145,8 @@ public class DefaultScreensRestController extends AbstractRestController {
 		List<EntityDefinition<?>> childEntitiesDefinitions = entityDefinition.getChildEntitiesDefinitions();
 		if (children && childEntitiesDefinitions.size() > 0) {
 			PropertyDescriptor[] properties = PropertyUtils.getPropertyDescriptors(entity);
-				for (EntityDefinition<?> childEntityDefinition : childEntitiesDefinitions) {
-					for (PropertyDescriptor propertyDescriptor : properties) {
+			for (EntityDefinition<?> childEntityDefinition : childEntitiesDefinitions) {
+				for (PropertyDescriptor propertyDescriptor : properties) {
 					if (childEntityDefinition.getEntityName().equalsIgnoreCase(propertyDescriptor.getName())) {
 						try {
 							propertyDescriptor.getReadMethod().invoke(entity);
@@ -274,11 +277,29 @@ public class DefaultScreensRestController extends AbstractRestController {
 		return getMenu(response);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	@RequestMapping(value = "/login", consumes = { JSON }, method = RequestMethod.POST)
 	public Object loginPostJson(@RequestBody String json, HttpServletResponse response) throws IOException {
 		super.loginPostJson(json, response);
-		return getMenu(response);
+
+		ScreenEntity entity = terminalSession.getEntity();
+		if (entity != null) {
+			ScreenEntityDefinition entityDefinition = screenEntitiesRegistry.get(entity.getClass());
+			Class<? extends EntityType> screenType = entityDefinition.getType();
+
+			if (!screenType.getSimpleName().equals(MenuEntity.class.getSimpleName())) {
+
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("afterLoginEntityName", entityDefinition.getEntityName());
+				return jsonObject;
+
+			} else {
+				return getMenu(response);
+			}
+		} else {
+			return getMenu(response);
+		}
 	}
 
 	@Override
@@ -301,7 +322,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 		boolean isWindow = entity != null ? getEntitiesRegistry().get(entity.getClass()).isWindow() : false;
 
 		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(ProxyUtil.getTargetObject(entity),
-				navigationModule != null ? navigationModule.getPaths() : null, getActions(entity),isWindow);
+				navigationModule != null ? navigationModule.getPaths() : null, getActions(entity), isWindow);
 		return new ModelAndView(MODEL, MODEL, wrapper);
 
 	}
@@ -332,7 +353,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 		return null;
 
 	}
-	
+
 	// export to excel
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/{screen}/excel", method = RequestMethod.GET)

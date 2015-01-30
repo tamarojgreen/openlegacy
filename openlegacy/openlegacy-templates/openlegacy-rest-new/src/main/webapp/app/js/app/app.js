@@ -93,16 +93,17 @@
 			$themeService.changeTheme();
 		};
 		$rootScope.theme = $themeService.getCurrentTheme();
+		
+		$rootScope.$on('olApp-login:change-after-login-view', function(event, data) {			
+			if (olConfig.afterLoginView != undefined) {
+				$rootScope.afterLoginView = olConfig.afterLoginView; 
+			} else {				
+				$rootScope.afterLoginView = data.afterLoginView;
+			}			
+		});
 	}]);	
 
 	olApp.config( ['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-		
-		if (olConfig.afterLoginView != undefined) {
-			var afterLoginView = olConfig.afterLoginView; 
-		} else {
-			var afterLoginView = "menu";
-		}
-		
 		var header = { templateUrl: "views/partials/header.html", controller: "headerCtrl" };
 		var auth = function($q, $http) {
 			var deferred = $q.defer();
@@ -162,11 +163,6 @@
 				 "": {
 					 templateUrl: "views/login.html",
 					 controller: 'loginCtrl'
-				 }
-			 },
-			 params: {
-				 redirectTo: {
-					 name: afterLoginView
 				 }
 			 },
 			 resolve: {
