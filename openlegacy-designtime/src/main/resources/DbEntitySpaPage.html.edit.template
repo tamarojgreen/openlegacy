@@ -196,7 +196,7 @@
 	<#list childColumns as childColumn>	
 		<#list childPagesDefinitions as childPageDefinition>		
 			<#assign innerEntityDefinition = childPageDefinition.entityDefinition/>			
-			<#if childPageDefinition.entityDefinition.entityName == childColumn.javaTypeName>			
+			<#if childPageDefinition.entityDefinition.entityName == childColumn.fieldTypeArgs>			
 				<#if isCREATEAction>				
 					<@generateTable entity=innerEntityDefinition showActionsToolbar=false propertyName=childColumn.name joinColumnName=childColumn.joinColumnName isCREATEAction=true/>
 				<#else>				

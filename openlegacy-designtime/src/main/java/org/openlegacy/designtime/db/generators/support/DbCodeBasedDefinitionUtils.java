@@ -83,7 +83,7 @@ public class DbCodeBasedDefinitionUtils {
 		for (ColumnField javaColumnField : columnFields) {
 			SimpleDbColumnFieldDefinition definition = new SimpleDbColumnFieldDefinition(javaColumnField.getFieldName(),
 					javaColumnField.getFieldTypeArgs());
-			definition.setJavaTypeName(javaColumnField.getFieldTypeArgs());
+			definition.setJavaTypeName(javaColumnField.getFieldType());
 			definition.setNameAttr(javaColumnField.getName());
 			definition.setUnique(javaColumnField.isUnique());
 			definition.setNullable(javaColumnField.isNullable());
