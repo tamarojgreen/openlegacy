@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.support.mock.ScreenFieldAttributeEntity;
+import org.openlegacy.terminal.support.mock.ScreenDynamicFieldAttributeEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -19,7 +19,7 @@ public class ScreenEntityFieldAttributeTest extends AbstractTest {
 	public void testEditableAttribute() {
 		TerminalSession terminalSession = newTerminalSession();
 
-		ScreenFieldAttributeEntity isEditableField = terminalSession.getEntity(ScreenFieldAttributeEntity.class);
+		ScreenDynamicFieldAttributeEntity isEditableField = terminalSession.getEntity(ScreenDynamicFieldAttributeEntity.class);
 		Boolean result = isEditableField.getInEditModeTrue();
 		Assert.assertTrue(result);
 		Boolean result2 = isEditableField.getInEditModeFalse();
