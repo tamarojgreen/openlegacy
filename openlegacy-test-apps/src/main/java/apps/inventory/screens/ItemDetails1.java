@@ -5,6 +5,7 @@ import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.annotations.screen.ScreenBooleanField;
 import org.openlegacy.annotations.screen.ScreenDescriptionField;
+import org.openlegacy.annotations.screen.ScreenDynamicField;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
@@ -20,6 +21,7 @@ import org.openlegacy.terminal.actions.TerminalActions;
 public class ItemDetails1 {
 
 	@ScreenField(row = 6, column = 33, key = true)
+	@ScreenDynamicField(text = "Item Number" , fieldOffset = 1, row = 5, endRow =9, column =1 , endColumn = 70)
 	private Integer itemNumber;
 
 	@ScreenField(row = 7, column = 33, endColumn = 72, editable = true)

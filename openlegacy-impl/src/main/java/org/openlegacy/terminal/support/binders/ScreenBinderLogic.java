@@ -14,6 +14,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.FieldFormatter;
+import org.openlegacy.definitions.DynamicFieldDefinition;
 import org.openlegacy.terminal.FieldComparator;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
@@ -78,8 +79,7 @@ public class ScreenBinderLogic implements Serializable {
 			Collection<ScreenFieldDefinition> fieldMappingDefinitions) {
 
 		for (ScreenFieldDefinition fieldMappingDefinition : fieldMappingDefinitions) {
-
-			TerminalPosition position = fieldMappingDefinition.getPosition();
+			TerminalPosition position = retrievePosition(fieldMappingDefinition, terminalSnapshot);
 			TerminalField terminalField = terminalSnapshot.getField(position);
 			if (terminalField == null) {
 				logger.debug("A field mapping was not found " + fieldMappingDefinition.getName());
@@ -111,6 +111,20 @@ public class ScreenBinderLogic implements Serializable {
 			}
 
 		}
+	}
+
+	private TerminalPosition retrievePosition(ScreenFieldDefinition fieldMappingDefinition, TerminalSnapshot terminalSnapshot) {
+		DynamicFieldDefinition dynamicField = fieldMappingDefinition.getDynamicFieldDefinition();
+		if (dynamicField != null) {
+			return getDynamicPosition(dynamicField, terminalSnapshot);
+		}
+
+		TerminalPosition position = fieldMappingDefinition.getPosition();
+		if (position == null) {
+			throw (new TerminalActionException("No field position, static nor dynamic, was found for field: "
+					+ fieldMappingDefinition.getName()));
+		}
+		return position;
 	}
 
 	private void handleDescriptionField(ScreenPojoFieldAccessor fieldAccessor, TerminalSnapshot terminalSnapshot,
@@ -403,6 +417,56 @@ public class ScreenBinderLogic implements Serializable {
 			}
 		}
 
+	}
+
+	public TerminalPosition getDynamicPosition(DynamicFieldDefinition dynamicField, TerminalSnapshot terminalSnapshot) {
+		boolean isEntireScreen = isDynamicFieldCoversEntireScreen(dynamicField);
+
+		int rowStart = isEntireScreen ? 0 : dynamicField.getRow();
+		int columnStart = isEntireScreen ? 0 : dynamicField.getColumn();
+		int rowEnd = isEntireScreen ? terminalSnapshot.getSize().getRows() : dynamicField.getEndRow();
+		int columnEnd = isEntireScreen ? terminalSnapshot.getSize().getColumns() : dynamicField.getEndColumn();
+		int fieldOffset = dynamicField.getFieldOffset();
+		String text = dynamicField.getText();
+
+		for (int rowIndex = rowStart; rowIndex < rowEnd; rowIndex++) {
+
+			TerminalRow row = terminalSnapshot.getRow(rowIndex);
+
+			List<TerminalField> fields = row.getFields();
+			for (int fieldIndex = 0; fieldIndex < fields.size(); fieldIndex++) {
+				TerminalField field = fields.get(fieldIndex);
+				if (field.getPosition().getColumn() < columnStart || field.getPosition().getColumn() > columnEnd) {
+					continue;
+				}
+
+				String fieldValue = field.getValue();
+				if (!fieldValue.contains(text) && !fieldValue.matches(text)) {
+					continue;
+				}
+
+				int dynamicFieldIndex = fieldIndex + fieldOffset;
+
+				if ((dynamicFieldIndex < 0) || dynamicFieldIndex > fields.size()) {
+					continue;
+				}
+
+				TerminalField requestedield = fields.get(dynamicFieldIndex);
+
+				int requestedFieldColumn = requestedield.getPosition().getColumn();
+				if (requestedFieldColumn > columnEnd || requestedFieldColumn < columnStart) {
+					continue;
+				}
+
+				return requestedield.getPosition();
+			}
+
+		}
+		return null;
+	}
+
+	private boolean isDynamicFieldCoversEntireScreen(DynamicFieldDefinition dynamicField) {
+		return (dynamicField.getRow() == 0 && dynamicField.getColumn() == 0 && dynamicField.getEndRow() == 0 && dynamicField.getEndColumn() == 0);
 	}
 
 	private static boolean isBindText(ScreenFieldDefinition screenFieldDefinition, String text) {
