@@ -79,6 +79,7 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 				}
 			}
 		}
+		TerminalSnapshot bestSnapshot = null;
 		for (SnapshotAndSendAction snapshotAndSendAction : group) {
 			TerminalSendAction comparedSendAction = snapshotAndSendAction.getArc();
 			// compare fields , command and cursor
@@ -94,16 +95,16 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 			if (!exactCursor && Arrays.equals(terminalSendAction.getFields().toArray(), comparedSendAction.getFields().toArray())
 					&& terminalSendAction.getCommand().equals(comparedSendAction.getCommand())) {
 				if (matchScore < 2) {
-					currentSnapshot = snapshotAndSendAction.getNode();
+					bestSnapshot = snapshotAndSendAction.getNode();
+					matchScore = 2;
 				}
-				matchScore = 2;
 			}
 			// compare command only
 			if (!exactCursor && !exactFields && terminalSendAction.getCommand().equals(comparedSendAction.getCommand())) {
 				if (matchScore < 1) {
-					currentSnapshot = snapshotAndSendAction.getNode();
+					bestSnapshot = snapshotAndSendAction.getNode();
+					matchScore = 1;
 				}
-				matchScore = 1;
 			}
 			if (!exactCursor && !exactFields && !exactCommand) {
 				if (matchScore == 0) {
@@ -111,9 +112,9 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 					for (TerminalSnapshot snapshot : snapshots) {
 						if (snapshot.getSequence().equals(currentSnapshot.getSequence())) {
 							if (snapshots.size() > counter + 1) {
-								currentSnapshot = snapshots.get(counter + 1);
+								bestSnapshot = snapshots.get(counter + 1);
 							} else {
-								currentSnapshot = snapshots.get(0);
+								bestSnapshot = snapshots.get(0);
 							}
 							break;
 						}
@@ -121,6 +122,9 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 					}
 				}
 			}
+		}
+		if (bestSnapshot != null) {
+			currentSnapshot = bestSnapshot;
 		}
 	}
 

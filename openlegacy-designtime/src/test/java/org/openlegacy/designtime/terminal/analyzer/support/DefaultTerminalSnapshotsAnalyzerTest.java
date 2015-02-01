@@ -287,7 +287,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 	@Test
 	public void testGenerateNavigation() throws TemplateException, IOException {
 
-		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze(98, "LoginScreen.xml", "LoginScreen-out.xml",
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze(99, "LoginScreen.xml", "LoginScreen-out.xml",
 				"MainMenuScreen.xml", "MainMenuScreen-out.xml", "SubMenu1Screen.xml", "SubMenu1Screen-out.xml",
 				"SimpleScreen.xml");
 

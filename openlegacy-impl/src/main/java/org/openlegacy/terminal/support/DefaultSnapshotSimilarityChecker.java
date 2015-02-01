@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class DefaultSnapshotSimilarityChecker implements SnapshotsSimilarityChecker<TerminalSnapshot> {
 
-	private double textSimilarityFactor = 0.15;
+	private double charDifferenceFactor = 0.15;
 
 	@Override
 	public int similarityPercent(TerminalSnapshot snapshot1, TerminalSnapshot snapshot2) {
@@ -42,38 +42,14 @@ public class DefaultSnapshotSimilarityChecker implements SnapshotsSimilarityChec
 		for (int i = 1; i <= size.getRows(); i++) {
 			TerminalRow row1 = snapshot1.getRow(i);
 			TerminalRow row2 = snapshot2.getRow(i);
-			int rowTextSimilarity = getRowsTextSimilarity(size, row1, row2);
 
-			int rowSpaceMatch = rowSpaceSimilarity(row1, row2, size.getColumns());
+			double rowSpaceMatch = rowSpaceSimilarity(row1, row2, size.getColumns());
 			// reduce from the total
-			int matchedAttributesScore = size.getColumns() - rowSpaceMatch;
-			totalScore = totalScore
-					- (matchedAttributesScore * (1 - textSimilarityFactor) + ((size.getColumns() - rowTextSimilarity) * textSimilarityFactor));
+			double matchedAttributesScore = size.getColumns() - rowSpaceMatch;
+			totalScore = totalScore - matchedAttributesScore;
 		}
 		int percentageMatch = (int)(100 * (totalScore / screenSize));
 		return percentageMatch;
-	}
-
-	/**
-	 * compare row text by blanks for similarity
-	 * 
-	 * @param size
-	 * @param row1
-	 * @param row2
-	 * @return
-	 */
-	private static int getRowsTextSimilarity(ScreenSize size, TerminalRow row1, TerminalRow row2) {
-		int rowTextSimilarity = size.getColumns();
-		if (row1 != null && row1.getText() != null && row2 != null && row2.getText() != null) {
-			char[] row1Chars = row1.getText().toCharArray();
-			char[] row2Chars = row2.getText().toCharArray();
-			for (int ii = 0; ii < row1Chars.length; ii++) {
-				if (row2Chars.length <= ii || (row1Chars[ii] == ' ' && row1Chars[ii] != row2Chars[ii])) {
-					rowTextSimilarity--;
-				}
-			}
-		}
-		return rowTextSimilarity;
 	}
 
 	/**
@@ -85,25 +61,44 @@ public class DefaultSnapshotSimilarityChecker implements SnapshotsSimilarityChec
 	 * @param rowLength
 	 * @return the row space which is match between the 2 rows
 	 */
-	private static int rowSpaceSimilarity(TerminalRow row1, TerminalRow row2, int rowLength) {
+	private double rowSpaceSimilarity(TerminalRow row1, TerminalRow row2, int rowLength) {
 		List<TerminalField> fields1 = row1.getFields();
-		int rowSpaceMatch = rowLength;
+		double rowSpaceMatch = rowLength;
 		for (TerminalField field : fields1) {
 			TerminalField secondField = row2.getField(field.getPosition().getColumn());
-			if (secondField == null || !fieldSimilar(field, secondField)) {
+			if (secondField == null) {
 				rowSpaceMatch = rowSpaceMatch - field.getLength();
+			} else {
+				double fieldSimilarity = fieldDifference(field, secondField);
+				rowSpaceMatch = rowSpaceMatch - fieldSimilarity;
 			}
+
 		}
 		return rowSpaceMatch;
 	}
 
-	public static boolean fieldSimilar(TerminalField field1, TerminalField field2) {
+	public double fieldDifference(TerminalField field1, TerminalField field2) {
 		boolean equals = new EqualsBuilder().append(field1.getPosition(), field2.getPosition()).append(field1.getLength(),
 				field2.getLength()).append(field1.isEditable(), field2.isEditable()).isEquals();
-		return equals;
+		if (!equals) {
+			return field1.getLength();
+		}
+		if (field1.isEditable()) {
+			return 0;
+		} else {
+			char[] field1Chars = field1.getValue().toCharArray();
+			char[] field2Chars = field2.getValue().toCharArray();
+			int fieldTextDiff = 0;
+			for (int ii = 0; ii < field1Chars.length; ii++) {
+				if (field2Chars.length <= ii || (field1Chars[ii] == ' ' && field1Chars[ii] != field2Chars[ii])) {
+					fieldTextDiff += charDifferenceFactor;
+				}
+			}
+			return fieldTextDiff;
+		}
 	}
 
-	public void setTextSimilarityFactor(double textSimilarityFactor) {
-		this.textSimilarityFactor = textSimilarityFactor;
+	public void setCharDifferenceFactor(double charDifferenceFactor) {
+		this.charDifferenceFactor = charDifferenceFactor;
 	}
 }
