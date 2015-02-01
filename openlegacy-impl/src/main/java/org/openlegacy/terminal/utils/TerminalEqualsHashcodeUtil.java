@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.utils;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.terminal.TerminalField;
@@ -22,7 +23,7 @@ import java.util.List;
 public class TerminalEqualsHashcodeUtil {
 
 	public static boolean snapshotsEquals(TerminalSnapshot snapshot1, TerminalSnapshot snapshot2) {
-		if (snapshot1.getRows().size() == 0 || snapshot2.getRows().size() == 0){
+		if (snapshot1.getRows().size() == 0 || snapshot2.getRows().size() == 0) {
 			return false;
 		}
 		return snapshot1.getRows().containsAll(snapshot2.getRows());
@@ -46,7 +47,8 @@ public class TerminalEqualsHashcodeUtil {
 
 	public static boolean fieldEquals(TerminalField field1, TerminalField field2) {
 		return new EqualsBuilder().append(field1.getPosition(), field2.getPosition()).append(field1.getLength(),
-				field2.getLength()).append(field1.isEditable(), field2.isEditable()).append(field1.getValue(), field2.getValue()).isEquals();
+				field2.getLength()).append(field1.isEditable(), field2.isEditable()).append(StringUtils.trim(field1.getValue()),
+						StringUtils.trim(field2.getValue())).isEquals();
 	}
 
 	public static int fieldHashCode(TerminalField field) {

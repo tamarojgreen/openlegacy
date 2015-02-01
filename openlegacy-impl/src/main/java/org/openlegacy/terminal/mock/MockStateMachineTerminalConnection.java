@@ -34,7 +34,7 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 
 	private SnapshotsSimilarityChecker<TerminalSnapshot> snapshotsSimilarityChecker;
 
-	private int similarityPercentage = 100;
+	private int similarityPercentage = 95;
 
 	private boolean exactCursor;
 
@@ -110,11 +110,12 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 					int counter = 0;
 					for (TerminalSnapshot snapshot : snapshots) {
 						if (snapshot.getSequence().equals(currentSnapshot.getSequence())) {
-							if (snapshots.size() < counter + 1) {
+							if (snapshots.size() > counter + 1) {
 								currentSnapshot = snapshots.get(counter + 1);
 							} else {
 								currentSnapshot = snapshots.get(0);
 							}
+							break;
 						}
 						counter++;
 					}

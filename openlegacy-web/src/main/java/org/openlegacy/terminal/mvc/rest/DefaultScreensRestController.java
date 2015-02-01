@@ -122,6 +122,10 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@Override
 	protected Object getApiEntity(String entityName, String key) {
 		Object entity = super.getApiEntity(entityName, key);
+		if (entity == null) {
+			SimpleEntityWrapper wrapper = new SimpleEntityWrapper(null, null, null, false);
+			return new ModelAndView(MODEL, MODEL, wrapper);
+		}
 		return multyScreenTableBindUtil.bindCollectTable(terminalSession, entity);
 	}
 

@@ -25,6 +25,8 @@ import java.util.List;
  */
 public class DefaultSnapshotSimilarityChecker implements SnapshotsSimilarityChecker<TerminalSnapshot> {
 
+	private double textSimilarityFactor = 0.15;
+
 	@Override
 	public int similarityPercent(TerminalSnapshot snapshot1, TerminalSnapshot snapshot2) {
 		if (snapshot1 == null || snapshot2 == null) {
@@ -36,16 +38,42 @@ public class DefaultSnapshotSimilarityChecker implements SnapshotsSimilarityChec
 		int screenSize = size.getRows() * size.getColumns();
 
 		double totalScore = screenSize;
-		// some
+
 		for (int i = 1; i <= size.getRows(); i++) {
 			TerminalRow row1 = snapshot1.getRow(i);
 			TerminalRow row2 = snapshot2.getRow(i);
+			int rowTextSimilarity = getRowsTextSimilarity(size, row1, row2);
+
 			int rowSpaceMatch = rowSpaceSimilarity(row1, row2, size.getColumns());
 			// reduce from the total
-			totalScore = totalScore - (size.getColumns() - rowSpaceMatch);
+			int matchedAttributesScore = size.getColumns() - rowSpaceMatch;
+			totalScore = totalScore
+					- (matchedAttributesScore * (1 - textSimilarityFactor) + ((size.getColumns() - rowTextSimilarity) * textSimilarityFactor));
 		}
 		int percentageMatch = (int)(100 * (totalScore / screenSize));
 		return percentageMatch;
+	}
+
+	/**
+	 * compare row text by blanks for similarity
+	 * 
+	 * @param size
+	 * @param row1
+	 * @param row2
+	 * @return
+	 */
+	private static int getRowsTextSimilarity(ScreenSize size, TerminalRow row1, TerminalRow row2) {
+		int rowTextSimilarity = size.getColumns();
+		if (row1 != null && row1.getText() != null && row2 != null && row2.getText() != null) {
+			char[] row1Chars = row1.getText().toCharArray();
+			char[] row2Chars = row2.getText().toCharArray();
+			for (int ii = 0; ii < row1Chars.length; ii++) {
+				if (row2Chars.length <= ii || (row1Chars[ii] == ' ' && row1Chars[ii] != row2Chars[ii])) {
+					rowTextSimilarity--;
+				}
+			}
+		}
+		return rowTextSimilarity;
 	}
 
 	/**
@@ -75,4 +103,7 @@ public class DefaultSnapshotSimilarityChecker implements SnapshotsSimilarityChec
 		return equals;
 	}
 
+	public void setTextSimilarityFactor(double textSimilarityFactor) {
+		this.textSimilarityFactor = textSimilarityFactor;
+	}
 }

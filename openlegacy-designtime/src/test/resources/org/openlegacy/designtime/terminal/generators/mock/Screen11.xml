@@ -3,7 +3,7 @@
     <cursor row="6" column="53" />
     <row rowNumber="1">
         <field value="Field A:" column="3" />
-        <field value="AAaa   "  length="10" column="13" editable="true" />
+        <field value="AAaa      "  length="10" column="13" editable="true" />
     </row>
     <row rowNumber="2">
         <field value="Field B:" column="3" />

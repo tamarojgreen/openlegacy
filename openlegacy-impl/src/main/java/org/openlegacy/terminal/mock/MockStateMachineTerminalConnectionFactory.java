@@ -13,6 +13,8 @@ package org.openlegacy.terminal.mock;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.SnapshotsOrganizer;
 import org.openlegacy.SnapshotsSimilarityChecker;
 import org.openlegacy.terminal.ConnectionProperties;
@@ -32,6 +34,8 @@ import java.util.Set;
 import javax.inject.Inject;
 
 public class MockStateMachineTerminalConnectionFactory extends AbstractMockTerminalConnectionFactory {
+
+	private final static Log logger = LogFactory.getLog(MockStateMachineTerminalConnectionFactory.class);
 
 	private Map<TerminalSnapshot, List<SnapshotAndSendAction>> snapshotsGraph = new HashMap<TerminalSnapshot, List<SnapshotAndSendAction>>();
 

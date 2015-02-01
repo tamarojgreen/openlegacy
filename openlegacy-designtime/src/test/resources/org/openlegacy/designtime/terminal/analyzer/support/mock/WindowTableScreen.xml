@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <snapshot type="INCOMING" sequence="9">
     <row rowNumber="5">
-    	<field value="+--------------------------+" length="22" column="30"/>
+    	<field value="+--------------------------+" length="28" column="30"/>
     </row>
     <row rowNumber="6">
         <field value="|" column="30" />
@@ -39,7 +39,7 @@
         <field value="|" column="57" />
     </row>
     <row rowNumber="12">
-    	<field value="+--------------------------+" length="22" column="30"/>
+    	<field value="+--------------------------+" length="28" column="30"/>
     </row>
     <size rows="24" columns="80"/>
 </snapshot>

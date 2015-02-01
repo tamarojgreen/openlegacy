@@ -45,7 +45,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 	@Test
 	public void testBasicAnalisys() {
 
-		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("SimpleScreen.xml", "FormScreen.xml");
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze(99, "SimpleScreen.xml", "FormScreen.xml");
 
 		Assert.assertEquals(2, screenEntitiesDefinitions.size());
 
@@ -88,7 +88,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 	@Test
 	public void testNumericFieldsScreen() {
 
-		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("NumericFieldsScreen.xml");
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze(99, "NumericFieldsScreen.xml");
 
 		Assert.assertEquals(1, screenEntitiesDefinitions.size());
 
@@ -104,8 +104,8 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 
 	}
 
-	private Map<String, ScreenEntityDefinition> analyze(String... fileNames) {
-		snapshotsOrganizer.setMatchingPercent(99);
+	private Map<String, ScreenEntityDefinition> analyze(int matchingPercent, String... fileNames) {
+		snapshotsOrganizer.setMatchingPercent(matchingPercent);
 		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(getClass().getResource("mock").getFile(), fileNames);
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
 		return screenEntitiesDefinitions;
@@ -140,7 +140,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 
 	@Test
 	public void testNaturalActions() {
-		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("NaturalActionsScreen.xml");
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze(99, "NaturalActionsScreen.xml");
 
 		Assert.assertEquals(1, screenEntitiesDefinitions.size());
 
@@ -195,7 +195,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 	@Test
 	public void testBasicTable() {
 
-		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("TableScreen.xml");
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze(99, "TableScreen.xml");
 
 		Assert.assertEquals(1, screenEntitiesDefinitions.size());
 
@@ -246,7 +246,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 	@Test
 	public void testEntityTableRename() throws TemplateException, IOException {
 
-		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("TableScreen.xml");
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze(99, "TableScreen.xml");
 
 		ScreenEntityDesigntimeDefinition tableScreen = (ScreenEntityDesigntimeDefinition)screenEntitiesDefinitions.get("TableScreen");
 		tableScreen.setEntityName("TableScreen1");
@@ -258,7 +258,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 	@Test
 	public void testMessagesScreen() {
 
-		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("MessagesScreen.xml");
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze(99, "MessagesScreen.xml");
 
 		Assert.assertEquals(1, screenEntitiesDefinitions.size());
 
@@ -273,7 +273,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 	@Test
 	public void testGenerate() throws TemplateException, IOException {
 
-		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("LoginScreen.xml", "MainMenuScreen.xml",
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze(99, "LoginScreen.xml", "MainMenuScreen.xml",
 				"SimpleScreen.xml", "FormScreen.xml", "TableScreen.xml", "WindowScreen.xml");
 
 		assertScreenContent(screenEntitiesDefinitions.get("LoginScreen"), "LoginScreen.java.expected");
@@ -287,7 +287,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 	@Test
 	public void testGenerateNavigation() throws TemplateException, IOException {
 
-		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("LoginScreen.xml", "LoginScreen-out.xml",
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze(98, "LoginScreen.xml", "LoginScreen-out.xml",
 				"MainMenuScreen.xml", "MainMenuScreen-out.xml", "SubMenu1Screen.xml", "SubMenu1Screen-out.xml",
 				"SimpleScreen.xml");
 
@@ -299,7 +299,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 	@Test
 	public void testGenerateWindowValues() throws TemplateException, IOException {
 
-		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("SimpleScreen.xml",
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze(99, "SimpleScreen.xml",
 				"SimpleScreen-towindow-out.xml", "WindowTableScreen.xml");
 
 		ScreenEntityDefinition windowTableScreen = screenEntitiesDefinitions.get("WindowTableScreen");

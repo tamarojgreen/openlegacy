@@ -10,6 +10,13 @@
  *******************************************************************************/
 package org.openlegacy.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openlegacy.Snapshot;
+import org.openlegacy.SnapshotsOrganizer;
+import org.openlegacy.SnapshotsSimilarityChecker;
+import org.openlegacy.terminal.SnapshotPickerStrategy;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -19,13 +26,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openlegacy.Snapshot;
-import org.openlegacy.SnapshotsOrganizer;
-import org.openlegacy.SnapshotsSimilarityChecker;
-import org.openlegacy.terminal.SnapshotPickerStrategy;
-
 public abstract class AbstractSnapshotsOrganizer<S extends Snapshot> implements SnapshotsOrganizer<S> {
 
 	@Inject
@@ -33,7 +33,7 @@ public abstract class AbstractSnapshotsOrganizer<S extends Snapshot> implements 
 
 	private Collection<Set<S>> snapshotGroups = new ArrayList<Set<S>>();
 
-	private int matchingPercent = 99;
+	private int matchingPercent = 95;
 
 	private final static Log logger = LogFactory.getLog(AbstractSnapshotsOrganizer.class);
 
