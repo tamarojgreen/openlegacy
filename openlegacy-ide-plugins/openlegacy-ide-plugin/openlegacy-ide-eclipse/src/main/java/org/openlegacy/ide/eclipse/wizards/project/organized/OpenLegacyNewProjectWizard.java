@@ -111,6 +111,7 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard implement
 			projectCreationRequest.setDbUser(wizardModel.getDbUser());
 			projectCreationRequest.setDbPass(wizardModel.getDbPass());
 			projectCreationRequest.setDbDriverMavenDependency(wizardModel.getDbMavenDependency());
+			projectCreationRequest.setDbDdlAuto(wizardModel.getDbDdlAuto());
 
 			EclipseDesignTimeExecuter.instance().createProject(projectCreationRequest);
 		} catch (Exception e) {

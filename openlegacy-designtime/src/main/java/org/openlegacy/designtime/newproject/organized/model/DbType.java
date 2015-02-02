@@ -25,6 +25,7 @@ public class DbType {
 	private String databaseDriver;
 	private String databaseUrl;
 	private String mavenDependency;
+	private String ddlAuto;
 
 	public DbType() {}
 
@@ -63,4 +64,12 @@ public class DbType {
 		this.mavenDependency = mavenDependency;
 	}
 
+	public String getDdlAuto() {
+		return ddlAuto;
+	}
+
+	@XmlElement(name = "ddl-auto")
+	public void setDdlAuto(String ddlAuto) {
+		this.ddlAuto = ddlAuto;
+	}
 }
