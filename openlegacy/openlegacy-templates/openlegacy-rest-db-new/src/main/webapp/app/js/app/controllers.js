@@ -9,8 +9,8 @@
 	module = module.controller( 'loginCtrl', function($scope, $olHttp, $rootScope, $stateParams, $state) {
 		$scope.login = function(username, password) {
 			var data = {
-				"user" : username,
-				"password" : password
+				"user" : username != undefined ? username : "",
+				"password" : password != undefined ? password : ""
 			}
 			$olHttp.post('login', data, function() {
 				var $expiration = new Date();

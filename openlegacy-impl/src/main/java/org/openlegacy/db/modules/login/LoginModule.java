@@ -7,7 +7,7 @@ import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.login.User;
 import org.openlegacy.terminal.modules.login.PersistedUser;
 
-import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import javax.inject.Inject;
@@ -30,14 +30,14 @@ public class LoginModule implements Login {
 		if (loggedInUser != null) {
 			return;
 		}
+
 		try {
-			Connection asd = dataSource.getConnection(user, password);
-			asd.commit();
+			DriverManager.getConnection(dataSource.getUrl(), user, password);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw (new LoginException(e.getMessage()));
 		}
 		loggedInUser = new PersistedUser(user);
+
 	}
 
 	@Override

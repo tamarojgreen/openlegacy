@@ -52,7 +52,11 @@
 				.success(function(data, status, headers, config) {
 					callback(data);
 				}).error(function(data, status, headers, config) {
-					alert(data);
+					if (data.error != undefined) {
+						alert(data.error);
+					} else {						
+						alert(data);
+					}				
 				});
 			},
 			remove:function(url, callback){	

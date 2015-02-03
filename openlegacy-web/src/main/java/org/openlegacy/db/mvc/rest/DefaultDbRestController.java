@@ -114,7 +114,7 @@ public class DefaultDbRestController {
 		} catch (RegistryException e) {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
 		} catch (LoginException e) {
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+			sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage(), response);
 		}
 		response.setStatus(HttpServletResponse.SC_OK);
 		return getMenu();

@@ -130,7 +130,6 @@ public class OpenLegacyWizardDbPage extends AbstractOpenLegacyWizardPage {
 		final List<String> dbTypeNames = new ArrayList<String>();
 		if (!dbTypes.isEmpty()) {
 			for (DbType dbType : dbTypes) {
-				// dbTypeNames.add(dbType.getName());
 				dbTypesUrls.put(dbType.getName(), dbType.getDatabaseUrl());
 
 			}
@@ -140,7 +139,6 @@ public class OpenLegacyWizardDbPage extends AbstractOpenLegacyWizardPage {
 			@Override
 			public void run() {
 				dbDdlAutoCombo.setItems(dbDdlAuto.toArray(new String[] {}));
-				// dbTypeCombo.setItems(dbTypeNames.toArray(new String[] {}));
 				dbTypeCombo.setItems(dbTypesUrls.keySet().toArray(new String[] {}));
 				dbTypeCombo.select(0);
 				dbTypeCombo.notifyListeners(SWT.Selection, new Event());
@@ -148,6 +146,21 @@ public class OpenLegacyWizardDbPage extends AbstractOpenLegacyWizardPage {
 		});
 		checkDbTypes();
 
+	}
+
+	/**
+	 * Must be called only from General Page
+	 */
+	public void updateControlsData(String projectName) {
+		if (!StringUtils.isEmpty(projectName)) {
+			if (!dbTypes.isEmpty()) {
+				for (DbType dbType : dbTypes) {
+					if (dbType.getName().equals("H2")) {
+						dbTypesUrls.put(dbType.getName(), dbType.getDatabaseUrl() + projectName);
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -180,10 +193,6 @@ public class OpenLegacyWizardDbPage extends AbstractOpenLegacyWizardPage {
 				DbType dbType = getSelectedDbType();
 				if (dbType != null) {
 					dbUrl.setText(dbTypesUrls.get(dbType.getName()));
-					// dbUrl.setText(dbType.getDatabaseUrl());
-					// if (dbType.getName().equals("H2")) {
-					// dbUrl.setText(dbUrl.getText() + getWizardModel().getProjectName());
-					// }
 					int idx = dbDdlAutoCombo.indexOf(dbType.getDdlAuto());
 					if (idx >= -1) {
 						dbDdlAutoCombo.select(idx);
