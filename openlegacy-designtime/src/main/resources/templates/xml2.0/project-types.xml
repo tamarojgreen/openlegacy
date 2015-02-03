@@ -148,5 +148,21 @@
 		<backend-solution>RPC</backend-solution>
 		<frontend-solution>Integration</frontend-solution>
 	</project-type>
+	<project-type>
+		<template-name>openlegacy-ws-db-new</template-name>
+		<is-demo>false</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-ws-db-new.zip</zip-file>
+		<backend-solution>JDBC</backend-solution>
+		<frontend-solution>Integration</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-ws-db-sample</template-name>
+		<is-demo>true</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-ws-db-sample.zip</zip-file>
+		<backend-solution>JDBC</backend-solution>
+		<frontend-solution>Integration</frontend-solution>
+	</project-type>
 	
 </project-types>
