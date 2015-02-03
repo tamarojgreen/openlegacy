@@ -28,6 +28,7 @@ import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
 import org.openlegacy.designtime.analyzer.TextTranslator;
 import org.openlegacy.designtime.db.generators.DbEntityPageGenerator;
+import org.openlegacy.designtime.db.generators.DbEntityServiceGenerator;
 import org.openlegacy.designtime.db.generators.DbPojosAjGenerator;
 import org.openlegacy.designtime.db.generators.support.DbAnnotationConstants;
 import org.openlegacy.designtime.db.generators.support.DbCodeBasedDefinitionUtils;
@@ -1042,9 +1043,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			DbEntityPageGenerator dbEntityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(
 					DbEntityPageGenerator.class);
 			dbEntityWebGenerator.generateView(generateViewRequest, entityDefinition, entityDefinition.getEntityName() + ".list",
-					dbEntityWebGenerator.LIST_MODE);
+					DbEntityPageGenerator.LIST_MODE);
 			dbEntityWebGenerator.generateView(generateViewRequest, entityDefinition, entityDefinition.getEntityName() + ".edit",
-					dbEntityWebGenerator.EDIT_MODE);
+					DbEntityPageGenerator.EDIT_MODE);
 		}
 
 	}
@@ -1091,8 +1092,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		EntityServiceGenerator entityServiceGenerator = null;
 		if (generateServiceRequest.getServiceType() == ServiceType.SCREEN) {
 			entityServiceGenerator = getOrCreateApplicationContext(projectPath).getBean(ScreenEntityServiceGenerator.class);
-		} else {
+		} else if (generateServiceRequest.getServiceType() == ServiceType.RPC) {
 			entityServiceGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityServiceGenerator.class);
+		} else if (generateServiceRequest.getServiceType() == ServiceType.JDBC) {
+			entityServiceGenerator = getOrCreateApplicationContext(projectPath).getBean(DbEntityServiceGenerator.class);
 		}
 
 		if (entityServiceGenerator.isSupportServiceGeneration(generateServiceRequest.getProjectPath())) {
@@ -1432,6 +1435,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		String backendSolution = getPreferences(projectPath).get(PreferencesConstants.BACKEND_SOLUTION);
 		if (!StringUtils.isEmpty(backendSolution) && StringUtils.equalsIgnoreCase(backendSolution, ServiceType.RPC.toString())) {
 			return ServiceType.RPC;
+		} else if (!StringUtils.isEmpty(backendSolution)
+				&& StringUtils.equalsIgnoreCase(backendSolution, ServiceType.JDBC.toString())) {
+			return ServiceType.JDBC;
 		}
 		return ServiceType.SCREEN;
 	}

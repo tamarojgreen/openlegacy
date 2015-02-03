@@ -17,7 +17,7 @@
 	<#return false>
 </#function>
 <#function isNumberType type>
-	<#if ["byte", "short", "int", "long", "float", "double", "Integer", "Long", "Double"]?seq_contains(type)>
+	<#if ["byte", "byte[]", "short", "int", "long", "float", "double", "Integer", "Long", "Double"]?seq_contains(type)>
 		<#return true>
 	</#if>
 	<#return false>
@@ -49,7 +49,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ${package}.${serviceName}Service;
 import ${package}.${serviceName}Service.*;
 <#assign addedImports = []/>
-<#assign primitiveTypes = ["byte", "short", "int", "long", "float", "double", "char", "boolean", "Integer", "String", "Boolean", "Long", "Double"]/>
+<#assign primitiveTypes = ["byte", "byte[]", "short", "int", "long", "float", "double", "char", "boolean", "Integer", "String", "Boolean", "Long", "Double"]/>
 <#list inputParameters as parameter>
 	<#if isFieldParameter(parameter)>
 		<#if !primitiveTypes?seq_contains(parameter.fieldDefinition.javaTypeName)>
@@ -57,7 +57,11 @@ import ${package}.${serviceName}Service.*;
 			<#if parameter.fieldDefinition.javaTypeName = "Date" && !addedImports?seq_contains("java.util.Date")>
 import java.util.Date;
 				<#assign addedImports = addedImports + ["java.util.Date"]/> 
-			<#elseif parameter.fieldDefinition.javaTypeName != "Date" && !addedImports?seq_contains(import)>
+			<#elseif parameter.fieldDefinition.javaTypeName != "Date" && !addedImports?seq_contains(import) && !parameter.fieldDefinition.manyToOneDefinition??>
+import ${import};
+				<#assign addedImports = addedImports + [import]/>
+			<#elseif parameter.fieldDefinition.javaTypeName != "Date" && !addedImports?seq_contains(import) && parameter.fieldDefinition.manyToOneDefinition??>
+				<#assign import = parameter.entityDefinition.packageName + "." + parameter.fieldDefinition.javaTypeName />
 import ${import};
 				<#assign addedImports = addedImports + [import]/>
 			</#if>
@@ -104,6 +108,8 @@ public class ${serviceName}ServiceTest {
 		${serviceName?uncap_first}In.set${fieldName}(new Date(${parameter.fieldDefinition.sampleValue}));
 					<#elseif isNumberType(type) || isBooleanType(type)>
 		${serviceName?uncap_first}In.set${fieldName}(${parameter.fieldDefinition.sampleValue});
+					<#elseif parameter.fieldDefinition?? && parameter.fieldDefinition.manyToOneDefinition??>
+		${serviceName?uncap_first}In.set${fieldName}(new ${type}());
 					<#else>
 		${serviceName?uncap_first}In.set${fieldName}(${type}.valueOf("${parameter.fieldDefinition.sampleValue}"));
 					</#if>

@@ -95,6 +95,7 @@
 	<!-- Service Generator -->
 	<bean id="serviceServiceGenerator" class="org.openlegacy.designtime.terminal.generators.ScreenEntityWsGenerator" />
 	<bean id="rpcServiceGenerator" class="org.openlegacy.designtime.rpc.generators.RpcEntityWsGenerator"/>
+	<bean id="dbServiceGenerator" class="org.openlegacy.designtime.db.generators.DbEntityWsGenerator"/>
 	
 	<!-- RPC beans -->
 	<bean id="codeParserFactory" class="org.openlegacy.designtime.rpc.source.SimpleCodeParserFactory">

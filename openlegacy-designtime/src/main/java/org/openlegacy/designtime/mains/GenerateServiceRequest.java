@@ -78,6 +78,7 @@ public class GenerateServiceRequest extends AbstractGenerateRequest {
 
 	public enum ServiceType {
 		SCREEN,
-		RPC
+		RPC,
+		JDBC
 	}
 }

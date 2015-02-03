@@ -37,6 +37,7 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 	private static final String SERVICE_TEST_TEMPLATE = "ws/ServiceTest.java.template";
 	private static final String SCREEN_SERVICE_IMPL_TEMPLATE = "ws/ScreenServiceImpl.java.template";
 	private static final String RPC_SERVICE_IMPL_TEMPLATE = "ws/RpcServiceImpl.java.template";
+	private static final String DB_SERVICE_IMPL_TEMPLATE = "ws/DbServiceImpl.java.template";
 	private static final String SERVICE_CONTEXT_RELATIVE_PATH = "src/main/resources/META-INF/spring/serviceContext.xml";
 	private static final String TEST_CONTEXT_RELATIVE_PATH = "src/main/resources/META-INF/spring/applicationContext-test.xml";
 
@@ -83,11 +84,10 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 			}
 			if (generate) {
 				fos = new FileOutputStream(serviceImplFile);
-				getGenerateUtil().generate(
-						generateServiceRequest,
-						fos,
-						generateServiceRequest.getServiceType().equals(ServiceType.SCREEN) ? SCREEN_SERVICE_IMPL_TEMPLATE
-								: RPC_SERVICE_IMPL_TEMPLATE);
+				String serviceImplTemplate = generateServiceRequest.getServiceType().equals(ServiceType.SCREEN) ? SCREEN_SERVICE_IMPL_TEMPLATE
+						: (generateServiceRequest.getServiceType().equals(ServiceType.RPC) ? RPC_SERVICE_IMPL_TEMPLATE
+								: DB_SERVICE_IMPL_TEMPLATE);
+				getGenerateUtil().generate(generateServiceRequest, fos, serviceImplTemplate);
 			}
 
 			File serviceContextFile = new File(generateServiceRequest.getProjectPath(), SERVICE_CONTEXT_RELATIVE_PATH);
