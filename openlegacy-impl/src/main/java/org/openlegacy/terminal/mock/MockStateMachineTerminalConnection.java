@@ -67,8 +67,8 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 
 		int matchScore = 0;
 		if (group.isEmpty()) {
+			int count = 0;
 			for (TerminalSnapshot snapshot : snapshots) {
-				int count = 0;
 				if (snapshot.equals(currentSnapshot)) {
 					if (snapshots.size() > count - 1) {
 						currentSnapshot = snapshots.get(count + 1);
@@ -77,6 +77,7 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 						throw (new SessionEndedException("Mock session has been finished"));
 					}
 				}
+				count++;
 			}
 		}
 		TerminalSnapshot bestSnapshot = null;
