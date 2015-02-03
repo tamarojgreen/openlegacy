@@ -101,7 +101,7 @@
 	<project-type>
 		<template-name>openlegacy-rest-db-new</template-name>
 		<is-demo>false</is-demo>
-		<support-theme>false</support-theme>
+		<support-theme>true</support-theme>
 		<zip-file>openlegacy-rest-db-new.zip</zip-file>
 		<backend-solution>JDBC</backend-solution>
 		<frontend-solution>REST/Mobile</frontend-solution>

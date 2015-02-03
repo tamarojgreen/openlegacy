@@ -33,6 +33,7 @@ public class WizardModel {
 	private String dbDriver;
 	private String dbUrl;
 	private String dbMavenDependency;
+	private String dbDdlAuto;
 
 	private String backendSolution;
 	private String frontendSolution;
@@ -161,6 +162,14 @@ public class WizardModel {
 		return dbMavenDependency;
 	}
 
+	public String getDbDdlAuto() {
+		return dbDdlAuto;
+	}
+
+	public void setDbDdlAuto(String dbDdlAuto) {
+		this.dbDdlAuto = dbDdlAuto;
+	}
+
 	public void update(ProjectType projectType) {
 		if (projectType == null) {
 			clear();
@@ -216,6 +225,6 @@ public class WizardModel {
 		dbDriver = null;
 		dbUrl = null;
 		dbMavenDependency = null;
+		dbDdlAuto = null;
 	}
-
 }
