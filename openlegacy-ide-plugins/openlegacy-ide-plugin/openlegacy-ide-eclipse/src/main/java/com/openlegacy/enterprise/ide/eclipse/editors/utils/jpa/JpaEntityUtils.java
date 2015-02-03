@@ -45,6 +45,8 @@ import org.openlegacy.designtime.generators.AnnotationConstants;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -853,6 +855,21 @@ public class JpaEntityUtils {
 				map.put(model.getUUID(), model);
 				sortedFields.add(model.clone());
 			}
+		}
+		if (!sortedFields.isEmpty()) {
+			Collections.sort(sortedFields, new Comparator<JpaFieldModel>() {
+
+				@Override
+				public int compare(JpaFieldModel o1, JpaFieldModel o2) {
+					if (o1.isKey() && !o2.isKey()) {
+						return -1;
+					}
+					if (!o1.isKey() && o2.isKey()) {
+						return 1;
+					}
+					return o1.getFieldName().compareTo(o2.getFieldName());
+				}
+			});
 		}
 		return map;
 	}
