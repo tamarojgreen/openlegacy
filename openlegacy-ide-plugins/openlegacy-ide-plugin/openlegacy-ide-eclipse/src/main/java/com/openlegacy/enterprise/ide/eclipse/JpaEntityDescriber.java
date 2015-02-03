@@ -51,7 +51,7 @@ public class JpaEntityDescriber implements ITextContentDescriber {
 		return doDescribe(contents) == null ? INVALID : VALID;
 	}
 
-	private static String doDescribe(Reader contents) {
+	public static String doDescribe(Reader contents) {
 		BufferedReader reader = new BufferedReader(contents);
 		String line = null;
 		try {

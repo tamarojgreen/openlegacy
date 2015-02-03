@@ -7,6 +7,8 @@ import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.LoadingModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.dialog.InTableModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.dialog.OutTableModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.dialog.TreeViewerModel;
+import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.jpa.JpaEntityModel;
+import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.rpc.RpcEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.rpc.RpcFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.rpc.RpcPartModel;
@@ -64,7 +66,6 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.UserInteraction;
-import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.mains.DesignTimeExecuterImpl;
 import org.openlegacy.designtime.mains.GenerateServiceRequest;
 import org.openlegacy.designtime.mains.GenerateServiceRequest.ServiceType;
@@ -73,6 +74,7 @@ import org.openlegacy.designtime.mains.ServiceEntityParameter;
 import org.openlegacy.designtime.mains.ServiceParameter;
 import org.openlegacy.designtime.mains.ServicePartParameter;
 import org.openlegacy.ide.eclipse.Activator;
+import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
 import org.openlegacy.ide.eclipse.components.rpc.RpcComposite;
 import org.openlegacy.ide.eclipse.components.screen.SnapshotComposite;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
@@ -181,8 +183,11 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 		createFirstRow(container);
 		// second row - "input/output"
 		createSecondRow(container);
-		// third row - "screen preview"
-		createThirdRow(container);
+
+		if (!serviceType.equals(ServiceType.JDBC)) {
+			// third row - "screen preview"
+			createThirdRow(container);
+		}
 
 		return area;
 	}
@@ -190,35 +195,38 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		parent.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		ToolBar toolBar = new ToolBar(parent, SWT.FLAT | SWT.NO_FOCUS);
-		((GridLayout)parent.getLayout()).numColumns++;
-		toolBar.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
-		final Cursor cursor = new Cursor(parent.getDisplay(), SWT.CURSOR_HAND);
-		toolBar.setCursor(cursor);
-		toolBar.addDisposeListener(new DisposeListener() {
 
-			@Override
-			public void widgetDisposed(DisposeEvent e) {
-				cursor.dispose();
-			}
-		});
+		if (!serviceType.equals(ServiceType.JDBC)) {
+			ToolBar toolBar = new ToolBar(parent, SWT.FLAT | SWT.NO_FOCUS);
+			((GridLayout)parent.getLayout()).numColumns++;
+			toolBar.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
+			final Cursor cursor = new Cursor(parent.getDisplay(), SWT.CURSOR_HAND);
+			toolBar.setCursor(cursor);
+			toolBar.addDisposeListener(new DisposeListener() {
 
-		ToolItem toolItem = new ToolItem(toolBar, SWT.PUSH);
-		toolItem.setImage(Activator.getDefault().getImage(Activator.ICON_ZOOM_IN));
-		toolItem.setToolTipText(Messages.getString("button.enlarge.image"));
-		toolItem.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (mSnapshotComposite != null && mSnapshotComposite.isVisible()) {
-					mSnapshotComposite.showEnlargedImage();
-				} else if (mRpcComposite != null && mRpcComposite.isVisible()) {
-					mRpcComposite.showEnlargedImage();
+				@Override
+				public void widgetDisposed(DisposeEvent e) {
+					cursor.dispose();
 				}
-			}
+			});
 
-		});
+			ToolItem toolItem = new ToolItem(toolBar, SWT.PUSH);
+			toolItem.setImage(Activator.getDefault().getImage(Activator.ICON_ZOOM_IN));
+			toolItem.setToolTipText(Messages.getString("button.enlarge.image"));
+			toolItem.addSelectionListener(new SelectionAdapter() {
 
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					if (mSnapshotComposite != null && mSnapshotComposite.isVisible()) {
+						mSnapshotComposite.showEnlargedImage();
+					} else if (mRpcComposite != null && mRpcComposite.isVisible()) {
+						mRpcComposite.showEnlargedImage();
+					}
+				}
+
+			});
+
+		}
 		Label l = new Label(parent, SWT.NONE);
 		l.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		GridLayout layout = (GridLayout)parent.getLayout();
@@ -227,7 +235,9 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 		super.createButtonsForButtonBar(parent);
 		// Set the size of the parent shell
-		parent.getShell().setSize(616, 750);
+		if (!serviceType.equals(ServiceType.JDBC)) {
+			parent.getShell().setSize(616, 750);
+		}
 		// Set the dialog position in the middle of the monitor
 		setDialogLocation();
 	}
@@ -842,7 +852,7 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 				monitor.beginTask(Messages.getString("task.generating"), mInTableModel.getElements().size()//$NON-NLS-1$
 						+ mOutTableModel.getElements().size() + 1);
 
-				DesignTimeExecuter executer = new DesignTimeExecuterImpl();
+				EclipseDesignTimeExecuter executer = EclipseDesignTimeExecuter.instance();
 
 				GenerateServiceRequest request = new GenerateServiceRequest();
 				request.setServiceType(serviceType);
@@ -867,14 +877,14 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 				}
 
 				File projectOsLocation = PathsUtil.toOsLocation(project);
-				String apiPackage = executer.getPreferences(projectOsLocation, PreferencesConstants.API_PACKAGE);
+				String apiPackage = executer.getPreference(projectOsLocation, PreferencesConstants.API_PACKAGE);
 				if (StringUtils.isEmpty(apiPackage)) {
 					MessageDialog.openError(getParentShell(), Messages.getString("title.openlegacy"),//$NON-NLS-1$
 							Messages.getString("error.cannot.find.api.package.in.preferences"));//$NON-NLS-1$
 					return Status.CANCEL_STATUS;
 				}
 
-				String sourceFolder = executer.getPreferences(projectOsLocation, PreferencesConstants.API_SOURCE_FOLDER);
+				String sourceFolder = executer.getPreference(projectOsLocation, PreferencesConstants.API_SOURCE_FOLDER);
 				if (StringUtils.isEmpty(sourceFolder)) {
 					sourceFolder = PreferencesConstants.API_SOURCE_FOLDER_DEFAULT;
 				}
@@ -946,6 +956,11 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 				return new ServiceEntityFieldParameter(((RpcEntityModel)parent.getParent()).getDefinition(),
 						((RpcFieldModel)model).getDefinition());
 			}
+		} else if (model instanceof JpaEntityModel) {
+			return new ServiceEntityParameter(((JpaEntityModel)model).getDefinition());
+		} else if (model instanceof JpaFieldModel) {
+			return new ServiceEntityFieldParameter(((JpaEntityModel)model.getParent()).getDefinition(),
+					((JpaFieldModel)model).getDefinition());
 		}
 		return null;
 	}

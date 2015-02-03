@@ -28,6 +28,7 @@ import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
 import org.openlegacy.designtime.analyzer.TextTranslator;
 import org.openlegacy.designtime.db.generators.DbEntityPageGenerator;
+import org.openlegacy.designtime.db.generators.DbEntityServiceGenerator;
 import org.openlegacy.designtime.db.generators.DbPojosAjGenerator;
 import org.openlegacy.designtime.db.generators.support.DbAnnotationConstants;
 import org.openlegacy.designtime.db.generators.support.DbCodeBasedDefinitionUtils;
@@ -163,6 +164,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	private static final String END_DELETE_THIS_DEFINITION_TO_REPLAY_A_MOCK_UP_SESSION_APPLICATION = "<!-- End delete this definition to replay a mock-up session application -->";
 
 	private static final String INDEX_JSP_PATH = "src/main/webapp/app/index.jsp";
+	private static final String PERSISTENCE_XML_PATH = "src/main/resources/META-INF/persistence.xml";
 
 	@Override
 	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException {
@@ -183,6 +185,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		renameProjectProperties(projectCreationRequest.getProjectName(), targetPath);
 		if (projectCreationRequest.getBackendSolution().equals("JDBC")) {
 			addDbDriverDependency(targetPath, projectCreationRequest.getDbDriverMavenDependency());
+			setDbDdlAutoValue(projectCreationRequest.getDbDdlAuto(), targetPath);
 		} else {
 			renameProviderInPOM(projectCreationRequest.getProvider(), targetPath);
 			uncommentDependencies(targetPath);
@@ -320,7 +323,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void updatePropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath) throws IOException,
-			FileNotFoundException {
+	FileNotFoundException {
 		File hostPropertiesFile = new File(targetPath, "src/main/resources/host.properties");
 		if (hostPropertiesFile.exists()) {
 			String hostPropertiesFileContent = IOUtils.toString(new FileInputStream(hostPropertiesFile));
@@ -372,7 +375,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameLaunchers(final String projectName, final File targetPath) throws FileNotFoundException,
-			IOException {
+	IOException {
 		targetPath.listFiles(new FileFilter() {
 
 			@Override
@@ -390,7 +393,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameLauncher(String projectName, File targetPath, String fileName) throws FileNotFoundException,
-			IOException {
+	IOException {
 		File launcherFile = new File(targetPath, fileName);
 
 		if (!launcherFile.exists()) {
@@ -406,7 +409,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void updateSpringContextWithDefaultPackage(String defaultPackageName, File targetPath) throws IOException,
-			FileNotFoundException {
+	FileNotFoundException {
 		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_CONTEXT_FILE));
 		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_WEB_CONTEXT_FILE));
 		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_TEST_CONTEXT_FILE));
@@ -472,7 +475,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void addDbDriverDependency(File targetPath, String mavenDependencyString) throws FileNotFoundException,
-			IOException {
+	IOException {
 		File pomFile = new File(targetPath, "pom.xml");
 
 		if (!pomFile.exists()) {
@@ -559,7 +562,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameThemeInAppProperties(ProjectTheme projectTheme, File targetPath) throws FileNotFoundException,
-			IOException {
+	IOException {
 		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
 
 		if (!appPropertiesFile.exists()) {
@@ -621,8 +624,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (matcher.find()) {
 			fileContent = fileContent.replaceFirst("<context-param>\\s+<param-name>" + paramName
 					+ "</param-name>\\s+<param-value>.*</param-value>", MessageFormat.format(
-					"<context-param>\n\t\t<param-name>{0}</param-name>\n\t\t<param-value>{1}</param-value>", paramName,
-					paramValue));
+							"<context-param>\n\t\t<param-name>{0}</param-name>\n\t\t<param-value>{1}</param-value>", paramName,
+							paramValue));
 		} else {
 			// add new <context-param> into the end of file
 			int indexOf = fileContent.indexOf("</web-app>");
@@ -1040,9 +1043,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			DbEntityPageGenerator dbEntityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(
 					DbEntityPageGenerator.class);
 			dbEntityWebGenerator.generateView(generateViewRequest, entityDefinition, entityDefinition.getEntityName() + ".list",
-					dbEntityWebGenerator.LIST_MODE);
+					DbEntityPageGenerator.LIST_MODE);
 			dbEntityWebGenerator.generateView(generateViewRequest, entityDefinition, entityDefinition.getEntityName() + ".edit",
-					dbEntityWebGenerator.EDIT_MODE);
+					DbEntityPageGenerator.EDIT_MODE);
 		}
 
 	}
@@ -1089,8 +1092,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		EntityServiceGenerator entityServiceGenerator = null;
 		if (generateServiceRequest.getServiceType() == ServiceType.SCREEN) {
 			entityServiceGenerator = getOrCreateApplicationContext(projectPath).getBean(ScreenEntityServiceGenerator.class);
-		} else {
+		} else if (generateServiceRequest.getServiceType() == ServiceType.RPC) {
 			entityServiceGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityServiceGenerator.class);
+		} else if (generateServiceRequest.getServiceType() == ServiceType.JDBC) {
+			entityServiceGenerator = getOrCreateApplicationContext(projectPath).getBean(DbEntityServiceGenerator.class);
 		}
 
 		if (entityServiceGenerator.isSupportServiceGeneration(generateServiceRequest.getProjectPath())) {
@@ -1430,6 +1435,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		String backendSolution = getPreferences(projectPath).get(PreferencesConstants.BACKEND_SOLUTION);
 		if (!StringUtils.isEmpty(backendSolution) && StringUtils.equalsIgnoreCase(backendSolution, ServiceType.RPC.toString())) {
 			return ServiceType.RPC;
+		} else if (!StringUtils.isEmpty(backendSolution)
+				&& StringUtils.equalsIgnoreCase(backendSolution, ServiceType.JDBC.toString())) {
+			return ServiceType.JDBC;
 		}
 		return ServiceType.SCREEN;
 	}
@@ -1449,6 +1457,29 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			throw (new RuntimeException(e));
 		} finally {
 			IOUtils.closeQuietly(out);
+		}
+	}
+
+	private static void setDbDdlAutoValue(String ddlAutoValue, File targetPath) throws FileNotFoundException, IOException {
+		File persistenceFile = new File(targetPath, PERSISTENCE_XML_PATH);
+
+		if (!persistenceFile.exists()) {
+			logger.error(MessageFormat.format("Unable to find persistence.xml within {0}", targetPath));
+			return;
+		}
+
+		String persistenceFileContent = IOUtils.toString(new FileInputStream(persistenceFile));
+
+		if (ddlAutoValue != null || ddlAutoValue != "") {
+			persistenceFileContent = persistenceFileContent.replaceFirst(
+					"<property name=\"hibernate\\.hbm2ddl\\.auto\" value=\"update\"/>",
+					MessageFormat.format("<property name=\"hibernate\\.hbm2ddl\\.auto\" value=\"{0}\"/>", ddlAutoValue));
+			try {
+				FileUtils.write(persistenceFileContent, persistenceFile);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }

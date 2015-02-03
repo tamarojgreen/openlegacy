@@ -26,6 +26,8 @@
 		<module>openlegacy-as400-menus-rest</module>
 		<module>openlegacy-rest-db-new</module>
 		<module>openlegacy-rest-db-sample</module>
+		<module>openlegacy-ws-db-new</module>
+		<module>openlegacy-ws-db-sample</module>
 	</modules>
 
 	<build>

@@ -392,4 +392,12 @@ public class EclipseDesignTimeExecuter {
 	public void obfuscateTrail(IFile trailFile) {
 		designTimeExecuter.obfuscateTrail(PathsUtil.toOsLocation(trailFile));
 	}
+
+	public ServiceType getServiceType(File projectPath) {
+		return designTimeExecuter.getServiceType(projectPath);
+	}
+
+	public void generateService(GenerateServiceRequest request) {
+		designTimeExecuter.generateService(request);
+	}
 }

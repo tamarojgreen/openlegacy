@@ -1,8 +1,10 @@
 package com.openlegacy.enterprise.ide.eclipse.ws.generator;
 
+import com.openlegacy.enterprise.ide.eclipse.JpaEntityDescriber;
 import com.openlegacy.enterprise.ide.eclipse.RpcEntityDescriber;
 import com.openlegacy.enterprise.ide.eclipse.ScreenEntityDescriber;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.AbstractEntityModel;
+import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.jpa.JpaEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.rpc.RpcEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.screen.ScreenEntityModel;
 
@@ -17,7 +19,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.designtime.PreferencesConstants;
+import org.openlegacy.designtime.db.generators.support.CodeBasedDbEntityDefinition;
+import org.openlegacy.designtime.db.generators.support.DbCodeBasedDefinitionUtils;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.mains.DesignTimeExecuterImpl;
 import org.openlegacy.designtime.mains.GenerateServiceRequest.ServiceType;
@@ -88,6 +93,12 @@ public class EntitiesFetcher {
 							IPath location = resource.getFullPath();
 							IFile srcFile = getSrcFile(location);
 							entity = new RpcEntityModel((CodeBasedRpcEntityDefinition)definition, srcFile);
+						}
+					} else if (ServiceType.JDBC.equals(serviceType) && JpaEntityDescriber.doDescribe(fileReader) != null) {
+						DbEntityDefinition definition = DbCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit,
+								packageDir);
+						if (definition != null) {
+							entity = new JpaEntityModel((CodeBasedDbEntityDefinition)definition, null);
 						}
 					}
 					if (entity != null) {

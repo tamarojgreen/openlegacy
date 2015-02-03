@@ -17,9 +17,8 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
-import org.openlegacy.designtime.mains.DesignTimeExecuter;
-import org.openlegacy.designtime.mains.DesignTimeExecuterImpl;
 import org.openlegacy.designtime.mains.GenerateServiceRequest.ServiceType;
+import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
 
 import java.io.File;
@@ -41,8 +40,8 @@ public class GenerateServiceAction extends AbstractAction {
 	public void run(IAction action) {
 		final IProject project = getProject();
 		File projectPath = PathsUtil.toOsLocation(project);
-		DesignTimeExecuter executer = new DesignTimeExecuterImpl();
-		final ServiceType serviceType = executer.getServiceType(projectPath);
+
+		final ServiceType serviceType = EclipseDesignTimeExecuter.instance().getServiceType(projectPath);
 
 		ArrayList<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		list.add(new LoadingModel());

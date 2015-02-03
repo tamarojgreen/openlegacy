@@ -18,7 +18,7 @@
 </#function>
 <#assign addedImports = []/>
 <#macro addImports parameters>
-	<#assign primitiveTypes = ["byte", "short", "int", "long", "float", "double", "char", "boolean", "Integer", "String", "Boolean", "Long", "Double"]/>
+	<#assign primitiveTypes = ["byte", "byte[]", "short", "int", "long", "float", "double", "char", "boolean", "Integer", "String", "Boolean", "Long", "Double"]/>
 	<#list parameters as parameter>
 		<#if isEntityParameter(parameter)>
 			<#assign import = parameter.entityDefinition.packageName + "." + parameter.entityDefinition.entityClassName/>
@@ -38,7 +38,11 @@ import ${import};
 				<#if parameter.fieldDefinition.javaTypeName = "Date" && !addedImports?seq_contains("java.util.Date")>
 import java.util.Date;
 					<#assign addedImports = addedImports + ["java.util.Date"]/> 
-				<#elseif parameter.fieldDefinition.javaTypeName != "Date" && !addedImports?seq_contains(import)>
+				<#elseif parameter.fieldDefinition.javaTypeName != "Date" && !addedImports?seq_contains(import) && !parameter.fieldDefinition.manyToOneDefinition??>
+import ${import};
+					<#assign addedImports = addedImports + [import]/>
+				<#elseif parameter.fieldDefinition.javaTypeName != "Date" && !addedImports?seq_contains(import) && parameter.fieldDefinition.manyToOneDefinition??>
+					<#assign import = parameter.entityDefinition.packageName + "." + parameter.fieldDefinition.javaTypeName />
 import ${import};
 					<#assign addedImports = addedImports + [import]/>
 				</#if>

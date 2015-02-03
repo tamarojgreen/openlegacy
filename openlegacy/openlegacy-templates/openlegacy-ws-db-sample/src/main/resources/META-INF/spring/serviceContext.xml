@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+<!-- auto generated service TestService1 start-->
+	<bean id="testService1Impl" class="org.openlegacy.demo.db.model.services.TestService1ServiceImpl" />
+
+	<jaxws:endpoint id="testService1" implementor="#testService1Impl" address="/testService1" />
+
+	<jaxws:client id="testService1Client" serviceClass="org.openlegacy.demo.db.model.services.TestService1Service"
+		address="http://localhost:8080/openlegacy-ws-db-sample/services/testService1" /><!-- auto generated service TestService1 end -->
+<!-- Register WS place-holder start
+<#if generatePool>
+	<bean id="${serviceName?uncap_first}Pool"
+	class="org.openlegacy.rpc.support.SimpleRpcSessionPoolFactory" p:maxConnections="2" 
+	p:keepAliveAction="${package}.${serviceName}ServiceImpl.KeepAliveAction" p:keepAliveInterval="600000" 
+	p:initAction="${package}.${serviceName}ServiceImpl.InitAction" p:cleanupAction="${package}.${serviceName}ServiceImpl.CleanupAction"/>
+</#if>
+	<bean id="${serviceName?uncap_first}Impl" class="${package}.${serviceName}ServiceImpl" />
+
+	<jaxws:endpoint id="${serviceName?uncap_first}" implementor="#${serviceName?uncap_first}Impl" address="/${serviceName?uncap_first}" />
+
+	<jaxws:client id="${serviceName?uncap_first}Client" serviceClass="${package}.${serviceName}Service"
+		address="http://localhost:8080/${projectPath.name}/services/${serviceName?uncap_first}" />
+
+Register WS place-holder end -->
+
+</beans>

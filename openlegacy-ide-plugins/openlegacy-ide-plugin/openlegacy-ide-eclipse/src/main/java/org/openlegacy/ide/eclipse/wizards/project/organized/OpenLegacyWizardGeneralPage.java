@@ -396,6 +396,10 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 			((OpenLegacyWizardHostPage)getNextPage()).updateControlsData(backendCombo.getText(), null);
 		}
 
+		if (nextPage instanceof OpenLegacyWizardDbPage) {
+			((OpenLegacyWizardDbPage)getNextPage()).updateControlsData(projectNameText.getText());
+		}
+
 		if (!demoRadioButton.getSelection() && validateProjectName(projectNameText.getText())) {
 			validateDefaultPackage(defaultPackageText.getText());
 		} else if (demoRadioButton.getSelection()) {

@@ -1,12 +1,21 @@
 package org.openlegacy.db.modules.login;
 
+import org.apache.commons.dbcp.BasicDataSource;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.login.User;
 import org.openlegacy.terminal.modules.login.PersistedUser;
 
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import javax.inject.Inject;
+
 public class LoginModule implements Login {
+
+	@Inject
+	private BasicDataSource dataSource;
 
 	private User loggedInUser = null;
 
@@ -22,7 +31,13 @@ public class LoginModule implements Login {
 			return;
 		}
 
+		try {
+			DriverManager.getConnection(dataSource.getUrl(), user, password);
+		} catch (SQLException e) {
+			throw (new LoginException(e.getMessage()));
+		}
 		loggedInUser = new PersistedUser(user);
+
 	}
 
 	@Override
