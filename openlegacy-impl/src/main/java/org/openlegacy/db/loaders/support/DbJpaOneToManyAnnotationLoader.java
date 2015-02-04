@@ -54,24 +54,21 @@ public class DbJpaOneToManyAnnotationLoader implements FieldLoader {
 					simpleDbOneToMany.setJoinColumnName(joinColumn.name());
 				}
 
+				Type genericFieldType = field.getGenericType();
+				if (genericFieldType instanceof ParameterizedType) {
+					ParameterizedType pType = (ParameterizedType)genericFieldType;
+					Type[] fieldArgTypes = pType.getActualTypeArguments();
+					Class actualClass = (Class)fieldArgTypes[fieldArgTypes.length - 1];
+					EntityDefinition entityDefinition = entitiesRegistry.get(actualClass);
+
+					if (entityDefinition != null) {
+						simpleDbOneToMany.setTargetEntityDefinition(entityDefinition);
+					}
+				}
+
 				SimpleDbColumnFieldDefinition columnFieldDefinition = (SimpleDbColumnFieldDefinition)dbFieldDefinition;
 				columnFieldDefinition.setOneToManyDefinition(simpleDbOneToMany);
 			}
-
-			dbEntityDefinition.getColumnFieldsDefinitions().put(field.getName(), dbFieldDefinition);
-
-			Type genericFieldType = field.getGenericType();
-			if (genericFieldType instanceof ParameterizedType) {
-				ParameterizedType pType = (ParameterizedType)genericFieldType;
-				Type[] fieldArgTypes = pType.getActualTypeArguments();
-				Class actualClass = (Class)fieldArgTypes[fieldArgTypes.length - 1];
-				EntityDefinition entityDefinition = entitiesRegistry.get(actualClass);
-				if (entityDefinition != null) {
-					dbEntityDefinition.getChildEntitiesDefinitions().add(entityDefinition);
-				}
-			}
-
 		}
 	}
-
 }

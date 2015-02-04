@@ -1,5 +1,7 @@
 package org.openlegacy.db.definitions;
 
+import org.openlegacy.EntityDefinition;
+
 import javax.persistence.FetchType;
 
 /**
@@ -15,6 +17,7 @@ public class SimpleDbOneToManyDefinition implements DbOneToManyDefinition {
 	private Class<?> targetEntity = void.class;
 	private String targetEntityClassName = void.class.getSimpleName();
 	private String joinColumnName = "";
+	private EntityDefinition targetEntityDefinition = null;
 
 	@Override
 	public String[] getCascadeTypeNames() {
@@ -77,6 +80,15 @@ public class SimpleDbOneToManyDefinition implements DbOneToManyDefinition {
 
 	public void setJoinColumnName(String joinColumnName) {
 		this.joinColumnName = joinColumnName;
+	}
+
+	@Override
+	public EntityDefinition getTargetEntityDefinition() {
+		return targetEntityDefinition;
+	}
+
+	public void setTargetEntityDefinition(EntityDefinition targetEntityDefinition) {
+		this.targetEntityDefinition = targetEntityDefinition;
 	}
 
 }
