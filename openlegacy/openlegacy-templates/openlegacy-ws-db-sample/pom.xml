@@ -403,36 +403,9 @@
 	</dependencies>
 
 	<build>
-		<finalName>openlegacy-ws-db-sample</finalName>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.apache.maven.plugins</groupId> -->
-<!-- 				<artifactId>maven-enforcer-plugin</artifactId> -->
-<!-- 				<version>1.4</version> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<id>enforce-banned-dependencies</id> -->
-<!-- 						<phase>clean</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>enforce</goal> -->
-<!-- 						</goals> -->
-<!-- 						<configuration> -->
-<!-- 							<rules> -->
-<!-- 								<DependencyConvergence /> -->
-<!-- 								<bannedDependencies> -->
-<!-- 									<searchTransitive>true</searchTransitive> -->
-<!-- 									<excludes> -->
-<!-- 										<exclude>commons-logging:commons-logging</exclude> -->
-<!-- 										<exclude>org.slf4j:slf4j-simple</exclude> -->
-<!-- 									</excludes> -->
-<!-- 								</bannedDependencies> -->
-<!-- 							</rules> -->
-<!-- 							<fail>true</fail> -->
-<!-- 						</configuration> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
-   			<plugin>
+			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat6-maven-plugin</artifactId>
 				<version>2.1</version>

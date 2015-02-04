@@ -293,7 +293,7 @@ commented dependency end -->
 End uncomment for bidi support -->
  	</dependencies>
 	<build>
-		<finalName>openlegacy-mvc-new</finalName>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
