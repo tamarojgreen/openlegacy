@@ -223,7 +223,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>openlegacy-rest-rpc-sample</finalName>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>

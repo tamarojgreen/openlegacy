@@ -279,7 +279,7 @@ End Uncomment for OpenLegacy enterprise managemenent plugin -->
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>openlegacy-as400-menus</finalName>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

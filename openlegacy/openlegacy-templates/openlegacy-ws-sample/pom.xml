@@ -147,7 +147,7 @@ End Uncomment for OpenLegacy enterprise managemenent plugin -->
 	</dependencies>
 
 	<build>
-		<finalName>openlegacy-ws-sample</finalName>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>

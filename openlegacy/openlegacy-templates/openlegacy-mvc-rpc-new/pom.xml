@@ -284,7 +284,7 @@
 			<artifactId>icu4j</artifactId> <version>49.1</version> </dependency> -->
 	</dependencies>
 	<build>
-		<finalName>openlegacy-mvc-rpc-new</finalName>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

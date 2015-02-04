@@ -18,6 +18,7 @@
 				<include>org.openlegacy.providers:*</include>
 				<include>org.openlegacy.templates:*</include>
 				<include>org.openlegacy.plugins:*</include>
+				<include>org.openlegacy.web:openlegacy-themes-*</include>
 				<include>com.openlegacy.enterprise.plugins:*</include>
 				<include>com.openlegacy.enterprise.connectors:*</include>
 				<include>commons-lang:commons-lang</include>
