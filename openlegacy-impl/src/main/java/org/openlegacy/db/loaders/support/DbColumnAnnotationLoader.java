@@ -12,25 +12,23 @@
 package org.openlegacy.db.loaders.support;
 
 import org.openlegacy.EntitiesRegistry;
-import org.openlegacy.FieldType;
 import org.openlegacy.annotations.db.DbColumn;
 import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.db.definitions.DbFieldDefinition;
 import org.openlegacy.db.definitions.SimpleDbColumnFieldDefinition;
-import org.openlegacy.loaders.FieldLoader;
+import org.openlegacy.db.definitions.SimpleDbFieldDefinition;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.lang.reflect.Modifier;
 
 /**
  * @author Ivan Bort
  * 
  */
 @Component
-public class DbColumnAnnotationLoader implements FieldLoader {
+public class DbColumnAnnotationLoader extends DbFieldsLoader {
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -45,10 +43,8 @@ public class DbColumnAnnotationLoader implements FieldLoader {
 		if (dbEntityDefinition != null) {
 			DbFieldDefinition dbFieldDefinition = dbEntityDefinition.getColumnFieldsDefinitions().get(field.getName());
 			if (dbFieldDefinition == null) {
-				dbFieldDefinition = new SimpleDbColumnFieldDefinition(field.getName(), FieldType.General.class);
-				if (Modifier.isStatic(field.getModifiers())) {
-					((SimpleDbColumnFieldDefinition)dbFieldDefinition).setStaticField(true);
-				}
+				dbFieldDefinition = createFrom(field,
+						(SimpleDbFieldDefinition)dbEntityDefinition.getFieldsDefinitions().get(field.getName()));
 			}
 			if (dbFieldDefinition instanceof SimpleDbColumnFieldDefinition) {
 				DbColumn column = field.getAnnotation(DbColumn.class);
