@@ -56,6 +56,8 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	private String expression;
 
+	private boolean staticField = false;
+
 	public AbstractFieldDefinition(String name, Class<? extends FieldType> type) {
 		this.name = name;
 		this.type = type;
@@ -245,5 +247,13 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	public void setExpression(String expression) {
 		this.expression = expression;
+	}
+
+	public boolean isStaticField() {
+		return staticField;
+	}
+
+	public void setStaticField(boolean staticField) {
+		this.staticField = staticField;
 	}
 }

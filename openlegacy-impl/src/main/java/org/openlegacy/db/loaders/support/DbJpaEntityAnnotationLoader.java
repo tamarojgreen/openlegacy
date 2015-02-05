@@ -54,6 +54,7 @@ public class DbJpaEntityAnnotationLoader extends AbstractClassAnnotationLoader {
 		}
 		if (dbEntityDefinition instanceof SimpleDbEntityDefinition) {
 			((SimpleDbEntityDefinition)dbEntityDefinition).setEntityName(entityName);
+			((SimpleDbEntityDefinition)dbEntityDefinition).setPluralName(StringUtil.toPluralName(entityName));
 		}
 		logger.info(MessageFormat.format("DB entity \"{0}\" was added to the db registry ({1})", entityName,
 				containingClass.getName()));

@@ -162,6 +162,16 @@ public class StringUtil {
 		return StringUtils.strip(sb.toString(), " .");
 	}
 
+	public static String toPluralName(String text) {
+		if (StringUtils.isAllUpperCase(text)) {
+			text = text.toLowerCase();
+		}
+		if (StringUtils.isBlank(text)) {
+			return "";
+		}
+		return StringUtils.capitalize(text) + "s";
+	}
+
 	/**
 	 * Might be use in the future for additional field formatting ("_", etc)
 	 */
@@ -415,17 +425,20 @@ public class StringUtil {
 	}
 
 	public static boolean isArabicChar(char inputChar) {
-		if ((inputChar >= 0x0600 && inputChar <= 0x06FF)
-				|| (inputChar >= 0xFB50 && inputChar <= 0xFDFD) //FB50-FDFD Unicode Characters in the Arabic Presentation Forms-A Block
-				|| (isArabicCharFormB(inputChar)) //FE70-FEFC Unicode Characters in the Arabic Presentation Forms-B Block
+		if ((inputChar >= 0x0600 && inputChar <= 0x06FF) || (inputChar >= 0xFB50 && inputChar <= 0xFDFD) // FB50-FDFD Unicode
+																											// Characters in the
+																											// Arabic Presentation
+																											// Forms-A Block
+				|| (isArabicCharFormB(inputChar)) // FE70-FEFC Unicode Characters in the Arabic Presentation Forms-B Block
 		) {
 			return true;
 		} else {
 			return false;
 		}
 	}
+
 	public static boolean isArabicCharFormB(char inputChar) {
-		if (inputChar >= 0xFE70 && inputChar <= 0xFEFC) //FE70-FEFC Unicode Characters in the Arabic Presentation Forms-B Block
+		if (inputChar >= 0xFE70 && inputChar <= 0xFEFC) // FE70-FEFC Unicode Characters in the Arabic Presentation Forms-B Block
 		{
 			return true;
 		} else {
