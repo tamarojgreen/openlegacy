@@ -81,7 +81,7 @@
 							<tbody>                            	
 			                    <tr data-ng-repeat="${part.tableDefinition.tableEntityName?uncap_first} in model.${part.tableDefinition.tableEntityName?uncap_first}s">
 										<#if (part.tableDefinition.actions?size > 0)>										
-											<td ng-class="terminalColors('action_', ${part.tableDefinition.tableEntityName?uncap_first})">											
+											<td ng-class="terminalColors('action_', ${part.tableDefinition.tableEntityName?uncap_first})">
 												<#if (part.tableDefinition.actions?size > 3)>
 													<div class="dropdown">
 													  <button class="btn btn-default dropdown-toggle child-terminal-colors" type="button" id="dropdownMenu1" data-toggle="dropdown">
