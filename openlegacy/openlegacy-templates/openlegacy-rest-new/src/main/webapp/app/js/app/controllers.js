@@ -226,6 +226,16 @@
 								$scope.baseUrl = olConfig.baseUrl;
 								$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
 								
+								$scope.terminalColors = function(name, model) {
+									if (model == undefined) model = $scope.model; 
+									var propertyName = name + "Field";
+									var colors = [];									
+									if (model[propertyName] != undefined) {
+										colors.push(model[propertyName].color.toLowerCase());									
+										colors.push('back_' + model[propertyName].backColor.toLowerCase());
+									}
+									return colors;
+								}	
 								
 								$scope.doActionNoTargetEntity = function(alias) {					
 								    var suffix = alias != null ? "&action=" + alias : "";
