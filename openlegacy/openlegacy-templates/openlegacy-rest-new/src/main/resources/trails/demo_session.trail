@@ -184,7 +184,7 @@
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="11" value="3002" type="java.lang.Integer" />
             <field column="24" value="Water Ball - Balls                      " length="40"/>
-            <field column="65" value="Water Ball          " length="14"/>
+            <field column="65" value="Water Ball    " length="14"/>
         </row>
         <row rowNumber="9">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
@@ -290,7 +290,7 @@
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="11" value="3002" type="java.lang.Integer" />
             <field column="24" value="Water Ball - Balls                      " length="40"/>
-            <field column="65" value="Water Ball          " length="14"/>
+            <field column="65" value="Water Ball    " length="14"/>
         </row>
         <row rowNumber="9">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
