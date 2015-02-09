@@ -78,7 +78,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>3.6.4.Final</version>
+			<version>4.3.8.Final</version>
 			<scope>provided</scope>
 			<classifier />
 		</dependency>
