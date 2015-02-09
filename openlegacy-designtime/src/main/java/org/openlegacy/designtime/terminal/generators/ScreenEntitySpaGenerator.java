@@ -46,4 +46,10 @@ public class ScreenEntitySpaGenerator extends AbstractEntitySpaGenerator impleme
 	protected PageDefinition buildPage(EntityDefinition<?> entityDefinition) {
 		return screenPageBuilder.build((ScreenEntityDefinition)entityDefinition);
 	}
+
+	@Override
+	public void generateJsController(EntityDefinition<?> entityDefinition, OutputStream output, String templateDirectoryPrefix) {
+		String typeName = MessageFormat.format("{0}{1}", templateDirectoryPrefix, entityDefinition.getTypeName());
+		getGenerateUtil().generate(entityDefinition, output, "RestEntitySpaController.js.template", typeName);
+	}
 }

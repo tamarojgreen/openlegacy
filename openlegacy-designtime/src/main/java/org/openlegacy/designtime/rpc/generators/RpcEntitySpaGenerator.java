@@ -47,4 +47,10 @@ public class RpcEntitySpaGenerator extends AbstractEntitySpaGenerator implements
 		return pageBuilder.build((RpcEntityDefinition)entityDefinition);
 		// return new SimplePageDefinition(entityDefinition);
 	}
+
+	@Override
+	protected void generateJsController(EntityDefinition<?> entityDefinition, OutputStream output, String templateDirectoryPrefix) {
+		String typeName = MessageFormat.format("{0}{1}", templateDirectoryPrefix, entityDefinition.getTypeName());
+		getGenerateUtil().generate(entityDefinition, output, "RestEntitySpaController.js.template", typeName);
+	}
 }
