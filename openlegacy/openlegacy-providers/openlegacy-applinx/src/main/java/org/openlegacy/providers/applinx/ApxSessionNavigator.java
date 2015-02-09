@@ -43,7 +43,7 @@ public class ApxSessionNavigator implements SessionNavigator {
 			apxSession.navigateTo(navigateRequest);
 			terminalSession.fetchSnapshot();
 		} catch (GXNavigateException e) {
-			throw (new ScreenEntityNotAccessibleException(e));
+			throw (new ScreenEntityNotAccessibleException(e, null));
 		} catch (GXGeneralException e) {
 			throw (new OpenLegacyProviderException(e));
 		}

@@ -58,11 +58,12 @@ public class ApxTerminalConnection implements TerminalConnection {
 	private GXIScreen fetchScreen() throws GXConnectionException, GXGeneralException {
 		GXGetScreenRequest screenRequest = new GXGetScreenRequest();
 		screenRequest.addVariable(GXBaseObjectConstants.GX_VAR_ENCODING_LOGICAL, "true");
-		if (rightToLeft){
-			screenRequest.addVariable(GXBaseObjectConstants.GX_VAR_SCREEN_DIRECTION,GXBaseObjectConstants.GX_VAR_VAL_SCREEN_DIRECTION_RTL);
-		}
-		else{
-			screenRequest.addVariable(GXBaseObjectConstants.GX_VAR_SCREEN_DIRECTION,GXBaseObjectConstants.GX_VAR_VAL_SCREEN_DIRECTION_LTR);
+		if (rightToLeft) {
+			screenRequest.addVariable(GXBaseObjectConstants.GX_VAR_SCREEN_DIRECTION,
+					GXBaseObjectConstants.GX_VAR_VAL_SCREEN_DIRECTION_RTL);
+		} else {
+			screenRequest.addVariable(GXBaseObjectConstants.GX_VAR_SCREEN_DIRECTION,
+					GXBaseObjectConstants.GX_VAR_VAL_SCREEN_DIRECTION_LTR);
 		}
 		return baseObject.getScreen(screenRequest);
 	}
@@ -81,7 +82,7 @@ public class ApxTerminalConnection implements TerminalConnection {
 
 	public void doAction(TerminalSendAction terminalSendAction) {
 
-		List<TerminalField> fields = terminalSendAction.getModifiedFields();
+		List<TerminalField> fields = terminalSendAction.getFields();
 		TerminalPosition cursorPosition = terminalSendAction.getCursorPosition();
 
 		GXSendKeysRequest sendKeyRequest = buildRequest(fields, terminalSendAction.getCommand());
@@ -140,6 +141,11 @@ public class ApxTerminalConnection implements TerminalConnection {
 
 	public void flip() {
 		rightToLeft = !rightToLeft;
+	}
+
+	@Override
+	public boolean isRightToLeftState() {
+		return rightToLeft;
 	}
 
 }
