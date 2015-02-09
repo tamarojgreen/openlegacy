@@ -134,7 +134,7 @@
 		<dependency>
 			<groupId>org.apache.ws.security</groupId>
 			<artifactId>wss4j</artifactId>
-			<version>1.6.7</version>
+			<version>1.<version>6.0</version></version>
 		</dependency>
 		<!-- Javax -->
 		<dependency>
