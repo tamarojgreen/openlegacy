@@ -271,10 +271,9 @@ public class SnapshotUtils {
 	}
 
 	public static TerminalPosition moveBy(TerminalPosition terminalPosition, int columns, ScreenSize screenSize) {
-		int offsetRows = columns / screenSize.getColumns();
-		columns = columns % screenSize.getColumns();
-		int row = terminalPosition.getRow() + offsetRows;
-		int column = terminalPosition.getColumn() + columns;
+		int column = (terminalPosition.getColumn() + columns) % screenSize.getColumns();
+		int extraRows = (terminalPosition.getColumn() + columns) / screenSize.getColumns();
+		int row = terminalPosition.getRow() + extraRows;
 		if (row > screenSize.getRows()) {
 			throw (new IllegalStateException(MessageFormat.format("Row {0} exceeds screen size {1}", row, screenSize)));
 		}
