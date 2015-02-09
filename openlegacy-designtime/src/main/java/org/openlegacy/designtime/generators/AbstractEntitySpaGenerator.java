@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.definitions.page.support.SimplePageDefinition;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.mains.GenerateControllerRequest;
 import org.openlegacy.designtime.mains.GenerateViewRequest;
@@ -25,6 +26,7 @@ import org.openlegacy.layout.PageDefinition;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.MessageFormat;
 
 import javax.inject.Inject;
@@ -55,6 +57,10 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 
 	@Inject
 	private GenerateUtil generateUtil;
+
+	protected abstract PageDefinition getPageDefinition(EntityDefinition<?> entityDefinition);
+
+	protected abstract void generateRestController(PageDefinition pageDefinition, OutputStream output);
 
 	@Override
 	public void generateView(GenerateViewRequest generateViewRequest, EntityDefinition<?> entityDefinition)
@@ -219,6 +225,48 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 	@Override
 	public void renameMatchesInJava(String fileNoExtension, String newName, File projectPath, String sourceFolder) {
 		// Auto-generated method stub
+	}
+
+	@Override
+	public boolean isSupportRestControllerGeneration() {
+		return true;
+	}
+
+	@Override
+	public void generateRestController(GenerateControllerRequest generateControllerRequest, EntityDefinition<?> entityDefinition) {
+		getGenerateUtil().setTemplateDirectory(generateControllerRequest.getTemplatesDirectory());
+
+		UserInteraction userInteraction = generateControllerRequest.getUserInteraction();
+
+		File packageDir = new File(generateControllerRequest.getSourceDirectory(),
+				generateControllerRequest.getPackageDirectory());
+		String entityClassName = entityDefinition.getEntityClassName();
+
+		File contollerFile = new File(packageDir, entityClassName + "RestController.java");
+		boolean generateController = true;
+		if (contollerFile.exists()) {
+			boolean override = userInteraction.isOverride(contollerFile);
+			if (!override) {
+				generateController = false;
+			}
+		}
+		if (generateController) {
+			FileOutputStream fos = null;
+			try {
+				contollerFile.getParentFile().mkdirs();
+				fos = new FileOutputStream(contollerFile);
+				SimplePageDefinition pageDefinition = (SimplePageDefinition)getPageDefinition(entityDefinition);
+				pageDefinition.setPackageName(generateControllerRequest.getPackageDirectory().replaceAll("/", "."));
+				generateRestController(pageDefinition, fos);
+				logger.info(MessageFormat.format("Generated controller : {0}", contollerFile.getAbsoluteFile()));
+				generateControllerRequest.getUserInteraction().open(contollerFile);
+			} catch (Exception e) {
+				throw new GenerationException(e);
+			} finally {
+				IOUtils.closeQuietly(fos);
+				org.openlegacy.utils.FileUtils.deleteEmptyFile(contollerFile);
+			}
+		}
 	}
 
 }

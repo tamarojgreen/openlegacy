@@ -1,0 +1,78 @@
+<#if packageName??>
+<#else>
+<#assign packageName="${entityDefinition.packageName}.web">
+</#if>
+package ${packageName};
+
+<#assign parentPackageLength=packageName?last_index_of(".")>
+import ${packageName?substring(0,parentPackageLength)}.${entityDefinition.entityClassName};
+import org.openlegacy.db.DbSession;
+import org.openlegacy.db.actions.DbActions;
+import org.openlegacy.db.definitions.DbEntityDefinition;
+import org.openlegacy.db.services.DbEntitiesRegistry;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import javax.inject.Inject;
+import org.apache.commons.lang.StringUtils;
+
+@Controller
+@RequestMapping("/${entityDefinition.entityClassName}")
+public class ${entityDefinition.entityClassName}RestController {
+
+	private static final String JSON = "application/json";
+	private static final String XML = "application/xml";
+	private static final String MODEL = "model";
+	
+	private static final String ENTITY_NAME = "${entityDefinition.entityClassName}";
+
+	@Inject
+	private DbSession dbSession;
+
+	@Inject
+	private DbEntitiesRegistry dbEntitiesRegistry;
+
+<#if entityDefinition.actions?size != 0>
+	<#list entityDefinition.actions as action>
+		<#if action.alias??>
+			<#assign actionName="${action.alias}">
+		<#else>
+			<#assign actionName="${action.actionName}">
+		</#if>
+		<#if action.actionName == "READ">
+	@Transactional
+	@RequestMapping(value = "/read/{key}", method = RequestMethod.GET, consumes = { JSON, XML })
+	public ModelAndView getRead(@PathVariable("key") String key) {
+		DbEntityDefinition entityDefinition = dbEntitiesRegistry.get(ENTITY_NAME);
+		Class<?> entityClass = entityDefinition.getEntityClass();
+		Object actionResult = null;
+		try {
+			Object entity = entityClass.newInstance();
+			if (StringUtils.isNumeric(key)) {
+				actionResult = dbSession.doAction(DbActions.${action.actionName}(), entity, Integer.valueOf(key));
+			} else {
+				actionResult = dbSession.doAction(DbActions.${action.actionName}(), entity, key);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ModelAndView(MODEL, MODEL, actionResult);
+	}
+	
+		<#else>
+			<#assign entityParam = "${entityDefinition.entityClassName?uncap_first}">
+	@Transactional
+	@RequestMapping(value="/${actionName?lower_case}", method = RequestMethod.POST, consumes = { JSON, XML })
+	public ModelAndView post${actionName?lower_case?cap_first}(@RequestBody ${entityDefinition.entityClassName} ${entityParam}){
+		Object actionResult = dbSession.doAction(DbActions.${action.actionName}(), ${entityParam});
+		return new ModelAndView(MODEL, MODEL, actionResult);
+	}
+	
+		</#if>
+	</#list>
+</#if>
+}

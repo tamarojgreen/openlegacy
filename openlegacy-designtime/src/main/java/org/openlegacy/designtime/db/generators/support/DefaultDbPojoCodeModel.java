@@ -550,7 +550,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 
 	private String entityName;
 	private String parentClassName;
-	private String typeName;
+	private String typeName = "";
 
 	private List<Action> actions = new ArrayList<Action>();
 

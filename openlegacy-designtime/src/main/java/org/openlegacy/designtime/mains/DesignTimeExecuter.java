@@ -11,7 +11,7 @@
 package org.openlegacy.designtime.mains;
 
 import org.openlegacy.EntityDefinition;
-import org.openlegacy.designtime.mains.GenerateServiceRequest.ServiceType;
+import org.openlegacy.designtime.enums.BackendSolution;
 import org.openlegacy.designtime.rpc.GenerateRpcModelRequest;
 import org.openlegacy.designtime.rpc.ImportSourceRequest;
 import org.openlegacy.designtime.terminal.GenerateScreenModelRequest;
@@ -88,8 +88,12 @@ public interface DesignTimeExecuter {
 
 	public String translate(String text, File projectPath);
 
-	public ServiceType getServiceType(File projectPath);
+	public BackendSolution getServiceType(File projectPath);
 
 	public void obfuscateTrail(File osLocation);
+
+	public boolean isSupportRestControllerGeneration(File file);
+
+	public void generateRestController(GenerateControllerRequest generateControllerRequest);
 
 }

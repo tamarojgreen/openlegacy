@@ -31,11 +31,11 @@ import org.openlegacy.EntityDefinition;
 import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.UserInteraction;
+import org.openlegacy.designtime.enums.BackendSolution;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.mains.DesignTimeExecuterImpl;
 import org.openlegacy.designtime.mains.GenerateControllerRequest;
 import org.openlegacy.designtime.mains.GenerateServiceRequest;
-import org.openlegacy.designtime.mains.GenerateServiceRequest.ServiceType;
 import org.openlegacy.designtime.mains.GenerateViewRequest;
 import org.openlegacy.designtime.mains.ProjectCreationRequest;
 import org.openlegacy.designtime.mains.ServiceEntityParameter;
@@ -312,8 +312,8 @@ public class EclipseDesignTimeExecuter {
 		GenerateServiceRequest generateServiceRequest = new GenerateServiceRequest();
 		File javaFile = PathsUtil.toOsLocation(entityJavaFile);
 		EntityDefinition<?> entityDefinition = designTimeExecuter.initEntityDefinition(javaFile);
-		generateServiceRequest.setServiceType(entityDefinition instanceof ScreenEntityDefinition ? ServiceType.SCREEN
-				: ServiceType.RPC);
+		generateServiceRequest.setServiceType(entityDefinition instanceof ScreenEntityDefinition ? BackendSolution.SCREEN
+				: BackendSolution.RPC);
 		generateServiceRequest.getOutputParameters().add(new ServiceEntityParameter(entityDefinition));
 		generateServiceRequest.setProjectPath(PathsUtil.toOsLocation(project));
 		final String serviceName = FileUtils.fileWithoutExtension(entityJavaFile.getName());
@@ -393,11 +393,32 @@ public class EclipseDesignTimeExecuter {
 		designTimeExecuter.obfuscateTrail(PathsUtil.toOsLocation(trailFile));
 	}
 
-	public ServiceType getServiceType(File projectPath) {
+	public BackendSolution getServiceType(File projectPath) {
 		return designTimeExecuter.getServiceType(projectPath);
 	}
 
 	public void generateService(GenerateServiceRequest request) {
 		designTimeExecuter.generateService(request);
+	}
+
+	public boolean isSupportRestControllerGeneration(IFile file) {
+		return designTimeExecuter.isSupportRestControllerGeneration(PathsUtil.toOsLocation(file));
+	}
+
+	public void generateRestController(IFile entitySourceFile, IPackageFragmentRoot sourceFolder, String packageDir,
+			UserInteraction userInteraction) {
+		File projectPath = new File(PathsUtil.toOsLocation(entitySourceFile.getProject()), DesignTimeExecuterImpl.TEMPLATES_DIR);
+
+		GenerateControllerRequest generateControllerRequest = new GenerateControllerRequest();
+		generateControllerRequest.setProjectPath(PathsUtil.toOsLocation(entitySourceFile.getProject()));
+		generateControllerRequest.setEntitySourceFile(PathsUtil.toOsLocation(entitySourceFile));
+		generateControllerRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceFolder));
+		if (!StringUtil.isEmpty(packageDir)) {
+			generateControllerRequest.setPackageDirectory(PathsUtil.packageToPath(packageDir));
+		}
+		generateControllerRequest.setTemplatesDirectory(projectPath);
+		generateControllerRequest.setUserInteraction(userInteraction);
+		designTimeExecuter.generateRestController(generateControllerRequest);
+
 	}
 }

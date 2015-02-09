@@ -114,6 +114,23 @@
 		</objectContribution>
 		<objectContribution
 			objectClass="org.eclipse.jdt.core.ICompilationUnit"
+			id="org.openlegacy.ide.eclipse.generate_rest_controller">
+			<menu
+				label="%openlegacy"
+				path="additions"
+				id="org.openlegacy.ide.eclipse.right_menu">
+				<separator name="generate">
+				</separator>
+			</menu>
+			<action
+				label="%generate_rest_controller"
+				class="org.openlegacy.ide.eclipse.actions.GenerateRestControllerAction"
+				menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
+				id="org.openlegacy.ide.eclipse.actions.generateRestController">
+			</action>
+		</objectContribution>
+		<objectContribution
+			objectClass="org.eclipse.jdt.core.ICompilationUnit"
 			id="org.openlegacy.ide.eclipse.generate_service">
 			<menu
 				label="%openlegacy"

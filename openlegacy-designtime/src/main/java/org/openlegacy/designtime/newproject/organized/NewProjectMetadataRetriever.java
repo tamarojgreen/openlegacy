@@ -332,7 +332,6 @@ public class NewProjectMetadataRetriever {
 			return dbTypes != null;
 		}
 
-		@SuppressWarnings("unused")
 		public List<String> getDdlAuto() {
 			return ddlAuto;
 		}

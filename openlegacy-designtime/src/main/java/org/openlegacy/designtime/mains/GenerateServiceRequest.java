@@ -11,6 +11,7 @@
 package org.openlegacy.designtime.mains;
 
 import org.openlegacy.designtime.UserInteraction;
+import org.openlegacy.designtime.enums.BackendSolution;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class GenerateServiceRequest extends AbstractGenerateRequest {
 	private List<ServiceParameter> inputParameters = new ArrayList<ServiceParameter>();
 	private List<ServiceParameter> outputParameters = new ArrayList<ServiceParameter>();
 
-	private ServiceType serviceType;
+	private BackendSolution serviceType;
 
 	private boolean generatePool;
 
@@ -52,11 +53,11 @@ public class GenerateServiceRequest extends AbstractGenerateRequest {
 		this.userInteraction = userInteraction;
 	}
 
-	public ServiceType getServiceType() {
+	public BackendSolution getServiceType() {
 		return serviceType;
 	}
 
-	public void setServiceType(ServiceType serviceType) {
+	public void setServiceType(BackendSolution serviceType) {
 		this.serviceType = serviceType;
 	}
 
@@ -76,9 +77,4 @@ public class GenerateServiceRequest extends AbstractGenerateRequest {
 		this.generatePool = generatePool;
 	}
 
-	public enum ServiceType {
-		SCREEN,
-		RPC,
-		JDBC
-	}
 }

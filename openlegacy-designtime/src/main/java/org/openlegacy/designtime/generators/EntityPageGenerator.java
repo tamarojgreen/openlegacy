@@ -20,7 +20,7 @@ import java.io.File;
 import java.io.OutputStream;
 
 public interface EntityPageGenerator {
-	
+
 	void generateController(GenerateControllerRequest generateControllerRequest, EntityDefinition<?> entityDefinition)
 			throws GenerationException;
 
@@ -33,6 +33,9 @@ public interface EntityPageGenerator {
 
 	void renameMatchesInJava(String oldName, String newName, File projectPath, String sourceFolder);
 
-	void generateView(GenerateViewRequest generateViewRequest,
-			EntityDefinition<?> entityDefinition) throws GenerationException;
+	void generateView(GenerateViewRequest generateViewRequest, EntityDefinition<?> entityDefinition) throws GenerationException;
+
+	boolean isSupportRestControllerGeneration();
+
+	void generateRestController(GenerateControllerRequest generateControllerRequest, EntityDefinition<?> entityDefinition);
 }

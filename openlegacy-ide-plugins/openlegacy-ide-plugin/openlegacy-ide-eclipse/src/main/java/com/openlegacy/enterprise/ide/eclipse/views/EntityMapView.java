@@ -22,9 +22,9 @@ import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.CompositeLayoutAlgorithm;
+import org.openlegacy.designtime.enums.BackendSolution;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.mains.DesignTimeExecuterImpl;
-import org.openlegacy.designtime.mains.GenerateServiceRequest.ServiceType;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
 
 import java.io.File;
@@ -68,7 +68,7 @@ public class EntityMapView extends ViewPart implements IZoomableWorkbenchPart {
 	private void refresh(final IProject project) {
 		File projectPath = PathsUtil.toOsLocation(project);
 		DesignTimeExecuter executer = new DesignTimeExecuterImpl();
-		final ServiceType serviceType = executer.getServiceType(projectPath);
+		final BackendSolution serviceType = executer.getServiceType(projectPath);
 		setPartName(project.getName() + " Entity Map");
 		Job job = new Job(Messages.getString("job.processing.entities")) {
 

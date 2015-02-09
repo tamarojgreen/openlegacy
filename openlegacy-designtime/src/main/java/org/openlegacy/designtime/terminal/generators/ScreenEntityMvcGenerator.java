@@ -201,11 +201,20 @@ public class ScreenEntityMvcGenerator extends AbstractEntityMvcGenerator impleme
 
 	@Override
 	public void generateHelp(PageDefinition pageDefinition, OutputStream out, File projectPath) throws TemplateException,
-	IOException {
+			IOException {
 		helpGenerator.generate(pageDefinition, out);
 		ProjectUtil.generatEclipseEncodingSettings(projectPath,
 				MessageFormat.format("/src/main/webapp/help/{0}.html", pageDefinition.getEntityDefinition().getEntityName()));
+	}
 
+	@Override
+	public boolean isSupportRestControllerGeneration() {
+		return false;
+	}
+
+	@Override
+	public void generateRestController(GenerateControllerRequest generateControllerRequest, EntityDefinition<?> entityDefinition) {
+		// not supported
 	}
 
 }

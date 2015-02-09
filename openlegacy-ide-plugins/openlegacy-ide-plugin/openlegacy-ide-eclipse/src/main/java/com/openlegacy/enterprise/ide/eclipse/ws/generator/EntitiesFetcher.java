@@ -23,9 +23,9 @@ import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.db.generators.support.CodeBasedDbEntityDefinition;
 import org.openlegacy.designtime.db.generators.support.DbCodeBasedDefinitionUtils;
+import org.openlegacy.designtime.enums.BackendSolution;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.mains.DesignTimeExecuterImpl;
-import org.openlegacy.designtime.mains.GenerateServiceRequest.ServiceType;
 import org.openlegacy.designtime.rpc.generators.support.CodeBasedRpcEntityDefinition;
 import org.openlegacy.designtime.rpc.generators.support.RpcCodeBasedDefinitionUtils;
 import org.openlegacy.designtime.terminal.generators.support.CodeBasedScreenEntityDefinition;
@@ -58,9 +58,9 @@ public class EntitiesFetcher {
 
 		private String apiPackage = null;
 		private IProgressMonitor monitor;
-		private ServiceType serviceType;
+		private BackendSolution serviceType;
 
-		public PackageVisitor(String apiPackage, IProgressMonitor monitor, ServiceType serviceType) {
+		public PackageVisitor(String apiPackage, IProgressMonitor monitor, BackendSolution serviceType) {
 			super();
 			this.apiPackage = apiPackage;
 			this.monitor = monitor;
@@ -78,7 +78,7 @@ public class EntitiesFetcher {
 					CompilationUnit compilationUnit = JavaParser.parse(file, CharEncoding.UTF_8);
 					File packageDir = new File(file.getParentFile().getAbsolutePath());
 
-					if (ServiceType.SCREEN.equals(serviceType) && ScreenEntityDescriber.doDescribe(fileReader) != null) {
+					if (BackendSolution.SCREEN.equals(serviceType) && ScreenEntityDescriber.doDescribe(fileReader) != null) {
 						ScreenEntityDefinition definition = ScreenCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit,
 								packageDir);
 						if (definition != null) {
@@ -86,7 +86,7 @@ public class EntitiesFetcher {
 							IFile xmlFile = getXmlFile(location);
 							entity = new ScreenEntityModel((CodeBasedScreenEntityDefinition)definition, xmlFile);
 						}
-					} else if (ServiceType.RPC.equals(serviceType) && RpcEntityDescriber.doDescribe(fileReader) != null) {
+					} else if (BackendSolution.RPC.equals(serviceType) && RpcEntityDescriber.doDescribe(fileReader) != null) {
 						RpcEntityDefinition definition = RpcCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit,
 								packageDir);
 						if (definition != null) {
@@ -94,7 +94,7 @@ public class EntitiesFetcher {
 							IFile srcFile = getSrcFile(location);
 							entity = new RpcEntityModel((CodeBasedRpcEntityDefinition)definition, srcFile);
 						}
-					} else if (ServiceType.JDBC.equals(serviceType) && JpaEntityDescriber.doDescribe(fileReader) != null) {
+					} else if (BackendSolution.JDBC.equals(serviceType) && JpaEntityDescriber.doDescribe(fileReader) != null) {
 						DbEntityDefinition definition = DbCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit,
 								packageDir);
 						if (definition != null) {
@@ -155,7 +155,7 @@ public class EntitiesFetcher {
 
 	private List<AbstractEntityModel> entities = new ArrayList<AbstractEntityModel>();
 
-	public List<AbstractEntityModel> fetch(IProject project, IProgressMonitor monitor, ServiceType serviceType) {
+	public List<AbstractEntityModel> fetch(IProject project, IProgressMonitor monitor, BackendSolution serviceType) {
 		if (project != null) {
 			File projectPath = PathsUtil.toOsLocation(project);
 			String apiPackage = designTimeExecuter.getPreferences(projectPath, PreferencesConstants.API_PACKAGE);

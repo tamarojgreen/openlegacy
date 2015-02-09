@@ -1,0 +1,54 @@
+<#if packageName??>
+<#else>
+<#assign packageName="${entityDefinition.packageName}.web">
+</#if>
+package ${packageName};
+
+<#assign parentPackageLength=packageName?last_index_of(".")>
+import ${packageName?substring(0,parentPackageLength)}.${entityDefinition.entityClassName};
+import org.openlegacy.rpc.RpcEntity;
+import org.openlegacy.rpc.RpcSession;
+import org.openlegacy.rpc.actions.RpcActions;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import javax.inject.Inject;
+
+
+@Controller
+@RequestMapping("/${entityDefinition.entityClassName}")
+public class ${entityDefinition.entityClassName}RestController {
+
+	private static final String JSON = "application/json";
+	private static final String XML = "application/xml";
+	private static final String MODEL = "model";
+
+	@Inject
+	private RpcSession rpcSession;
+
+<#if entityDefinition.actions?size != 0>
+	<#list entityDefinition.actions as action>
+		<#if action.alias??>
+			<#assign actionName="${action.alias}">
+		<#else>
+			<#assign actionName="${action.actionName}">
+		</#if>
+		<#assign entityParam = "${entityDefinition.entityClassName?uncap_first}">
+	@RequestMapping(value="/${actionName?lower_case}", method = RequestMethod.GET, consumes = { JSON, XML })
+	public ModelAndView get${actionName?lower_case?cap_first}(@RequestBody ${entityDefinition.entityClassName} ${entityParam}){
+		Object actionResult = rpcSession.doAction(RpcActions.${action.actionName}(), (RpcEntity)${entityParam});
+		return new ModelAndView(MODEL, MODEL, actionResult);
+	}
+
+	@RequestMapping(value="/${actionName?lower_case}", method = RequestMethod.POST, consumes = { JSON, XML })
+	public ModelAndView post${actionName?lower_case?cap_first}(@RequestBody ${entityDefinition.entityClassName} ${entityParam}){
+		Object actionResult = rpcSession.doAction(RpcActions.${action.actionName}(), (RpcEntity)${entityParam});
+		return new ModelAndView(MODEL, MODEL, actionResult);
+	}
+		
+	</#list>
+</#if>
+}

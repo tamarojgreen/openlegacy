@@ -12,8 +12,8 @@ package org.openlegacy.designtime.generators;
 
 import org.apache.commons.io.IOUtils;
 import org.openlegacy.designtime.UserInteraction;
+import org.openlegacy.designtime.enums.BackendSolution;
 import org.openlegacy.designtime.mains.GenerateServiceRequest;
-import org.openlegacy.designtime.mains.GenerateServiceRequest.ServiceType;
 import org.openlegacy.exceptions.GenerationException;
 
 import java.io.File;
@@ -84,8 +84,8 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 			}
 			if (generate) {
 				fos = new FileOutputStream(serviceImplFile);
-				String serviceImplTemplate = generateServiceRequest.getServiceType().equals(ServiceType.SCREEN) ? SCREEN_SERVICE_IMPL_TEMPLATE
-						: (generateServiceRequest.getServiceType().equals(ServiceType.RPC) ? RPC_SERVICE_IMPL_TEMPLATE
+				String serviceImplTemplate = generateServiceRequest.getServiceType().equals(BackendSolution.SCREEN) ? SCREEN_SERVICE_IMPL_TEMPLATE
+						: (generateServiceRequest.getServiceType().equals(BackendSolution.RPC) ? RPC_SERVICE_IMPL_TEMPLATE
 								: DB_SERVICE_IMPL_TEMPLATE);
 				getGenerateUtil().generate(generateServiceRequest, fos, serviceImplTemplate);
 			}

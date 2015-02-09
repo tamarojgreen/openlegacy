@@ -32,11 +32,11 @@ import org.openlegacy.designtime.db.generators.DbEntityServiceGenerator;
 import org.openlegacy.designtime.db.generators.DbPojosAjGenerator;
 import org.openlegacy.designtime.db.generators.support.DbAnnotationConstants;
 import org.openlegacy.designtime.db.generators.support.DbCodeBasedDefinitionUtils;
+import org.openlegacy.designtime.enums.BackendSolution;
 import org.openlegacy.designtime.generators.EntityPageGenerator;
 import org.openlegacy.designtime.generators.EntityServiceGenerator;
 import org.openlegacy.designtime.generators.GenerateUtil;
 import org.openlegacy.designtime.generators.SpaGenerateUtil;
-import org.openlegacy.designtime.mains.GenerateServiceRequest.ServiceType;
 import org.openlegacy.designtime.newproject.ITemplateFetcher;
 import org.openlegacy.designtime.newproject.model.ProjectTheme;
 import org.openlegacy.designtime.rpc.GenerateRpcModelRequest;
@@ -114,6 +114,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.persistence.Entity;
 
 /**
  * OpenLegacy main design-time API entry point. Consolidate all design-time common UI actions
@@ -213,8 +215,12 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		savePreference(targetPath, PreferencesConstants.WEB_PACKAGE, projectCreationRequest.getDefaultPackageName() + ".web");
 		savePreference(targetPath, PreferencesConstants.DESIGNTIME_CONTEXT, "default");
 		savePreference(targetPath, PreferencesConstants.USE_AJ, "1");
-		savePreference(targetPath, PreferencesConstants.BACKEND_SOLUTION,
-				projectCreationRequest.getBackendSolution() != null ? projectCreationRequest.getBackendSolution() : "SCREEN");
+		String backendSolution = (projectCreationRequest.getBackendSolution() != null) ? projectCreationRequest.getBackendSolution().toUpperCase()
+				: "SCREEN";
+		if (StringUtils.equals(backendSolution, "SCREENS")) {
+			backendSolution = "SCREEN";
+		}
+		savePreference(targetPath, PreferencesConstants.BACKEND_SOLUTION, backendSolution);
 
 		if (projectCreationRequest.isRightToLeft()) {
 			handleRightToLeft(targetPath);
@@ -323,7 +329,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void updatePropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath) throws IOException,
-	FileNotFoundException {
+			FileNotFoundException {
 		File hostPropertiesFile = new File(targetPath, "src/main/resources/host.properties");
 		if (hostPropertiesFile.exists()) {
 			String hostPropertiesFileContent = IOUtils.toString(new FileInputStream(hostPropertiesFile));
@@ -375,7 +381,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameLaunchers(final String projectName, final File targetPath) throws FileNotFoundException,
-	IOException {
+			IOException {
 		targetPath.listFiles(new FileFilter() {
 
 			@Override
@@ -393,7 +399,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameLauncher(String projectName, File targetPath, String fileName) throws FileNotFoundException,
-	IOException {
+			IOException {
 		File launcherFile = new File(targetPath, fileName);
 
 		if (!launcherFile.exists()) {
@@ -409,7 +415,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void updateSpringContextWithDefaultPackage(String defaultPackageName, File targetPath) throws IOException,
-	FileNotFoundException {
+			FileNotFoundException {
 		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_CONTEXT_FILE));
 		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_WEB_CONTEXT_FILE));
 		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_TEST_CONTEXT_FILE));
@@ -475,7 +481,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void addDbDriverDependency(File targetPath, String mavenDependencyString) throws FileNotFoundException,
-	IOException {
+			IOException {
 		File pomFile = new File(targetPath, "pom.xml");
 
 		if (!pomFile.exists()) {
@@ -562,7 +568,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameThemeInAppProperties(ProjectTheme projectTheme, File targetPath) throws FileNotFoundException,
-	IOException {
+			IOException {
 		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
 
 		if (!appPropertiesFile.exists()) {
@@ -624,8 +630,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (matcher.find()) {
 			fileContent = fileContent.replaceFirst("<context-param>\\s+<param-name>" + paramName
 					+ "</param-name>\\s+<param-value>.*</param-value>", MessageFormat.format(
-							"<context-param>\n\t\t<param-name>{0}</param-name>\n\t\t<param-value>{1}</param-value>", paramName,
-							paramValue));
+					"<context-param>\n\t\t<param-name>{0}</param-name>\n\t\t<param-value>{1}</param-value>", paramName,
+					paramValue));
 		} else {
 			// add new <context-param> into the end of file
 			int indexOf = fileContent.indexOf("</web-app>");
@@ -1090,11 +1096,11 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	public void generateService(GenerateServiceRequest generateServiceRequest) {
 		File projectPath = generateServiceRequest.getProjectPath();
 		EntityServiceGenerator entityServiceGenerator = null;
-		if (generateServiceRequest.getServiceType() == ServiceType.SCREEN) {
+		if (generateServiceRequest.getServiceType() == BackendSolution.SCREEN) {
 			entityServiceGenerator = getOrCreateApplicationContext(projectPath).getBean(ScreenEntityServiceGenerator.class);
-		} else if (generateServiceRequest.getServiceType() == ServiceType.RPC) {
+		} else if (generateServiceRequest.getServiceType() == BackendSolution.RPC) {
 			entityServiceGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityServiceGenerator.class);
-		} else if (generateServiceRequest.getServiceType() == ServiceType.JDBC) {
+		} else if (generateServiceRequest.getServiceType() == BackendSolution.JDBC) {
 			entityServiceGenerator = getOrCreateApplicationContext(projectPath).getBean(DbEntityServiceGenerator.class);
 		}
 
@@ -1118,7 +1124,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				entityDefinition = ScreenCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
 			} else if (fileContent.contains(RpcEntity.class.getSimpleName())) {
 				entityDefinition = RpcCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
-			} else if (fileContent.contains(DbEntity.class.getSimpleName())) {
+			} else if (fileContent.contains(DbEntity.class.getSimpleName()) || fileContent.contains(Entity.class.getSimpleName())) {
 				entityDefinition = DbCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
 			}
 		} catch (Exception e) {
@@ -1431,15 +1437,16 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	@Override
-	public ServiceType getServiceType(File projectPath) {
+	public BackendSolution getServiceType(File projectPath) {
 		String backendSolution = getPreferences(projectPath).get(PreferencesConstants.BACKEND_SOLUTION);
-		if (!StringUtils.isEmpty(backendSolution) && StringUtils.equalsIgnoreCase(backendSolution, ServiceType.RPC.toString())) {
-			return ServiceType.RPC;
+		if (!StringUtils.isEmpty(backendSolution)
+				&& StringUtils.equalsIgnoreCase(backendSolution, BackendSolution.RPC.toString())) {
+			return BackendSolution.RPC;
 		} else if (!StringUtils.isEmpty(backendSolution)
-				&& StringUtils.equalsIgnoreCase(backendSolution, ServiceType.JDBC.toString())) {
-			return ServiceType.JDBC;
+				&& StringUtils.equalsIgnoreCase(backendSolution, BackendSolution.JDBC.toString())) {
+			return BackendSolution.JDBC;
 		}
-		return ServiceType.SCREEN;
+		return BackendSolution.SCREEN;
 	}
 
 	@Override
@@ -1482,4 +1489,45 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			}
 		}
 	}
+
+	@Override
+	public boolean isSupportRestControllerGeneration(File file) {
+		File projectPath = getProjectPath(file);
+		String backendSolution = getPreferences(projectPath).get(PreferencesConstants.BACKEND_SOLUTION);
+		EntityPageGenerator entityPageGenerator = null;
+		if (!StringUtils.isBlank(backendSolution)
+				&& StringUtils.equalsIgnoreCase(backendSolution, BackendSolution.JDBC.toString())) {
+			entityPageGenerator = getOrCreateApplicationContext(projectPath).getBean(DbEntityPageGenerator.class);
+		} else if (!StringUtils.isBlank(backendSolution)
+				&& StringUtils.equalsIgnoreCase(backendSolution, BackendSolution.RPC.toString())) {
+			entityPageGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityPageGenerator.class);
+		} else if (!StringUtils.isBlank(backendSolution)
+				&& StringUtils.equalsIgnoreCase(backendSolution, BackendSolution.SCREEN.toString())) {
+			entityPageGenerator = getOrCreateApplicationContext(projectPath).getBean(ScreenEntityPageGenerator.class);
+		}
+		return entityPageGenerator != null && entityPageGenerator.isSupportRestControllerGeneration();
+	}
+
+	@Override
+	public void generateRestController(GenerateControllerRequest generateControllerRequest) {
+
+		EntityDefinition<?> entityDefinition = initEntityDefinition(generateControllerRequest.getEntitySourceFile());
+
+		File projectPath = getProjectPath(generateControllerRequest.getSourceDirectory());
+		EntityPageGenerator entityPageGenerator = null;
+		if (entityDefinition instanceof ScreenEntityDefinition) {
+			entityPageGenerator = getOrCreateApplicationContext(projectPath).getBean(ScreenEntityPageGenerator.class);
+		} else if (entityDefinition instanceof RpcEntityDefinition) {
+			entityPageGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityPageGenerator.class);
+		} else {
+			entityPageGenerator = getOrCreateApplicationContext(projectPath).getBean(DbEntityPageGenerator.class);
+		}
+
+		if (entityPageGenerator != null && entityPageGenerator.isSupportRestControllerGeneration()) {
+			entityPageGenerator.generateRestController(generateControllerRequest, entityDefinition);
+		} else {
+			logger.warn(MessageFormat.format("{0} doesnt support controller generation", entityPageGenerator.getClass()));
+		}
+	}
+
 }

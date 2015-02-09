@@ -66,9 +66,9 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.UserInteraction;
+import org.openlegacy.designtime.enums.BackendSolution;
 import org.openlegacy.designtime.mains.DesignTimeExecuterImpl;
 import org.openlegacy.designtime.mains.GenerateServiceRequest;
-import org.openlegacy.designtime.mains.GenerateServiceRequest.ServiceType;
 import org.openlegacy.designtime.mains.ServiceEntityFieldParameter;
 import org.openlegacy.designtime.mains.ServiceEntityParameter;
 import org.openlegacy.designtime.mains.ServiceParameter;
@@ -128,9 +128,9 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 	private TreeViewerModel mTreeViewerModel = null;
 	private InTableModel mInTableModel = null;
 	private OutTableModel mOutTableModel = null;
-	private ServiceType serviceType;
+	private BackendSolution serviceType;
 
-	public GenerateServiceDialog(Shell parentShell, TreeViewerModel model, IProject project, ServiceType serviceType) {
+	public GenerateServiceDialog(Shell parentShell, TreeViewerModel model, IProject project, BackendSolution serviceType) {
 		super(parentShell);
 		this.mTreeViewerModel = model;
 		this.serviceType = serviceType;
@@ -184,7 +184,7 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 		// second row - "input/output"
 		createSecondRow(container);
 
-		if (!serviceType.equals(ServiceType.JDBC)) {
+		if (!serviceType.equals(BackendSolution.JDBC)) {
 			// third row - "screen preview"
 			createThirdRow(container);
 		}
@@ -196,7 +196,7 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 	protected void createButtonsForButtonBar(Composite parent) {
 		parent.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		if (!serviceType.equals(ServiceType.JDBC)) {
+		if (!serviceType.equals(BackendSolution.JDBC)) {
 			ToolBar toolBar = new ToolBar(parent, SWT.FLAT | SWT.NO_FOCUS);
 			((GridLayout)parent.getLayout()).numColumns++;
 			toolBar.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
@@ -235,7 +235,7 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 		super.createButtonsForButtonBar(parent);
 		// Set the size of the parent shell
-		if (!serviceType.equals(ServiceType.JDBC)) {
+		if (!serviceType.equals(BackendSolution.JDBC)) {
 			parent.getShell().setSize(616, 750);
 		}
 		// Set the dialog position in the middle of the monitor
@@ -353,10 +353,10 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 	}
 
 	private void createThirdRow(Composite parent) {
-		if (ServiceType.SCREEN.equals(serviceType)) {
+		if (BackendSolution.SCREEN.equals(serviceType)) {
 			mSnapshotComposite = new SnapshotComposite(parent, PathsUtil.toOsLocation(project));
 			mSnapshotComposite.setIsScalable(true);
-		} else if (ServiceType.RPC.equals(serviceType)) {
+		} else if (BackendSolution.RPC.equals(serviceType)) {
 			mRpcComposite = new RpcComposite(parent, null);
 			mRpcComposite.setIsScalable(true);
 		}
