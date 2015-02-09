@@ -250,7 +250,7 @@ End uncomment for bidi support -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.10</version>
+				<version>2.18.1</version>
 				<configuration>
 					<skipTests>true</skipTests>
 				</configuration>

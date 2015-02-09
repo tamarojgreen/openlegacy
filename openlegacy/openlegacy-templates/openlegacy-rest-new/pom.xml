@@ -289,7 +289,7 @@ End Uncomment for OpenLegacy enterprise managemenent plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.12</version>
+				<version>2.18.1</version>
 				<configuration>
 					<skip>true</skip>
 				</configuration>
@@ -361,7 +361,7 @@ End Uncomment for OpenLegacy enterprise managemenent plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.10</version>
+				<version>2.18.1</version>
 			</plugin>
 		</plugins>
 		<pluginManagement>
