@@ -109,9 +109,8 @@
 						}
 					}
 				);
-			};
-			
-			<#if (sortedFields?size > 0)>
+			};			
+			<#if sortedFields?? && (sortedFields?size > 0)>
 				<#list sortedFields as field>
 					<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'fieldWithValues'>						
 					$olHttp.get("${field.name?cap_first}s", function(data) {							

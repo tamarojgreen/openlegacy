@@ -51,6 +51,6 @@ public class RpcEntitySpaGenerator extends AbstractEntitySpaGenerator implements
 	@Override
 	protected void generateJsController(EntityDefinition<?> entityDefinition, OutputStream output, String templateDirectoryPrefix) {
 		String typeName = MessageFormat.format("{0}{1}", templateDirectoryPrefix, entityDefinition.getTypeName());
-		getGenerateUtil().generate(entityDefinition, output, "RestEntitySpaController.js.template", typeName);
+		getGenerateUtil().generate(entityDefinition, output, "RpcEntitySpaController.js.template", typeName);
 	}
 }

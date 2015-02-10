@@ -193,11 +193,16 @@
 			</div>
 		</div>
 	</div>	
-	<#list childColumns as childColumn>												
-		<#if isCREATEAction>
-			<@generateTable entity=childColumn.oneToManyDefinition.targetEntityDefinition showActionsToolbar=false propertyName=childColumn.name joinColumnName=childColumn.joinColumnName isCREATEAction=true/>
+	<#list childColumns as childColumn>		
+		<#if entity.entityName == childColumn.javaTypeName>
+			<#assign targetEntity = entity>
 		<#else>
-			<@generateTable entity=childColumn.oneToManyDefinition.targetEntityDefinition showActionsToolbar=false propertyName=childColumn.name />
+			<#assign targetEntity = childColumn.oneToManyDefinition.targetEntityDefinition>
+		</#if>		
+		<#if isCREATEAction>
+			<#if targetEntity??><@generateTable entity=targetEntity showActionsToolbar=false propertyName=childColumn.name joinColumnName=childColumn.joinColumnName isCREATEAction=true/></#if>
+		<#else>
+			<#if targetEntity??><@generateTable entity=targetEntity showActionsToolbar=false propertyName=childColumn.name /></#if>
 		</#if>
 	</#list>
 </#macro>

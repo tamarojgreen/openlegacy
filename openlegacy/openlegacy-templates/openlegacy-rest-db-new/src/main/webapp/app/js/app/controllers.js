@@ -244,12 +244,14 @@
 	        };
 	        
 	        if (doREADAction == true) {
-		        $scope.doREADAction = function(entityName, rowIndex) {		        	
-		        	<#list entitiesDefinitions as entity>
-		        		if (entityName == "${entity.entityName}") {		        			
-		        			$state.go(entityName + "Details", {${entity.keys[0].name?replace(".", "_")}:<#list entity.keys as key>$scope.model.entity[rowIndex].${key.name}<#if key_has_next>+</#if></#list>});
-		        		}
-		        	</#list>		      
+	        	$scope.doREADAction = function(entityName, rowIndex, stringKeys) {
+		        	var arrayKeys = stringKeys.split(',');
+		        	var params = {};		        	
+		        	$.each(arrayKeys, function(index, keyName) {		        		
+		        		params[keyName] = $scope.model.entity[rowIndex][keyName];
+		        	});		        	
+		        	
+		        	$state.go(entityName + "Details", params);
 	        	}
 	        }
 		});

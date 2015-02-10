@@ -53,8 +53,8 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 	private static final String INCLUDE_CONTROLLER_PLACE_HOLDER_START = "<!-- Include controller place-holder start";
 	private static final String INCLUDE_CONTROLLER_PLACE_HOLDER_END = "Include controller place-holder end -->";
 
-	private static final String EXISTING_INCLUDE_CONTROLLER_PLACE_HOLDER_START = "<!-- auto generated include start --> ";
-	private static final String EXISTING_INCLUDE_CONTROLLER_PLACE_HOLDER_END = "<!-- auto generated include end --> ";
+	private static final String EXISTING_INCLUDE_CONTROLLER_PLACE_HOLDER_START = "<!-- auto generated include start {0} --> ";
+	private static final String EXISTING_INCLUDE_CONTROLLER_PLACE_HOLDER_END = "<!-- auto generated include end {0} --> ";
 
 	private static final String APP_JS = "app.js";
 	private static final String CONTROLLERS_JS = "controllers.js";
@@ -134,7 +134,6 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 			throws GenerationException {
 		updateAppJs(generateControllerRequest, entityDefinition);
 		updateIndexJsp(generateControllerRequest, entityDefinition);
-		// updateControllersJs(generateControllerRequest, entityDefinition);
 		FileOutputStream fos = null;
 		try {
 			generateJsController(generateControllerRequest, entityDefinition);
@@ -173,7 +172,7 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 		}
 
 		if (pageFile.exists()) {
-			// userInteraction.open(pageFile);
+			userInteraction.open(pageFile, entityDefinition);
 		}
 	}
 
@@ -182,16 +181,6 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 	// updateAppJs(generateControllerRequest, entityDefinition);
 	// updateControllersJs(generateControllerRequest, entityDefinition);
 	// }
-
-	private static void updateControllersJs(GenerateControllerRequest generateControllerRequest,
-			EntityDefinition<?> entityDefinition) {
-		File controllersJsFile = new File(generateControllerRequest.getProjectPath(), SpaGenerateUtil.JS_APP_DIR + CONTROLLERS_JS);
-
-		String name = entityDefinition.getEntityName();
-		GenerateUtil.replicateTemplate(controllersJsFile, entityDefinition, CONTROLLER_CODE_PLACE_HOLDER_START,
-				CONTROLLER_CODE_PLACE_HOLDER_END, EXISTING_CONTROLLER_CODE_PLACE_HOLDER_START + name,
-				EXISTING_CONTROLLER_CODE_PLACE_HOLDER_END + name);
-	}
 
 	private static void updateAppJs(GenerateControllerRequest generateControllerRequest, EntityDefinition<?> entityDefinition) {
 		File appJsFile = new File(generateControllerRequest.getProjectPath(), SpaGenerateUtil.JS_APP_DIR + APP_JS);
@@ -205,8 +194,8 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 		File indexJspFile = new File(generateControllerRequest.getProjectPath(), SpaGenerateUtil.WEB_APP_DIR + INDEX_JSP);
 		String name = entityDefinition.getEntityName();
 		GenerateUtil.replicateTemplate(indexJspFile, entityDefinition, INCLUDE_CONTROLLER_PLACE_HOLDER_START,
-				INCLUDE_CONTROLLER_PLACE_HOLDER_END, EXISTING_INCLUDE_CONTROLLER_PLACE_HOLDER_START + name,
-				EXISTING_INCLUDE_CONTROLLER_PLACE_HOLDER_END + name);
+				INCLUDE_CONTROLLER_PLACE_HOLDER_END, MessageFormat.format(EXISTING_INCLUDE_CONTROLLER_PLACE_HOLDER_START, name),
+				MessageFormat.format(EXISTING_INCLUDE_CONTROLLER_PLACE_HOLDER_END, name));
 	}
 
 	public GenerateUtil getGenerateUtil() {

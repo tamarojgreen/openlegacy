@@ -1,0 +1,200 @@
+<#if entityName??>
+	/*module name for controllers can be change by the user. Please, keep in mind to replace module name with
+	the new one for designtime generation.		 
+	*/
+	<#list actions as action>
+	<#switch action.actionName>
+		<#case "READ">
+	//=================================READ======================================
+	angular.module('controllers').controller('${entityName}DetailsCtrl', function($scope, $stateParams, $olHttp, $state, $modal) {		
+		$scope.currentAction = "READ";
+		
+		$olHttp.get('${entityName}/' + $stateParams[Object.keys($stateParams)[0]], function(data) {			
+			$scope.entityName = data.model.entityName;
+			$scope.model = data.model;			
+			$scope.doREADAction = function(targetEntityName, rowIndex, propertyName) {
+	    		if (targetEntityName == "${entityName}") {
+	    			var targetData = $scope.model.entity[propertyName]
+	    			var keys = Object.keys( targetData );	        			    
+			    	$state.go(targetEntityName + "Details", {${keys[0].name?replace(".", "_")}:<#list keys as key>targetData[keys[rowIndex]].${key.name}<#if key_has_next>+</#if></#list>});
+	    		}
+        	}
+			$scope.doUPDATEAction = function() {				
+				var modalInstance = $modal.open({
+					templateUrl: 'views/partials/confirmation_dialog.html',
+					controller: 'ConfirmationDialogCtrl',
+					resolve: {
+						func: function () {
+							return function() {
+								$olHttp.post('${entityName}?action=', $scope.model.entity, function(data) {					
+									alert("Entity was successfully updated!");
+								});
+							} 
+						}
+					}
+			    });				
+			}
+			
+			$scope.doDELETEAction = function() {
+				var modalInstance = $modal.open({
+					templateUrl: 'views/partials/confirmation_dialog.html',
+					controller: 'ConfirmationDialogCtrl',					
+					resolve: {
+						func: function () {
+							return function() {
+								$olHttp.remove('${entityName}/' + $stateParams[Object.keys($stateParams)[0]], function(data) {
+									$state.go('${entityName}');
+								});
+							} 
+						}
+					}
+			    });
+			}
+		});
+	});
+				<#break>
+				<#case "CREATE">
+	//==========================================CREATE========================================================			
+	angular.module('controllers').controller('${entityName}NewCtrl', function($scope, $modal, $olHttp, $state) {
+		$scope.currentAction = "CREATE";
+		$scope.model = {'entity':{}};
+		$scope.nestedModels = {};
+		
+		
+		<#if columnFieldsDefinitions??>
+		<#list columnFieldsDefinitions?keys as key>								
+			<#assign column = columnFieldsDefinitions[key]>
+			<#if (!column.internal?? || column.internal == false) && column.oneToManyDefinition??>
+				$scope.${column.name}_showNext = true;
+				$scope.${column.name}_showPrev = true;				
+				getItems('${column.javaTypeName}', '${column.name}', false, 1, $scope, $olHttp, $state, null);
+				$scope.nestedModels['${column.name}'] = [];
+			</#if>
+		</#list>
+		</#if>
+		
+		$scope.toggleSelection = function toggleSelection(item, itemArray, joinColumnName) {
+			delete item[joinColumnName];
+		    var idx = itemArray.indexOf(item);
+
+		    if (idx > -1) {
+		    	itemArray.splice(idx, 1);
+		    } else {		    	
+		    	itemArray.push(item);
+		    }
+		  };
+		
+		$scope.doUPDATEAction = function() {				
+			var modalInstance = $modal.open({
+				templateUrl: 'views/partials/confirmation_dialog.html',
+				controller: 'ConfirmationDialogCtrl',
+				resolve: {
+					func: function () {
+						return function() {
+							var entity = $.extend($scope.model.entity, $scope.nestedModels);							
+							$olHttp.post('${entityName}?action=', entity, function(data) {
+								alert("Entity was created successfully!");
+								$state.go('${entityName}');
+							});												
+						} 
+					}
+				}
+		    });				
+		}
+	});
+			</#switch>
+		</#list>
+	//=============================================LIST============================================================
+	angular.module('controllers').controller('${entityName}Ctrl', function($olHttp, $scope, $location, $state, $stateParams) {
+		$scope.model = {"entity":{}};
+		$scope._showNext = true;
+		$scope._showPrev = true;
+		getItems('${entityName}', null, true, 1, $scope, $olHttp, $state, $location);		
+	});
+	
+	angular.module('controllers').controller('ConfirmationDialogCtrl', function ($scope, $modalInstance, func) {
+		  $scope.ok = function () {
+		    $modalInstance.close();
+		    func();		    
+		  };
+
+		  $scope.cancel = function () {
+		    $modalInstance.dismiss();
+		  };
+		});
+	
+	var getItems = function(entityName, propertyName, doREADAction, page, $scope, $olHttp, $state, $location) {
+		if (propertyName == null) {
+			propertyName = "";
+		}
+		var queryParamsString = "?";
+			if ($location != null) {
+			angular.forEach($location.search(), function(value, key) {
+				if (key != "page") {
+					queryParamsString += key + "=" + value + "&";
+				}
+			});
+		}
+		queryParamsString += "page=" + page;
+		
+		$olHttp.get(entityName + queryParamsString, function(data) {
+			if (propertyName != "") {
+				$scope.model.entity[propertyName] = data.model.entity;
+				var showNextBtn = propertyName + "_showNext";
+				var showPrevBtn = propertyName + "_showPrev";				
+			} else {
+				$scope.model.entity = data.model.entity;
+				var showNextBtn = "_showNext";
+				var showPrevBtn = "_showPrev";
+			}
+			
+			var setPageNavigators = function() {				
+				if (parseInt(data.model.pageCount) <= 1) {
+					$scope[showNextBtn] = false;
+		        	$scope[showPrevBtn] = false;
+				} else if (page == parseInt(data.model.pageCount)) {
+		        	$scope[showNextBtn] = false;
+		        	$scope[showPrevBtn] = true;
+		        } else if (page > parseInt(data.model.pageCount) || page <= 0) {
+		        	page = 1;		
+		        	setPageNavigators();
+		        } else if (page == null || page == 1) {			        	
+		        	$scope[showPrevBtn] = false;
+		        	$scope[showNextBtn] = true;
+		        } else {
+		        	$scope[showPrevBtn] = true;
+		        	$scope[showNextBtn] = true;
+		        }
+			}
+			
+			setPageNavigators();
+	        
+	        $scope[propertyName + '_next'] = function() {	        	
+	        	if (page == 0 || page == null) {
+	        		page = 1;
+	        		getItems(entityName, propertyName, doREADAction, page, $scope, $olHttp, $state, $location);
+	        	} else {
+	        		page = page + 1;
+	        		getItems(entityName, propertyName, doREADAction, page, $scope, $olHttp, $state, $location);
+	        	}
+	        };
+	        
+	        $scope[propertyName + '_prev'] = function() {
+	        	page = page - 1;
+        		getItems(entityName, propertyName, doREADAction, page, $scope, $olHttp, $state, $location);
+	        };
+	        
+	        if (doREADAction == true) {
+		        $scope.doREADAction = function(entityName, rowIndex, stringKeys) {
+		        	var arrayKeys = stringKeys.split(',');
+		        	var params = {};		        	
+		        	$.each(arrayKeys, function(index, keyName) {		        		
+		        		params[keyName] = $scope.model.entity[rowIndex][keyName];
+		        	});		        	
+		        	
+		        	$state.go(entityName + "Details", params);
+	        	}
+	        }
+		});
+	}
+</#if>				
