@@ -8,10 +8,10 @@
 
 	<div id="footer">
 		<div id="footer_left">
-			<a target="_new" href="http://www.openlegacy.org" class="logo" title="OpenLegacy">OpenLegacy</a>
+			<a target="_new" href="http://www.openlegacy.com" class="logo" title="OpenLegacy">OpenLegacy</a>
 		</div>
 		<div id="footer_right">
-			Copyright &#169; 2014 OpenLegacy. All rights reserved. <br />Powered
+			Copyright &#169; 2015 OpenLegacy. All rights reserved. <br />Powered
 			by OpenLegacy &#174; ${openLegacyProperties.version}
 			<br/>
 		</div>
