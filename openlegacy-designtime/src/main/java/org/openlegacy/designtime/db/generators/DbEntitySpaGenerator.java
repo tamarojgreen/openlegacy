@@ -135,6 +135,12 @@ public class DbEntitySpaGenerator extends AbstractEntitySpaGenerator implements 
 	}
 
 	@Override
+	protected void generateJsController(EntityDefinition<?> entityDefinition, OutputStream output, String templateDirectoryPrefix) {
+		String typeName = MessageFormat.format("{0}{1}", templateDirectoryPrefix, entityDefinition.getTypeName());
+		getGenerateUtil().generate(entityDefinition, output, "DbEntitySpaController.js.template", typeName);	
+	}
+	
+	@Override
 	protected void generateRestController(PageDefinition pageDefinition, OutputStream output) {
 		String typeName = pageDefinition.getEntityDefinition().getTypeName();
 		getGenerateUtil().generate(pageDefinition, output, "rest/DbEntityRestController.java.template", typeName);

@@ -67,7 +67,7 @@ public class DbCodeBasedDefinitionUtils {
 						|| JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_ENTITY_ANNOTATION)
 						|| JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_ENTITY_SUPER_CLASS_ANNOTATION)) {
 					dbPojoCodeModel = new DefaultDbPojoCodeModel(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration,
-							typeDeclaration.getName(), null);
+							typeDeclaration.getName(), null, packageDir);
 					entityDefinition = new CodeBasedDbEntityDefinition(dbPojoCodeModel, packageDir);
 					return entityDefinition;
 				}
@@ -150,7 +150,7 @@ public class DbCodeBasedDefinitionUtils {
 		return actionDefinitions;
 	}
 
-	private static DbEntityDefinition getEntityDefinition(String entityName, File packageDir) {
+	public static DbEntityDefinition getEntityDefinition(String entityName, File packageDir) {
 		File entityFile = new File(packageDir, entityName + ".java");
 		if (!entityFile.exists()) {
 			logger.debug(MessageFormat.format("Source file for entity {0} is not defined. Unable to find file {1}",

@@ -39,6 +39,7 @@ import japa.parser.ast.expr.Expression;
 import japa.parser.ast.expr.MemberValuePair;
 import japa.parser.ast.expr.NormalAnnotationExpr;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -256,7 +257,8 @@ public class DbAnnotationsParserUtils {
 		}
 	}
 
-	public static DbOneToManyDefinition loadDbOneToManyDefinition(AnnotationExpr annotationExpr) {
+	public static DbOneToManyDefinition loadDbOneToManyDefinition(AnnotationExpr annotationExpr, String currentClassName,
+			String typeArgs, File packageDir) {
 		SimpleDbOneToManyDefinition definition = null;
 		String cascadeValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.CASCADE);
 		String fetchValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.FETCH);
@@ -285,6 +287,15 @@ public class DbAnnotationsParserUtils {
 		}
 		if (!StringUtils.isEmpty(targetEntityValue)) {
 			definition.setTargetEntityClassName(StringUtil.toClassName(targetEntityValue));
+			if (typeArgs == null) {
+				definition.setTargetEntityDefinition(DbCodeBasedDefinitionUtils.getEntityDefinition(
+						StringUtil.toClassName(targetEntityValue), packageDir));
+			}
+		}
+
+		if (typeArgs != null && !typeArgs.split(",")[0].equals(currentClassName)) {
+			definition.setTargetEntityDefinition(DbCodeBasedDefinitionUtils.getEntityDefinition(typeArgs.split(",")[0],
+					packageDir));
 		}
 
 		return definition;

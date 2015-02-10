@@ -42,6 +42,7 @@ import japa.parser.ast.type.ClassOrInterfaceType;
 import japa.parser.ast.type.ReferenceType;
 import japa.parser.ast.type.Type;
 
+import java.io.File;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -542,6 +543,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 	private String className;
 
 	private String packageName;
+	private File packageDir;
 	private ClassOrInterfaceDeclaration mainType;
 	private Map<String, Field> fields = new LinkedHashMap<String, Field>();
 	private boolean enabled;
@@ -571,7 +573,16 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 
 	public DefaultDbPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
+		init(compilationUnit, type, className, parentClassName);
+	}
 
+	public DefaultDbPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
+			String parentClassName, File packageDir) {
+		this.packageDir = packageDir;
+		init(compilationUnit, type, className, parentClassName);
+	}
+
+	private void init(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className, String parentClassName) {
 		mainType = type;
 		this.parentClassName = parentClassName;
 
@@ -702,7 +713,8 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
 									DbAnnotationConstants.DB_ONE_TO_MANY_ANNOTATION)) {
-								columnField.setOneToManyDefinition(DbAnnotationsParserUtils.loadDbOneToManyDefinition(annotationExpr));
+								columnField.setOneToManyDefinition(DbAnnotationsParserUtils.loadDbOneToManyDefinition(
+										annotationExpr, className, fieldTypeArgs, packageDir));
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr, DbAnnotationConstants.DB_ID_ANNOTATION)) {
 								columnField.setKey(true);

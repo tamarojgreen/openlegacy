@@ -33,6 +33,8 @@ public abstract class AbstractAngularController {
 
 	private static final String CONTROLLER_JS_PATH = "app/js/app/controllers.js";
 
+	private static final String ENTITY_CONTROLLER_JS_PATH = "app/js/app/{0}.js";
+
 	private static final String APP_JS_PATH = "app/js/app/app.js";
 
 	private static final String GENERIC_HTML_TEMPLATE = "app/views/generic.html.template";
@@ -76,6 +78,16 @@ public abstract class AbstractAngularController {
 		Template template = initTemplate(APP_JS_PATH);
 		response.setContentType("application/javascript");
 		writeTemplate(template, entitiesRegistry, response.getWriter());
+	}
+
+	@RequestMapping(value = "app/js/app/{entityName}.js_ng", method = RequestMethod.GET)
+	public void getEntityController(@PathVariable("entityName") String entityName, HttpServletResponse response)
+			throws IOException, TemplateException {
+		URL resource = servletContext.getResource(MessageFormat.format(ENTITY_CONTROLLER_JS_PATH, entityName));
+		if (resource != null) {
+			String content = IOUtils.toString(resource, CharEncoding.UTF_8);
+			IOUtils.write(content, response.getOutputStream(), CharEncoding.UTF_8);
+		}
 	}
 
 	protected static void writeTemplate(Template template, Object model, PrintWriter writer) throws TemplateException,

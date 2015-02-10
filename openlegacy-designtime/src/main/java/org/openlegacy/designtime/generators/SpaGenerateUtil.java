@@ -14,4 +14,5 @@ public class SpaGenerateUtil {
 
 	public static final String JS_APP_DIR = "src/main/webapp/app/js/app/";
 	public static final String VIEWS_DIR = "src/main/webapp/app/views/";
+	public static final String WEB_APP_DIR = "src/main/webapp/app/";
 }

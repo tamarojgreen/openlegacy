@@ -60,6 +60,10 @@
 			<div class="panel-body">				
 				<div class="table-responsive">
 					<#assign columnsToDisplay = []>
+					<#assign keys = []>
+					<#list entity.keys as key>					
+						<#assign keys = keys + [key.name]>
+					</#list>
 					<table class="table">
 						<thead>						
 							<tr>
@@ -98,7 +102,7 @@
 							</tr>
 						</thead>
 						<tbody>											
-				            <tr ng-repeat="item in model.entity<#if propertyName != "">.${propertyName}</#if>" <#if isREADAction && !isCREATEAction>ng-click="doREADAction('${entity.entityName}', $index, '${propertyName}')"</#if>>
+				            <tr ng-repeat="item in model.entity<#if propertyName != "">.${propertyName}</#if>" <#if isREADAction && !isCREATEAction>ng-click="doREADAction('${entity.entityName}', $index, '${keys?join(",")}')"</#if>>
 				            <#if isCREATEAction>
 								<td><input type="checkbox" ng-model="isChecked" ng-change="toggleSelection(item, nestedModels.${propertyName}, joinColumnName)"></td>							
 							</#if>			                               	

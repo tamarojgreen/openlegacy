@@ -37,6 +37,9 @@
 	<script src="js/app/controllers.js_ng" type="text/javascript"></script>
 	<script src="js/app/services.js" type="text/javascript"></script>
 	<script src="js/app/config.js" type="text/javascript"></script>
+	<!-- Include controller place-holder start
+	<script src="js/app/${entityName}.js" type="text/javascript"></script>
+	Include controller place-holder end -->
 </head>
 <body class="main" ng-class="theme">
 	<img src="img/preloader.gif" class="preloader">
