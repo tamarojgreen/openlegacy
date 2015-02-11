@@ -84,7 +84,7 @@
 											<td ng-class="terminalColors('action_', ${part.tableDefinition.tableEntityName?uncap_first})">
 												<#if (part.tableDefinition.actions?size > 3)>
 													<div class="dropdown">
-													  <button class="btn btn-default dropdown-toggle child-terminal-colors" type="button" id="dropdownMenu1" data-toggle="dropdown">
+													  <button class="btn btn-default dropdown-toggle child-terminal-colors" type="button" id="dropdownMenu1">
 													    Select
 													    <span class="caret"></span>
 													  </button>
@@ -191,7 +191,7 @@
 					<div class="input-group">
 					  <input type="text" class="form-control child-terminal-colors" id="${field.name}" ng-model="model.${field.name}">
 					  <div class="input-group-btn">
-						  <button id="dropdownMenu" class="btn dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</button>
+						  <button id="dropdownMenu" class="btn dropdown-toggle">&nbsp;<span class="caret"></span>&nbsp;</button>
 						  <ul class="dropdown-menu dropdown-menu-right child-terminal-colors" role="menu" aria-labelledby="dropdownMenu">
 						    <li class="animate-repeat" ng-repeat="${field.name} in ${field.name}s">
 						      <a class="child-terminal-colors" ng-click="${field.name?cap_first}Click(${field.name})" href="">{{${field.name}.description}}</a>
