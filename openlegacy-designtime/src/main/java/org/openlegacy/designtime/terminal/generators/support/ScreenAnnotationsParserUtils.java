@@ -402,4 +402,21 @@ public class ScreenAnnotationsParserUtils {
 		field.setDescriptionColumn(columnValue != null ? Integer.valueOf(columnValue) : null);
 		field.setDescriptionEndColumn(endColumnValue != null ? Integer.valueOf(endColumnValue) : null);
 	}
+	
+	public static void loadDynamicField(AnnotationExpr annotationExpr, Field field) {
+		String rowValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.ROW);
+		String endRowValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.END_ROW);
+		String columnValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.COLUMN);
+		String endColumnValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.END_COLUMN);
+		String text = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.TEXT);
+		String fieldOffset = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.FIELD_OFFSET);
+
+		field.setDynamicText(!StringUtil.isEmpty(text) ? text : "");
+		field.setDynamicRow(rowValue != null ? Integer.valueOf(rowValue) : null);
+		field.setDynamicColumn(columnValue != null ? Integer.valueOf(columnValue) : null);
+		field.setDynamicEndRow(endRowValue != null ? Integer.valueOf(endRowValue) : null);
+		field.setDynamicEndColumn(endColumnValue != null ? Integer.valueOf(endColumnValue) : null);
+		field.setDynamicFieldOffset(fieldOffset != null ? Integer.valueOf(fieldOffset) : null);
+		
+	}
 }

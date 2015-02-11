@@ -50,6 +50,8 @@ public class FieldsScreenBooleanFieldDetailsPage extends AbstractScreenFieldDeta
 		// create row for "treatEmptyIsNull"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
 				Messages.getString("ScreenBooleanField.treatEmptyAsNull"), false, AnnotationConstants.TREAT_EMPTY_AS_NULL, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenBooleanField");//$NON-NLS-1$
+		
+		addScreenDyamicFieldSection(toolkit, client);
 	}
 
 	@Override
@@ -59,6 +61,7 @@ public class FieldsScreenBooleanFieldDetailsPage extends AbstractScreenFieldDeta
 				(Boolean)map.get(Constants.BOOL_VALUE), (String)map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
 		ModelUpdater.updateScreenBooleanFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE),
 				(Boolean)map.get(Constants.BOOL_VALUE));
+		ModelUpdater.updateScreenDynamicFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE));
 	}
 
 	@Override
@@ -79,6 +82,7 @@ public class FieldsScreenBooleanFieldDetailsPage extends AbstractScreenFieldDeta
 		}
 		ControlsUpdater.updateScreenFieldDetailsControls(fieldModel, mapTexts, mapCombos, mapCheckBoxes, mapLabels);
 		ControlsUpdater.updateScreenBooleanFieldDetailsControls(fieldModel, mapTexts, mapCheckBoxes);
+		ControlsUpdater.updateScreenDynamicFieldDetailsControls(fieldModel.getDynamicFieldModel(), mapTexts);
 		revalidate();
 	}
 

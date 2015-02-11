@@ -15,10 +15,9 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.Date;
 
 /**
- * Defines that a Java {@link Date} field is an terminal screen dynamic field. This annotation applied to fields already
+ * Defines that a Java field is an terminal screen dynamic field. This annotation applied to fields already
  * marked with {@link ScreenField} annotation.
  * 
  * <br/>
@@ -26,7 +25,7 @@ import java.util.Date;
  * Example:<br/>
  * <br/>
  * 
- * <code>@ScreenDynamicField(text = "Item Number" , fieldOffset = 1, row = 5, endRow =9, column =1 , endColumn = 70)<br/>@ScreenField(row = 14, column = 34, endColumn = 42, labelColumn = 2, editable = true, displayName = "Amended date", sampleValue= "23") <br/>private Date amendedDate; </code>
+ * <code>@ScreenDynamicField(text = "Item Number" , fieldOffset = 1, row = 5, endRow =9, column =1 , endColumn = 70)<br/>@ScreenField(row = 14, column = 34, endColumn = 42, labelColumn = 2, editable = true, displayName = "Amended date", sampleValue= "23") <br/>;</code>
  * 
  * @author Gad Salner
  */

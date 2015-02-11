@@ -76,6 +76,9 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 		addScreenDecriptionFieldSection(toolkit, client);
 
 		createEnumValuesSection(toolkit, client);
+
+		addScreenDyamicFieldSection(toolkit, client);
+		
 	}
 
 	@Override
@@ -91,6 +94,7 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 		ControlsUpdater.updateScreenFieldDetailsControls(fieldModel, mapTexts, mapCombos, mapCheckBoxes, mapLabels);
 		ControlsUpdater.updateScreenEnumFieldDetailsControls(fieldModel, mapTexts, tableViewer);
 		ControlsUpdater.updateScreenDescriptionFieldDetailsControls(fieldModel.getDescriptionFieldModel(), mapTexts);
+		ControlsUpdater.updateScreenDynamicFieldDetailsControls(fieldModel.getDynamicFieldModel(), mapTexts);
 		revalidate();
 	}
 
@@ -116,6 +120,7 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 		ModelUpdater.updateScreenEnumFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE),
 				(String)map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
 		ModelUpdater.updateScreenDescriptionFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE));
+		ModelUpdater.updateScreenDynamicFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE));
 	}
 
 	@Override

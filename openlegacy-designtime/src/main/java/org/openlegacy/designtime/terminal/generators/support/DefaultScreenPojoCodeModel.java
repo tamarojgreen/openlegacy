@@ -265,6 +265,13 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private Integer descriptionRow;
 		private Integer descriptionColumn;
 		private Integer descriptionEndColumn;
+		private String dynamicText;
+		private Integer dynamicRow;
+		private Integer dynamicColumn;
+		private Integer dynamicEndRow;
+		private Integer dynamicEndColumn;
+		private Integer dynamicFieldOffset;
+		private boolean isDynamicField;
 		// @author Ivan Bort refs assembla #483
 		private int keyIndex;
 		private boolean internal;
@@ -647,6 +654,104 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			this.enableLookup = enableLookup;
 		}
 
+		/**
+		 * @return the dynamicText
+		 */
+		public String getDynamicText() {
+			return dynamicText;
+		}
+
+		/**
+		 * @param dynamicText the dynamicText to set
+		 */
+		public void setDynamicText(String dynamicText) {
+			this.dynamicText = dynamicText;
+		}
+
+		/**
+		 * @return the dynamicRow
+		 */
+		public Integer getDynamicRow() {
+			return dynamicRow;
+		}
+
+		/**
+		 * @param dynamicRow the dynamicRow to set
+		 */
+		public void setDynamicRow(Integer dynamicRow) {
+			this.dynamicRow = dynamicRow;
+		}
+
+		/**
+		 * @return the dynamicColumn
+		 */
+		public Integer getDynamicColumn() {
+			return dynamicColumn;
+		}
+
+		/**
+		 * @param dynamicColumn the dynamicColumn to set
+		 */
+		public void setDynamicColumn(Integer dynamicColumn) {
+			this.dynamicColumn = dynamicColumn;
+		}
+
+		/**
+		 * @return the dynamicEndRow
+		 */
+		public Integer getDynamicEndRow() {
+			return dynamicEndRow;
+		}
+
+		/**
+		 * @param dynamicEndRow the dynamicEndRow to set
+		 */
+		public void setDynamicEndRow(Integer dynamicEndRow) {
+			this.dynamicEndRow = dynamicEndRow;
+		}
+
+		/**
+		 * @return the dynamicEndColumn
+		 */
+		public Integer getDynamicEndColumn() {
+			return dynamicEndColumn;
+		}
+
+		/**
+		 * @param dynamicEndColumn the dynamicEndColumn to set
+		 */
+		public void setDynamicEndColumn(Integer dynamicEndColumn) {
+			this.dynamicEndColumn = dynamicEndColumn;
+		}
+
+		/**
+		 * @return the dynamicFieldOffset
+		 */
+		public Integer getDynamicFieldOffset() {
+			return dynamicFieldOffset;
+		}
+
+		/**
+		 * @param dynamicFieldOffset the dynamicFieldOffset to set
+		 */
+		public void setDynamicFieldOffset(Integer dynamicFieldOffset) {
+			this.dynamicFieldOffset = dynamicFieldOffset;
+		}
+
+		/**
+		 * @return the isDynamicField
+		 */
+		public boolean isDynamicField() {
+			return isDynamicField;
+		}
+
+		/**
+		 * @param isDynamicField the isDynamicField to set
+		 */
+		public void setIsDynamicField(boolean isDynamicField) {
+			this.isDynamicField = isDynamicField;
+		}
+
 	}
 
 	private String className;
@@ -811,6 +916,11 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 									ScreenAnnotationConstants.SCREEN_DESCRIPTION_FIELD_ANNOTATION)) {
 								field.setHasDescription(true);
 								ScreenAnnotationsParserUtils.loadDescriptionField(annotationExpr, field);
+							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
+									ScreenAnnotationConstants.SCREEN_DYNAMIC_FIELD_ANNOTATION)) {
+								field.setIsDynamicField(true);
+								ScreenAnnotationsParserUtils.loadDynamicField(annotationExpr, field);
 							}
 						}
 					}

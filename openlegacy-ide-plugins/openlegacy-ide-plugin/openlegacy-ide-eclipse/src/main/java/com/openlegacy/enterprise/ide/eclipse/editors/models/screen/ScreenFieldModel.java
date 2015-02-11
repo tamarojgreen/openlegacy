@@ -82,6 +82,7 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 	protected boolean initialized = false;
 	protected String javaTypeName = String.class.getSimpleName();
 	private ScreenDescriptionFieldModel descriptionFieldModel = new ScreenDescriptionFieldModel();
+	private ScreenDynamicFieldModel dynamicFieldModel = new ScreenDynamicFieldModel();
 
 	protected String previousFieldName = Messages.getString("Field.new");//$NON-NLS-1$
 
@@ -142,6 +143,7 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 		model.setWhen(this.when);
 		model.setUnless(this.unless);
 		model.setDescriptionFieldModel(this.descriptionFieldModel.clone());
+		model.setDynamicFieldModel(this.dynamicFieldModel.clone());
 		model.setKeyIndex(keyIndex);
 		model.setInternal(internal);
 		model.setGlobal(global);
@@ -170,6 +172,7 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 				&& this.rightToLeft == model.isRightToLeft() && this.attribute.equals(model.getAttribute())
 				&& this.when.equals(model.getWhen()) && this.unless.equals(model.getUnless())
 				&& this.descriptionFieldModel.equals(model.getDescriptionFieldModel()) && keyIndex == model.getKeyIndex()
+				&& this.dynamicFieldModel.equals(model.getDynamicFieldModel())
 				&& internal == model.isInternal() && global == model.isGlobal() && nullValue.equals(model.getNullValue())
 				&& tableKey == model.isTableKey() && forceUpdate == model.isForceUpdate()
 				&& StringUtils.equals(expression, model.getExpression()) && enableLookup == model.isEnableLookup();
@@ -309,6 +312,10 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 
 		this.descriptionFieldModel.setUUID(this.uuid);
 		this.descriptionFieldModel.init(screenFieldDefinition.getDescriptionFieldDefinition());
+	
+		this.dynamicFieldModel.setUUID(this.uuid);
+		this.dynamicFieldModel.init(screenFieldDefinition);
+	
 		initialized = true;
 	}
 
@@ -427,7 +434,15 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 	public void setDescriptionFieldModel(ScreenDescriptionFieldModel descriptionFieldModel) {
 		this.descriptionFieldModel = descriptionFieldModel;
 	}
-
+	
+	public ScreenDynamicFieldModel getDynamicFieldModel() {
+		return dynamicFieldModel;
+	}
+	
+	public void setDynamicFieldModel(ScreenDynamicFieldModel dynamicFieldModel) {
+		this.dynamicFieldModel = dynamicFieldModel;
+	}
+	
 	public int getKeyIndex() {
 		return keyIndex;
 	}
@@ -544,6 +559,10 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 		// : String.class.getSimpleName();
 		descriptionFieldModel = model.getFieldValue("descriptionFieldModel") != null ? ((ScreenDescriptionFieldModel)model.getFieldValue("descriptionFieldModel")).clone()
 				: new ScreenDescriptionFieldModel();
+
+		dynamicFieldModel = model.getFieldValue("dynamicFieldModel") != null ? ((ScreenDynamicFieldModel)model.getFieldValue("dynamicFieldModel")).clone()
+				: new ScreenDynamicFieldModel();
+		
 		previousFieldName = model.getFieldValue("previousFieldName") != null ? (String)model.getFieldValue("previousFieldName")
 				: Messages.getString("Field.new");
 		fieldsMap.putAll(model.fieldsMap);
@@ -585,6 +604,7 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 		// fieldsMap.put("initialized", initialized);
 		fieldsMap.put("javaTypeName", javaTypeName);
 		fieldsMap.put("descriptionFieldModel", descriptionFieldModel);
+		fieldsMap.put("dynamicFieldModel", dynamicFieldModel);
 		fieldsMap.put("previousFieldName", previousFieldName);
 	}
 

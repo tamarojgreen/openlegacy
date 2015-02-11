@@ -68,6 +68,7 @@ public class FieldsScreenFieldValuesDetailsPage extends AbstractScreenFieldDetai
 		ControlsUpdater.updateScreenFieldDetailsControls(fieldModel, mapTexts, mapCombos, mapCheckBoxes, mapLabels);
 		ControlsUpdater.updateScreenFieldValuesDetailsControls(fieldModel, mapTexts, mapCheckBoxes, mapCombos);
 		ControlsUpdater.updateScreenDescriptionFieldDetailsControls(fieldModel.getDescriptionFieldModel(), mapTexts);
+		ControlsUpdater.updateScreenDynamicFieldDetailsControls(fieldModel.getDynamicFieldModel(), mapTexts);
 		revalidate();
 	}
 
@@ -132,6 +133,7 @@ public class FieldsScreenFieldValuesDetailsPage extends AbstractScreenFieldDetai
 				Messages.getString("ScreenFieldValues.searchField"), "", ScreenAnnotationConstants.SEARCH_FIELD, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenFieldValues");//$NON-NLS-1$ //$NON-NLS-2$
 		// create description section
 		addScreenDecriptionFieldSection(toolkit, client);
+		addScreenDyamicFieldSection(toolkit, client);
 	}
 
 	@Override
@@ -142,6 +144,7 @@ public class FieldsScreenFieldValuesDetailsPage extends AbstractScreenFieldDetai
 		ModelUpdater.updateScreenFieldValuesModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE),
 				(Boolean)map.get(Constants.BOOL_VALUE), (String)map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
 		ModelUpdater.updateScreenDescriptionFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE));
+		ModelUpdater.updateScreenDynamicFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE));
 	}
 
 	@Override
