@@ -51,14 +51,17 @@ public class DefaultHtmlTableWriter implements TableWriter {
 			Element rowTag = createTag(tableTag, HtmlConstants.TR);
 			for (PropertyDescriptor propertyDescriptor : descriptors) {
 				if (TypesUtil.isPrimitive(propertyDescriptor.getPropertyType())) {
-					Element headerTag = createTag(rowTag, HtmlConstants.TH);
 					String displayName = "";
 					if (tableDefinition == null) {
 						displayName = StringUtil.toDisplayName(propertyDescriptor.getName());
 					} else {
-						displayName = tableDefinition.getColumnDefinition(propertyDescriptor.getName()).getDisplayName();
+						ColumnDefinition columnDefinition = tableDefinition.getColumnDefinition(propertyDescriptor.getName());
+						if (columnDefinition == null) {
+							continue;
+						}
+						displayName = columnDefinition.getDisplayName();
 					}
-
+					Element headerTag = createTag(rowTag, HtmlConstants.TH);
 					setCellValue(headerTag, displayName);
 				}
 
@@ -68,8 +71,16 @@ public class DefaultHtmlTableWriter implements TableWriter {
 				rowTag = createTag(tableTag, HtmlConstants.TR);
 				for (PropertyDescriptor propertyDescriptor : descriptors) {
 					if (TypesUtil.isPrimitive(propertyDescriptor.getPropertyType())) {
-						Element cellTag = createTag(rowTag, HtmlConstants.TD);
+						if (tableDefinition != null) {
+							ColumnDefinition columnDefinition = tableDefinition.getColumnDefinition(propertyDescriptor.getName());
+							if (columnDefinition == null) {
+								continue;
+							}
+						}
+
 						Object value = propertyDescriptor.getReadMethod().invoke(object);
+						Element cellTag = createTag(rowTag, HtmlConstants.TD);
+
 						if (value == null) {
 							value = "";
 						}
