@@ -109,8 +109,12 @@
 		<label for="${field.name}" class="control-label">${field.displayName}<#if field.displayName?length &gt; 0>:</#if>&nbsp;</label> 		
 		<#if field.editable>	
 			<#switch field.fieldTypeDefinition.typeName>
-			  <#case 'boolean'>
-			   <input type="checkbox" class="form-control" id="${field.name}" ng-checked="model.${field.shortName}">
+			  <#case 'boolean'>			   
+			   <div class="checkbox" id="${field.name}">
+					<label>
+  						<input ng-checked="model.${field.shortName}" type="checkbox">
+					</label>
+				</div>
 			  <#break>
 			  <#case 'date'>
 			   <input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}" datepicker/>
@@ -130,7 +134,11 @@
    			<#if field.fieldTypeDefinition??>
    				<#switch field.fieldTypeDefinition.typeName>
 					<#case 'boolean'>
-				 		<input type="checkbox" class="form-control" id="${field.name}" disabled="disabled" ng-checked="model.${field.shortName}">
+						<div class="checkbox" id="${field.name}">
+							<label>
+		  						<input disabled="disabled" ng-checked="model.${field.shortName}" type="checkbox">
+							</label>
+						</div>				 		
 					<#break>
 					<#default>
 				  		<div id="${field.name}" ng-model="model.${field.shortName}">{{model.${field.shortName}}}</div>
