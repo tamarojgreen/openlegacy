@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<db-types>
-
-	<ddl-auto>
-		<value>validate</value>
-		<value>update</value>
-		<value>create</value>
-		<value>create-drop</value>
-	</ddl-auto>
-	
+<db-types>	
 	<db-type>
 		<name>DB400</name>
 		<database-driver>com.ibm.as400.access.AS400JDBCDriver</database-driver>

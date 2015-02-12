@@ -41,12 +41,10 @@ import java.util.Map;
 public class OpenLegacyWizardDbPage extends AbstractOpenLegacyWizardPage {
 
 	private List<DbType> dbTypes = new ArrayList<DbType>();
-	private List<String> dbDdlAuto = new ArrayList<String>();
 	private Combo dbTypeCombo;
 	private Text dbUrl;
 	private Text dbUser;
 	private Text dbPass;
-	private Combo dbDdlAutoCombo;
 	private Map<String, String> dbTypesUrls = new HashMap<String, String>();
 
 	protected OpenLegacyWizardDbPage() {
@@ -95,22 +93,11 @@ public class OpenLegacyWizardDbPage extends AbstractOpenLegacyWizardPage {
 		// db password
 		label = new Label(container, SWT.NULL);
 		label.setText(Messages.getString("label_db_password"));//$NON-NLS-1$
-		dbPass = new Text(container, SWT.BORDER | SWT.SINGLE);
+		dbPass = new Text(container, SWT.BORDER | SWT.PASSWORD | SWT.SINGLE);
 		gd = new GridData();
 		gd.widthHint = 250;
 		dbPass.setLayoutData(gd);
 		dbPass.addModifyListener(getDefaultModifyListener());
-
-		// ddl auto
-		label = new Label(container, SWT.NONE);
-		label.setText(Messages.getString("label_db_ddl_auto"));
-		dbDdlAutoCombo = new Combo(container, SWT.SINGLE | SWT.READ_ONLY);
-		gd = new GridData();
-		gd.widthHint = 100;
-		dbDdlAutoCombo.setLayoutData(gd);
-		dbDdlAutoCombo.setItems(new String[] { "Pending..." });
-		dbDdlAutoCombo.select(0);
-		dbDdlAutoCombo.addSelectionListener(getDdlAutoSelectionListener());
 
 		setControl(container);
 		setPageComplete(false);
@@ -124,10 +111,7 @@ public class OpenLegacyWizardDbPage extends AbstractOpenLegacyWizardPage {
 		}
 		dbTypes.clear();
 		dbTypes.addAll(retriever.getDbTypes());
-		dbDdlAuto.clear();
-		dbDdlAuto.addAll(retriever.getDdlAuto());
 
-		final List<String> dbTypeNames = new ArrayList<String>();
 		if (!dbTypes.isEmpty()) {
 			for (DbType dbType : dbTypes) {
 				dbTypesUrls.put(dbType.getName(), dbType.getDatabaseUrl());
@@ -138,7 +122,6 @@ public class OpenLegacyWizardDbPage extends AbstractOpenLegacyWizardPage {
 
 			@Override
 			public void run() {
-				dbDdlAutoCombo.setItems(dbDdlAuto.toArray(new String[] {}));
 				dbTypeCombo.setItems(dbTypesUrls.keySet().toArray(new String[] {}));
 				dbTypeCombo.select(0);
 				dbTypeCombo.notifyListeners(SWT.Selection, new Event());
@@ -193,14 +176,6 @@ public class OpenLegacyWizardDbPage extends AbstractOpenLegacyWizardPage {
 				DbType dbType = getSelectedDbType();
 				if (dbType != null) {
 					dbUrl.setText(dbTypesUrls.get(dbType.getName()));
-					int idx = dbDdlAutoCombo.indexOf(dbType.getDdlAuto());
-					if (idx >= -1) {
-						dbDdlAutoCombo.select(idx);
-					} else {
-						dbDdlAutoCombo.select(0);
-					}
-					dbDdlAutoCombo.notifyListeners(SWT.Selection, new Event());
-
 				} else {
 					dbUrl.setText("");
 				}
@@ -209,16 +184,6 @@ public class OpenLegacyWizardDbPage extends AbstractOpenLegacyWizardPage {
 				validateControls();
 			}
 
-		};
-	}
-
-	private SelectionListener getDdlAutoSelectionListener() {
-		return new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				getWizardModel().setDbDdlAuto(dbDdlAutoCombo.getText());
-			}
 		};
 	}
 

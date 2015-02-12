@@ -201,6 +201,7 @@ public class WizardModel {
 			dbTypeName = dbType.getName();
 			dbDriver = dbType.getDatabaseDriver();
 			dbMavenDependency = dbType.getMavenDependency();
+			dbDdlAuto = dbType.getDdlAuto();
 		}
 	}
 

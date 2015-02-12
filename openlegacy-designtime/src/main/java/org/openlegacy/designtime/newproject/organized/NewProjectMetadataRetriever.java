@@ -119,13 +119,6 @@ public class NewProjectMetadataRetriever {
 		return projectTypeStore.getFrontendSolutions();
 	}
 
-	public List<String> getDdlAuto() {
-		if (dbTypesStore == null || dbTypesStore.getDdlAuto() == null) {
-			return new ArrayList<String>();
-		}
-		return dbTypesStore.getDdlAuto();
-	}
-
 	public boolean isRetrievedOnline() {
 		return isRetrievedOnline;
 	}
@@ -316,7 +309,6 @@ public class NewProjectMetadataRetriever {
 	private static class DbTypesStore {
 
 		private List<DbType> dbTypes;
-		private List<String> ddlAuto;
 
 		@XmlElements({ @XmlElement(name = "db-type", type = DbType.class) })
 		public List<DbType> getDbTypes() {
@@ -331,16 +323,5 @@ public class NewProjectMetadataRetriever {
 		public boolean isDataExist() {
 			return dbTypes != null;
 		}
-
-		public List<String> getDdlAuto() {
-			return ddlAuto;
-		}
-
-		@XmlElementWrapper(name = "ddl-auto")
-		@XmlElement(name = "value")
-		public void setDdlAuto(List<String> ddlAuto) {
-			this.ddlAuto = ddlAuto;
-		}
-
 	}
 }
