@@ -33,6 +33,8 @@ function loadData(data){
 				}
 				data.model.entity.actions = null;
 				dojo.byId('postData').innerHTML = JSON.stringify(data.model.entity);
+			} else {
+				dojo.byId('postData').innerHTML = "";
 			}
 		}
 		else{
@@ -88,7 +90,8 @@ function get(){
 
 function post(){
 	var requestType = "application/" + dojo.byId('postRequestType').value;
-	var data = dojo.byId("postData").value;
+	var jsonData = clearPostData(JSON.parse(dojo.byId("postData").value))
+	var data = JSON.stringify(jsonData);
 	var url = location.href;
 	if (url.indexOf("jsp") > 0){
 		url = url.substr(0,location.href.lastIndexOf("/")+1);
@@ -124,8 +127,35 @@ function changeAction(){
 function prev(){
 	dojo.byId("sessionImage").setAttribute("src","sessionViewer/image/-1?ts=" + (new Date())); 
 }
+
 function next(){
 	dojo.byId("sessionImage").setAttribute("src","sessionViewer/image/1?ts=" + (new Date())); 
+}
+
+function clearPostData(data){	
+	if (data == null) return;	
+	for (var key in data) {		
+		  if (data.hasOwnProperty(key)) {
+			  if (key.indexOf("Field") > 0 || key.indexOf("Actions") >= 0 || key.indexOf("actions") >= 0 || key.indexOf("Snapshot") >= 0){
+		    	data[key] = null;
+			  }
+		  }
+	}
+	for (var key in data) {
+		if (Array.isArray(data[key])){
+			for (var i=0;i<data[key].length;i++){
+				clearPostData(data[key][i]);
+			}
+		}
+		else{
+			if (typeof data[key] == 'object'){
+				if (data[key] != null){
+					clearPostData(data[key]);
+				}
+			}
+		}
+	}
+	return data;
 }
 </script>
 <script src="js/dojo.custom.build.js"
