@@ -17,7 +17,7 @@
 			<@pagePart entity=entityDefinition part=part/>
 		</#list>
 	</div>
-</div>									
+</div>
 
 <#macro pagePart entity part>
 <div class="panel panel-default">
@@ -84,9 +84,9 @@
                 <span class="glyphicon glyphicon-backward"></span>
                 Prev
             </button>
-        </div>                
+        </div>
 	<#else>
-		<form role="form" class="form-horizontal">			
+		<form role="form" class="form-horizontal">
 			<#list part.partRows as partRow>	
 				<#list partRow.fields as field>								
 					<#if field??>								
@@ -97,19 +97,19 @@
 		</form>
 	</#if>
 </div>
-</div>	
+</div>
 </#macro>
 
 <#macro fieldMacro field>
 	<div class="form-group">
-		<#assign controlLabelCss = "control-label">		
-		<#if field.fieldTypeDefinition?? && (field.fieldTypeDefinition.typeName == "String" || field.fieldTypeDefinition.typeName == "number") && !field.editable>		
+		<#assign controlLabelCss = "control-label">
+		<#if field.fieldTypeDefinition?? && (field.fieldTypeDefinition.typeName == "String" || field.fieldTypeDefinition.typeName == "number") && !field.editable>
 			<#assign controlLabelCss = "">
 		</#if>
-		<label for="${field.name}" class="${controlLabelCss} col-sm-2">${field.displayName}<#if field.displayName?length &gt; 0>:<#else>&nbsp;</#if></label> 		
+		<label for="${field.name}" class="${controlLabelCss} col-sm-2">${field.displayName}<#if field.displayName?length &gt; 0>:<#else>&nbsp;</#if></label>
 		<div class="col-sm-6">
-			<#if field.editable>	
-				<#if field.fieldTypeDefinition??>	
+			<#if field.editable>
+				<#if field.fieldTypeDefinition??>
 				<#switch field.fieldTypeDefinition.typeName>
 				  <#case 'boolean'>
 				   <input type="checkbox" class="form-control" id="${field.name}" ng-checked="model.${field.shortName}">
@@ -126,10 +126,10 @@
 					</select>											
 				  <#break>
 				  <#default>
-				  	<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}">    
+				  	<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}">
 				</#switch>
 				<#else>
-					<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}">	
+					<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}">
 				</#if>
 	   		<#else>
 	   			<#if field.fieldTypeDefinition??>

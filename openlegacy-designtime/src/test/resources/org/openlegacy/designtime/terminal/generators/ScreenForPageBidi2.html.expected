@@ -1,4 +1,3 @@
-
 	<h1>Screen For Page</h1>
 
 
@@ -22,17 +21,14 @@
 	  	<div id="screenforpagepart1" class="panel-collapse collapse in">
 			<div class="panel-body">
 	          				
-					<form role="form">			
-								<div class="row">
-									<div class="col-sm-6">
-	<div class="form-group" ng-class="terminalColors('orphanFld')">		
-		<label for="orphanFld" class="control-label">Orphan Fld:</label>
-				<span id="orphanFld" ng-model="model.orphanFld">{{model.orphanFld}}</span>
+					<form role="form" class="form-horizontal">			
+	<div class="form-group" ng-class="terminalColors('orphanFld')">
+		<label for="orphanFld" class="control-label col-sm-2">Orphan Fld:</label>
+		<div class="col-sm-6">
+					<span id="orphanFld" ng-model="model.orphanFld">{{model.orphanFld}}</span>
+   		</div>					
 	</div>
-									</div>
-	
-								</div>
-					</form>		
+					</form>
 			</div>
 		</div>
 	</div>		
@@ -45,35 +41,26 @@
 	  	<div id="screenforpagepart2" class="panel-collapse collapse in">
 			<div class="panel-body">
 	          				
-					<form role="form">			
-								<div class="row">
-									<div class="col-sm-6">
-	<div class="form-group" ng-class="terminalColors('fldCol12')">		
-		<label for="fldCol12" class="control-label">Fld Col12:</label>
-	   			<input data-ng-class="readOnlyCss(model,'fldCol12')" data-ng-readonly="isReadOnly(model,'fldCol12')" type="text" class="form-control child-terminal-colors" id="fldCol12" ng-model="model.fldCol12">	   			   			
+					<form role="form" class="form-horizontal">			
+	<div class="form-group" ng-class="terminalColors('fldCol12')">
+		<label for="fldCol12" class="control-label col-sm-2">Fld Col12:</label>
+		<div class="col-sm-6">
+		   			<input data-ng-class="readOnlyCss(model,'fldCol12')" data-ng-readonly="isReadOnly(model,'fldCol12')" type="text" class="form-control child-terminal-colors" id="fldCol12" ng-model="model.fldCol12">	   			   			
+   		</div>					
 	</div>
-									</div>
-	
-								</div>
-								<div class="row">
-									<div class="col-sm-6">
-	<div class="form-group" ng-class="terminalColors('fld2Col12')">		
-		<label for="fld2Col12" class="control-label">Fld2Col12:</label>
-	   			<input data-ng-class="readOnlyCss(model,'fld2Col12')" data-ng-readonly="isReadOnly(model,'fld2Col12')" type="text" class="form-control child-terminal-colors" id="fld2Col12" ng-model="model.fld2Col12">	   			   			
+	<div class="form-group" ng-class="terminalColors('fld2Col12')">
+		<label for="fld2Col12" class="control-label col-sm-2">Fld2Col12:</label>
+		<div class="col-sm-6">
+		   			<input data-ng-class="readOnlyCss(model,'fld2Col12')" data-ng-readonly="isReadOnly(model,'fld2Col12')" type="text" class="form-control child-terminal-colors" id="fld2Col12" ng-model="model.fld2Col12">	   			   			
+   		</div>					
 	</div>
-									</div>
-	
-								</div>
-								<div class="row">
-									<div class="col-sm-6">
-	<div class="form-group" ng-class="terminalColors('fld3Col12')">		
-		<label for="fld3Col12" class="control-label">Fld3Col12:</label>
-	   			<input data-ng-class="readOnlyCss(model,'fld3Col12')" data-ng-readonly="isReadOnly(model,'fld3Col12')" type="text" class="form-control child-terminal-colors" id="fld3Col12" ng-model="model.fld3Col12">	   			   			
+	<div class="form-group" ng-class="terminalColors('fld3Col12')">
+		<label for="fld3Col12" class="control-label col-sm-2">Fld3Col12:</label>
+		<div class="col-sm-6">
+		   			<input data-ng-class="readOnlyCss(model,'fld3Col12')" data-ng-readonly="isReadOnly(model,'fld3Col12')" type="text" class="form-control child-terminal-colors" id="fld3Col12" ng-model="model.fld3Col12">	   			   			
+   		</div>					
 	</div>
-									</div>
-	
-								</div>
-					</form>		
+					</form>
 			</div>
 		</div>
 	</div>		
@@ -86,23 +73,20 @@
 	  	<div id="screenforpagepart3" class="panel-collapse collapse in">
 			<div class="panel-body">
 	          				
-					<form role="form">			
-								<div class="row">
-									<div class="col-sm-3">
-	<div class="form-group" ng-class="terminalColors('fld2Row10')">		
-		<label for="fld2Row10" class="control-label">Fld2Row10:</label>
-				<span id="fld2Row10" ng-model="model.fld2Row10">{{model.fld2Row10}}</span>
+					<form role="form" class="form-horizontal">			
+	<div class="form-group" ng-class="terminalColors('fld2Row10')">
+		<label for="fld2Row10" class="control-label col-sm-2">Fld2Row10:</label>
+		<div class="col-sm-3">
+					<span id="fld2Row10" ng-model="model.fld2Row10">{{model.fld2Row10}}</span>
+   		</div>					
 	</div>
-									</div>
-									<div class="col-sm-3">
-	<div class="form-group" ng-class="terminalColors('fldRow10')">		
-		<label for="fldRow10" class="control-label">Fld Row10:</label>
-				<span id="fldRow10" ng-model="model.fldRow10">{{model.fldRow10}}</span>
+	<div class="form-group" ng-class="terminalColors('fldRow10')">
+		<label for="fldRow10" class="control-label col-sm-2">Fld Row10:</label>
+		<div class="col-sm-3">
+					<span id="fldRow10" ng-model="model.fldRow10">{{model.fldRow10}}</span>
+   		</div>					
 	</div>
-									</div>
-	
-								</div>
-					</form>		
+					</form>
 			</div>
 		</div>
 	</div>		
@@ -115,23 +99,20 @@
 	  	<div id="screenforpagepart4" class="panel-collapse collapse in">
 			<div class="panel-body">
 	          				
-					<form role="form">			
-								<div class="row">
-									<div class="col-sm-3">
-	<div class="form-group" ng-class="terminalColors('screenForPagePart.fld2Row20')">		
-		<label for="screenForPagePart.fld2Row20" class="control-label">Fld2Row20:</label>
-				<span id="screenForPagePart.fld2Row20" ng-model="model.screenForPagePart.fld2Row20">{{model.screenForPagePart.fld2Row20}}</span>
+					<form role="form" class="form-horizontal">			
+	<div class="form-group" ng-class="terminalColors('screenForPagePart.fld2Row20')">
+		<label for="screenForPagePart.fld2Row20" class="control-label col-sm-2">Fld2Row20:</label>
+		<div class="col-sm-3">
+					<span id="screenForPagePart.fld2Row20" ng-model="model.screenForPagePart.fld2Row20">{{model.screenForPagePart.fld2Row20}}</span>
+   		</div>					
 	</div>
-									</div>
-									<div class="col-sm-3">
-	<div class="form-group" ng-class="terminalColors('screenForPagePart.fldRow20')">		
-		<label for="screenForPagePart.fldRow20" class="control-label">Fld Row20:</label>
-				<span id="screenForPagePart.fldRow20" ng-model="model.screenForPagePart.fldRow20">{{model.screenForPagePart.fldRow20}}</span>
+	<div class="form-group" ng-class="terminalColors('screenForPagePart.fldRow20')">
+		<label for="screenForPagePart.fldRow20" class="control-label col-sm-2">Fld Row20:</label>
+		<div class="col-sm-3">
+					<span id="screenForPagePart.fldRow20" ng-model="model.screenForPagePart.fldRow20">{{model.screenForPagePart.fldRow20}}</span>
+   		</div>					
 	</div>
-									</div>
-	
-								</div>
-					</form>		
+					</form>
 			</div>
 		</div>
 	</div>		
