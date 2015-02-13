@@ -86,62 +86,66 @@
             </button>
         </div>                
 	<#else>
-		<form role="form">
-			<div class="row">
-				<div class="col-sm-6">
-					<#list part.partRows as partRow>					
-						<#list partRow.fields as field>																
-							<@fieldMacro field=field/>
-						</#list>				
-					</#list>
-				</div>				
-			</div>
-		</form>		
+		<form role="form" class="form-horizontal">			
+			<#list part.partRows as partRow>	
+				<#list partRow.fields as field>								
+					<#if field??>								
+						<@fieldMacro field=field/>										
+					</#if>
+				</#list>
+			</#list>
+		</form>
 	</#if>
 </div>
 </div>	
 </#macro>
 
 <#macro fieldMacro field>
-	<div class="form-group">		
-		<label for="${field.name}" class="control-label">${field.displayName}<#if field.displayName?length &gt; 0>:<#else>&nbsp;</#if></label>
-		<#if field.editable>	
-			<#if field.fieldTypeDefinition??>	
-			<#switch field.fieldTypeDefinition.typeName>
-			  <#case 'boolean'>
-			   <input type="checkbox" class="form-control" id="${field.name}" ng-checked="model.${field.shortName}">
-			  <#break>
-			  <#case 'date'>
-			   <input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}" datepicker/>
-			  <#break>
-			  <#case 'enum'>
-				<select class="form-control" id="${field.name}" ng-model="model.${field.name}">
-					<option value="">-- Select --</option>
-			        <#list field.fieldTypeDefinition.enums?keys as key>		
-						<option value="${key}">${field.fieldTypeDefinition.enums[key]}</option>
-					</#list>			
-				</select>											
-			  <#break>
-			  <#default>
-			  	<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}">    
-			</#switch>
-			<#else>
-				<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}">	
-			</#if>
-   		<#else>
-   			<#if field.fieldTypeDefinition??>
-   				<#switch field.fieldTypeDefinition.typeName>
-					<#case 'boolean'>
-				 		<input type="checkbox" class="form-control" id="${field.name}" disabled="disabled" ng-checked="model.${field.shortName}">
-					<#break>
-					<#default>
-				  		<span id="${field.name}" ng-model="model.${field.shortName}">{{model.${field.shortName}}}</span>
-				  	<#break>    
+	<div class="form-group">
+		<#assign controlLabelCss = "control-label">		
+		<#if field.fieldTypeDefinition?? && (field.fieldTypeDefinition.typeName == "String" || field.fieldTypeDefinition.typeName == "number") && !field.editable>		
+			<#assign controlLabelCss = "">
+		</#if>
+		<label for="${field.name}" class="${controlLabelCss} col-sm-2">${field.displayName}<#if field.displayName?length &gt; 0>:<#else>&nbsp;</#if></label> 		
+		<div class="col-sm-6">
+			<#if field.editable>	
+				<#if field.fieldTypeDefinition??>	
+				<#switch field.fieldTypeDefinition.typeName>
+				  <#case 'boolean'>
+				   <input type="checkbox" class="form-control" id="${field.name}" ng-checked="model.${field.shortName}">
+				  <#break>
+				  <#case 'date'>
+				   <input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}" datepicker/>
+				  <#break>
+				  <#case 'enum'>
+					<select class="form-control" id="${field.name}" ng-model="model.${field.name}">
+						<option value="">-- Select --</option>
+				        <#list field.fieldTypeDefinition.enums?keys as key>		
+							<option value="${key}">${field.fieldTypeDefinition.enums[key]}</option>
+						</#list>			
+					</select>											
+				  <#break>
+				  <#default>
+				  	<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}">    
 				</#switch>
-   			<#else>
-   				<span id="${field.name}" ng-model="model.${field.shortName}">{{model.${field.shortName}}}</span>
-   			</#if>  			
-   		</#if>		
+				<#else>
+					<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}">	
+				</#if>
+	   		<#else>
+	   			<#if field.fieldTypeDefinition??>
+	   				<#switch field.fieldTypeDefinition.typeName>
+						<#case 'boolean'>
+					 		<input type="checkbox" class="form-control" id="${field.name}" disabled="disabled" ng-checked="model.${field.shortName}">
+						<#break>
+						<#default>
+					  		<span id="${field.name}" ng-model="model.${field.shortName}">{{model.${field.shortName}}}</span>
+					  	<#break>    
+					</#switch>
+	   			<#else>
+	   				<span id="${field.name}" ng-model="model.${field.shortName}">{{model.${field.shortName}}}</span>
+	   			</#if>  			
+	   		</#if>
+   		</div>
 	</div>
 </#macro>
 
