@@ -4,32 +4,39 @@
 </#if>
 package ${packageName};
 
+import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
 <#assign parentPackageLength=packageName?last_index_of(".")>
 import ${packageName?substring(0,parentPackageLength)}.${entityDefinition.entityClassName};
-import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.actions.TerminalActions;
+import java.io.IOException;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.openlegacy.terminal.mvc.rest.AbstractScreensRestController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import javax.inject.Inject;
 
 
 @Controller
 @RequestMapping("/${entityDefinition.entityClassName}")
-public class ${entityDefinition.entityClassName}RestController {
+public class ${entityDefinition.entityClassName}RestController extends AbstractScreensRestController{
 
 	private static final String JSON = "application/json";
 	private static final String XML = "application/xml";
 	private static final String MODEL = "model";
 
-	@Inject
-	private TerminalSession terminalSession;
-
 <#if entityDefinition.actions?size != 0>
+	@RequestMapping(method = RequestMethod.GET, consumes = { JSON, XML })
+	public ModelAndView getEntity(boolean children, HttpServletResponse response) throws IOException {
+		try {
+			return getEntityRequest("${entityDefinition.entityClassName}", null, children, response);
+		} catch (RuntimeException e) {
+			return handleException(response, e);
+		}
+	}
 	<#list entityDefinition.actions as action>
 		<#if action.alias??>
 			<#assign actionName="${action.alias}">
@@ -37,18 +44,17 @@ public class ${entityDefinition.entityClassName}RestController {
 			<#assign actionName="${action.actionName}">
 		</#if>
 		<#assign entityParam = "${entityDefinition.entityClassName?uncap_first}">
-	@RequestMapping(value="/${actionName?lower_case}", method = RequestMethod.GET, consumes = { JSON, XML })
-	public ModelAndView get${actionName?lower_case?cap_first}(@RequestBody ${entityDefinition.entityClassName} ${entityParam}){
-		Object actionResult = terminalSession.doAction(TerminalActions.${action.actionName}(), (ScreenEntity)${entityParam});
-		return new ModelAndView(MODEL, MODEL, actionResult);
-	}
 
 	@RequestMapping(value="/${actionName?lower_case}", method = RequestMethod.POST, consumes = { JSON, XML })
-	public ModelAndView post${actionName?lower_case?cap_first}(@RequestBody ${entityDefinition.entityClassName} ${entityParam}){
-		Object actionResult = terminalSession.doAction(TerminalActions.${action.actionName}(), (ScreenEntity)${entityParam});
-		return new ModelAndView(MODEL, MODEL, actionResult);
+	public ModelAndView post${actionName?lower_case?cap_first}(@RequestBody String json, boolean children, HttpServletResponse response) throws IOException{
+		try {
+			return postEntityJson("${entityDefinition.entityName}", "${actionName}", children, json, response);
+		} catch (RuntimeException e) {
+			return handleException(response, e);
+		}
 	}
 		
 	</#list>
+
 </#if>
 }

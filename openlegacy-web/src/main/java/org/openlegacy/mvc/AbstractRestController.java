@@ -216,7 +216,7 @@ public abstract class AbstractRestController {
 		}
 	}
 
-	private static ModelAndView handleException(HttpServletResponse response, RuntimeException e) throws IOException {
+	protected ModelAndView handleException(HttpServletResponse response, RuntimeException e) throws IOException {
 		response.setStatus(500);
 		response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
 		logger.fatal(e.getMessage(), e);
