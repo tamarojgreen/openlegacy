@@ -22,10 +22,10 @@ public class ScreenExpressionScreen implements org.openlegacy.terminal.ScreenEnt
 	@ScreenField(row = 8, column = 17, expression = "totalA + totalB", displayName = "Combined total expression")
 	Integer combinedTotalAandB;
 
-	@ScreenField(row = 10, column = 10, endColumn = 19, expression = "#field.color == 'RED'", displayName = "Error occurred")
+	@ScreenField(row = 10, column = 10, endColumn = 19, expression = "#field.color.toString() == 'RED'", displayName = "Error occurred")
 	Boolean errorOccurred;
 
-	@ScreenField(row = 11, column = 10, endColumn = 19, expression = "#field.color == 'RED'", displayName = "Error occurred2")
+	@ScreenField(row = 11, column = 10, endColumn = 19, expression = "#field.color.toString() == 'RED'", displayName = "Error occurred2")
 	Boolean errorOccurred2;
 
 	@ScreenField(row = 11, column = 10, endColumn = 19, expression = "/Message: //", displayName = "Error message")
