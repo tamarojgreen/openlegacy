@@ -34,6 +34,7 @@ public class WizardModel {
 	private String dbUrl;
 	private String dbMavenDependency;
 	private String dbDdlAuto;
+	private String dbDialect;
 
 	private String backendSolution;
 	private String frontendSolution;
@@ -170,6 +171,14 @@ public class WizardModel {
 		this.dbDdlAuto = dbDdlAuto;
 	}
 
+	public String getDbDialect() {
+		return dbDialect;
+	}
+
+	public void setDbDialect(String dbDialect) {
+		this.dbDialect = dbDialect;
+	}
+
 	public void update(ProjectType projectType) {
 		if (projectType == null) {
 			clear();
@@ -202,6 +211,8 @@ public class WizardModel {
 			dbDriver = dbType.getDatabaseDriver();
 			dbMavenDependency = dbType.getMavenDependency();
 			dbDdlAuto = dbType.getDdlAuto();
+			dbDialect = dbType.getDialect();
+			
 		}
 	}
 
@@ -227,5 +238,6 @@ public class WizardModel {
 		dbUrl = null;
 		dbMavenDependency = null;
 		dbDdlAuto = null;
+		dbDialect = null;
 	}
 }

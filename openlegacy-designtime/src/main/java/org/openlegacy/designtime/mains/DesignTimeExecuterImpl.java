@@ -188,6 +188,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (projectCreationRequest.getBackendSolution().equals("JDBC")) {
 			addDbDriverDependency(targetPath, projectCreationRequest.getDbDriverMavenDependency());
 			setDbDdlAutoValue(projectCreationRequest.getDbDdlAuto(), targetPath);
+			setDbDialect(projectCreationRequest.getDbDialect(), targetPath);
 		} else {
 			renameProviderInPOM(projectCreationRequest.getProvider(), targetPath);
 			uncommentDependencies(targetPath);
@@ -1528,6 +1529,30 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		} else {
 			logger.warn(MessageFormat.format("{0} doesnt support controller generation", entityPageGenerator.getClass()));
 		}
+	}
+	
+
+
+	private void setDbDialect(String dbDialect, File targetPath) throws FileNotFoundException, IOException {
+		File persistenceFile = new File(targetPath, PERSISTENCE_XML_PATH);
+
+		if (!persistenceFile.exists()) {
+			logger.error(MessageFormat.format("Unable to find persistence.xml within {0}", targetPath));
+			return;
+		}
+
+		String persistenceFileContent = IOUtils.toString(new FileInputStream(persistenceFile));
+
+		if (dbDialect != null || dbDialect != "") {
+			persistenceFileContent = persistenceFileContent.replaceFirst(
+					"<property name=\"hibernate\\.dialect\" value=\".+\"/>",
+					MessageFormat.format("<property name=\"hibernate\\.dialect\" value=\"{0}\"/>", dbDialect));
+			try {
+				FileUtils.write(persistenceFileContent, persistenceFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}		
 	}
 
 }
