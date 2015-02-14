@@ -65,7 +65,7 @@ public class ListFieldsBinder implements ScreenEntityBinder {
 			Assert.notNull(fieldTypeDefinition, "A field of type List is defined without @ScreenListField annotation");
 			int fieldsInList = fieldTypeDefinition.getCount();
 			int[] gapBetweenFields = fieldTypeDefinition.getGaps();
-			TerminalPosition position = fieldDefinition.getPosition();
+			TerminalPosition position =  ScreenBinderLogic.retrievePosition(fieldDefinition, snapshot);
 
 			int skip = gapBetweenFields.length == 1 ? 0 : 1;
 			List<String> members = new ArrayList<String>();

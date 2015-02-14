@@ -38,7 +38,7 @@ import javax.inject.Inject;
 
 /**
  * Boolean binder implementation for binding boolean fields to a screenEntity based on {@link ScreenBooleanField) annotation
- * settings
+ * settingspo
  */
 public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 
@@ -71,7 +71,7 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 			}
 			BooleanFieldTypeDefinition fieldTypeDefinition = (BooleanFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
 			Assert.notNull(fieldTypeDefinition, "A field of type Boolean is defined without @ScreenBooleanField annotation");
-			TerminalPosition position = fieldDefinition.getPosition();
+			TerminalPosition position = ScreenBinderLogic.retrievePosition(fieldDefinition, terminalSnapshot);
 
 			TerminalField booleanField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(position.getRow(),
 					position.getColumn()));

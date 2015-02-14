@@ -81,7 +81,7 @@ public class DateFieldsBinder implements ScreenEntityBinder, Serializable {
 			if (fieldTypeDefinition.getPattern() != null) {
 				continue;
 			}
-			int row = fieldDefinition.getPosition().getRow();
+			int row =  ScreenBinderLogic.retrievePosition(fieldDefinition, terminalSnapshot).getRow();
 
 			if (fieldTypeDefinition.getDayColumn() == null && fieldTypeDefinition.getMonthColumn() == null
 					&& fieldTypeDefinition.getYearColumn() == null) {

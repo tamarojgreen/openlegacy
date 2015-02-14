@@ -77,7 +77,7 @@ public class DateFieldsPatternBinder implements ScreenEntityBinder, Serializable
 				continue;
 			}
 
-			TerminalField dateField = terminalSnapshot.getField(fieldDefinition.getPosition());
+			TerminalField dateField = terminalSnapshot.getField(ScreenBinderLogic.retrievePosition(fieldDefinition, terminalSnapshot));
 			SimpleDateFormat dateFormater = new SimpleDateFormat(pattern, new Locale(fieldTypeDefinition.getLocale()));
 
 			try {

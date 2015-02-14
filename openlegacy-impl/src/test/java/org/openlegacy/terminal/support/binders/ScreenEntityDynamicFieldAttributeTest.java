@@ -25,7 +25,7 @@ public class ScreenEntityDynamicFieldAttributeTest extends AbstractTest {
 	@Test
 	public void testEditableAttribute() {
 		ScreenEntityDefinition screen = screenEntitiesRegistry.get(ScreenDynamicFieldAttributeEntity.class);
-		ScreenFieldDefinition field = screen.getFieldsDefinitions().get("inEditModeFalse");
+		ScreenFieldDefinition field = screen.getFieldsDefinitions().get("inEditModeDynamic");
 		String text = field.getDynamicFieldDefinition().getText();
 		Assert.assertEquals("Test Content", text);
 	}
