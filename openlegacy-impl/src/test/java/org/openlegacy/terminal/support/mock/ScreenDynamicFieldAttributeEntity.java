@@ -17,7 +17,6 @@ import java.util.List;
 public class ScreenDynamicFieldAttributeEntity implements org.openlegacy.terminal.ScreenEntity {
 
 	@ScreenField(row = 8, column = 10, attribute = FieldAttributeType.Editable)
-	@ScreenDynamicField(text = "Test Content", fieldOffset = 1)
 	private Boolean inEditModeFalse;
 
 	public Boolean getInEditModeFalse() {
@@ -49,7 +48,25 @@ public class ScreenDynamicFieldAttributeEntity implements org.openlegacy.termina
 	public void setRedField(Color redField) {
 		this.redField = redField;
 	}
+	
+	@ScreenField(row = 1, column = 1, attribute = FieldAttributeType.Editable)
+	@ScreenDynamicField(text = "Test Content", fieldOffset = 1)
+	private Boolean inEditModeDynamic;
 
+	/**
+	 * @return the inEditModeDynamic
+	 */
+	public Boolean getInEditModeDynamic() {
+		return inEditModeDynamic;
+	}
+
+	/**
+	 * @param inEditModeDynamic the inEditModeDynamic to set
+	 */
+	public void setInEditModeDynamic(Boolean inEditModeDynamic) {
+		this.inEditModeDynamic = inEditModeDynamic;
+	}
+	
 	@Override
 	public String getFocusField() {
 		return null;
@@ -65,4 +82,5 @@ public class ScreenDynamicFieldAttributeEntity implements org.openlegacy.termina
 	public List<TerminalActionDefinition> getActions() {
 		return Collections.EMPTY_LIST;
 	}
+
 }

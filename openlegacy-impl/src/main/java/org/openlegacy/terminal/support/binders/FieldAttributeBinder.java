@@ -43,7 +43,7 @@ public class FieldAttributeBinder implements ScreenEntityBinder {
 				continue;
 			}
 
-			TerminalPosition position = fieldDefinition.getPosition();
+			TerminalPosition position = ScreenBinderLogic.retrievePosition(fieldDefinition, snapshot);
 			TerminalField terminalField = snapshot.getField(position);
 			if (terminalField == null) {
 				continue;

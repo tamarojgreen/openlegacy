@@ -112,7 +112,7 @@ public class ScreenBinderLogic implements Serializable {
 		}
 	}
 
-	private TerminalPosition retrievePosition(ScreenFieldDefinition fieldMappingDefinition, TerminalSnapshot terminalSnapshot) {
+	public static TerminalPosition retrievePosition(ScreenFieldDefinition fieldMappingDefinition, TerminalSnapshot terminalSnapshot) {
 		DynamicFieldDefinition dynamicField = fieldMappingDefinition.getDynamicFieldDefinition();
 		if (dynamicField != null) {
 			return getDynamicPosition(dynamicField, terminalSnapshot);
@@ -420,7 +420,7 @@ public class ScreenBinderLogic implements Serializable {
 
 	}
 
-	public TerminalPosition getDynamicPosition(DynamicFieldDefinition dynamicField, TerminalSnapshot terminalSnapshot) {
+	public static TerminalPosition getDynamicPosition(DynamicFieldDefinition dynamicField, TerminalSnapshot terminalSnapshot) {
 		boolean isEntireScreen = isDynamicFieldCoversEntireScreen(dynamicField);
 
 		int rowStart = isEntireScreen ? 0 : dynamicField.getRow();
@@ -466,7 +466,7 @@ public class ScreenBinderLogic implements Serializable {
 		return null;
 	}
 
-	private boolean isDynamicFieldCoversEntireScreen(DynamicFieldDefinition dynamicField) {
+	private static boolean isDynamicFieldCoversEntireScreen(DynamicFieldDefinition dynamicField) {
 		return (dynamicField.getRow() == 0 && dynamicField.getColumn() == 0 && dynamicField.getEndRow() == 0 && dynamicField.getEndColumn() == 0);
 	}
 

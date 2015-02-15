@@ -42,6 +42,7 @@ public class ProjectCreationRequest {
 	private String dbPass;
 	private String dbDriverMavenDependency;
 	private String dbDdlAuto;
+	private String dbDialect;
 
 	public String getTemplateName() {
 		return templateName;
@@ -205,6 +206,14 @@ public class ProjectCreationRequest {
 
 	public void setDbDdlAuto(String dbDdlAuto) {
 		this.dbDdlAuto = dbDdlAuto;
+	}
+
+	public String getDbDialect() {
+		return dbDialect;
+	}
+
+	public void setDbDialect(String dbDialect) {
+		this.dbDialect = dbDialect;
 	}
 
 }

@@ -26,6 +26,7 @@ public class DbType {
 	private String databaseUrl;
 	private String mavenDependency;
 	private String ddlAuto;
+	private String dialect;
 
 	public DbType() {}
 
@@ -71,5 +72,14 @@ public class DbType {
 	@XmlElement(name = "ddl-auto")
 	public void setDdlAuto(String ddlAuto) {
 		this.ddlAuto = ddlAuto;
+	}
+
+	public String getDialect() {
+		return dialect;
+	}
+
+	@XmlElement(name = "dialect")
+	public void setDialect(String dialect) {
+		this.dialect = dialect;
 	}
 }

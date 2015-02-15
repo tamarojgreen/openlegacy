@@ -159,21 +159,16 @@
 			            </button>
 			        </div>                
 				<#else>
-					<form role="form">			
-						<#list part.partRows as partRow>
-								<div class="row">
-								<#assign colWidth = (6/partRow.fields?size)?ceiling>
-								<#list partRow.fields as field>
-									<div class="col-sm-${colWidth}">
-										<#if field??>
-										<@fieldMacro field=field/>
-										</#if>
-									</div>
-								</#list>
-	
-								</div>
+					<form role="form" class="form-horizontal">			
+						<#list part.partRows as partRow>												
+							<#assign colWidth = (6/partRow.fields?size)?ceiling>								
+							<#list partRow.fields as field>								
+								<#if field??>								
+									<@fieldMacro field=field/>										
+								</#if>
+							</#list>
 						</#list>
-					</form>		
+					</form>
 				</#if>
 			</div>
 		</div>
@@ -181,63 +176,69 @@
 </#macro>
 
 <#macro fieldMacro field>
-	<div class="form-group" ng-class="terminalColors('${field.name}')">		
-		<label for="${field.name}" class="control-label">${field.displayName}<#if field.displayName?length &gt; 0>:<#else>&nbsp;</#if></label>
-		<#if field.editable>
-			<#if field.fieldTypeDefinition??>
-				<#if field.fieldTypeDefinition.typeName == 'date'>
-					<input type="text" id="${field.name}"  class="form-control child-terminal-colors" placeholder="mm/dd/yyyy" ng-model="model.${field.name}" bdatepicker />
-				<#elseif field.fieldTypeDefinition.typeName == 'fieldWithValues'>				
-					<div class="input-group">
-					  <input type="text" class="form-control child-terminal-colors" id="${field.name}" ng-model="model.${field.name}">
-					  <div class="input-group-btn">
-						  <button id="dropdownMenu" class="btn dropdown-toggle">&nbsp;<span class="caret"></span>&nbsp;</button>
-						  <ul class="dropdown-menu dropdown-menu-right child-terminal-colors" role="menu" aria-labelledby="dropdownMenu">
-						    <li class="animate-repeat" ng-repeat="${field.name} in ${field.name}s">
-						      <a class="child-terminal-colors" ng-click="${field.name?cap_first}Click(${field.name})" href="">{{${field.name}.description}}</a>
-						    </li>
-						  </ul>
-					  </div>
-					</div>														
-				<#elseif field.fieldTypeDefinition.typeName == 'boolean'>
+	<div class="form-group" ng-class="terminalColors('${field.name}')">
+		<#assign controlLabelCss = "control-label">		
+		<#if field.fieldTypeDefinition?? && (field.fieldTypeDefinition.typeName == "String" || field.fieldTypeDefinition.typeName == "number") && !field.editable>		
+			<#assign controlLabelCss = "">
+		</#if>		
+		<label for="${field.name}" class="${controlLabelCss} col-sm-2">${field.displayName}<#if field.displayName?length &gt; 0>:<#else>&nbsp;</#if></label>
+		<div class="col-sm-${colWidth}">
+			<#if field.editable>
+				<#if field.fieldTypeDefinition??>
+					<#if field.fieldTypeDefinition.typeName == 'date'>
+						<input type="text" id="${field.name}"  class="form-control child-terminal-colors" placeholder="mm/dd/yyyy" ng-model="model.${field.name}" bdatepicker />
+					<#elseif field.fieldTypeDefinition.typeName == 'fieldWithValues'>				
+						<div class="input-group">
+						  <input type="text" class="form-control child-terminal-colors" id="${field.name}" ng-model="model.${field.name}">
+						  <div class="input-group-btn">
+							  <button id="dropdownMenu" class="btn dropdown-toggle">&nbsp;<span class="caret"></span>&nbsp;</button>
+							  <ul class="dropdown-menu dropdown-menu-right child-terminal-colors" role="menu" aria-labelledby="dropdownMenu">
+							    <li class="animate-repeat" ng-repeat="${field.name} in ${field.name}s">
+							      <a class="child-terminal-colors" ng-click="${field.name?cap_first}Click(${field.name})" href="">{{${field.name}.description}}</a>
+							    </li>
+							  </ul>
+						  </div>
+						</div>														
+					<#elseif field.fieldTypeDefinition.typeName == 'boolean'>
+						<div class="checkbox" id="${field.name}">
+							<label>
+	      						<input ng-checked="model.${field.name}" type="checkbox">
+	    					</label>
+	  					</div>											
+					<#elseif field.fieldTypeDefinition.typeName == 'enum'>
+						<select  class="form-control child-terminal-colors" id="${field.name}" ng-model="model.${field.name}" ng-options="">
+							<option value="">-- Select --</option>
+					        <#list field.fieldTypeDefinition.enums?keys as key>		
+								<option value="${key}">${field.fieldTypeDefinition.enums[key]}</option>
+							</#list>			
+						</select>											
+					<#else>
+						<input data-ng-class="readOnlyCss(model,'${field.name}')" data-ng-readonly="isReadOnly(model,'${field.name}')" type="text" class="form-control child-terminal-colors" id="${field.name}" ng-model="model.${field.name}">
+					</#if>
+		   		<#else>
+		   			<input data-ng-class="readOnlyCss(model,'${field.name}')" data-ng-readonly="isReadOnly(model,'${field.name}')" type="text" class="form-control child-terminal-colors" id="${field.name}" ng-model="model.${field.name}">	   			   			
+		   		</#if>
+		   	<#else>
+				<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'date'>
+					<input type="text" id="${field.name}" class="form-control child-terminal-colors" placeholder="mm/dd/yyyy" ng-model="model.${field.name}" bdatepicker disabled="true"/>
+				<#elseif field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'boolean'>
 					<div class="checkbox" id="${field.name}">
 						<label>
-      						<input ng-checked="model.${field.name}" type="checkbox">
-    					</label>
-  					</div>											
-				<#elseif field.fieldTypeDefinition.typeName == 'enum'>
-					<select  class="form-control child-terminal-colors" id="${field.name}" ng-model="model.${field.name}" ng-options="">
-						<option value="">-- Select --</option>
-				        <#list field.fieldTypeDefinition.enums?keys as key>		
-							<option value="${key}">${field.fieldTypeDefinition.enums[key]}</option>
-						</#list>			
-					</select>											
+	  						<input disabled="disabled" ng-checked="model.${field.name}" type="checkbox">
+						</label>
+					</div>
 				<#else>
-					<input data-ng-class="readOnlyCss(model,'${field.name}')" data-ng-readonly="isReadOnly(model,'${field.name}')" type="text" class="form-control child-terminal-colors" id="${field.name}" ng-model="model.${field.name}">
-				</#if>
-	   		<#else>
-	   			<input data-ng-class="readOnlyCss(model,'${field.name}')" data-ng-readonly="isReadOnly(model,'${field.name}')" type="text" class="form-control child-terminal-colors" id="${field.name}" ng-model="model.${field.name}">	   			   			
+					<span id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</span>
+					<#if field.descriptionFieldDefinition??>
+	   				-
+	   				<span id="${field.name}Description" ng-model="model.${field.name}Description" class="readonly">{{model.${field.name}Description}}</span>
+	   				</#if>
+				</#if>		   	
 	   		</#if>
-	   	<#else>
-			<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'date'>
-				<input type="text" id="${field.name}" class="form-control child-terminal-colors" placeholder="mm/dd/yyyy" ng-model="model.${field.name}" bdatepicker disabled="true"/>
-			<#elseif field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'boolean'>
-				<div class="checkbox" id="${field.name}">
-					<label>
-  						<input disabled="disabled" ng-checked="model.${field.name}" type="checkbox">
-					</label>
-				</div>
-			<#else>
-				<span id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</span>
-				<#if field.descriptionFieldDefinition??>
-   				-
-   				<span id="${field.name}Description" ng-model="model.${field.name}Description" class="readonly">{{model.${field.name}Description}}</span>
-   				</#if>
-			</#if>		   	
-   		</#if>
-   		<#if field.enableLookup>
-   			<img class="search" ng-click="doAction('${entityDefinition.entityName}', 'lookup-${field.name}')" src="icons/search.png">
-   		</#if>					
+	   		<#if field.enableLookup>
+	   			<img class="search" ng-click="doAction('${entityDefinition.entityName}', 'lookup-${field.name}')" src="icons/search.png">
+	   		</#if>
+   		</div>					
 	</div>
 </#macro>
 
