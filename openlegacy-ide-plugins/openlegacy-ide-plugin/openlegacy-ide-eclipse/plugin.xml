@@ -478,6 +478,37 @@
 		</objectContribution>
 	</extension>
 	
+	<!-- Run application/emulation -->
+	<extension point="org.eclipse.ui.popupMenus">
+		<objectContribution
+			id="com.openlegacy.enterprise.ide.eclipse.run_application_emulation"
+			objectClass="org.eclipse.core.resources.IProject">
+			<menu
+				label="%openlegacy"
+				path="additions"
+				id="org.openlegacy.ide.eclipse.right_menu">
+				<separator
+					name="run">
+				</separator>
+			</menu>
+			<action
+				label="%run_application"
+				class="org.openlegacy.ide.eclipse.actions.RunApplicationAction"
+				menubarPath="org.openlegacy.ide.eclipse.right_menu/run"
+				enablesFor="1"
+				id="org.openlegacy.ide.eclipse.actions.run_application">
+			</action>
+
+			<action
+				label="%run_emulation"
+				class="org.openlegacy.ide.eclipse.actions.RunEmulationAction"
+				enablesFor="1"
+				id="org.openlegacy.ide.eclipse.actions.run_emulation"				
+				menubarPath="org.openlegacy.ide.eclipse.right_menu/run">
+			</action>
+		</objectContribution>
+	</extension>
+	
 	<!-- Screen Map View -->
 	<extension
 		point="org.eclipse.ui.views">
