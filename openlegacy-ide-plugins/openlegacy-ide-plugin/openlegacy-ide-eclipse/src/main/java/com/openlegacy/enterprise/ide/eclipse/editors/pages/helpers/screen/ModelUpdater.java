@@ -306,6 +306,25 @@ public class ModelUpdater {
 		}
 		ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, model);
 	}
+	
+	public static void updateScreenDynamicFieldModel(ScreenEntity entity, ScreenFieldModel model, String key, String text) {
+		if (text != null) {
+			if (key.equals(Constants.DYNAMIC_TEXT)) {
+				model.getDynamicFieldModel().setText(text);
+			} else if (key.equals(Constants.DYNAMIC_ROW)) {
+				model.getDynamicFieldModel().setRow(text.isEmpty() ? 0 : Integer.valueOf(text));
+			} else if (key.equals(Constants.DYNAMIC_COLUMN)) {
+				model.getDynamicFieldModel().setColumn(text.isEmpty() ? 0 : Integer.valueOf(text));
+			} else if (key.equals(Constants.DYNAMIC_END_ROW)) {
+				model.getDynamicFieldModel().setEndRow(text.isEmpty() ? 0 : Integer.valueOf(text));
+			} else if (key.equals(Constants.DYNAMIC_END_COLUMN)) {
+				model.getDynamicFieldModel().setEndColumn(text.isEmpty() ? 0 : Integer.valueOf(text));
+			} else if (key.equals(Constants.DYNAMIC_OFFSET)) {
+				model.getDynamicFieldModel().setFieldOffset(text.isEmpty() ? 0 : Integer.valueOf(text));
+			}
+		}
+		ScreenEntityUtils.ActionGenerator.generateScreenDynamicFieldActions(entity, model);
+	}
 
 	@SuppressWarnings("unchecked")
 	public static void updateScreenFieldValuesModel(ScreenEntity entity, ScreenFieldValuesModel model, String key, String text,

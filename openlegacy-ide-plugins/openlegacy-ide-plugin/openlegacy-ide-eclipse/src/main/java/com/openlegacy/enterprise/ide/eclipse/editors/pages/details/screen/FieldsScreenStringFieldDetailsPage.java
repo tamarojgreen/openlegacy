@@ -30,6 +30,7 @@ public class FieldsScreenStringFieldDetailsPage extends AbstractScreenFieldDetai
 	@Override
 	protected void addContent(FormToolkit toolkit, Composite client) {
 		addScreenDecriptionFieldSection(toolkit, client);
+		addScreenDyamicFieldSection(toolkit, client);
 	}
 
 	@Override
@@ -57,6 +58,7 @@ public class FieldsScreenStringFieldDetailsPage extends AbstractScreenFieldDetai
 		ModelUpdater.updateScreenFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE),
 				(Boolean)map.get(Constants.BOOL_VALUE), (String)map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
 		ModelUpdater.updateScreenDescriptionFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE));
+		ModelUpdater.updateScreenDynamicFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE));
 	}
 
 	@Override
@@ -77,6 +79,7 @@ public class FieldsScreenStringFieldDetailsPage extends AbstractScreenFieldDetai
 		}
 		ControlsUpdater.updateScreenFieldDetailsControls(fieldModel, mapTexts, mapCombos, mapCheckBoxes, mapLabels);
 		ControlsUpdater.updateScreenDescriptionFieldDetailsControls(fieldModel.getDescriptionFieldModel(), mapTexts);
+		ControlsUpdater.updateScreenDynamicFieldDetailsControls(fieldModel.getDynamicFieldModel(), mapTexts);
 		revalidate();
 	}
 

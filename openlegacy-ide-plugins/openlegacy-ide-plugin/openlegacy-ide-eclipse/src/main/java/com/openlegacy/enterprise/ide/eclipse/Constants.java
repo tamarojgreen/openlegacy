@@ -29,6 +29,14 @@ public class Constants {
 	public static final String DESC_COLUMN = "column.desc";
 	public static final String DESC_END_COLUMN = "endColumn.desc";
 
+	// @ScreenDynamicField
+	public static final String DYNAMIC_TEXT = "text";
+	public static final String DYNAMIC_ROW = "row.dynamic";
+	public static final String DYNAMIC_COLUMN = "column.dynamic";
+	public static final String DYNAMIC_END_ROW = "endRow.dynamic";
+	public static final String DYNAMIC_END_COLUMN = "endColumn.dynamic";
+	public static final String DYNAMIC_OFFSET = "fieldOffset";
+	
 	// .template
 	public static final String TEMPLATE_FILE = ".template";
 	// Preference constants

@@ -1,41 +1,10 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.utils.screen;
 
-import com.openlegacy.enterprise.ide.eclipse.Constants;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ChildEntityAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.PartPositionAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenActionsAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenBooleanFieldAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenColumnAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenDateFieldAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenDescriptionFieldAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenEntityAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenEnumFieldAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenFieldAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenFieldValuesAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenIdentifiersAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenIntegerFieldAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenNavigationAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenPartAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenTableAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenTableActionsAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.SortTableActionsAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.TableActionAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ActionModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ChildEntityModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.IdentifierModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.PartPositionModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenColumnModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEntityModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEnumFieldModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenPartModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenTableModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.TableActionModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.utils.ASTUtils;
-import com.openlegacy.enterprise.ide.eclipse.editors.utils.AbstractEntityBuilder;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jdt.core.dom.AST;
@@ -70,6 +39,7 @@ import org.openlegacy.annotations.screen.ScreenBooleanField;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenDateField;
 import org.openlegacy.annotations.screen.ScreenDescriptionField;
+import org.openlegacy.annotations.screen.ScreenDynamicField;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenFieldValues;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
@@ -86,11 +56,43 @@ import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.utils.StringUtil;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ChildEntityAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.PartPositionAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenActionsAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenBooleanFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenColumnAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenDateFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenDescriptionFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenDynamicFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenEntityAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenEnumFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenFieldValuesAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenIdentifiersAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenIntegerFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenNavigationAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenPartAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenTableAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenTableActionsAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.SortTableActionsAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.TableActionAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ActionModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ChildEntityModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.IdentifierModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.PartPositionModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenColumnModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEntityModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEnumFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenPartModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenTableModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.TableActionModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.utils.ASTUtils;
+import com.openlegacy.enterprise.ide.eclipse.editors.utils.AbstractEntityBuilder;
 
 /**
  * @author Ivan Bort
@@ -1973,4 +1975,67 @@ public class ScreenEntityBuilder extends AbstractEntityBuilder {
 			}
 		}
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public void addRemoveScreenDynamicFieldAnnotation(AST ast, CompilationUnit cu, ASTRewrite rewriter,
+			FieldDeclaration field, List<ScreenDynamicFieldAction> actionList) {
+
+		if (actionList.isEmpty()) {
+			return;
+		}
+		// get field name
+		String fieldName = "";
+		List<VariableDeclarationFragment> fragments = field.fragments();
+		if (fragments.size() > 0) {
+			fieldName = fragments.get(0).getName().getFullyQualifiedName();
+		}
+
+		ListRewrite fieldListRewrite = rewriter.getListRewrite(field, FieldDeclaration.MODIFIERS2_PROPERTY);
+		List<ASTNode> fieldNodeList = fieldListRewrite.getRewrittenList();
+		for (ScreenDynamicFieldAction action : actionList) {
+			ScreenFieldModel fieldModel = (ScreenFieldModel)action.getNamedObject();
+			if (!fieldName.equals(fieldModel.getFieldName())) {
+				continue;
+			}
+
+			if (action.getActionType().equals(ActionType.REMOVE)
+					&& (action.getTarget() == (ASTNode.NORMAL_ANNOTATION | ASTNode.MEMBER_VALUE_PAIR))
+					&& (action.getKey().equals(Constants.DYNAMIC_TEXT))
+					&& (StringUtil.isEmpty(fieldModel.getDynamicFieldModel().getText()))) {
+				for (ASTNode astNode : fieldNodeList) {
+					if (astNode.getNodeType() == ASTNode.NORMAL_ANNOTATION) {
+						NormalAnnotation fieldAnnotation = (NormalAnnotation)astNode;
+						String fullyQualifiedName = fieldAnnotation.getTypeName().getFullyQualifiedName();
+						if (fullyQualifiedName.equals(ScreenDynamicField.class.getSimpleName())) {
+							fieldListRewrite.remove(astNode, null);
+							break;
+						}
+					}
+				}
+			} else if (action.getActionType().equals(ActionType.MODIFY)
+					&& (action.getTarget() == (ASTNode.NORMAL_ANNOTATION | ASTNode.MEMBER_VALUE_PAIR))
+					&& (action.getKey().equals(Constants.DYNAMIC_TEXT))
+					&& (!StringUtil.isEmpty(fieldModel.getDynamicFieldModel().getText()))) {
+				boolean annotationExist = false;
+				for (ASTNode astNode : fieldNodeList) {
+					if (astNode.getNodeType() == ASTNode.NORMAL_ANNOTATION) {
+						NormalAnnotation fieldAnnotation = (NormalAnnotation)astNode;
+						String fullyQualifiedName = fieldAnnotation.getTypeName().getFullyQualifiedName();
+						if (fullyQualifiedName.equals(ScreenDynamicField.class.getSimpleName())) {
+							annotationExist = true;
+							break;
+						}
+					}
+				}
+				if (!annotationExist) {
+					NormalAnnotation annotation = ast.newNormalAnnotation();
+					annotation.setTypeName(ast.newSimpleName(action.getAnnotationClass().getSimpleName()));
+					fieldListRewrite.insertFirst(annotation, null);
+					ASTUtils.addImport(ast, cu, rewriter, action.getAnnotationClass());
+				}
+			}
+		}
+	}
+	
 }

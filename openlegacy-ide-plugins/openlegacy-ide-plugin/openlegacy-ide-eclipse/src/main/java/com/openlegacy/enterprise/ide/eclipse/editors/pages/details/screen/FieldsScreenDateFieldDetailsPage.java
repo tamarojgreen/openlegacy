@@ -62,6 +62,7 @@ public class FieldsScreenDateFieldDetailsPage extends AbstractScreenFieldDetails
 				Messages.getString("ScreenDateField.pattern"), "", AnnotationConstants.PATTERN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDateField");//$NON-NLS-1$ $NON-NLS-2$
 		// create description section
 		addScreenDecriptionFieldSection(toolkit, client);
+		addScreenDyamicFieldSection(toolkit, client);
 	}
 
 	@Override
@@ -71,6 +72,7 @@ public class FieldsScreenDateFieldDetailsPage extends AbstractScreenFieldDetails
 				(Boolean)map.get(Constants.BOOL_VALUE), (String)map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
 		ModelUpdater.updateScreenDateFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE));
 		ModelUpdater.updateScreenDescriptionFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE));
+		ModelUpdater.updateScreenDynamicFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE));
 	}
 
 	@Override
@@ -92,6 +94,7 @@ public class FieldsScreenDateFieldDetailsPage extends AbstractScreenFieldDetails
 		ControlsUpdater.updateScreenFieldDetailsControls(fieldModel, mapTexts, mapCombos, mapCheckBoxes, mapLabels);
 		ControlsUpdater.updateScreenDateFieldDetailsControls(fieldModel, mapTexts, mapCheckBoxes);
 		ControlsUpdater.updateScreenDescriptionFieldDetailsControls(fieldModel.getDescriptionFieldModel(), mapTexts);
+		ControlsUpdater.updateScreenDynamicFieldDetailsControls(fieldModel.getDynamicFieldModel(), mapTexts);
 		revalidate();
 	}
 

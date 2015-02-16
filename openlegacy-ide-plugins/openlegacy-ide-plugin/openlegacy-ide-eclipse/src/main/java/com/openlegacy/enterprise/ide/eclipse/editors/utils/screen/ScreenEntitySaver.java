@@ -1,28 +1,6 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.utils.screen;
 
-import com.openlegacy.enterprise.ide.eclipse.Constants;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.enums.IEnumFieldAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.PartPositionAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenActionsAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenBooleanFieldAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenColumnAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenDateFieldAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenDescriptionFieldAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenEntityAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenEnumFieldAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenFieldAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenFieldValuesAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenIdentifiersAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenNavigationAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenPartAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenTableAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.SortTableActionsAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.TableActionAction;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.AbstractEntity;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEntity;
-import com.openlegacy.enterprise.ide.eclipse.editors.utils.AbstractEntitySaver;
+import java.util.List;
 
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
@@ -42,6 +20,7 @@ import org.openlegacy.annotations.screen.ScreenBooleanField;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenDateField;
 import org.openlegacy.annotations.screen.ScreenDescriptionField;
+import org.openlegacy.annotations.screen.ScreenDynamicField;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenFieldValues;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
@@ -50,7 +29,30 @@ import org.openlegacy.annotations.screen.ScreenPart;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.annotations.screen.ScreenTableActions;
 
-import java.util.List;
+import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.enums.IEnumFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.PartPositionAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenActionsAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenBooleanFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenColumnAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenDateFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenDescriptionFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenDynamicFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenEntityAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenEnumFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenFieldValuesAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenIdentifiersAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenNavigationAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenPartAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenTableAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.SortTableActionsAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.TableActionAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.AbstractEntity;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEntity;
+import com.openlegacy.enterprise.ide.eclipse.editors.utils.AbstractEntitySaver;
 
 /**
  * @author Ivan Bort
@@ -240,6 +242,8 @@ public class ScreenEntitySaver extends AbstractEntitySaver {
 							ScreenEntityUtils.getActionList(entity, ScreenEnumFieldAction.class));
 					ScreenEntityBuilder.INSTANCE.addRemoveScreenDescriptionFieldAnnotation(ast, cu, rewriter, field,
 							ScreenEntityUtils.getActionList(entity, ScreenDescriptionFieldAction.class));
+					ScreenEntityBuilder.INSTANCE.addRemoveScreenDynamicFieldAnnotation(ast, cu, rewriter, field,
+							ScreenEntityUtils.getActionList(entity, ScreenDynamicFieldAction.class));
 				}
 			}
 		}
@@ -277,6 +281,11 @@ public class ScreenEntitySaver extends AbstractEntitySaver {
 							// SourceUtils.processScreenDescriptionField(ast, cu, rewriter, fieldListRewrite, field,
 							// fieldAnnotation, rootName,
 							// EntityUtils.getActionList(entity, ScreenDescriptionFieldAction.class));
+						}
+						else if (fullyQualifiedName.equals(ScreenDynamicField.class.getSimpleName())) {
+							ScreenEntityBuilder.INSTANCE.processScreenFieldAnnotation(ast, cu, rewriter, fieldListRewrite, field,
+									fieldAnnotation, rootName,
+									ScreenEntityUtils.getActionList(entity, ScreenDynamicFieldAction.class));
 						}
 					}
 				}

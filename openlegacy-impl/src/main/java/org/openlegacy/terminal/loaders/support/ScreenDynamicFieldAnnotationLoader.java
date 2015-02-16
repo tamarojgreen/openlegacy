@@ -50,7 +50,7 @@ public class ScreenDynamicFieldAnnotationLoader extends AbstractFieldAnnotationL
 		int endRow = fieldAnnotation.endRow();
 		int fieldsOffset = fieldAnnotation.fieldOffset();
 
-		return new SimpleDynamicFieldTypeDefinition(text, row, column, endColumn, endRow, fieldsOffset);
+		return new SimpleDynamicFieldTypeDefinition(text, row, column, endRow, endColumn, fieldsOffset);
 	}
 
 	@Override

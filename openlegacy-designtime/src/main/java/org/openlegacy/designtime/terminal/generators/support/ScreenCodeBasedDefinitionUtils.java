@@ -10,27 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.designtime.terminal.generators.support;
 
-import org.apache.commons.collections.set.ListOrderedSet;
-import org.apache.commons.lang.CharEncoding;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openlegacy.EntityDefinition;
-import org.openlegacy.definitions.ActionDefinition;
-import org.openlegacy.designtime.generators.CodeBasedScreenPartDefinition;
-import org.openlegacy.designtime.generators.CodeBasedScreenTableDefinition;
-import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
-import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
-import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
-import org.openlegacy.designtime.utils.JavaParserUtil;
-import org.openlegacy.exceptions.EntityNotAccessibleException;
-import org.openlegacy.terminal.FieldAttributeType;
-import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
-import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
-import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
-import org.openlegacy.terminal.support.SimpleTerminalPosition;
-import org.openlegacy.utils.StringUtil;
-
 import japa.parser.JavaParser;
 import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
@@ -48,6 +27,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import org.apache.commons.collections.set.ListOrderedSet;
+import org.apache.commons.lang.CharEncoding;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openlegacy.EntityDefinition;
+import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.definitions.support.SimpleDynamicFieldTypeDefinition;
+import org.openlegacy.designtime.generators.CodeBasedScreenPartDefinition;
+import org.openlegacy.designtime.generators.CodeBasedScreenTableDefinition;
+import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
+import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
+import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
+import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.openlegacy.exceptions.EntityNotAccessibleException;
+import org.openlegacy.terminal.FieldAttributeType;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
+import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
+import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.openlegacy.utils.StringUtil;
 
 public class ScreenCodeBasedDefinitionUtils {
 
@@ -110,6 +111,23 @@ public class ScreenCodeBasedDefinitionUtils {
 						javaFieldModel.getDescriptionEndColumn() != null ? javaFieldModel.getDescriptionEndColumn() : 0));
 				fieldDefinition.setDescriptionFieldDefinition(descriptionFieldDefinition);
 			}
+			
+			if ((!StringUtil.isEmpty(javaFieldModel.getDynamicText())) || (javaFieldModel.getDynamicRow() != null) || (javaFieldModel.getDynamicColumn() != null)
+					|| (javaFieldModel.getDynamicEndRow() != null) || (javaFieldModel.getDynamicEndColumn() != null)
+					|| (javaFieldModel.getDynamicFieldOffset() != null)) {
+
+				String text = !StringUtil.isEmpty(javaFieldModel.getDynamicText()) ? javaFieldModel.getDynamicText() : "";				
+				Integer row = javaFieldModel.getDynamicRow() != null ? javaFieldModel.getDynamicRow() : 0;
+				Integer column = javaFieldModel.getDynamicColumn() != null ? javaFieldModel.getDynamicColumn() : 0;
+				Integer endRow = javaFieldModel.getDynamicEndRow() != null ? javaFieldModel.getDynamicEndRow() : 0;
+				Integer endColumn = javaFieldModel.getDynamicEndColumn() != null ? javaFieldModel.getDynamicEndColumn() : 0;
+				Integer fieldOffset = javaFieldModel.getDynamicFieldOffset() != null ? javaFieldModel.getDynamicFieldOffset() : 0;
+				
+				SimpleDynamicFieldTypeDefinition dynamicDefinition = new SimpleDynamicFieldTypeDefinition(text,row,column, endRow, endColumn, fieldOffset);
+				fieldDefinition.setDynamicFieldDefinition(dynamicDefinition);
+			}
+			
+			
 			// @author Ivan Bort refs assembla #483
 			fieldDefinition.setKeyIndex(javaFieldModel.getKeyIndex());
 			fieldDefinition.setInternal(javaFieldModel.isInternal());

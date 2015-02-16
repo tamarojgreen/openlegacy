@@ -19,14 +19,14 @@ public class SimpleDynamicFieldTypeDefinition implements
 		DynamicFieldDefinition, Serializable {
 
 	public SimpleDynamicFieldTypeDefinition(String text, Integer row,
-			Integer column, Integer endColumn, Integer endRow,
+			Integer column, Integer endRow, Integer endColumn,
 			Integer fieldOffset) {
 		super();
 		this.text = text;
 		this.row = row;
 		this.column = column;
-		this.endColumn = endColumn;
 		this.endRow = endRow;
+		this.endColumn = endColumn;
 		this.fieldOffset = fieldOffset;
 	}
 
