@@ -18,13 +18,13 @@ import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class RunApplicationAction extends AbstractAction {
+public class RunEmulationAction extends AbstractAction {
 
 	@Override
 	public void run(IAction arg0) {
 		final IProject project = (IProject)((TreeSelection)getSelection()).getFirstElement();
 		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
-		IFile configFile = project.getFile("run-application.launch");
+		IFile configFile = project.getFile("run-emulation.launch");
 		if (configFile.exists()) {
 			ILaunchConfiguration configuration = manager.getLaunchConfiguration(configFile);
 			DebugUITools.launch(configuration, ILaunchManager.RUN_MODE);
