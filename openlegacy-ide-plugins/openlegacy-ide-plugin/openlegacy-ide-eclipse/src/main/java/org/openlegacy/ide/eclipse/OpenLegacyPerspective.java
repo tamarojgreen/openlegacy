@@ -38,7 +38,7 @@ public class OpenLegacyPerspective implements IPerspectiveFactory {
 
 	protected void defineLayout(IPageLayout layout) {
 		// Creates a folder at the left side of the screen
-		IFolderLayout leftFolder = layout.createFolder("topLeft", IPageLayout.LEFT, 0.50f, layout.getEditorArea());
+		IFolderLayout leftFolder = layout.createFolder("topLeft", IPageLayout.LEFT, 0.38f, layout.getEditorArea());
 		leftFolder.addView(ProjectExplorer.VIEW_ID);
 		leftFolder.addView(NAVIGATOR_VIEW_ID);
 

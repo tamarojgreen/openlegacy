@@ -12,12 +12,15 @@ package org.openlegacy.designtime.terminal.generators;
 
 import freemarker.template.TemplateException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.generators.GenerateUtil;
 import org.openlegacy.designtime.terminal.analyzer.support.TerminalSnapshotsAnalyzerContext.TerminalSnapshotSequenceComparator;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalActionMapper;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.utils.StringUtil;
@@ -36,6 +39,8 @@ import javax.inject.Inject;
  * A generator which generates a junit test from a given trail
  */
 public class TrailJunitGenerator {
+
+	private final static Log logger = LogFactory.getLog(TrailJunitGenerator.class);
 
 	@Inject
 	private GenerateUtil generateUtil;
@@ -101,10 +106,15 @@ public class TrailJunitGenerator {
 						: null;
 
 				if (nextEntityName != null) {
-					String action = terminalActionMapper.getAction(outgoingSnapshot.getCommand()).toString();
-					generatedApi.getApiCalls().add(
-							MessageFormat.format("{0} {1} = terminalSession.doAction(TerminalActions.{2}(),{3},{0}.class);",
-									nextEntityName, StringUtil.toJavaFieldName(nextEntityName), action, variableName));
+					TerminalAction theAction = terminalActionMapper.getAction(outgoingSnapshot.getCommand());
+					if (theAction != null) {
+						String action = theAction.toString();
+						generatedApi.getApiCalls().add(
+								MessageFormat.format("{0} {1} = terminalSession.doAction(TerminalActions.{2}(),{3},{0}.class);",
+										nextEntityName, StringUtil.toJavaFieldName(nextEntityName), action, variableName));
+					} else {
+						logger.info("No action mapping defined for:" + outgoingSnapshot.getCommand());
+					}
 				}
 
 				entityName = nextEntityName;

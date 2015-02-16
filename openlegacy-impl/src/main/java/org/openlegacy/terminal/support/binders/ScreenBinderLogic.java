@@ -33,7 +33,6 @@ import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.openlegacy.terminal.modules.table.DefaultTableDrilldownPerformer;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.support.SimpleScreenSize;
 import org.openlegacy.terminal.support.SnapshotUtils;
 import org.openlegacy.terminal.table.ScreenTableDrilldownPerformer;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
@@ -273,8 +272,10 @@ public class ScreenBinderLogic implements Serializable {
 												MessageFormat.format("column field to focus on {0}, not found", focusField));
 										columnNumber = focusColumnDef.getStartColumn();
 									}
-									fieldAccessor.setFieldValue(ScreenEntity.FOCUS_FIELD, SnapshotUtils.toAbsolutePosition(
-											screenRowNumber, columnNumber, SimpleScreenSize.DEFAULT));
+									fieldAccessor.setFieldValue(
+											ScreenEntity.FOCUS_FIELD,
+											SnapshotUtils.toAbsolutePosition(screenRowNumber, columnNumber,
+													terminalSnapshot.getSize()));
 									// The focus based on position is evaluated at the end of this method
 								}
 							}
