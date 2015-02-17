@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support.binders;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
@@ -28,6 +30,8 @@ import javax.inject.Inject;
 
 public class FieldAttributeBinder implements ScreenEntityBinder {
 
+	private final static Log logger = LogFactory.getLog(FieldAttributeBinder.class);
+	
 	@Inject
 	private ScreenFieldsDefinitionProvider fieldMappingsProvider;
 
@@ -44,6 +48,10 @@ public class FieldAttributeBinder implements ScreenEntityBinder {
 			}
 
 			TerminalPosition position = ScreenBinderLogic.retrievePosition(fieldDefinition, snapshot);
+			if (position == null){
+				logger.warn("A field was not found for field:" + fieldDefinition.getName());
+				continue;
+			}
 			TerminalField terminalField = snapshot.getField(position);
 			if (terminalField == null) {
 				continue;

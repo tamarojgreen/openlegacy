@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support.binders;
 
+import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,6 +30,7 @@ import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.DrilldownDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
+import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.openlegacy.terminal.modules.table.DefaultTableDrilldownPerformer;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
@@ -79,6 +81,10 @@ public class ScreenBinderLogic implements Serializable {
 
 		for (ScreenFieldDefinition fieldMappingDefinition : fieldMappingDefinitions) {
 			TerminalPosition position = retrievePosition(fieldMappingDefinition, terminalSnapshot);
+			if (position == null) {
+				logger.warn("A field was not found for field:" + fieldMappingDefinition.getName());
+				continue;
+			}
 			TerminalField terminalField = terminalSnapshot.getField(position);
 			if (terminalField == null) {
 				logger.debug("A field mapping was not found " + fieldMappingDefinition.getName());
@@ -87,6 +93,14 @@ public class ScreenBinderLogic implements Serializable {
 			if (terminalField.isHidden() && !terminalField.isEditable()) {
 				logger.debug("A hidden field was not bound " + fieldMappingDefinition.getName());
 				continue;
+			}
+
+			if (fieldMappingDefinition.getDynamicFieldDefinition() != null) {
+				fieldMappingDefinition = (SimpleScreenFieldDefinition)SerializationUtils.clone((Serializable)fieldMappingDefinition);
+				((SimpleScreenFieldDefinition)fieldMappingDefinition).setPosition(position);
+				((SimpleScreenFieldDefinition)fieldMappingDefinition).setEndPosition(terminalField.getEndPosition());
+				((SimpleScreenFieldDefinition)fieldMappingDefinition).setLength(terminalField.getLength());
+
 			}
 
 			String text = getText(fieldMappingDefinition, terminalSnapshot);
@@ -112,7 +126,8 @@ public class ScreenBinderLogic implements Serializable {
 		}
 	}
 
-	public static TerminalPosition retrievePosition(ScreenFieldDefinition fieldMappingDefinition, TerminalSnapshot terminalSnapshot) {
+	public static TerminalPosition retrievePosition(ScreenFieldDefinition fieldMappingDefinition,
+			TerminalSnapshot terminalSnapshot) {
 		DynamicFieldDefinition dynamicField = fieldMappingDefinition.getDynamicFieldDefinition();
 		if (dynamicField != null) {
 			return getDynamicPosition(dynamicField, terminalSnapshot);
@@ -434,6 +449,10 @@ public class ScreenBinderLogic implements Serializable {
 
 			TerminalRow row = terminalSnapshot.getRow(rowIndex);
 
+			if (row == null) {
+				continue;
+			}
+
 			List<TerminalField> fields = row.getFields();
 			for (int fieldIndex = 0; fieldIndex < fields.size(); fieldIndex++) {
 				TerminalField field = fields.get(fieldIndex);
@@ -452,6 +471,11 @@ public class ScreenBinderLogic implements Serializable {
 					continue;
 				}
 
+				if (fields.size() <= dynamicFieldIndex) {
+					logger.error("Illegal dynamic field mapping. Check that offset is correct. Dynamic field label:"
+							+ dynamicField.getText());
+					continue;
+				}
 				TerminalField requestedield = fields.get(dynamicFieldIndex);
 
 				int requestedFieldColumn = requestedield.getPosition().getColumn();

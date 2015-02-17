@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support.binders;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.FieldFormatter;
 import org.openlegacy.definitions.ScreenListFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleScreenListFieldTypeDefinition;
@@ -37,6 +39,8 @@ import javax.inject.Inject;
 
 public class ListFieldsBinder implements ScreenEntityBinder {
 
+	private final static Log logger = LogFactory.getLog(ListFieldsBinder.class);
+	
 	@Inject
 	private ScreenFieldsDefinitionProvider fieldMappingsProvider;
 
@@ -67,6 +71,10 @@ public class ListFieldsBinder implements ScreenEntityBinder {
 			int[] gapBetweenFields = fieldTypeDefinition.getGaps();
 			TerminalPosition position =  ScreenBinderLogic.retrievePosition(fieldDefinition, snapshot);
 
+			if (position == null){
+				logger.warn("A field was not found for field:" + fieldDefinition.getName());
+				continue;
+			}
 			int skip = gapBetweenFields.length == 1 ? 0 : 1;
 			List<String> members = new ArrayList<String>();
 

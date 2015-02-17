@@ -73,6 +73,10 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 			Assert.notNull(fieldTypeDefinition, "A field of type Boolean is defined without @ScreenBooleanField annotation");
 			TerminalPosition position = ScreenBinderLogic.retrievePosition(fieldDefinition, terminalSnapshot);
 
+			if (position == null){
+				logger.warn("A field was not found for field:" + fieldDefinition.getName());
+				continue;
+			}
 			TerminalField booleanField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(position.getRow(),
 					position.getColumn()));
 

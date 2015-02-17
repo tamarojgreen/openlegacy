@@ -70,7 +70,7 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 			int count = 0;
 			for (TerminalSnapshot snapshot : snapshots) {
 				if (snapshot.equals(currentSnapshot)) {
-					if (snapshots.size() > count - 1) {
+					if (snapshots.size() > count + 1) {
 						currentSnapshot = snapshots.get(count + 1);
 						return;
 					} else {

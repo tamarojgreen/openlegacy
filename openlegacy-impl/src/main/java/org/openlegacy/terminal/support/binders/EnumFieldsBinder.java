@@ -75,6 +75,11 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 			EnumFieldTypeDefinition fieldTypeDefinition = (EnumFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
 			TerminalPosition position =  ScreenBinderLogic.retrievePosition(fieldDefinition, terminalSnapshot);;
 
+			if (position == null){
+				logger.warn("A field was not found for field:" + fieldDefinition.getName());
+				continue;
+			}
+			
 			TerminalField enumField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(position.getRow(),
 					position.getColumn()));
 

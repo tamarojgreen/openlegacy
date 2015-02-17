@@ -20,6 +20,7 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
@@ -77,7 +78,12 @@ public class DateFieldsPatternBinder implements ScreenEntityBinder, Serializable
 				continue;
 			}
 
-			TerminalField dateField = terminalSnapshot.getField(ScreenBinderLogic.retrievePosition(fieldDefinition, terminalSnapshot));
+			TerminalPosition position = ScreenBinderLogic.retrievePosition(fieldDefinition, terminalSnapshot);
+			if (position == null){
+				logger.warn("A field was not found for field:" + fieldDefinition.getName());
+				continue;
+			}
+			TerminalField dateField = terminalSnapshot.getField(position);
 			SimpleDateFormat dateFormater = new SimpleDateFormat(pattern, new Locale(fieldTypeDefinition.getLocale()));
 
 			try {
