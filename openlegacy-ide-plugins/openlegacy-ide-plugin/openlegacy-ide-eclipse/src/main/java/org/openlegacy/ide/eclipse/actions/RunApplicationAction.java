@@ -12,40 +12,52 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
+import org.openlegacy.ide.eclipse.util.PopupUtil;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class RunApplicationAction extends AbstractAction {
 
+	private static final String LAUNCHER_FILE_NAME = "run-application.launch";
+
 	@Override
 	public void run(IAction arg0) {
 		final IProject project = (IProject)((TreeSelection)getSelection()).getFirstElement();
-		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
-		IFile configFile = project.getFile("run-application.launch");
-		if (configFile.exists()) {
-			ILaunchConfiguration configuration = manager.getLaunchConfiguration(configFile);
-			DebugUITools.launch(configuration, ILaunchManager.RUN_MODE);
-			Timer timer = new Timer();
-			timer.schedule(new TimerTask() {
+		String backEndSolutuion = EclipseDesignTimeExecuter.instance().getPreference(project, "BACKEND_SOLUTION");
+		if (backEndSolutuion != null && backEndSolutuion.equals("SCREEN")) {
+			ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
+			IFile configFile = project.getFile(LAUNCHER_FILE_NAME);
+			if (configFile.exists()) {
+				ILaunchConfiguration configuration = manager.getLaunchConfiguration(configFile);
+				DebugUITools.launch(configuration, ILaunchManager.RUN_MODE);
+				Timer timer = new Timer();
+				timer.schedule(new TimerTask() {
 
-				@Override
-				public void run() {
-					try {
-						IWorkbenchBrowserSupport browserSupport = PlatformUI.getWorkbench().getBrowserSupport();
-						IWebBrowser browser = browserSupport.createBrowser("openlegacy");
-						browser.openURL(new URL("http://localhost:8080/" + project.getName()));
-					} catch (PartInitException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (MalformedURLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					@Override
+					public void run() {
+						try {
+							IWorkbenchBrowserSupport browserSupport = PlatformUI.getWorkbench().getBrowserSupport();
+							IWebBrowser browser = browserSupport.createBrowser("openlegacy");
+							browser.openURL(new URL("http://localhost:8080/" + project.getName()));
+						} catch (PartInitException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (MalformedURLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
-				}
-			}, 13000);
+				}, 13000);
+			} else {
+				PopupUtil.error(MessageFormat.format("Required launcher file \"{0}\" is missing!", LAUNCHER_FILE_NAME),
+						"Missing file");
+			}
+		} else {
+			PopupUtil.error("Current project type doesn't support this action!", "Unsupported project type");
 		}
 	}
 }

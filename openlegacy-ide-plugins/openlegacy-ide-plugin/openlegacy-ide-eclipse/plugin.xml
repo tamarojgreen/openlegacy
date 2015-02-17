@@ -481,7 +481,7 @@
 	<!-- Run application/emulation -->
 	<extension point="org.eclipse.ui.popupMenus">
 		<objectContribution
-			id="com.openlegacy.enterprise.ide.eclipse.run_application_emulation"
+			id="org.openlegacy.ide.eclipse.run_application_emulation"
 			objectClass="org.eclipse.core.resources.IProject">
 			<menu
 				label="%openlegacy"
