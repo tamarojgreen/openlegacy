@@ -367,12 +367,12 @@ public class ControlsUpdater {
 			return;
 		}
 		// update Text controls
-		mapTexts.get(Constants.DYNAMIC_TEXT).setText("");//$NON-NLS-1$
 		mapTexts.get(Constants.DYNAMIC_ROW).setText("");//$NON-NLS-1$
 		mapTexts.get(Constants.DYNAMIC_COLUMN).setText("");//$NON-NLS-1$
 		mapTexts.get(Constants.DYNAMIC_END_ROW).setText("");//$NON-NLS-1$
 		mapTexts.get(Constants.DYNAMIC_END_COLUMN).setText("");//$NON-NLS-1$
 		mapTexts.get(Constants.DYNAMIC_OFFSET).setText("");//$NON-NLS-1$
+		mapTexts.get(Constants.DYNAMIC_TEXT).setText("");//$NON-NLS-1$
 
 		// first of all we need to update column control, because row and
 		// endColumn controls are depends on it

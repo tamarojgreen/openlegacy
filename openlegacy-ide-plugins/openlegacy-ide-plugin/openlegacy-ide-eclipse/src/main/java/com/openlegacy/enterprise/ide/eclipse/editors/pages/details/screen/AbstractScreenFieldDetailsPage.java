@@ -418,9 +418,9 @@ public abstract class AbstractScreenFieldDetailsPage extends
 				"ScreenDynamicField");
 
 		// "field offset"
-		FormRowCreator.createIntRow(toolkit, composite,
+		FormRowCreator.createDoubleRow(toolkit, composite,
 				mapTexts, getDefaultModifyListener(),
-				getDefaultVerifyListener(),
+				getDefaultDoubleVerifyListener(),
 				Messages.getString("ScreenField.fieldOffset"), null, Constants.DYNAMIC_OFFSET,
 				JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDynamicField");
 		
