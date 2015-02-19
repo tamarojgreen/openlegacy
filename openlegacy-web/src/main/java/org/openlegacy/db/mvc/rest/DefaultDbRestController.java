@@ -15,14 +15,12 @@ import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.ValidationException;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.db.DbSession;
-import org.openlegacy.db.definitions.DbEntityDefinition;
-import org.openlegacy.db.definitions.DbNavigationDefinition;
 import org.openlegacy.db.services.DbEntitiesRegistry;
 import org.openlegacy.db.services.DbService;
 import org.openlegacy.db.services.DbService.TableDbObject;
@@ -34,6 +32,7 @@ import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuItem;
+import org.openlegacy.mvc.AbstractRestController;
 import org.openlegacy.support.SimpleEntityWrapper;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Controller;
@@ -54,7 +53,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -62,14 +60,10 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-public class DefaultDbRestController {
+public class DefaultDbRestController extends AbstractRestController {
 
-	public static final String JSON = "application/json";
-	public static final String XML = "application/xml";
 	public static final String USER = "user";
 	public static final String PASSWORD = "password";
-	protected static final String MODEL = "model";
-	protected static final String ACTION = "action";
 
 	@Inject
 	private DbService dbService;
@@ -85,6 +79,7 @@ public class DefaultDbRestController {
 
 	private Integer pageSize = 20;
 
+	@Override
 	public void setRequiresLogin(boolean requiresLogin) {
 		this.requiresLogin = requiresLogin;
 	}
@@ -168,6 +163,7 @@ public class DefaultDbRestController {
 		return postEntityJson(entityName, action, children, json, response);
 	}
 
+	@Override
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.GET, consumes = { JSON,
 			XML })
 	protected ModelAndView getEntityWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
@@ -192,27 +188,13 @@ public class DefaultDbRestController {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
 	@RequestMapping(value = "/menu", method = RequestMethod.GET, consumes = { JSON, XML })
-	public JSONArray getMenu(HttpServletResponse response) throws IOException {
-		Collection<DbEntityDefinition> entities = dbEntitiesRegistry.getEntitiesDefinitions();
-		JSONArray jsonArray = new JSONArray();
-		// List<DbEntityDefinition> entityNames = new ArrayList<DbEntityDefinition>();
-		for (DbEntityDefinition dbEntityDefinition : entities) {
-			DbNavigationDefinition navDefinition = dbEntityDefinition.getNavigationDefinition();
-			if (navDefinition.getCategory() != null) {
-				JSONObject jsonObject = new JSONObject();
-				jsonObject.put("displayName", navDefinition.getCategory());
-				jsonObject.put("entityName", dbEntityDefinition.getEntityName());
-				jsonArray.add(jsonObject);
-			}
-
-		}
-
-		return jsonArray;
-
+	public Object getMenu(HttpServletResponse response) throws IOException {
+		return super.getMenu(response);
 	}
 
+	@Override
 	protected ModelAndView getEntityDefinitions(String entityName, HttpServletResponse response) throws IOException {
 		EntityDefinition<?> entityDefinitions = dbEntitiesRegistry.get(entityName);
 		return new ModelAndView("definitions", "definitions", entityDefinitions);
@@ -241,6 +223,7 @@ public class DefaultDbRestController {
 		dbService.deleteEntityById(entityClass, toObject(getFirstIdJavaType(entityClass), key.split("\\+")[0]));
 	}
 
+	@Override
 	protected Object postApiEntity(String entityName, Class<?> entityClass, String key) {
 		return getApiEntity(entityClass, null, key);
 	}
@@ -305,6 +288,7 @@ public class DefaultDbRestController {
 	 *            whether to include child entities
 	 * @return
 	 */
+	@Override
 	protected ModelAndView getEntityInner(Object entity, boolean children) {
 		if (entity == null) {
 			throw (new EntityNotFoundException("No entity found"));
@@ -320,6 +304,7 @@ public class DefaultDbRestController {
 		return new ModelAndView(MODEL, MODEL, wrapper);
 	}
 
+	@Override
 	protected List<ActionDefinition> getActions(Object entity) {
 		return new ArrayList<ActionDefinition>();
 	}
@@ -335,6 +320,7 @@ public class DefaultDbRestController {
 	 * @return
 	 * @throws IOException
 	 */
+	@Override
 	protected ModelAndView postEntityJson(String entityName, String action, boolean children, String json,
 			HttpServletResponse response) throws IOException {
 		try {
@@ -344,13 +330,7 @@ public class DefaultDbRestController {
 		}
 	}
 
-	protected static ModelAndView handleException(HttpServletResponse response, RuntimeException e) throws IOException {
-		response.setStatus(500);
-		response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
-		logger.fatal(e.getMessage(), e);
-		return null;
-	}
-
+	@Override
 	protected ModelAndView postEntityJsonWithKey(String entityName, String key, String action, boolean children, String json,
 			HttpServletResponse response) throws IOException {
 		try {
@@ -369,6 +349,7 @@ public class DefaultDbRestController {
 		return getEntityInner(resultEntity, children);
 	}
 
+	@Override
 	protected Object preSendJsonEntity(String entityName, String key, String json, HttpServletResponse response)
 			throws IOException {
 		json = decode(json, "{");
@@ -398,6 +379,7 @@ public class DefaultDbRestController {
 		return entity;
 	}
 
+	@Override
 	protected ModelAndView postEntityXmlWithKey(String entityName, String key, String action, String xml,
 			HttpServletResponse response) throws IOException {
 		try {
@@ -407,6 +389,7 @@ public class DefaultDbRestController {
 		}
 	}
 
+	@Override
 	protected ModelAndView postEntityXml(String entityName, String action, String xml, HttpServletResponse response)
 			throws IOException {
 		try {
@@ -469,6 +452,7 @@ public class DefaultDbRestController {
 	 * @return
 	 * @throws IOException
 	 */
+	@Override
 	protected Class<?> findAndHandleNotFound(String entityName, HttpServletResponse response) throws IOException {
 		Class<?> entityClass = dbEntitiesRegistry.getEntityClass(entityName);
 		if (entityClass == null) {
@@ -487,6 +471,7 @@ public class DefaultDbRestController {
 		return;
 	}
 
+	@Override
 	@Transactional
 	public Object sendEntity(Object entity, String action) {
 		Object resultEntity = null;
@@ -497,6 +482,7 @@ public class DefaultDbRestController {
 		return resultEntity;
 	}
 
+	@Override
 	protected boolean authenticate(HttpServletResponse response) throws IOException {
 		if (!requiresLogin) {
 			return true;
@@ -522,6 +508,7 @@ public class DefaultDbRestController {
 		response.flushBuffer();
 	}
 
+	@Override
 	public DbSession getSession() {
 		return dbSession;
 	}
@@ -533,6 +520,11 @@ public class DefaultDbRestController {
 		}
 		MenuItem menus = menuModule.getMenuTree();
 		return menus;
+	}
+
+	@Override
+	protected EntitiesRegistry<?, ?, ?> getEntitiesRegistry() {
+		return dbEntitiesRegistry;
 	}
 
 }
