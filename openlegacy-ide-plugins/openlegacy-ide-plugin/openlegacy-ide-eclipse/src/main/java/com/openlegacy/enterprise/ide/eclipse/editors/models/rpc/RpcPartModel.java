@@ -200,4 +200,9 @@ public class RpcPartModel extends RpcNamedObject {
 		actionsModel.getActions().clear();
 	}
 
+	public void addConvertedRpcFieldModel(RpcFieldModel baseModel, RpcFieldModel convertedModel) {
+		this.fields.put(baseModel.getUUID(), baseModel);
+		this.sortedFields.add(convertedModel);
+	}
+
 }

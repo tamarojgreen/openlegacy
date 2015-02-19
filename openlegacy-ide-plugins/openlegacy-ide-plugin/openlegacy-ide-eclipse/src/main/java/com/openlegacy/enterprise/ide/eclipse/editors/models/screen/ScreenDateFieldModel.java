@@ -90,12 +90,16 @@ public class ScreenDateFieldModel extends ScreenFieldModel {
 	}
 
 	@Override
-	public ScreenFieldModel convertFrom(ScreenFieldModel model) {
+	public NamedObject convertFrom(NamedObject model) {
+		if (!(model instanceof ScreenFieldModel)) {
+			return null;
+		}
 		super.convertFrom(model);
-		year = model.getFieldValue("year") != null ? (Integer)model.getFieldValue("year") : 0;
-		month = model.getFieldValue("month") != null ? (Integer)model.getFieldValue("month") : 0;
-		day = model.getFieldValue("day") != null ? (Integer)model.getFieldValue("day") : 0;
-		pattern = model.getFieldValue("pattern") != null ? (String)model.getFieldValue("pattern") : "";
+		ScreenFieldModel screenModel = (ScreenFieldModel)model;
+		year = screenModel.getFieldValue("year") != null ? (Integer)screenModel.getFieldValue("year") : 0;
+		month = screenModel.getFieldValue("month") != null ? (Integer)screenModel.getFieldValue("month") : 0;
+		day = screenModel.getFieldValue("day") != null ? (Integer)screenModel.getFieldValue("day") : 0;
+		pattern = screenModel.getFieldValue("pattern") != null ? (String)screenModel.getFieldValue("pattern") : "";
 		return this;
 	}
 

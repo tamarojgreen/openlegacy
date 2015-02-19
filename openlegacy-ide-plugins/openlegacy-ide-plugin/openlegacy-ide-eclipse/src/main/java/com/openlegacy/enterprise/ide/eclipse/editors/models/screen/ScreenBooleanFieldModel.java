@@ -97,11 +97,15 @@ public class ScreenBooleanFieldModel extends ScreenFieldModel {
 	}
 
 	@Override
-	public ScreenFieldModel convertFrom(ScreenFieldModel model) {
+	public NamedObject convertFrom(NamedObject model) {
+		if (!(model instanceof ScreenFieldModel)) {
+			return null;
+		}
 		super.convertFrom(model);
-		trueValue = model.getFieldValue("trueValue") != null ? (String)model.getFieldValue("trueValue") : "";
-		falseValue = model.getFieldValue("falseValue") != null ? (String)model.getFieldValue("falseValue") : "";
-		treatEmptyAsNull = model.getFieldValue("treatEmptyAsNull") != null ? (Boolean)model.getFieldValue("treatEmptyAsNull")
+		ScreenFieldModel screenModel = (ScreenFieldModel)model;
+		trueValue = screenModel.getFieldValue("trueValue") != null ? (String)screenModel.getFieldValue("trueValue") : "";
+		falseValue = screenModel.getFieldValue("falseValue") != null ? (String)screenModel.getFieldValue("falseValue") : "";
+		treatEmptyAsNull = screenModel.getFieldValue("treatEmptyAsNull") != null ? (Boolean)screenModel.getFieldValue("treatEmptyAsNull")
 				: false;
 		return this;
 	}

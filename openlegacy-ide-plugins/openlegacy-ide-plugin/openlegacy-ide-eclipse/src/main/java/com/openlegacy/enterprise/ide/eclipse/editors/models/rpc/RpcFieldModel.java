@@ -1,6 +1,9 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.models.rpc;
 
 import com.openlegacy.enterprise.ide.eclipse.Messages;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.IConvertedField;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.Utils;
 
 import org.apache.commons.lang.StringUtils;
@@ -26,7 +29,7 @@ import java.util.UUID;
  * @author Ivan Bort
  * 
  */
-public class RpcFieldModel extends RpcNamedObject {
+public class RpcFieldModel extends RpcNamedObject implements IConvertedField {
 
 	// map of field types
 	public static Map<String, Class<? extends FieldType>> mapFieldTypes = Collections.unmodifiableMap(new HashMap<String, Class<? extends FieldType>>() {
@@ -61,6 +64,8 @@ public class RpcFieldModel extends RpcNamedObject {
 	private boolean editable = true;
 	private String defaultValue = "";//$NON-NLS-1$
 	private String expression = "";//$NON-NLS-1$
+
+	protected Map<String, Object> fieldsMap = new HashMap<String, Object>();
 
 	public RpcFieldModel(RpcNamedObject parent) {
 		super(RpcField.class.getSimpleName(), parent);
@@ -276,4 +281,60 @@ public class RpcFieldModel extends RpcNamedObject {
 		this.expression = expression;
 	}
 
+	@SuppressWarnings("unchecked")
+	public NamedObject convertFrom(NamedObject model) {
+		if (!(model instanceof ScreenFieldModel)) {
+			return null;
+		}
+		RpcFieldModel rpcModel = (RpcFieldModel)model;
+		// initialized = rpcModel.getFieldValue("initialized") != null ? (Boolean)rpcModel.getFieldValue("initialized") : false;
+		// javaTypeName = rpcModel.getFieldValue("javaTypeName") != null ? (String)rpcModel.getFieldValue("javaTypeName")
+		// : String.class.getSimpleName();
+		previousFieldName = rpcModel.getFieldValue("previousFieldName") != null ? (String)rpcModel.getFieldValue("previousFieldName")
+				: Messages.getString("Field.new");
+		fieldName = rpcModel.getFieldValue("fieldName") != null ? (String)rpcModel.getFieldValue("fieldName")
+				: Messages.getString("Field.new");
+		fieldTypeName = rpcModel.getFieldValue("fieldTypeName") != null ? (String)rpcModel.getFieldValue("fieldTypeName")
+				: RpcFieldTypes.General.class.getSimpleName();
+		originalName = rpcModel.getFieldValue("originalName") != null ? (String)rpcModel.getFieldValue("originalName") : "";
+		key = rpcModel.getFieldValue("key") != null ? (Boolean)rpcModel.getFieldValue("key") : false;
+		direction = rpcModel.getFieldValue("direction") != null ? (Direction)rpcModel.getFieldValue("direction")
+				: Direction.INPUT_OUTPUT;
+		length = (Integer)rpcModel.getFieldValue("length");
+		fieldType = rpcModel.getFieldValue("fieldType") != null ? (Class<? extends FieldType>)rpcModel.getFieldValue("fieldType")
+				: RpcFieldTypes.General.class;
+		displayName = rpcModel.getFieldValue("displayName") != null ? (String)rpcModel.getFieldValue("displayName") : "";
+		sampleValue = rpcModel.getFieldValue("sampleValue") != null ? (String)rpcModel.getFieldValue("sampleValue") : "";
+		helpText = rpcModel.getFieldValue("helpText") != null ? (String)rpcModel.getFieldValue("helpText") : "";
+		editable = rpcModel.getFieldValue("editable") != null ? (Boolean)rpcModel.getFieldValue("editable") : false;
+		defaultValue = rpcModel.getFieldValue("defaultValue") != null ? (String)rpcModel.getFieldValue("defaultValue") : "";
+		expression = rpcModel.getFieldValue("expression") != null ? (String)rpcModel.getFieldValue("expression") : "";
+		fieldsMap.putAll(rpcModel.fieldsMap);
+		return this;
+	}
+
+	private Object getFieldValue(String key) {
+		return fieldsMap.get(key);
+	}
+
+	@Override
+	public void fillFieldsMap() {
+		fieldsMap.clear();
+		fieldsMap.put("previousFieldName", previousFieldName);
+		fieldsMap.put("fieldName", fieldName);
+		fieldsMap.put("fieldTypeName", fieldTypeName);
+		fieldsMap.put("originalName", originalName);
+		fieldsMap.put("key", key);
+		fieldsMap.put("direction", direction);
+		fieldsMap.put("length", length);
+		fieldsMap.put("fieldType", fieldType);
+		fieldsMap.put("displayName", displayName);
+		fieldsMap.put("sampleValue", sampleValue);
+		fieldsMap.put("helpText", helpText);
+		fieldsMap.put("editable", editable);
+		fieldsMap.put("defaultValue", defaultValue);
+		fieldsMap.put("expression", expression);
+		fieldsMap.put("javaTypeName", javaTypeName);
+		// fieldsMap.put("initialized", initialized);
+	}
 }

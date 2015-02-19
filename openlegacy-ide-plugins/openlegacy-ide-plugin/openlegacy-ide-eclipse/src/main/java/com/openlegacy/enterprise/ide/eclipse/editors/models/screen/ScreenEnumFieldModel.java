@@ -100,11 +100,16 @@ public class ScreenEnumFieldModel extends ScreenFieldModel implements IEnumField
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ScreenFieldModel convertFrom(ScreenFieldModel model) {
+	public NamedObject convertFrom(NamedObject model) {
+		if (!(model instanceof ScreenFieldModel)) {
+			return null;
+		}
 		super.convertFrom(model);
-		type = model.getFieldValue("type") != null ? (Class<?>)model.getFieldValue("type") : null;
-		prevJavaTypeName = model.getFieldValue("prevJavaTypeName") != null ? (String)model.getFieldValue("prevJavaTypeName") : "";
-		entries.addAll(model.getFieldValue("entries") != null ? (List<EnumEntryModel>)model.getFieldValue("entries")
+		ScreenFieldModel screenModel = (ScreenFieldModel)model;
+		type = screenModel.getFieldValue("type") != null ? (Class<?>)screenModel.getFieldValue("type") : null;
+		prevJavaTypeName = screenModel.getFieldValue("prevJavaTypeName") != null ? (String)screenModel.getFieldValue("prevJavaTypeName")
+				: "";
+		entries.addAll(screenModel.getFieldValue("entries") != null ? (List<EnumEntryModel>)screenModel.getFieldValue("entries")
 				: new ArrayList<EnumEntryModel>());
 		return this;
 	}

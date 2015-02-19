@@ -1,6 +1,7 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.models.screen;
 
 import com.openlegacy.enterprise.ide.eclipse.Messages;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.IConvertedField;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.Utils;
 
@@ -172,10 +173,10 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 				&& this.rightToLeft == model.isRightToLeft() && this.attribute.equals(model.getAttribute())
 				&& this.when.equals(model.getWhen()) && this.unless.equals(model.getUnless())
 				&& this.descriptionFieldModel.equals(model.getDescriptionFieldModel()) && keyIndex == model.getKeyIndex()
-				&& this.dynamicFieldModel.equals(model.getDynamicFieldModel())
-				&& internal == model.isInternal() && global == model.isGlobal() && nullValue.equals(model.getNullValue())
-				&& tableKey == model.isTableKey() && forceUpdate == model.isForceUpdate()
-				&& StringUtils.equals(expression, model.getExpression()) && enableLookup == model.isEnableLookup();
+				&& this.dynamicFieldModel.equals(model.getDynamicFieldModel()) && internal == model.isInternal()
+				&& global == model.isGlobal() && nullValue.equals(model.getNullValue()) && tableKey == model.isTableKey()
+				&& forceUpdate == model.isForceUpdate() && StringUtils.equals(expression, model.getExpression())
+				&& enableLookup == model.isEnableLookup();
 	}
 
 	public FieldAttributeType getAttribute() {
@@ -312,10 +313,10 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 
 		this.descriptionFieldModel.setUUID(this.uuid);
 		this.descriptionFieldModel.init(screenFieldDefinition.getDescriptionFieldDefinition());
-	
+
 		this.dynamicFieldModel.setUUID(this.uuid);
 		this.dynamicFieldModel.init(screenFieldDefinition);
-	
+
 		initialized = true;
 	}
 
@@ -434,15 +435,15 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 	public void setDescriptionFieldModel(ScreenDescriptionFieldModel descriptionFieldModel) {
 		this.descriptionFieldModel = descriptionFieldModel;
 	}
-	
+
 	public ScreenDynamicFieldModel getDynamicFieldModel() {
 		return dynamicFieldModel;
 	}
-	
+
 	public void setDynamicFieldModel(ScreenDynamicFieldModel dynamicFieldModel) {
 		this.dynamicFieldModel = dynamicFieldModel;
 	}
-	
+
 	public int getKeyIndex() {
 		return keyIndex;
 	}
@@ -518,54 +519,62 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public ScreenFieldModel convertFrom(ScreenFieldModel model) {
-		model.fillFieldsMap();
-		row = model.getFieldValue("row") != null ? (Integer)model.getFieldValue("row") : 0;
-		column = model.getFieldValue("column") != null ? (Integer)model.getFieldValue("column") : 0;
-		endColumn = model.getFieldValue("endColumn") != null ? (Integer)model.getFieldValue("endColumn") : 0;
-		endRow = model.getFieldValue("endRow") != null ? (Integer)model.getFieldValue("endRow") : 0;
-		rectangle = model.getFieldValue("rectangle") != null ? (Boolean)model.getFieldValue("rectangle") : false;
-		editable = model.getFieldValue("editable") != null ? (Boolean)model.getFieldValue("editable") : false;
-		password = model.getFieldValue("password") != null ? (Boolean)model.getFieldValue("password") : false;
-		fieldType = model.getFieldValue("fieldType") != null ? (Class<? extends FieldType>)model.getFieldValue("fieldType")
+	public NamedObject convertFrom(NamedObject model) {
+		if (!(model instanceof ScreenFieldModel)) {
+			return null;
+		}
+		ScreenFieldModel screenModel = (ScreenFieldModel)model;
+		screenModel.fillFieldsMap();
+		row = screenModel.getFieldValue("row") != null ? (Integer)screenModel.getFieldValue("row") : 0;
+		column = screenModel.getFieldValue("column") != null ? (Integer)screenModel.getFieldValue("column") : 0;
+		endColumn = screenModel.getFieldValue("endColumn") != null ? (Integer)screenModel.getFieldValue("endColumn") : 0;
+		endRow = screenModel.getFieldValue("endRow") != null ? (Integer)screenModel.getFieldValue("endRow") : 0;
+		rectangle = screenModel.getFieldValue("rectangle") != null ? (Boolean)screenModel.getFieldValue("rectangle") : false;
+		editable = screenModel.getFieldValue("editable") != null ? (Boolean)screenModel.getFieldValue("editable") : false;
+		password = screenModel.getFieldValue("password") != null ? (Boolean)screenModel.getFieldValue("password") : false;
+		fieldType = screenModel.getFieldValue("fieldType") != null ? (Class<? extends FieldType>)screenModel.getFieldValue("fieldType")
 				: FieldType.General.class;
-		displayName = model.getFieldValue("displayName") != null ? (String)model.getFieldValue("displayName") : "";
-		sampleValue = model.getFieldValue("sampleValue") != null ? (String)model.getFieldValue("sampleValue") : "";
-		defaultValue = model.getFieldValue("defaultValue") != null ? (String)model.getFieldValue("defaultValue") : "";
-		labelColumn = model.getFieldValue("labelColumn") != null ? (Integer)model.getFieldValue("labelColumn") : 0;
-		key = model.getFieldValue("key") != null ? (Boolean)model.getFieldValue("key") : false;
-		helpText = model.getFieldValue("helpText") != null ? (String)model.getFieldValue("helpText") : "";
-		rightToLeft = model.getFieldValue("rightToLeft") != null ? (Boolean)model.getFieldValue("rightToLeft") : false;
-		attribute = model.getFieldValue("attribute") != null ? (FieldAttributeType)model.getFieldValue("attribute")
+		displayName = screenModel.getFieldValue("displayName") != null ? (String)screenModel.getFieldValue("displayName") : "";
+		sampleValue = screenModel.getFieldValue("sampleValue") != null ? (String)screenModel.getFieldValue("sampleValue") : "";
+		defaultValue = screenModel.getFieldValue("defaultValue") != null ? (String)screenModel.getFieldValue("defaultValue") : "";
+		labelColumn = screenModel.getFieldValue("labelColumn") != null ? (Integer)screenModel.getFieldValue("labelColumn") : 0;
+		key = screenModel.getFieldValue("key") != null ? (Boolean)screenModel.getFieldValue("key") : false;
+		helpText = screenModel.getFieldValue("helpText") != null ? (String)screenModel.getFieldValue("helpText") : "";
+		rightToLeft = screenModel.getFieldValue("rightToLeft") != null ? (Boolean)screenModel.getFieldValue("rightToLeft")
+				: false;
+		attribute = screenModel.getFieldValue("attribute") != null ? (FieldAttributeType)screenModel.getFieldValue("attribute")
 				: FieldAttributeType.Value;
-		when = model.getFieldValue("when") != null ? (String)model.getFieldValue("when") : "";
-		unless = model.getFieldValue("unless") != null ? (String)model.getFieldValue("unless") : "";
-		keyIndex = model.getFieldValue("keyIndex") != null ? (Integer)model.getFieldValue("keyIndex") : -1;
-		internal = model.getFieldValue("internal") != null ? (Boolean)model.getFieldValue("internal") : false;
-		global = model.getFieldValue("global") != null ? (Boolean)model.getFieldValue("global") : false;
-		nullValue = model.getFieldValue("nullValue") != null ? (String)model.getFieldValue("nullValue") : "";
-		tableKey = model.getFieldValue("tableKey") != null ? (Boolean)model.getFieldValue("tableKey") : false;
-		forceUpdate = model.getFieldValue("forceUpdate") != null ? (Boolean)model.getFieldValue("forceUpdate") : false;
-		expression = model.getFieldValue("expression") != null ? (String)model.getFieldValue("expression") : "";
-		enableLookup = model.getFieldValue("enableLookup") != null ? (Boolean)model.getFieldValue("enableLookup") : false;
-		fieldName = model.getFieldValue("fieldName") != null ? (String)model.getFieldValue("fieldName")
+		when = screenModel.getFieldValue("when") != null ? (String)screenModel.getFieldValue("when") : "";
+		unless = screenModel.getFieldValue("unless") != null ? (String)screenModel.getFieldValue("unless") : "";
+		keyIndex = screenModel.getFieldValue("keyIndex") != null ? (Integer)screenModel.getFieldValue("keyIndex") : -1;
+		internal = screenModel.getFieldValue("internal") != null ? (Boolean)screenModel.getFieldValue("internal") : false;
+		global = screenModel.getFieldValue("global") != null ? (Boolean)screenModel.getFieldValue("global") : false;
+		nullValue = screenModel.getFieldValue("nullValue") != null ? (String)screenModel.getFieldValue("nullValue") : "";
+		tableKey = screenModel.getFieldValue("tableKey") != null ? (Boolean)screenModel.getFieldValue("tableKey") : false;
+		forceUpdate = screenModel.getFieldValue("forceUpdate") != null ? (Boolean)screenModel.getFieldValue("forceUpdate")
+				: false;
+		expression = screenModel.getFieldValue("expression") != null ? (String)screenModel.getFieldValue("expression") : "";
+		enableLookup = screenModel.getFieldValue("enableLookup") != null ? (Boolean)screenModel.getFieldValue("enableLookup")
+				: false;
+		fieldName = screenModel.getFieldValue("fieldName") != null ? (String)screenModel.getFieldValue("fieldName")
 				: Messages.getString("Field.new");
-		fieldTypeDefinition = model.getFieldValue("fieldTypeDefinition") != null ? (FieldTypeDefinition)model.getFieldValue("fieldTypeDefinition")
+		fieldTypeDefinition = screenModel.getFieldValue("fieldTypeDefinition") != null ? (FieldTypeDefinition)screenModel.getFieldValue("fieldTypeDefinition")
 				: null;
-		fieldTypeName = model.getFieldValue("fieldTypeName") != null ? (String)model.getFieldValue("fieldTypeName")
+		fieldTypeName = screenModel.getFieldValue("fieldTypeName") != null ? (String)screenModel.getFieldValue("fieldTypeName")
 				: FieldType.General.class.getSimpleName();
-		// initialized = model.getFieldValue("initialized") != null ? (Boolean)model.getFieldValue("initialized") : false;
-		// javaTypeName = model.getFieldValue("javaTypeName") != null ? (String)model.getFieldValue("javaTypeName")
+		// initialized = screenModel.getFieldValue("initialized") != null ? (Boolean)screenModel.getFieldValue("initialized") :
+		// false;
+		// javaTypeName = screenModel.getFieldValue("javaTypeName") != null ? (String)screenModel.getFieldValue("javaTypeName")
 		// : String.class.getSimpleName();
-		descriptionFieldModel = model.getFieldValue("descriptionFieldModel") != null ? ((ScreenDescriptionFieldModel)model.getFieldValue("descriptionFieldModel")).clone()
+		descriptionFieldModel = screenModel.getFieldValue("descriptionFieldModel") != null ? ((ScreenDescriptionFieldModel)screenModel.getFieldValue("descriptionFieldModel")).clone()
 				: new ScreenDescriptionFieldModel();
 
-		dynamicFieldModel = model.getFieldValue("dynamicFieldModel") != null ? ((ScreenDynamicFieldModel)model.getFieldValue("dynamicFieldModel")).clone()
+		dynamicFieldModel = screenModel.getFieldValue("dynamicFieldModel") != null ? ((ScreenDynamicFieldModel)screenModel.getFieldValue("dynamicFieldModel")).clone()
 				: new ScreenDynamicFieldModel();
-		
-		previousFieldName = model.getFieldValue("previousFieldName") != null ? (String)model.getFieldValue("previousFieldName")
+
+		previousFieldName = screenModel.getFieldValue("previousFieldName") != null ? (String)screenModel.getFieldValue("previousFieldName")
 				: Messages.getString("Field.new");
-		fieldsMap.putAll(model.fieldsMap);
+		fieldsMap.putAll(screenModel.fieldsMap);
 		return this;
 	}
 
