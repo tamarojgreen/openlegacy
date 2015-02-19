@@ -54,7 +54,7 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 
 	@Override
 	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) throws EntityNotFoundException,
-			ScreenEntityNotAccessibleException {
+	ScreenEntityNotAccessibleException {
 
 		ScreenPojoFieldAccessor fieldAccessor = null;
 
@@ -73,13 +73,14 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 				fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 			}
 			EnumFieldTypeDefinition fieldTypeDefinition = (EnumFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
-			TerminalPosition position =  ScreenBinderLogic.retrievePosition(fieldDefinition, terminalSnapshot);;
+			TerminalPosition position = ScreenBinderLogic.retrievePosition(fieldDefinition, terminalSnapshot);
+			;
 
-			if (position == null){
+			if (position == null) {
 				logger.warn("A field was not found for field:" + fieldDefinition.getName());
 				continue;
 			}
-			
+
 			TerminalField enumField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(position.getRow(),
 					position.getColumn()));
 
@@ -137,7 +138,7 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 				continue;
 			}
 			EnumFieldTypeDefinition fieldTypeDefinition = (EnumFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
-			TerminalPosition position = fieldDefinition.getPosition();
+			TerminalPosition position = ScreenBinderLogic.retrievePosition(fieldDefinition, terminalSnapshot);
 			TerminalField enumField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(position.getRow(),
 					position.getColumn()));
 

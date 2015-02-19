@@ -51,7 +51,7 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 
 	@Override
 	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) throws EntityNotFoundException,
-	ScreenEntityNotAccessibleException {
+			ScreenEntityNotAccessibleException {
 
 		ScreenPojoFieldAccessor fieldAccessor = null;
 
@@ -73,7 +73,7 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 			Assert.notNull(fieldTypeDefinition, "A field of type Boolean is defined without @ScreenBooleanField annotation");
 			TerminalPosition position = ScreenBinderLogic.retrievePosition(fieldDefinition, terminalSnapshot);
 
-			if (position == null){
+			if (position == null) {
 				logger.warn("A field was not found for field:" + fieldDefinition.getName());
 				continue;
 			}
@@ -129,7 +129,7 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 			}
 			BooleanFieldTypeDefinition fieldTypeDefinition = (BooleanFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
 			Assert.notNull(fieldTypeDefinition, "A field of type Boolean is defined without @ScreenBooleanField annotation");
-			TerminalPosition position = fieldDefinition.getPosition();
+			TerminalPosition position = ScreenBinderLogic.retrievePosition(fieldDefinition, terminalSnapshot);
 			TerminalField booleanField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(position.getRow(),
 					position.getColumn()));
 

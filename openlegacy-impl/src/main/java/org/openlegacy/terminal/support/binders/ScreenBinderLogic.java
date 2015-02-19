@@ -236,7 +236,7 @@ public class ScreenBinderLogic implements Serializable {
 
 		for (ScreenFieldDefinition fieldMappingDefinition : fieldMappingsDefinitions) {
 
-			final TerminalPosition fieldPosition = fieldMappingDefinition.getPosition();
+			final TerminalPosition fieldPosition = ScreenBinderLogic.retrievePosition(fieldMappingDefinition, terminalSnapshot);
 			final String fieldName = fieldMappingDefinition.getName();
 
 			if (!fieldAccessor.isExists(fieldName)) {
