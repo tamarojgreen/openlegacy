@@ -206,7 +206,7 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 				sb.append(ch);
 			}
 		}
-		return sb.toString();
+		return StringUtil.nullsToSpaces(sb.toString());
 	}
 
 	private Tn5250jTerminalField createEditableField(ScreenField screenField, String value, boolean hidden, int fieldAttributes) {

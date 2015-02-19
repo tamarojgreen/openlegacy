@@ -28,12 +28,12 @@ public class StringUtil {
 	 * this array contains forbidden words from java,c#,vb,javaScript
 	 */
 	private static final String[] RESERVED_WORDS = new String[] { "abstract", "do", "if", "package", "synchronized",
-			"implements", "private", "this", "break", "else", "import", "protected", "throw", "byte", "extends", "instanceof",
-			"public", "throws", "case", "false", "return", "transient", "catch", "final", "interface", "short", "int", "float",
-			"double", "boolean", "true", "char", "long", "static", "try", "class", "native", "strictfp", "void", "const", "for",
-			"new", "super", "volatile", "continue", "goto", "null", "switch", "while", "default", "assert", "exception", "java",
-			"menu", "jsp", "context", /** java-script **/
-			"action" };
+		"implements", "private", "this", "break", "else", "import", "protected", "throw", "byte", "extends", "instanceof",
+		"public", "throws", "case", "false", "return", "transient", "catch", "final", "interface", "short", "int", "float",
+		"double", "boolean", "true", "char", "long", "static", "try", "class", "native", "strictfp", "void", "const", "for",
+		"new", "super", "volatile", "continue", "goto", "null", "switch", "while", "default", "assert", "exception", "java",
+		"menu", "jsp", "context", /** java-script **/
+	"action" };
 
 	private static Map<String, String> RESERVERD_WORDS_DICTIONARY = new HashMap<String, String>();
 
@@ -365,7 +365,7 @@ public class StringUtil {
 	}
 
 	public static String nullsToSpaces(String value) {
-		char[] chars = new char[] { 0 };
+		char[] chars = new char[] { 0, 65535 };
 		if (StringUtils.containsNone(value, chars)) {
 			return value;
 		}
@@ -374,7 +374,7 @@ public class StringUtil {
 
 	public static String nullsToSpaces(char[] chars) {
 		for (int i = 0; i < chars.length; i++) {
-			if (chars[i] == 0) {
+			if (chars[i] == 0 || chars[i] == 65535) {
 				chars[i] = ' ';
 			}
 		}
@@ -426,11 +426,11 @@ public class StringUtil {
 
 	public static boolean isArabicChar(char inputChar) {
 		if ((inputChar >= 0x0600 && inputChar <= 0x06FF) || (inputChar >= 0xFB50 && inputChar <= 0xFDFD) // FB50-FDFD Unicode
-																											// Characters in the
-																											// Arabic Presentation
-																											// Forms-A Block
+				// Characters in the
+				// Arabic Presentation
+				// Forms-A Block
 				|| (isArabicCharFormB(inputChar)) // FE70-FEFC Unicode Characters in the Arabic Presentation Forms-B Block
-		) {
+				) {
 			return true;
 		} else {
 			return false;
