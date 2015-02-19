@@ -35,6 +35,7 @@ public class ProjectCreationRequest {
 	private boolean rightToLeft;
 
 	private String backendSolution;
+	private String frontendSolution;
 
 	private String dbDriver;
 	private String dbUrl;
@@ -214,6 +215,14 @@ public class ProjectCreationRequest {
 
 	public void setDbDialect(String dbDialect) {
 		this.dbDialect = dbDialect;
+	}
+
+	public String getFrontendSolution() {
+		return frontendSolution;
+	}
+
+	public void setFrontendSolution(String frontendSolution) {
+		this.frontendSolution = frontendSolution;
 	}
 
 }

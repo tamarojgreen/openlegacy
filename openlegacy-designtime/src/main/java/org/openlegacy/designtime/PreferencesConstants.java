@@ -37,4 +37,5 @@ public class PreferencesConstants {
 	public static final String LEGACY_FILENAME = "LEGACY_FILENAME";
 
 	public static final String BACKEND_SOLUTION = "BACKEND_SOLUTION";
+	public static final String FRONTEND_SOLUTION = "FRONTEND_SOLUTION";
 }

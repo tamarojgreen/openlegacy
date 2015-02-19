@@ -60,7 +60,6 @@
 				});
 			},
 			remove:function(url, callback){	
-				console.log("asdasd");
 				$http(
 						{
 							method : 'DELETE',
@@ -71,7 +70,7 @@
 							}
 						})
 				.success(function(data, status, headers, config) {
-					console.log("succ")
+					console.log("success")
 					callback(data);
 				}).error(function(data, status, headers, config) {
 					console.log("error")
@@ -92,7 +91,8 @@
 					'Accept' : 'application/json'
 				}
 			}).success(function(data, status, headers, config) {
-				callback(data.JSONObjectList);				
+				//callback(data.JSONObjectList);
+				callback(data.simpleMenuItem);
 			}).error(function(data, status, headers, config) {
 //				if(data.error){
 //					alert('Error: ' + data.error);

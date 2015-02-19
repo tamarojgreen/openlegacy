@@ -223,6 +223,15 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 		savePreference(targetPath, PreferencesConstants.BACKEND_SOLUTION, backendSolution);
 
+		String frontendSolution = (projectCreationRequest.getFrontendSolution() != null) ? projectCreationRequest.getFrontendSolution().toUpperCase()
+				: "REST";
+
+		if (StringUtils.equals(frontendSolution, "REST/MOBILE")) {
+			frontendSolution = "REST";
+		}
+
+		savePreference(targetPath, PreferencesConstants.FRONTEND_SOLUTION, frontendSolution);
+
 		if (projectCreationRequest.isRightToLeft()) {
 			handleRightToLeft(targetPath);
 		}
@@ -1530,8 +1539,6 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			logger.warn(MessageFormat.format("{0} doesnt support controller generation", entityPageGenerator.getClass()));
 		}
 	}
-	
-
 
 	private void setDbDialect(String dbDialect, File targetPath) throws FileNotFoundException, IOException {
 		File persistenceFile = new File(targetPath, PERSISTENCE_XML_PATH);
@@ -1544,15 +1551,14 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		String persistenceFileContent = IOUtils.toString(new FileInputStream(persistenceFile));
 
 		if (dbDialect != null || dbDialect != "") {
-			persistenceFileContent = persistenceFileContent.replaceFirst(
-					"<property name=\"hibernate\\.dialect\" value=\".+\"/>",
+			persistenceFileContent = persistenceFileContent.replaceFirst("<property name=\"hibernate\\.dialect\" value=\".+\"/>",
 					MessageFormat.format("<property name=\"hibernate\\.dialect\" value=\"{0}\"/>", dbDialect));
 			try {
 				FileUtils.write(persistenceFileContent, persistenceFile);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}		
+		}
 	}
 
 }

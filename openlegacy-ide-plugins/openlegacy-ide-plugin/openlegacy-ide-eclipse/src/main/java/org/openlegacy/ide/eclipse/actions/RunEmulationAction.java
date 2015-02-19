@@ -12,6 +12,8 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
+import org.openlegacy.designtime.enums.BackendSolution;
+import org.openlegacy.designtime.enums.FrontendSolution;
 import org.openlegacy.ide.eclipse.util.PopupUtil;
 
 import java.net.MalformedURLException;
@@ -28,7 +30,7 @@ public class RunEmulationAction extends AbstractAction {
 	public void run(IAction arg0) {
 		final IProject project = (IProject)((TreeSelection)getSelection()).getFirstElement();
 		String backEndSolutuion = EclipseDesignTimeExecuter.instance().getPreference(project, "BACKEND_SOLUTION");
-		if (backEndSolutuion != null && backEndSolutuion.equals("SCREEN")) {
+		if (backEndSolutuion != null && backEndSolutuion.equals(BackendSolution.SCREEN.name())) {
 			ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
 			IFile configFile = project.getFile(LAUNCHER_FILE_NAME);
 			if (configFile.exists()) {
@@ -42,7 +44,16 @@ public class RunEmulationAction extends AbstractAction {
 						try {
 							IWorkbenchBrowserSupport browserSupport = PlatformUI.getWorkbench().getBrowserSupport();
 							IWebBrowser browser = browserSupport.createBrowser("openlegacy");
-							browser.openURL(new URL("http://localhost:1512/" + project.getName()));
+							String frontendSolution = EclipseDesignTimeExecuter.instance().getPreference(project,
+									"FRONTEND_SOLUTION");
+							String urlPart = "";
+							if (frontendSolution.equals(FrontendSolution.REST.name())) {
+								urlPart = "app";
+							} else if (frontendSolution.equals(FrontendSolution.INTEGRATION.name())) {
+								urlPart = "services";
+							}
+							browser.openURL(new URL(MessageFormat.format("http://localhost:1512/{0}/{1}", project.getName(),
+									urlPart)));
 						} catch (PartInitException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
