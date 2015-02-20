@@ -383,8 +383,8 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock implements I
 				fillNewModel(newModel);
 				entity.addAction(new RpcIntegerFieldAction(newModel.getUUID(), newModel, ActionType.ADD,
 						ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
-				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
-				RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, newModel);
+				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, true);
+				RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, newModel, true);
 
 				reassignTreeViewerInput(newModel.getUUID());
 			}
@@ -412,8 +412,8 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock implements I
 				fillNewModel(newModel);
 				entity.addAction(new RpcBigIntegerFieldAction(newModel.getUUID(), newModel, ActionType.ADD,
 						ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
-				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
-				RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, newModel);
+				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, true);
+				RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, newModel, true);
 
 				reassignTreeViewerInput(newModel.getUUID());
 			}
@@ -441,8 +441,8 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock implements I
 				fillNewModel(newModel);
 				entity.addAction(new RpcBooleanFieldAction(newModel.getUUID(), newModel, ActionType.ADD,
 						ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
-				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
-				RpcEntityUtils.ActionGenerator.generateRpcBooleanFieldActions(entity, newModel);
+				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, true);
+				RpcEntityUtils.ActionGenerator.generateRpcBooleanFieldActions(entity, newModel, true);
 
 				reassignTreeViewerInput(newModel.getUUID());
 			}
@@ -470,8 +470,8 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock implements I
 				fillNewModel(newModel);
 				entity.addAction(new RpcDateFieldAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.FIELD_DECLARATION,
 						newModel.getFieldName(), null));
-				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
-				RpcEntityUtils.ActionGenerator.generateRpcDateFieldActions(entity, newModel);
+				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, true);
+				RpcEntityUtils.ActionGenerator.generateRpcDateFieldActions(entity, newModel, true);
 
 				reassignTreeViewerInput(newModel.getUUID());
 			}
@@ -502,8 +502,8 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock implements I
 				// add action that responsible for creating a new enum class
 				entity.addAction(new RpcEnumFieldAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.ENUM_DECLARATION,
 						Constants.ENUM_FIELD_NEW_TYPE_DECLARATION, null));
-				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
-				RpcEntityUtils.ActionGenerator.generateRpcEnumFieldActions(entity, newModel);
+				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, true);
+				RpcEntityUtils.ActionGenerator.generateRpcEnumFieldActions(entity, newModel, true);
 
 				reassignTreeViewerInput(newModel.getUUID());
 			}
@@ -536,7 +536,7 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock implements I
 				fillNewModel(newModel);
 				entity.addAction(new RpcFieldAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.FIELD_DECLARATION,
 						newModel.getFieldName(), null));
-				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
+				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, true);
 
 				reassignTreeViewerInput(newModel.getUUID());
 			}

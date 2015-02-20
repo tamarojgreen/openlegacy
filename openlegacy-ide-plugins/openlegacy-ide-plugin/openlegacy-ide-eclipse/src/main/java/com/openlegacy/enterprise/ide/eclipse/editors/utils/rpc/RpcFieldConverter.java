@@ -16,12 +16,12 @@ public class RpcFieldConverter {
 			convertedField = new RpcBooleanFieldModel((RpcNamedObject)model.getParent());
 		} else if (RpcDateFieldModel.class.isAssignableFrom(toClass)) {
 			convertedField = new RpcDateFieldModel((RpcNamedObject)model.getParent());
+		} else if (RpcBigIntegerFieldModel.class.isAssignableFrom(toClass)) {
+			convertedField = new RpcBigIntegerFieldModel((RpcNamedObject)model.getParent());
 		} else if (RpcIntegerFieldModel.class.isAssignableFrom(toClass)) {
 			convertedField = new RpcIntegerFieldModel((RpcNamedObject)model.getParent());
 		} else if (RpcEnumFieldModel.class.isAssignableFrom(toClass)) {
 			convertedField = new RpcEnumFieldModel((RpcNamedObject)model.getParent());
-		} else if (RpcBigIntegerFieldModel.class.isAssignableFrom(toClass)) {
-			convertedField = new RpcBigIntegerFieldModel((RpcNamedObject)model.getParent());
 		} else {
 			convertedField = new RpcFieldModel((RpcNamedObject)model.getParent());
 		}

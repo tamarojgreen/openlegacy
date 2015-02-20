@@ -196,7 +196,11 @@ public class ControlsUpdater {
 		for (String key : mapKeys) {
 			Text text = mapTexts.get(key);
 			if (key.equals(AnnotationConstants.PATTERN)) {
-				text.setText(fieldModel.getPattern());
+				if (fieldModel.getPattern() == null) {
+					text.setText("");
+				} else {
+					text.setText(fieldModel.getPattern());
+				}				
 			}
 		}
 	}

@@ -95,7 +95,7 @@ public class ModelUpdater {
 				model.setExpression(text);
 			}
 		}
-		RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, model);
+		RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, model, true);
 	}
 
 	public static void updateRpcBooleanFieldModel(RpcEntity entity, RpcBooleanFieldModel model, String key, String text,
@@ -112,7 +112,7 @@ public class ModelUpdater {
 				model.setFalseValue(text);
 			}
 		}
-		RpcEntityUtils.ActionGenerator.generateRpcBooleanFieldActions(entity, model);
+		RpcEntityUtils.ActionGenerator.generateRpcBooleanFieldActions(entity, model, true);
 	}
 
 	public static void updateRpcIntegerFieldModel(RpcEntity entity, RpcIntegerFieldModel model, String key, String text) {
@@ -125,7 +125,7 @@ public class ModelUpdater {
 				model.setDecimalPlaces(text.isEmpty() ? 0 : Integer.valueOf(text));
 			}
 		}
-		RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, model);
+		RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, model, true);
 	}
 
 	public static void updateRpcPartModel(RpcEntity entity, RpcPartModel model, String key, String text) {
@@ -167,7 +167,7 @@ public class ModelUpdater {
 				model.setPattern(text);
 			}
 		}
-		RpcEntityUtils.ActionGenerator.generateRpcDateFieldActions(entity, model);
+		RpcEntityUtils.ActionGenerator.generateRpcDateFieldActions(entity, model, true);
 	}
 
 	public static void updateRpcEnumFieldModel(RpcEntity entity, RpcEnumFieldModel model, String key, String text,
@@ -181,7 +181,7 @@ public class ModelUpdater {
 				}
 			}
 		}
-		RpcEntityUtils.ActionGenerator.generateRpcEnumFieldActions(entity, model);
+		RpcEntityUtils.ActionGenerator.generateRpcEnumFieldActions(entity, model, true);
 	}
 
 }

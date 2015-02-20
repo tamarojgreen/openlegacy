@@ -190,15 +190,15 @@ public class FieldsTreeViewerDropHelper {
 	private static void generateFieldModifyActions(RpcEntity entity, RpcFieldModel model) {
 		entity.addAction(getAddFieldAction(model));
 		if (model instanceof RpcBooleanFieldModel) {
-			RpcEntityUtils.ActionGenerator.generateRpcBooleanFieldActions(entity, (RpcBooleanFieldModel)model);
+			RpcEntityUtils.ActionGenerator.generateRpcBooleanFieldActions(entity, (RpcBooleanFieldModel)model, true);
 		} else if (model instanceof RpcIntegerFieldModel) {
-			RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, (RpcIntegerFieldModel)model);
+			RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, (RpcIntegerFieldModel)model, true);
 		} else if (model instanceof RpcDateFieldModel) {
-			RpcEntityUtils.ActionGenerator.generateRpcDateFieldActions(entity, (RpcDateFieldModel)model);
+			RpcEntityUtils.ActionGenerator.generateRpcDateFieldActions(entity, (RpcDateFieldModel)model, true);
 		} else if (model instanceof RpcEnumFieldModel) {
-			RpcEntityUtils.ActionGenerator.generateRpcEnumFieldActions(entity, (RpcEnumFieldModel)model);
+			RpcEntityUtils.ActionGenerator.generateRpcEnumFieldActions(entity, (RpcEnumFieldModel)model, true);
 		}
-		RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, model);
+		RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, model, true);
 		entity.setDirty(true);
 	}
 

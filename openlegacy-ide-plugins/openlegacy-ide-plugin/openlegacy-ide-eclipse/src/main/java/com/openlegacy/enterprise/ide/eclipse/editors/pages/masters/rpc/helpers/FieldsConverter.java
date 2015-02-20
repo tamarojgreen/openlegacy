@@ -92,40 +92,36 @@ public class FieldsConverter {
 				if (RpcBooleanFieldModel.class.isAssignableFrom(targetClass)) {
 					entity.addAction(new RpcBooleanFieldAction(newModel.getUUID(), newModel, ActionType.ADD,
 							ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
-					RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
-					RpcEntityUtils.ActionGenerator.generateRpcBooleanFieldActions(entity, (RpcBooleanFieldModel)newModel);
+					RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, false);
+					RpcEntityUtils.ActionGenerator.generateRpcBooleanFieldActions(entity, (RpcBooleanFieldModel)newModel, false);
 				} else if (RpcDateFieldModel.class.isAssignableFrom(targetClass)) {
 					entity.addAction(new RpcDateFieldAction(newModel.getUUID(), newModel, ActionType.ADD,
 							ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
-					RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
-					RpcEntityUtils.ActionGenerator.generateRpcDateFieldActions(entity, (RpcDateFieldModel)newModel);
-					// RpcEntityUtils.ActionGenerator.generateRpcDescriptionFieldActions(entity, newModel, false);
+					RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, false);
+					RpcEntityUtils.ActionGenerator.generateRpcDateFieldActions(entity, (RpcDateFieldModel)newModel, false);
+				} else if (RpcBigIntegerFieldModel.class.isAssignableFrom(targetClass)) {
+					entity.addAction(new RpcBigIntegerFieldAction(newModel.getUUID(), newModel, ActionType.ADD,
+							ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
+					RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, false);
+					RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, (RpcBigIntegerFieldModel)newModel, false);
 				} else if (RpcIntegerFieldModel.class.isAssignableFrom(targetClass)) {
 					entity.addAction(new RpcIntegerFieldAction(newModel.getUUID(), newModel, ActionType.ADD,
 							ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
-					RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
-					// RpcEntityUtils.ActionGenerator.generateRpcDescriptionFieldActions(entity, newModel, false);
+					RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, false);
+					RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, (RpcIntegerFieldModel)newModel, true);
 				} else if (RpcEnumFieldModel.class.isAssignableFrom(targetClass)) {
 					entity.addAction(new RpcEnumFieldAction(newModel.getUUID(), (RpcEnumFieldModel)newModel, ActionType.ADD,
 							ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
 					// add action that responsible for creating a new enum class
 					entity.addAction(new RpcEnumFieldAction(newModel.getUUID(), (RpcEnumFieldModel)newModel, ActionType.ADD,
 							ASTNode.ENUM_DECLARATION, Constants.ENUM_FIELD_NEW_TYPE_DECLARATION, null));
-					RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
-					RpcEntityUtils.ActionGenerator.generateRpcEnumFieldActions(entity, (RpcEnumFieldModel)newModel);
-					// RpcEntityUtils.ActionGenerator.generateRpcDescriptionFieldActions(entity, newModel, false);
-				} else if (RpcBigIntegerFieldModel.class.isAssignableFrom(targetClass)) {
-					entity.addAction(new RpcBigIntegerFieldAction(newModel.getUUID(), newModel, ActionType.ADD,
-							ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
-					RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
-					// RpcEntityUtils.ActionGenerator.generateRpcBigIntegerActions(entity, (RpcBigIntegerFieldModel)newModel,
-					// false);
-					// RpcEntityUtils.ActionGenerator.generateRpcDescriptionFieldActions(entity, newModel, false);
+					RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, false);
+					RpcEntityUtils.ActionGenerator.generateRpcEnumFieldActions(entity, (RpcEnumFieldModel)newModel, false);
+				
 				} else {
 					entity.addAction(new RpcFieldAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.FIELD_DECLARATION,
 							newModel.getFieldName(), null));
-					RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
-					// RpcEntityUtils.ActionGenerator.generateRpcDescriptionFieldActions(entity, newModel, false);
+					RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, false);
 				}
 				selectUuid = newModel.getUUID();
 			}

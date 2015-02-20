@@ -113,7 +113,7 @@ public class RpcEntityUtils {
 					| ASTNode.MEMBER_VALUE_PAIR, RpcAnnotationConstants.CATEGORY, model.getCategory());
 		}
 
-		public static void generateRpcBooleanFieldActions(RpcEntity entity, RpcBooleanFieldModel model) {
+		public static void generateRpcBooleanFieldActions(RpcEntity entity, RpcBooleanFieldModel model, boolean checkPrevious) {
 			boolean isPrevious = true;
 			boolean isDefault = true;
 			RpcBooleanFieldModel entityModel = (RpcBooleanFieldModel)entity.getFields().get(model.getUUID());
@@ -122,23 +122,29 @@ public class RpcEntityUtils {
 						model.getUUID());
 			}
 			// @RpcBooleanField.trueValue: default none
-			isPrevious = model.getTrueValue().equals(entityModel.getTrueValue());
+			if (checkPrevious) {
+				isPrevious = model.getTrueValue().equals(entityModel.getTrueValue());
+			}
 			isDefault = false;
 			PrivateMethods.addRemoveRpcBooleanFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.TRUE_VALUE, model.getTrueValue());
 			// @RpcBooleanField.falseValue: default none
-			isPrevious = model.getFalseValue().equals(entityModel.getFalseValue());
+			if (checkPrevious) {
+				isPrevious = model.getFalseValue().equals(entityModel.getFalseValue());
+			}
 			isDefault = false;
 			PrivateMethods.addRemoveRpcBooleanFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.FALSE_VALUE, model.getFalseValue());
 			// @RpcBooleanField.treatEmptyasNull: default false
-			isPrevious = model.isTreatEmptyAsNull() == entityModel.isTreatEmptyAsNull();
+			if (checkPrevious) {
+				isPrevious = model.isTreatEmptyAsNull() == entityModel.isTreatEmptyAsNull();
+			}
 			isDefault = !model.isTreatEmptyAsNull();
 			PrivateMethods.addRemoveRpcBooleanFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.TREAT_EMPTY_AS_NULL, model.isTreatEmptyAsNull());
 		}
 
-		public static void generateRpcNumericFieldActions(RpcEntity entity, RpcIntegerFieldModel model) {
+		public static void generateRpcNumericFieldActions(RpcEntity entity, RpcIntegerFieldModel model, boolean checkPrevious) {
 			boolean isPrevious = true;
 			boolean isDefault = true;
 			RpcIntegerFieldModel entityModel = (RpcIntegerFieldModel)entity.getFields().get(model.getUUID());
@@ -147,23 +153,29 @@ public class RpcEntityUtils {
 						model.getUUID());
 			}
 			// @RpcNumericField.minimumValue: default 0.0
-			isPrevious = Double.compare(model.getMinimumValue(), entityModel.getMinimumValue()) == 0;
+			if (checkPrevious) {
+				isPrevious = Double.compare(model.getMinimumValue(), entityModel.getMinimumValue()) == 0;
+			}
 			isDefault = Double.compare(model.getMinimumValue(), 0.0) == 0;
 			PrivateMethods.addRemoveRpcNumericFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, RpcAnnotationConstants.MINIMUM_VALUE, model.getMinimumValue());
 			// @RpcNumericField.maximumValue: default 0.0
-			isPrevious = Double.compare(model.getMaximumValue(), entityModel.getMaximumValue()) == 0;
+			if (checkPrevious) {
+				isPrevious = Double.compare(model.getMaximumValue(), entityModel.getMaximumValue()) == 0;
+			}
 			isDefault = Double.compare(model.getMaximumValue(), 0.0) == 0;
 			PrivateMethods.addRemoveRpcNumericFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, RpcAnnotationConstants.MAXIMUM_VALUE, model.getMaximumValue());
 			// @RpcNumericField.decimalPlaces: default 0
-			isPrevious = model.getDecimalPlaces() == entityModel.getDecimalPlaces();
+			if (checkPrevious) {
+				isPrevious = model.getDecimalPlaces() == entityModel.getDecimalPlaces();
+			}
 			isDefault = model.getDecimalPlaces() == 0;
 			PrivateMethods.addRemoveRpcNumericFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, RpcAnnotationConstants.DECIMAL_PLACES, model.getDecimalPlaces());
 		}
 
-		public static void generateRpcFieldActions(RpcEntity entity, RpcFieldModel model) {
+		public static void generateRpcFieldActions(RpcEntity entity, RpcFieldModel model, boolean checkPrevious) {
 			boolean isPrevious = true;
 			boolean isDefault = true;
 			RpcFieldModel entityModel = entity.getFields().get(model.getUUID());
@@ -171,62 +183,86 @@ public class RpcEntityUtils {
 				entityModel = entity.getPartByUUID(model.getParent().getUUID()).getFields().get(model.getUUID());
 			}
 			// @RpcField -> fieldName: default equals to field name from entityModel
-			isPrevious = model.getFieldName().equals(entityModel.getFieldName());
+			if (checkPrevious) {
+				isPrevious = model.getFieldName().equals(entityModel.getFieldName());
+			}
 			isDefault = entityModel.getPreviousFieldName().equals(model.getFieldName());
 			PrivateMethods.addRemoveRpcFieldAction(entity, model, isPrevious, isDefault, ASTNode.FIELD_DECLARATION,
 					Constants.FIELD_NAME, model.getFieldName());
 			// @RpcField.originalName: default ""
-			isPrevious = model.getOriginalName().equals(entityModel.getOriginalName());
+			if (checkPrevious) {
+				isPrevious = model.getOriginalName().equals(entityModel.getOriginalName());
+			}
 			isDefault = model.getOriginalName().isEmpty();
 			PrivateMethods.addRemoveRpcFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, RpcAnnotationConstants.ORIGINAL_NAME, model.getOriginalName());
 			// @RpcField.key: default false
-			isPrevious = model.isKey() == entityModel.isKey();
+			if (checkPrevious) {
+				isPrevious = model.isKey() == entityModel.isKey();
+			}
 			isDefault = !model.isKey();
 			PrivateMethods.addRemoveRpcFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.KEY, model.isKey());
 			// @RpcField.direction: default Direction.INPUT_OUTPUT
-			isPrevious = model.getDirection().equals(entityModel.getDirection());
+			if (checkPrevious) {
+				isPrevious = model.getDirection().equals(entityModel.getDirection());
+			}
 			isDefault = model.getDirection().equals(Direction.INPUT_OUTPUT);
 			PrivateMethods.addRemoveRpcFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, RpcAnnotationConstants.DIRECTION, model.getDirection());
 			// @RpcField.length: default none;
-			isPrevious = model.getLength() == entityModel.getLength();
+			if (checkPrevious) {
+				isPrevious = model.getLength() == entityModel.getLength();
+			}
 			isDefault = false;
 			PrivateMethods.addRemoveRpcFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.LENGTH, model.getLength());
 			// @RpcField.fieldType: default RpcFieldTypes.General.class
-			isPrevious = model.getFieldTypeName().equals(entityModel.getFieldTypeName());
+			if (checkPrevious) {
+				isPrevious = model.getFieldTypeName().equals(entityModel.getFieldTypeName());
+			}
 			isDefault = model.getFieldType().equals(FieldType.General.class);
 			PrivateMethods.addRemoveRpcFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.FIELD_TYPE, model.getFieldType());
 			// @RpcField.displayName: default none
-			isPrevious = model.getDisplayName().equals(entityModel.getDisplayName());
+			if (checkPrevious) {
+				isPrevious = model.getDisplayName().equals(entityModel.getDisplayName());
+			}
 			isDefault = false;
 			PrivateMethods.addRemoveRpcFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.DISPLAY_NAME, model.getDisplayName());
 			// @RpcField.sampleValue: default ""
-			isPrevious = model.getSampleValue().equals(entityModel.getSampleValue());
+			if (checkPrevious) {
+				isPrevious = model.getSampleValue().equals(entityModel.getSampleValue());
+			}
 			isDefault = model.getSampleValue().isEmpty();
 			PrivateMethods.addRemoveRpcFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.SAMPLE_VALUE, model.getSampleValue());
 			// @RpcField.helpText: default ""
-			isPrevious = model.getHelpText().equals(entityModel.getHelpText());
+			if (checkPrevious) {
+				isPrevious = model.getHelpText().equals(entityModel.getHelpText());
+			}
 			isDefault = model.getHelpText().isEmpty();
 			PrivateMethods.addRemoveRpcFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.HELP_TEXT, model.getHelpText());
 			// @RpcField.editable: default true
-			isPrevious = model.isEditable() == entityModel.isEditable();
+			if (checkPrevious) {
+				isPrevious = model.isEditable() == entityModel.isEditable();
+			}
 			isDefault = model.isEditable();
 			PrivateMethods.addRemoveRpcFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.EDITABLE, model.isEditable());
 			// @RpcField.defaultValue: default ""
-			isPrevious = model.getDefaultValue().equals(entityModel.getDefaultValue());
+			if (checkPrevious) {
+				isPrevious = model.getDefaultValue().equals(entityModel.getDefaultValue());
+			}
 			isDefault = model.getDefaultValue().isEmpty();
 			PrivateMethods.addRemoveRpcFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, RpcAnnotationConstants.DEFAULT_VALUE, model.getDefaultValue());
 			// @RpcField.expression: default ""
-			isPrevious = StringUtils.equals(entityModel.getExpression(), model.getExpression());
+			if (checkPrevious) {
+				isPrevious = StringUtils.equals(entityModel.getExpression(), model.getExpression());
+			}
 			isDefault = StringUtils.isEmpty(model.getExpression());
 			PrivateMethods.addRemoveRpcFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, RpcAnnotationConstants.EXPRESSION, model.getExpression());
@@ -326,7 +362,7 @@ public class RpcEntityUtils {
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.ACTIONS, model.getActions());
 		}
 
-		public static void generateRpcDateFieldActions(RpcEntity entity, RpcDateFieldModel model) {
+		public static void generateRpcDateFieldActions(RpcEntity entity, RpcDateFieldModel model, boolean checkPrevious) {
 			boolean isPrevious = true;
 			boolean isDefault = true;
 			RpcDateFieldModel entityModel = (RpcDateFieldModel)entity.getFields().get(model.getUUID());
@@ -335,13 +371,15 @@ public class RpcEntityUtils {
 						model.getUUID());
 			}
 			// @RpcDateField.pattern: default none;
-			isPrevious = StringUtils.equals(entityModel.getPattern(), model.getPattern());
+			if (checkPrevious) {
+				isPrevious = StringUtils.equals(entityModel.getPattern(), model.getPattern());
+			}
 			isDefault = false;
 			PrivateMethods.addRemoveRpcDateFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.PATTERN, model.getPattern());
 		}
 
-		public static void generateRpcEnumFieldActions(RpcEntity entity, RpcEnumFieldModel model) {
+		public static void generateRpcEnumFieldActions(RpcEntity entity, RpcEnumFieldModel model, boolean checkPrevious) {
 			boolean isPrevious = false;
 			boolean isDefault = true;
 			RpcEnumFieldModel entityModel = (RpcEnumFieldModel)entity.getFields().get(model.getUUID());
@@ -350,12 +388,16 @@ public class RpcEntityUtils {
 						model.getUUID());
 			}
 			// @RpcField java type: default none
-			isPrevious = model.getJavaTypeName().equals(entityModel.getJavaTypeName());
+			if (checkPrevious) {
+				isPrevious = model.getJavaTypeName().equals(entityModel.getJavaTypeName());
+			}
 			isDefault = false;
 			PrivateMethods.addRemoveRpcEnumFieldAction(entity, model, isPrevious, isDefault, ASTNode.FIELD_DECLARATION
 					| ASTNode.SIMPLE_TYPE, Constants.JAVA_TYPE, model.getType());
 			// Enum properties: default none;
-			isPrevious = PrivateMethods.compareEnumEntries(model.getEntries(), entityModel.getEntries());
+			if (checkPrevious) {
+				isPrevious = PrivateMethods.compareEnumEntries(model.getEntries(), entityModel.getEntries());
+			}
 			isDefault = false;
 			PrivateMethods.addRemoveRpcEnumFieldAction(entity, model, isPrevious, isDefault, ASTNode.ENUM_CONSTANT_DECLARATION,
 					Constants.ENUM_FIELD_ENTRIES, model.getEntries());
