@@ -191,25 +191,24 @@
 							urlsToFilter.push(url);
 						}					
 					</#if>	
-				Register controller place-holder end */										
+				Register controller place-holder end */
 				<#if entitiesDefinitions??>
-					<#list entitiesDefinitions as entityDefinition>					
-						<#list entityDefinition.actions as action>						
-							<#switch action.actionName>
-								<#case "READ">
-									<#if entityDefinition.keys?size &gt; 0>
-										var url = "/${entityDefinition.entityName}/:<#list entityDefinition.keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>";
-										if ($.inArray(url, urlsToFilter) == -1) {
-											addRoute("${entityDefinition.entityName}Details", "${entityDefinition.entityName}.edit", "${entityDefinition.entityName}DetailsCtrl", url);
-										}
-									</#if>
-									<#break>
-								<#case "CREATE">
-									var url = "/${entityDefinition.entityName}/new";
-									if ($.inArray(url, urlsToFilter) == -1) {
-										addRoute("${entityDefinition.entityName}New", "${entityDefinition.entityName}.edit", "${entityDefinition.entityName}NewCtrl", url);
-									}
-							</#switch>							
+					<#list entitiesDefinitions as entityDefinition>
+						<#list entityDefinition.actions as action>
+							<#if action.actionName == "CREATE">
+								var url = "/${entityDefinition.entityName}/new";
+								if ($.inArray(url, urlsToFilter) == -1) {
+									addRoute("${entityDefinition.entityName}New", "${entityDefinition.entityName}.edit", "${entityDefinition.entityName}NewCtrl", url);
+								}
+							</#if>
+						</#list>
+						<#list entityDefinition.actions as action>
+							<#if action.actionName == "READ" && entityDefinition.keys?size &gt; 0>
+								var url = "/${entityDefinition.entityName}/:<#list entityDefinition.keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>";
+								if ($.inArray(url, urlsToFilter) == -1) {
+									addRoute("${entityDefinition.entityName}Details", "${entityDefinition.entityName}.edit", "${entityDefinition.entityName}DetailsCtrl", url);
+								}
+							</#if>
 						</#list>
 						var url = "/${entityDefinition.entityName}";
 						if ($.inArray(url, urlsToFilter) == -1) {

@@ -180,7 +180,7 @@
 												</#if>
 											</#if>
 										</label>
-										<input class="col-sm-6 col-xs-6" ng-model="model.entity.<#if propertyName != "">${propertyName}['1'].</#if>${column.name}" ng-disabled="<#if isUPDATEAction && column.editable?? && column.editable>false<#else>true</#if>"></input>
+										<input class="col-sm-6 col-xs-6" ng-model="model.entity.<#if propertyName != "">${propertyName}['1'].</#if>${column.name}" ng-disabled="<#if isUPDATEAction && column.updatable>false<#else>true</#if>"></input>
 									</div>
 								</#if>
 								<#if (!column.internal?? || column.internal == false) && column.oneToManyDefinition??>
