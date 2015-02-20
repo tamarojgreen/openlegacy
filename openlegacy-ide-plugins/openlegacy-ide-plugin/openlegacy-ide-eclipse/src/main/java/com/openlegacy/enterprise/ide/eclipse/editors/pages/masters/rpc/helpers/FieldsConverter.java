@@ -19,7 +19,6 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEnumFieldMode
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcPartModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenPartModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.masters.screen.helpers.IPartsMasterBlockCallback;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.rpc.RpcEntityUtils;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.rpc.RpcFieldConverter;
@@ -59,7 +58,7 @@ public class FieldsConverter {
 				NamedObject parent = ((RpcFieldModel)model).getParent();
 				if (parent instanceof RpcEntityModel) {
 					entity.removeRpcFieldModel((RpcFieldModel)model);
-				} else if (parent instanceof ScreenPartModel) {
+				} else if (parent instanceof RpcPartModel) {
 					entity.removeRpcFieldModelFromPart((RpcFieldModel)model);
 				}
 
@@ -131,5 +130,6 @@ public class FieldsConverter {
 				selectUuid = newModel.getUUID();
 			}
 		}
+		callback.reassignMasterBlockViewerInput(selectUuid);
 	}
 }

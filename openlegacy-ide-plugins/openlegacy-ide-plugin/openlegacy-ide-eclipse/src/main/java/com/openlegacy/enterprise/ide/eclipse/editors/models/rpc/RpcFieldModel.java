@@ -3,7 +3,6 @@ package com.openlegacy.enterprise.ide.eclipse.editors.models.rpc;
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.IConvertedField;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.Utils;
 
 import org.apache.commons.lang.StringUtils;
@@ -281,12 +280,14 @@ public class RpcFieldModel extends RpcNamedObject implements IConvertedField {
 		this.expression = expression;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public NamedObject convertFrom(NamedObject model) {
-		if (!(model instanceof ScreenFieldModel)) {
+		if (!(model instanceof RpcFieldModel)) {
 			return null;
 		}
 		RpcFieldModel rpcModel = (RpcFieldModel)model;
+		rpcModel.fillFieldsMap();
 		// initialized = rpcModel.getFieldValue("initialized") != null ? (Boolean)rpcModel.getFieldValue("initialized") : false;
 		// javaTypeName = rpcModel.getFieldValue("javaTypeName") != null ? (String)rpcModel.getFieldValue("javaTypeName")
 		// : String.class.getSimpleName();

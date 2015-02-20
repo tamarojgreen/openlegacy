@@ -769,14 +769,20 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock implements I
 
 	@Override
 	public AbstractEntity getAbstractEntity() {
-		// TODO Auto-generated method stub
-		return null;
+		return getEntity();
 	}
 
 	@Override
-	public void reassignMasterBlockViewerInput(UUID uuid) {
-		// TODO Auto-generated method stub
-
+	public void reassignMasterBlockViewerInput(UUID selectUUID) {
+		RpcEntity entity = getEntity();
+		treeViewer.setInput(entity);
+		treeViewer.expandAll();
+		if (selectUUID != null) {
+			treeViewerSetSelectionByModelUUID(selectUUID);
+		} else {
+			treeViewerSetSelection(0);
+		}
+		page.getEditor().editorDirtyStateChanged();
 	}
 
 	@Override
@@ -786,13 +792,22 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock implements I
 
 	@Override
 	public void removeValidationMarkers(UUID uuid) {
-		// TODO Auto-generated method stub
+		for (IDetailsPage detailsPage : detailsPages) {
+			if (((IOpenLegacyDetailsPage)detailsPage).getModelUUID() != null
+					&& ((IOpenLegacyDetailsPage)detailsPage).getModelUUID().equals(uuid)) {
+				((IOpenLegacyDetailsPage)detailsPage).removeValidationMarkers();
+				break;
+			}
+		}
 
 	}
 
 	@Override
 	public void removePartsValidationMarkers() {
-		// TODO Auto-generated method stub
-
+		for (IDetailsPage detailsPage : detailsPages) {
+			if (detailsPage instanceof PartsRpcPartDetailsPage) {
+				((IOpenLegacyDetailsPage)detailsPage).removeValidationMarkers();
+			}
+		}
 	}
 }
