@@ -47,6 +47,11 @@ public class EnumFieldsLoader implements FieldLoader {
 			return;
 		}
 		FieldDefinition fieldDefinition = (FieldDefinition)entityDefintion.getFieldsDefinitions().get(field.getName());
+		loadFieldDefinition(fieldDefinition, field);
+	}
+
+	@SuppressWarnings("unchecked")
+	protected void loadFieldDefinition(FieldDefinition fieldDefinition, Field field) {
 		SimpleEnumFieldTypeDefinition enumFieldTypeDefinition = (SimpleEnumFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
 		// fieldDefinition.setFieldTypeDefinition(enumFieldTypeDefinition);
 		Object[] enumValues = field.getType().getEnumConstants();
@@ -85,6 +90,5 @@ public class EnumFieldsLoader implements FieldLoader {
 			// use the key for display item the enum value. Binding is done to the pojo. (Spring MVC binds it this way as well).
 			enumFieldTypeDefinition.getEnums().put(value, new SimpleDisplayItem(enumValue, display));
 		}
-
 	}
 }
