@@ -156,7 +156,7 @@
     </snapshot>
     <snapshot type="INCOMING" sequence="7">
         <row rowNumber="1">
-            <field column="21" value="Toys Inventory                          " color="WHITE"/>
+            <field column="21" value="" color="WHITE"/>
         </row>
         <row rowNumber="2">
             <field column="26" value="Items     " color="WHITE"/>
@@ -262,7 +262,7 @@
     </snapshot>
     <snapshot type="OUTGOING" sequence="8" command="[pgdown]">
         <row rowNumber="1">
-            <field column="21" value="Toys Inventory                          " color="WHITE"/>
+            <field column="21" value="" color="WHITE"/>
         </row>
         <row rowNumber="2">
             <field column="26" value="Items     " color="WHITE"/>
@@ -368,7 +368,7 @@
     </snapshot>
     <snapshot type="INCOMING" sequence="9">
         <row rowNumber="1">
-            <field column="21" value="Toys Inventory                          " color="WHITE"/>
+            <field column="21" value="" color="WHITE"/>
         </row>
         <row rowNumber="2">
             <field column="26" value="Items     " color="WHITE"/>
@@ -475,7 +475,7 @@
     </snapshot>
     <snapshot type="OUTGOING" sequence="10" command="[enter]">
         <row rowNumber="1">
-            <field column="21" value="Toys Inventory                          " color="WHITE"/>
+            <field column="21" value="" color="WHITE"/>
         </row>
         <row rowNumber="2">
             <field column="26" value="Items     " color="WHITE"/>
@@ -582,7 +582,7 @@
     </snapshot>
     <snapshot type="INCOMING" sequence="11">
         <row rowNumber="1">
-            <field column="21" value="Toys Inventory                          " color="WHITE"/>
+            <field column="21" value="" color="WHITE"/>
             <field column="73" value=" 2/06/05" color="BLUE"/>
         </row>
         <row rowNumber="2">
@@ -662,7 +662,7 @@
     </snapshot>
     <snapshot type="OUTGOING" sequence="12" command="[enter]">
         <row rowNumber="1">
-            <field column="21" value="Toys Inventory                          " color="WHITE"/>
+            <field column="21" value="" color="WHITE"/>
             <field column="73" value=" 2/06/05" color="BLUE"/>
         </row>
         <row rowNumber="2">
@@ -742,7 +742,7 @@
     </snapshot>
     <snapshot type="INCOMING" sequence="13">
         <row rowNumber="1">
-            <field column="21" value="Toys Inventory                          " color="WHITE"/>
+            <field column="21" value="" color="WHITE"/>
             <field column="73" value=" 2/06/05" color="BLUE"/>
         </row>
         <row rowNumber="2">
@@ -810,7 +810,7 @@
     </snapshot>
     <snapshot type="INCOMING" sequence="14">
         <row rowNumber="1">
-            <field column="21" value="Toys Inventory                          " color="WHITE"/>
+            <field column="21" value="" color="WHITE"/>
         </row>
         <row rowNumber="2">
             <field column="26" value="Items     " color="WHITE"/>
@@ -917,7 +917,7 @@
     </snapshot>
     <snapshot type="OUTGOING" sequence="15" command="[pf3]">
         <row rowNumber="1">
-            <field column="21" value="Toys Inventory                          " color="WHITE"/>
+            <field column="21" value="" color="WHITE"/>
         </row>
         <row rowNumber="2">
             <field column="26" value="Items     " color="WHITE"/>
@@ -1074,7 +1074,7 @@
     </snapshot>
     <snapshot type="INCOMING" sequence="18">
         <row rowNumber="1">
-            <field column="21" value="Toys Inventory                               " color="WHITE"/>
+            <field column="21" value="" color="WHITE"/>
         </row>
         <row rowNumber="2">
             <field column="26" value="Warehouses  " color="WHITE"/>
@@ -1163,7 +1163,7 @@
     </snapshot>
     <snapshot type="OUTGOING" sequence="19" command="[enter]">
         <row rowNumber="1">
-            <field column="21" value="Toys Inventory                               " color="WHITE"/>
+            <field column="21" value="" color="WHITE"/>
         </row>
         <row rowNumber="2">
             <field column="26" value="Warehouses  " color="WHITE"/>
@@ -1252,7 +1252,7 @@
     </snapshot>
     <snapshot type="INCOMING" sequence="20">
         <row rowNumber="1">
-            <field column="21" value="Toys Inventory                               " color="WHITE"/>
+            <field column="21" value="" color="WHITE"/>
         </row>
         <row rowNumber="2">
             <field column="26" value="  Warehouse Details " color="WHITE"/>
@@ -1331,7 +1331,7 @@
     </snapshot>
     <snapshot type="OUTGOING" sequence="21" command="[pf4]">
         <row rowNumber="1">
-            <field column="21" value="Toys Inventory                               " color="WHITE"/>
+            <field column="21" value="" color="WHITE"/>
         </row>
         <row rowNumber="2">
             <field column="26" value="  Warehouse Details " color="WHITE"/>
@@ -1411,7 +1411,7 @@
     
     <snapshot type="INCOMING" sequence="22">
         <row rowNumber="1">
-            <field column="21" value="Toys Inventory                          " color="WHITE"/>
+            <field column="21" value="" color="WHITE"/>
         </row>
         <row rowNumber="2">
             <field column="26" value="  Warehouse Details " color="WHITE"/>
@@ -1511,7 +1511,7 @@
     </snapshot>
     <snapshot type="INCOMING" sequence="23">
         <row rowNumber="1">
-            <field column="21" value="Toys Inventory                          " color="WHITE"/>
+            <field column="21" value="" color="WHITE"/>
         </row>
         <row rowNumber="2">
             <field column="26" value="  Warehouse Details " color="WHITE"/>
