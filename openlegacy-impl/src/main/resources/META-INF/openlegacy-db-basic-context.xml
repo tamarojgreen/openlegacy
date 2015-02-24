@@ -40,6 +40,7 @@
 				<property name="modules">
 					<list>
 						<bean class="org.openlegacy.db.modules.menu.DefaultDbMenuModule"/>
+						<bean class="org.openlegacy.db.modules.login.LoginModule"/>
 					</list>
 				</property>
 			</bean>

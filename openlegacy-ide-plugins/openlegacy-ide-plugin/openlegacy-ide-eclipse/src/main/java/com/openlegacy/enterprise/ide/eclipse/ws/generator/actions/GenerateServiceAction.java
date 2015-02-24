@@ -3,6 +3,7 @@ package com.openlegacy.enterprise.ide.eclipse.ws.generator.actions;
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.EntitiesFetcher;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.dialogs.GenerateServiceDialog;
+import com.openlegacy.enterprise.ide.eclipse.ws.generator.dialogs.jpa.GenerateJpaServiceDialog;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.AbstractEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.LoadingModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.dialog.TreeViewerModel;
@@ -31,6 +32,8 @@ import java.util.List;
  */
 public class GenerateServiceAction extends AbstractAction {
 
+	private GenerateServiceDialog dialog = null;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -46,7 +49,11 @@ public class GenerateServiceAction extends AbstractAction {
 		ArrayList<AbstractEntityModel> list = new ArrayList<AbstractEntityModel>();
 		list.add(new LoadingModel());
 		TreeViewerModel treeViewerModel = new TreeViewerModel(list);
-		final GenerateServiceDialog dialog = new GenerateServiceDialog(getShell(), treeViewerModel, project, serviceType);
+		if (serviceType.equals(BackendSolution.JDBC)) {
+			dialog = new GenerateJpaServiceDialog(getShell(), treeViewerModel, project, serviceType);
+		} else {
+			dialog = new GenerateServiceDialog(getShell(), treeViewerModel, project, serviceType);
+		}
 
 		Job job = new Job(Messages.getString("job.processing.entities")) {
 

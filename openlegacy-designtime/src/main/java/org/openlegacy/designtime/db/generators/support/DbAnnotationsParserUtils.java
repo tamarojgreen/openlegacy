@@ -293,11 +293,13 @@ public class DbAnnotationsParserUtils {
 			}
 		}
 
-		if (typeArgs != null && !typeArgs.split(",")[0].equals(currentClassName)) {
-			definition.setTargetEntityDefinition(DbCodeBasedDefinitionUtils.getEntityDefinition(typeArgs.split(",")[0],
-					packageDir));
+		if (typeArgs != null) {
+			String[] strings = typeArgs.split(",");
+			if (!strings[strings.length - 1].equals(currentClassName)) {
+				definition.setTargetEntityDefinition(DbCodeBasedDefinitionUtils.getEntityDefinition(strings[strings.length - 1],
+						packageDir));
+			}
 		}
-
 		return definition;
 	}
 

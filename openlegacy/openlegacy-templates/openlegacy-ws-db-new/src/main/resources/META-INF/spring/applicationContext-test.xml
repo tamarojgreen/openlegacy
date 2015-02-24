@@ -22,9 +22,6 @@
 
 	<bean id="marshaller" class="org.springframework.oxm.xstream.XStreamMarshaller" />
 
-	<bean id="dbSession" class="org.openlegacy.db.support.DefaultDbSession"
-		scope="prototype" parent="abstractDbSession" />
-
 	<bean id="dbRegistry" class="org.openlegacy.db.support.DefaultDbEntitiesRegistry">
 		<property name="packages">
 			<list>
@@ -33,32 +30,25 @@
 		</property>
 	</bean>
 
-	<!-- database connection settings -->
-	<bean class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close" id="dataSource">
-		<property name="driverClassName" value="${database.driverClassName}" />
-		<property name="url" value="${database.url}" />
-		<property name="username" value="${database.username}" />
-		<property name="password" value="${database.password}" />
-		<property name="testOnBorrow" value="true" />
-		<property name="testOnReturn" value="true" />
-		<property name="testWhileIdle" value="true" />
-		<property name="timeBetweenEvictionRunsMillis" value="1800000" />
-		<property name="numTestsPerEvictionRun" value="3" />
-		<property name="minEvictableIdleTimeMillis" value="1800000" />
+	<bean id="dbSession" class="org.openlegacy.db.support.DefaultDbSession" scope="prototype" parent="abstractDbSession"/>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+		<property name="url" value="jdbc:hsqldb:mem:testdb" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
 	</bean>
-	<bean class="org.springframework.orm.jpa.JpaTransactionManager"
-		id="transactionManager">
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
-	<tx:annotation-driven mode="proxy"
-		transaction-manager="transactionManager" />
-	<bean
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-		id="entityManagerFactory">
-		<property name="persistenceUnitName" value="persistenceUnitWeb" />
+
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
+		<property name="persistenceUnitName" value="testPersistenceUnit" />
 	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager"/>
 
 	<security:http auto-config="true">
 		<security:http-basic />

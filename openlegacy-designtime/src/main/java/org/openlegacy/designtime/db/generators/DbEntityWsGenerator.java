@@ -13,10 +13,9 @@ package org.openlegacy.designtime.db.generators;
 
 import org.openlegacy.designtime.generators.AbstractEntityWsGenerator;
 
-
 /**
  * @author Ivan Bort
- *
+ * 
  */
 public class DbEntityWsGenerator extends AbstractEntityWsGenerator implements DbEntityServiceGenerator {
 

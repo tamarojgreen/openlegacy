@@ -12,18 +12,12 @@
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
 <!-- Register WS place-holder start
-<#if generatePool>
-	<bean id="${serviceName?uncap_first}Pool"
-	class="org.openlegacy.rpc.support.SimpleRpcSessionPoolFactory" p:maxConnections="2" 
-	p:keepAliveAction="${package}.${serviceName}ServiceImpl.KeepAliveAction" p:keepAliveInterval="600000" 
-	p:initAction="${package}.${serviceName}ServiceImpl.InitAction" p:cleanupAction="${package}.${serviceName}ServiceImpl.CleanupAction"/>
-</#if>
 	<bean id="${serviceName?uncap_first}Impl" class="${package}.${serviceName}ServiceImpl" />
 
 	<jaxws:endpoint id="${serviceName?uncap_first}" implementor="#${serviceName?uncap_first}Impl" address="/${serviceName?uncap_first}" />
 
 	<jaxws:client id="${serviceName?uncap_first}Client" serviceClass="${package}.${serviceName}Service"
-		address="http://localhost:8080/${projectPath.name}/services/${serviceName?uncap_first}" />
+		address="http://localhost:8080/${projectPath.name}/${serviceName?uncap_first}" />
 
 Register WS place-holder end -->
 

@@ -339,7 +339,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void updatePropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath) throws IOException,
-	FileNotFoundException {
+			FileNotFoundException {
 		File hostPropertiesFile = new File(targetPath, "src/main/resources/host.properties");
 		if (hostPropertiesFile.exists()) {
 			String hostPropertiesFileContent = IOUtils.toString(new FileInputStream(hostPropertiesFile));
@@ -391,7 +391,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameLaunchers(final String projectName, final File targetPath) throws FileNotFoundException,
-	IOException {
+			IOException {
 		targetPath.listFiles(new FileFilter() {
 
 			@Override
@@ -409,7 +409,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameLauncher(String projectName, File targetPath, String fileName) throws FileNotFoundException,
-	IOException {
+			IOException {
 		File launcherFile = new File(targetPath, fileName);
 
 		if (!launcherFile.exists()) {
@@ -425,7 +425,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void updateSpringContextWithDefaultPackage(String defaultPackageName, File targetPath) throws IOException,
-	FileNotFoundException {
+			FileNotFoundException {
 		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_CONTEXT_FILE));
 		updateSpringFile(defaultPackageName + ".web", new File(targetPath, DEFAULT_SPRING_WEB_CONTEXT_FILE));
 		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_TEST_CONTEXT_FILE));
@@ -491,7 +491,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void addDbDriverDependency(File targetPath, String mavenDependencyString) throws FileNotFoundException,
-	IOException {
+			IOException {
 		File pomFile = new File(targetPath, "pom.xml");
 
 		if (!pomFile.exists()) {
@@ -578,7 +578,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameThemeInAppProperties(ProjectTheme projectTheme, File targetPath) throws FileNotFoundException,
-	IOException {
+			IOException {
 		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
 
 		if (!appPropertiesFile.exists()) {
@@ -640,8 +640,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (matcher.find()) {
 			fileContent = fileContent.replaceFirst("<context-param>\\s+<param-name>" + paramName
 					+ "</param-name>\\s+<param-value>.*</param-value>", MessageFormat.format(
-							"<context-param>\n\t\t<param-name>{0}</param-name>\n\t\t<param-value>{1}</param-value>", paramName,
-							paramValue));
+					"<context-param>\n\t\t<param-name>{0}</param-name>\n\t\t<param-value>{1}</param-value>", paramName,
+					paramValue));
 		} else {
 			// add new <context-param> into the end of file
 			int indexOf = fileContent.indexOf("</web-app>");
@@ -1540,7 +1540,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
-	private void setDbDialect(String dbDialect, File targetPath) throws FileNotFoundException, IOException {
+	private static void setDbDialect(String dbDialect, File targetPath) throws FileNotFoundException, IOException {
 		File persistenceFile = new File(targetPath, PERSISTENCE_XML_PATH);
 
 		if (!persistenceFile.exists()) {

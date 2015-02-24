@@ -24,12 +24,7 @@ import org.openlegacy.db.DbEntity;
 
 import org.openlegacy.db.DbSession;
 import org.openlegacy.modules.login.Login;
-<#if generatePool>
-import org.openlegacy.db.DbSessionFactory;
-import org.openlegacy.db.actions.DbAction;
-import org.openlegacy.db.actions.DbActions;
-import org.springframework.beans.factory.annotation.Qualifier;
-</#if>
+
 import javax.inject.Inject;
 
 import javax.jws.WebService;
@@ -56,10 +51,7 @@ import ${import};
 </#list>
 
 <#if inputParameters?size != 0 || outputParameters?size != 0>
-	<#if !generatePool>
 import org.openlegacy.db.actions.DbActions;
-	</#if>
-import org.openlegacy.terminal.wait_conditions.WaitCondition;
 </#if>
 
 /**
@@ -71,25 +63,14 @@ import org.openlegacy.terminal.wait_conditions.WaitCondition;
 @WebService(endpointInterface = "${package}.${serviceName}Service")
 public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 
-	<#if generatePool>
-	@Inject
-	@Qualifier("${serviceName?uncap_first}Pool")
-	private DbSessionFactory dbSessionFactory;
-	<#else>
 	@Inject
 	private DbSession dbSession;
-	</#if>
 
 	@Override
 	public ${serviceName}Out get${serviceName}(<#if inputParameters?size != 0>${serviceName}In ${serviceName?uncap_first}In</#if>) {
 
-		<#if generatePool>
-		DbSession dbSession = dbSessionFactory.getSession();
-		</#if>
 		try{
-			<#if !generatePool>
 			dbSession.getModule(Login.class).login("USER","PASSWORD");
-			</#if>
 			<#assign addedEntities = [] />
 			<#assign groupHash = {} />
 			<#list inputParameters as parameter>
@@ -105,7 +86,7 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 			</#list>
 			
 			<#list groupHash?keys as hashKey>
-			${hashKey} ${hashKey?uncap_first} = terminalSession.getEntity(${hashKey}.class, <#list groupHash[hashKey] as key>${serviceName?uncap_first}In.get${key.fieldDefinition.name?cap_first}()<#if key_has_next>, </#if></#list>);
+			${hashKey} ${hashKey?uncap_first} = dbSession.getEntity(${hashKey}.class, <#list groupHash[hashKey] as key>${serviceName?uncap_first}In.get${key.fieldDefinition.name?cap_first}()<#if key_has_next>, </#if></#list>);
 				<#assign addedEntities = addedEntities + [hashKey]/>
 			</#list>
 			
@@ -201,58 +182,8 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 			</#list>
 
 			return ${serviceName?uncap_first}Out;
-		<#if generatePool>
-		} catch(RuntimeException e){
-			dbSession.disconnect();
-			throw(e);
-		</#if>
 		} finally {
-		<#if generatePool>
-			dbSessionFactory.returnSession(dbSession);
-		<#else>
 			dbSession.disconnect();
-		</#if>
 		}
 	}
-
-	<#if generatePool>
-	public static class InitAction implements DbAction{
-		
-		public void perform(DbSession dbSession, Object entity,Object... keys){
-			//dbSession.getModule(Login.class).login("USER","PASSWORD");
-			// PLACE HOLDER for init action
-		}
-
-		@Override
-		public boolean isMacro() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-	}
-	public static class KeepAliveAction implements DbAction{
-		
-		public void perform(DbSession dbSession, Object entity,Object... keys){
-			// PLACE HOLDER for keep alive action
-		}
-
-		@Override
-		public boolean isMacro() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-	}
-	public static class CleanupAction implements DbAction{
-		
-		public void perform(DbSession dbSession, Object entity,Object... keys){
-			//dbSession.doAction(DbActions.DELETE());
-			// PLACE HOLDER for cleanup action
-		}
-
-		@Override
-		public boolean isMacro() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-	}
-	</#if> 
 }

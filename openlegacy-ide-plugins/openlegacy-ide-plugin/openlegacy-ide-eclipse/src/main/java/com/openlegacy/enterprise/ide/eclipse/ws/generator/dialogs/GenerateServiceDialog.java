@@ -137,6 +137,7 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 		this.mInTableModel = new InTableModel();
 		this.mOutTableModel = new OutTableModel();
 		this.project = project;
+		this.isCreatePool = isSupportGeneratePool();
 	}
 
 	@Override
@@ -311,19 +312,20 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 		gd.horizontalIndent = 40;
 		innerRightContainer.setLayoutData(gd);
 
-		// create pool
-		Button createPoolBtn = new Button(innerRightContainer, SWT.CHECK);
-		createPoolBtn.setText(Messages.getString("service.generator.create.pool"));
-		createPoolBtn.setSelection(isCreatePool);
-		createPoolBtn.addSelectionListener(new SelectionAdapter() {
+		if (isSupportGeneratePool()) {
+			// create pool
+			Button createPoolBtn = new Button(innerRightContainer, SWT.CHECK);
+			createPoolBtn.setText(Messages.getString("service.generator.create.pool"));
+			createPoolBtn.setSelection(isCreatePool);
+			createPoolBtn.addSelectionListener(new SelectionAdapter() {
 
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				isCreatePool = !isCreatePool;
-			}
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					isCreatePool = !isCreatePool;
+				}
 
-		});
-
+			});
+		}
 		Button generateJUnitBtn = new Button(innerRightContainer, SWT.CHECK);
 		generateJUnitBtn.setText(Messages.getString("service.generator.generate.junit"));
 		generateJUnitBtn.setSelection(isGenerateJUnit);
@@ -974,6 +976,10 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 		int x = monitorArea.x + (monitorArea.width - shellArea.width) / 2;
 		int y = monitorArea.y + (monitorArea.height - shellArea.height) / 2;
 		getShell().setLocation(x, y);
+	}
+
+	protected boolean isSupportGeneratePool() {
+		return true;
 	}
 
 }
