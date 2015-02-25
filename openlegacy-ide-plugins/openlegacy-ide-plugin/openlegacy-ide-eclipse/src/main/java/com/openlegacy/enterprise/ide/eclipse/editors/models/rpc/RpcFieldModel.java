@@ -63,6 +63,7 @@ public class RpcFieldModel extends RpcNamedObject implements IConvertedField {
 	private boolean editable = true;
 	private String defaultValue = "";//$NON-NLS-1$
 	private String expression = "";//$NON-NLS-1$
+	private int order = 0;
 
 	protected Map<String, Object> fieldsMap = new HashMap<String, Object>();
 
@@ -109,6 +110,7 @@ public class RpcFieldModel extends RpcNamedObject implements IConvertedField {
 		this.editable = ((SimpleRpcFieldDefinition)rpcFieldDefinition).isEditable();
 		this.defaultValue = (rpcFieldDefinition.getDefaultValue() != null) ? rpcFieldDefinition.getDefaultValue() : "";//$NON-NLS-1$
 		this.expression = StringUtils.isEmpty(rpcFieldDefinition.getExpression()) ? "" : rpcFieldDefinition.getExpression();//$NON-NLS-1$
+		this.setOrder(rpcFieldDefinition.getOrder());
 
 		this.initialized = true;
 	}
@@ -337,5 +339,13 @@ public class RpcFieldModel extends RpcNamedObject implements IConvertedField {
 		fieldsMap.put("expression", expression);
 		fieldsMap.put("javaTypeName", javaTypeName);
 		// fieldsMap.put("initialized", initialized);
+	}
+
+	public int getOrder() {
+		return order;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
 	}
 }

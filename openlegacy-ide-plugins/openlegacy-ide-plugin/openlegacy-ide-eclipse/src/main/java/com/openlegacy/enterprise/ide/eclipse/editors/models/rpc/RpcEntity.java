@@ -2,7 +2,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.models.rpc;
 
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.AbstractEntity;
-import com.openlegacy.enterprise.ide.eclipse.editors.support.rpc.RpcFieldModelNameComparator;
+import com.openlegacy.enterprise.ide.eclipse.editors.support.rpc.RpcOrderFieldComparator;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.rpc.RpcEntityUtils;
 
 import org.eclipse.core.runtime.Assert;
@@ -158,7 +158,8 @@ public class RpcEntity extends AbstractEntity {
 	}
 
 	public List<RpcFieldModel> getSortedFields() {
-		Collections.sort(sortedFields, RpcFieldModelNameComparator.INSTANCE);
+		// Collections.sort(sortedFields, RpcFieldModelNameComparator.INSTANCE);
+		Collections.sort(this.sortedFields, new RpcOrderFieldComparator());
 		return sortedFields;
 	}
 

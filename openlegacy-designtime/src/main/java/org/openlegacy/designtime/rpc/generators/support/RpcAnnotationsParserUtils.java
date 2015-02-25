@@ -12,6 +12,7 @@ package org.openlegacy.designtime.rpc.generators.support;
 
 import static org.openlegacy.designtime.utils.JavaParserUtil.getAnnotationValue;
 
+import org.apache.commons.lang.StringUtils;
 import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.DefaultRpcPojoCodeModel.Action;
@@ -50,6 +51,7 @@ public class RpcAnnotationsParserUtils {
 		String directionValue = getAnnotationValue(annotationExpr, RpcAnnotationConstants.DIRECTION);
 		String defaultValue = getAnnotationValue(annotationExpr, RpcAnnotationConstants.DEFAULT_VALUE);
 		String expressionValue = getAnnotationValue(annotationExpr, RpcAnnotationConstants.EXPRESSION);
+		String orderValue = getAnnotationValue(annotationExpr, RpcAnnotationConstants.ORDER);
 
 		field.setOriginalName(StringUtil.isEmpty(originalNameValue) ? "" : StringUtil.stripQuotes(originalNameValue));
 		if (directionValue != null) {
@@ -95,6 +97,10 @@ public class RpcAnnotationsParserUtils {
 		}
 		if (expressionValue != null) {
 			field.setExpression(StringUtil.stripQuotes(expressionValue));
+		}
+		if (orderValue != null && StringUtils.isNumeric(orderValue)
+				&& (Integer.parseInt(orderValue) != AnnotationConstants.AUTOMATICALY)) {
+			field.setOrder(Integer.parseInt(orderValue));
 		}
 	}
 

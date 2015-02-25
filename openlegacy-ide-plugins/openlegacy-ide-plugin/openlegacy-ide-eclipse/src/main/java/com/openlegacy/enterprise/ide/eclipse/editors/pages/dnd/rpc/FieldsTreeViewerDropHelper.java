@@ -24,22 +24,32 @@ import com.openlegacy.enterprise.ide.eclipse.editors.utils.rpc.RpcEntityUtils;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 
+import java.util.List;
+
 /**
  * @author Ivan Bort
  * 
  */
 public class FieldsTreeViewerDropHelper {
 
-	public static void performDrop(RpcEntity entity, RpcNamedObject transferredObject, RpcNamedObject target) {
+	public static void performDrop(RpcEntity entity, RpcNamedObject transferredObject, RpcNamedObject target,
+			RpcNamedObject targetListObject) {
 		if (transferredObject instanceof RpcFieldModel) {
-			moveRpcField(entity, (RpcFieldModel)transferredObject, target);
+			moveRpcField(entity, (RpcFieldModel)transferredObject, target, targetListObject);
 		} else if (transferredObject instanceof RpcPartModel) {
 			moveRpcPart(entity, (RpcPartModel)transferredObject, target);
 		}
 	}
 
-	private static void moveRpcField(RpcEntity entity, RpcFieldModel field, RpcNamedObject target) {
+	private static void moveRpcField(RpcEntity entity, RpcFieldModel field, RpcNamedObject target, RpcNamedObject targetListObject) {
 		if (target.getUUID().equals(field.getParent().getUUID())) {
+			if (target instanceof RpcPartModel) {
+				RpcPartModel model = entity.getSortedPartByUUID(field.getParent().getUUID());
+				changeOrder(field, targetListObject, model.getSortedFields(), true);
+			} else if (target instanceof RpcEntityModel) {
+				changeOrder(field, targetListObject, entity.getSortedFields(), true);
+			}
+
 			return;
 		}
 		RpcFieldModel clone = (RpcFieldModel)getClone(field, target);
@@ -52,6 +62,7 @@ public class FieldsTreeViewerDropHelper {
 			entity.getSortedFields().add(clone);
 			// remove field from part model
 			entity.removeRpcFieldModelFromPart(field);
+			changeOrder(clone, targetListObject, entity.getSortedFields(), false);
 		} else if (target instanceof RpcPartModel) {
 			// add field to part model
 			RpcPartModel model = entity.getPartByUUID(clone.getParent().getUUID());
@@ -67,10 +78,42 @@ public class FieldsTreeViewerDropHelper {
 			} else if (field.getParent() instanceof RpcPartModel) {
 				entity.removeRpcFieldModelFromPart(field);
 			}
+			changeOrder(clone, targetListObject, model.getSortedFields(), false);
 		}
 		// generate actions
 		generateFieldRemoveActions(entity, field);
 		generateFieldModifyActions(entity, clone);
+	}
+
+	private static void changeOrder(RpcFieldModel currentField, RpcNamedObject targetField, List<RpcFieldModel> targetParentList,
+			boolean hasOneParent) {
+
+		int i = targetParentList.indexOf(currentField);
+		int j = 0;
+
+		if (targetField instanceof RpcFieldModel) {
+			j = targetParentList.indexOf(targetField);
+
+			if (hasOneParent) {
+				currentField.setOrder(j);
+				if (j > i) {
+					((RpcFieldModel)targetField).setOrder(j - 1);
+				} else {
+					((RpcFieldModel)targetField).setOrder(j + 1);
+				}
+			} else {
+				if (j - 1 == -1) {
+					((RpcFieldModel)targetField).setOrder(0);
+					currentField.setOrder(j + 1);
+				} else {
+					currentField.setOrder(j);
+					((RpcFieldModel)targetField).setOrder(j + 1);
+				}
+			}
+		} else if (targetField instanceof RpcPartModel) {
+			currentField.setOrder(j);
+			targetParentList.get(0).setOrder(j + 1);
+		}
 	}
 
 	private static void moveRpcPart(RpcEntity entity, RpcPartModel part, RpcNamedObject target) {

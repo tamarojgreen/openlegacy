@@ -68,5 +68,6 @@ public class AnnotationConstants {
 	public static final String ROLE = "role";
 
 	public static final String VALUE = "value";
+	public static final int AUTOMATICALY = -1;
 
 }

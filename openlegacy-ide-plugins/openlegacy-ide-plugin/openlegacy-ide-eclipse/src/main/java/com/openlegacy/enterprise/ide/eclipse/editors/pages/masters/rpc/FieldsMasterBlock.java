@@ -646,7 +646,7 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock implements I
 				while (iterator.hasNext()) {
 					RpcNamedObject namedObject = iterator.next();
 					// emulate drop
-					FieldsTreeViewerDropHelper.performDrop(getEntity(), namedObject, newPartModel);
+					FieldsTreeViewerDropHelper.performDrop(getEntity(), namedObject, newPartModel, null);
 				}
 				reassignTreeViewerInput(newPartModel.getUUID());
 			}

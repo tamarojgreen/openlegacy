@@ -103,12 +103,13 @@ public class FieldsConverter {
 					entity.addAction(new RpcBigIntegerFieldAction(newModel.getUUID(), newModel, ActionType.ADD,
 							ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
 					RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, false);
-					RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, (RpcBigIntegerFieldModel)newModel, false);
+					RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, (RpcBigIntegerFieldModel)newModel,
+							false);
 				} else if (RpcIntegerFieldModel.class.isAssignableFrom(targetClass)) {
 					entity.addAction(new RpcIntegerFieldAction(newModel.getUUID(), newModel, ActionType.ADD,
 							ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
 					RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, false);
-					RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, (RpcIntegerFieldModel)newModel, true);
+					RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, (RpcIntegerFieldModel)newModel, false);
 				} else if (RpcEnumFieldModel.class.isAssignableFrom(targetClass)) {
 					entity.addAction(new RpcEnumFieldAction(newModel.getUUID(), (RpcEnumFieldModel)newModel, ActionType.ADD,
 							ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
@@ -117,7 +118,7 @@ public class FieldsConverter {
 							ASTNode.ENUM_DECLARATION, Constants.ENUM_FIELD_NEW_TYPE_DECLARATION, null));
 					RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, false);
 					RpcEntityUtils.ActionGenerator.generateRpcEnumFieldActions(entity, (RpcEnumFieldModel)newModel, false);
-				
+
 				} else {
 					entity.addAction(new RpcFieldAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.FIELD_DECLARATION,
 							newModel.getFieldName(), null));

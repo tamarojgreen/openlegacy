@@ -1,6 +1,6 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.models.rpc;
 
-import com.openlegacy.enterprise.ide.eclipse.editors.support.rpc.RpcFieldModelNameComparator;
+import com.openlegacy.enterprise.ide.eclipse.editors.support.rpc.RpcOrderFieldComparator;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.rpc.RpcEntityUtils;
 
 import org.openlegacy.annotations.rpc.RpcPart;
@@ -132,7 +132,8 @@ public class RpcPartModel extends RpcNamedObject {
 	}
 
 	public List<RpcFieldModel> getSortedFields() {
-		Collections.sort(this.sortedFields, RpcFieldModelNameComparator.INSTANCE);
+		// Collections.sort(this.sortedFields, RpcFieldModelNameComparator.INSTANCE);
+		Collections.sort(this.sortedFields, new RpcOrderFieldComparator());
 		return this.sortedFields;
 	}
 
