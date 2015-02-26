@@ -12,7 +12,10 @@
 	 <bean id="marshaller" class="org.springframework.oxm.xstream.XStreamMarshaller"/>
 
 	<context:property-placeholder location="classpath*:/*.properties" />
-		
+
+	<bean class="org.openlegacy.terminal.support.DefaultTerminalSnapshotsOrganizer" />
+	<bean class="org.openlegacy.terminal.support.DefaultSnapshotSimilarityChecker" />
+				
 <!-- Use this definition to replay a mock-up session application
  	<bean id="terminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockStateMachineTerminalConnectionFactory"

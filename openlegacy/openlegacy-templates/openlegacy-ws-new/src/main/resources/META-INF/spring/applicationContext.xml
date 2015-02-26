@@ -15,10 +15,10 @@
 	<import resource="classpath*:/META-INF/openlegacy-terminal-basic-context.xml" />
 
 	<import resource="classpath:/META-INF/spring/actions-mappings.xml"/>
-		
+
+	<!--  Uncomment for modifying session setting		
 	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession"
 		scope="prototype" parent="abstractTerminalSession">
-		<!-- Use this definition to configure modules properties
    		<property name="sessionModules">
 			<bean class="org.openlegacy.support.SessionModules">
 				<property name="modules">
@@ -57,9 +57,27 @@
 				</property>
 			</bean>
 		</property>
-		-->
 	</bean>
-
+	Uncomment for modifying session setting -->
+		
+<!-- Use this definition to replay a mock-up session application
+ 	<bean id="terminalConnectionFactory"
+		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
+		<property name="root" value="/trails" />
+		<property name="trailName" value="demo_session.trail" />
+	</bean>
+	
+	<bean id="terminalSession" class="org.openlegacy.terminal.support.MockupTerminalSession" scope="prototype" parent="abstractTerminalSession">
+		<property name="terminalConnection">
+			<bean class="org.openlegacy.terminal.mock.MockTerminalConnection" factory-bean="terminalConnectionFactory" factory-method="getConnection">
+				<constructor-arg>
+					<bean class="org.openlegacy.terminal.support.SimpleConnectionProperties" />
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+End use this definition to replay a mock-up session application -->
+		
 	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
 		<property name="packages">
 			<list>
