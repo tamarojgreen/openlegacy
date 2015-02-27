@@ -60,6 +60,14 @@
 	</bean>
 	Uncomment for modifying session setting -->
 		
+	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
+		<property name="packages">
+			<list>
+				<value>com.testws.openlegacy</value>
+			</list>
+		</property>
+	</bean>
+
 <!-- Use this definition to replay a mock-up session application
  	<bean id="terminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
@@ -76,21 +84,6 @@
 			</bean>
 		</property>
 	</bean>
-End use this definition to replay a mock-up session application -->
-		
-	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
-		<property name="packages">
-			<list>
-				<value>com.testws.openlegacy</value>
-			</list>
-		</property>
-	</bean>
-
-<!-- Use this definition to replay a mock-up session application
- 	<bean id="terminalConnectionFactory"
-		class="org.openlegacy.terminal.mock.MockStateMachineTerminalConnectionFactory"
-		p:verifySend="true" p:root="/trails" p:trailName="demo_session.trail"
-		p:exactCursor="false" p:exactFields="false" p:exactCommand="true" />
 End use this definition to replay a mock-up session application -->
 
 	<!-- Uncomment for bidi support
