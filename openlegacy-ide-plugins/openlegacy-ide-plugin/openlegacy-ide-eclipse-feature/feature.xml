@@ -2,7 +2,7 @@
 <feature
       id="org.openlegacy.ide.eclipse.feature"
       label="OpenLegacy IDE"
-      version="2.1.0.qualifier"
+      version="2.2.0.qualifier"
       provider-name="OpenLegacy"
       plugin="org.openlegacy.ide.eclipse">
 
@@ -12,7 +12,7 @@ OpenLegacy help you fully modernize Legacy applications to create a Java, web an
    </description>
 
    <copyright url="http://www.openlegacy.org/copyright">
-      OpenLegacy™ is copyright of OpenLegacy inc - © 2013. All rights reserved.
+      OpenLegacy™ is copyright of OpenLegacy inc - © 2015. All rights reserved.
    </copyright>
 
    <license url="http://www.openlegacy.org/license">
