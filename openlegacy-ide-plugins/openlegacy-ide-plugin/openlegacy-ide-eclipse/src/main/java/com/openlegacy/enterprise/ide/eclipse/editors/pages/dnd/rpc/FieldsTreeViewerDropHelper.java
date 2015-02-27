@@ -46,6 +46,9 @@ public class FieldsTreeViewerDropHelper {
 			if (target instanceof RpcPartModel) {
 				RpcPartModel model = entity.getSortedPartByUUID(field.getParent().getUUID());
 				changeOrder(field, targetListObject, model.getSortedFields(), true);
+				for (RpcFieldModel sortedField : model.getSortedFields()) {
+					RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, sortedField, false, true);
+				}
 			} else if (target instanceof RpcEntityModel) {
 				changeOrder(field, targetListObject, entity.getSortedFields(), true);
 			}
@@ -83,36 +86,82 @@ public class FieldsTreeViewerDropHelper {
 		// generate actions
 		generateFieldRemoveActions(entity, field);
 		generateFieldModifyActions(entity, clone);
+		RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, clone, true);
 	}
 
 	private static void changeOrder(RpcFieldModel currentField, RpcNamedObject targetField, List<RpcFieldModel> targetParentList,
 			boolean hasOneParent) {
 
-		int i = targetParentList.indexOf(currentField);
-		int j = 0;
+		// set order to all fields that doesn't have them yet
+		for (int i = 0; i < targetParentList.size(); i++) {
+			if (targetParentList.get(i).getOrder() == 0) {
+				if (targetParentList.indexOf(targetParentList.get(i)) != 0) {
+					int comparerIdx = i;
+					targetParentList.get(i).setOrder(i);
+					for (int j = comparerIdx + 1; j < targetParentList.size(); j++) {
+						if (comparerIdx == targetParentList.get(j).getOrder()) {
+							targetParentList.get(j).setOrder(comparerIdx + 1);
+							comparerIdx = comparerIdx + 1;
+						}
+					}
+				}
+			}
+		}
+
+		int currIdx = targetParentList.get(targetParentList.indexOf((currentField))).getOrder();
 
 		if (targetField instanceof RpcFieldModel) {
-			j = targetParentList.indexOf(targetField);
+			int targetIdx = targetParentList.get(targetParentList.indexOf((targetField))).getOrder();
 
 			if (hasOneParent) {
-				currentField.setOrder(j);
-				if (j > i) {
-					((RpcFieldModel)targetField).setOrder(j - 1);
+				currentField.setOrder(targetIdx);
+				if (targetIdx > currIdx) {
+					((RpcFieldModel)targetField).setOrder(targetIdx - 1);
+					// recalculate orders for fields that have lesser order value
+					recalculateOrders(currentField, (RpcFieldModel)targetField, targetParentList, targetIdx - 1, false);
 				} else {
-					((RpcFieldModel)targetField).setOrder(j + 1);
+					((RpcFieldModel)targetField).setOrder(targetIdx + 1);
+					// recalculate orders for fields that have higher order value
+					recalculateOrders(currentField, (RpcFieldModel)targetField, targetParentList, targetIdx + 1, true);
 				}
 			} else {
-				if (j - 1 == -1) {
+				if (targetIdx - 1 == -1) {
 					((RpcFieldModel)targetField).setOrder(0);
-					currentField.setOrder(j + 1);
+					currentField.setOrder(targetIdx + 1);
 				} else {
-					currentField.setOrder(j);
-					((RpcFieldModel)targetField).setOrder(j + 1);
+					currentField.setOrder(targetIdx);
+					((RpcFieldModel)targetField).setOrder(targetIdx + 1);
+					// recalculate orders for fields that have higher order value
+					recalculateOrders(currentField, (RpcFieldModel)targetField, targetParentList, targetIdx + 1, true);
 				}
 			}
 		} else if (targetField instanceof RpcPartModel) {
-			currentField.setOrder(j);
-			targetParentList.get(0).setOrder(j + 1);
+			targetField = targetParentList.get(0);
+			int targetIdx = 0;
+			currentField.setOrder(targetIdx);
+			((RpcFieldModel)targetField).setOrder(targetIdx + 1);
+			// recalculate orders for fields that have higher order value
+			recalculateOrders(currentField, (RpcFieldModel)targetField, targetParentList, targetIdx + 1, true);
+		}
+	}
+
+	private static void recalculateOrders(RpcFieldModel currentField, RpcFieldModel targetField,
+			List<RpcFieldModel> targetParentList, int comparerIdx, boolean recalcNavigationUp) {
+
+		if (recalcNavigationUp) {
+			for (int i = targetParentList.indexOf((targetField)) + 1; i < targetParentList.size(); i++) {
+				if (targetParentList.get(i).getOrder() == comparerIdx && i != targetParentList.indexOf(currentField)) {
+					targetParentList.get(i).setOrder(comparerIdx + 1);
+					comparerIdx = comparerIdx + 1;
+				}
+			}
+		} else {
+			for (int i = targetParentList.indexOf((targetField)) - 1; i >= 0; i--) {
+				if (targetParentList.get(i).getOrder() == comparerIdx && i != targetParentList.indexOf(currentField)) {
+					targetParentList.get(i).setOrder(comparerIdx - 1);
+					comparerIdx = comparerIdx - 1;
+				}
+			}
 		}
 	}
 

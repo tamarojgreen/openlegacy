@@ -175,20 +175,23 @@ public class RpcEntityUtils {
 					| ASTNode.MEMBER_VALUE_PAIR, RpcAnnotationConstants.DECIMAL_PLACES, model.getDecimalPlaces());
 		}
 
-		public static void generateRpcFieldActions(RpcEntity entity, RpcFieldModel model, boolean checkPrevious) {
-			boolean isPrevious = true;
+		public static void generateRpcFieldActions(RpcEntity entity, RpcFieldModel model, boolean checkPrevious, boolean isReorder) {
+			boolean isPrevious = false;
 			boolean isDefault = true;
 			RpcFieldModel entityModel = entity.getFields().get(model.getUUID());
 			if (entityModel == null) {
 				entityModel = entity.getPartByUUID(model.getParent().getUUID()).getFields().get(model.getUUID());
 			}
 			// @RpcField -> fieldName: default equals to field name from entityModel
-			if (checkPrevious) {
+			if (checkPrevious || isReorder) {
 				isPrevious = model.getFieldName().equals(entityModel.getFieldName());
 			}
 			isDefault = entityModel.getPreviousFieldName().equals(model.getFieldName());
 			PrivateMethods.addRemoveRpcFieldAction(entity, model, isPrevious, isDefault, ASTNode.FIELD_DECLARATION,
 					Constants.FIELD_NAME, model.getFieldName());
+			if (isReorder) {
+				isPrevious = false;
+			}
 			// @RpcField.originalName: default ""
 			if (checkPrevious) {
 				isPrevious = model.getOriginalName().equals(entityModel.getOriginalName());
@@ -266,6 +269,13 @@ public class RpcEntityUtils {
 			isDefault = StringUtils.isEmpty(model.getExpression());
 			PrivateMethods.addRemoveRpcFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, RpcAnnotationConstants.EXPRESSION, model.getExpression());
+			// @RpcField.order: default "0"
+			if (checkPrevious) {
+				isPrevious = entityModel.getOrder() == model.getOrder();
+			}
+			isDefault = model.getOrder() == 0;
+			PrivateMethods.addRemoveRpcFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, RpcAnnotationConstants.ORDER, model.getOrder());
 		}
 
 		public static void generateRpcActionsAction(RpcEntity entity, RpcActionsModel model) {
@@ -401,6 +411,10 @@ public class RpcEntityUtils {
 			isDefault = false;
 			PrivateMethods.addRemoveRpcEnumFieldAction(entity, model, isPrevious, isDefault, ASTNode.ENUM_CONSTANT_DECLARATION,
 					Constants.ENUM_FIELD_ENTRIES, model.getEntries());
+		}
+
+		public static void generateRpcFieldActions(RpcEntity entity, RpcFieldModel model, boolean checkPrevious) {
+			generateRpcFieldActions(entity, model, checkPrevious, false);
 		}
 	}
 

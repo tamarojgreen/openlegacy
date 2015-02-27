@@ -110,7 +110,7 @@ public class RpcFieldModel extends RpcNamedObject implements IConvertedField {
 		this.editable = ((SimpleRpcFieldDefinition)rpcFieldDefinition).isEditable();
 		this.defaultValue = (rpcFieldDefinition.getDefaultValue() != null) ? rpcFieldDefinition.getDefaultValue() : "";//$NON-NLS-1$
 		this.expression = StringUtils.isEmpty(rpcFieldDefinition.getExpression()) ? "" : rpcFieldDefinition.getExpression();//$NON-NLS-1$
-		this.setOrder(rpcFieldDefinition.getOrder());
+		this.order = rpcFieldDefinition.getOrder();
 
 		this.initialized = true;
 	}
@@ -127,7 +127,8 @@ public class RpcFieldModel extends RpcNamedObject implements IConvertedField {
 				&& (this.length == model.getLength()) && (this.fieldType == model.getFieldType())
 				&& this.displayName.equals(model.getDisplayName()) && this.sampleValue.equals(model.getSampleValue())
 				&& this.helpText.equals(model.getHelpText()) && (this.editable == model.isEditable())
-				&& this.defaultValue.equals(model.getDefaultValue()) && StringUtils.equals(expression, model.getExpression());
+				&& this.defaultValue.equals(model.getDefaultValue()) && StringUtils.equals(expression, model.getExpression())
+				&& (this.order == model.getOrder());
 	}
 
 	@Override
@@ -164,6 +165,7 @@ public class RpcFieldModel extends RpcNamedObject implements IConvertedField {
 		model.setDefaultValue(this.defaultValue);
 		model.setExpression(this.expression);
 		model.initialized = this.initialized;
+		model.order = this.order;
 	}
 
 	public String getFieldName() {
@@ -312,6 +314,7 @@ public class RpcFieldModel extends RpcNamedObject implements IConvertedField {
 		editable = rpcModel.getFieldValue("editable") != null ? (Boolean)rpcModel.getFieldValue("editable") : false;
 		defaultValue = rpcModel.getFieldValue("defaultValue") != null ? (String)rpcModel.getFieldValue("defaultValue") : "";
 		expression = rpcModel.getFieldValue("expression") != null ? (String)rpcModel.getFieldValue("expression") : "";
+		order = (Integer)rpcModel.getFieldValue("order");
 		fieldsMap.putAll(rpcModel.fieldsMap);
 		return this;
 	}
@@ -338,6 +341,7 @@ public class RpcFieldModel extends RpcNamedObject implements IConvertedField {
 		fieldsMap.put("defaultValue", defaultValue);
 		fieldsMap.put("expression", expression);
 		fieldsMap.put("javaTypeName", javaTypeName);
+		fieldsMap.put("order", order);
 		// fieldsMap.put("initialized", initialized);
 	}
 

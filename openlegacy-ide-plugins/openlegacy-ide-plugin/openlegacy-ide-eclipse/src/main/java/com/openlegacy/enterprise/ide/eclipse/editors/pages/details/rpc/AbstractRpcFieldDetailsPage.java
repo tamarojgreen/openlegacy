@@ -1,11 +1,23 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.Messages;
+import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.FieldTypeViewerFilter;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntity;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntityModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcPartModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.masters.rpc.FieldsMasterBlock;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
@@ -19,15 +31,10 @@ import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
 
-import com.openlegacy.enterprise.ide.eclipse.Constants;
-import com.openlegacy.enterprise.ide.eclipse.Messages;
-import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.FieldTypeViewerFilter;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcFieldModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Ivan Bort
@@ -37,6 +44,7 @@ public abstract class AbstractRpcFieldDetailsPage extends AbstractRpcDetailsPage
 
 	private TextValidator fieldNameValidator;
 	private TextValidator lengthValidator;
+	private TextValidator orderValidator;
 
 	public AbstractRpcFieldDetailsPage(AbstractMasterBlock master) {
 		super(master);
@@ -85,10 +93,17 @@ public abstract class AbstractRpcFieldDetailsPage extends AbstractRpcDetailsPage
 		// create empty row
 		FormRowCreator.createSpacer(toolkit, client, 2);
 		// create row for displaying java type name
-		FormRowCreator.createLabelRow(toolkit, client, mapLabels,
+		FormRowCreator.createLabelRow(
+				toolkit,
+				client,
+				mapLabels,
 				Messages.getString("rpc.field.java.type.label"), "", Constants.JAVA_TYPE_NAME, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ //$NON-NLS-2$
 		// create row for "fieldName"
-		Text fieldNameControl = FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+		Text fieldNameControl = FormRowCreator.createStringRow(
+				toolkit,
+				client,
+				mapTexts,
+				getDefaultModifyListener(),
 				Messages.getString("rpc.field.field.name.label"), "", Constants.FIELD_NAME, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ //$NON-NLS-2$
 		fieldNameValidator = new TextValidator(master, managedForm, fieldNameControl, null) {
 
@@ -104,19 +119,32 @@ public abstract class AbstractRpcFieldDetailsPage extends AbstractRpcDetailsPage
 		};
 
 		// "originalName"
-		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+		FormRowCreator.createStringRow(
+				toolkit,
+				client,
+				mapTexts,
+				getDefaultModifyListener(),
 				Messages.getString("rpc.field.original.name.label"), "", RpcAnnotationConstants.ORIGINAL_NAME, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ //$NON-NLS-2$
 		// "displayName"
-		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+		FormRowCreator.createStringRow(
+				toolkit,
+				client,
+				mapTexts,
+				getDefaultModifyListener(),
 				Messages.getString("rpc.field.display.name.label"), "", AnnotationConstants.DISPLAY_NAME, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ //$NON-NLS-2$
 		// "int length"
-		Text lengthControl = FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				getDefaultVerifyListener(), Messages.getString("rpc.field.length.label"), 0, AnnotationConstants.LENGTH, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ 
+		Text lengthControl = FormRowCreator.createIntRow(
+				toolkit,
+				client,
+				mapTexts,
+				getDefaultModifyListener(),
+				getDefaultVerifyListener(),
+				Messages.getString("rpc.field.length.label"), 0, AnnotationConstants.LENGTH, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ 
 		lengthValidator = new TextValidator(master, managedForm, lengthControl, null) {
 
 			@Override
 			protected boolean validateControl(TextValidator validator, UUID uuid) {
-				return validateLengthControl(validator, uuid);
+				return validateLessThanZero(validator, uuid);
 			}
 
 			@Override
@@ -126,30 +154,80 @@ public abstract class AbstractRpcFieldDetailsPage extends AbstractRpcDetailsPage
 
 		};
 		// "key"
-		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+		FormRowCreator.createBooleanRow(
+				toolkit,
+				client,
+				mapCheckBoxes,
+				getDefaultSelectionListener(),
 				Messages.getString("rpc.field.key.label"), false, AnnotationConstants.KEY, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$
 		// "editable"
-		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+		FormRowCreator.createBooleanRow(
+				toolkit,
+				client,
+				mapCheckBoxes,
+				getDefaultSelectionListener(),
 				Messages.getString("rpc.field.editable.label"), false, AnnotationConstants.EDITABLE, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$
 		// "Direction direction"
-		FormRowCreator.createComboBoxRow(toolkit, client, mapCombos, getDefaultModifyListener(), getDefaultComboBoxKeyListener(),
+		FormRowCreator.createComboBoxRow(
+				toolkit,
+				client,
+				mapCombos,
+				getDefaultModifyListener(),
+				getDefaultComboBoxKeyListener(),
 				Messages.getString("rpc.field.direction.label"), getDirectionItems(), 0, RpcAnnotationConstants.DIRECTION, false, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$
 		// "Class<? extends FieldType> fieldType"
 		FormRowCreator.createComboBoxRowWithBrowseButton(toolkit, client, mapCombos, getDefaultModifyListener(),
 				getDefaultComboBoxKeyListener(), Messages.getString("rpc.field.field.type.label"), getFieldTypes(), 0,//$NON-NLS-1$
 				AnnotationConstants.FIELD_TYPE, new FieldTypeViewerFilter(), JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");
 		// "String sampleValue"
-		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+		FormRowCreator.createStringRow(
+				toolkit,
+				client,
+				mapTexts,
+				getDefaultModifyListener(),
 				Messages.getString("rpc.field.sample.value.label"), "", AnnotationConstants.SAMPLE_VALUE, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ //$NON-NLS-2$
 		// "String helpText"
-		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+		FormRowCreator.createStringRow(
+				toolkit,
+				client,
+				mapTexts,
+				getDefaultModifyListener(),
 				Messages.getString("rpc.field.help.text.label"), "", AnnotationConstants.HELP_TEXT, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ //$NON-NLS-2$
 		// "String defaultValue"
-		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+		FormRowCreator.createStringRow(
+				toolkit,
+				client,
+				mapTexts,
+				getDefaultModifyListener(),
 				Messages.getString("rpc.field.default.value.label"), "", RpcAnnotationConstants.DEFAULT_VALUE, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ //$NON-NLS-2$
 		// "String expression"
-		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+		FormRowCreator.createStringRow(
+				toolkit,
+				client,
+				mapTexts,
+				getDefaultModifyListener(),
 				Messages.getString("rpc.field.expression"), "", RpcAnnotationConstants.EXPRESSION, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ //$NON-NLS-2$
+		// int "Order"
+		Text orderControl = FormRowCreator.createIntRow(
+				toolkit,
+				client,
+				mapTexts,
+				getOrderListener(),
+				getDefaultVerifyListener(),
+				Messages.getString("rpc.field.order.label"), 0, RpcAnnotationConstants.ORDER, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ //$NON-NLS-2$
+		orderValidator = new TextValidator(master, managedForm, orderControl, null) {
+
+			@Override
+			protected boolean validateControl(TextValidator validator, UUID uuid) {
+				return validateLessThanZero(validator, uuid);
+			}
+
+			@Override
+			protected NamedObject getModel() {
+				return getFieldModel();
+			}
+
+		};
 
 		addContent(toolkit, client);
 
@@ -172,6 +250,7 @@ public abstract class AbstractRpcFieldDetailsPage extends AbstractRpcDetailsPage
 		if (fieldNameValidator != null) {
 			fieldNameValidator.removeValidationMarker();
 			lengthValidator.removeValidationMarker();
+			orderValidator.removeValidationMarker();
 		}
 	}
 
@@ -180,6 +259,7 @@ public abstract class AbstractRpcFieldDetailsPage extends AbstractRpcDetailsPage
 		if (fieldNameValidator != null) {
 			fieldNameValidator.revalidate(getModelUUID());
 			lengthValidator.revalidate(getModelUUID());
+			orderValidator.revalidate(getModelUUID());
 		}
 	}
 
@@ -188,6 +268,7 @@ public abstract class AbstractRpcFieldDetailsPage extends AbstractRpcDetailsPage
 		if (uuid != null) {
 			fieldNameValidator.setModelUUID(uuid);
 			lengthValidator.setModelUUID(uuid);
+			orderValidator.revalidate(getModelUUID());
 		}
 	}
 
@@ -201,7 +282,7 @@ public abstract class AbstractRpcFieldDetailsPage extends AbstractRpcDetailsPage
 		return isValid;
 	}
 
-	private static boolean validateLengthControl(TextValidator validator, UUID uuid) {
+	private static boolean validateLessThanZero(TextValidator validator, UUID uuid) {
 		String text = validator.getControl().getText();
 		boolean isValid = true;
 		// check if empty or contains any character that is not a digit
@@ -220,5 +301,105 @@ public abstract class AbstractRpcFieldDetailsPage extends AbstractRpcDetailsPage
 		list.add(Direction.INPUT.name().toUpperCase());
 		list.add(Direction.OUTPUT.name().toUpperCase());
 		return list.toArray(new String[] {});
+	}
+
+	private ModifyListener getOrderListener() {
+		return new ModifyListener() {
+
+			@Override
+			public void modifyText(ModifyEvent event) {
+				String text = ((Text)event.widget).getText();
+
+				RpcEntity entity = getEntity();
+				RpcFieldModel currentField = getFieldModel();
+
+				NamedObject targetParent = currentField.getParent();
+				List<RpcFieldModel> targetParentList = null;
+				UUID targetUUID = null;
+				if (targetParent instanceof RpcPartModel) {
+					targetParentList = (entity.getSortedPartByUUID(currentField.getParent().getUUID())).getSortedFields();
+					targetUUID = ((RpcPartModel)targetParent).getUUID();
+				} else if (targetParent instanceof RpcEntityModel) {
+					targetParentList = entity.getSortedFields();
+					targetUUID = entity.getEntityModel().getUUID();
+				}
+
+				currentField = targetParentList.get(targetParentList.indexOf(currentField));
+
+				for (int i = 0; i < targetParentList.size(); i++) {
+					if (targetParentList.get(i).getOrder() == 0) {
+						if (targetParentList.indexOf(targetParentList.get(i)) != 0) {
+							int comparerIdx = i;
+							targetParentList.get(i).setOrder(i);
+							for (int j = comparerIdx + 1; j < targetParentList.size(); j++) {
+								if (comparerIdx == targetParentList.get(j).getOrder()) {
+									targetParentList.get(j).setOrder(comparerIdx + 1);
+									comparerIdx = comparerIdx + 1;
+								}
+							}
+						}
+					}
+				}
+
+				int currIdx = currentField.getOrder();
+
+				int targetIdx = 0;
+				if (!StringUtils.isEmpty(text)) {
+					targetIdx = Integer.parseInt(text);
+				}
+				RpcFieldModel targetField = null;
+
+				for (RpcFieldModel field : targetParentList) {
+					if (field.getOrder() == targetIdx) {
+						targetField = field;
+					}
+				}
+
+				if (targetUUID == null || currIdx == targetIdx) {
+					return;
+				}
+
+				currentField.setOrder(targetIdx);
+				if (targetField != null) {
+					if (targetIdx > currIdx) {
+						targetField.setOrder(targetIdx - 1);
+						// recalculate orders for fields that have lesser order value
+						if (targetParentList.indexOf((targetField)) - 1 > 0) {
+							recalculateOrders(currentField, targetField, targetParentList, targetIdx - 1, false);
+						}
+					} else {
+						targetField.setOrder(targetIdx + 1);
+						// recalculate orders for fields that have higher order value
+						if (targetParentList.indexOf((targetField)) + 1 < targetParentList.size()) {
+							recalculateOrders(currentField, targetField, targetParentList, targetIdx + 1, true);
+						}
+					}
+				}
+
+				String key = (String)event.widget.getData(FormRowCreator.ID_KEY);
+				updateModel(key);
+				((FieldsMasterBlock)master).reassignMasterBlockViewerInput(targetUUID);
+			}
+		};
+	}
+
+	private static void recalculateOrders(RpcFieldModel currentField, RpcFieldModel targetField,
+			List<RpcFieldModel> targetParentList, int comparerIdx, boolean recalcNavigationUp) {
+
+		if (recalcNavigationUp) {
+			for (int i = targetParentList.indexOf((targetField)) + 1; i < targetParentList.size(); i++) {
+				if (targetParentList.get(i).getOrder() == comparerIdx && i != targetParentList.indexOf(currentField)) {
+					targetParentList.get(i).setOrder(comparerIdx + 1);
+					comparerIdx = comparerIdx + 1;
+				}
+			}
+		} else {
+			for (int i = targetParentList.indexOf((targetField)) - 1; i >= 0; i--) {
+				if (targetParentList.get(i).getOrder() == comparerIdx && i != targetParentList.indexOf(currentField)) {
+					targetParentList.get(i).setOrder(comparerIdx - 1);
+					comparerIdx = comparerIdx - 1;
+				}
+			}
+		}
 	}
 }
