@@ -104,7 +104,7 @@ public abstract class AbstractAngularController {
 
 	protected Template initTemplate(String resourceName) throws MalformedURLException, IOException {
 		URL genericTemplate = servletContext.getResource(resourceName);
-		String templateString = IOUtils.toString(genericTemplate);
+		String templateString = IOUtils.toString(genericTemplate, CharEncoding.UTF_8);
 		Template template = new Template("Template", new StringReader(templateString), new Configuration(
 				Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS));
 		return template;
