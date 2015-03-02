@@ -32,6 +32,7 @@ public class FieldsTreeViewerDropListener extends ViewerDropAdapter {
 	private TreeViewer viewer;
 	private RpcNamedObject target = null;
 	private AbstractPage page;
+	private RpcNamedObject targetListObject = null;
 
 	/**
 	 * @param viewer
@@ -56,7 +57,7 @@ public class FieldsTreeViewerDropListener extends ViewerDropAdapter {
 			Iterator<RpcNamedObject> iterator = selection.iterator();
 			while (iterator.hasNext()) {
 				RpcNamedObject namedObject = iterator.next();
-				FieldsTreeViewerDropHelper.performDrop(entity, namedObject, target);
+				FieldsTreeViewerDropHelper.performDrop(entity, namedObject, target, targetListObject);
 			}
 			// before set new Input for viewer we must reorder fields and parts (reassign treeLevel and treeBranch)
 			RpcEntityUtils.reorderFieldsAndParts(entity);
@@ -81,6 +82,9 @@ public class FieldsTreeViewerDropListener extends ViewerDropAdapter {
 		} else {
 			target = ((RpcEntityEditor)page.getEntityEditor()).getEntity().getEntityModel();
 		}
+
+		targetListObject = (RpcNamedObject)event.item.getData();
+
 		super.drop(event);
 	}
 
@@ -124,14 +128,14 @@ public class FieldsTreeViewerDropListener extends ViewerDropAdapter {
 
 		// if parent of transferred object equal to target model
 		if (top.getUUID().equals(targetModel.getUUID())) {
-			return false;
+			// return false;
 		}
 		// if we are dragging a field
 		if (transferredObject instanceof RpcFieldModel) {
 			// if tree level the same && parent branch the same && targetModel is field
 			if ((transferredObject.getTreeLevel() == targetModel.getTreeLevel()) && (top.getTreeBranch() == tmp.getTreeBranch())
 					&& (targetModel instanceof RpcFieldModel)) {
-				return false;
+				// return false;
 			}
 		}
 		// if we are dragging a part

@@ -78,9 +78,9 @@ public class FieldsConverter {
 				}
 				// add converted. add filled model to entity, because models from enityt will be displayed in tree viewer
 				if (parent instanceof ScreenEntityModel) {
-					entity.addConvertedScreenFieldModel(newModel.clone(), newModel.convertFrom((ScreenFieldModel)model));
+					entity.addConvertedScreenFieldModel(newModel.clone(), (ScreenFieldModel)newModel.convertFrom(model));
 				} else if (parent instanceof ScreenPartModel) {
-					entity.addConvertedScreenFieldModelToPart(newModel.clone(), newModel.convertFrom((ScreenFieldModel)model));
+					entity.addConvertedScreenFieldModelToPart(newModel.clone(), (ScreenFieldModel)newModel.convertFrom(model));
 				} else {
 					PopupUtil.error(Messages.getString("error.convert.field.missing.parent"),
 							Messages.getString("error.convert.field.title"));

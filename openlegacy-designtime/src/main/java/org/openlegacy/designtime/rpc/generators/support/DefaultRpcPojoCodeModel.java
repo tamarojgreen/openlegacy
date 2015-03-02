@@ -128,6 +128,8 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 
 		private String expression;
 
+		private int order = 0;
+
 		public Field(String name, String type) {
 			this.name = name;
 			this.type = type;
@@ -330,6 +332,14 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 
 		public void setExpression(String expression) {
 			this.expression = expression;
+		}
+
+		public int getOrder() {
+			return order;
+		}
+
+		public void setOrder(int order) {
+			this.order = order;
 		}
 
 	}

@@ -160,7 +160,7 @@ public class ScreenFieldValuesModel extends ScreenFieldModel {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ScreenFieldModel convertFrom(ScreenFieldModel model) {
+	public NamedObject convertFrom(NamedObject model) {
 		super.convertFrom(model);
 		provider = getFieldValue("provider") != null ? (Class<? extends ScreenRecordsProvider>)getFieldValue("provider")
 				: ScreenRecordsProvider.class;

@@ -54,8 +54,12 @@ public class RpcBooleanFieldModel extends RpcFieldModel {
 			return false;
 		}
 		RpcBooleanFieldModel model = (RpcBooleanFieldModel)obj;
+		if (this.trueValue == null || this.falseValue == null || model.getTrueValue() == null || model.getFalseValue() == null) {
+			return false;
+		}
 		return (this.trueValue.equals(model.getTrueValue())) && (this.falseValue.equals(model.getFalseValue()))
 				&& (this.treatEmptyAsNull == model.isTreatEmptyAsNull());
+		
 	}
 
 	@Override

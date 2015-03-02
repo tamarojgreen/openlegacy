@@ -2,7 +2,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.models.rpc;
 
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.AbstractEntity;
-import com.openlegacy.enterprise.ide.eclipse.editors.support.rpc.RpcFieldModelNameComparator;
+import com.openlegacy.enterprise.ide.eclipse.editors.support.rpc.RpcOrderFieldComparator;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.rpc.RpcEntityUtils;
 
 import org.eclipse.core.runtime.Assert;
@@ -158,7 +158,8 @@ public class RpcEntity extends AbstractEntity {
 	}
 
 	public List<RpcFieldModel> getSortedFields() {
-		Collections.sort(sortedFields, RpcFieldModelNameComparator.INSTANCE);
+		// Collections.sort(sortedFields, RpcFieldModelNameComparator.INSTANCE);
+		Collections.sort(this.sortedFields, new RpcOrderFieldComparator());
 		return sortedFields;
 	}
 
@@ -207,4 +208,31 @@ public class RpcEntity extends AbstractEntity {
 		}
 		return model;
 	}
+
+	/**
+	 * the second parameter should be a clone of the first parameter and should be filled with using model.convertFrom(...) method
+	 * */
+	public void addConvertedRpcFieldModel(RpcFieldModel baseModel, RpcFieldModel convertedModel) {
+		this.fields.put(baseModel.getUUID(), baseModel);
+		this.sortedFields.add(convertedModel);
+		newFieldsCount++;
+		setDirty(true);
+	}
+
+	/**
+	 * the second parameter should be a clone of the first parameter and should be filled with using model.convertFrom(...) method
+	 * */
+	public void addConvertedRpcFieldModelToPart(RpcFieldModel baseModel, RpcFieldModel convertedModel) {
+		RpcPartModel parent = (RpcPartModel)baseModel.getParent();
+		getParts().get(parent.getUUID()).addConvertedRpcFieldModel(baseModel, convertedModel);
+
+		List<RpcPartModel> sortedParts = getSortedParts();
+		for (RpcPartModel rpcPartModel : sortedParts) {
+			if (rpcPartModel.getUUID().equals(parent.getUUID())) {
+				rpcPartModel.addConvertedRpcFieldModel(baseModel, convertedModel);
+				break;
+			}
+		}
+	}
+
 }

@@ -10,7 +10,9 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcEnumFieldAct
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcIntegerFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcPartAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.button.DropDownButton;
 import com.openlegacy.enterprise.ide.eclipse.editors.button.SplitButton;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.AbstractEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBigIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBooleanFieldModel;
@@ -34,6 +36,8 @@ import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc.PartsRpcP
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.dnd.rpc.FieldsTreeViewerDragListener;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.dnd.rpc.FieldsTreeViewerDropHelper;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.dnd.rpc.FieldsTreeViewerDropListener;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.masters.rpc.helpers.FieldsConverter;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.masters.screen.helpers.IPartsMasterBlockCallback;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.rpc.FieldsMasterBlockContentProvider;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.rpc.FieldsMasterBlockLabelProvider;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.rpc.RpcEntityUtils;
@@ -84,13 +88,15 @@ import java.util.regex.Pattern;
  * * @author Ivan Bort
  * 
  */
-public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
+public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock implements IPartsMasterBlockCallback {
 
 	private TreeViewer treeViewer;
 	private Button btnRemove;
+	private FieldsConverter converter;
 
 	public FieldsMasterBlock(AbstractPage page) {
 		super(page);
+		converter = new FieldsConverter(this);
 	}
 
 	/*
@@ -251,6 +257,8 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 		addNewRpcPartMenuItem(splitButton.getMenu());
 
 		createRemoveButton(toolkit, composite);
+
+		createConvertButton(composite);
 	}
 
 	private void createRemoveButton(FormToolkit toolkit, Composite composite) {
@@ -375,8 +383,8 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 				fillNewModel(newModel);
 				entity.addAction(new RpcIntegerFieldAction(newModel.getUUID(), newModel, ActionType.ADD,
 						ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
-				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
-				RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, newModel);
+				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, true);
+				RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, newModel, true);
 
 				reassignTreeViewerInput(newModel.getUUID());
 			}
@@ -404,8 +412,8 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 				fillNewModel(newModel);
 				entity.addAction(new RpcBigIntegerFieldAction(newModel.getUUID(), newModel, ActionType.ADD,
 						ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
-				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
-				RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, newModel);
+				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, true);
+				RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, newModel, true);
 
 				reassignTreeViewerInput(newModel.getUUID());
 			}
@@ -433,8 +441,8 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 				fillNewModel(newModel);
 				entity.addAction(new RpcBooleanFieldAction(newModel.getUUID(), newModel, ActionType.ADD,
 						ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
-				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
-				RpcEntityUtils.ActionGenerator.generateRpcBooleanFieldActions(entity, newModel);
+				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, true);
+				RpcEntityUtils.ActionGenerator.generateRpcBooleanFieldActions(entity, newModel, true);
 
 				reassignTreeViewerInput(newModel.getUUID());
 			}
@@ -462,8 +470,8 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 				fillNewModel(newModel);
 				entity.addAction(new RpcDateFieldAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.FIELD_DECLARATION,
 						newModel.getFieldName(), null));
-				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
-				RpcEntityUtils.ActionGenerator.generateRpcDateFieldActions(entity, newModel);
+				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, true);
+				RpcEntityUtils.ActionGenerator.generateRpcDateFieldActions(entity, newModel, true);
 
 				reassignTreeViewerInput(newModel.getUUID());
 			}
@@ -494,8 +502,8 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 				// add action that responsible for creating a new enum class
 				entity.addAction(new RpcEnumFieldAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.ENUM_DECLARATION,
 						Constants.ENUM_FIELD_NEW_TYPE_DECLARATION, null));
-				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
-				RpcEntityUtils.ActionGenerator.generateRpcEnumFieldActions(entity, newModel);
+				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, true);
+				RpcEntityUtils.ActionGenerator.generateRpcEnumFieldActions(entity, newModel, true);
 
 				reassignTreeViewerInput(newModel.getUUID());
 			}
@@ -528,7 +536,7 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 				fillNewModel(newModel);
 				entity.addAction(new RpcFieldAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.FIELD_DECLARATION,
 						newModel.getFieldName(), null));
-				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel);
+				RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, newModel, true);
 
 				reassignTreeViewerInput(newModel.getUUID());
 			}
@@ -638,7 +646,7 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 				while (iterator.hasNext()) {
 					RpcNamedObject namedObject = iterator.next();
 					// emulate drop
-					FieldsTreeViewerDropHelper.performDrop(getEntity(), namedObject, newPartModel);
+					FieldsTreeViewerDropHelper.performDrop(getEntity(), namedObject, newPartModel, null);
 				}
 				reassignTreeViewerInput(newPartModel.getUUID());
 			}
@@ -691,5 +699,115 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 			}
 		}
 		return ++seed;
+	}
+
+	private void createConvertButton(Composite composite) {
+		DropDownButton button = new DropDownButton(composite);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
+		button.setLayoutData(gd);
+		button.setText(Messages.getString("Button.convert"));//$NON-NLS-1$
+
+		addConvertToStringFieldMenuItem(button.getMenu());
+		addConvertToBooleanFieldMenuItem(button.getMenu());
+		addConvertToIntegerFieldMenuItem(button.getMenu());
+		addConvertToBigIntegerFieldMenuItem(button.getMenu());
+		addConvertToDateFieldMenuItem(button.getMenu());
+		addConvertToEnumFieldMenuItem(button.getMenu());
+	}
+
+	private void addConvertToStringFieldMenuItem(Menu menu) {
+		MenuItem item = new MenuItem(menu, SWT.PUSH);
+		item.setText(Messages.getString("Menu.convert.to.string"));//$NON-NLS-1$
+		item.addSelectionListener(new ConvertMenuItemSelectionAdapter(RpcFieldModel.class));
+	}
+
+	private void addConvertToBooleanFieldMenuItem(Menu menu) {
+		MenuItem item = new MenuItem(menu, SWT.PUSH);
+		item.setText(Messages.getString("Menu.convert.to.boolean"));//$NON-NLS-1$
+		item.addSelectionListener(new ConvertMenuItemSelectionAdapter(RpcBooleanFieldModel.class));
+
+	}
+
+	private void addConvertToIntegerFieldMenuItem(Menu menu) {
+		MenuItem item = new MenuItem(menu, SWT.PUSH);
+		item.setText(Messages.getString("Menu.convert.to.integer"));//$NON-NLS-1$
+		item.addSelectionListener(new ConvertMenuItemSelectionAdapter(RpcIntegerFieldModel.class));
+	}
+
+	private void addConvertToBigIntegerFieldMenuItem(Menu menu) {
+		MenuItem item = new MenuItem(menu, SWT.PUSH);
+		item.setText(Messages.getString("Menu.convert.to.big.integer"));//$NON-NLS-1$
+		item.addSelectionListener(new ConvertMenuItemSelectionAdapter(RpcBigIntegerFieldModel.class));
+	}
+
+	private void addConvertToDateFieldMenuItem(Menu menu) {
+		MenuItem item = new MenuItem(menu, SWT.PUSH);
+		item.setText(Messages.getString("Menu.convert.to.date"));//$NON-NLS-1$
+		item.addSelectionListener(new ConvertMenuItemSelectionAdapter(RpcDateFieldModel.class));
+	}
+
+	private void addConvertToEnumFieldMenuItem(Menu menu) {
+		MenuItem item = new MenuItem(menu, SWT.PUSH);
+		item.setText(Messages.getString("Menu.convert.to.enum"));//$NON-NLS-1$
+		item.addSelectionListener(new ConvertMenuItemSelectionAdapter(RpcEnumFieldModel.class));
+	}
+
+	private class ConvertMenuItemSelectionAdapter extends SelectionAdapter {
+
+		private Class<?> targetClass;
+
+		public ConvertMenuItemSelectionAdapter(Class<?> targetClass) {
+			this.targetClass = targetClass;
+		}
+
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			converter.convertTo(targetClass);
+		}
+
+	}
+
+	@Override
+	public AbstractEntity getAbstractEntity() {
+		return getEntity();
+	}
+
+	@Override
+	public void reassignMasterBlockViewerInput(UUID selectUUID) {
+		RpcEntity entity = getEntity();
+		treeViewer.setInput(entity);
+		treeViewer.expandAll();
+		if (selectUUID != null) {
+			treeViewerSetSelectionByModelUUID(selectUUID);
+		} else {
+			treeViewerSetSelection(0);
+		}
+		page.getEditor().editorDirtyStateChanged();
+	}
+
+	@Override
+	public IStructuredSelection getMasterBlockViewerSelection() {
+		return (IStructuredSelection)treeViewer.getSelection();
+	}
+
+	@Override
+	public void removeValidationMarkers(UUID uuid) {
+		for (IDetailsPage detailsPage : detailsPages) {
+			if (((IOpenLegacyDetailsPage)detailsPage).getModelUUID() != null
+					&& ((IOpenLegacyDetailsPage)detailsPage).getModelUUID().equals(uuid)) {
+				((IOpenLegacyDetailsPage)detailsPage).removeValidationMarkers();
+				break;
+			}
+		}
+
+	}
+
+	@Override
+	public void removePartsValidationMarkers() {
+		for (IDetailsPage detailsPage : detailsPages) {
+			if (detailsPage instanceof PartsRpcPartDetailsPage) {
+				((IOpenLegacyDetailsPage)detailsPage).removeValidationMarkers();
+			}
+		}
 	}
 }

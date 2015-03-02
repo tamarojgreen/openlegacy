@@ -24,22 +24,35 @@ import com.openlegacy.enterprise.ide.eclipse.editors.utils.rpc.RpcEntityUtils;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 
+import java.util.List;
+
 /**
  * @author Ivan Bort
  * 
  */
 public class FieldsTreeViewerDropHelper {
 
-	public static void performDrop(RpcEntity entity, RpcNamedObject transferredObject, RpcNamedObject target) {
+	public static void performDrop(RpcEntity entity, RpcNamedObject transferredObject, RpcNamedObject target,
+			RpcNamedObject targetListObject) {
 		if (transferredObject instanceof RpcFieldModel) {
-			moveRpcField(entity, (RpcFieldModel)transferredObject, target);
+			moveRpcField(entity, (RpcFieldModel)transferredObject, target, targetListObject);
 		} else if (transferredObject instanceof RpcPartModel) {
 			moveRpcPart(entity, (RpcPartModel)transferredObject, target);
 		}
 	}
 
-	private static void moveRpcField(RpcEntity entity, RpcFieldModel field, RpcNamedObject target) {
+	private static void moveRpcField(RpcEntity entity, RpcFieldModel field, RpcNamedObject target, RpcNamedObject targetListObject) {
 		if (target.getUUID().equals(field.getParent().getUUID())) {
+			if (target instanceof RpcPartModel) {
+				RpcPartModel model = entity.getSortedPartByUUID(field.getParent().getUUID());
+				changeOrder(field, targetListObject, model.getSortedFields(), true);
+				for (RpcFieldModel sortedField : model.getSortedFields()) {
+					RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, sortedField, false, true);
+				}
+			} else if (target instanceof RpcEntityModel) {
+				changeOrder(field, targetListObject, entity.getSortedFields(), true);
+			}
+
 			return;
 		}
 		RpcFieldModel clone = (RpcFieldModel)getClone(field, target);
@@ -52,6 +65,7 @@ public class FieldsTreeViewerDropHelper {
 			entity.getSortedFields().add(clone);
 			// remove field from part model
 			entity.removeRpcFieldModelFromPart(field);
+			changeOrder(clone, targetListObject, entity.getSortedFields(), false);
 		} else if (target instanceof RpcPartModel) {
 			// add field to part model
 			RpcPartModel model = entity.getPartByUUID(clone.getParent().getUUID());
@@ -67,10 +81,88 @@ public class FieldsTreeViewerDropHelper {
 			} else if (field.getParent() instanceof RpcPartModel) {
 				entity.removeRpcFieldModelFromPart(field);
 			}
+			changeOrder(clone, targetListObject, model.getSortedFields(), false);
 		}
 		// generate actions
 		generateFieldRemoveActions(entity, field);
 		generateFieldModifyActions(entity, clone);
+		RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, clone, true);
+	}
+
+	private static void changeOrder(RpcFieldModel currentField, RpcNamedObject targetField, List<RpcFieldModel> targetParentList,
+			boolean hasOneParent) {
+
+		// set order to all fields that doesn't have them yet
+		for (int i = 0; i < targetParentList.size(); i++) {
+			if (targetParentList.get(i).getOrder() == 0) {
+				if (targetParentList.indexOf(targetParentList.get(i)) != 0) {
+					int comparerIdx = i;
+					targetParentList.get(i).setOrder(i);
+					for (int j = comparerIdx + 1; j < targetParentList.size(); j++) {
+						if (comparerIdx == targetParentList.get(j).getOrder()) {
+							targetParentList.get(j).setOrder(comparerIdx + 1);
+							comparerIdx = comparerIdx + 1;
+						}
+					}
+				}
+			}
+		}
+
+		int currIdx = targetParentList.get(targetParentList.indexOf((currentField))).getOrder();
+
+		if (targetField instanceof RpcFieldModel) {
+			int targetIdx = targetParentList.get(targetParentList.indexOf((targetField))).getOrder();
+
+			if (hasOneParent) {
+				currentField.setOrder(targetIdx);
+				if (targetIdx > currIdx) {
+					((RpcFieldModel)targetField).setOrder(targetIdx - 1);
+					// recalculate orders for fields that have lesser order value
+					recalculateOrders(currentField, (RpcFieldModel)targetField, targetParentList, targetIdx - 1, false);
+				} else {
+					((RpcFieldModel)targetField).setOrder(targetIdx + 1);
+					// recalculate orders for fields that have higher order value
+					recalculateOrders(currentField, (RpcFieldModel)targetField, targetParentList, targetIdx + 1, true);
+				}
+			} else {
+				if (targetIdx - 1 == -1) {
+					((RpcFieldModel)targetField).setOrder(0);
+					currentField.setOrder(targetIdx + 1);
+				} else {
+					currentField.setOrder(targetIdx);
+					((RpcFieldModel)targetField).setOrder(targetIdx + 1);
+					// recalculate orders for fields that have higher order value
+					recalculateOrders(currentField, (RpcFieldModel)targetField, targetParentList, targetIdx + 1, true);
+				}
+			}
+		} else if (targetField instanceof RpcPartModel) {
+			targetField = targetParentList.get(0);
+			int targetIdx = 0;
+			currentField.setOrder(targetIdx);
+			((RpcFieldModel)targetField).setOrder(targetIdx + 1);
+			// recalculate orders for fields that have higher order value
+			recalculateOrders(currentField, (RpcFieldModel)targetField, targetParentList, targetIdx + 1, true);
+		}
+	}
+
+	private static void recalculateOrders(RpcFieldModel currentField, RpcFieldModel targetField,
+			List<RpcFieldModel> targetParentList, int comparerIdx, boolean recalcNavigationUp) {
+
+		if (recalcNavigationUp) {
+			for (int i = targetParentList.indexOf((targetField)) + 1; i < targetParentList.size(); i++) {
+				if (targetParentList.get(i).getOrder() == comparerIdx && i != targetParentList.indexOf(currentField)) {
+					targetParentList.get(i).setOrder(comparerIdx + 1);
+					comparerIdx = comparerIdx + 1;
+				}
+			}
+		} else {
+			for (int i = targetParentList.indexOf((targetField)) - 1; i >= 0; i--) {
+				if (targetParentList.get(i).getOrder() == comparerIdx && i != targetParentList.indexOf(currentField)) {
+					targetParentList.get(i).setOrder(comparerIdx - 1);
+					comparerIdx = comparerIdx - 1;
+				}
+			}
+		}
 	}
 
 	private static void moveRpcPart(RpcEntity entity, RpcPartModel part, RpcNamedObject target) {
@@ -190,15 +282,15 @@ public class FieldsTreeViewerDropHelper {
 	private static void generateFieldModifyActions(RpcEntity entity, RpcFieldModel model) {
 		entity.addAction(getAddFieldAction(model));
 		if (model instanceof RpcBooleanFieldModel) {
-			RpcEntityUtils.ActionGenerator.generateRpcBooleanFieldActions(entity, (RpcBooleanFieldModel)model);
+			RpcEntityUtils.ActionGenerator.generateRpcBooleanFieldActions(entity, (RpcBooleanFieldModel)model, true);
 		} else if (model instanceof RpcIntegerFieldModel) {
-			RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, (RpcIntegerFieldModel)model);
+			RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, (RpcIntegerFieldModel)model, true);
 		} else if (model instanceof RpcDateFieldModel) {
-			RpcEntityUtils.ActionGenerator.generateRpcDateFieldActions(entity, (RpcDateFieldModel)model);
+			RpcEntityUtils.ActionGenerator.generateRpcDateFieldActions(entity, (RpcDateFieldModel)model, true);
 		} else if (model instanceof RpcEnumFieldModel) {
-			RpcEntityUtils.ActionGenerator.generateRpcEnumFieldActions(entity, (RpcEnumFieldModel)model);
+			RpcEntityUtils.ActionGenerator.generateRpcEnumFieldActions(entity, (RpcEnumFieldModel)model, true);
 		}
-		RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, model);
+		RpcEntityUtils.ActionGenerator.generateRpcFieldActions(entity, model, true);
 		entity.setDirty(true);
 	}
 

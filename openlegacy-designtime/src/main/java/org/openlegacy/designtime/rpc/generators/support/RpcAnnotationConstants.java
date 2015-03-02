@@ -59,4 +59,6 @@ public class RpcAnnotationConstants {
 
 	// @RpcNavigation
 	public static final String CATEGORY = "category";
+
+	public static final String ORDER = "order";
 }
