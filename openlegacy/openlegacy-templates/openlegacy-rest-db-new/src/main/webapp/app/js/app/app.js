@@ -6,7 +6,7 @@
 
 	var olApp = angular.module('olApp',
 			[ 'controllers', 'services', 'ngRoute', 'ui.router']).run(
-			function($rootScope, $state) {				
+			function($rootScope, $state, $idleTimeout, $location) {				
 				$rootScope.allowHidePreloader = true;
 				$rootScope.allowShowPreloader = true;
 
@@ -44,7 +44,11 @@
 						$state.go("login", {"redirectTo":{"name": toState.name, "params":toParams}}, {"reload":true});
 						
 					}
-				});	
+				});
+				
+				if ($location.path() != '/login') {			
+					$idleTimeout.start();
+				}
 			});
 
 	olApp.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
@@ -83,8 +87,8 @@
 				var authLogin = function($q, $http, $state) {
 					var deferred = $q.defer();
 						
-					if ($state.current.name != "" && $state.current.name != "logoff" && $state.current.name != "login") {
-						deferred.reject();							
+					if ($state.current.name != "" && $state.current.name != "login") {
+													
 						$http(
 							{						
 								method: 'GET',
@@ -121,15 +125,8 @@
 						}
 					},
 					resolve: { authLogin: authLogin	}
-				}).state('logoff', {
-					url : '/logoff',
-					views : {
-						"" : {
-							templateUrl : "views/logoff.html",
-							controller : 'logoffCtrl'
-						}
-					}
-				}).state('menu', {
+				})
+				.state('menu', {
 					url : '/menu',
 					views : {
 						"" : {

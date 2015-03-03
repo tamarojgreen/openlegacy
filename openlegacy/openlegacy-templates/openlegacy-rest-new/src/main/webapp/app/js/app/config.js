@@ -4,5 +4,6 @@ var olConfig = {
 		showSystemMessages: true,
 		expiration: 30,
 		afterLoginView: "menu",
-		defaultView: "login"
+		defaultView: "login",
+		idleTimeout: 10	
 	};

@@ -3,5 +3,6 @@ var olConfig = {
 	hostUrl : "http://host.name/application.name",
 	expiration: 30,
 	afterLoginView: "menu",
-	defaultView: "login"
+	defaultView: "login",
+	idleTimeout: 10
 };

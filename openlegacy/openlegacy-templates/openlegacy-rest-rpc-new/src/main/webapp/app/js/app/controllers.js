@@ -8,7 +8,7 @@
 
 	module = module.controller(
 		'loginCtrl',
-		function($scope, $olHttp, $rootScope, $state, $stateParams) {
+		function($scope, $olHttp, $rootScope, $state, $stateParams, $idleTimeout) {
 			$scope.login = function(username, password) {
 				var data = {"user":username,"password":password}
 				$olHttp.post('login',data, 
@@ -19,24 +19,15 @@
 							
 							$.cookie('loggedInUser', username, {expires: $expiration, path: '/'});
 							$rootScope.$broadcast("olApp:login:authorized", username);
+							$idleTimeout.start();
 							$state.go($stateParams.redirectTo.name, $stateParams.redirectTo.params);
 						}
 					);
 			};		
-		});
-	module = module.controller(
-		'logoffCtrl',
-		function($scope, $olHttp, $rootScope) {
-			$olHttp.get('logoff', 
-				function() {
-					$rootScope.hidePreloader();
-					$.removeCookie("loggedInUser", {path: '/'});
-				}
-			);
-		});
+		});	
 	
 	module = module.controller('headerCtrl',
-		function ($rootScope, $scope, $http, $themeService, $state) {    
+		function ($rootScope, $scope, $http, $themeService, $state, $idleTimeout, $olHttp) {    
 			$rootScope.$on("olApp:login:authorized", function(e, value) {
 				$scope.username = value;
 			});
@@ -45,10 +36,16 @@
 				$scope.username = $.cookie('loggedInUser');
 			}
 			
-			$scope.logout = function(){
-				$rootScope.allowHidePreloader = false;
+			$scope.logout = function(){				
 				delete $scope.username
-				$state.go("logoff");
+				$olHttp.get('logoff', 
+					function() {						
+						$.removeCookie("loggedInUser", {path: '/'});
+						$rootScope.hidePreloader();
+						$idleTimeout.stop();							
+						$state.go('login');	
+					}
+				);
 			}
 			
 			$scope.changeTheme = function() {

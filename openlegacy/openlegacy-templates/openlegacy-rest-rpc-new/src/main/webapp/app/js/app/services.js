@@ -131,6 +131,71 @@
 			}
 			
 		};
-	}]);
+	}])
+	.factory('$idleTimeout', function($olHttp, $timeout, $rootScope, $state) {		
+		var timer = null;
+		
+		var activeMethod = function(awayTimeout) {
+			console.log('activeMethod');
+			if (timer != null) {
+				$timeout.cancel(timer);
+				timer = null;
+			}			
+			var logoff = function() {
+				$olHttp.get('logoff', 
+					function() {							
+						$.removeCookie("loggedInUser", {path: '/'});
+						$rootScope.hidePreloader();
+						idleTimeout.stop();
+						$state.go('login');						
+					}
+				);
+			};
+			
+			timer = $timeout(logoff, awayTimeout*60*1000, false);
+		};
+		
+		function throttle(callback, limit) {			
+		    var wait = false;
+		    return function () {		    	
+		        if (!wait) {
+		            callback.call();
+		            wait = true;
+		            setTimeout(function () {
+		                wait = false;
+		            }, limit);
+		        }
+		    }
+		};		
+		
+		var listener = throttle(function() {				
+			activeMethod(olConfig.idleTimeout);
+		}, 2000);			
+		
+		var idleTimeout = {
+			'start': function() {				
+				window.addEventListener('click', listener);
+				window.addEventListener('mousemove', listener);
+				window.addEventListener('mouseenter', listener);
+				window.addEventListener('keydown', listener);
+				window.addEventListener('scroll', listener);
+				window.addEventListener('mousewheel', listener);								
+			},
+			'stop': function() {
+				if (timer != null) {
+					$timeout.cancel(timer);
+					timer = null;
+					window.removeEventListener('click', listener);
+					window.removeEventListener('mousemove', listener);
+					window.removeEventListener('mouseenter', listener);
+					window.removeEventListener('keydown', listener);
+					window.removeEventListener('scroll', listener);
+					window.removeEventListener('mousewheel', listener);					
+				}				
+			}
+		}
+		
+		return idleTimeout;
+	});
 	
 } )();

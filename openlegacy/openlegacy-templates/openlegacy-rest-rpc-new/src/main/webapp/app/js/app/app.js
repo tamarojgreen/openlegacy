@@ -4,7 +4,7 @@
 
 	/* App Module */
 	
-	var olApp = angular.module( 'olApp', ['controllers', 'services', 'ngRoute', 'ui.router'] ).run(['$themeService', '$rootScope', '$state', function($themeService, $rootScope, $state) {
+	var olApp = angular.module( 'olApp', ['controllers', 'services', 'ngRoute', 'ui.router'] ).run(['$themeService', '$rootScope', '$state', '$idleTimeout', '$location', function($themeService, $rootScope, $state, $idleTimeout, $location) {
 		$rootScope.allowHidePreloader = true;
 		$rootScope.allowShowPreloader = true;
 		
@@ -44,6 +44,10 @@
 		});
 		
 		$rootScope.theme = $themeService.getCurrentTheme();
+		
+		if ($location.path() != '/login') {			
+			$idleTimeout.start();
+		}
 	}]);
 
 	olApp.config( ['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
@@ -83,7 +87,7 @@
 		
 		var authLogin = function($q, $http, $state) {			
 			var deferred = $q.defer();			
-			if ($state.current.name != "" && $state.current.name != "logoff" && $state.current.name != "login") {
+			if ($state.current.name != "" && $state.current.name != "login") {
 				$http(
 					{						
 						method: 'GET',
@@ -123,15 +127,6 @@
 			 resolve: {
 				 authLogin: authLogin
 			 }
-		})
-		 .state('logoff', {
-			 url: '/logoff',
-			 views: {
-				 "": {
-					 templateUrl: "views/logoff.html",
-					 controller: 'logoffCtrl'
-				 }
-			 }		     
 		})
 		 .state('menu', {
 			 url: '/menu',
