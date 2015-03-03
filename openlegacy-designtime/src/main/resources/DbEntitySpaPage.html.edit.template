@@ -168,8 +168,8 @@
 						<#assign childColumns = []>
 						<#if entity.columnFieldsDefinitions??>
 							<#list entity.columnFieldsDefinitions?keys as key>								
-								<#assign column = entity.columnFieldsDefinitions[key]>								
-								<#if (!column.internal?? || column.internal == false) && !column.oneToManyDefinition?? && !column.key>								
+								<#assign column = entity.columnFieldsDefinitions[key]>
+								<#if (!column.internal?? || column.internal == false) && !column.oneToManyDefinition?? && !column.key && !column.staticField>								
 									<div class="row">										
 										<label class="col-sm-3 col-xs-6">
 											<#if column.displayName??>
