@@ -120,7 +120,7 @@ public class SnapshotPersistanceDTO {
 				continue;
 			}
 			// don't copy row with single empty field
-			if (persistedRow.getFields().size() == 1 && StringUtil.isEmpty(persistedRow.getFields().get(0).getValue())) {
+			if (persistedRow.getFields().size() == 1 && !persistedRow.getFields().get(0). isEditable() && StringUtil.isEmpty(persistedRow.getFields().get(0).getValue())) {
 				continue;
 			}
 
