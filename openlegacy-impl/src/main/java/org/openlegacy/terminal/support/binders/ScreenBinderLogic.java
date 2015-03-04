@@ -257,6 +257,9 @@ public class ScreenBinderLogic implements Serializable {
 						final List<Object> rows = (List<Object>)fieldAccessor.getFieldValue(tableDefinitionEntry.getKey());
 						// final ScreenTableDefinition tableDefinition = tableDefinitions.get(tableFieldName);
 						int rowNumber = 0;
+						if (rows == null){
+							continue;
+						}
 						for (Object row : rows) {
 							final ScreenPojoFieldAccessor rowAccessor = new SimpleScreenPojoFieldAccessor(row);
 							// If there is no focusField on this table, break out of search.
