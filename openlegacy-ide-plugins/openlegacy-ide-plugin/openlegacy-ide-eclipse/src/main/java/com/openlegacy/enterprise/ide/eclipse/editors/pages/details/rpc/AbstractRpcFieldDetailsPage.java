@@ -317,7 +317,11 @@ public abstract class AbstractRpcFieldDetailsPage extends AbstractRpcDetailsPage
 				List<RpcFieldModel> targetParentList = null;
 				UUID targetUUID = null;
 				if (targetParent instanceof RpcPartModel) {
-					targetParentList = (entity.getSortedPartByUUID(currentField.getParent().getUUID())).getSortedFields();
+					RpcPartModel sortedPart = entity.getSortedPartByUUID(currentField.getParent().getUUID());
+					if (sortedPart == null) {
+						return;
+					}
+					targetParentList = sortedPart.getSortedFields();
 					targetUUID = ((RpcPartModel)targetParent).getUUID();
 				} else if (targetParent instanceof RpcEntityModel) {
 					targetParentList = entity.getSortedFields();
