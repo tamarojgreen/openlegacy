@@ -200,7 +200,11 @@
 						  </div>
 						</div>														
 					<#elseif field.fieldTypeDefinition.typeName == 'boolean'>
-						<input type="checkbox" class="form-control" id="${field.name}" ng-checked="model.${field.name}">											
+						<div class="checkbox" id="${field.name}">
+							<label>
+	      						<input ng-model="model.${field.name}" type="checkbox">
+	    					</label>
+	  					</div>											
 					<#elseif field.fieldTypeDefinition.typeName == 'enum'>
 						<select  class="form-control child-terminal-colors" id="${field.name}" ng-model="model.${field.name}" ng-options="">
 							<option value="">-- Select --</option>
@@ -218,7 +222,11 @@
 				<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'date'>
 					<input type="text" id="${field.name}" class="form-control child-terminal-colors" placeholder="mm/dd/yyyy" ng-model="model.${field.name}" bdatepicker disabled="true"/>
 				<#elseif field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'boolean'>
-					<input type="checkbox" disabled="disabled" class="form-control" id="${field.name}" ng-checked="model.${field.name}">											
+					<div class="checkbox" id="${field.name}">
+						<label>
+      						<input ng-model="model.${field.name}" type="checkbox">
+    					</label>
+  					</div>													
 				<#else>
 					<span id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</span>
 					<#if field.descriptionFieldDefinition??>
