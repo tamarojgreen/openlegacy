@@ -115,7 +115,7 @@
 				   <input type="checkbox" class="form-control" id="${field.name}" ng-checked="model.${field.shortName}">
 				  <#break>
 				  <#case 'date'>
-				   <input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}" datepicker/>
+				  	<input type="text" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="model.${field.shortName}" is-open="opened" ng-required="true" close-text="Close" ng-click="opened=true" />				   
 				  <#break>
 				  <#case 'enum'>
 					<select class="form-control" id="${field.name}" ng-model="model.${field.name}">

@@ -14,8 +14,7 @@
 		
 	    <!-- Bootstrap extention CSS -->
 	    <link href="bootstrap/css/font-awesome.min.css" rel="stylesheet">	
-		<!-- <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">	 -->
-		<link href="bootstrap/css/datepicker.css" rel="stylesheet">
+		<!-- <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">	 -->		
 		
 		<!-- custom style for this project -->
 		<link ng-href="themes/light/light.css" rel="stylesheet">		
@@ -25,8 +24,7 @@
 		<script src="lib/jquery/jquery.cookie.js" type="text/javascript"></script>
 			
 	    <!-- Include the bootstrap -->    
-	    <script src="lib/bootstrap/js/bootstrap.js"></script>
-	    <script src="lib/bootstrap/js/bootstrap-datepicker.js"></script>	    
+	    <script src="lib/bootstrap/js/bootstrap.js"></script>	    
 	 
 		<!-- Include angular JS -->
 		<script src="lib/angular/angular.min.js"></script>

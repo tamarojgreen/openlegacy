@@ -10,8 +10,7 @@
 	<link href="../favicon.ico" rel="shortcut icon" />	
 	
 	<!-- Bootstrap core CSS -->
-	<link href="bootstrap/css/bootstrap.min.css" media="all" type="text/css" rel="stylesheet">
-	<link href="bootstrap/css/datepicker.css" media="all" type="text/css" rel="stylesheet">
+	<link href="bootstrap/css/bootstrap.min.css" media="all" type="text/css" rel="stylesheet">	
 	
     <!-- Bootstrap extention CSS -->
     <link href="bootstrap/css/font-awesome.min.css" rel="stylesheet">	
@@ -30,8 +29,7 @@
 	<script src="lib/angular/angular.min.js"></script>
 	<script src="lib/angular/angular-route.min.js"></script>	
 	<script src="lib/angular/angular-ui-router.min.js"></script>
-	<script src="bootstrap/js/bootstrap.js"></script>
-	<script src="bootstrap/js/bootstrap-datepicker.js"></script>
+	<script src="bootstrap/js/bootstrap.js"></script>	
 	<script src="lib/jquery.cookie.js"></script>
 	<script src="js/app/app.js_ng" type="text/javascript"></script>
 	<script src="js/app/controllers.js_ng" type="text/javascript"></script>

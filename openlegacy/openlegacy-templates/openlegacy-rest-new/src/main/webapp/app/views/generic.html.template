@@ -186,7 +186,7 @@
 			<#if field.editable>
 				<#if field.fieldTypeDefinition??>
 					<#if field.fieldTypeDefinition.typeName == 'date'>
-						<input type="text" id="${field.name}"  class="form-control child-terminal-colors" placeholder="mm/dd/yyyy" ng-model="model.${field.name}" bdatepicker />
+						<input type="text" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="model.${field.name}" is-open="opened" ng-required="true" close-text="Close" ng-click="opened=true" />
 					<#elseif field.fieldTypeDefinition.typeName == 'fieldWithValues'>				
 						<div class="input-group">
 						  <input type="text" class="form-control child-terminal-colors" id="${field.name}" ng-model="model.${field.name}">
@@ -220,7 +220,7 @@
 		   		</#if>
 		   	<#else>
 				<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'date'>
-					<input type="text" id="${field.name}" class="form-control child-terminal-colors" placeholder="mm/dd/yyyy" ng-model="model.${field.name}" bdatepicker disabled="true"/>
+					<input type="text" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="model.${field.name}" is-open="opened" ng-required="true" close-text="Close" ng-click="opened=true" date-disabled="true" />
 				<#elseif field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'boolean'>
 					<div class="checkbox" id="${field.name}">
 						<label>
