@@ -12,7 +12,7 @@
 
 	<import resource="classpath:/openlegacy-basic-designtime-context.xml" />
 	
-	<bean id="imageRenderer" class="org.openlegacy.terminal.render.DefaultTerminalSnapshotImageRenderer" />
+	<bean id="imageRenderer" class="org.openlegacy.terminal.render.DefaultTerminalSnapshotImageRenderer" lazy-init="true"/>
 	<bean id="textRenderer" class="org.openlegacy.terminal.render.DefaultTerminalSnapshotTextRenderer" />
 	<bean id="xmlRenderer" class="org.openlegacy.terminal.render.DefaultTerminalSnapshotXmlRenderer" />
 		
