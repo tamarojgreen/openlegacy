@@ -61,4 +61,6 @@ public class RpcAnnotationConstants {
 	public static final String CATEGORY = "category";
 
 	public static final String ORDER = "order";
+
+	public static final String NUMERIC_PATTERN = "pattern";
 }

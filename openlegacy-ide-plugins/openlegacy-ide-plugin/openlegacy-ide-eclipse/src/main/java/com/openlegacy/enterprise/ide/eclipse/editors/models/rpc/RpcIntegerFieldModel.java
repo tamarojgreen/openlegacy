@@ -28,7 +28,7 @@ public class RpcIntegerFieldModel extends AbstractRpcNumericFieldModel {
 		}
 		RpcIntegerFieldModel model = (RpcIntegerFieldModel)obj;
 		return (this.getMinimumValue() == model.getMinimumValue()) && (this.getMaximumValue() == model.getMaximumValue())
-				&& (this.getDecimalPlaces() == model.getDecimalPlaces());
+				&& (this.getDecimalPlaces() == model.getDecimalPlaces()) && this.getPattern().equals(model.getPattern());
 	}
 
 	@Override
@@ -43,6 +43,7 @@ public class RpcIntegerFieldModel extends AbstractRpcNumericFieldModel {
 		model.setMinimumValue(this.getMinimumValue());
 		model.setMaximumValue(this.getMaximumValue());
 		model.setDecimalPlaces(this.getDecimalPlaces());
+		model.setPattern(this.getPattern());
 		return model;
 	}
 

@@ -173,6 +173,15 @@ public class RpcEntityUtils {
 			isDefault = model.getDecimalPlaces() == 0;
 			PrivateMethods.addRemoveRpcNumericFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, RpcAnnotationConstants.DECIMAL_PLACES, model.getDecimalPlaces());
+
+			// @RpcNumericField.pattern: default '#'
+			if (checkPrevious) {
+				isPrevious = model.getPattern().equals(entityModel.getPattern());
+			}
+			isDefault = model.getPattern().equals("#");
+			PrivateMethods.addRemoveRpcNumericFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, RpcAnnotationConstants.NUMERIC_PATTERN, model.getPattern());
+
 		}
 
 		public static void generateRpcFieldActions(RpcEntity entity, RpcFieldModel model, boolean checkPrevious, boolean isReorder) {

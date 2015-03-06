@@ -118,13 +118,15 @@ public class AnnotationsParserUtils {
 		String minimumValueFromAnnotation = getAnnotationValue(annotationExpr, RpcAnnotationConstants.MINIMUM_VALUE);
 		String maximumValueFromAnnotation = getAnnotationValue(annotationExpr, RpcAnnotationConstants.MAXIMUM_VALUE);
 		String decimalPlacesFromAnnotation = getAnnotationValue(annotationExpr, RpcAnnotationConstants.DECIMAL_PLACES);
+		String patternFromAnnotation = getAnnotationValue(annotationExpr, RpcAnnotationConstants.NUMERIC_PATTERN);
 
 		double minimumValue = !StringUtil.isEmpty(minimumValueFromAnnotation) ? Double.valueOf(minimumValueFromAnnotation) : 0.0;
 		double maximumValue = !StringUtil.isEmpty(maximumValueFromAnnotation) ? Double.valueOf(maximumValueFromAnnotation) : 0.0;
 		int decimalPlaces = !StringUtil.isEmpty(decimalPlacesFromAnnotation) ? Integer.valueOf(decimalPlacesFromAnnotation) : 0;
+		String pattern = !StringUtil.isEmpty(patternFromAnnotation) ? patternFromAnnotation : "#";
 
 		FieldTypeDefinition fieldTypeDefinition = new SimpleRpcNumericFieldTypeDefinition(minimumValue, maximumValue,
-				decimalPlaces, null);
+				decimalPlaces, pattern);
 		return fieldTypeDefinition;
 	}
 }

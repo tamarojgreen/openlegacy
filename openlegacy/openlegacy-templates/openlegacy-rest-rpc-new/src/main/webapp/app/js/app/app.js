@@ -4,7 +4,7 @@
 
 	/* App Module */
 	
-	var olApp = angular.module( 'olApp', ['controllers', 'services', 'ngRoute', 'ui.router'] ).run(['$themeService', '$rootScope', '$state', '$idleTimeout', '$location', function($themeService, $rootScope, $state, $idleTimeout, $location) {
+	var olApp = angular.module( 'olApp', ['controllers', 'services', 'directives', 'ngRoute', 'ui.router'] ).run(['$themeService', '$rootScope', '$state', '$idleTimeout', '$location', function($themeService, $rootScope, $state, $idleTimeout, $location) {
 		$rootScope.allowHidePreloader = true;
 		$rootScope.allowShowPreloader = true;
 		
