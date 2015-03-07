@@ -11,7 +11,10 @@
 	        link: function (scope, elem, attrs, ctrl) {        	
 	        	var mask = attrs.mask;
 	        	var viewValue;
-	        	ctrl.$parsers.push(function (value) {	        		
+	        	ctrl.$parsers.push(function (value) {
+	        		if (value == null) {
+	        			return;
+	        		}
 	        		var returnValue;
 	        		if (value.toString().length > attrs.mask.length) {
 	        			returnValue = viewValue;

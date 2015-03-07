@@ -41,6 +41,7 @@ public class RpcAnnotationConstants {
 	public static final String MINIMUM_VALUE = "minimumValue";
 	public static final String MAXIMUM_VALUE = "maximumValue";
 	public static final String DECIMAL_PLACES = "decimalPlaces";
+	public static final String NUMERIC_PATTERN = "pattern";
 
 	// @RpcField
 	public static final String ORIGINAL_NAME = "originalName";
@@ -49,6 +50,7 @@ public class RpcAnnotationConstants {
 	public static final String COUNT = "count";
 	public static final String RUNTIME_NAME = "runtimeName";
 	public static final String EXPRESSION = "expression";
+	public static final String ORDER = "order";
 
 	public static final String RPC_BOOLEAN_FIELD_ANNOTATION = RpcBooleanField.class.getSimpleName();
 	public static final String RPC_NUMERIC_ANNOTATION = RpcNumericField.class.getSimpleName();
@@ -59,8 +61,4 @@ public class RpcAnnotationConstants {
 
 	// @RpcNavigation
 	public static final String CATEGORY = "category";
-
-	public static final String ORDER = "order";
-
-	public static final String NUMERIC_PATTERN = "pattern";
 }

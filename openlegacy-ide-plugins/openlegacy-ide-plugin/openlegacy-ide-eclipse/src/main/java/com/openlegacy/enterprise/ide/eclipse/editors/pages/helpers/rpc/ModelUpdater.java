@@ -124,7 +124,7 @@ public class ModelUpdater {
 			} else if (key.equals(RpcAnnotationConstants.DECIMAL_PLACES)) {
 				model.setDecimalPlaces(text.isEmpty() ? 0 : Integer.valueOf(text));
 			} else if (key.equals(RpcAnnotationConstants.NUMERIC_PATTERN)) {
-				model.setPattern(text.isEmpty() ? "" : text);
+				model.setPattern(text.isEmpty() ? "#" : text);
 			}
 		}
 		RpcEntityUtils.ActionGenerator.generateRpcNumericFieldActions(entity, model, true);

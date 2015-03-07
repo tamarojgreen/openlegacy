@@ -125,6 +125,9 @@
 						</#list>			
 					</select>											
 				  <#break>
+				  <#case 'number'>				  
+				  	<input type="number" ng-model="model.${field.shortName}" class="form-control" mask="${field.fieldTypeDefinition.pattern}">
+				  <#break>
 				  <#default>
 				  	<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}">
 				</#switch>

@@ -104,6 +104,10 @@ public class FieldsRpcIntegerFieldDetailsPage extends AbstractRpcFieldDetailsPag
 			@Override
 			public void verifyText(VerifyEvent event) {
 				String input = Character.toString(event.character);
+				if (event.keyCode == 0) {
+					return;
+				}
+				
 				if (input.matches("[#\\.\\,\b\u007F]")) {
 					if (((Text)event.widget).getText().contains(input) && !input.matches("[#\b\u007F]")) {
 						event.doit = false;
@@ -232,19 +236,5 @@ public class FieldsRpcIntegerFieldDetailsPage extends AbstractRpcFieldDetailsPag
 			}
 		}
 		return isValid;
-	}
-
-	private static ModifyListener getNumericPatternListener() {
-		return new ModifyListener() {
-
-			@Override
-			public void modifyText(ModifyEvent event) {
-				String text = ((Text)event.widget).getText();
-				if (!text.isEmpty()) {
-					text = text.replaceAll("[^#\\.\\,]", "");
-					((Text)event.widget).setText(text);
-				}
-			}
-		};
 	}
 }
