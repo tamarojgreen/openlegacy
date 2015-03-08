@@ -10,29 +10,37 @@
  *******************************************************************************/
 package org.openlegacy.terminal.mock;
 
-import org.openlegacy.exceptions.UnableToLoadSnapshotException;
-import org.openlegacy.terminal.TerminalConnectionFactory;
-import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
-import org.openlegacy.terminal.modules.trail.TerminalPersistedTrail;
-import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
-import org.openlegacy.utils.XmlSerializationUtil;
-import org.springframework.util.Assert;
-
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
 
-public abstract class AbstractMockTerminalConnectionFactory implements TerminalConnectionFactory {
+import org.openlegacy.OpenLegacyProperties;
+import org.openlegacy.exceptions.UnableToLoadSnapshotException;
+import org.openlegacy.terminal.MockHostTerminalConnectionFactory;
+import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
+import org.openlegacy.terminal.modules.trail.TerminalPersistedTrail;
+import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
+import org.openlegacy.utils.StringUtil;
+import org.openlegacy.utils.XmlSerializationUtil;
+import org.springframework.util.Assert;
+
+public abstract class AbstractMockTerminalConnectionFactory implements MockHostTerminalConnectionFactory {
 
 	private List<String> files = null;
 	private String root;
 	private List<TerminalSnapshot> snapshots = null;
 	private String trailName;
 	private boolean verifySend;
+	
+	@Inject
+	private OpenLegacyProperties openLegacyProperties;
 
 	/**
 	 * Loads all snapshots from the listed files NOTE: Currently All files are re-load from disk on every get connection, since
@@ -44,13 +52,15 @@ public abstract class AbstractMockTerminalConnectionFactory implements TerminalC
 			return snapshots;
 		}
 
-		if (trailName != null && files != null) {
+		String trailFilePath = openLegacyProperties.getTrailFilePath();
+		
+		if (trailFilePath != null && files != null) {
 			throw (new UnableToLoadSnapshotException("Can't define both trail and files for mock terminal connection factory"));
 		}
 
 		snapshots = new ArrayList<TerminalSnapshot>();
 
-		if (trailName != null) {
+		if (trailFilePath != null) {
 			loadSnapshotsFromTrailFile();
 		} else {
 			loadSnapshotsFromFiles();
@@ -62,13 +72,21 @@ public abstract class AbstractMockTerminalConnectionFactory implements TerminalC
 	private void loadSnapshotsFromTrailFile() {
 		TerminalPersistedTrail trail;
 		try {
-			String trailClasspath = MessageFormat.format("{0}/{1}", root, trailName);
-			InputStream trailStream = getClass().getResourceAsStream(trailClasspath);
-			Assert.notNull(trailStream, String.format(
-					"Trail file %s not found. In development, Verify it exists in a src/main/resources%s", trailName, root));
+			String trailFilePath = openLegacyProperties.getTrailFilePath();
+			InputStream trailStream; 
+			if (StringUtil.isEmpty(trailFilePath)){
+				trailStream = getClass().getResourceAsStream(trailFilePath);
+				Assert.notNull(trailStream, String.format(
+						"Trail file %s not found. In development, Verify it exists in a src/main/resources%s", openLegacyProperties.getTrailFilePath()));
+			}else{
+				trailStream = new FileInputStream(trailFilePath);
+				Assert.notNull(trailStream, "application.properties Trail file was not found.");
+			}
 			trail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class, trailStream);
 		} catch (JAXBException e) {
-			throw (new IllegalArgumentException(MessageFormat.format("Faild reading XML trail:{0}", trailName), e));
+			throw (new IllegalArgumentException(MessageFormat.format("Faild reading XML trail:{0}", openLegacyProperties.getTrailFilePath()), e));
+		} catch (FileNotFoundException e) {
+			throw (new IllegalArgumentException(MessageFormat.format("Faild reading XML trail:{0}", openLegacyProperties.getTrailFilePath()), e));
 		}
 
 		List<TerminalSnapshot> snapshotsList = trail.getSnapshots();

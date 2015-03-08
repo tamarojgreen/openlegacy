@@ -44,6 +44,8 @@ public class ProjectCreationRequest {
 	private String dbDdlAuto;
 	private String dbDialect;
 
+	private String trailFilePath;
+	
 	public String getTemplateName() {
 		return templateName;
 	}
@@ -214,6 +216,20 @@ public class ProjectCreationRequest {
 
 	public void setDbDialect(String dbDialect) {
 		this.dbDialect = dbDialect;
+	}
+
+	/**
+	 * @return the trailFilePath
+	 */
+	public String getTrailFilePath() {
+		return trailFilePath;
+	}
+
+	/**
+	 * @param trailFilePath the trailFilePath to set
+	 */
+	public void setTrailFilePath(String trailFilePath) {
+		this.trailFilePath = trailFilePath;
 	}
 
 }

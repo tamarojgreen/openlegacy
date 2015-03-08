@@ -1,5 +1,13 @@
 package org.openlegacy.ide.eclipse.wizards.project.organized;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.FileAttribute;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
@@ -15,6 +23,7 @@ import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ltk.core.refactoring.participants.CopyArguments;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
@@ -90,6 +99,10 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard implement
 			}
 		};
 
+		String projectName = wizardModel.getProjectName();
+		String tempTrailFilePath = wizardModel.getTrailFilePath();
+		String targetTrailFilePath = workspacePath + "/" + projectName + "/src/main/resources/trails/" + projectName + ".trail"; 
+		
 		try {
 			ProjectCreationRequest projectCreationRequest = new ProjectCreationRequest();
 			projectCreationRequest.setBaseDir(PathsUtil.toOsLocation(workspacePath));
@@ -113,8 +126,10 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard implement
 			projectCreationRequest.setDbDriverMavenDependency(wizardModel.getDbMavenDependency());
 			projectCreationRequest.setDbDdlAuto(wizardModel.getDbDdlAuto());
 			projectCreationRequest.setDbDialect(wizardModel.getDbDialect());
-
-			EclipseDesignTimeExecuter.instance().createProject(projectCreationRequest);
+			projectCreationRequest.setTrailFilePath(targetTrailFilePath);
+			
+			copyTrailFilePath(tempTrailFilePath, targetTrailFilePath,
+					projectCreationRequest);
 		} catch (Exception e) {
 			throw (new RuntimeException(e));
 		}
@@ -125,6 +140,22 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard implement
 			throw (new RuntimeException(e));
 		}
 		return true;
+	}
+
+	private void copyTrailFilePath(String tempTrailFilePath,
+			String targetTrailFilePath,
+			ProjectCreationRequest projectCreationRequest) throws IOException {
+		EclipseDesignTimeExecuter.instance().createProject(projectCreationRequest);
+		
+		File source = new File(tempTrailFilePath);
+		Path filePath = source.toPath();
+
+		Path targetPath = new File(targetTrailFilePath).toPath();
+		try {
+			Files.copy(filePath, targetPath);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	@Override

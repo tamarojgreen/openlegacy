@@ -1,7 +1,12 @@
 package org.openlegacy.ide.eclipse.wizards.project.organized;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -11,18 +16,17 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.newproject.organized.NewProjectMetadataRetriever;
 import org.openlegacy.designtime.newproject.organized.model.HostType;
 import org.openlegacy.ide.eclipse.Messages;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Ivan Bort
@@ -36,7 +40,10 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 	private Text hostPortText;
 	private Text codePageText;
 	private Label hostTypeDescriptionLabel;
-
+	private String m_fileName;
+    private String trailFileName;
+	private Text trailFileText;
+	
 	protected OpenLegacyWizardHostPage() {
 		super("wizardProviderPage"); //$NON-NLS-1$
 		setTitle(Messages.getString("title_ol_project_wizard"));
@@ -65,11 +72,14 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 		// stub first column in grid layout
 		label = new Label(container, SWT.NONE);
 
+		
 		hostTypeDescriptionLabel = new Label(container, SWT.NONE);
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.FILL;
 		gd.grabExcessHorizontalSpace = true;
 		hostTypeDescriptionLabel.setLayoutData(gd);
+
+		createFileChooser(container);
 
 		label = new Label(container, SWT.NULL);
 		label.setText(Messages.getString("label_host_ip"));//$NON-NLS-1$
@@ -103,6 +113,83 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 		setControl(container);
 		setPageComplete(false);
 	}
+
+	private void createFileChooser(Composite parent) {
+		Composite chooser = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout(3, false);
+        chooser.setLayout(layout);		
+        GridData layoutData = new GridData(SWT.FILL, SWT.NONE, false, false, 2, 1);
+        chooser.setLayoutData(layoutData);
+        Label label = new Label(chooser, SWT.NONE);
+        
+        GridData gd2 = new GridData(SWT.FILL, SWT.CENTER, false, false);
+        label.setLayoutData(gd2);
+        gd2.horizontalIndent = -5;
+        gd2.widthHint = 50;
+
+        label.setText("Trail file:");
+        GridData gd1 = new GridData(SWT.FILL, SWT.CENTER, false, false);
+        trailFileText = new Text(chooser, SWT.BORDER); //$NON-NLS-1$
+        trailFileText.setLayoutData(gd1);
+        gd1.widthHint = 200;
+        final Button m_changeButton = new Button(chooser, SWT.PUSH);
+        m_changeButton.setText("Browse");
+        m_changeButton.setSize(IDialogConstants.BUTTON_WIDTH, m_changeButton.getSize().x);
+        GridData gd = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
+        int widthHint = 100;
+        gd.widthHint = widthHint;
+        m_changeButton.setLayoutData(gd);
+        m_changeButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent evt) {
+                String newValue = changePressed(trailFileText);
+                if (newValue != null) {
+                	trailFileText.setText(newValue);
+                }
+            }
+        });
+	}
+	
+    protected String changePressed(Text m_text) {
+    	String defPathStr = m_text.getText();
+    	File defPath = new File(defPathStr);
+    	String defFileName = null;
+        File selectedFile = getFile(defPath, defFileName);
+
+        m_fileName = selectedFile == null ? "" : selectedFile.getAbsolutePath(); //$NON-NLS-1$
+        if (selectedFile == null) {
+        	m_fileName = ""; //$NON-NLS-1$
+			return null;
+		}
+        return m_fileName;
+    }
+    
+    private File getFile(File startingDirectory, String defFileName) {
+    	
+    	FileDialog dialog = new FileDialog(getShell(), SWT.NONE);
+    	
+    	dialog.setText("Select Trail File");
+
+        if (startingDirectory != null) {
+			dialog.setFilterPath(startingDirectory.getPath());
+		}
+        if (defFileName != null) {
+        	dialog.setFileName(defFileName);
+        }
+        String[] extentions = new String[]{"*.xml"};
+		dialog.setFilterExtensions(extentions);
+        String file = dialog.open();
+        if (file != null) {
+            file = file.trim();
+            if (file.length() > 0) {
+				return new File(file);
+			}
+        }
+
+        return null;
+    }
+    
 
 	@Override
 	public IWizardPage getNextPage() {
@@ -211,10 +298,12 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 					getWizardModel().setHost(hostText.getText());
 					getWizardModel().setHostPort(Integer.valueOf(hostPortText.getText()));
 					getWizardModel().setCodePage(codePageText.getText());
+					getWizardModel().setTrailFilePath(trailFileText.getText());
 				} else {
 					getWizardModel().setHost("");
 					getWizardModel().setHostPort(0);
 					getWizardModel().setCodePage("");
+					getWizardModel().setTrailFilePath("");
 				}
 			}
 		};
@@ -255,5 +344,19 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * @return the text
+	 */
+	public String getText() {
+		return trailFileName;
+	}
+
+	/**
+	 * @param text the text to set
+	 */
+	public void setText(String text) {
+		this.trailFileName = text;
 	}
 }

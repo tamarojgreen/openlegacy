@@ -16,6 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.ConnectionProperties;
+import org.openlegacy.terminal.LiveHostTerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.openlegacy.utils.FeatureChecker;
@@ -33,7 +34,7 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Properties;
 
-public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFactory, InitializingBean {
+public class Tn5250jTerminalConnectionFactory implements LiveHostTerminalConnectionFactory, InitializingBean {
 
 	private int waitPauses = 300;
 	private int waitTimeout = 30000;

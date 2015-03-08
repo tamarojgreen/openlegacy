@@ -39,6 +39,8 @@ public class WizardModel {
 	private String backendSolution;
 	private String frontendSolution;
 
+	private String trailFilePath;
+	
 	public boolean isDemo() {
 		return demo;
 	}
@@ -239,5 +241,19 @@ public class WizardModel {
 		dbMavenDependency = null;
 		dbDdlAuto = null;
 		dbDialect = null;
+	}
+
+	/**
+	 * @return the trailFilePath
+	 */
+	public String getTrailFilePath() {
+		return trailFilePath;
+	}
+
+	/**
+	 * @param trailFilePath the trailFilePath to set
+	 */
+	public void setTrailFilePath(String trailFilePath) {
+		this.trailFilePath = trailFilePath;
 	}
 }

@@ -227,6 +227,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			handleRightToLeft(targetPath);
 		}
 
+		handleTrailFilePath(targetPath, projectCreationRequest.getTrailFilePath());
+		
 		templateFetcher.deleteZip();
 	}
 
@@ -242,6 +244,18 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
+	private static void handleTrailFilePath(File targetPath, String trailFilePath) throws FileNotFoundException, IOException {
+		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
+
+		if (!appPropertiesFile.exists()) {
+			return;
+		}
+		String appPropertiesFileContent = IOUtils.toString(new FileInputStream(appPropertiesFile));
+		appPropertiesFileContent = appPropertiesFileContent.concat("\nopenLegacyProperties.trailFilePath=" + trailFilePath);
+		FileUtils.write(appPropertiesFileContent, appPropertiesFile);
+
+	}
+	
 	private static void handleRightToLeft(File targetPath) throws FileNotFoundException, IOException {
 		File designtimeContext = new File(targetPath, DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH);
 

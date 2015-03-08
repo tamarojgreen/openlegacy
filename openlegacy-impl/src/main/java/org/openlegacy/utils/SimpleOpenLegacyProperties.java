@@ -16,7 +16,9 @@ public class SimpleOpenLegacyProperties implements OpenLegacyProperties {
 
 	private boolean rightToLeft;
 	private boolean uppercaseInput;
-
+	private boolean liveSession;
+	private String trailFilePath;
+	
 	@Override
 	public String getProperty(String propertyName) {
 		return System.getProperty(propertyName);
@@ -53,5 +55,26 @@ public class SimpleOpenLegacyProperties implements OpenLegacyProperties {
 
 	public void setUppercaseInput(boolean uppercaseInput) {
 		this.uppercaseInput = uppercaseInput;
+	}
+
+	@Override
+	public boolean isLiveSession() {
+		return this.liveSession;
+	}
+
+	/**
+	 * @param isLiveSession the isLiveSession to set
+	 */
+	public void setLiveSession(boolean isLiveSession) {
+		this.liveSession = isLiveSession;
+	}
+
+	public void setTrailFilePath(String trailFilePath){
+		this.trailFilePath = trailFilePath;
+	}
+	
+	@Override
+	public String getTrailFilePath() {
+		return this.trailFilePath;
 	}
 }
