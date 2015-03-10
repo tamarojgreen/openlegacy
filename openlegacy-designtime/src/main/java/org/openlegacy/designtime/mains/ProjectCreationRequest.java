@@ -45,6 +45,8 @@ public class ProjectCreationRequest {
 	private String dbDdlAuto;
 	private String dbDialect;
 
+	private boolean restFulService;
+
 	public String getTemplateName() {
 		return templateName;
 	}
@@ -223,6 +225,14 @@ public class ProjectCreationRequest {
 
 	public void setFrontendSolution(String frontendSolution) {
 		this.frontendSolution = frontendSolution;
+	}
+
+	public boolean isRestFulService() {
+		return restFulService;
+	}
+
+	public void setRestFulService(boolean restFulService) {
+		this.restFulService = restFulService;
 	}
 
 }

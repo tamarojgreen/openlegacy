@@ -38,4 +38,5 @@ public class PreferencesConstants {
 
 	public static final String BACKEND_SOLUTION = "BACKEND_SOLUTION";
 	public static final String FRONTEND_SOLUTION = "FRONTEND_SOLUTION";
+	public static final String SUPPORT_RESTFUL_SERVICE = "SUPPORT_RESTFUL_SERVICE";
 }

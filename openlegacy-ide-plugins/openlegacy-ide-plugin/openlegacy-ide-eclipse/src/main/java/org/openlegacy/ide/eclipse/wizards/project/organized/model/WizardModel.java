@@ -39,6 +39,8 @@ public class WizardModel {
 	private String backendSolution;
 	private String frontendSolution;
 
+	private boolean restFulService;
+
 	public boolean isDemo() {
 		return demo;
 	}
@@ -179,6 +181,14 @@ public class WizardModel {
 		this.dbDialect = dbDialect;
 	}
 
+	public boolean isRestFulService() {
+		return restFulService;
+	}
+
+	public void setRestFulService(boolean restFulService) {
+		this.restFulService = restFulService;
+	}
+
 	public void update(ProjectType projectType) {
 		if (projectType == null) {
 			clear();
@@ -212,7 +222,7 @@ public class WizardModel {
 			dbMavenDependency = dbType.getMavenDependency();
 			dbDdlAuto = dbType.getDdlAuto();
 			dbDialect = dbType.getDialect();
-			
+
 		}
 	}
 
@@ -239,5 +249,6 @@ public class WizardModel {
 		dbMavenDependency = null;
 		dbDdlAuto = null;
 		dbDialect = null;
+		restFulService = false;
 	}
 }

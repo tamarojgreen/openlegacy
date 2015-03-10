@@ -103,6 +103,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -233,11 +234,18 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		savePreference(targetPath, PreferencesConstants.FRONTEND_SOLUTION, frontendSolution);
 
+		savePreference(targetPath, PreferencesConstants.SUPPORT_RESTFUL_SERVICE,
+				String.valueOf(projectCreationRequest.isRestFulService()).toUpperCase());
+
 		if (projectCreationRequest.isRightToLeft()) {
 			handleRightToLeft(targetPath);
 		}
 
 		createDefaultPackage(projectCreationRequest.getDefaultPackageName(), targetPath);
+
+		if (StringUtils.equalsIgnoreCase(frontendSolution, "integration")) {
+			configureIntegrationProject(targetPath, projectCreationRequest);
+		}
 
 		templateFetcher.deleteZip();
 	}
@@ -342,7 +350,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void updatePropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath) throws IOException,
-	FileNotFoundException {
+			FileNotFoundException {
 		File hostPropertiesFile = new File(targetPath, "src/main/resources/host.properties");
 		if (hostPropertiesFile.exists()) {
 			String hostPropertiesFileContent = IOUtils.toString(new FileInputStream(hostPropertiesFile));
@@ -394,7 +402,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameLaunchers(final String projectName, final File targetPath) throws FileNotFoundException,
-	IOException {
+			IOException {
 		targetPath.listFiles(new FileFilter() {
 
 			@Override
@@ -412,7 +420,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameLauncher(String projectName, File targetPath, String fileName) throws FileNotFoundException,
-	IOException {
+			IOException {
 		File launcherFile = new File(targetPath, fileName);
 
 		if (!launcherFile.exists()) {
@@ -428,7 +436,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void updateSpringContextWithDefaultPackage(String defaultPackageName, File targetPath) throws IOException,
-	FileNotFoundException {
+			FileNotFoundException {
 		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_CONTEXT_FILE));
 		updateSpringFile(defaultPackageName + ".web", new File(targetPath, DEFAULT_SPRING_WEB_CONTEXT_FILE));
 		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_TEST_CONTEXT_FILE));
@@ -505,7 +513,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void addDbDriverDependency(File targetPath, String mavenDependencyString) throws FileNotFoundException,
-	IOException {
+			IOException {
 		File pomFile = new File(targetPath, "pom.xml");
 
 		if (!pomFile.exists()) {
@@ -592,7 +600,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameThemeInAppProperties(ProjectTheme projectTheme, File targetPath) throws FileNotFoundException,
-	IOException {
+			IOException {
 		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
 
 		if (!appPropertiesFile.exists()) {
@@ -654,8 +662,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (matcher.find()) {
 			fileContent = fileContent.replaceFirst("<context-param>\\s+<param-name>" + paramName
 					+ "</param-name>\\s+<param-value>.*</param-value>", MessageFormat.format(
-							"<context-param>\n\t\t<param-name>{0}</param-name>\n\t\t<param-value>{1}</param-value>", paramName,
-							paramValue));
+					"<context-param>\n\t\t<param-name>{0}</param-name>\n\t\t<param-value>{1}</param-value>", paramName,
+					paramValue));
 		} else {
 			// add new <context-param> into the end of file
 			int indexOf = fileContent.indexOf("</web-app>");
@@ -1575,4 +1583,38 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
+	private void configureIntegrationProject(File targetPath, ProjectCreationRequest projectCreationRequest)
+			throws FileNotFoundException, IOException {
+		if (projectCreationRequest.isRestFulService()) {
+			// maven files
+			File pomFile = new File(targetPath, "pom.xml");
+
+			if (!pomFile.exists()) {
+				logger.error(MessageFormat.format("Unable to find pom.xml within {0}", targetPath));
+				return;
+			}
+
+			String pomFileContent = IOUtils.toString(new FileInputStream(pomFile));
+			// replace <property>
+			pomFileContent = pomFileContent.replaceFirst("<cxf.version>.*</cxf.version>", "<jersey-version>1.19</jersey-version>");
+
+			// replace dependencies
+			URL cxfResource = getClass().getResource("/replacement/cxf_mvn_dependencies.xml");
+			if (cxfResource == null) {
+				logger.error("Unable to find cxf_mvn_dependencies.xml within classpath");
+				return;
+			}
+			String cxfResourceContent = IOUtils.toString(cxfResource.openStream());
+
+			URL jerseyResource = getClass().getResource("/replacement/jersey_mvn_dependencies.xml");
+			if (jerseyResource == null) {
+				logger.error("Unable to find jersey_mvn_dependencies.xml within classpath");
+				return;
+			}
+			String jerseyResourceContent = IOUtils.toString(jerseyResource.openStream());
+			pomFileContent = pomFileContent.replace(cxfResourceContent, jerseyResourceContent);
+
+			FileUtils.write(pomFileContent, pomFile);
+		}
+	}
 }
