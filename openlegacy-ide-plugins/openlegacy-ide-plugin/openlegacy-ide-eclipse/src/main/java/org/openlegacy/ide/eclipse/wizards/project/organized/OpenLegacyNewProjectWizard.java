@@ -127,9 +127,10 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard implement
 			projectCreationRequest.setDbDdlAuto(wizardModel.getDbDdlAuto());
 			projectCreationRequest.setDbDialect(wizardModel.getDbDialect());
 			projectCreationRequest.setTrailFilePath(targetTrailFilePath);
+			projectCreationRequest.setTempTrailFilePath(tempTrailFilePath);
 			
-			copyTrailFilePath(tempTrailFilePath, targetTrailFilePath,
-					projectCreationRequest);
+			EclipseDesignTimeExecuter.instance().createProject(projectCreationRequest);
+			
 		} catch (Exception e) {
 			throw (new RuntimeException(e));
 		}
@@ -140,22 +141,6 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard implement
 			throw (new RuntimeException(e));
 		}
 		return true;
-	}
-
-	private void copyTrailFilePath(String tempTrailFilePath,
-			String targetTrailFilePath,
-			ProjectCreationRequest projectCreationRequest) throws IOException {
-		EclipseDesignTimeExecuter.instance().createProject(projectCreationRequest);
-		
-		File source = new File(tempTrailFilePath);
-		Path filePath = source.toPath();
-
-		Path targetPath = new File(targetTrailFilePath).toPath();
-		try {
-			Files.copy(filePath, targetPath);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
 	}
 
 	@Override

@@ -103,6 +103,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -227,7 +229,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			handleRightToLeft(targetPath);
 		}
 
-		handleTrailFilePath(targetPath, projectCreationRequest.getTrailFilePath());
+		handleTrailFilePath(targetPath, projectCreationRequest.getTrailFilePath(), projectCreationRequest.getTempTrailFilePath());
 		
 		templateFetcher.deleteZip();
 	}
@@ -244,18 +246,36 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
-	private static void handleTrailFilePath(File targetPath, String trailFilePath) throws FileNotFoundException, IOException {
+	private static void handleTrailFilePath(File targetPath, String trailFilePath, String tempTrailFilePath) throws FileNotFoundException, IOException {
+		copyTrailFilePath(tempTrailFilePath, trailFilePath);
+		
 		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
 
+		String appPropertiesFileContent = IOUtils.toString(new FileInputStream(appPropertiesFile));
 		if (!appPropertiesFile.exists()) {
+			appPropertiesFileContent = appPropertiesFileContent.concat("\nopenLegacyProperties.liveSession=false");
+			FileUtils.write(appPropertiesFileContent, appPropertiesFile);
 			return;
 		}
-		String appPropertiesFileContent = IOUtils.toString(new FileInputStream(appPropertiesFile));
+		appPropertiesFileContent = appPropertiesFileContent.concat("\nopenLegacyProperties.liveSession=true");
 		appPropertiesFileContent = appPropertiesFileContent.concat("\nopenLegacyProperties.trailFilePath=" + trailFilePath);
 		FileUtils.write(appPropertiesFileContent, appPropertiesFile);
-
 	}
 	
+	private static void copyTrailFilePath(String tempTrailFilePath,
+			String targetTrailFilePath){
+		
+		File source = new File(tempTrailFilePath);
+		Path filePath = source.toPath();
+
+		Path targetPath = new File(targetTrailFilePath).toPath();
+		try {
+			Files.copy(filePath, targetPath);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+
 	private static void handleRightToLeft(File targetPath) throws FileNotFoundException, IOException {
 		File designtimeContext = new File(targetPath, DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH);
 

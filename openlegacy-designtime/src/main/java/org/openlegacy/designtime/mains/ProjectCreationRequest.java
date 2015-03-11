@@ -45,6 +45,7 @@ public class ProjectCreationRequest {
 	private String dbDialect;
 
 	private String trailFilePath;
+	private String tempTrailFilePath;
 	
 	public String getTemplateName() {
 		return templateName;
@@ -232,4 +233,13 @@ public class ProjectCreationRequest {
 		this.trailFilePath = trailFilePath;
 	}
 
+	public void setTempTrailFilePath(String tempTrailFilePath) {
+		this.tempTrailFilePath = tempTrailFilePath;
+	}
+
+	public String getTempTrailFilePath() {
+		return this.tempTrailFilePath;
+	}
+
+	
 }

@@ -72,14 +72,12 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 		// stub first column in grid layout
 		label = new Label(container, SWT.NONE);
 
-		
 		hostTypeDescriptionLabel = new Label(container, SWT.NONE);
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.FILL;
 		gd.grabExcessHorizontalSpace = true;
 		hostTypeDescriptionLabel.setLayoutData(gd);
 
-		createFileChooser(container);
 
 		label = new Label(container, SWT.NULL);
 		label.setText(Messages.getString("label_host_ip"));//$NON-NLS-1$
@@ -110,6 +108,8 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 		codePageText.setText(String.valueOf(DesignTimeExecuter.DEFAULT_CODE_PAGE));
 		codePageText.addModifyListener(getDefaultModifyListener());
 
+		createFileChooser(container);
+
 		setControl(container);
 		setPageComplete(false);
 	}
@@ -126,18 +126,24 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
         label.setLayoutData(gd2);
         gd2.horizontalIndent = -5;
         gd2.widthHint = 50;
+        gd2.verticalIndent = -5;
 
-        label.setText("Trail file:");
+        label.setText(Messages.getString("trail_file_label"));
         GridData gd1 = new GridData(SWT.FILL, SWT.CENTER, false, false);
         trailFileText = new Text(chooser, SWT.BORDER); //$NON-NLS-1$
         trailFileText.setLayoutData(gd1);
         gd1.widthHint = 200;
+        gd1.horizontalIndent = 27;
+        gd1.verticalIndent = -5;
+
         final Button m_changeButton = new Button(chooser, SWT.PUSH);
-        m_changeButton.setText("Browse");
+        m_changeButton.setText(Messages.getString("btn_browse"));
         m_changeButton.setSize(IDialogConstants.BUTTON_WIDTH, m_changeButton.getSize().x);
         GridData gd = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
         int widthHint = 100;
         gd.widthHint = widthHint;
+        gd.verticalIndent = -5;
+
         m_changeButton.setLayoutData(gd);
         m_changeButton.addSelectionListener(new SelectionAdapter() {
 
@@ -169,7 +175,7 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
     	
     	FileDialog dialog = new FileDialog(getShell(), SWT.NONE);
     	
-    	dialog.setText("Select Trail File");
+    	dialog.setText(Messages.getString("trail_file_dialog"));
 
         if (startingDirectory != null) {
 			dialog.setFilterPath(startingDirectory.getPath());
@@ -177,7 +183,7 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
         if (defFileName != null) {
         	dialog.setFileName(defFileName);
         }
-        String[] extentions = new String[]{"*.xml"};
+        String[] extentions = new String[]{"*.trail"};
 		dialog.setFilterExtensions(extentions);
         String file = dialog.open();
         if (file != null) {

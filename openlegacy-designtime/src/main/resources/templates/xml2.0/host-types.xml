@@ -13,24 +13,11 @@
 		<description>Open source provider for M/F TN3270 protocol. http://h3270.sourceforge.net/</description>
 		<backend-solution>Screens</backend-solution>
 	</host-type>
-	<host-type>
-		<name>openlegacy-impl</name>
-		<display-name>mock-up</display-name>
-		<description>An OpenLegacy mock-up provider which works with a recording file (.trail file)</description>
-		<backend-solution>Screens</backend-solution>
-	</host-type>
-	
 	<!-- RPC -->
 	<host-type>
 		<name>openlegacy-jt400</name>
 		<display-name>AS/400</display-name>
 		<description>Open source provider for remote program calls for AS/400. http://jt400.sourceforge.net/</description>
-		<backend-solution>RPC</backend-solution>
-	</host-type>
-	<host-type>
-		<name>openlegacy-impl</name>
-		<display-name>mock-up</display-name>
-		<description>An OpenLegacy mock-up provider which works with a recording file (.trail file)</description>
 		<backend-solution>RPC</backend-solution>
 	</host-type>
 </host-types>
