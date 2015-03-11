@@ -11,6 +11,7 @@
 package org.openlegacy.designtime.generators;
 
 import org.apache.commons.io.IOUtils;
+import org.openlegacy.designtime.DesigntimeConstants;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.enums.BackendSolution;
 import org.openlegacy.designtime.mains.GenerateServiceRequest;
@@ -38,7 +39,6 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 	private static final String SCREEN_SERVICE_IMPL_TEMPLATE = "ws/ScreenServiceImpl.java.template";
 	private static final String RPC_SERVICE_IMPL_TEMPLATE = "ws/RpcServiceImpl.java.template";
 	private static final String DB_SERVICE_IMPL_TEMPLATE = "ws/DbServiceImpl.java.template";
-	private static final String SERVICE_CONTEXT_RELATIVE_PATH = "src/main/resources/META-INF/spring/serviceContext.xml";
 	private static final String TEST_CONTEXT_RELATIVE_PATH = "src/main/resources/META-INF/spring/applicationContext-test.xml";
 
 	private static final String REGISTER_WS_START = "<!-- Register WS place-holder start";
@@ -90,7 +90,8 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 				getGenerateUtil().generate(generateServiceRequest, fos, serviceImplTemplate);
 			}
 
-			File serviceContextFile = new File(generateServiceRequest.getProjectPath(), SERVICE_CONTEXT_RELATIVE_PATH);
+			File serviceContextFile = new File(generateServiceRequest.getProjectPath(),
+					DesigntimeConstants.SERVICE_CONTEXT_RELATIVE_PATH);
 
 			GenerateUtil.replicateTemplate(serviceContextFile, generateServiceRequest, REGISTER_WS_START, REGISTER_WS_END,
 					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_START, serviceName),
@@ -124,7 +125,7 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 
 	@Override
 	public boolean isSupportServiceGeneration(File projectPath) {
-		return new File(projectPath, SERVICE_CONTEXT_RELATIVE_PATH).exists();
+		return new File(projectPath, DesigntimeConstants.SERVICE_CONTEXT_RELATIVE_PATH).exists();
 	}
 
 	public GenerateUtil getGenerateUtil() {

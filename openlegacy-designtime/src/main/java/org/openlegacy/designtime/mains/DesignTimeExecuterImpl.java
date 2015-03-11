@@ -22,6 +22,7 @@ import org.openlegacy.EntityDefinition;
 import org.openlegacy.annotations.db.DbEntity;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.designtime.DesigntimeConstants;
 import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.UserInteraction;
@@ -1586,7 +1587,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	private void configureIntegrationProject(File targetPath, ProjectCreationRequest projectCreationRequest)
 			throws FileNotFoundException, IOException {
 		if (projectCreationRequest.isRestFulService()) {
-			// maven files
+			// 1. maven files
 			File pomFile = new File(targetPath, "pom.xml");
 
 			if (!pomFile.exists()) {
@@ -1594,27 +1595,77 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				return;
 			}
 
-			String pomFileContent = IOUtils.toString(new FileInputStream(pomFile));
-			// replace <property>
+			FileInputStream fis = new FileInputStream(pomFile);
+			String pomFileContent = IOUtils.toString(fis);
+			IOUtils.closeQuietly(fis);
+			// 1.1 replace <property>
 			pomFileContent = pomFileContent.replaceFirst("<cxf.version>.*</cxf.version>", "<jersey-version>1.19</jersey-version>");
 
-			// replace dependencies
-			URL cxfResource = getClass().getResource("/replacement/cxf_mvn_dependencies.xml");
+			// 1.2 replace dependencies
+			URL cxfResource = getClass().getResource("/replacement/cxf_pattern.xml");
 			if (cxfResource == null) {
-				logger.error("Unable to find cxf_mvn_dependencies.xml within classpath");
+				logger.error("Unable to find cxf_mvn_dependencies_pattern.xml within classpath");
 				return;
 			}
-			String cxfResourceContent = IOUtils.toString(cxfResource.openStream());
+			InputStream inputStream = cxfResource.openStream();
+			String cxfResourceContent = IOUtils.toString(inputStream);
+			IOUtils.closeQuietly(inputStream);
 
-			URL jerseyResource = getClass().getResource("/replacement/jersey_mvn_dependencies.xml");
-			if (jerseyResource == null) {
+			URL jerseyMvnResource = getClass().getResource("/replacement/jersey_mvn_dependencies.xml");
+			if (jerseyMvnResource == null) {
 				logger.error("Unable to find jersey_mvn_dependencies.xml within classpath");
 				return;
 			}
-			String jerseyResourceContent = IOUtils.toString(jerseyResource.openStream());
-			pomFileContent = pomFileContent.replace(cxfResourceContent, jerseyResourceContent);
+			inputStream = jerseyMvnResource.openStream();
+			String jerseyResourceContent = IOUtils.toString(inputStream);
+			IOUtils.closeQuietly(inputStream);
+
+			Pattern pattern = Pattern.compile(cxfResourceContent, Pattern.DOTALL);
+			pomFileContent = pattern.matcher(pomFileContent).replaceFirst(jerseyResourceContent);
 
 			FileUtils.write(pomFileContent, pomFile);
+
+			// 2. web.xml
+			File webXmlFile = new File(targetPath, "src/main/webapp/WEB-INF/web.xml");
+			if (!webXmlFile.exists()) {
+				logger.error(MessageFormat.format("Unable to find web.xml within {0}", targetPath));
+				return;
+			}
+			fis = new FileInputStream(webXmlFile);
+			String webXmlFileContent = IOUtils.toString(fis);
+			IOUtils.closeQuietly(fis);
+
+			URL jerseyServletResource = getClass().getResource("/replacement/jersey_servlet.xml");
+			if (jerseyServletResource == null) {
+				logger.error("Unable to find jersey_servlet.xml within classpath");
+				return;
+			}
+			inputStream = jerseyServletResource.openStream();
+			jerseyResourceContent = IOUtils.toString(inputStream);
+			IOUtils.closeQuietly(inputStream);
+
+			jerseyResourceContent = MessageFormat.format(jerseyResourceContent, projectCreationRequest.getDefaultPackageName());
+			webXmlFileContent = pattern.matcher(webXmlFileContent).replaceFirst(jerseyResourceContent);
+
+			jerseyServletResource = getClass().getResource("/replacement/jersey_servlet_mapping.xml");
+			if (jerseyServletResource == null) {
+				logger.error("Unable to find jersey_servlet_mapping.xml within classpath");
+				return;
+			}
+			inputStream = jerseyServletResource.openStream();
+			jerseyResourceContent = IOUtils.toString(inputStream);
+			IOUtils.closeQuietly(inputStream);
+
+			webXmlFileContent = pattern.matcher(webXmlFileContent).replaceFirst(jerseyResourceContent);
+
+			FileUtils.write(webXmlFileContent, webXmlFile);
+
+			// 3. remove serviceContext.xml
+
+			File serviceContextFile = new File(targetPath, DesigntimeConstants.SERVICE_CONTEXT_RELATIVE_PATH);
+			if (serviceContextFile.exists()) {
+				serviceContextFile.delete();
+			}
 		}
 	}
 }

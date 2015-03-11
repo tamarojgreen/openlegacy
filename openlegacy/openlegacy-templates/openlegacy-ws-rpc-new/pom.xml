@@ -120,7 +120,7 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		<!-- CXF -->
+		<!-- CXF start tag -->
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxws</artifactId>
@@ -136,6 +136,7 @@
 			<artifactId>wss4j</artifactId>
 			<version>1.6.7</version>
 		</dependency>
+		<!-- CXF end tag -->
 		<!-- Javax -->
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>

@@ -273,7 +273,7 @@
 			<version>${org.springframework-version}</version>
 			<classifier />
 		</dependency>
-		<!-- CXF -->
+		<!-- CXF start tag -->
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxws</artifactId>
@@ -289,6 +289,7 @@
 			<artifactId>wss4j</artifactId>
 			<version>1.6.7</version>
 		</dependency>
+		<!-- CXF end tag -->
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
