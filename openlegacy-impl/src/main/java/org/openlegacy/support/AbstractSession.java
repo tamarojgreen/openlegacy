@@ -17,6 +17,7 @@ import org.openlegacy.ApplicationConnectionListener;
 import org.openlegacy.Session;
 import org.openlegacy.SessionProperties;
 import org.openlegacy.SessionPropertiesProvider;
+import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.modules.SessionModule;
 import org.springframework.beans.factory.DisposableBean;
@@ -98,7 +99,11 @@ public abstract class AbstractSession implements Session, InitializingBean, Disp
 	@Override
 	public SessionProperties getProperties() {
 		if (sessionProperties == null) {
-			sessionProperties = sessionPropertiesProvider.getSessionProperties();
+			try {
+				sessionProperties = sessionPropertiesProvider.getSessionProperties();
+			} catch (OpenLegacyException e) {
+				e.printStackTrace();
+			}
 		}
 		return sessionProperties;
 	}

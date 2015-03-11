@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy;
 
+import org.openlegacy.exceptions.OpenLegacyException;
+
 /**
  * A provider for session properties. Provider is typically aware of the running environment (web, etc) and can provide
  * information such as IP, user, etc
@@ -19,5 +21,5 @@ package org.openlegacy;
  */
 public interface SessionPropertiesProvider {
 
-	SessionProperties getSessionProperties();
+	SessionProperties getSessionProperties() throws OpenLegacyException;
 }
