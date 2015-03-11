@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.terminal.mock;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -27,7 +25,6 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
 import org.openlegacy.terminal.modules.trail.TerminalPersistedTrail;
 import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
-import org.openlegacy.utils.StringUtil;
 import org.openlegacy.utils.XmlSerializationUtil;
 import org.springframework.util.Assert;
 
@@ -36,9 +33,8 @@ public abstract class AbstractMockTerminalConnectionFactory implements MockHostT
 	private List<String> files = null;
 	private String root;
 	private List<TerminalSnapshot> snapshots = null;
-	private String trailName;
 	private boolean verifySend;
-	
+	private String trailName;
 	@Inject
 	private OpenLegacyProperties openLegacyProperties;
 
@@ -69,26 +65,16 @@ public abstract class AbstractMockTerminalConnectionFactory implements MockHostT
 		return snapshots;
 	}
 
-	private void loadSnapshotsFromTrailFile() {
+	private void loadSnapshotsFromTrailFile() { 
 		TerminalPersistedTrail trail;
 		try {
 			String trailFilePath = openLegacyProperties.getTrailFilePath();
-			InputStream trailStream; 
-			if (StringUtil.isEmpty(trailFilePath)){
-				trailStream = getClass().getResourceAsStream(trailFilePath);
-				Assert.notNull(trailStream, String.format(
-						"Trail file %s not found. In development, Verify it exists in a src/main/resources%s", openLegacyProperties.getTrailFilePath()));
-			}else{
-				trailStream = new FileInputStream(trailFilePath);
-				Assert.notNull(trailStream, "application.properties Trail file was not found.");
-			}
+			InputStream trailStream = getClass().getResourceAsStream(trailFilePath);
+			Assert.notNull(trailStream, "application.properties Trail file was not found.");
 			trail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class, trailStream);
 		} catch (JAXBException e) {
 			throw (new IllegalArgumentException(MessageFormat.format("Faild reading XML trail:{0}", openLegacyProperties.getTrailFilePath()), e));
-		} catch (FileNotFoundException e) {
-			throw (new IllegalArgumentException(MessageFormat.format("Faild reading XML trail:{0}", openLegacyProperties.getTrailFilePath()), e));
 		}
-
 		List<TerminalSnapshot> snapshotsList = trail.getSnapshots();
 		for (TerminalSnapshot snapshot : snapshotsList) {
 			// if verify send wasn't specified, don't add outgoing snapshots from trail file
@@ -119,11 +105,21 @@ public abstract class AbstractMockTerminalConnectionFactory implements MockHostT
 		this.files = files;
 	}
 
-	public void setTrailName(String trailName) {
-		this.trailName = trailName;
-	}
-
 	public void setVerifySend(boolean verifySend) {
 		this.verifySend = verifySend;
+	}
+
+	/**
+	 * @return the trailName
+	 */
+	public String getTrailName() {
+		return trailName;
+	}
+
+	/**
+	 * @param trailName the trailName to set
+	 */
+	public void setTrailName(String trailName) {
+		this.trailName = trailName;
 	}
 }

@@ -229,7 +229,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			handleRightToLeft(targetPath);
 		}
 
-		handleTrailFilePath(targetPath, projectCreationRequest.getTrailFilePath(), projectCreationRequest.getTempTrailFilePath());
+		handleTrailFilePath(targetPath, projectCreationRequest);
 		
 		templateFetcher.deleteZip();
 	}
@@ -246,7 +246,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
-	private static void handleTrailFilePath(File targetPath, String trailFilePath, String tempTrailFilePath) throws FileNotFoundException, IOException {
+	private static void handleTrailFilePath(File targetPath, ProjectCreationRequest projectCreationRequest) throws FileNotFoundException, IOException {
+		String tempTrailFilePath = projectCreationRequest.getTempTrailFilePath();
+		String trailFilePath = projectCreationRequest.getTrailFilePath();
 		copyTrailFilePath(tempTrailFilePath, trailFilePath);
 		
 		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
@@ -258,7 +260,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			return;
 		}
 		appPropertiesFileContent = appPropertiesFileContent.concat("\nopenLegacyProperties.liveSession=true");
-		appPropertiesFileContent = appPropertiesFileContent.concat("\nopenLegacyProperties.trailFilePath=" + trailFilePath);
+		appPropertiesFileContent = appPropertiesFileContent.concat("\nopenLegacyProperties.trailFilePath=" + "/trails/" + projectCreationRequest.getProjectName() + ".trail");
 		FileUtils.write(appPropertiesFileContent, appPropertiesFile);
 	}
 	
