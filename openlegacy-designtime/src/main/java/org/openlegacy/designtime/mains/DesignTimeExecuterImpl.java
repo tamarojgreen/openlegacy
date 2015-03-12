@@ -130,7 +130,6 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private final static Log logger = LogFactory.getLog(DesignTimeExecuterImpl.class);
 
-	private static final String DEFAULT_SPRING_CONTEXT_FILE = "/src/main/resources/META-INF/spring/applicationContext.xml";
 	private static final String DEFAULT_SPRING_TEST_CONTEXT_FILE = "/src/main/resources/META-INF/spring/applicationContext-test.xml";
 	private static final String DEFAULT_SPRING_WEB_CONTEXT_FILE = "/src/main/webapp/WEB-INF/spring/webmvc-config.xml";
 
@@ -277,7 +276,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 
 		removeComment(new File(targetPath, "pom.xml"), bidiCommentStart, bidiCommentEnd);
-		removeComment(new File(targetPath, DEFAULT_SPRING_CONTEXT_FILE), bidiCommentStart, bidiCommentEnd);
+		removeComment(new File(targetPath, DesigntimeConstants.DEFAULT_SPRING_CONTEXT_FILE), bidiCommentStart, bidiCommentEnd);
 		removeComment(new File(targetPath, DEFAULT_SPRING_TEST_CONTEXT_FILE), bidiCommentStart, bidiCommentEnd);
 
 		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
@@ -438,7 +437,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static void updateSpringContextWithDefaultPackage(String defaultPackageName, File targetPath) throws IOException,
 			FileNotFoundException {
-		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_CONTEXT_FILE));
+		updateSpringFile(defaultPackageName, new File(targetPath, DesigntimeConstants.DEFAULT_SPRING_CONTEXT_FILE));
 		updateSpringFile(defaultPackageName + ".web", new File(targetPath, DEFAULT_SPRING_WEB_CONTEXT_FILE));
 		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_TEST_CONTEXT_FILE));
 	}
@@ -1120,13 +1119,13 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	@Override
-	public boolean isSupportServiceGeneration(File projectPath) {
+	public boolean isSupportServiceGeneration(File projectPath, Boolean supportRestFulService) {
 		return getOrCreateApplicationContext(projectPath).getBean(ScreenEntityServiceGenerator.class).isSupportServiceGeneration(
-				projectPath);
+				projectPath, supportRestFulService);
 	}
 
 	@Override
-	public void generateService(GenerateServiceRequest generateServiceRequest) {
+	public void generateService(GenerateServiceRequest generateServiceRequest, Boolean supportRestFulService) {
 		File projectPath = generateServiceRequest.getProjectPath();
 		EntityServiceGenerator entityServiceGenerator = null;
 		if (generateServiceRequest.getServiceType() == BackendSolution.SCREEN) {
@@ -1137,8 +1136,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			entityServiceGenerator = getOrCreateApplicationContext(projectPath).getBean(DbEntityServiceGenerator.class);
 		}
 
-		if (entityServiceGenerator.isSupportServiceGeneration(generateServiceRequest.getProjectPath())) {
-			entityServiceGenerator.generateService(generateServiceRequest);
+		if (entityServiceGenerator.isSupportServiceGeneration(generateServiceRequest.getProjectPath(), supportRestFulService)) {
+			entityServiceGenerator.generateService(generateServiceRequest, supportRestFulService);
 		} else {
 			logger.warn(MessageFormat.format("{0} doesnt support controller generation", entityServiceGenerator.getClass()));
 		}
@@ -1517,7 +1516,6 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			try {
 				FileUtils.write(persistenceFileContent, persistenceFile);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -1661,11 +1659,37 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			FileUtils.write(webXmlFileContent, webXmlFile);
 
 			// 3. remove serviceContext.xml
-
 			File serviceContextFile = new File(targetPath, DesigntimeConstants.SERVICE_CONTEXT_RELATIVE_PATH);
 			if (serviceContextFile.exists()) {
 				serviceContextFile.delete();
 			}
+			// 4. process applicationContext.xml
+			File defaultSpringContextFile = new File(targetPath, DesigntimeConstants.DEFAULT_SPRING_CONTEXT_FILE);
+			fis = new FileInputStream(defaultSpringContextFile);
+			String contextFileContent = IOUtils.toString(fis);
+			IOUtils.closeQuietly(fis);
+
+			contextFileContent = contextFileContent.replaceAll(
+					"<import\\s?resource=\"classpath:/META-INF/spring/serviceContext.xml\"\\s?/>", "");
+
+			// add new "context:component-scan..." into the end of file
+			int indexOf = contextFileContent.indexOf("</beans>");
+			StringBuilder sb = new StringBuilder(contextFileContent);
+			contextFileContent = sb.insert(
+					indexOf,
+					MessageFormat.format("\t<context:component-scan base-package=\"{0}.services.controllers\" />\n",
+							projectCreationRequest.getDefaultPackageName())).toString();
+			FileUtils.write(contextFileContent, defaultSpringContextFile);
+
+			// 5. process applicationContext-test.xml
+			File defaultSpringTestContextFile = new File(targetPath, DEFAULT_SPRING_TEST_CONTEXT_FILE);
+			fis = new FileInputStream(defaultSpringTestContextFile);
+			contextFileContent = IOUtils.toString(fis);
+			IOUtils.closeQuietly(fis);
+
+			contextFileContent = contextFileContent.replaceAll(
+					"<import\\s?resource=\"classpath:/META-INF/spring/serviceContext.xml\"\\s?/>", "");
+			FileUtils.write(contextFileContent, defaultSpringTestContextFile);
 		}
 	}
 }

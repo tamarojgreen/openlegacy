@@ -300,8 +300,8 @@ public class EclipseDesignTimeExecuter {
 
 	}
 
-	public boolean isSupportServiceGeneration(IProject project) {
-		return designTimeExecuter.isSupportServiceGeneration(PathsUtil.toOsLocation(project));
+	public boolean isSupportServiceGeneration(IProject project, Boolean supportRestFulService) {
+		return designTimeExecuter.isSupportServiceGeneration(PathsUtil.toOsLocation(project), supportRestFulService);
 	}
 
 	public void generateServiceFromEntity(IFile entityJavaFile, IPackageFragmentRoot sourceDirectory, String packageDir,
@@ -326,7 +326,8 @@ public class EclipseDesignTimeExecuter {
 		generateServiceRequest.setUserInteraction(userInteraction);
 		generateServiceRequest.setGenerateTest(generateTest);
 		generateServiceRequest.setGeneratePool(generatePool);
-		designTimeExecuter.generateService(generateServiceRequest);
+		designTimeExecuter.generateService(generateServiceRequest,
+				Boolean.valueOf(getPreference(project, PreferencesConstants.SUPPORT_RESTFUL_SERVICE)));
 
 		designTimeExecuter.addServiceOutputAnnotation(javaFile);
 
@@ -398,7 +399,8 @@ public class EclipseDesignTimeExecuter {
 	}
 
 	public void generateService(GenerateServiceRequest request) {
-		designTimeExecuter.generateService(request);
+		designTimeExecuter.generateService(request,
+				Boolean.valueOf(getPreference(request.getProjectPath(), PreferencesConstants.SUPPORT_RESTFUL_SERVICE)));
 	}
 
 	public boolean isSupportRestControllerGeneration(IFile file) {

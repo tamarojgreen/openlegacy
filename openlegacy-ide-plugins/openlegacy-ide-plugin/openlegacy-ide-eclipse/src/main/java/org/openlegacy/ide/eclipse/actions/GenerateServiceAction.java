@@ -15,6 +15,7 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.IActionDelegate;
+import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.util.PopupUtil;
 
@@ -26,7 +27,10 @@ public class GenerateServiceAction extends AbstractAction {
 	@Override
 	public void run(IAction action) {
 		IFile file = (IFile)((ICompilationUnit)((TreeSelection)selection).getFirstElement()).getResource();
-		if (!EclipseDesignTimeExecuter.instance().isSupportServiceGeneration(file.getProject())) {
+		String supportRestfulService = EclipseDesignTimeExecuter.instance().getPreference(file.getProject(),
+				PreferencesConstants.SUPPORT_RESTFUL_SERVICE);
+		if (!EclipseDesignTimeExecuter.instance().isSupportServiceGeneration(file.getProject(),
+				Boolean.valueOf(supportRestfulService))) {
 			PopupUtil.warn(Messages.getString("warn_service_generation_not_supported"));
 			return;
 		}

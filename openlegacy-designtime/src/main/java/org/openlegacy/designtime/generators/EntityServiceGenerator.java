@@ -17,8 +17,8 @@ import java.io.File;
 
 public interface EntityServiceGenerator {
 
-	void generateService(GenerateServiceRequest generateServiceRequest) throws GenerationException;
+	void generateService(GenerateServiceRequest generateServiceRequest, Boolean supportRestFulService) throws GenerationException;
 
-	boolean isSupportServiceGeneration(File projectPath);
+	boolean isSupportServiceGeneration(File projectPath, Boolean supportRestFulService);
 
 }

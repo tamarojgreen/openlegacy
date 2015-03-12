@@ -1,0 +1,153 @@
+<#function isEntityParameter parameter>
+	<#if parameter.entityDefinition?? && !parameter.fieldDefinition?? && !parameter.partEntityDefinition??>
+		<#return true>
+	</#if>
+	<#return false>
+</#function>
+<#function isFieldParameter parameter>
+	<#if parameter.entityDefinition?? && parameter.fieldDefinition??>
+		<#return true>
+	</#if>
+	<#return false>
+</#function>
+<#function isPartParameter parameter>
+	<#if parameter.partEntityDefinition??>
+		<#return true>
+	</#if>
+	<#return false>
+</#function>
+
+<#assign addedImports = []/>
+<#macro addImports parameters>
+	<#assign primitiveTypes = ["byte", "byte[]", "short", "int", "long", "float", "double", "char", "boolean", "Integer", "String", "Boolean", "Long", "Double"]/>
+	<#list parameters as parameter>
+		<#if isEntityParameter(parameter)>
+			<#assign import = parameter.entityDefinition.packageName + "." + parameter.entityDefinition.entityClassName/>
+			<#if !addedImports?seq_contains(import)>
+import ${import};
+				<#assign addedImports = addedImports + [import]/>
+			</#if>
+		<#elseif isPartParameter(parameter)>
+			<#assign import = parameter.entityDefinition.packageName + "." + parameter.entityDefinition.entityClassName + "." + parameter.partEntityDefinition.partName />
+			<#if !addedImports?seq_contains(import)>
+import ${import};
+				<#assign addedImports = addedImports + [import]/> 
+			</#if>
+		<#elseif isFieldParameter(parameter)>
+			<#if !primitiveTypes?seq_contains(parameter.fieldDefinition.javaTypeName)>
+				<#assign import = parameter.entityDefinition.packageName + "." + parameter.entityDefinition.entityClassName + "." + parameter.fieldDefinition.javaTypeName />
+				<#if parameter.fieldDefinition.javaTypeName = "Date" && !addedImports?seq_contains("java.util.Date")>
+import java.util.Date;
+					<#assign addedImports = addedImports + ["java.util.Date"]/> 
+				<#elseif parameter.fieldDefinition.javaTypeName != "Date" && !addedImports?seq_contains(import) && !parameter.fieldDefinition.manyToOneDefinition??>
+import ${import};
+					<#assign addedImports = addedImports + [import]/>
+				<#elseif parameter.fieldDefinition.javaTypeName != "Date" && !addedImports?seq_contains(import) && parameter.fieldDefinition.manyToOneDefinition??>
+					<#assign import = parameter.entityDefinition.packageName + "." + parameter.fieldDefinition.javaTypeName />
+import ${import};
+					<#assign addedImports = addedImports + [import]/>
+				</#if>
+			</#if>
+		</#if>
+	</#list>
+</#macro>
+package ${package}.controllers;
+
+import javax.inject.Inject;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.openlegacy.utils.ProxyUtil;
+import org.springframework.stereotype.Component;
+
+import ${package}.${serviceName}Service;
+import ${package}.${serviceName}Service.*;
+
+<@addImports parameters=inputParameters/>
+<@addImports parameters=outputParameters/>
+
+@Component
+@Path("/${serviceName?lower_case}")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class ${serviceName}Controller {
+
+	@Inject
+	private ${serviceName}Service ${serviceName?uncap_first}Service;
+	
+	<#list outputParameters as parameter>
+		<#assign entityName = parameter.entityDefinition.entityName />
+		<#if isEntityParameter(parameter)>
+	@GET
+	@Path("/${entityName?lower_case}")
+	public Response get${entityName}(){
+		${entityName}Out ${entityName?uncap_first}Out = ${serviceName?uncap_first}Service.get${entityName}(null);
+		${entityName} ${entityName?uncap_first} = ${entityName?uncap_first}Out.get${entityName}();
+		Object targetObject = ProxyUtil.getTargetObject(${entityName?uncap_first});
+		
+		return Response.status(200).entity(targetObject).build();
+	}
+		<#elseif isPartParameter(parameter)>
+			<#assign partName = parameter.partEntityDefinition.partName />
+	@GET
+	@Path("/${partName?lower_case}")
+	public Response get${partName}(){
+		${entityName}Out ${entityName?uncap_first}Out = ${serviceName?uncap_first}Service.get${entityName}(null);
+		${partName} ${partName?uncap_first} = ${entityName?uncap_first}Out.get${entityName}().get${partName}();
+		Object targetObject = ProxyUtil.getTargetObject(${partName?uncap_first});
+		
+		return Response.status(200).entity(targetObject).build();
+	}
+		<#elseif isFieldParameter(parameter)>
+			<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
+			<#assign fieldNames = fieldName?split(".")/>
+			<#if fieldNames?is_sequence && (fieldNames?size > 1)>
+				<#assign fieldName = fieldNames[1]?cap_first/>
+			</#if>
+	@GET
+	@Path("/${fieldName?lower_case}")
+	public Response get${fieldName}(){
+		${entityName}Out ${entityName?uncap_first}Out = ${serviceName?uncap_first}Service.get${entityName}(null);
+		${fieldName} ${fieldName?uncap_first} = ${entityName?uncap_first}Out.get${entityName}().get${fieldName}();
+		Object targetObject = ProxyUtil.getTargetObject(${fieldName?uncap_first});
+		
+		return Response.status(200).entity(targetObject).build();
+	}
+		</#if>
+	</#list>
+	
+
+	<#list inputParameters as parameter>
+		<#assign entityName = parameter.entityDefinition.entityName />
+		<#if isEntityParameter(parameter)>
+	@POST
+	@Path("/${entityName?lower_case}")
+	public Response post${entityName}(${entityName} ${entityName?uncap_first}){
+		return Response.status(200).entity(${entityName?uncap_first}).build();
+	}
+		<#elseif isPartParameter(parameter)>
+			<#assign partName = parameter.partEntityDefinition.partName />
+	@POST
+	@Path("/${partName?lower_case}")
+	public Response post${partName}(${partName} ${partName?uncap_first}){
+		return Response.status(200).entity(${partName?uncap_first}).build();
+	}
+		<#elseif isFieldParameter(parameter)>
+			<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
+			<#assign fieldNames = fieldName?split(".")/>
+			<#if fieldNames?is_sequence && (fieldNames?size > 1)>
+				<#assign fieldName = fieldNames[1]?cap_first/>
+			</#if>
+	@POST
+	@Path("/${fieldName?lower_case}")
+	public Response post${fieldName}(${parameter.fieldDefinition.javaTypeName} ${fieldName?uncap_first}){
+		return Response.status(200).entity(${fieldName?uncap_first}).build();
+	}
+		</#if>
+	</#list>
+}

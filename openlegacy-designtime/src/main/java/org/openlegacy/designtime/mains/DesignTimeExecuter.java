@@ -74,9 +74,9 @@ public interface DesignTimeExecuter {
 
 	public boolean isSupportControllerGeneration(File entityFile);
 
-	public boolean isSupportServiceGeneration(File projectPath);
+	public boolean isSupportServiceGeneration(File projectPath, Boolean supportRestFulService);
 
-	public void generateService(GenerateServiceRequest generateServiceRequest);
+	public void generateService(GenerateServiceRequest generateServiceRequest, Boolean supportRestFulService);
 
 	public void addServiceOutputAnnotation(File javaEntityFile);
 

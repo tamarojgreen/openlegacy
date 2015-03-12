@@ -18,4 +18,5 @@ package org.openlegacy.designtime;
 public interface DesigntimeConstants {
 
 	public static final String SERVICE_CONTEXT_RELATIVE_PATH = "src/main/resources/META-INF/spring/serviceContext.xml";
+	public static final String DEFAULT_SPRING_CONTEXT_FILE = "/src/main/resources/META-INF/spring/applicationContext.xml";
 }
