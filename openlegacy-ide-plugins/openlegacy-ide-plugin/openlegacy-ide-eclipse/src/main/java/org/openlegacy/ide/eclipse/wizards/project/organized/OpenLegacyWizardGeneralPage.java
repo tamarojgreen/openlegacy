@@ -19,6 +19,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -55,6 +56,12 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 	private List<String> backendSolutions;
 	private List<String> frontendSolutions;
 
+	private Composite serviceTypeArea;
+
+	private Button webServiceRadioButton;
+
+	private Button restServiceRadioButton;
+
 	protected OpenLegacyWizardGeneralPage() {
 		super("wizardFirstPage");//$NON-NLS-1$
 		setTitle(Messages.getString("title_ol_project_wizard"));//$NON-NLS-1$
@@ -65,7 +72,7 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 		GridLayout gl = new GridLayout();
-		gl.numColumns = 2;
+		gl.numColumns = 3;
 		gl.verticalSpacing = 9;
 		container.setLayout(gl);
 
@@ -76,6 +83,7 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 		backendCombo = new Combo(container, SWT.SINGLE | SWT.READ_ONLY);
 		GridData gd = new GridData();
 		gd.widthHint = 100;
+		gd.horizontalSpan = 2;
 		backendCombo.setLayoutData(gd);
 		backendCombo.setItems(new String[] { "Pending..." });//$NON-NLS-1$
 		backendCombo.select(0);
@@ -93,6 +101,8 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 		frontendCombo.select(0);
 		frontendCombo.addSelectionListener(getFrontendSelectionListener());
 
+		createServiceTypeArea(container);
+
 		newRadioButton = new Button(container, SWT.RADIO);
 		newRadioButton.setText(Messages.getString("btn_new_project"));//$NON-NLS-1$
 		newRadioButton.setSelection(true);
@@ -101,6 +111,9 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 		demoRadioButton = new Button(container, SWT.RADIO);
 		demoRadioButton.setText(Messages.getString("btn_demo_project"));
 		demoRadioButton.addSelectionListener(getDefaultSelectionListener());
+		gd = new GridData();
+		gd.horizontalSpan = 2;
+		demoRadioButton.setLayoutData(gd);
 
 		// project name
 		label = new Label(container, SWT.NONE);
@@ -110,6 +123,7 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.FILL;
 		gd.grabExcessHorizontalSpace = true;
+		gd.horizontalSpan = 2;
 		projectNameText.setLayoutData(gd);
 		projectNameText.addModifyListener(new ModifyListener() {
 
@@ -127,6 +141,7 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.FILL;
 		gd.grabExcessHorizontalSpace = true;
+		gd.horizontalSpan = 2;
 		defaultPackageText.setLayoutData(gd);
 		defaultPackageText.addModifyListener(new ModifyListener() {
 
@@ -153,7 +168,7 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.FILL;
 		gd.grabExcessHorizontalSpace = true;
-		gd.horizontalSpan = 2;
+		gd.horizontalSpan = 3;
 		rightToLeftButton.setLayoutData(gd);
 		rightToLeftButton.addSelectionListener(new SelectionAdapter() {
 
@@ -229,6 +244,41 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 		});
 	}
 
+	private void createServiceTypeArea(Composite parent) {
+		serviceTypeArea = new Composite(parent, SWT.NONE);
+		GridData gd = new GridData();
+		gd.grabExcessHorizontalSpace = true;
+		// gd.horizontalSpan = 2;
+		serviceTypeArea.setLayoutData(gd);
+		GridLayout gl = new GridLayout();
+		gl.numColumns = 2;
+		gl.verticalSpacing = 9;
+		gl.marginWidth = 0;
+		gl.marginLeft = 50;
+		serviceTypeArea.setLayout(gl);
+		serviceTypeArea.setVisible(false);
+
+		Label label = new Label(serviceTypeArea, SWT.NONE);
+		label.setText(Messages.getString("label_service_type"));//$NON-NLS-1$
+
+		Composite radioContainer = new Composite(serviceTypeArea, SWT.NONE);
+		gd = new GridData();
+		gd.horizontalAlignment = SWT.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		radioContainer.setLayoutData(gd);
+		RowLayout rl = new RowLayout(SWT.HORIZONTAL);
+		rl.marginLeft = 35;
+		radioContainer.setLayout(rl);
+		webServiceRadioButton = new Button(radioContainer, SWT.RADIO);
+		webServiceRadioButton.setText(Messages.getString("btn_web_service"));
+		webServiceRadioButton.setSelection(true);
+		webServiceRadioButton.addSelectionListener(getServiceTypeSelectionListener());
+
+		restServiceRadioButton = new Button(radioContainer, SWT.RADIO);
+		restServiceRadioButton.setText(Messages.getString("btn_rest_service"));
+		restServiceRadioButton.addSelectionListener(getServiceTypeSelectionListener());
+	}
+
 	private void fillFrontendCombo(List<String> items) {
 		if (items != null && frontendCombo != null) {
 			if (items.size() > 0) {
@@ -258,8 +308,23 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				checkAvailableProjects(backendCombo.getText(), frontendCombo.getText());
+				showHideServiceTypeArea();
 				getWizardModel().update(
 						getProjectType(backendCombo.getText(), frontendCombo.getText(), demoRadioButton.getSelection()));
+				// validatePage method calls setPageComplete() and after that canFlipToNextPage() will be called
+				validatePage();
+			}
+
+		};
+	}
+
+	private SelectionListener getServiceTypeSelectionListener() {
+		return new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				checkAvailableProjects(backendCombo.getText(), frontendCombo.getText());
+				getWizardModel().setRestFulService(restServiceRadioButton.getSelection());
 				// validatePage method calls setPageComplete() and after that canFlipToNextPage() will be called
 				validatePage();
 			}
@@ -289,6 +354,9 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				checkAvailableProjects(backendCombo.getText(), frontendCombo.getText());
+
+				showHideServiceTypeArea();
+
 				getWizardModel().update(
 						getProjectType(backendCombo.getText(), frontendCombo.getText(), demoRadioButton.getSelection()));
 				// validatePage method calls setPageComplete() and after that canFlipToNextPage() will be called
@@ -418,6 +486,11 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 			}
 		}
 		return list.isEmpty() ? null : list;
+	}
+
+	private void showHideServiceTypeArea() {
+		// display Service Type Area if frontend solution is Integration and project is new otherwise hide
+		serviceTypeArea.setVisible(StringUtils.equals(frontendCombo.getText(), "Integration") && newRadioButton.getSelection());
 	}
 
 }

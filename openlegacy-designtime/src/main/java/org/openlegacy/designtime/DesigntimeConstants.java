@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 OpenLegacy Inc.
+ * Copyright (c) 2015 OpenLegacy Inc.
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,17 +8,15 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.designtime.generators;
 
-import org.openlegacy.designtime.mains.GenerateServiceRequest;
-import org.openlegacy.exceptions.GenerationException;
+package org.openlegacy.designtime;
 
-import java.io.File;
+/**
+ * @author Ivan Bort
+ * 
+ */
+public interface DesigntimeConstants {
 
-public interface EntityServiceGenerator {
-
-	void generateService(GenerateServiceRequest generateServiceRequest, Boolean supportRestFulService) throws GenerationException;
-
-	boolean isSupportServiceGeneration(File projectPath, Boolean supportRestFulService);
-
+	public static final String SERVICE_CONTEXT_RELATIVE_PATH = "src/main/resources/META-INF/spring/serviceContext.xml";
+	public static final String DEFAULT_SPRING_CONTEXT_FILE = "/src/main/resources/META-INF/spring/applicationContext.xml";
 }

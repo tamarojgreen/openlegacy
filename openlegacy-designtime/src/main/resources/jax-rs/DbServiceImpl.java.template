@@ -1,0 +1,186 @@
+<#function isEntityParameter parameter>
+	<#if parameter.entityDefinition?? && !parameter.fieldDefinition?? && !parameter.partEntityDefinition??>
+		<#return true>
+	</#if>
+	<#return false>
+</#function>
+<#function isFieldParameter parameter>
+	<#if parameter.entityDefinition?? && parameter.fieldDefinition??>
+		<#return true>
+	</#if>
+	<#return false>
+</#function>
+<#function isPartParameter parameter>
+	<#if parameter.partEntityDefinition??>
+		<#return true>
+	</#if>
+	<#return false>
+</#function>
+package ${package};
+
+<#if inputParameters?size != 0 || outputParameters?size != 0>
+import org.openlegacy.db.DbEntity;
+</#if>
+
+import org.openlegacy.db.DbSession;
+import org.openlegacy.modules.login.Login;
+
+import javax.inject.Inject;
+
+<#assign addedImports = []/>
+<#list inputParameters as parameter>
+	<#if parameter.entityDefinition??>
+		<#assign import = parameter.entityDefinition.packageName + "." + parameter.entityDefinition.entityClassName/>
+		<#if !addedImports?seq_contains(import)>
+import ${import};
+			<#assign addedImports = addedImports + [import]/> 
+		</#if>
+	</#if>
+</#list>
+
+<#list outputParameters as parameter>
+	<#if parameter.entityDefinition??>
+		<#assign import = parameter.entityDefinition.packageName + "." + parameter.entityDefinition.entityClassName/>
+		<#if !addedImports?seq_contains(import)>
+import ${import}; 
+			<#assign addedImports = addedImports + [import]/> 
+		</#if> 
+	</#if>
+</#list>
+
+<#if inputParameters?size != 0 || outputParameters?size != 0>
+import org.openlegacy.db.actions.DbActions;
+</#if>
+
+/**
+ *  A service implementation which invokes OpenLegacy API, and returns a service output.
+ *  The code below should be customize to perform a working scenario which goes through the relevant screens.
+ *  Can be tested by invoking the test ${serviceName}ServiceTest.
+ *  The interface ${serviceName}Service can be customized to enabling passing parameters to the service, and this class can consume the parameters within the relavant screens.    
+ */
+public class ${serviceName}ServiceImpl implements ${serviceName}Service {
+
+	@Inject
+	private DbSession dbSession;
+
+	@Override
+	public ${serviceName}Out get${serviceName}(<#if inputParameters?size != 0>${serviceName}In ${serviceName?uncap_first}In</#if>) {
+
+		try{
+			dbSession.getModule(Login.class).login("USER","PASSWORD");
+			<#assign addedEntities = [] />
+			<#assign groupHash = {} />
+			<#list inputParameters as parameter>
+				<#if isFieldParameter(parameter) && parameter.fieldDefinition.key>
+				<#assign entityName = parameter.entityDefinition.entityName/>
+					<#if !groupHash?keys?seq_contains(entityName)>
+						<#assign groupHash = groupHash + {entityName:[parameter]}>
+					<#else>
+						<#assign keys = groupHash[entityName] + [parameter]>
+						<#assign groupHash = groupHash + {entityName:keys}>
+					</#if>
+				</#if>
+			</#list>
+			
+			<#list groupHash?keys as hashKey>
+			${hashKey} ${hashKey?uncap_first} = dbSession.getEntity(${hashKey}.class, <#list groupHash[hashKey] as key>${serviceName?uncap_first}In.get${key.fieldDefinition.name?cap_first}()<#if key_has_next>, </#if></#list>);
+				<#assign addedEntities = addedEntities + [hashKey]/>
+			</#list>
+			
+			<#list inputParameters as parameter>
+				<#if parameter.entityDefinition??>
+					<#assign entityName = parameter.entityDefinition.entityName/>
+					<#if !addedEntities?seq_contains(entityName)>
+						<#if isFieldParameter(parameter)>
+							<#if !parameter.fieldDefinition.key>
+			${entityName} ${entityName?uncap_first} = dbSession.getEntity(${entityName}.class);
+								<#assign addedEntities = addedEntities + [entityName]/>
+							</#if>
+						<#else>
+			${entityName} ${entityName?uncap_first} = dbSession.getEntity(${entityName}.class);
+							<#assign addedEntities = addedEntities + [entityName]/>
+						</#if>
+					</#if>
+				</#if>
+				<#if isFieldParameter(parameter)>
+					<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
+					<#assign fieldNames = fieldName?split(".")/>
+					<#if fieldNames?is_sequence && (fieldNames?size > 1)>
+						<#assign fieldName = fieldNames[1]/>
+					</#if>
+					<#if !parameter.fieldDefinition.key>
+			${entityName?uncap_first}.set${fieldName?cap_first}(${serviceName?uncap_first}In.get${fieldName?cap_first}());
+					</#if>
+				</#if>
+				<#if isPartParameter(parameter)>
+					<#assign partName = parameter.partEntityDefinition.partName?cap_first/>
+					<#assign entityName = parameter.entityDefinition.entityName/>
+					<#if !addedEntities?seq_contains(entityName)>
+						${entityName} ${entityName?uncap_first} = dbSession.getEntity(${entityName}.class);
+						<#assign addedEntities = addedEntities + [entityName]/>
+					</#if>
+			${entityName?uncap_first}.set${partName}(${serviceName?uncap_first}In.get${partName}());
+				</#if>
+			</#list>
+			
+			<#assign eNames = []/>
+			<#list inputParameters as parameter>
+				<#if parameter.entityDefinition?? && !eNames?seq_contains(parameter.entityDefinition.entityName)>
+					<#assign eName = parameter.entityDefinition.entityName/>
+					<#if isFieldParameter(parameter)>
+						<#if !parameter.fieldDefinition.key>
+			dbSession.doAction(DbActions.READ(), (DbEntity)${eName?uncap_first});
+							<#assign eNames = eNames + [eName]/>
+						</#if>
+					<#else>	
+			dbSession.doAction(DbActions.READ(), (DbEntity)${eName?uncap_first});
+						<#assign eNames = eNames + [eName]/>
+					</#if>
+				</#if>
+			</#list>
+			
+			${serviceName}Out ${serviceName?uncap_first}Out = new ${serviceName}Out();
+			<#list outputParameters as parameter>
+				<#if parameter.entityDefinition??>
+					<#assign entityName = parameter.entityDefinition.entityName/>
+					<#if !addedEntities?seq_contains(entityName)>
+			${entityName?cap_first} ${entityName?uncap_first} = dbSession.getEntity(${entityName?cap_first}.class);
+						<#assign addedEntities = addedEntities + [entityName]/>
+					</#if>
+				</#if>
+				<#if isEntityParameter(parameter)>
+					<#assign entityName = parameter.entityDefinition.entityName/>					
+			${serviceName?uncap_first}Out.set${entityName?cap_first}(${entityName?uncap_first});
+				</#if>
+				<#if isFieldParameter(parameter)>
+					<#assign entityName = parameter.entityDefinition.entityName/>
+					<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
+					<#assign fieldNames = fieldName?split(".")/>
+					<#if !addedEntities?seq_contains(entityName)>						
+			${entityName?cap_first} ${entityName?uncap_first} = dbSession.getEntity(${entityName?cap_first}.class);
+						<#assign addedEntities = addedEntities + [entityName]/>
+					</#if>
+					<#if fieldNames?is_sequence && (fieldNames?size > 1)>
+						<#assign fieldName = fieldNames[1]/>
+			${serviceName?uncap_first}Out.set${fieldName?cap_first}(${entityName?uncap_first}.get${fieldNames[0]?cap_first}().get${fieldName?cap_first}());
+					<#else>
+			${serviceName?uncap_first}Out.set${fieldName?cap_first}(${entityName?uncap_first}.get${fieldName?cap_first}());
+					</#if>
+				</#if>
+				<#if isPartParameter(parameter)>
+					<#assign entityName = parameter.entityDefinition.entityName/>
+					<#assign partName = parameter.partEntityDefinition.partName?cap_first/>
+					<#if !addedEntities?seq_contains(entityName)>						
+			${entityName?cap_first} ${entityName?uncap_first} = dbSession.getEntity(${entityName?cap_first}.class);
+						<#assign addedEntities = addedEntities + [entityName]/>
+					</#if>
+			${serviceName?uncap_first}Out.set${partName?cap_first}(${entityName?uncap_first}.get${partName?cap_first}());
+				</#if>
+			</#list>
+
+			return ${serviceName?uncap_first}Out;
+		} finally {
+			dbSession.disconnect();
+		}
+	}
+}

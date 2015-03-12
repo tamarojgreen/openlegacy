@@ -47,6 +47,8 @@ public class ProjectCreationRequest {
 
 	private byte[] trailContent;
 
+	private boolean restFulService;
+
 	public String getTemplateName() {
 		return templateName;
 	}
@@ -233,6 +235,14 @@ public class ProjectCreationRequest {
 
 	public byte[] getTrailContent() {
 		return this.trailContent;
+	}
+
+	public boolean isRestFulService() {
+		return restFulService;
+	}
+
+	public void setRestFulService(boolean restFulService) {
+		this.restFulService = restFulService;
 	}
 
 }

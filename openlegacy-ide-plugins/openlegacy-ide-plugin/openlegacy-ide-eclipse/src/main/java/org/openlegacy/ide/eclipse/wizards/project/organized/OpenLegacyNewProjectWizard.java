@@ -120,6 +120,7 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard implement
 			projectCreationRequest.setDbDdlAuto(wizardModel.getDbDdlAuto());
 			projectCreationRequest.setDbDialect(wizardModel.getDbDialect());
 			projectCreationRequest.setFrontendSolution(wizardModel.getFrontendSolution());
+			projectCreationRequest.setRestFulService(wizardModel.isRestFulService());
 
 			if (!StringUtil.isEmpty(tempTrailFilePath)) {
 				projectCreationRequest.setTrailContent(FileUtils.readFileToByteArray(new File(tempTrailFilePath)));
