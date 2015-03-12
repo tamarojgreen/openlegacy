@@ -45,6 +45,8 @@ public class ProjectCreationRequest {
 	private String dbDdlAuto;
 	private String dbDialect;
 
+	private byte[] trailContent;
+
 	public String getTemplateName() {
 		return templateName;
 	}
@@ -223,6 +225,14 @@ public class ProjectCreationRequest {
 
 	public void setFrontendSolution(String frontendSolution) {
 		this.frontendSolution = frontendSolution;
+	}
+
+	public void setTrailContent(byte[] trailContent) {
+		this.trailContent = trailContent;
+	}
+
+	public byte[] getTrailContent() {
+		return this.trailContent;
 	}
 
 }

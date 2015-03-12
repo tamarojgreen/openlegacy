@@ -14,7 +14,7 @@
             </list>
 	    </property>
     </bean>
-	<bean id="terminalConnectionFactory"
+	<bean id="mockTerminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory" p:verifySend="true">
 		<property name="root" value="/org/openlegacy/terminal/support/mock" />
 		<property name="files">

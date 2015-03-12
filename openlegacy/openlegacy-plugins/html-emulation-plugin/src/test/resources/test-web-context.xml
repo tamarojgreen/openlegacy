@@ -19,7 +19,7 @@
 		</property>
 	</bean>
 
-	<bean id="terminalConnectionFactory" class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
+	<bean id="mockTerminalConnectionFactory" class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
 		<property name="root" value="/inventory" />
 		<property name="files">
 			<list>

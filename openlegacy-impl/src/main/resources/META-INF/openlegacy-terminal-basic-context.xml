@@ -136,6 +136,10 @@
 
 	<bean class="org.openlegacy.terminal.support.DefaultTerminalSnapshotsOrganizer" />
 	<bean class="org.openlegacy.terminal.support.DefaultSnapshotSimilarityChecker" />
+
+ 	<bean id="mockTerminalConnectionFactory"
+		class="org.openlegacy.terminal.mock.MockStateMachineTerminalConnectionFactory"
+		p:verifySend="true" p:exactCursor="false" p:exactFields="false" p:exactCommand="true" />
 	
 		<!-- Providers may override the default beans -->
 	<import resource="classpath*:/META-INF/*-openlegacy-terminal-provider.xml" /> 

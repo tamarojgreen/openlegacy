@@ -1,5 +1,6 @@
 package org.openlegacy.ide.eclipse.wizards.project.organized;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
@@ -25,6 +26,9 @@ import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
 import org.openlegacy.ide.eclipse.ui.preferences.PreferenceConstants;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
 import org.openlegacy.ide.eclipse.wizards.project.organized.model.WizardModel;
+import org.openlegacy.utils.StringUtil;
+
+import java.io.File;
 
 /**
  * @author Ivan Bort
@@ -90,6 +94,8 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard implement
 			}
 		};
 
+		String tempTrailFilePath = wizardModel.getTrailFilePath();
+
 		try {
 			ProjectCreationRequest projectCreationRequest = new ProjectCreationRequest();
 			projectCreationRequest.setBaseDir(PathsUtil.toOsLocation(workspacePath));
@@ -115,7 +121,12 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard implement
 			projectCreationRequest.setDbDialect(wizardModel.getDbDialect());
 			projectCreationRequest.setFrontendSolution(wizardModel.getFrontendSolution());
 
+			if (!StringUtil.isEmpty(tempTrailFilePath)) {
+				projectCreationRequest.setTrailContent(FileUtils.readFileToByteArray(new File(tempTrailFilePath)));
+			}
+
 			EclipseDesignTimeExecuter.instance().createProject(projectCreationRequest);
+
 		} catch (Exception e) {
 			throw (new RuntimeException(e));
 		}

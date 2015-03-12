@@ -14,7 +14,7 @@
             </list>
 	    </property>
     </bean>
-	<bean id="terminalConnectionFactory"
+	<bean id="mockTerminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
 		<property name="root" value="/org/openlegacy/terminal/support/binders" />
 		<property name="trailName" value="list_field.trail" />

@@ -18,7 +18,7 @@
 	</bean>
 <!--     <context:property-placeholder location="classpath*:/host.properties"/> -->
 
-	<bean id="terminalConnectionFactory" class="org.openlegacy.providers.tn5250j.Tn5250jTerminalConnectionFactory" p:waitTimeout="10000" p:waitPauses="300">
+	<bean id="liveHostTerminalConnectionFactory" class="org.openlegacy.providers.tn5250j.Tn5250jTerminalConnectionFactory" p:waitTimeout="10000" p:waitPauses="300">
 	    <property name="properties">
 	    	<props>
 	    		<prop key="SESSION_HOST">${host.name}</prop>

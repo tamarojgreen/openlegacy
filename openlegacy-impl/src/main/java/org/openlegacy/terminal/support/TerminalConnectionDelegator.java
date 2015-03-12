@@ -10,14 +10,23 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support;
 
+import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.ConnectionPropertiesProvider;
+import org.openlegacy.terminal.LiveTerminalConnectionFactory;
+import org.openlegacy.terminal.MockTerminalConnectionFactory;
 import org.openlegacy.terminal.RightAdjust;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
@@ -26,12 +35,6 @@ import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
-
-import java.io.Serializable;
-import java.text.MessageFormat;
-import java.util.List;
-
-import javax.inject.Inject;
 
 public class TerminalConnectionDelegator implements TerminalConnection, Serializable {
 
@@ -143,7 +146,14 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 
 	private void lazyConnect() {
 		if (terminalConnection == null) {
-			TerminalConnectionFactory terminalConnectionFactory = applicationContext.getBean(TerminalConnectionFactory.class);
+			final OpenLegacyProperties olProperties = applicationContext.getBean(OpenLegacyProperties.class);
+			boolean isLiveSession = olProperties.isLiveSession();
+			TerminalConnectionFactory terminalConnectionFactory;
+			if (isLiveSession){
+				terminalConnectionFactory = applicationContext.getBean(LiveTerminalConnectionFactory.class);
+			}else{
+				terminalConnectionFactory = applicationContext.getBean(MockTerminalConnectionFactory.class);
+			}
 			ConnectionPropertiesProvider connectionPropertiesProvider = applicationContext.getBean(ConnectionPropertiesProvider.class);
 			ConnectionProperties connectionProperties = connectionPropertiesProvider.getConnectionProperties();
 			terminalConnection = terminalConnectionFactory.getConnection(connectionProperties);

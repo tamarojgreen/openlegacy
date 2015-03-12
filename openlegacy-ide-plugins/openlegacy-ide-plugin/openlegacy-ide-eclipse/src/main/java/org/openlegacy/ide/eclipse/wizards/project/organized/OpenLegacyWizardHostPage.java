@@ -2,6 +2,7 @@ package org.openlegacy.ide.eclipse.wizards.project.organized;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -11,9 +12,11 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
@@ -21,6 +24,7 @@ import org.openlegacy.designtime.newproject.organized.NewProjectMetadataRetrieve
 import org.openlegacy.designtime.newproject.organized.model.HostType;
 import org.openlegacy.ide.eclipse.Messages;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +40,9 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 	private Text hostPortText;
 	private Text codePageText;
 	private Label hostTypeDescriptionLabel;
+	private String m_fileName;
+	private String trailFileName;
+	private Text trailFileText;
 
 	protected OpenLegacyWizardHostPage() {
 		super("wizardProviderPage"); //$NON-NLS-1$
@@ -100,8 +107,93 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 		codePageText.setText(String.valueOf(DesignTimeExecuter.DEFAULT_CODE_PAGE));
 		codePageText.addModifyListener(getDefaultModifyListener());
 
+		createFileChooser(container);
+
 		setControl(container);
 		setPageComplete(false);
+	}
+
+	private void createFileChooser(Composite parent) {
+		Composite chooser = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout(3, false);
+		chooser.setLayout(layout);
+		GridData layoutData = new GridData(SWT.FILL, SWT.NONE, false, false, 2, 1);
+		chooser.setLayoutData(layoutData);
+		Label label = new Label(chooser, SWT.NONE);
+
+		GridData gd2 = new GridData(SWT.FILL, SWT.CENTER, false, false);
+		label.setLayoutData(gd2);
+		gd2.horizontalIndent = -5;
+		gd2.widthHint = 50;
+		gd2.verticalIndent = -5;
+
+		label.setText(Messages.getString("trail_file_label"));
+		GridData gd1 = new GridData(SWT.FILL, SWT.CENTER, false, false);
+		trailFileText = new Text(chooser, SWT.BORDER);
+		trailFileText.setLayoutData(gd1);
+		gd1.widthHint = 200;
+		gd1.horizontalIndent = 27;
+		gd1.verticalIndent = -5;
+
+		final Button m_changeButton = new Button(chooser, SWT.PUSH);
+		m_changeButton.setText(Messages.getString("btn_browse"));
+		m_changeButton.setSize(IDialogConstants.BUTTON_WIDTH, m_changeButton.getSize().x);
+		GridData gd = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
+		int widthHint = 100;
+		gd.widthHint = widthHint;
+		gd.verticalIndent = -5;
+
+		m_changeButton.setLayoutData(gd);
+		m_changeButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent evt) {
+				String newValue = changePressed(trailFileText);
+				if (newValue != null) {
+					trailFileText.setText(newValue);
+				}
+				updateModel();
+			}
+		});
+	}
+
+	protected String changePressed(Text m_text) {
+		String defPathStr = m_text.getText();
+		File defPath = new File(defPathStr);
+		String defFileName = null;
+		File selectedFile = getFile(defPath, defFileName);
+
+		m_fileName = selectedFile == null ? "" : selectedFile.getAbsolutePath(); //$NON-NLS-1$
+		if (selectedFile == null) {
+			m_fileName = ""; //$NON-NLS-1$
+			return null;
+		}
+		return m_fileName;
+	}
+
+	private File getFile(File startingDirectory, String defFileName) {
+
+		FileDialog dialog = new FileDialog(getShell(), SWT.NONE);
+
+		dialog.setText(Messages.getString("trail_file_dialog"));
+
+		if (startingDirectory != null) {
+			dialog.setFilterPath(startingDirectory.getPath());
+		}
+		if (defFileName != null) {
+			dialog.setFileName(defFileName);
+		}
+		String[] extentions = new String[] { "*.trail" };
+		dialog.setFilterExtensions(extentions);
+		String file = dialog.open();
+		if (file != null) {
+			file = file.trim();
+			if (file.length() > 0) {
+				return new File(file);
+			}
+		}
+
+		return null;
 	}
 
 	@Override
@@ -207,15 +299,7 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 
 			@Override
 			public void modifyText(ModifyEvent e) {
-				if (validateControls()) {
-					getWizardModel().setHost(hostText.getText());
-					getWizardModel().setHostPort(Integer.valueOf(hostPortText.getText()));
-					getWizardModel().setCodePage(codePageText.getText());
-				} else {
-					getWizardModel().setHost("");
-					getWizardModel().setHostPort(0);
-					getWizardModel().setCodePage("");
-				}
+				updateModel();
 			}
 		};
 	}
@@ -255,5 +339,34 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * @return the text
+	 */
+	public String getText() {
+		return trailFileName;
+	}
+
+	/**
+	 * @param text
+	 *            the text to set
+	 */
+	public void setText(String text) {
+		this.trailFileName = text;
+	}
+
+	private void updateModel() {
+		if (validateControls()) {
+			getWizardModel().setHost(hostText.getText());
+			getWizardModel().setHostPort(Integer.valueOf(hostPortText.getText()));
+			getWizardModel().setCodePage(codePageText.getText());
+			getWizardModel().setTrailFilePath(trailFileText.getText());
+		} else {
+			getWizardModel().setHost("");
+			getWizardModel().setHostPort(0);
+			getWizardModel().setCodePage("");
+			getWizardModel().setTrailFilePath("");
+		}
 	}
 }

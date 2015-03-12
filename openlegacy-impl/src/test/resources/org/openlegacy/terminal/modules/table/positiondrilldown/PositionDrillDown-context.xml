@@ -15,7 +15,7 @@
 	    </property>
     </bean>
 
-	<bean id="terminalConnectionFactory"
+	<bean id="mockTerminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
 		<property name="root" value="/org/openlegacy/terminal/modules/table/positiondrilldown" />
 		<property name="trailName" value="PositionDrillDownMenu.trail" />

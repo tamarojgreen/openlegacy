@@ -239,6 +239,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		createDefaultPackage(projectCreationRequest.getDefaultPackageName(), targetPath);
 
+		handleTrailFilePath(targetPath, projectCreationRequest);
+
 		templateFetcher.deleteZip();
 	}
 
@@ -251,6 +253,42 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 					projectCreationRequest.getProjectName());
 
 			FileUtils.write(fileContent, configJs);
+		}
+	}
+
+	private static void handleTrailFilePath(File targetPath, ProjectCreationRequest projectCreationRequest)
+			throws FileNotFoundException, IOException {
+		String projectName = projectCreationRequest.getProjectName();
+		String trailFilePath = projectCreationRequest.getBaseDir().getAbsolutePath() + "/" + projectName
+				+ "/src/main/resources/trails/" + projectName + ".trail";
+		copyTrailFilePath(projectCreationRequest.getTrailContent(), trailFilePath);
+
+		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
+
+		String appPropertiesFileContent = IOUtils.toString(new FileInputStream(appPropertiesFile));
+		if (!appPropertiesFile.exists()) {
+			return;
+		}
+		appPropertiesFileContent = appPropertiesFileContent.replaceFirst("openLegacyProperties.liveSession=.*",
+				"openLegacyProperties.liveSession=true");
+		appPropertiesFileContent = appPropertiesFileContent.replaceFirst("openLegacyProperties.trailFilePath=.*",
+				MessageFormat.format("openLegacyProperties.trailFilePath=/trails/{0}.trail", projectName));
+
+		FileUtils.write(appPropertiesFileContent, appPropertiesFile);
+	}
+
+	private static void copyTrailFilePath(byte[] content, String targetTrailFilePath) throws IOException {
+
+		if (content == null) {
+			return;
+		}
+
+		FileOutputStream out = null;
+		try {
+			out = new FileOutputStream(targetTrailFilePath);
+			out.write(content);
+		} finally {
+			IOUtils.closeQuietly(out);
 		}
 	}
 
@@ -342,7 +380,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void updatePropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath) throws IOException,
-	FileNotFoundException {
+			FileNotFoundException {
 		File hostPropertiesFile = new File(targetPath, "src/main/resources/host.properties");
 		if (hostPropertiesFile.exists()) {
 			String hostPropertiesFileContent = IOUtils.toString(new FileInputStream(hostPropertiesFile));
@@ -394,7 +432,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameLaunchers(final String projectName, final File targetPath) throws FileNotFoundException,
-	IOException {
+			IOException {
 		targetPath.listFiles(new FileFilter() {
 
 			@Override
@@ -412,7 +450,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameLauncher(String projectName, File targetPath, String fileName) throws FileNotFoundException,
-	IOException {
+			IOException {
 		File launcherFile = new File(targetPath, fileName);
 
 		if (!launcherFile.exists()) {
@@ -428,14 +466,14 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void updateSpringContextWithDefaultPackage(String defaultPackageName, File targetPath) throws IOException,
-	FileNotFoundException {
+			FileNotFoundException {
 		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_CONTEXT_FILE));
 		updateSpringFile(defaultPackageName + ".web", new File(targetPath, DEFAULT_SPRING_WEB_CONTEXT_FILE));
 		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_TEST_CONTEXT_FILE));
 	}
 
 	private static void createDefaultPackage(String defaultPackageName, File targetPath) throws IOException,
-			FileNotFoundException {
+	FileNotFoundException {
 		String packageFolders = defaultPackageName.replace(".", "/");
 		File packageDir = new File(targetPath + PACKAGE_DIR);
 		if (!packageDir.exists()) {
@@ -505,7 +543,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void addDbDriverDependency(File targetPath, String mavenDependencyString) throws FileNotFoundException,
-	IOException {
+			IOException {
 		File pomFile = new File(targetPath, "pom.xml");
 
 		if (!pomFile.exists()) {
@@ -592,7 +630,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameThemeInAppProperties(ProjectTheme projectTheme, File targetPath) throws FileNotFoundException,
-	IOException {
+			IOException {
 		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
 
 		if (!appPropertiesFile.exists()) {
@@ -654,8 +692,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (matcher.find()) {
 			fileContent = fileContent.replaceFirst("<context-param>\\s+<param-name>" + paramName
 					+ "</param-name>\\s+<param-value>.*</param-value>", MessageFormat.format(
-							"<context-param>\n\t\t<param-name>{0}</param-name>\n\t\t<param-value>{1}</param-value>", paramName,
-							paramValue));
+					"<context-param>\n\t\t<param-name>{0}</param-name>\n\t\t<param-value>{1}</param-value>", paramName,
+					paramValue));
 		} else {
 			// add new <context-param> into the end of file
 			int indexOf = fileContent.indexOf("</web-app>");

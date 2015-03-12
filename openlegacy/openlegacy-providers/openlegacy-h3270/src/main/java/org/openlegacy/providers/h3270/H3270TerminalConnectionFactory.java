@@ -15,8 +15,8 @@ import org.h3270.render.H3270Configuration;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.ConnectionProperties;
+import org.openlegacy.terminal.LiveTerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalConnection;
-import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.openlegacy.utils.FeatureChecker;
 import org.openlegacy.utils.FileUtils;
 import org.openlegacy.utils.OsUtils;
@@ -35,7 +35,7 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Properties;
 
-public class H3270TerminalConnectionFactory implements TerminalConnectionFactory, InitializingBean {
+public class H3270TerminalConnectionFactory implements LiveTerminalConnectionFactory, InitializingBean {
 
 	private LogicalUnitPool logicalUnitPool;
 
@@ -169,7 +169,7 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 	public void setProperties(Properties properties) {
 		this.properties = properties;
 	}
-	
+
 	public void setMaxWait(int maxWait) {
 		this.maxWait = maxWait;
 	}

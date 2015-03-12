@@ -15,7 +15,7 @@
 	    </property>
     </bean>
     
-	<bean id="terminalConnectionFactory"
+	<bean id="mockTerminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockStateMachineTerminalConnectionFactory" 
 		p:verifySend="true" p:root="/org/openlegacy/terminal/mock_session/mock2" p:trailName="state_machine.trail" />
 

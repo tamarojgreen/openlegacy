@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.terminal.mock;
 
-import org.openlegacy.exceptions.UnableToLoadSnapshotException;
-import org.openlegacy.terminal.TerminalConnectionFactory;
+import org.openlegacy.OpenLegacyProperties;
+import org.openlegacy.terminal.MockTerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
 import org.openlegacy.terminal.modules.trail.TerminalPersistedTrail;
@@ -24,15 +24,18 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
 
-public abstract class AbstractMockTerminalConnectionFactory implements TerminalConnectionFactory {
+public abstract class AbstractMockTerminalConnectionFactory implements MockTerminalConnectionFactory {
 
 	private List<String> files = null;
 	private String root;
 	private List<TerminalSnapshot> snapshots = null;
-	private String trailName;
 	private boolean verifySend;
+	private String trailName;
+	@Inject
+	private OpenLegacyProperties openLegacyProperties;
 
 	/**
 	 * Loads all snapshots from the listed files NOTE: Currently All files are re-load from disk on every get connection, since
@@ -44,13 +47,15 @@ public abstract class AbstractMockTerminalConnectionFactory implements TerminalC
 			return snapshots;
 		}
 
-		if (trailName != null && files != null) {
-			throw (new UnableToLoadSnapshotException("Can't define both trail and files for mock terminal connection factory"));
+		String trailFilePath = openLegacyProperties.getTrailFilePath();
+		if (trailFilePath != null) {
+			trailName = trailFilePath;
+			root = "";
 		}
 
 		snapshots = new ArrayList<TerminalSnapshot>();
 
-		if (trailName != null) {
+		if (files == null) {
 			loadSnapshotsFromTrailFile();
 		} else {
 			loadSnapshotsFromFiles();
@@ -62,15 +67,14 @@ public abstract class AbstractMockTerminalConnectionFactory implements TerminalC
 	private void loadSnapshotsFromTrailFile() {
 		TerminalPersistedTrail trail;
 		try {
-			String trailClasspath = MessageFormat.format("{0}/{1}", root, trailName);
+			String trailClasspath = MessageFormat.format("{0}{1}", root, trailName);
 			InputStream trailStream = getClass().getResourceAsStream(trailClasspath);
-			Assert.notNull(trailStream, String.format(
-					"Trail file %s not found. In development, Verify it exists in a src/main/resources%s", trailName, root));
+			Assert.notNull(trailStream, "Trail file was not found.");
 			trail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class, trailStream);
 		} catch (JAXBException e) {
-			throw (new IllegalArgumentException(MessageFormat.format("Faild reading XML trail:{0}", trailName), e));
+			throw (new IllegalArgumentException(MessageFormat.format("Failed reading XML trail:{0}",
+					openLegacyProperties.getTrailFilePath()), e));
 		}
-
 		List<TerminalSnapshot> snapshotsList = trail.getSnapshots();
 		for (TerminalSnapshot snapshot : snapshotsList) {
 			// if verify send wasn't specified, don't add outgoing snapshots from trail file
@@ -94,6 +98,9 @@ public abstract class AbstractMockTerminalConnectionFactory implements TerminalC
 	}
 
 	public void setRoot(String root) {
+		if (!root.endsWith("/")) {
+			root = root + "/";
+		}
 		this.root = root;
 	}
 
@@ -101,11 +108,22 @@ public abstract class AbstractMockTerminalConnectionFactory implements TerminalC
 		this.files = files;
 	}
 
-	public void setTrailName(String trailName) {
-		this.trailName = trailName;
-	}
-
 	public void setVerifySend(boolean verifySend) {
 		this.verifySend = verifySend;
+	}
+
+	/**
+	 * @return the trailName
+	 */
+	public String getTrailName() {
+		return trailName;
+	}
+
+	/**
+	 * @param trailName
+	 *            the trailName to set
+	 */
+	public void setTrailName(String trailName) {
+		this.trailName = trailName;
 	}
 }

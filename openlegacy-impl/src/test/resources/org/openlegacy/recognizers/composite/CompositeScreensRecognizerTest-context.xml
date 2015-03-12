@@ -15,7 +15,7 @@
 	    </property>
     </bean>
 
-	<bean id="terminalConnectionFactory"
+	<bean id="mockTerminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
 		<property name="root" value="/apps/inventory/screens" />
 		<property name="files">

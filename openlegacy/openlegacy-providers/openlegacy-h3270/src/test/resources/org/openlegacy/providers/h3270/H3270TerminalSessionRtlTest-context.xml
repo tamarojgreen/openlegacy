@@ -9,7 +9,7 @@
 
    	<import resource="classpath*:/test-h3270-context.xml" />
 
-	<bean id="terminalConnectionFactory" class="org.openlegacy.providers.h3270.H3270TerminalConnectionFactory">
+	<bean id="mockTerminalConnectionFactory" class="org.openlegacy.providers.h3270.H3270TerminalConnectionFactory">
 	    <property name="properties">
 	    	<props>
 	    		<prop key="host.name">${host.name}</prop>
