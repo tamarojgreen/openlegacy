@@ -348,7 +348,8 @@ public class IdentifiersPage extends AbstractPage {
 		GeneralPage generalPage = (GeneralPage)editor.findPage(GeneralPage.PAGE_ID);
 		ScreenEntityModel entityModel = (ScreenEntityModel)generalPage.getEditableNamedObject(ScreenEntityModel.class);
 
-		if (model.getColumn() + model.getText().length() > entityModel.getColumns()) {
+		// NOTE: -1 because we should keep in mind, that text contains value under the first column
+		if (model.getColumn() - 1 + model.getText().length() > entityModel.getColumns()) {
 			// add validation marker
 			managedForm.getMessageManager().addMessage(validationMarkerKey,
 					Messages.getString("validation.identifier.exceeds.screen.bounds"), null, IMessageProvider.ERROR);//$NON-NLS-1$
