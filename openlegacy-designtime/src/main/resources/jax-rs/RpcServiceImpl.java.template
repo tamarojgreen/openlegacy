@@ -96,9 +96,9 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 					</#if>
 				</#if>
 		
-				<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
 				<#assign entityName = parameter.entityDefinition.entityName/>
 				<#if isFieldParameter(parameter)>
+					<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
 					<#if isPartParameter(parameter)>
 						<#assign partName = parameter.partEntityDefinition.partName?cap_first/>
 						${entityName} ${entityName?uncap_first} = rpcSession.getEntity(${entityName}.class, ${serviceName?uncap_first}In.get${fieldName?cap_first}(), ${serviceName?uncap_first}In.get${partName}());
