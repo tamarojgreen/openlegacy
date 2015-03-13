@@ -22,6 +22,10 @@
 			<id>openlegacy-snapshots</id>
 			<url>http://maven.openlegacy.org/maven2/snapshot</url>
 		</pluginRepository>
+		<pluginRepository>
+			<id>openlegacy-release</id>
+			<url>http://maven.openlegacy.org/maven2/release</url>
+		</pluginRepository>
 	</pluginRepositories>
 	
 	<repositories>
