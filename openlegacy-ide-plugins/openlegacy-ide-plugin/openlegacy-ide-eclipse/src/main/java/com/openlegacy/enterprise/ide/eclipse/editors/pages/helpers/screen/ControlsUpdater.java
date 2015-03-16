@@ -1,17 +1,5 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen;
 
-import java.util.Map;
-import java.util.Set;
-
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
-import org.openlegacy.designtime.generators.AnnotationConstants;
-import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
-import org.openlegacy.utils.StringUtil;
-
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenBooleanFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenColumnModel;
@@ -22,10 +10,23 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEntityM
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEnumFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldValuesModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNavigationModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenPartModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenTableModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.TableActionModel;
+
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+import org.openlegacy.designtime.generators.AnnotationConstants;
+import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
+import org.openlegacy.utils.StringUtil;
+
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Ivan Bort
@@ -33,8 +34,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.TableActionMo
  */
 public class ControlsUpdater {
 
-	public static void updateScreenBooleanFieldDetailsControls(
-			ScreenBooleanFieldModel fieldModel, Map<String, Text> mapTexts,
+	public static void updateScreenBooleanFieldDetailsControls(ScreenBooleanFieldModel fieldModel, Map<String, Text> mapTexts,
 			Map<String, Button> mapCheckBoxes) {
 
 		if (fieldModel == null) {
@@ -54,8 +54,7 @@ public class ControlsUpdater {
 		mapKeys = mapCheckBoxes.keySet();
 		for (String key : mapKeys) {
 			if (key.equals(AnnotationConstants.TREAT_EMPTY_AS_NULL)) {
-				mapCheckBoxes.get(key).setSelection(
-						fieldModel.isTreatEmptyAsNull());
+				mapCheckBoxes.get(key).setSelection(fieldModel.isTreatEmptyAsNull());
 			}
 		}
 	}
@@ -66,10 +65,8 @@ public class ControlsUpdater {
 	 * @param mapCheckBoxes
 	 * @param mapLabels
 	 */
-	public static void updateScreenColumnDetailsControls(
-			ScreenColumnModel columnModel, Map<String, Text> mapTexts,
-			Map<String, Button> mapCheckBoxes, Map<String, Label> mapLabels,
-			Map<String, CCombo> mapCombos) {
+	public static void updateScreenColumnDetailsControls(ScreenColumnModel columnModel, Map<String, Text> mapTexts,
+			Map<String, Button> mapCheckBoxes, Map<String, Label> mapLabels, Map<String, CCombo> mapCombos) {
 
 		if (columnModel == null) {
 			return;
@@ -127,8 +124,7 @@ public class ControlsUpdater {
 		mapKeys = mapCombos.keySet();
 		for (String key : mapKeys) {
 			if (key.equals(AnnotationConstants.ATTRIBUTE)) {
-				mapCombos.get(key).setText(
-						columnModel.getAttribute().toString());
+				mapCombos.get(key).setText(columnModel.getAttribute().toString());
 			}
 		}
 	}
@@ -138,8 +134,7 @@ public class ControlsUpdater {
 	 * @param mapTexts
 	 * @param mapCheckBoxes
 	 */
-	public static void updateScreenDateFieldDetailsControls(
-			ScreenDateFieldModel fieldModel, Map<String, Text> mapTexts,
+	public static void updateScreenDateFieldDetailsControls(ScreenDateFieldModel fieldModel, Map<String, Text> mapTexts,
 			Map<String, Button> mapCheckBoxes) {
 
 		if (fieldModel == null) {
@@ -150,24 +145,19 @@ public class ControlsUpdater {
 		for (String key : mapKeys) {
 			Text text = mapTexts.get(key);
 			if (key.equals(AnnotationConstants.YEAR_COLUMN)) {
-				text.setText(fieldModel.getYear() != null ? fieldModel
-						.getYear().toString() : "");
+				text.setText(fieldModel.getYear() != null ? fieldModel.getYear().toString() : "");
 			} else if (key.equals(AnnotationConstants.MONTH_COLUMN)) {
-				text.setText(fieldModel.getMonth() != null ? fieldModel
-						.getMonth().toString() : "");
+				text.setText(fieldModel.getMonth() != null ? fieldModel.getMonth().toString() : "");
 			} else if (key.equals(AnnotationConstants.DAY_COLUMN)) {
-				text.setText(fieldModel.getDay() != null ? fieldModel.getDay()
-						.toString() : "");
+				text.setText(fieldModel.getDay() != null ? fieldModel.getDay().toString() : "");
 			} else if (key.equals(AnnotationConstants.PATTERN)) {
 				text.setText(fieldModel.getPattern());
 			}
 		}
 	}
 
-	public static void updateScreenEntityDetailsControls(
-			ScreenEntityModel entityModel, Map<String, Text> mapTexts,
-			Map<String, CCombo> mapCombos, Map<String, Button> mapCheckBoxes,
-			TableViewer tableViewer) {
+	public static void updateScreenEntityDetailsControls(ScreenEntityModel entityModel, Map<String, Text> mapTexts,
+			Map<String, CCombo> mapCombos, Map<String, Button> mapCheckBoxes, TableViewer tableViewer) {
 
 		if (entityModel == null) {
 			return;
@@ -200,8 +190,7 @@ public class ControlsUpdater {
 				button.setSelection(entityModel.isValidateKeys());
 			} else if (key.equals(ScreenAnnotationConstants.RIGHT_TO_LEFT)) {
 				button.setSelection(entityModel.isRightToLeft());
-			} else if (key
-					.equals(ScreenAnnotationConstants.AUTO_MAP_KEYBOARD_ACTIONS)) {
+			} else if (key.equals(ScreenAnnotationConstants.AUTO_MAP_KEYBOARD_ACTIONS)) {
 				button.setSelection(entityModel.isAutoMapKeyboardActions());
 			}
 		}
@@ -209,8 +198,7 @@ public class ControlsUpdater {
 		mapKeys = mapCombos.keySet();
 		for (String key : mapKeys) {
 			if (key.equals(ScreenAnnotationConstants.SCREEN_TYPE)) {
-				mapCombos.get(key).setText(
-						entityModel.getScreenType().getSimpleName());
+				mapCombos.get(key).setText(entityModel.getScreenType().getSimpleName());
 			}
 		}
 		if (tableViewer != null) {
@@ -218,8 +206,7 @@ public class ControlsUpdater {
 		}
 	}
 
-	public static void updateScreenEnumFieldDetailsControls(
-			ScreenEnumFieldModel fieldModel, Map<String, Text> mapTexts,
+	public static void updateScreenEnumFieldDetailsControls(ScreenEnumFieldModel fieldModel, Map<String, Text> mapTexts,
 			TableViewer tableViewer) {
 		if (fieldModel == null) {
 			return;
@@ -228,9 +215,7 @@ public class ControlsUpdater {
 		Set<String> mapKeys = mapTexts.keySet();
 		for (String key : mapKeys) {
 			if (key.equals(Constants.JAVA_TYPE)) {
-				mapTexts.get(key).setText(
-						fieldModel.getPrevJavaTypeName().isEmpty() ? ""
-								: fieldModel.getJavaTypeName());
+				mapTexts.get(key).setText(fieldModel.getPrevJavaTypeName().isEmpty() ? "" : fieldModel.getJavaTypeName());
 			}
 		}
 		if (tableViewer != null) {
@@ -238,10 +223,8 @@ public class ControlsUpdater {
 		}
 	}
 
-	public static void updateScreenFieldDetailsControls(
-			ScreenFieldModel fieldModel, Map<String, Text> mapTexts,
-			Map<String, CCombo> mapCombos, Map<String, Button> mapCheckBoxes,
-			Map<String, Label> mapLabels) {
+	public static void updateScreenFieldDetailsControls(ScreenFieldModel fieldModel, Map<String, Text> mapTexts,
+			Map<String, CCombo> mapCombos, Map<String, Button> mapCheckBoxes, Map<String, Label> mapLabels) {
 
 		if (fieldModel == null) {
 			return;
@@ -257,12 +240,10 @@ public class ControlsUpdater {
 			} else if (key.equals(ScreenAnnotationConstants.COLUMN)) {
 				text.setText(new Integer(fieldModel.getColumn()).toString());
 			} else if (key.equals(ScreenAnnotationConstants.END_COLUMN)) {
-				text.setText(((fieldModel.getEndColumn() != null) && (fieldModel
-						.getEndColumn() != 0)) ? fieldModel.getEndColumn()
-						.toString() : "");
+				text.setText(((fieldModel.getEndColumn() != null) && (fieldModel.getEndColumn() != 0)) ? fieldModel.getEndColumn().toString()
+						: "");
 			} else if (key.equals(ScreenAnnotationConstants.END_ROW)) {
-				text.setText(((fieldModel.getEndRow() != null) && (fieldModel
-						.getEndRow() != 0)) ? fieldModel.getEndRow().toString()
+				text.setText(((fieldModel.getEndRow() != null) && (fieldModel.getEndRow() != 0)) ? fieldModel.getEndRow().toString()
 						: "");
 			} else if (key.equals(AnnotationConstants.DISPLAY_NAME)) {
 				text.setText(fieldModel.getDisplayName());
@@ -271,8 +252,7 @@ public class ControlsUpdater {
 			} else if (key.equals(AnnotationConstants.DEFAULT_VALUE)) {
 				text.setText(fieldModel.getDefaultValue());
 			} else if (key.equals(ScreenAnnotationConstants.LABEL_COLUMN)) {
-				text.setText(new Integer(fieldModel.getLabelColumn())
-						.toString());
+				text.setText(new Integer(fieldModel.getLabelColumn()).toString());
 			} else if (key.equals(AnnotationConstants.HELP_TEXT)) {
 				text.setText(fieldModel.getHelpText());
 			} else if (key.equals(ScreenAnnotationConstants.WHEN)) {
@@ -293,8 +273,7 @@ public class ControlsUpdater {
 			if (key.equals(AnnotationConstants.FIELD_TYPE)) {
 				mapCombos.get(key).setText(fieldModel.getFieldTypeName());
 			} else if (key.equals(AnnotationConstants.ATTRIBUTE)) {
-				mapCombos.get(key)
-						.setText(fieldModel.getAttribute().toString());
+				mapCombos.get(key).setText(fieldModel.getAttribute().toString());
 			}
 		}
 		// update check boxes
@@ -332,8 +311,8 @@ public class ControlsUpdater {
 		}
 	}
 
-	public static void updateScreenDescriptionFieldDetailsControls(
-			ScreenDescriptionFieldModel fieldModel, Map<String, Text> mapTexts) {
+	public static void updateScreenDescriptionFieldDetailsControls(ScreenDescriptionFieldModel fieldModel,
+			Map<String, Text> mapTexts) {
 		if (fieldModel == null) {
 			return;
 		}
@@ -342,27 +321,21 @@ public class ControlsUpdater {
 		mapTexts.get(Constants.DESC_END_COLUMN).setText("");//$NON-NLS-1$
 		// first of all we need to update column control, because row and
 		// endColumn controls are depends on it
-		mapTexts.get(Constants.DESC_COLUMN)
-				.setText(
-						(fieldModel.getColumn() != null && fieldModel
-								.getColumn() != 0) ? fieldModel.getColumn()
-								.toString() : "");//$NON-NLS-1$
+		mapTexts.get(Constants.DESC_COLUMN).setText(
+				(fieldModel.getColumn() != null && fieldModel.getColumn() != 0) ? fieldModel.getColumn().toString() : "");//$NON-NLS-1$
 		Set<String> mapKeys = mapTexts.keySet();
 		for (String key : mapKeys) {
 			Text text = mapTexts.get(key);
 			if (key.equals(Constants.DESC_ROW)) {
-				text.setText((fieldModel.getRow() != null && fieldModel
-						.getRow() != 0) ? fieldModel.getRow().toString() : "");//$NON-NLS-1$
+				text.setText((fieldModel.getRow() != null && fieldModel.getRow() != 0) ? fieldModel.getRow().toString() : "");//$NON-NLS-1$
 			} else if (key.equals(Constants.DESC_END_COLUMN)) {
-				text.setText((fieldModel.getEndColumn() != null & fieldModel
-						.getEndColumn() != 0) ? fieldModel.getEndColumn()
-						.toString() : "");//$NON-NLS-1$
+				text.setText((fieldModel.getEndColumn() != null & fieldModel.getEndColumn() != 0) ? fieldModel.getEndColumn().toString()
+						: "");//$NON-NLS-1$
 			}
 		}
 	}
 
-	public static void updateScreenDynamicFieldDetailsControls(
-			ScreenDynamicFieldModel fieldModel, Map<String, Text> mapTexts) {
+	public static void updateScreenDynamicFieldDetailsControls(ScreenDynamicFieldModel fieldModel, Map<String, Text> mapTexts) {
 		if (fieldModel == null) {
 			return;
 		}
@@ -377,30 +350,24 @@ public class ControlsUpdater {
 		// first of all we need to update column control, because row and
 		// endColumn controls are depends on it
 		mapTexts.get(Constants.DYNAMIC_TEXT).setText(
-				(!StringUtil.isEmpty(fieldModel.getText())) ? fieldModel
-						.getText().toString() : "");//$NON-NLS-1$
+				(!StringUtil.isEmpty(fieldModel.getText())) ? fieldModel.getText().toString() : "");//$NON-NLS-1$
 		Set<String> mapKeys = mapTexts.keySet();
 		for (String key : mapKeys) {
 			Text text = mapTexts.get(key);
 			if (key.equals(Constants.DYNAMIC_ROW)) {
-				text.setText((fieldModel.getRow() != null && fieldModel
-						.getRow() != 0) ? fieldModel.getRow().toString() : "");//$NON-NLS-1$
+				text.setText((fieldModel.getRow() != null && fieldModel.getRow() != 0) ? fieldModel.getRow().toString() : "");//$NON-NLS-1$
 			} else if (key.equals(Constants.DYNAMIC_COLUMN)) {
-				text.setText((fieldModel.getColumn() != null & fieldModel
-						.getColumn() != 0) ? fieldModel.getColumn().toString()
+				text.setText((fieldModel.getColumn() != null & fieldModel.getColumn() != 0) ? fieldModel.getColumn().toString()
 						: "");//$NON-NLS-1$
 			} else if (key.equals(Constants.DYNAMIC_END_ROW)) {
-				text.setText((fieldModel.getEndRow() != null & fieldModel
-						.getEndRow() != 0) ? fieldModel.getEndRow().toString()
+				text.setText((fieldModel.getEndRow() != null & fieldModel.getEndRow() != 0) ? fieldModel.getEndRow().toString()
 						: "");//$NON-NLS-1$
 			} else if (key.equals(Constants.DYNAMIC_END_COLUMN)) {
-				text.setText((fieldModel.getEndColumn() != null & fieldModel
-						.getEndColumn() != 0) ? fieldModel.getEndColumn()
-						.toString() : "");//$NON-NLS-1$
+				text.setText((fieldModel.getEndColumn() != null & fieldModel.getEndColumn() != 0) ? fieldModel.getEndColumn().toString()
+						: "");//$NON-NLS-1$
 			} else if (key.equals(Constants.DYNAMIC_OFFSET)) {
-				text.setText((fieldModel.getFieldOffset() != null & fieldModel
-						.getFieldOffset() != 0) ? fieldModel.getFieldOffset()
-						.toString() : "");//$NON-NLS-1$
+				text.setText((fieldModel.getFieldOffset() != null & fieldModel.getFieldOffset() != 0) ? fieldModel.getFieldOffset().toString()
+						: "");//$NON-NLS-1$
 			}
 		}
 	}
@@ -410,8 +377,7 @@ public class ControlsUpdater {
 	 * @param mapTexts
 	 * @param mapCheckBoxes
 	 */
-	public static void updateScreenFieldValuesDetailsControls(
-			ScreenFieldValuesModel fieldModel, Map<String, Text> mapTexts,
+	public static void updateScreenFieldValuesDetailsControls(ScreenFieldValuesModel fieldModel, Map<String, Text> mapTexts,
 			Map<String, Button> mapCheckBoxes, Map<String, CCombo> mapCombos) {
 		if (fieldModel == null) {
 			return;
@@ -449,10 +415,8 @@ public class ControlsUpdater {
 		}
 	}
 
-	public static void updateScreenNavigationDetailsControls(
-			ScreenNavigationModel navigationModel, Map<String, Text> mapTexts,
-			Map<String, CCombo> mapCombos, Map<String, Button> mapCheckBoxes,
-			TableViewer tableViewer) {
+	public static void updateScreenNavigationDetailsControls(ScreenNavigationModel navigationModel, Map<String, Text> mapTexts,
+			Map<String, CCombo> mapCombos, Map<String, Button> mapCheckBoxes, TableViewer tableViewer) {
 
 		if (navigationModel == null) {
 			return;
@@ -461,8 +425,7 @@ public class ControlsUpdater {
 		Set<String> mapKeys = mapTexts.keySet();
 		for (String key : mapKeys) {
 			if (key.equals(ScreenAnnotationConstants.ACCESSED_FROM)) {
-				mapTexts.get(key).setText(
-						navigationModel.getAccessedFromEntityName());
+				mapTexts.get(key).setText(navigationModel.getAccessedFromEntityName());
 			} else if (key.equals(ScreenAnnotationConstants.DRILLDOWN_VALUE)) {
 				mapTexts.get(key).setText(navigationModel.getDrilldownValue());
 			}
@@ -471,8 +434,7 @@ public class ControlsUpdater {
 		mapKeys = mapCheckBoxes.keySet();
 		for (String key : mapKeys) {
 			if (key.equals(ScreenAnnotationConstants.REQUIRES_PARAMETERS)) {
-				mapCheckBoxes.get(key).setSelection(
-						navigationModel.isRequiresParameters());
+				mapCheckBoxes.get(key).setSelection(navigationModel.isRequiresParameters());
 			}
 		}
 		// update CCombo controls
@@ -485,8 +447,7 @@ public class ControlsUpdater {
 				combo.setText(navigationModel.getAdditionalKey().name());
 			} else if (key.equals(ScreenAnnotationConstants.EXIT_ACTION)) {
 				combo.setText(navigationModel.getExitActionName());
-			} else if (key
-					.equals(ScreenAnnotationConstants.EXIT_ADDITIONAL_KEY)) {
+			} else if (key.equals(ScreenAnnotationConstants.EXIT_ADDITIONAL_KEY)) {
 				combo.setText(navigationModel.getExitAdditionalKey().name());
 			}
 		}
@@ -500,8 +461,7 @@ public class ControlsUpdater {
 	 * @param mapTexts
 	 * @param mapCheckBoxes
 	 */
-	public static void updateScreenPartDetailsControls(
-			ScreenPartModel partModel, Map<String, Text> mapTexts,
+	public static void updateScreenPartDetailsControls(ScreenPartModel partModel, Map<String, Text> mapTexts,
 			Map<String, Button> mapCheckBoxes) {
 
 		if (partModel == null) {
@@ -517,14 +477,11 @@ public class ControlsUpdater {
 			} else if (key.equals(AnnotationConstants.DISPLAY_NAME)) {
 				text.setText(partModel.getDisplayName());
 			} else if (key.equals(ScreenAnnotationConstants.ROW)) {
-				text.setText(Integer.toString(partModel.getPartPosition()
-						.getRow()));
+				text.setText(Integer.toString(partModel.getPartPosition().getRow()));
 			} else if (key.equals(ScreenAnnotationConstants.COLUMN)) {
-				text.setText(Integer.toString(partModel.getPartPosition()
-						.getColumn()));
+				text.setText(Integer.toString(partModel.getPartPosition().getColumn()));
 			} else if (key.equals(ScreenAnnotationConstants.WIDTH)) {
-				text.setText(Integer.toString(partModel.getPartPosition()
-						.getWidth()));
+				text.setText(Integer.toString(partModel.getPartPosition().getWidth()));
 			} else if (key.equals(Constants.JAVA_TYPE_NAME)) {
 				text.setText(partModel.getClassName());
 			}
@@ -533,8 +490,7 @@ public class ControlsUpdater {
 		mapKeys = mapCheckBoxes.keySet();
 		for (String key : mapKeys) {
 			if (key.equals(ScreenAnnotationConstants.SUPPORT_TERMINAL_DATA)) {
-				mapCheckBoxes.get(key).setSelection(
-						partModel.isSupportTerminalData());
+				mapCheckBoxes.get(key).setSelection(partModel.isSupportTerminalData());
 			}
 		}
 	}
@@ -545,8 +501,7 @@ public class ControlsUpdater {
 	 * @param mapCombos
 	 * @param mapCheckBoxes
 	 */
-	public static void updateScreenTableDetailsControls(
-			ScreenTableModel tableModel, Map<String, Text> mapTexts,
+	public static void updateScreenTableDetailsControls(ScreenTableModel tableModel, Map<String, Text> mapTexts,
 			Map<String, CCombo> mapCombos, Map<String, Button> mapCheckBoxes) {
 
 		if (tableModel == null) {
@@ -605,8 +560,7 @@ public class ControlsUpdater {
 	 * @param mapTexts
 	 * @param mapCheckBoxes
 	 */
-	public static void updateTableActionDetailsPage(
-			TableActionModel actionModel, Map<String, Text> mapTexts,
+	public static void updateTableActionDetailsPage(TableActionModel actionModel, Map<String, Text> mapTexts,
 			Map<String, Button> mapCheckBoxes) {
 
 		if (actionModel == null) {
@@ -640,8 +594,28 @@ public class ControlsUpdater {
 		mapKeys = mapCheckBoxes.keySet();
 		for (String key : mapKeys) {
 			if (key.equals(AnnotationConstants.DEFAULT_ACTION)) {
-				mapCheckBoxes.get(key).setSelection(
-						actionModel.isDefaultAction());
+				mapCheckBoxes.get(key).setSelection(actionModel.isDefaultAction());
+			}
+		}
+	}
+
+	/**
+	 * @param fieldModel
+	 * @param mapTexts
+	 * @param mapCheckBoxes
+	 */
+	public static void updateScreenIntegerFieldDetailsControls(ScreenIntegerFieldModel fieldModel, Map<String, Text> mapTexts,
+			Map<String, Button> mapCheckBoxes) {
+
+		if (fieldModel == null) {
+			return;
+		}
+		// update Text controls
+		Set<String> mapKeys = mapTexts.keySet();
+		for (String key : mapKeys) {
+			Text text = mapTexts.get(key);
+			if (key.equals(ScreenAnnotationConstants.NUMERIC_PATTERN)) {
+				text.setText(fieldModel.getPattern());
 			}
 		}
 	}

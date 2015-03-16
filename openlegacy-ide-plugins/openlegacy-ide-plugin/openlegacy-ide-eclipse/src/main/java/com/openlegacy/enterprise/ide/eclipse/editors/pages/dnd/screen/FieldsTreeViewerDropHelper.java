@@ -155,6 +155,9 @@ public class FieldsTreeViewerDropHelper {
 		} else if (model instanceof ScreenFieldValuesModel) {
 			ScreenEntityUtils.ActionGenerator.generateScreenFieldValuesActions(entity, (ScreenFieldValuesModel)model);
 			ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, model);
+		} else if (model instanceof ScreenIntegerFieldModel) {
+			ScreenEntityUtils.ActionGenerator.generateScreenNumericFieldActions(entity, (ScreenIntegerFieldModel)model);
+			ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, model);
 		} else {
 			ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, model);
 		}

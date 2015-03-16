@@ -662,7 +662,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		}
 
 		/**
-		 * @param dynamicText the dynamicText to set
+		 * @param dynamicText
+		 *            the dynamicText to set
 		 */
 		public void setDynamicText(String dynamicText) {
 			this.dynamicText = dynamicText;
@@ -676,7 +677,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		}
 
 		/**
-		 * @param dynamicRow the dynamicRow to set
+		 * @param dynamicRow
+		 *            the dynamicRow to set
 		 */
 		public void setDynamicRow(Integer dynamicRow) {
 			this.dynamicRow = dynamicRow;
@@ -690,7 +692,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		}
 
 		/**
-		 * @param dynamicColumn the dynamicColumn to set
+		 * @param dynamicColumn
+		 *            the dynamicColumn to set
 		 */
 		public void setDynamicColumn(Integer dynamicColumn) {
 			this.dynamicColumn = dynamicColumn;
@@ -704,7 +707,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		}
 
 		/**
-		 * @param dynamicEndRow the dynamicEndRow to set
+		 * @param dynamicEndRow
+		 *            the dynamicEndRow to set
 		 */
 		public void setDynamicEndRow(Integer dynamicEndRow) {
 			this.dynamicEndRow = dynamicEndRow;
@@ -718,7 +722,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		}
 
 		/**
-		 * @param dynamicEndColumn the dynamicEndColumn to set
+		 * @param dynamicEndColumn
+		 *            the dynamicEndColumn to set
 		 */
 		public void setDynamicEndColumn(Integer dynamicEndColumn) {
 			this.dynamicEndColumn = dynamicEndColumn;
@@ -732,7 +737,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		}
 
 		/**
-		 * @param dynamicFieldOffset the dynamicFieldOffset to set
+		 * @param dynamicFieldOffset
+		 *            the dynamicFieldOffset to set
 		 */
 		public void setDynamicFieldOffset(Integer dynamicFieldOffset) {
 			this.dynamicFieldOffset = dynamicFieldOffset;
@@ -746,7 +752,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		}
 
 		/**
-		 * @param isDynamicField the isDynamicField to set
+		 * @param isDynamicField
+		 *            the isDynamicField to set
 		 */
 		public void setIsDynamicField(boolean isDynamicField) {
 			this.isDynamicField = isDynamicField;
@@ -921,6 +928,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 									ScreenAnnotationConstants.SCREEN_DYNAMIC_FIELD_ANNOTATION)) {
 								field.setIsDynamicField(true);
 								ScreenAnnotationsParserUtils.loadDynamicField(annotationExpr, field);
+							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
+									ScreenAnnotationConstants.SCREEN_NUMERIC_FIELD_ANNOTATION)) {
+								field.setFieldTypeDefinition(AnnotationsParserUtils.loadNumericField(annotationExpr));
 							}
 						}
 					}

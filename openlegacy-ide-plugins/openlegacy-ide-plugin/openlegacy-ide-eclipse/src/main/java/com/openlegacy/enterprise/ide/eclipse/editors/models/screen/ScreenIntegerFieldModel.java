@@ -3,6 +3,9 @@ package com.openlegacy.enterprise.ide.eclipse.editors.models.screen;
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 
+import org.openlegacy.definitions.NumericFieldTypeDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
+
 import java.util.UUID;
 
 /**
@@ -10,6 +13,8 @@ import java.util.UUID;
  * 
  */
 public class ScreenIntegerFieldModel extends ScreenFieldModel {
+
+	private String pattern = "";
 
 	public ScreenIntegerFieldModel(NamedObject parent) {
 		super(parent);
@@ -30,7 +35,41 @@ public class ScreenIntegerFieldModel extends ScreenFieldModel {
 		ScreenIntegerFieldModel model = new ScreenIntegerFieldModel(this.uuid, this.parent);
 		fillModel(model);
 
+		model.setPattern(this.pattern);
 		return model;
 	}
 
+	@Override
+	public void init(ScreenFieldDefinition screenFieldDefinition) {
+		super.init(screenFieldDefinition);
+		if (super.isInitialized() && (screenFieldDefinition.getFieldTypeDefinition() instanceof NumericFieldTypeDefinition)) {
+			NumericFieldTypeDefinition definition = (NumericFieldTypeDefinition)screenFieldDefinition.getFieldTypeDefinition();
+			this.setPattern(definition.getPattern());
+		}
+	}
+
+	public String getPattern() {
+		return pattern;
+	}
+
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
+	}
+
+	@Override
+	public NamedObject convertFrom(NamedObject model) {
+		if (!(model instanceof ScreenFieldModel)) {
+			return null;
+		}
+		super.convertFrom(model);
+		ScreenFieldModel screenModel = (ScreenFieldModel)model;
+		pattern = screenModel.getFieldValue("pattern") != null ? (String)screenModel.getFieldValue("pattern") : "";
+		return this;
+	}
+
+	@Override
+	public void fillFieldsMap() {
+		super.fillFieldsMap();
+		fieldsMap.put("pattern", pattern);
+	}
 }

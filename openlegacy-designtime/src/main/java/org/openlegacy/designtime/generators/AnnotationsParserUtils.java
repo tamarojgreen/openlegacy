@@ -16,6 +16,7 @@ import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleBooleanFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleEnumFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleNumericFieldTypeDefinition;
 import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
 import org.openlegacy.rpc.definitions.support.SimpleRpcNumericFieldTypeDefinition;
 import org.openlegacy.support.SimpleDisplayItem;
@@ -114,7 +115,7 @@ public class AnnotationsParserUtils {
 		return enumDefinition;
 	}
 
-	public static FieldTypeDefinition loadNumericField(AnnotationExpr annotationExpr) {
+	public static FieldTypeDefinition loadRpcNumericField(AnnotationExpr annotationExpr) {
 		String minimumValueFromAnnotation = getAnnotationValue(annotationExpr, RpcAnnotationConstants.MINIMUM_VALUE);
 		String maximumValueFromAnnotation = getAnnotationValue(annotationExpr, RpcAnnotationConstants.MAXIMUM_VALUE);
 		String decimalPlacesFromAnnotation = getAnnotationValue(annotationExpr, RpcAnnotationConstants.DECIMAL_PLACES);
@@ -127,6 +128,19 @@ public class AnnotationsParserUtils {
 
 		FieldTypeDefinition fieldTypeDefinition = new SimpleRpcNumericFieldTypeDefinition(minimumValue, maximumValue,
 				decimalPlaces, pattern);
+		return fieldTypeDefinition;
+	}
+
+	public static FieldTypeDefinition loadNumericField(AnnotationExpr annotationExpr) {
+		String minimumValueFromAnnotation = getAnnotationValue(annotationExpr, RpcAnnotationConstants.MINIMUM_VALUE);
+		String maximumValueFromAnnotation = getAnnotationValue(annotationExpr, RpcAnnotationConstants.MAXIMUM_VALUE);
+		String patternFromAnnotation = getAnnotationValue(annotationExpr, RpcAnnotationConstants.NUMERIC_PATTERN);
+
+		double minimumValue = !StringUtil.isEmpty(minimumValueFromAnnotation) ? Double.valueOf(minimumValueFromAnnotation) : 0.0;
+		double maximumValue = !StringUtil.isEmpty(maximumValueFromAnnotation) ? Double.valueOf(maximumValueFromAnnotation) : 0.0;
+		String pattern = !StringUtil.isEmpty(patternFromAnnotation) ? patternFromAnnotation : "#";
+
+		FieldTypeDefinition fieldTypeDefinition = new SimpleNumericFieldTypeDefinition(minimumValue, maximumValue, pattern);
 		return fieldTypeDefinition;
 	}
 }
