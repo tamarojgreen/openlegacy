@@ -1,5 +1,19 @@
-[ng-click],
-[data-ng-click],
-[x-ng-click] {
-    cursor: pointer;
+[ng-click],[data-ng-click],[x-ng-click] {
+	cursor: pointer;
+}
+
+@media ( min-width : 605px) {
+	#loginForm {
+		position: absolute;
+		left: 40%;
+	}
+	#sideBarDiv {
+		width: 0%;
+	}
+}
+
+@media ( max-width : 604px) {
+	#loginForm {
+		position: absolute;
+	}
 }

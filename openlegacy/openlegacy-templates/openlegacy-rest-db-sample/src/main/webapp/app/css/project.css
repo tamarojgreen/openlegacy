@@ -15,14 +15,14 @@
 	padding-left: 15px;
 }
 
-.panel-tree .angular-ui-tree-nodes li > a {
+.panel-tree .angular-ui-tree-nodes li>a {
 	margin-left: -18px;
 	display: inline-block;
 }
 
 .tree-table {
 	width: 100%;
-	table-layout: fixed;	
+	table-layout: fixed;
 }
 
 .tree-table td {
@@ -30,18 +30,19 @@
 }
 
 .panel-heading {
-	height:40px;
+	height: 40px;
 	cursor: pointer;
 }
 
 .panel-heading:before {
-    font-family:'Glyphicons Halflings';
-    content:"\e114";
-    float: left;
-    color: grey;
-    margin-right:10px;
-    vertical-align: center;        
+	font-family: 'Glyphicons Halflings';
+	content: "\e114";
+	float: left;
+	color: grey;
+	margin-right: 10px;
+	vertical-align: center;
 }
+
 .panel-heading.collapsed:before {
-    content:"\e080";
+	content: "\e080";
 }

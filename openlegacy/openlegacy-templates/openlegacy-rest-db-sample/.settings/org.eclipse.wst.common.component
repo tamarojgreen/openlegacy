@@ -4,6 +4,15 @@
 		<wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="openlegacy-themes-rest-emily-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-themes-rest-emily/openlegacy-themes-rest-emily">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="openlegacy-themes-rest-light-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-themes-rest-light/openlegacy-themes-rest-light">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="openlegacy-themes-rest-dynamics-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-themes-rest-dynamics/openlegacy-themes-rest-dynamics">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="openlegacy-api-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-api/openlegacy-api">
             <dependency-type>uses</dependency-type>
         </dependent-module>
