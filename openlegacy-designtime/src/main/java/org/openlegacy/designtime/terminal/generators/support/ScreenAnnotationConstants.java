@@ -23,6 +23,7 @@ import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenFieldValues;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
+import org.openlegacy.annotations.screen.ScreenNumericField;
 import org.openlegacy.annotations.screen.ScreenPart;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.annotations.screen.ScreenTableActions;

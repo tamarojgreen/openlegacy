@@ -41,13 +41,16 @@ import com.openlegacy.enterprise.ide.eclipse.editors.utils.AbstractEntityBuilder
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.ArrayInitializer;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.BooleanLiteral;
 import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.EnumDeclaration;
+import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
+import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.MarkerAnnotation;
 import org.eclipse.jdt.core.dom.MemberValuePair;
 import org.eclipse.jdt.core.dom.Modifier.ModifierKeyword;
@@ -769,10 +772,6 @@ public class ScreenEntityBuilder extends AbstractEntityBuilder {
 				// add Integer field
 				if (action instanceof ScreenIntegerFieldAction) {
 					field.setType(ast.newSimpleType(ast.newSimpleName(Integer.class.getSimpleName())));
-					NormalAnnotation integerAnnotation = ast.newNormalAnnotation();
-					integerAnnotation.setTypeName(ast.newSimpleName(ScreenNumericField.class.getSimpleName()));
-					field.modifiers().add(integerAnnotation);
-					ASTUtils.addImport(ast, cu, rewriter, ScreenNumericField.class);
 				}
 				// add @ScreenFieldValues annotation
 				if (action instanceof ScreenFieldValuesAction) {
@@ -2042,4 +2041,101 @@ public class ScreenEntityBuilder extends AbstractEntityBuilder {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	public void addFieldAnnotations(AST ast, CompilationUnit cu, ASTRewrite rewriter, ListRewrite listRewriter,
+			FieldDeclaration field, List<AbstractAction> list) {
+		for (AbstractAction action : list) {
+			if (!action.getAnnotationClass().equals(ScreenNumericField.class)) {
+				continue;
+			}
+			if (action.getActionType().equals(ActionType.ADD) && (action.getTarget() == ASTNode.NORMAL_ANNOTATION)
+					&& (action.getNamedObject() instanceof ScreenFieldModel)) {
+				// get field name
+				String fieldName = "";
+				List<VariableDeclarationFragment> fragments = field.fragments();
+				if (fragments.size() > 0) {
+					fieldName = fragments.get(0).getName().getFullyQualifiedName();
+				}
+				ScreenFieldModel model = (ScreenFieldModel)action.getNamedObject();
+				if (StringUtils.equals(model.getFieldName(), fieldName)) {
+
+					NormalAnnotation annotation = ast.newNormalAnnotation();
+					annotation.setTypeName(ast.newSimpleName(action.getAnnotationClass().getSimpleName()));
+					boolean isAnnotationExist = false;
+					// retrieve last annotation
+					List<IExtendedModifier> modifiers = field.modifiers();
+					for (IExtendedModifier modifier : modifiers) {
+						if (modifier.isAnnotation() && modifier instanceof Annotation) {
+							// check if annotation already exist
+							Annotation annotation2 = (Annotation)modifier;
+							if (StringUtils.equals(annotation2.getTypeName().getFullyQualifiedName(),
+									annotation.getTypeName().getFullyQualifiedName())) {
+								isAnnotationExist = true;
+								break;
+							}
+						}
+					}
+					if (!isAnnotationExist) {
+						VariableDeclarationFragment fragment = ast.newVariableDeclarationFragment();
+						fragment.setName(ast.newSimpleName(StringUtils.uncapitalize(fieldName)));
+						FieldDeclaration newField = ast.newFieldDeclaration(fragment);
+						if (((VariableDeclarationFragment)field.fragments().get(0)).getInitializer() != null) {
+							fragment.setInitializer((Expression)ASTNode.copySubtree(ast,
+									((VariableDeclarationFragment)field.fragments().get(0)).getInitializer()));
+						}
+						newField.setType((Type)ASTNode.copySubtree(ast, field.getType()));
+						newField.modifiers().add(annotation);
+						newField.modifiers().addAll(ASTNode.copySubtrees(ast, field.modifiers()));
+						listRewriter.replace(field, newField, null);
+						ASTUtils.addImport(ast, cu, rewriter, action.getAnnotationClass());
+						// if we are trying to add a few annotations at the same time we should replace new field in next
+						// iterations
+						field = newField;
+					}
+				}
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void removeFieldAnnotations(ListRewrite listRewriter, FieldDeclaration field, List<AbstractAction> list) {
+
+		for (AbstractAction action : list) {
+			if (!action.getAnnotationClass().equals(ScreenNumericField.class)) {
+				continue;
+			}
+			if (action.getActionType().equals(ActionType.REMOVE) && (action.getTarget() == ASTNode.NORMAL_ANNOTATION)
+					&& (action.getNamedObject() instanceof ScreenFieldModel)) {
+				// get field name
+				String fieldName = "";
+				List<VariableDeclarationFragment> fragments = field.fragments();
+				if (fragments.size() > 0) {
+					fieldName = fragments.get(0).getName().getFullyQualifiedName();
+				}
+				ScreenFieldModel model = (ScreenFieldModel)action.getNamedObject();
+				if (StringUtils.equals(model.getFieldName(), fieldName)) {
+					ListRewrite listRewrite = listRewriter.getASTRewrite().getListRewrite(field,
+							FieldDeclaration.MODIFIERS2_PROPERTY);
+					List<ASTNode> originalList = listRewrite.getOriginalList();
+					for (ASTNode node : originalList) {
+						if (node.getNodeType() == ASTNode.NORMAL_ANNOTATION) {
+							NormalAnnotation normalAnnotation = (NormalAnnotation)node;
+							if (StringUtils.equals(normalAnnotation.getTypeName().getFullyQualifiedName(),
+									action.getAnnotationClass().getSimpleName())) {
+								listRewrite.remove(node, null);
+								break;
+							}
+						} else if (node.getNodeType() == ASTNode.MARKER_ANNOTATION) {
+							MarkerAnnotation markerAnnotation = (MarkerAnnotation)node;
+							if (StringUtils.equals(markerAnnotation.getTypeName().getFullyQualifiedName(),
+									action.getAnnotationClass().getSimpleName())) {
+								listRewrite.remove(node, null);
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }

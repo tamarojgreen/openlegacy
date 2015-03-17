@@ -14,7 +14,7 @@ import java.util.UUID;
  */
 public class ScreenIntegerFieldModel extends ScreenFieldModel {
 
-	private String pattern = "";
+	private String pattern = "#";
 
 	public ScreenIntegerFieldModel(NamedObject parent) {
 		super(parent);
@@ -63,7 +63,7 @@ public class ScreenIntegerFieldModel extends ScreenFieldModel {
 		}
 		super.convertFrom(model);
 		ScreenFieldModel screenModel = (ScreenFieldModel)model;
-		pattern = screenModel.getFieldValue("pattern") != null ? (String)screenModel.getFieldValue("pattern") : "";
+		pattern = screenModel.getFieldValue("pattern") != null ? (String)screenModel.getFieldValue("pattern") : "#";
 		return this;
 	}
 
@@ -71,5 +71,9 @@ public class ScreenIntegerFieldModel extends ScreenFieldModel {
 	public void fillFieldsMap() {
 		super.fillFieldsMap();
 		fieldsMap.put("pattern", pattern);
+	}
+
+	public boolean isAttrsHasDefaultValues() {
+		return pattern.equals("#");
 	}
 }

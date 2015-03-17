@@ -15,8 +15,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValida
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.widgets.Composite;
@@ -103,16 +102,13 @@ public class FieldsRpcIntegerFieldDetailsPage extends AbstractRpcFieldDetailsPag
 
 			@Override
 			public void verifyText(VerifyEvent event) {
-				String input = Character.toString(event.character);
-				if (event.keyCode == 0) {
+				if (updatingControls) {
 					return;
 				}
-				
-				if (input.matches("[#\\.\\,\b\u007F]")) {
-					if (((Text)event.widget).getText().contains(input) && !input.matches("[#\b\u007F]")) {
-						event.doit = false;
-					}
-				} else {
+
+				String widgetText = ((Text)event.widget).getText();
+				String newText = widgetText.substring(0, event.start) + event.character + widgetText.substring(event.start);
+				if (!newText.matches("^(?!\\.)(?!,)[#]*[\\.,]{0,1}[#]*$") && event.keyCode != SWT.BS && event.keyCode != SWT.DEL) {
 					event.doit = false;
 				}
 			}

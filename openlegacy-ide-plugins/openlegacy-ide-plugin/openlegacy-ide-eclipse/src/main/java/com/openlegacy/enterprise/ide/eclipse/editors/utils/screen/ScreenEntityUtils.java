@@ -1105,11 +1105,20 @@ public class ScreenEntityUtils {
 				entityModel = (ScreenIntegerFieldModel)entity.getParts().get(model.getParent().getUUID()).getFields().get(
 						model.getUUID());
 			}
-			// @ScreenDateField.pattern: default ""
+			// @ScreenDateField.pattern: default "#"
 			if (checkPrevious) {
 				isPrevious = entityModel.getPattern().equals(model.getPattern());
 			}
-			isDefault = model.getPattern().isEmpty();
+			isDefault = model.getPattern().equals("#");
+			if ((entityModel != model) && !model.isAttrsHasDefaultValues()) {
+				entity.addAction(new ScreenNumericFieldAction(model.getUUID(), model, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
+						ScreenAnnotationConstants.SCREEN_NUMERIC_FIELD_ANNOTATION, null));
+			}
+
+			if (!entityModel.isAttrsHasDefaultValues() && model.isAttrsHasDefaultValues()) {
+				entity.addAction(new ScreenNumericFieldAction(model.getUUID(), model, ActionType.REMOVE,
+						ASTNode.NORMAL_ANNOTATION, ScreenAnnotationConstants.SCREEN_NUMERIC_FIELD_ANNOTATION, null));
+			}
 			PrivateMethods.addRemoveScreenNumericFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, ScreenAnnotationConstants.NUMERIC_PATTERN, model.getPattern());
 		}

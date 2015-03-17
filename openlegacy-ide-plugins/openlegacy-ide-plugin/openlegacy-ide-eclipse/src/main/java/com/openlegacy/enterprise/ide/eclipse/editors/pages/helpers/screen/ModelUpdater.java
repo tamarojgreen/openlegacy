@@ -600,10 +600,9 @@ public class ModelUpdater {
 
 		if (text != null) {
 			if (key.equals(ScreenAnnotationConstants.NUMERIC_PATTERN)) {
-				model.setPattern(text.trim());
+				model.setPattern(text.replaceAll("^[\\.,]|[\\.,]$", "").trim());
 			}
 		}
 		ScreenEntityUtils.ActionGenerator.generateScreenNumericFieldActions(entity, model);
 	}
-
 }

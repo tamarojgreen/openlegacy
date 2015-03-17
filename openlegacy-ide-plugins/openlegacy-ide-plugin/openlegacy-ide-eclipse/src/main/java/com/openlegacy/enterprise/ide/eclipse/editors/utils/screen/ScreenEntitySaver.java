@@ -250,6 +250,22 @@ public class ScreenEntitySaver extends AbstractEntitySaver {
 			}
 		}
 
+		// add/remove field annotations
+		nodeList = listRewriter.getRewrittenList();
+		for (ASTNode node : nodeList) {
+			if (node.getNodeType() == ASTNode.FIELD_DECLARATION) {
+				FieldDeclaration field = (FieldDeclaration)node;
+				// add new annotations to field
+				ScreenEntityBuilder.INSTANCE.addFieldAnnotations(ast, cu, rewriter, listRewriter, field,
+						ScreenEntityUtils.<AbstractAction> getActionList(entity, ASTNode.NORMAL_ANNOTATION,
+								new ActionType[] { ActionType.ADD }));
+				// remove annotations from field
+				ScreenEntityBuilder.INSTANCE.removeFieldAnnotations(listRewriter, field,
+						ScreenEntityUtils.<AbstractAction> getActionList(entity, ASTNode.NORMAL_ANNOTATION,
+								new ActionType[] { ActionType.REMOVE }));
+			}
+		}
+
 		nodeList = listRewriter.getRewrittenList();
 		for (ASTNode node : nodeList) {
 			if (node.getNodeType() == ASTNode.FIELD_DECLARATION) {
