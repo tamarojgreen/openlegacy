@@ -13,6 +13,7 @@ public abstract class AbstractRpcNumericFieldModel extends RpcFieldModel {
 	private double minimumValue = 0.0;
 	private double maximumValue = 0.0;
 	private int decimalPlaces = 0;
+	private String pattern = "#";
 
 	public AbstractRpcNumericFieldModel(RpcNamedObject parent) {
 		super(parent);
@@ -26,6 +27,7 @@ public abstract class AbstractRpcNumericFieldModel extends RpcFieldModel {
 			this.minimumValue = fieldTypeDefinition.getMinimumValue();
 			this.maximumValue = fieldTypeDefinition.getMaximumValue();
 			this.decimalPlaces = fieldTypeDefinition.getDecimalPlaces();
+			this.pattern = fieldTypeDefinition.getPattern();
 		}
 	}
 
@@ -51,6 +53,14 @@ public abstract class AbstractRpcNumericFieldModel extends RpcFieldModel {
 
 	public void setDecimalPlaces(int decimalPlaces) {
 		this.decimalPlaces = decimalPlaces;
+	}
+
+	public String getPattern() {
+		return pattern;
+	}
+
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
 	}
 
 }

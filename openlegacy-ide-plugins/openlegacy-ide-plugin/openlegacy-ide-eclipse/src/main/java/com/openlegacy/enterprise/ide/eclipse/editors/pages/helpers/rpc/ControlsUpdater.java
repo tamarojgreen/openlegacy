@@ -165,6 +165,8 @@ public class ControlsUpdater {
 				text.setText((fieldModel.getMaximumValue() != 0) ? String.valueOf(fieldModel.getMaximumValue()) : "");//$NON-NLS-1$
 			} else if (key.equals(RpcAnnotationConstants.DECIMAL_PLACES)) {
 				text.setText((fieldModel.getDecimalPlaces() != 0) ? String.valueOf(fieldModel.getDecimalPlaces()) : "");//$NON-NLS-1$
+			}  else if (key.equals(RpcAnnotationConstants.NUMERIC_PATTERN)) {
+				text.setText(!fieldModel.getPattern().isEmpty() ? fieldModel.getPattern() : "");
 			}
 		}
 	}

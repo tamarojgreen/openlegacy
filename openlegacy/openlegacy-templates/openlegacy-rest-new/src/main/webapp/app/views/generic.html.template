@@ -211,7 +211,9 @@
 					        <#list field.fieldTypeDefinition.enums?keys as key>		
 								<option value="${key}">${field.fieldTypeDefinition.enums[key]}</option>
 							</#list>			
-						</select>											
+						</select>
+					<#elseif field.fieldTypeDefinition.typeName == 'number' && field.fieldTypeDefinition.pattern??>				  
+					  	<input type="number" ng-model="model.${field.name}" class="form-control" mask="${field.fieldTypeDefinition.pattern}">											
 					<#else>
 						<input data-ng-class="readOnlyCss(model,'${field.name}')" data-ng-readonly="isReadOnly(model,'${field.name}')" type="text" class="form-control child-terminal-colors" id="${field.name}" ng-model="model.${field.name}">
 					</#if>

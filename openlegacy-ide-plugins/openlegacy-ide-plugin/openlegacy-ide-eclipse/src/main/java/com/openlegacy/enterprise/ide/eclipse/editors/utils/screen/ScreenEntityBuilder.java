@@ -1,61 +1,5 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.utils.screen;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.lang.StringUtils;
-import org.eclipse.jdt.core.dom.AST;
-import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.ArrayInitializer;
-import org.eclipse.jdt.core.dom.BodyDeclaration;
-import org.eclipse.jdt.core.dom.BooleanLiteral;
-import org.eclipse.jdt.core.dom.ClassInstanceCreation;
-import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.EnumDeclaration;
-import org.eclipse.jdt.core.dom.FieldDeclaration;
-import org.eclipse.jdt.core.dom.MarkerAnnotation;
-import org.eclipse.jdt.core.dom.MemberValuePair;
-import org.eclipse.jdt.core.dom.Modifier.ModifierKeyword;
-import org.eclipse.jdt.core.dom.NormalAnnotation;
-import org.eclipse.jdt.core.dom.NumberLiteral;
-import org.eclipse.jdt.core.dom.ParameterizedType;
-import org.eclipse.jdt.core.dom.QualifiedName;
-import org.eclipse.jdt.core.dom.SimpleType;
-import org.eclipse.jdt.core.dom.StringLiteral;
-import org.eclipse.jdt.core.dom.Type;
-import org.eclipse.jdt.core.dom.TypeDeclaration;
-import org.eclipse.jdt.core.dom.TypeLiteral;
-import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
-import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
-import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
-import org.openlegacy.annotations.screen.Action;
-import org.openlegacy.annotations.screen.AssignedField;
-import org.openlegacy.annotations.screen.Identifier;
-import org.openlegacy.annotations.screen.ScreenActions;
-import org.openlegacy.annotations.screen.ScreenBooleanField;
-import org.openlegacy.annotations.screen.ScreenColumn;
-import org.openlegacy.annotations.screen.ScreenDateField;
-import org.openlegacy.annotations.screen.ScreenDescriptionField;
-import org.openlegacy.annotations.screen.ScreenDynamicField;
-import org.openlegacy.annotations.screen.ScreenField;
-import org.openlegacy.annotations.screen.ScreenFieldValues;
-import org.openlegacy.annotations.screen.ScreenIdentifiers;
-import org.openlegacy.annotations.screen.ScreenNavigation;
-import org.openlegacy.annotations.screen.ScreenPart;
-import org.openlegacy.annotations.screen.ScreenTable;
-import org.openlegacy.annotations.screen.ScreenTableActions;
-import org.openlegacy.definitions.EnumGetValue;
-import org.openlegacy.designtime.generators.AnnotationConstants;
-import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
-import org.openlegacy.terminal.FieldAttributeType;
-import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.actions.TerminalActions;
-import org.openlegacy.terminal.definitions.FieldAssignDefinition;
-import org.openlegacy.utils.StringUtil;
-
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
@@ -93,6 +37,66 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenTableMo
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.TableActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.ASTUtils;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.AbstractEntityBuilder;
+
+import org.apache.commons.lang.StringUtils;
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.Annotation;
+import org.eclipse.jdt.core.dom.ArrayInitializer;
+import org.eclipse.jdt.core.dom.BodyDeclaration;
+import org.eclipse.jdt.core.dom.BooleanLiteral;
+import org.eclipse.jdt.core.dom.ClassInstanceCreation;
+import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.EnumDeclaration;
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.FieldDeclaration;
+import org.eclipse.jdt.core.dom.IExtendedModifier;
+import org.eclipse.jdt.core.dom.MarkerAnnotation;
+import org.eclipse.jdt.core.dom.MemberValuePair;
+import org.eclipse.jdt.core.dom.Modifier.ModifierKeyword;
+import org.eclipse.jdt.core.dom.NormalAnnotation;
+import org.eclipse.jdt.core.dom.NumberLiteral;
+import org.eclipse.jdt.core.dom.ParameterizedType;
+import org.eclipse.jdt.core.dom.QualifiedName;
+import org.eclipse.jdt.core.dom.SimpleType;
+import org.eclipse.jdt.core.dom.StringLiteral;
+import org.eclipse.jdt.core.dom.Type;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.TypeLiteral;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
+import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
+import org.openlegacy.annotations.screen.Action;
+import org.openlegacy.annotations.screen.AssignedField;
+import org.openlegacy.annotations.screen.Identifier;
+import org.openlegacy.annotations.screen.ScreenActions;
+import org.openlegacy.annotations.screen.ScreenBooleanField;
+import org.openlegacy.annotations.screen.ScreenColumn;
+import org.openlegacy.annotations.screen.ScreenDateField;
+import org.openlegacy.annotations.screen.ScreenDescriptionField;
+import org.openlegacy.annotations.screen.ScreenDynamicField;
+import org.openlegacy.annotations.screen.ScreenField;
+import org.openlegacy.annotations.screen.ScreenFieldValues;
+import org.openlegacy.annotations.screen.ScreenIdentifiers;
+import org.openlegacy.annotations.screen.ScreenNavigation;
+import org.openlegacy.annotations.screen.ScreenNumericField;
+import org.openlegacy.annotations.screen.ScreenPart;
+import org.openlegacy.annotations.screen.ScreenTable;
+import org.openlegacy.annotations.screen.ScreenTableActions;
+import org.openlegacy.definitions.EnumGetValue;
+import org.openlegacy.designtime.generators.AnnotationConstants;
+import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
+import org.openlegacy.terminal.FieldAttributeType;
+import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.definitions.FieldAssignDefinition;
+import org.openlegacy.utils.StringUtil;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Ivan Bort
@@ -1975,11 +1979,10 @@ public class ScreenEntityBuilder extends AbstractEntityBuilder {
 			}
 		}
 	}
-	
-	
+
 	@SuppressWarnings("unchecked")
-	public void addRemoveScreenDynamicFieldAnnotation(AST ast, CompilationUnit cu, ASTRewrite rewriter,
-			FieldDeclaration field, List<ScreenDynamicFieldAction> actionList) {
+	public void addRemoveScreenDynamicFieldAnnotation(AST ast, CompilationUnit cu, ASTRewrite rewriter, FieldDeclaration field,
+			List<ScreenDynamicFieldAction> actionList) {
 
 		if (actionList.isEmpty()) {
 			return;
@@ -2037,5 +2040,102 @@ public class ScreenEntityBuilder extends AbstractEntityBuilder {
 			}
 		}
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	public void addFieldAnnotations(AST ast, CompilationUnit cu, ASTRewrite rewriter, ListRewrite listRewriter,
+			FieldDeclaration field, List<AbstractAction> list) {
+		for (AbstractAction action : list) {
+			if (!action.getAnnotationClass().equals(ScreenNumericField.class)) {
+				continue;
+			}
+			if (action.getActionType().equals(ActionType.ADD) && (action.getTarget() == ASTNode.NORMAL_ANNOTATION)
+					&& (action.getNamedObject() instanceof ScreenFieldModel)) {
+				// get field name
+				String fieldName = "";
+				List<VariableDeclarationFragment> fragments = field.fragments();
+				if (fragments.size() > 0) {
+					fieldName = fragments.get(0).getName().getFullyQualifiedName();
+				}
+				ScreenFieldModel model = (ScreenFieldModel)action.getNamedObject();
+				if (StringUtils.equals(model.getFieldName(), fieldName)) {
+
+					NormalAnnotation annotation = ast.newNormalAnnotation();
+					annotation.setTypeName(ast.newSimpleName(action.getAnnotationClass().getSimpleName()));
+					boolean isAnnotationExist = false;
+					// retrieve last annotation
+					List<IExtendedModifier> modifiers = field.modifiers();
+					for (IExtendedModifier modifier : modifiers) {
+						if (modifier.isAnnotation() && modifier instanceof Annotation) {
+							// check if annotation already exist
+							Annotation annotation2 = (Annotation)modifier;
+							if (StringUtils.equals(annotation2.getTypeName().getFullyQualifiedName(),
+									annotation.getTypeName().getFullyQualifiedName())) {
+								isAnnotationExist = true;
+								break;
+							}
+						}
+					}
+					if (!isAnnotationExist) {
+						VariableDeclarationFragment fragment = ast.newVariableDeclarationFragment();
+						fragment.setName(ast.newSimpleName(StringUtils.uncapitalize(fieldName)));
+						FieldDeclaration newField = ast.newFieldDeclaration(fragment);
+						if (((VariableDeclarationFragment)field.fragments().get(0)).getInitializer() != null) {
+							fragment.setInitializer((Expression)ASTNode.copySubtree(ast,
+									((VariableDeclarationFragment)field.fragments().get(0)).getInitializer()));
+						}
+						newField.setType((Type)ASTNode.copySubtree(ast, field.getType()));
+						newField.modifiers().add(annotation);
+						newField.modifiers().addAll(ASTNode.copySubtrees(ast, field.modifiers()));
+						listRewriter.replace(field, newField, null);
+						ASTUtils.addImport(ast, cu, rewriter, action.getAnnotationClass());
+						// if we are trying to add a few annotations at the same time we should replace new field in next
+						// iterations
+						field = newField;
+					}
+				}
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void removeFieldAnnotations(ListRewrite listRewriter, FieldDeclaration field, List<AbstractAction> list) {
+
+		for (AbstractAction action : list) {
+			if (!action.getAnnotationClass().equals(ScreenNumericField.class)) {
+				continue;
+			}
+			if (action.getActionType().equals(ActionType.REMOVE) && (action.getTarget() == ASTNode.NORMAL_ANNOTATION)
+					&& (action.getNamedObject() instanceof ScreenFieldModel)) {
+				// get field name
+				String fieldName = "";
+				List<VariableDeclarationFragment> fragments = field.fragments();
+				if (fragments.size() > 0) {
+					fieldName = fragments.get(0).getName().getFullyQualifiedName();
+				}
+				ScreenFieldModel model = (ScreenFieldModel)action.getNamedObject();
+				if (StringUtils.equals(model.getFieldName(), fieldName)) {
+					ListRewrite listRewrite = listRewriter.getASTRewrite().getListRewrite(field,
+							FieldDeclaration.MODIFIERS2_PROPERTY);
+					List<ASTNode> originalList = listRewrite.getOriginalList();
+					for (ASTNode node : originalList) {
+						if (node.getNodeType() == ASTNode.NORMAL_ANNOTATION) {
+							NormalAnnotation normalAnnotation = (NormalAnnotation)node;
+							if (StringUtils.equals(normalAnnotation.getTypeName().getFullyQualifiedName(),
+									action.getAnnotationClass().getSimpleName())) {
+								listRewrite.remove(node, null);
+								break;
+							}
+						} else if (node.getNodeType() == ASTNode.MARKER_ANNOTATION) {
+							MarkerAnnotation markerAnnotation = (MarkerAnnotation)node;
+							if (StringUtils.equals(markerAnnotation.getTypeName().getFullyQualifiedName(),
+									action.getAnnotationClass().getSimpleName())) {
+								listRewrite.remove(node, null);
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }

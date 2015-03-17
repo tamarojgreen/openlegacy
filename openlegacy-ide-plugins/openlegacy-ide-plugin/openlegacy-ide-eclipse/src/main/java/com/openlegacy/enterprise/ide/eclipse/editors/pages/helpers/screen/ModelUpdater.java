@@ -12,6 +12,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEnumFie
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldValuesModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenIdentifiersModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNavigationModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenPartModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenTableModel;
@@ -306,7 +307,7 @@ public class ModelUpdater {
 		}
 		ScreenEntityUtils.ActionGenerator.generateScreenDescriptionFieldActions(entity, model);
 	}
-	
+
 	public static void updateScreenDynamicFieldModel(ScreenEntity entity, ScreenFieldModel model, String key, String text) {
 		if (text != null) {
 			if (key.equals(Constants.DYNAMIC_TEXT)) {
@@ -595,4 +596,13 @@ public class ModelUpdater {
 		ScreenEntityUtils.ActionGenerator.generateTableActionActions(entity, model);
 	}
 
+	public static void updateScreenIntegerFieldModel(ScreenEntity entity, ScreenIntegerFieldModel model, String key, String text) {
+
+		if (text != null) {
+			if (key.equals(ScreenAnnotationConstants.NUMERIC_PATTERN)) {
+				model.setPattern(text.replaceAll("^[\\.,]|[\\.,]$", "").trim());
+			}
+		}
+		ScreenEntityUtils.ActionGenerator.generateScreenNumericFieldActions(entity, model);
+	}
 }

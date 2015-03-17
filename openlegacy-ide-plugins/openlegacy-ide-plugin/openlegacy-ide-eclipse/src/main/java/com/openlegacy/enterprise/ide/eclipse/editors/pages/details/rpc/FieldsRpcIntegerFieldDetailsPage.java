@@ -15,6 +15,9 @@ import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValida
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -84,9 +87,35 @@ public class FieldsRpcIntegerFieldDetailsPage extends AbstractRpcFieldDetailsPag
 
 		};
 		// create row for "decimalPlaces"
-		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
-				Messages.getString("rpc.field.integer.decimal.places.label"), 0, RpcAnnotationConstants.DECIMAL_PLACES,//$NON-NLS-1$
-				JAVA_DOCUMENTATION_TYPE.RPC, "RpcNumericField", RpcAnnotationConstants.DECIMAL_PLACES);//$NON-NLS-1$
+		FormRowCreator.createIntRow(
+				toolkit,
+				client,
+				mapTexts,
+				getDefaultModifyListener(),
+				getDefaultVerifyListener(),
+				Messages.getString("rpc.field.integer.decimal.places.label"), 0, RpcAnnotationConstants.DECIMAL_PLACES, JAVA_DOCUMENTATION_TYPE.RPC, "RpcNumericField");//$NON-NLS-1$
+
+		// create row for "pattern"
+		Text patternControl = FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("rpc.field.integer.pattern.label"), "", RpcAnnotationConstants.NUMERIC_PATTERN,
+				JAVA_DOCUMENTATION_TYPE.RPC, "RpcNumericField");
+
+		patternControl.addVerifyListener(new VerifyListener() {
+
+			@Override
+			public void verifyText(VerifyEvent event) {
+				if (updatingControls) {
+					return;
+				}
+
+				String widgetText = ((Text)event.widget).getText();
+				String newText = widgetText.substring(0, event.start) + event.character + widgetText.substring(event.start);
+				if (!newText.matches("^(?!\\.)(?!,)[#]*[\\.,]{0,1}[#]*$") && event.keyCode != SWT.BS && event.keyCode != SWT.DEL) {
+					event.doit = false;
+				}
+			}
+		});
+
 	}
 
 	/*

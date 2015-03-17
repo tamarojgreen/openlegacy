@@ -33,6 +33,7 @@
 	<script src="lib/jquery.cookie.js"></script>
 	<script src="js/app/app.js_ng" type="text/javascript"></script>
 	<script src="js/app/controllers.js_ng" type="text/javascript"></script>
+	<script src="js/app/directives.js" type="text/javascript"></script>
 	<script src="js/app/services.js" type="text/javascript"></script>
 	<script src="js/app/config.js" type="text/javascript"></script>
 	<!-- Include controller place-holder start

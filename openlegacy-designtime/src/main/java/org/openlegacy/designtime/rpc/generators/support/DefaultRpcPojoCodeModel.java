@@ -450,7 +450,7 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
 									RpcAnnotationConstants.RPC_NUMERIC_ANNOTATION)) {
-								field.setFieldTypeDefinition(AnnotationsParserUtils.loadNumericField(annotationExpr));
+								field.setFieldTypeDefinition(AnnotationsParserUtils.loadRpcNumericField(annotationExpr));
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
 									RpcAnnotationConstants.RPC_DATE_FIELD_ANNOTATION)) {

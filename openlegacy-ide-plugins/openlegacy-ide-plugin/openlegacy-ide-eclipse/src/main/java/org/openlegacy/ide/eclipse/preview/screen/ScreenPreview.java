@@ -31,6 +31,7 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
@@ -269,8 +270,11 @@ public class ScreenPreview extends AbstractEntityPreview {
 		File projectPath = null;
 		IEditorPart editor = getActiveEditor();
 		if (editor != null) {
-			FileEditorInput input = (FileEditorInput)getActiveEditor().getEditorInput();
-			projectPath = PathsUtil.toOsLocation(input.getFile().getProject());
+			IEditorInput editorInput = getActiveEditor().getEditorInput();
+			if (editorInput instanceof FileEditorInput) {
+				FileEditorInput input = (FileEditorInput)editorInput;
+				projectPath = PathsUtil.toOsLocation(input.getFile().getProject());
+			}
 		}
 		snapshotComposite = new SnapshotComposite(parent, projectPath);
 		snapshotComposite.setIsScalable(true);
@@ -322,7 +326,7 @@ public class ScreenPreview extends AbstractEntityPreview {
 		return lastActiveEditor;
 	}
 
-	public SelectedObject getSelectedObject(int row, int column){
+	public SelectedObject getSelectedObject(int row, int column) {
 		return snapshotComposite.getSelectedObject(row, column);
 	}
 

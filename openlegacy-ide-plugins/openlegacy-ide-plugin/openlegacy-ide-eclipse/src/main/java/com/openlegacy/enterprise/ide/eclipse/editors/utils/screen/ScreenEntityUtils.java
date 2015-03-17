@@ -16,6 +16,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenFieldA
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenFieldValuesAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenIdentifiersAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenNavigationAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenNumericFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenPartAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenPartRemoveAspectAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.screen.ScreenTableAction;
@@ -1091,6 +1092,37 @@ public class ScreenEntityUtils {
 					| ASTNode.MEMBER_VALUE_PAIR, ScreenAnnotationConstants.WHEN, model.getWhen());
 		}
 
+		/**
+		 * @param entity
+		 * @param model
+		 */
+		public static void generateScreenNumericFieldActions(ScreenEntity entity, ScreenIntegerFieldModel model,
+				boolean checkPrevious) {
+			boolean isPrevious = false;
+			boolean isDefault = true;
+			ScreenIntegerFieldModel entityModel = (ScreenIntegerFieldModel)entity.getFields().get(model.getUUID());
+			if (entityModel == null) {
+				entityModel = (ScreenIntegerFieldModel)entity.getParts().get(model.getParent().getUUID()).getFields().get(
+						model.getUUID());
+			}
+			// @ScreenDateField.pattern: default "#"
+			if (checkPrevious) {
+				isPrevious = entityModel.getPattern().equals(model.getPattern());
+			}
+			isDefault = model.getPattern().equals("#");
+			if ((entityModel != model) && !model.isAttrsHasDefaultValues()) {
+				entity.addAction(new ScreenNumericFieldAction(model.getUUID(), model, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
+						ScreenAnnotationConstants.SCREEN_NUMERIC_FIELD_ANNOTATION, null));
+			}
+
+			if (!entityModel.isAttrsHasDefaultValues() && model.isAttrsHasDefaultValues()) {
+				entity.addAction(new ScreenNumericFieldAction(model.getUUID(), model, ActionType.REMOVE,
+						ASTNode.NORMAL_ANNOTATION, ScreenAnnotationConstants.SCREEN_NUMERIC_FIELD_ANNOTATION, null));
+			}
+			PrivateMethods.addRemoveScreenNumericFieldAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, ScreenAnnotationConstants.NUMERIC_PATTERN, model.getPattern());
+		}
+
 		public static void generateScreenBooleanFieldActions(ScreenEntity entity, ScreenBooleanFieldModel model) {
 			generateScreenBooleanFieldActions(entity, model, true);
 		}
@@ -1121,6 +1153,10 @@ public class ScreenEntityUtils {
 
 		public static void generateScreenColumnActions(ScreenEntity entity, ScreenColumnModel model) {
 			generateScreenColumnActions(entity, model, true);
+		}
+
+		public static void generateScreenNumericFieldActions(ScreenEntity entity, ScreenIntegerFieldModel model) {
+			generateScreenNumericFieldActions(entity, model, true);
 		}
 	}
 
@@ -1307,6 +1343,17 @@ public class ScreenEntityUtils {
 				entity.addAction(new TableActionAction(model.getUUID(), model, ActionType.MODIFY, target, key, value));
 			} else if (!isPrevious && isDefault) {
 				entity.addAction(new TableActionAction(model.getUUID(), model, ActionType.REMOVE, target, key, null));
+			} else {
+				entity.removeAction(model.getUUID(), key);
+			}
+		}
+
+		private static void addRemoveScreenNumericFieldAction(ScreenEntity entity, ScreenIntegerFieldModel model,
+				boolean isPrevious, boolean isDefault, int target, String key, Object value) {
+			if (!isPrevious && !isDefault) {
+				entity.addAction(new ScreenNumericFieldAction(model.getUUID(), model, ActionType.MODIFY, target, key, value));
+			} else if (!isPrevious && isDefault) {
+				entity.addAction(new ScreenNumericFieldAction(model.getUUID(), model, ActionType.REMOVE, target, key, null));
 			} else {
 				entity.removeAction(model.getUUID(), key);
 			}

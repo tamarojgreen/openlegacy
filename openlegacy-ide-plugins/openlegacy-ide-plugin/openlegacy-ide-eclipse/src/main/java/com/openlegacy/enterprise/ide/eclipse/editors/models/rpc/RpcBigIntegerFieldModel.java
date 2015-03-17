@@ -32,6 +32,7 @@ public class RpcBigIntegerFieldModel extends RpcIntegerFieldModel {
 		model.setMinimumValue(this.getMinimumValue());
 		model.setMaximumValue(this.getMaximumValue());
 		model.setDecimalPlaces(this.getDecimalPlaces());
+		model.setPattern(this.getPattern());
 		return model;
 	}
 

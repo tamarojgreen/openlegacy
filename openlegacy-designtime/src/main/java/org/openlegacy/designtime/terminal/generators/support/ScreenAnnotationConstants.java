@@ -23,44 +23,30 @@ import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenFieldValues;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
+import org.openlegacy.annotations.screen.ScreenNumericField;
 import org.openlegacy.annotations.screen.ScreenPart;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.annotations.screen.ScreenTableActions;
 
 public class ScreenAnnotationConstants {
 
-	public static final String SCREEN_ENTITY_ANNOTATION = ScreenEntity.class
-			.getSimpleName();
-	public static final String SCREEN_ENTITY_SUPER_CLASS_ANNOTATION = ScreenEntitySuperClass.class
-			.getSimpleName();
-	public static final String SCREEN_PART_ANNOTATION = ScreenPart.class
-			.getSimpleName();
-	public static final String SCREEN_TABLE_ANNOTATION = ScreenTable.class
-			.getSimpleName();
-	public static final String SCREEN_COLUMN_ANNOTATION = ScreenColumn.class
-			.getSimpleName();
-	public static final String SCREEN_FIELD_ANNOTATION = ScreenField.class
-			.getSimpleName();
-	public static final String SCREEN_ACTIONS_ANNOTATION = ScreenActions.class
-			.getSimpleName();
-	public static final String SCREEN_FIELD_VALUES_ANNOTATION = ScreenFieldValues.class
-			.getSimpleName();
-	public static final String SCREEN_BOOLEAN_FIELD_ANNOTATION = ScreenBooleanField.class
-			.getSimpleName();
-	public static final String SCREEN_DATE_FIELD_ANNOTATION = ScreenDateField.class
-			.getSimpleName();
-	public static final String SCREEN_DESCRIPTION_FIELD_ANNOTATION = ScreenDescriptionField.class
-			.getSimpleName();
-	public static final String SCREEN_DYNAMIC_FIELD_ANNOTATION = ScreenDynamicField.class
-			.getSimpleName();
-	public static final String SCREEN_TABLE_ACTIONS_ANNOTATION = ScreenTableActions.class
-			.getSimpleName();
-	public static final String SCREEN_NAVIGATION_ANNOTATION = ScreenNavigation.class
-			.getSimpleName();
-	public static final String SCREEN_IDENTIFIERS_ANNOTATION = ScreenIdentifiers.class
-			.getSimpleName();
-	public static final String PART_POSITION_ANNOTATION = PartPosition.class
-			.getSimpleName();
+	public static final String SCREEN_ENTITY_ANNOTATION = ScreenEntity.class.getSimpleName();
+	public static final String SCREEN_ENTITY_SUPER_CLASS_ANNOTATION = ScreenEntitySuperClass.class.getSimpleName();
+	public static final String SCREEN_PART_ANNOTATION = ScreenPart.class.getSimpleName();
+	public static final String SCREEN_TABLE_ANNOTATION = ScreenTable.class.getSimpleName();
+	public static final String SCREEN_COLUMN_ANNOTATION = ScreenColumn.class.getSimpleName();
+	public static final String SCREEN_FIELD_ANNOTATION = ScreenField.class.getSimpleName();
+	public static final String SCREEN_ACTIONS_ANNOTATION = ScreenActions.class.getSimpleName();
+	public static final String SCREEN_FIELD_VALUES_ANNOTATION = ScreenFieldValues.class.getSimpleName();
+	public static final String SCREEN_BOOLEAN_FIELD_ANNOTATION = ScreenBooleanField.class.getSimpleName();
+	public static final String SCREEN_DATE_FIELD_ANNOTATION = ScreenDateField.class.getSimpleName();
+	public static final String SCREEN_DESCRIPTION_FIELD_ANNOTATION = ScreenDescriptionField.class.getSimpleName();
+	public static final String SCREEN_DYNAMIC_FIELD_ANNOTATION = ScreenDynamicField.class.getSimpleName();
+	public static final String SCREEN_TABLE_ACTIONS_ANNOTATION = ScreenTableActions.class.getSimpleName();
+	public static final String SCREEN_NAVIGATION_ANNOTATION = ScreenNavigation.class.getSimpleName();
+	public static final String SCREEN_IDENTIFIERS_ANNOTATION = ScreenIdentifiers.class.getSimpleName();
+	public static final String PART_POSITION_ANNOTATION = PartPosition.class.getSimpleName();
+	public static final String SCREEN_NUMERIC_FIELD_ANNOTATION = ScreenNumericField.class.getSimpleName();
 
 	public static final String SUPPORT_TERMINAL_DATA = "supportTerminalData";
 	public static final String ROW = "row";
@@ -130,6 +116,7 @@ public class ScreenAnnotationConstants {
 	public static final String TABLE_KEY = "tableKey";
 	public static final String FORCE_UPDATE = "forceUpdate";
 	public static final String EXPRESSION = "expression";
+	public static final String NUMERIC_PATTERN = "pattern";
 
 	// @ScreenIdentifiers
 	public static final String IDENTIFIERS = "identifiers";

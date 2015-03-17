@@ -287,7 +287,11 @@ public abstract class AbstractRpcFieldDetailsPage extends AbstractRpcDetailsPage
 					targetUUID = entity.getEntityModel().getUUID();
 				}
 
-				currentField = targetParentList.get(targetParentList.indexOf(currentField));
+				int currentFieldIdx = targetParentList.indexOf(currentField);
+				if (currentFieldIdx == -1) {
+					return;
+				}
+				currentField = targetParentList.get(currentFieldIdx);
 
 				for (int i = 0; i < targetParentList.size(); i++) {
 					if (targetParentList.get(i).getOrder() == 0) {
