@@ -93,18 +93,12 @@ public abstract class AbstractRpcFieldDetailsPage extends AbstractRpcDetailsPage
 		// create empty row
 		FormRowCreator.createSpacer(toolkit, client, 2);
 		// create row for displaying java type name
-		FormRowCreator.createLabelRow(
-				toolkit,
-				client,
-				mapLabels,
-				Messages.getString("rpc.field.java.type.label"), "", Constants.JAVA_TYPE_NAME, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ //$NON-NLS-2$
+		FormRowCreator.createLabelRow(toolkit, client, mapLabels, Messages.getString("rpc.field.java.type.label"), "",//$NON-NLS-1$ //$NON-NLS-2$
+				Constants.JAVA_TYPE_NAME, JAVA_DOCUMENTATION_TYPE.JAVA_BASICS, "datatypes", "");//$NON-NLS-1$ //$NON-NLS-2$
 		// create row for "fieldName"
-		Text fieldNameControl = FormRowCreator.createStringRow(
-				toolkit,
-				client,
-				mapTexts,
-				getDefaultModifyListener(),
-				Messages.getString("rpc.field.field.name.label"), "", Constants.FIELD_NAME, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ //$NON-NLS-2$
+		Text fieldNameControl = FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("rpc.field.field.name.label"), "", Constants.FIELD_NAME, JAVA_DOCUMENTATION_TYPE.JAVA_BASICS,//$NON-NLS-1$ //$NON-NLS-2$
+				"variables", "naming");//$NON-NLS-1$ //$NON-NLS-2$
 		fieldNameValidator = new TextValidator(master, managedForm, fieldNameControl, null) {
 
 			@Override
@@ -119,27 +113,17 @@ public abstract class AbstractRpcFieldDetailsPage extends AbstractRpcDetailsPage
 		};
 
 		// "originalName"
-		FormRowCreator.createStringRow(
-				toolkit,
-				client,
-				mapTexts,
-				getDefaultModifyListener(),
-				Messages.getString("rpc.field.original.name.label"), "", RpcAnnotationConstants.ORIGINAL_NAME, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ //$NON-NLS-2$
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("rpc.field.original.name.label"), "", RpcAnnotationConstants.ORIGINAL_NAME,//$NON-NLS-1$ //$NON-NLS-2$
+				JAVA_DOCUMENTATION_TYPE.RPC, "RpcField", RpcAnnotationConstants.ORIGINAL_NAME);//$NON-NLS-1$
 		// "displayName"
-		FormRowCreator.createStringRow(
-				toolkit,
-				client,
-				mapTexts,
-				getDefaultModifyListener(),
-				Messages.getString("rpc.field.display.name.label"), "", AnnotationConstants.DISPLAY_NAME, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ //$NON-NLS-2$
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("rpc.field.display.name.label"), "", AnnotationConstants.DISPLAY_NAME,//$NON-NLS-1$ //$NON-NLS-2$
+				JAVA_DOCUMENTATION_TYPE.RPC, "RpcField", RpcAnnotationConstants.DISPLAY_NAME);//$NON-NLS-1$
 		// "int length"
-		Text lengthControl = FormRowCreator.createIntRow(
-				toolkit,
-				client,
-				mapTexts,
-				getDefaultModifyListener(),
-				getDefaultVerifyListener(),
-				Messages.getString("rpc.field.length.label"), 0, AnnotationConstants.LENGTH, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ 
+		Text lengthControl = FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				getDefaultVerifyListener(), Messages.getString("rpc.field.length.label"), 0, AnnotationConstants.LENGTH,//$NON-NLS-1$
+				JAVA_DOCUMENTATION_TYPE.RPC, "RpcField", AnnotationConstants.LENGTH);//$NON-NLS-1$
 		lengthValidator = new TextValidator(master, managedForm, lengthControl, null) {
 
 			@Override
@@ -154,67 +138,42 @@ public abstract class AbstractRpcFieldDetailsPage extends AbstractRpcDetailsPage
 
 		};
 		// "key"
-		FormRowCreator.createBooleanRow(
-				toolkit,
-				client,
-				mapCheckBoxes,
-				getDefaultSelectionListener(),
-				Messages.getString("rpc.field.key.label"), false, AnnotationConstants.KEY, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("rpc.field.key.label"), false, AnnotationConstants.KEY, JAVA_DOCUMENTATION_TYPE.RPC,//$NON-NLS-1$
+				"RpcField", AnnotationConstants.KEY);//$NON-NLS-1$
 		// "editable"
-		FormRowCreator.createBooleanRow(
-				toolkit,
-				client,
-				mapCheckBoxes,
-				getDefaultSelectionListener(),
-				Messages.getString("rpc.field.editable.label"), false, AnnotationConstants.EDITABLE, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("rpc.field.editable.label"), false, AnnotationConstants.EDITABLE, JAVA_DOCUMENTATION_TYPE.RPC,//$NON-NLS-1$
+				"RpcField", AnnotationConstants.EDITABLE);//$NON-NLS-1$
 		// "Direction direction"
-		FormRowCreator.createComboBoxRow(
-				toolkit,
-				client,
-				mapCombos,
-				getDefaultModifyListener(),
-				getDefaultComboBoxKeyListener(),
-				Messages.getString("rpc.field.direction.label"), getDirectionItems(), 0, RpcAnnotationConstants.DIRECTION, false, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$
+		FormRowCreator.createComboBoxRow(toolkit, client, mapCombos, getDefaultModifyListener(), getDefaultComboBoxKeyListener(),
+				Messages.getString("rpc.field.direction.label"), getDirectionItems(), 0, RpcAnnotationConstants.DIRECTION, false,//$NON-NLS-1$
+				JAVA_DOCUMENTATION_TYPE.RPC, "RpcField", RpcAnnotationConstants.DIRECTION);//$NON-NLS-1$
 		// "Class<? extends FieldType> fieldType"
 		FormRowCreator.createComboBoxRowWithBrowseButton(toolkit, client, mapCombos, getDefaultModifyListener(),
 				getDefaultComboBoxKeyListener(), Messages.getString("rpc.field.field.type.label"), getFieldTypes(), 0,//$NON-NLS-1$
-				AnnotationConstants.FIELD_TYPE, new FieldTypeViewerFilter(), JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");
+				AnnotationConstants.FIELD_TYPE, new FieldTypeViewerFilter(), JAVA_DOCUMENTATION_TYPE.RPC, "RpcField",//$NON-NLS-1$
+				AnnotationConstants.FIELD_TYPE);
 		// "String sampleValue"
-		FormRowCreator.createStringRow(
-				toolkit,
-				client,
-				mapTexts,
-				getDefaultModifyListener(),
-				Messages.getString("rpc.field.sample.value.label"), "", AnnotationConstants.SAMPLE_VALUE, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ //$NON-NLS-2$
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("rpc.field.sample.value.label"), "", AnnotationConstants.SAMPLE_VALUE,//$NON-NLS-1$ //$NON-NLS-2$
+				JAVA_DOCUMENTATION_TYPE.RPC, "RpcField", AnnotationConstants.SAMPLE_VALUE);//$NON-NLS-1$
 		// "String helpText"
-		FormRowCreator.createStringRow(
-				toolkit,
-				client,
-				mapTexts,
-				getDefaultModifyListener(),
-				Messages.getString("rpc.field.help.text.label"), "", AnnotationConstants.HELP_TEXT, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ //$NON-NLS-2$
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("rpc.field.help.text.label"), "", AnnotationConstants.HELP_TEXT, JAVA_DOCUMENTATION_TYPE.RPC,//$NON-NLS-1$ //$NON-NLS-2$
+				"RpcField", AnnotationConstants.HELP_TEXT);//$NON-NLS-1$
 		// "String defaultValue"
-		FormRowCreator.createStringRow(
-				toolkit,
-				client,
-				mapTexts,
-				getDefaultModifyListener(),
-				Messages.getString("rpc.field.default.value.label"), "", RpcAnnotationConstants.DEFAULT_VALUE, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ //$NON-NLS-2$
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("rpc.field.default.value.label"), "", RpcAnnotationConstants.DEFAULT_VALUE,//$NON-NLS-1$ //$NON-NLS-2$
+				JAVA_DOCUMENTATION_TYPE.RPC, "RpcField", RpcAnnotationConstants.DEFAULT_VALUE);//$NON-NLS-1$
 		// "String expression"
-		FormRowCreator.createStringRow(
-				toolkit,
-				client,
-				mapTexts,
-				getDefaultModifyListener(),
-				Messages.getString("rpc.field.expression"), "", RpcAnnotationConstants.EXPRESSION, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ //$NON-NLS-2$
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("rpc.field.expression"), "", RpcAnnotationConstants.EXPRESSION, JAVA_DOCUMENTATION_TYPE.RPC,//$NON-NLS-1$ //$NON-NLS-2$
+				"RpcField", RpcAnnotationConstants.EXPRESSION);//$NON-NLS-1$
 		// int "Order"
-		Text orderControl = FormRowCreator.createIntRow(
-				toolkit,
-				client,
-				mapTexts,
-				getOrderListener(),
-				getDefaultVerifyListener(),
-				Messages.getString("rpc.field.order.label"), 0, RpcAnnotationConstants.ORDER, JAVA_DOCUMENTATION_TYPE.RPC, "RpcField");//$NON-NLS-1$ //$NON-NLS-2$
+		Text orderControl = FormRowCreator.createIntRow(toolkit, client, mapTexts, getOrderListener(),
+				getDefaultVerifyListener(), Messages.getString("rpc.field.order.label"), 0, RpcAnnotationConstants.ORDER,//$NON-NLS-1$
+				JAVA_DOCUMENTATION_TYPE.RPC, "RpcField", RpcAnnotationConstants.ORDER);//$NON-NLS-1$
 		orderValidator = new TextValidator(master, managedForm, orderControl, null) {
 
 			@Override

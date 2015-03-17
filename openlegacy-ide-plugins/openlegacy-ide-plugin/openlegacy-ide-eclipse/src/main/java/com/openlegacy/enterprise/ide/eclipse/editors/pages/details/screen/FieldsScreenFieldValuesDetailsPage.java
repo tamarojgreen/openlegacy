@@ -1,10 +1,18 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.screen;
 
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.Messages;
+import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.ProviderViewerFilter;
+import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.TerminalActionViewerFilter;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldValuesModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ControlsUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ModelUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
@@ -25,19 +33,11 @@ import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationCon
 import org.openlegacy.ide.eclipse.Activator;
 import org.openlegacy.terminal.actions.TerminalActions;
 
-import com.openlegacy.enterprise.ide.eclipse.Constants;
-import com.openlegacy.enterprise.ide.eclipse.Messages;
-import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.ProviderViewerFilter;
-import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.TerminalActionViewerFilter;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldValuesModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ControlsUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ModelUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author Ivan Bort
@@ -96,7 +96,8 @@ public class FieldsScreenFieldValuesDetailsPage extends AbstractScreenFieldDetai
 		// create row for 'sourceScreenEntity'
 		Text sourceControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts,
 				getDefaultModifyListener(), Messages.getString("ScreenFieldValues.source"), " ",//$NON-NLS-1$ //$NON-NLS-2$
-				ScreenAnnotationConstants.SOURCE_SCREEN_ENTITY, null, JAVA_DOCUMENTATION_TYPE.SCREEN, " ScreenFieldValues");
+				ScreenAnnotationConstants.SOURCE_SCREEN_ENTITY, null, JAVA_DOCUMENTATION_TYPE.SCREEN, " ScreenFieldValues",//$NON-NLS-1$
+				ScreenAnnotationConstants.SOURCE_SCREEN_ENTITY);
 		sourceValidator = new TextValidator(master, managedForm, sourceControl, null) {
 
 			@Override
@@ -112,25 +113,31 @@ public class FieldsScreenFieldValuesDetailsPage extends AbstractScreenFieldDetai
 		};
 		// create row for 'colleactAll'
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("ScreenFieldValues.collectAll"), false, ScreenAnnotationConstants.COLLECT_ALL, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenFieldValues");//$NON-NLS-1$ 
+				Messages.getString("ScreenFieldValues.collectAll"), false, ScreenAnnotationConstants.COLLECT_ALL,//$NON-NLS-1$
+				JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenFieldValues", ScreenAnnotationConstants.COLLECT_ALL);//$NON-NLS-1$
 		// create row for 'provider'
 		FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreemFieldValues.provider"), "", AnnotationConstants.PROVIDER, new ProviderViewerFilter(), JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenFieldValues");//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("ScreemFieldValues.provider"), "", AnnotationConstants.PROVIDER, new ProviderViewerFilter(),//$NON-NLS-1$ //$NON-NLS-2$
+				JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenFieldValues", AnnotationConstants.PROVIDER);//$NON-NLS-1$
 		// create row for 'asWindow'
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("ScreenFieldValues.asWindow"), false, ScreenAnnotationConstants.AS_WINDOW, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenFieldValues");//$NON-NLS-1$
+				Messages.getString("ScreenFieldValues.asWindow"), false, ScreenAnnotationConstants.AS_WINDOW,//$NON-NLS-1$
+				JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenFieldValues", ScreenAnnotationConstants.AS_WINDOW);//$NON-NLS-1$
 		// create row for 'autoSubmitAction'
 		autoSubmitActionCombo = FormRowCreator.createComboBoxRowWithBrowseButton(toolkit, client, mapCombos,
 				getDefaultModifyListener(), getDefaultComboBoxKeyListener(),
-				Messages.getString("ScreenFieldValues.autoSubmitAction"), getTerminalActions(),//$NON-NLS-1$
-				0, ScreenAnnotationConstants.AUTO_SUBMIT_ACTION, new TerminalActionViewerFilter(), true,
-				getAutoSubmitActionClearListener(), JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenFieldValues");
+				Messages.getString("ScreenFieldValues.autoSubmitAction"), getTerminalActions(), 0,//$NON-NLS-1$
+				ScreenAnnotationConstants.AUTO_SUBMIT_ACTION, new TerminalActionViewerFilter(), true,
+				getAutoSubmitActionClearListener(), JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenFieldValues",//$NON-NLS-1$
+				ScreenAnnotationConstants.AUTO_SUBMIT_ACTION);
 		// create row for 'displayFieldName'
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenFieldValues.displayFieldName"), "", ScreenAnnotationConstants.DISPLAY_FIELD_NAME, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenFieldValues");//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("ScreenFieldValues.displayFieldName"), "", ScreenAnnotationConstants.DISPLAY_FIELD_NAME,//$NON-NLS-1$ //$NON-NLS-2$
+				JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenFieldValues", ScreenAnnotationConstants.DISPLAY_FIELD_NAME);//$NON-NLS-1$
 		// create row for 'searchField'
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenFieldValues.searchField"), "", ScreenAnnotationConstants.SEARCH_FIELD, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenFieldValues");//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("ScreenFieldValues.searchField"), "", ScreenAnnotationConstants.SEARCH_FIELD,//$NON-NLS-1$ //$NON-NLS-2$
+				JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenFieldValues", ScreenAnnotationConstants.SEARCH_FIELD);//$NON-NLS-1$
 		// create description section
 		addScreenDecriptionFieldSection(toolkit, client);
 		addScreenDyamicFieldSection(toolkit, client);

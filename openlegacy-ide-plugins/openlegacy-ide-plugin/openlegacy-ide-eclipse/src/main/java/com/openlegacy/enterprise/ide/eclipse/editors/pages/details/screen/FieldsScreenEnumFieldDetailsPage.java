@@ -69,7 +69,8 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 	protected void addContent(FormToolkit toolkit, Composite client) {
 		// create row for selecting Enum type
 		Text enumControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenEnumField.enum"), "", Constants.JAVA_TYPE, null, IJavaSearchConstants.ENUM, false, null, JAVA_DOCUMENTATION_TYPE.SCREEN, "");//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("ScreenEnumField.enum"), "", Constants.JAVA_TYPE, null, IJavaSearchConstants.ENUM, false,//$NON-NLS-1$ //$NON-NLS-2$
+				null, JAVA_DOCUMENTATION_TYPE.JAVA_BASICS, "datatypes", "");//$NON-NLS-1$ //$NON-NLS-2$
 
 		enumControl.addModifyListener(getEnumModifyListener());
 
@@ -78,7 +79,7 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 		createEnumValuesSection(toolkit, client);
 
 		addScreenDyamicFieldSection(toolkit, client);
-		
+
 	}
 
 	@Override
@@ -286,17 +287,17 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 			}
 		};
 	}
-	
-	private int getSeedForNewEnumEntry(){
+
+	private int getSeedForNewEnumEntry() {
 		int seed = 1;
 		List<EnumEntryModel> entries = fieldModel.getEntries();
-		if (entries.isEmpty()){
+		if (entries.isEmpty()) {
 			return seed;
 		}
 		Pattern p = Pattern.compile(fieldModel.getFieldName() + "(\\d+)$");
 		for (EnumEntryModel enumEntryModel : entries) {
 			Matcher matcher = p.matcher(enumEntryModel.getName());
-			if (matcher.find()){
+			if (matcher.find()) {
 				String stringSeed = matcher.group(1);
 				if (Integer.parseInt(stringSeed) > seed) {
 					seed = Integer.parseInt(stringSeed);

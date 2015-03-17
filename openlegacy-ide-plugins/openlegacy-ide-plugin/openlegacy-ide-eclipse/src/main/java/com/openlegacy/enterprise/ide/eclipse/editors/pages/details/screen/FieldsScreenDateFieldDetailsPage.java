@@ -42,24 +42,21 @@ public class FieldsScreenDateFieldDetailsPage extends AbstractScreenFieldDetails
 
 		// create row for "yearColumn"
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
-				Messages.getString("ScreenDateField.yearColumn"),//$NON-NLS-1$
-				0, AnnotationConstants.YEAR_COLUMN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDateField");
+				Messages.getString("ScreenDateField.yearColumn"), 0, AnnotationConstants.YEAR_COLUMN,//$NON-NLS-1$
+				JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDateField", AnnotationConstants.YEAR_COLUMN);//$NON-NLS-1$
 
 		// create row for "monthColumn"
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
-				Messages.getString("ScreenDateField.monthColumn"),//$NON-NLS-1$
-				0, AnnotationConstants.MONTH_COLUMN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDateField");
+				Messages.getString("ScreenDateField.monthColumn"), 0, AnnotationConstants.MONTH_COLUMN,//$NON-NLS-1$
+				JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDateField", AnnotationConstants.MONTH_COLUMN);//$NON-NLS-1$
 		// create row for "dayColumn"
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
-				Messages.getString("ScreenDateField.dayColumn"),//$NON-NLS-1$
-				0, AnnotationConstants.DAY_COLUMN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDateField");
+				Messages.getString("ScreenDateField.dayColumn"), 0, AnnotationConstants.DAY_COLUMN,//$NON-NLS-1$
+				JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDateField", AnnotationConstants.DAY_COLUMN);//$NON-NLS-1$
 		// create row for "patter"
-		FormRowCreator.createStringRow(
-				toolkit,
-				client,
-				mapTexts,
-				getDefaultModifyListener(),
-				Messages.getString("ScreenDateField.pattern"), "", AnnotationConstants.PATTERN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenDateField");//$NON-NLS-1$ $NON-NLS-2$
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("ScreenDateField.pattern"), "", AnnotationConstants.PATTERN, JAVA_DOCUMENTATION_TYPE.SCREEN,//$NON-NLS-1$ //$NON-NLS-2$
+				"ScreenDateField", AnnotationConstants.PATTERN);//$NON-NLS-1$
 		// create description section
 		addScreenDecriptionFieldSection(toolkit, client);
 		addScreenDyamicFieldSection(toolkit, client);

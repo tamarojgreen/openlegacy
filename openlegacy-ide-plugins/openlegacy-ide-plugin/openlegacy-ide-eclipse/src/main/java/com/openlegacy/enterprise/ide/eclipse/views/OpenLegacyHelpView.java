@@ -22,16 +22,17 @@ public class OpenLegacyHelpView extends ViewPart {
 		browser.setUrl("http://files.openlegacy.org/javadoc/org/openlegacy/annotations/screen/ScreenEntity.html#displayName()");
 		browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 	}
-	
+
 	public void setUrl(String url) {
+		browser.stop();
 		browser.setUrl(url);
-		browser.refresh();
+		// browser.refresh();
 	}
 
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

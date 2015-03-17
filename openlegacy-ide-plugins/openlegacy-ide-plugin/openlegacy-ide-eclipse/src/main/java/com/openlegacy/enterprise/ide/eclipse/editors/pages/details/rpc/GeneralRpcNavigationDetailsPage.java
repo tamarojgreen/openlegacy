@@ -1,8 +1,13 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc;
 
-import java.net.MalformedURLException;
-import java.util.Map;
-import java.util.UUID;
+import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.Messages;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcNavigationModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ControlsUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ModelUpdater;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -15,14 +20,9 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
 
-import com.openlegacy.enterprise.ide.eclipse.Constants;
-import com.openlegacy.enterprise.ide.eclipse.Messages;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcNavigationModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ControlsUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ModelUpdater;
+import java.net.MalformedURLException;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author Ivan Bort
@@ -83,7 +83,8 @@ public class GeneralRpcNavigationDetailsPage extends AbstractRpcDetailsPage {
 		FormRowCreator.createSpacer(toolkit, client, 2);
 		// create row for "category"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("rpc.navigation.category"), "", RpcAnnotationConstants.CATEGORY, JAVA_DOCUMENTATION_TYPE.RPC, "RpcNavigation");//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("rpc.navigation.category"), "", RpcAnnotationConstants.CATEGORY, JAVA_DOCUMENTATION_TYPE.RPC,//$NON-NLS-1$ //$NON-NLS-2$
+				"RpcNavigation", RpcAnnotationConstants.CATEGORY);//$NON-NLS-1$
 
 		toolkit.paintBordersFor(section);
 		section.setClient(client);

@@ -38,8 +38,8 @@ public class FieldsJpaStringFieldDetailsPage extends AbstractJpaFieldDetailsPage
 	@Override
 	protected void addTopContent(FormToolkit toolkit, Composite client) {
 		// create row for displaying java type name
-		FormRowCreator.createLabelRow(toolkit, client, mapLabels,
-				Messages.getString("jpa.field.java.type"), "", Constants.JAVA_TYPE_NAME, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		FormRowCreator.createLabelRow(toolkit, client, mapLabels, Messages.getString("jpa.field.java.type"), "",//$NON-NLS-1$ //$NON-NLS-2$
+				Constants.JAVA_TYPE_NAME, JAVA_DOCUMENTATION_TYPE.JAVA_BASICS, "datatypes", "");//$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	@Override

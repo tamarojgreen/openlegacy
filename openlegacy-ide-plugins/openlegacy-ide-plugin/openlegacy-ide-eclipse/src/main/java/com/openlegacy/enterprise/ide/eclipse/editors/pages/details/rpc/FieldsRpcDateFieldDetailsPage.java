@@ -47,7 +47,8 @@ public class FieldsRpcDateFieldDetailsPage extends AbstractRpcFieldDetailsPage {
 	protected void addContent(FormToolkit toolkit, Composite client) {
 		// create row for "pattern"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("rpc.field.pattern"), "", AnnotationConstants.PATTERN, JAVA_DOCUMENTATION_TYPE.RPC, "RpcDateField");//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("rpc.field.pattern"), "", AnnotationConstants.PATTERN, JAVA_DOCUMENTATION_TYPE.RPC,//$NON-NLS-1$ //$NON-NLS-2$
+				"RpcDateField", AnnotationConstants.PATTERN);//$NON-NLS-1$
 
 	}
 

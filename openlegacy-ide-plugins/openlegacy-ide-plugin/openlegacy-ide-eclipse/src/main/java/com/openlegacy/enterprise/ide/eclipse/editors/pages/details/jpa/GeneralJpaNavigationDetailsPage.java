@@ -84,7 +84,7 @@ public class GeneralJpaNavigationDetailsPage extends AbstractJpaDetailsPage {
 		// create row for "catalog"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("jpa.navigation.category"), "", DbAnnotationConstants.CATEGORY, JAVA_DOCUMENTATION_TYPE.DB,//$NON-NLS-1$ //$NON-NLS-2$
-				"DbNavigation");//$NON-NLS-1$
+				"DbNavigation", DbAnnotationConstants.CATEGORY);//$NON-NLS-1$
 
 		toolkit.paintBordersFor(section);
 		section.setClient(client);

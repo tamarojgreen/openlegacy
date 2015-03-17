@@ -88,7 +88,8 @@ public abstract class AbstractJpaFieldDetailsPage extends AbstractJpaDetailsPage
 
 		// create row for "fieldName"
 		Text fieldNameControl = FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.field.field.name"), "", Constants.FIELD_NAME, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.field.field.name"), "", Constants.FIELD_NAME, JAVA_DOCUMENTATION_TYPE.JAVA_BASICS,//$NON-NLS-1$ //$NON-NLS-2$
+				"variables", "naming");//$NON-NLS-1$ //$NON-NLS-2$
 		fieldNameValidator = new TextValidator(master, managedForm, fieldNameControl, null) {
 
 			@Override
@@ -104,124 +105,85 @@ public abstract class AbstractJpaFieldDetailsPage extends AbstractJpaDetailsPage
 		// create row for "key"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getIsKeySelectionListener(),
 				Messages.getString("jpa.field.key"), false, DbAnnotationConstants.DB_ID_ANNOTATION, JAVA_DOCUMENTATION_TYPE.JPA,//$NON-NLS-1$
-				"Column");//$NON-NLS-1$
+				"Id", "");//$NON-NLS-1$ //$NON-NLS-2$
 		autoGeneretedKeyControl = FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("jpa.field.generated.value"), false,//$NON-NLS-1$
-				DbAnnotationConstants.DB_GENERATED_VALUE_ANNOTATION, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$
+				Messages.getString("jpa.field.generated.value"), false, DbAnnotationConstants.DB_GENERATED_VALUE_ANNOTATION,//$NON-NLS-1$
+				JAVA_DOCUMENTATION_TYPE.JPA, "GeneratedValue", "");//$NON-NLS-1$ //$NON-NLS-2$
 		autoGeneretedKeyControl.setEnabled(false);
 		// create row for "name"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.field.name"), "", DbAnnotationConstants.NAME, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.field.name"), "", DbAnnotationConstants.NAME, JAVA_DOCUMENTATION_TYPE.JPA, "Column",//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				DbAnnotationConstants.NAME);
 		// create row for "unique"
-		FormRowCreator.createBooleanRow(
-				toolkit,
-				client,
-				mapCheckBoxes,
-				getDefaultSelectionListener(),
-				Messages.getString("jpa.field.unique"), false, DbAnnotationConstants.UNIQUE, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("jpa.field.unique"), false, DbAnnotationConstants.UNIQUE, JAVA_DOCUMENTATION_TYPE.JPA,//$NON-NLS-1$
+				"Column", DbAnnotationConstants.UNIQUE);//$NON-NLS-1$
 		// create row for "nullable"
-		FormRowCreator.createBooleanRow(
-				toolkit,
-				client,
-				mapCheckBoxes,
-				getDefaultSelectionListener(),
-				Messages.getString("jpa.field.nullable"), true, DbAnnotationConstants.NULLABLE, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("jpa.field.nullable"), true, DbAnnotationConstants.NULLABLE, JAVA_DOCUMENTATION_TYPE.JPA,//$NON-NLS-1$
+				"Column", DbAnnotationConstants.NULLABLE);//$NON-NLS-1$
 		// create row for "insertable"
-		FormRowCreator.createBooleanRow(
-				toolkit,
-				client,
-				mapCheckBoxes,
-				getDefaultSelectionListener(),
-				Messages.getString("jpa.field.insertable"), true, DbAnnotationConstants.INSERTABLE, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("jpa.field.insertable"), true, DbAnnotationConstants.INSERTABLE, JAVA_DOCUMENTATION_TYPE.JPA,//$NON-NLS-1$
+				"Column", DbAnnotationConstants.INSERTABLE);//$NON-NLS-1$
 		// create row for "updateble"
-		FormRowCreator.createBooleanRow(
-				toolkit,
-				client,
-				mapCheckBoxes,
-				getDefaultSelectionListener(),
-				Messages.getString("jpa.field.updatable"), true, DbAnnotationConstants.UPDATABLE, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("jpa.field.updatable"), true, DbAnnotationConstants.UPDATABLE, JAVA_DOCUMENTATION_TYPE.JPA,//$NON-NLS-1$
+				"Column", DbAnnotationConstants.UPDATABLE);//$NON-NLS-1$
 		// create row for "columnDefinition"
-		FormRowCreator.createStringRow(
-				toolkit,
-				client,
-				mapTexts,
-				getDefaultModifyListener(),
-				Messages.getString("jpa.field.column.definition"), "", DbAnnotationConstants.COLUMN_DEFINITION, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$ //$NON-NLS-2$
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("jpa.field.column.definition"), "", DbAnnotationConstants.COLUMN_DEFINITION,//$NON-NLS-1$ //$NON-NLS-2$
+				JAVA_DOCUMENTATION_TYPE.JPA, "Column", DbAnnotationConstants.COLUMN_DEFINITION);//$NON-NLS-1$
 		// create row for "table"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.field.table"), "", DbAnnotationConstants.TABLE, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.field.table"), "", DbAnnotationConstants.TABLE, JAVA_DOCUMENTATION_TYPE.JPA, "Column", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				DbAnnotationConstants.TABLE);
 		// create row for "length"
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
-				Messages.getString("jpa.field.length"), 255, DbAnnotationConstants.LENGTH, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$
+				Messages.getString("jpa.field.length"), 255, DbAnnotationConstants.LENGTH, JAVA_DOCUMENTATION_TYPE.JPA, "Column",//$NON-NLS-1$ //$NON-NLS-2$
+				DbAnnotationConstants.LENGTH);
 		// create row for "precision"
-		FormRowCreator.createIntRow(
-				toolkit,
-				client,
-				mapTexts,
-				getDefaultModifyListener(),
-				getDefaultVerifyListener(),
-				Messages.getString("jpa.field.precision"), 0, DbAnnotationConstants.PRECISION, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$
+		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
+				Messages.getString("jpa.field.precision"), 0, DbAnnotationConstants.PRECISION, JAVA_DOCUMENTATION_TYPE.JPA,//$NON-NLS-1$
+				"Column", DbAnnotationConstants.PRECISION);//$NON-NLS-1$
 		// create row for "scale"
 		FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(), getDefaultVerifyListener(),
-				Messages.getString("jpa.field.scale"), 0, DbAnnotationConstants.SCALE, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$
+				Messages.getString("jpa.field.scale"), 0, DbAnnotationConstants.SCALE, JAVA_DOCUMENTATION_TYPE.JPA, "Column",//$NON-NLS-1$ //$NON-NLS-2$
+				DbAnnotationConstants.SCALE);
 
 		// ----------------- @DbColumn ---------------------
 		// create row for "displayName"
-		FormRowCreator.createStringRow(
-				toolkit,
-				client,
-				mapTexts,
-				getDefaultModifyListener(),
-				Messages.getString("jpa.field.display.name"), "", DbAnnotationConstants.DISPLAY_NAME, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$ //$NON-NLS-2$
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("jpa.field.display.name"), "", DbAnnotationConstants.DISPLAY_NAME, JAVA_DOCUMENTATION_TYPE.DB,//$NON-NLS-1$ //$NON-NLS-2$
+				"DbColumn", DbAnnotationConstants.DISPLAY_NAME);//$NON-NLS-1$
 		// create row for "password"
-		FormRowCreator.createBooleanRow(
-				toolkit,
-				client,
-				mapCheckBoxes,
-				getDefaultSelectionListener(),
-				Messages.getString("jpa.field.password"), false, DbAnnotationConstants.PASSWORD, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$ 
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("jpa.field.password"), false, DbAnnotationConstants.PASSWORD, JAVA_DOCUMENTATION_TYPE.DB,//$NON-NLS-1$
+				"DbColumn", DbAnnotationConstants.PASSWORD);//$NON-NLS-1$
 		// create row for "sampleValue"
-		FormRowCreator.createStringRow(
-				toolkit,
-				client,
-				mapTexts,
-				getDefaultModifyListener(),
-				Messages.getString("jpa.field.sample.value"), "", DbAnnotationConstants.SAMPLE_VALUE, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$ //$NON-NLS-2$
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("jpa.field.sample.value"), "", DbAnnotationConstants.SAMPLE_VALUE,//$NON-NLS-1$ //$NON-NLS-2$
+				JAVA_DOCUMENTATION_TYPE.DB, "DbColumn", DbAnnotationConstants.SAMPLE_VALUE);//$NON-NLS-1$
 		// create row for "defaultValue"
-		FormRowCreator.createStringRow(
-				toolkit,
-				client,
-				mapTexts,
-				getDefaultModifyListener(),
-				Messages.getString("jpa.field.default.value"), "", DbAnnotationConstants.DEFAULT_VALUE, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$ //$NON-NLS-2$
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("jpa.field.default.value"), "", DbAnnotationConstants.DEFAULT_VALUE,//$NON-NLS-1$ //$NON-NLS-2$
+				JAVA_DOCUMENTATION_TYPE.DB, "DbColumn", DbAnnotationConstants.DEFAULT_VALUE);//$NON-NLS-1$
 		// create row for "helpText"
-		FormRowCreator.createStringRow(
-				toolkit,
-				client,
-				mapTexts,
-				getDefaultModifyListener(),
-				Messages.getString("jpa.field.help.text"), "", DbAnnotationConstants.HELP_TEXT, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$ //$NON-NLS-2$
+		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
+				Messages.getString("jpa.field.help.text"), "", DbAnnotationConstants.HELP_TEXT, JAVA_DOCUMENTATION_TYPE.DB,//$NON-NLS-1$ //$NON-NLS-2$
+				"DbColumn", DbAnnotationConstants.HELP_TEXT);//$NON-NLS-1$
 		// create row for "rightToLeft"
-		FormRowCreator.createBooleanRow(
-				toolkit,
-				client,
-				mapCheckBoxes,
-				getDefaultSelectionListener(),
-				Messages.getString("jpa.field.right.to.left"), false, DbAnnotationConstants.RIGHT_TO_LEFT, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("jpa.field.right.to.left"), false, DbAnnotationConstants.RIGHT_TO_LEFT,//$NON-NLS-1$
+				JAVA_DOCUMENTATION_TYPE.DB, "DbColumn", DbAnnotationConstants.RIGHT_TO_LEFT);//$NON-NLS-1$
 		// create row for "internal"
-		FormRowCreator.createBooleanRow(
-				toolkit,
-				client,
-				mapCheckBoxes,
-				getDefaultSelectionListener(),
-				Messages.getString("jpa.field.internal"), false, DbAnnotationConstants.INTERNAL, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("jpa.field.internal"), false, DbAnnotationConstants.INTERNAL, JAVA_DOCUMENTATION_TYPE.DB,//$NON-NLS-1$
+				"DbColumn", DbAnnotationConstants.INTERNAL);//$NON-NLS-1$
 		// create row for "mainDisplayField"
-		FormRowCreator.createBooleanRow(
-				toolkit,
-				client,
-				mapCheckBoxes,
-				getDefaultSelectionListener(),
-				Messages.getString("jpa.field.main.display.field"), false, DbAnnotationConstants.MAIN_DISPLAY_FIELD, JAVA_DOCUMENTATION_TYPE.JPA, "Column");//$NON-NLS-1$
+		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
+				Messages.getString("jpa.field.main.display.field"), false, DbAnnotationConstants.MAIN_DISPLAY_FIELD,//$NON-NLS-1$
+				JAVA_DOCUMENTATION_TYPE.DB, "DbColumn", DbAnnotationConstants.MAIN_DISPLAY_FIELD);//$NON-NLS-1$
 
 		addBottomContent(toolkit, client);
 

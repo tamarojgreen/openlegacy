@@ -84,13 +84,16 @@ public class GeneralRpcEntityDetailsPage extends AbstractRpcDetailsPage {
 		FormRowCreator.createSpacer(toolkit, client, 2);
 		// create row for "name"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("rpc.entity.name"), "", AnnotationConstants.NAME, JAVA_DOCUMENTATION_TYPE.RPC, "RpcEntity");//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("rpc.entity.name"), "", AnnotationConstants.NAME, JAVA_DOCUMENTATION_TYPE.RPC, "RpcEntity",//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				AnnotationConstants.NAME);
 		// crate row for "displayName"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("rpc.entity.display.name"), "", AnnotationConstants.DISPLAY_NAME, JAVA_DOCUMENTATION_TYPE.RPC, "RpcEntity");//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("rpc.entity.display.name"), "", AnnotationConstants.DISPLAY_NAME, JAVA_DOCUMENTATION_TYPE.RPC,//$NON-NLS-1$ //$NON-NLS-2$
+				"RpcEntity", AnnotationConstants.DISPLAY_NAME);//$NON-NLS-1$
 		// crate row for "language"
 		FormRowCreator.createComboBoxRow(toolkit, client, mapCombos, getDefaultModifyListener(), getDefaultComboBoxKeyListener(),
-				Messages.getString("rpc.entity.language"), getLanguagesItems(), 0, RpcAnnotationConstants.LANGUAGE, false, JAVA_DOCUMENTATION_TYPE.RPC, "RpcEntity");//$NON-NLS-1$
+				Messages.getString("rpc.entity.language"), getLanguagesItems(), 0, RpcAnnotationConstants.LANGUAGE, false,//$NON-NLS-1$
+				JAVA_DOCUMENTATION_TYPE.RPC, "RpcEntity", RpcAnnotationConstants.LANGUAGE);//$NON-NLS-1$
 
 		toolkit.paintBordersFor(section);
 		section.setClient(client);

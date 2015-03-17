@@ -62,6 +62,7 @@ public class FormRowCreator {
 		SCREEN("http://files.openlegacy.org/javadoc/org/openlegacy/annotations/screen/{0}.html#{1}()"),
 		RPC("http://files.openlegacy.org/javadoc/org/openlegacy/annotations/rpc/{0}.html#{1}()"),
 		JPA("http://docs.oracle.com/javaee/7/api/javax/persistence/{0}.html#{1}()"),
+		JAVA_BASICS("http://docs.oracle.com/javase/tutorial/java/nutsandbolts/{0}.html#{1}"),
 		DB("http://files.openlegacy.org/javadoc/org/openlegacy/annotations/db/{0}.html#{1}()");
 
 		private static final long serialVersionUID = 1L;
@@ -102,8 +103,8 @@ public class FormRowCreator {
 	 * @param value
 	 */
 	public static void createLabelRow(FormToolkit toolkit, Composite parent, Map<String, Label> mapLabels, String labelTitle,
-			String text, String key, JAVA_DOCUMENTATION_TYPE model, String submodel) {
-		createLabel(toolkit, parent, labelTitle, key, model, submodel);
+			String text, String key, JAVA_DOCUMENTATION_TYPE helpBaseUrl, String helpPage, String helpAnchor) {
+		createLabel(toolkit, parent, labelTitle, helpBaseUrl, helpPage, helpAnchor);
 		Label label = toolkit.createLabel(parent, text);
 		GridData gd = new GridData();
 		gd.widthHint = DEFAULT_WIDTH;
@@ -130,10 +131,10 @@ public class FormRowCreator {
 	 * @param dataKey
 	 */
 	public static Button createBooleanRow(FormToolkit toolkit, Composite parent, Map<String, Button> map,
-			SelectionListener selectionListener, String label, boolean value, String key, JAVA_DOCUMENTATION_TYPE model,
-			String submodel) {
+			SelectionListener selectionListener, String label, boolean value, String key, JAVA_DOCUMENTATION_TYPE helpBaseUrl,
+			String helpPage, String helpAnchor) {
 
-		createLabel(toolkit, parent, label, key, model, submodel);
+		createLabel(toolkit, parent, label, helpBaseUrl, helpPage, helpAnchor);
 
 		Button button = toolkit.createButton(parent, "", SWT.CHECK);//$NON-NLS-1$
 		GridData gd = new GridData();
@@ -169,9 +170,10 @@ public class FormRowCreator {
 	 * @param dataKey
 	 */
 	public static Text createIntRow(FormToolkit toolkit, Composite parent, Map<String, Text> map, ModifyListener modifyListener,
-			VerifyListener verifyListener, String label, Integer value, String key, JAVA_DOCUMENTATION_TYPE model, String submodel) {
+			VerifyListener verifyListener, String label, Integer value, String key, JAVA_DOCUMENTATION_TYPE helpBaseUrl,
+			String helpPage, String helpAnchor) {
 
-		createLabel(toolkit, parent, label, key, model, submodel);
+		createLabel(toolkit, parent, label, helpBaseUrl, helpPage, helpAnchor);
 
 		Text text = toolkit.createText(parent, (value != null) ? value.toString() : "", SWT.SINGLE);
 		GridData gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
@@ -210,9 +212,9 @@ public class FormRowCreator {
 	 */
 	public static Text createDoubleRow(FormToolkit toolkit, Composite parent, Map<String, Text> map,
 			ModifyListener modifyListener, VerifyListener verifyListener, String label, Double value, String key,
-			JAVA_DOCUMENTATION_TYPE model, String submodel) {
+			JAVA_DOCUMENTATION_TYPE helpBaseUrl, String helpPage, String helpAnchor) {
 
-		createLabel(toolkit, parent, label, key, model, submodel);
+		createLabel(toolkit, parent, label, helpBaseUrl, helpPage, helpAnchor);
 
 		Text text = toolkit.createText(parent, (value != null) ? value.toString() : "", SWT.SINGLE);
 		GridData gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
@@ -247,9 +249,10 @@ public class FormRowCreator {
 	 * @param dataKey
 	 */
 	public static Text createStringRow(FormToolkit toolkit, Composite parent, Map<String, Text> map,
-			ModifyListener modifyListener, String label, String value, String key, JAVA_DOCUMENTATION_TYPE model, String submodel) {
+			ModifyListener modifyListener, String label, String value, String key, JAVA_DOCUMENTATION_TYPE helpBaseUrl,
+			String helpPage, String helpAnchor) {
 
-		createLabel(toolkit, parent, label, key, model, submodel);
+		createLabel(toolkit, parent, label, helpBaseUrl, helpPage, helpAnchor);
 
 		Text text = toolkit.createText(parent, value, SWT.SINGLE | SWT.BORDER);
 		GridData gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
@@ -281,9 +284,9 @@ public class FormRowCreator {
 	 */
 	public static void createComboBoxRow(FormToolkit toolkit, Composite parent, Map<String, CCombo> map,
 			ModifyListener modifyListener, KeyListener keyListener, String label, String[] items, int index, String key,
-			boolean editable, JAVA_DOCUMENTATION_TYPE model, String submodel) {
+			boolean editable, JAVA_DOCUMENTATION_TYPE helpBaseUrl, String helpPage, String helpAnchor) {
 
-		createLabel(toolkit, parent, label, key, model, submodel);
+		createLabel(toolkit, parent, label, helpBaseUrl, helpPage, helpAnchor);
 
 		CCombo combo = new CCombo(parent, SWT.FLAT | SWT.DROP_DOWN | SWT.READ_ONLY | SWT.BORDER);
 		GridData gd = new GridData();
@@ -312,25 +315,25 @@ public class FormRowCreator {
 
 	public static Text createStringRowWithBrowseButton(FormToolkit toolkit, Composite parent, Map<String, Text> map,
 			ModifyListener modifyListener, String label, String value, String key, AbstractViewerFilter filter,
-			JAVA_DOCUMENTATION_TYPE model, String submodel) {
+			JAVA_DOCUMENTATION_TYPE helpBaseUrl, String helpPage, String helpAnchor) {
 		return createStringRowWithBrowseButton(toolkit, parent, map, modifyListener, label, value, key, filter,
-				IJavaSearchConstants.CLASS, false, null, model, submodel);
+				IJavaSearchConstants.CLASS, false, null, helpBaseUrl, helpPage, helpAnchor);
 	}
 
 	public static Text createStringRowWithBrowseButton(FormToolkit toolkit, Composite parent, Map<String, Text> map,
 			ModifyListener modifyListener, String label, String value, String key, AbstractViewerFilter filter,
-			boolean createClearButton, SelectionListener clearButtonSelectionListener, JAVA_DOCUMENTATION_TYPE model,
-			String submodel) {
+			boolean createClearButton, SelectionListener clearButtonSelectionListener, JAVA_DOCUMENTATION_TYPE helpBaseUrl,
+			String helpPage, String helpAnchor) {
 		return createStringRowWithBrowseButton(toolkit, parent, map, modifyListener, label, value, key, filter,
-				IJavaSearchConstants.CLASS, createClearButton, clearButtonSelectionListener, model, submodel);
+				IJavaSearchConstants.CLASS, createClearButton, clearButtonSelectionListener, helpBaseUrl, helpPage, helpAnchor);
 	}
 
 	public static Text createStringRowWithBrowseButton(FormToolkit toolkit, Composite parent, Map<String, Text> map,
 			ModifyListener modifyListener, String label, String value, String key, final AbstractViewerFilter filter,
 			final int javaSearchConstants, boolean createClearButton, SelectionListener clearButtonSelectionListener,
-			JAVA_DOCUMENTATION_TYPE model, String submodel) {
+			JAVA_DOCUMENTATION_TYPE helpBaseUrl, String helpPage, String helpAnchor) {
 
-		createLabel(toolkit, parent, label, key, model, submodel);
+		createLabel(toolkit, parent, label, helpBaseUrl, helpPage, helpAnchor);
 
 		Composite composite = toolkit.createComposite(parent);
 		GridLayout gl = new GridLayout();
@@ -385,17 +388,17 @@ public class FormRowCreator {
 
 	public static CCombo createComboBoxRowWithBrowseButton(FormToolkit toolkit, Composite parent, Map<String, CCombo> map,
 			ModifyListener modifyListener, KeyListener keyListener, String label, String[] items, int index, String key,
-			final AbstractViewerFilter filter, JAVA_DOCUMENTATION_TYPE model, String submodel) {
+			final AbstractViewerFilter filter, JAVA_DOCUMENTATION_TYPE helpBaseUrl, String helpPage, String helpAnchor) {
 		return createComboBoxRowWithBrowseButton(toolkit, parent, map, modifyListener, keyListener, label, items, index, key,
-				filter, false, null, model, submodel);
+				filter, false, null, helpBaseUrl, helpPage, helpAnchor);
 	}
 
 	public static CCombo createComboBoxRowWithBrowseButton(FormToolkit toolkit, Composite parent, Map<String, CCombo> map,
 			ModifyListener modifyListener, KeyListener keyListener, String label, String[] items, int index, String key,
 			final AbstractViewerFilter filter, boolean createClearButton, SelectionListener clearButtonSelectionListener,
-			JAVA_DOCUMENTATION_TYPE model, String submodel) {
+			JAVA_DOCUMENTATION_TYPE helpBaseUrl, String helpPage, String helpAnchor) {
 
-		createLabel(toolkit, parent, label, key, model, submodel);
+		createLabel(toolkit, parent, label, helpBaseUrl, helpPage, helpAnchor);
 
 		Composite composite = toolkit.createComposite(parent);
 		GridLayout gl = new GridLayout();
@@ -463,8 +466,8 @@ public class FormRowCreator {
 		return combo;
 	}
 
-	private static void createLabel(FormToolkit toolkit, final Composite parent, String text, final String key,
-			final JAVA_DOCUMENTATION_TYPE docurl, final String submodel) {
+	private static void createLabel(FormToolkit toolkit, final Composite parent, String text,
+			final JAVA_DOCUMENTATION_TYPE baseUrl, final String page, final String anchor) {
 		Composite shared = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout(2, false);
 		GridData layoutData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
@@ -476,7 +479,7 @@ public class FormRowCreator {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				showView(key, docurl, submodel);
+				showView(baseUrl, page, anchor);
 			}
 
 		});
@@ -499,8 +502,8 @@ public class FormRowCreator {
 		return button;
 	}
 
-	private static void showView(String key, JAVA_DOCUMENTATION_TYPE url, String submodel) {
-		if (!validateDocumentationParams(url, submodel)) {
+	private static void showView(JAVA_DOCUMENTATION_TYPE baseUrl, String page, String anchor) {
+		if (!validateDocumentationParams(baseUrl, page)) {
 			return;
 		}
 		try {
@@ -519,16 +522,15 @@ public class FormRowCreator {
 				helpView = (OpenLegacyHelpView)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(
 						HELP_VIEW_ID, "help", IWorkbenchPage.VIEW_VISIBLE);
 			}
-			helpView.setUrl(MessageFormat.format(url.getUrl(), submodel, key));
+			helpView.setUrl(MessageFormat.format(baseUrl.getUrl(), page, anchor));
 
 		} catch (PartInitException ex) {
-			// TODO log
+			ex.printStackTrace();
 		}
 	}
 
-	private static boolean validateDocumentationParams(JAVA_DOCUMENTATION_TYPE url, String submodel) {
-		if ((url == null) || StringUtil.isEmpty(submodel)) {
-			// TODO log
+	private static boolean validateDocumentationParams(JAVA_DOCUMENTATION_TYPE baseUrl, String page) {
+		if ((baseUrl == null) || StringUtil.isEmpty(page)) {
 			return false;
 		}
 		return true;

@@ -80,19 +80,20 @@ public class GeneralJpaEntityDetailsPage extends AbstractJpaDetailsPage {
 		FormRowCreator.createSpacer(toolkit, client, 2);
 		// create row for "name"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.entity.name"), "", DbAnnotationConstants.NAME, JAVA_DOCUMENTATION_TYPE.JPA, "Entity");//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				Messages.getString("jpa.entity.name"), "", DbAnnotationConstants.NAME, JAVA_DOCUMENTATION_TYPE.JPA, "Entity",//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				DbAnnotationConstants.NAME);
 		// create row for "displayName"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("jpa.entity.displayName"), "", DbAnnotationConstants.DISPLAY_NAME,//$NON-NLS-1$ //$NON-NLS-2$
-				JAVA_DOCUMENTATION_TYPE.DB, "DbEntity");//$NON-NLS-1$
+				Messages.getString("jpa.entity.displayName"), "", DbAnnotationConstants.DISPLAY_NAME, JAVA_DOCUMENTATION_TYPE.DB,//$NON-NLS-1$ //$NON-NLS-2$
+				"DbEntity", DbAnnotationConstants.DISPLAY_NAME);//$NON-NLS-1$
 		// create row for "window"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
 				Messages.getString("jpa.entity.window"), false, DbAnnotationConstants.WINDOW, JAVA_DOCUMENTATION_TYPE.DB,//$NON-NLS-1$
-				"DbEntity");//$NON-NLS-1$
+				"DbEntity", DbAnnotationConstants.WINDOW);//$NON-NLS-1$
 		// create row for "child"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
 				Messages.getString("jpa.entity.child"), false, DbAnnotationConstants.CHILD, JAVA_DOCUMENTATION_TYPE.DB,//$NON-NLS-1$
-				"DbEntity");//$NON-NLS-1$
+				"DbEntity", DbAnnotationConstants.CHILD);//$NON-NLS-1$
 
 		toolkit.paintBordersFor(section);
 		section.setClient(client);

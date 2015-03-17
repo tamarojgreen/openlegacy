@@ -1,9 +1,18 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.screen;
 
-import java.lang.annotation.Annotation;
-import java.net.MalformedURLException;
-import java.util.Map;
-import java.util.UUID;
+import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.Messages;
+import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.TerminalDrilldownActionViewerFilter;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.TableActionModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ControlsUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ModelUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
+import com.openlegacy.enterprise.ide.eclipse.editors.utils.Utils;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.runtime.CoreException;
@@ -21,19 +30,10 @@ import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
 
-import com.openlegacy.enterprise.ide.eclipse.Constants;
-import com.openlegacy.enterprise.ide.eclipse.Messages;
-import com.openlegacy.enterprise.ide.eclipse.editors.dialogs.filters.TerminalDrilldownActionViewerFilter;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenNamedObject;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.TableActionModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ControlsUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ModelUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
-import com.openlegacy.enterprise.ide.eclipse.editors.utils.Utils;
+import java.lang.annotation.Annotation;
+import java.net.MalformedURLException;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author Ivan Bort
@@ -82,22 +82,26 @@ public class TablesTableActionDetailsPage extends AbstractScreenDetailsPage {
 		glayout.marginWidth = glayout.marginHeight = 0;
 		glayout.numColumns = 2;
 		client.setLayout(glayout);
-		
+
 		// create empty row
 		FormRowCreator.createSpacer(toolkit, client, 2);
 		// create row for "action"
 		FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("TableAction.action"), "", AnnotationConstants.ACTION,//$NON-NLS-1$ //$NON-NLS-2$
-				new TerminalDrilldownActionViewerFilter(), JAVA_DOCUMENTATION_TYPE.SCREEN, "TableAction");
+				new TerminalDrilldownActionViewerFilter(), JAVA_DOCUMENTATION_TYPE.SCREEN, "TableAction",//$NON-NLS-1$
+				AnnotationConstants.ACTION);
 		// create row for "defaultAction"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
-				Messages.getString("TableAction.defaultAction"), false, AnnotationConstants.DEFAULT_ACTION, JAVA_DOCUMENTATION_TYPE.SCREEN, "TableAction");//$NON-NLS-1$
+				Messages.getString("TableAction.defaultAction"), false, AnnotationConstants.DEFAULT_ACTION,//$NON-NLS-1$
+				JAVA_DOCUMENTATION_TYPE.SCREEN, "TableAction", AnnotationConstants.DEFAULT_ACTION);//$NON-NLS-1$
 		// create row for "actionValue"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("TableAction.actionValue"), " ", AnnotationConstants.ACTION_VALUE, JAVA_DOCUMENTATION_TYPE.SCREEN, "TableAction");//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("TableAction.actionValue"), " ", AnnotationConstants.ACTION_VALUE,//$NON-NLS-1$ //$NON-NLS-2$
+				JAVA_DOCUMENTATION_TYPE.SCREEN, "TableAction", AnnotationConstants.ACTION_VALUE);//$NON-NLS-1$
 		// create row for "displayName"
 		Text displayNameControl = FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("TableAction.displayName"), " ", AnnotationConstants.DISPLAY_NAME, JAVA_DOCUMENTATION_TYPE.SCREEN, "TableAction");//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("TableAction.displayName"), " ", AnnotationConstants.DISPLAY_NAME,//$NON-NLS-1$ //$NON-NLS-2$
+				JAVA_DOCUMENTATION_TYPE.SCREEN, "TableAction", AnnotationConstants.DISPLAY_NAME);//$NON-NLS-1$
 		displayNameValidator = new TextValidator(master, managedForm, displayNameControl, null) {
 
 			@Override
@@ -113,12 +117,13 @@ public class TablesTableActionDetailsPage extends AbstractScreenDetailsPage {
 		};
 		// create row for "alias"
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("TableAction.alias"),//$NON-NLS-1$
-				"", AnnotationConstants.ALIAS, JAVA_DOCUMENTATION_TYPE.SCREEN, "TableAction");
+				Messages.getString("TableAction.alias"), "", AnnotationConstants.ALIAS, JAVA_DOCUMENTATION_TYPE.SCREEN,//$NON-NLS-1$ //$NON-NLS-2$
+				"TableAction", AnnotationConstants.ALIAS);//$NON-NLS-1$
 		// create row for "targetEntity"
 		Text targetEntityControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts,
-				getDefaultModifyListener(), Messages.getString("TableAction.targetEntity"), "",
-				AnnotationConstants.TARGET_ENTITY, null, JAVA_DOCUMENTATION_TYPE.SCREEN, "TableAction");
+				getDefaultModifyListener(), Messages.getString("TableAction.targetEntity"), "",//$NON-NLS-1$ //$NON-NLS-2$
+				AnnotationConstants.TARGET_ENTITY, null, JAVA_DOCUMENTATION_TYPE.SCREEN, "TableAction",//$NON-NLS-1$
+				AnnotationConstants.TARGET_ENTITY);
 		targetEntityValidator = new TextValidator(master, managedForm, targetEntityControl, null) {
 
 			@Override
@@ -135,7 +140,8 @@ public class TablesTableActionDetailsPage extends AbstractScreenDetailsPage {
 
 		// create row for "row"
 		Text rowControl = FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				getDefaultVerifyListener(), Messages.getString("TableAction.row"), 0, ScreenAnnotationConstants.ROW, JAVA_DOCUMENTATION_TYPE.SCREEN, "Action");//$NON-NLS-1$
+				getDefaultVerifyListener(), Messages.getString("TableAction.row"), 0, ScreenAnnotationConstants.ROW,//$NON-NLS-1$
+				JAVA_DOCUMENTATION_TYPE.SCREEN, "Action", ScreenAnnotationConstants.ROW);//$NON-NLS-1$
 		rowValidator = new TextValidator(master, managedForm, rowControl, null) {
 
 			@Override
@@ -150,7 +156,8 @@ public class TablesTableActionDetailsPage extends AbstractScreenDetailsPage {
 		};
 		// create row for "column"
 		Text columnControl = FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				getDefaultVerifyListener(), Messages.getString("TableAction.column"), 0, ScreenAnnotationConstants.COLUMN, JAVA_DOCUMENTATION_TYPE.SCREEN, "Action");//$NON-NLS-1$
+				getDefaultVerifyListener(), Messages.getString("TableAction.column"), 0, ScreenAnnotationConstants.COLUMN,//$NON-NLS-1$
+				JAVA_DOCUMENTATION_TYPE.SCREEN, "Action", ScreenAnnotationConstants.COLUMN);//$NON-NLS-1$
 		columnValidator = new TextValidator(master, managedForm, columnControl, null) {
 
 			@Override
@@ -165,7 +172,8 @@ public class TablesTableActionDetailsPage extends AbstractScreenDetailsPage {
 		};
 		// create row for "length"
 		Text lengthControl = FormRowCreator.createIntRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				getDefaultVerifyListener(), Messages.getString("TableAction.length"), 0, ScreenAnnotationConstants.LENGTH, JAVA_DOCUMENTATION_TYPE.SCREEN, "Action");//$NON-NLS-1$
+				getDefaultVerifyListener(), Messages.getString("TableAction.length"), 0, ScreenAnnotationConstants.LENGTH,//$NON-NLS-1$
+				JAVA_DOCUMENTATION_TYPE.SCREEN, "Action", ScreenAnnotationConstants.LENGTH);//$NON-NLS-1$
 		lengthValidator = new TextValidator(master, managedForm, lengthControl, null) {
 
 			@Override
@@ -180,7 +188,8 @@ public class TablesTableActionDetailsPage extends AbstractScreenDetailsPage {
 		};
 		// create row for "when"
 		Text whenControl = FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("TableAction.when"), "", ScreenAnnotationConstants.WHEN, JAVA_DOCUMENTATION_TYPE.SCREEN, "Action");//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("TableAction.when"), "", ScreenAnnotationConstants.WHEN, JAVA_DOCUMENTATION_TYPE.SCREEN,//$NON-NLS-1$ //$NON-NLS-2$
+				"Action", ScreenAnnotationConstants.WHEN);//$NON-NLS-1$
 		whenValidator = new TextValidator(master, managedForm, whenControl, null) {
 
 			@Override
