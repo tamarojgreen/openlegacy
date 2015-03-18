@@ -6,6 +6,7 @@ package ${packageName};
 import java.io.Serializable;
 
 import java.util.*;
+import java.math.*;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 	<#assign idFields = []/>

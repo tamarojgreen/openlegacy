@@ -6,6 +6,7 @@ package com.someorg.examples.screens;
 import java.io.Serializable;
 
 import java.util.*;
+import java.math.*;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
