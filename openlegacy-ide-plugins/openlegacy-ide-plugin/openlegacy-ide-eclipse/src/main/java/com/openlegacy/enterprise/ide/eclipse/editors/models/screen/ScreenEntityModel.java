@@ -8,6 +8,7 @@ import org.openlegacy.designtime.terminal.generators.support.CodeBasedScreenEnti
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.modules.login.Login.LoginEntity;
 import org.openlegacy.modules.menu.Menu.MenuEntity;
+import org.openlegacy.modules.messages.Messages.IgnoreEntity;
 import org.openlegacy.modules.messages.Messages.MessagesEntity;
 import org.openlegacy.modules.table.LookupEntity;
 import org.openlegacy.modules.table.RecordSelectionEntity;
@@ -42,6 +43,7 @@ public class ScreenEntityModel extends ScreenNamedObject {
 			put(MenuEntity.class.getSimpleName(), MenuEntity.class);
 			put(MessagesEntity.class.getSimpleName(), MessagesEntity.class);
 			put(RecordSelectionEntity.class.getSimpleName(), RecordSelectionEntity.class);
+			put(IgnoreEntity.class.getSimpleName(), IgnoreEntity.class);
 		}
 	});
 
