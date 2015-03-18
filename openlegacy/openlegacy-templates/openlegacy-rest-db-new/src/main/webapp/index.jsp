@@ -25,10 +25,13 @@
     		if (data != null){
     			dojo.byId('result').value = JSON.stringify(data);
     			if (data.model != null){
-    				for(var i=0;i<data.model.entity.actions.length;i++){
-    					var option=document.createElement("option");
-    					option.text = data.model.entity.actions[i].alias;
-    					dojo.byId("actionType").add(option);
+    				var actions = data.model.entity.actions;
+    				if (actions != undefined) {
+	    				for(var i=0;i<actions.length;i++){
+	    					var option=document.createElement("option");
+	    					option.text = data.model.entity.actions[i].alias;
+	    					dojo.byId("actionType").add(option);
+	    				}
     				}
     				data.model.entity.actions = null;
     				dojo.byId('postData').innerHTML = JSON.stringify(data.model.entity);
@@ -125,12 +128,15 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 
 		Available URL's: <select id="getUrl"
 			data-dojo-type="dijit.form.ComboBox">
+			<option>login?user=XX&password=YY</option>
+			<option>logoff</option>
 			<%
 			for (DbEntityDefinition definition : entityDefinitions){
 				String keyStr = "";
 				if (definition.getKeys().size() > 0){
 					keyStr = "/&lt;ID&gt;";
 				}
+				out.write("<option>" + definition.getEntityName() + "</option>");
 				out.write("<option>" + definition.getEntityName() + keyStr + "</option>");
 			}
 			%>

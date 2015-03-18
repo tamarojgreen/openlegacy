@@ -95,6 +95,25 @@ public class DefaultDbRestController extends AbstractRestController {
 		authenticate(response);
 	}
 
+	@Override
+	@RequestMapping(value = "/login", consumes = { JSON, XML })
+	public Object login(@RequestParam(USER) String user, @RequestParam(PASSWORD) String password, HttpServletResponse response)
+			throws IOException {
+		try {
+			if (dbLoginModule != null) {
+				dbLoginModule.login(user, password);
+			} else {
+				logger.warn("No login module defined. Skipping login");
+			}
+		} catch (RegistryException e) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+		} catch (LoginException e) {
+			sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage(), response);
+		}
+		response.setStatus(HttpServletResponse.SC_OK);
+		return getMenu();
+	}
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = { JSON, XML })
 	public Object login(@RequestBody String json, HttpServletResponse response) throws IOException, ParseException {
 		JSONParser parser = new JSONParser();
