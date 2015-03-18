@@ -15,40 +15,36 @@
 <div class="panel panel-default">
 <div class="panel-body">
 		<form role="form" class="form-horizontal">
-
-
 	<div class="form-group">
 		<label for="lkCustomer.lkCustInd" class="control-label col-sm-2">Lk Cust Ind:</label>
 		<div class="col-sm-6">
 					<input type="text" class="form-control" id="lkCustomer.lkCustInd" ng-model="model.lkCustInd">
-		   </div>
+   		</div>
 	</div>
 	<div class="form-group">
 		<label for="lkCustomer.lkCustId" class="control-label col-sm-2">Lk Cust Id:</label>
 		<div class="col-sm-6">
-			  		<input type="text" class="form-control" id="lkCustomer.lkCustId" ng-model="model.lkCustId">
-		   </div>
+				  	<input type="number" ng-model="model.lkCustId" class="form-control" mask="#">
+   		</div>
 	</div>
 	<div class="form-group">
 		<label for="lkCustomer.lkCustName" class="control-label col-sm-2">Lk Cust Name:</label>
 		<div class="col-sm-6">
 					<input type="text" class="form-control" id="lkCustomer.lkCustName" ng-model="model.lkCustName">
-		   </div>
+   		</div>
 	</div>
 	<div class="form-group">
 		<label for="lkCustomer.lkCustAddress" class="control-label col-sm-2">Lk Cust Address:</label>
 		<div class="col-sm-6">
 					<input type="text" class="form-control" id="lkCustomer.lkCustAddress" ng-model="model.lkCustAddress">
-		   </div>
+   		</div>
 	</div>
 	<div class="form-group">
 		<label for="lkCustomer.lkCustPhone" class="control-label col-sm-2">Lk Cust Phone:</label>
 		<div class="col-sm-6">
 					<input type="text" class="form-control" id="lkCustomer.lkCustPhone" ng-model="model.lkCustPhone">
-		   </div>
+   		</div>
 	</div>
-
-
 		</form>
 </div>
 </div>

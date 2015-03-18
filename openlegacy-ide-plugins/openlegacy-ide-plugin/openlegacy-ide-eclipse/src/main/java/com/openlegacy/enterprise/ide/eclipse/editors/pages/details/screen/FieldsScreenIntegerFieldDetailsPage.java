@@ -80,7 +80,7 @@ public class FieldsScreenIntegerFieldDetailsPage extends AbstractScreenFieldDeta
 				client,
 				mapTexts,
 				getDefaultModifyListener(),
-				Messages.getString("ScreenIntegerField.pattern"), "", ScreenAnnotationConstants.NUMERIC_PATTERN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenIntegerField");//$NON-NLS-1$ $NON-NLS-2$
+				Messages.getString("ScreenIntegerField.pattern"), "", ScreenAnnotationConstants.NUMERIC_PATTERN, JAVA_DOCUMENTATION_TYPE.SCREEN, "ScreenIntegerField", ScreenAnnotationConstants.NUMERIC_PATTERN);//$NON-NLS-1$ $NON-NLS-2$
 
 		patternControl.addVerifyListener(new VerifyListener() {
 

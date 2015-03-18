@@ -93,12 +93,12 @@ public class FieldsRpcIntegerFieldDetailsPage extends AbstractRpcFieldDetailsPag
 				mapTexts,
 				getDefaultModifyListener(),
 				getDefaultVerifyListener(),
-				Messages.getString("rpc.field.integer.decimal.places.label"), 0, RpcAnnotationConstants.DECIMAL_PLACES, JAVA_DOCUMENTATION_TYPE.RPC, "RpcNumericField");//$NON-NLS-1$
+				Messages.getString("rpc.field.integer.decimal.places.label"), 0, RpcAnnotationConstants.DECIMAL_PLACES, JAVA_DOCUMENTATION_TYPE.RPC, "RpcNumericField", RpcAnnotationConstants.DECIMAL_PLACES);//$NON-NLS-1$
 
 		// create row for "pattern"
 		Text patternControl = FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("rpc.field.integer.pattern.label"), "", RpcAnnotationConstants.NUMERIC_PATTERN,
-				JAVA_DOCUMENTATION_TYPE.RPC, "RpcNumericField");
+				JAVA_DOCUMENTATION_TYPE.RPC, "RpcNumericField", RpcAnnotationConstants.NUMERIC_PATTERN);
 
 		patternControl.addVerifyListener(new VerifyListener() {
 
