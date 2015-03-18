@@ -201,7 +201,7 @@
 						</#list>
 						<#list entityDefinition.actions as action>
 							<#if action.actionName == "READ" && entityDefinition.keys?size &gt; 0>
-								var url = "/${entityDefinition.entityName}/:<#list entityDefinition.keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>";
+								var url = "/${entityDefinition.entityName}/:id";
 								if ($.inArray(url, urlsToFilter) == -1) {
 									addRoute("${entityDefinition.entityName}Details", "${entityDefinition.entityName}.edit", "${entityDefinition.entityName}DetailsCtrl", url);
 								}

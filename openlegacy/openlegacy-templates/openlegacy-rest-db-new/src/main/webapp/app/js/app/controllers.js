@@ -54,13 +54,13 @@
 		}
 
 	});
-	// template for all entities 
+	// template for all entities
 	<#if entitiesDefinitions??>
 	<#list entitiesDefinitions as entityDefinition>
 		<#list entityDefinition.actions as action>
 			<#switch action.actionName>
 				<#case "READ">
-	//=================================READ======================================
+	// =================================READ======================================
 	module = module.controller('${entityDefinition.entityName}DetailsCtrl', function($scope, $stateParams, $olHttp, $state, $modal) {		
 		$scope.currentAction = "READ";
 		
@@ -111,7 +111,7 @@
 	});
 				<#break>
 				<#case "CREATE">
-	//==========================================CREATE========================================================			
+	// ==========================================CREATE========================================================
 	module = module.controller('${entityDefinition.entityName}NewCtrl', function($scope, $modal, $olHttp, $state) {
 		$scope.currentAction = "CREATE";
 		$scope.model = {'entity':{}};
@@ -161,7 +161,7 @@
 	});
 			</#switch>
 		</#list>
-	//=============================================LIST============================================================
+	// =============================================LIST============================================================
 	module = module.controller('${entityDefinition.entityName}Ctrl', function($olHttp, $scope, $location, $state, $stateParams) {
 		$scope.model = {"entity":{}};
 		$scope._showNext = true;
@@ -247,9 +247,12 @@
 	        	$scope.doREADAction = function(entityName, rowIndex, stringKeys) {
 		        	var arrayKeys = stringKeys.split(',');
 		        	var params = {};		        	
-		        	$.each(arrayKeys, function(index, keyName) {		        		
-		        		params[keyName] = $scope.model.entity[rowIndex][keyName];
-		        	});		        	
+		        	var keys = '';
+		        	$.each(arrayKeys, function(index, keyName) {
+		        		keys = keys + $scope.model.entity[rowIndex][keyName] + '+';
+		        	});
+		        	
+		        	params['id'] = keys.substr(0, keys.length -1);
 		        	
 		        	$state.go(entityName + "Details", params);
 	        	}

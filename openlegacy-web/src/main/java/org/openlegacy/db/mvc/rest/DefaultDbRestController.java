@@ -49,6 +49,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
@@ -57,6 +58,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.persistence.IdClass;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
@@ -252,7 +254,17 @@ public class DefaultDbRestController extends AbstractRestController {
 		if (key != null) {
 			keys = key.split("\\+");
 
-			return dbService.getEntityById(entityClass, toObject(getFirstIdJavaType(entityClass), (String)keys[0]));
+			Object primaryKey = null;
+			if (keys.length > 1) {
+				try {
+					primaryKey = getCompositeKey(entityClass, keys);
+				} catch (Exception e) {
+					return null;
+				}
+			} else {
+				primaryKey = toObject(getFirstIdJavaType(entityClass), (String)keys[0]);
+			}
+			return dbService.getEntityById(entityClass, primaryKey);
 		} else {
 			if (queryConditions != null && queryConditions.size() != 0) {
 				return dbService.getEntitiesWithConditions(entityClass, queryConditions);
@@ -260,6 +272,29 @@ public class DefaultDbRestController extends AbstractRestController {
 				return dbService.getEntitiesPerPage(entityClass, pageSize, pageNumber);
 			}
 		}
+	}
+
+	private static Object getCompositeKey(Class<?> entityClass, Object[] keys) throws InstantiationException,
+			IllegalAccessException {
+		IdClass idClass = entityClass.getAnnotation(IdClass.class);
+		if (idClass != null) {
+			Object compositeClazz = idClass.value().newInstance();
+			Field[] fields = compositeClazz.getClass().getDeclaredFields();
+			List<Field> idFields = new ArrayList<Field>();
+			for (Field field : fields) {
+				if (!Modifier.isStatic(field.getModifiers()) && !Modifier.isFinal(field.getModifiers())) {
+					idFields.add(field);
+				}
+			}
+			if (keys.length == idFields.size()) {
+				for (int i = 0; i < keys.length; i++) {
+					idFields.get(i).setAccessible(true);
+					idFields.get(i).set(compositeClazz, toObject(idFields.get(i).getType(), (String)keys[i]));
+				}
+				return compositeClazz;
+			}
+		}
+		return null;
 	}
 
 	private static Class<?> getFirstIdJavaType(Class<?> entityClass) {
