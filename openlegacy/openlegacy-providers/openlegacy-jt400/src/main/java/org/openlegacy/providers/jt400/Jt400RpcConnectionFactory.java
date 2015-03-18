@@ -17,12 +17,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcConnectionFactory;
+import org.openlegacy.rpc.LiveHostRpcConnectionFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 
 import javax.inject.Inject;
 
-public class Jt400RpcConnectionFactory implements RpcConnectionFactory, InitializingBean {
+public class Jt400RpcConnectionFactory implements LiveHostRpcConnectionFactory, InitializingBean {
 
 	private final static Log logger = LogFactory.getLog(Jt400RpcConnectionFactory.class);
 

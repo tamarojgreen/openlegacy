@@ -8,6 +8,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
+		
  	<bean class="org.openlegacy.rpc.support.RpcAnnotationProccesor">
 	    <property name="loadersPackages">
 	        <list>
@@ -42,6 +43,10 @@
 	<bean id="imageRenderer" class="org.openlegacy.rpc.render.DefaultRpcImageRenderer" />
 	
 	<bean id="abstractRpcSession" class="org.openlegacy.rpc.support.DefaultRpcSession" abstract="true">
+		<property name="connection">
+				<bean class="org.openlegacy.rpc.support.RpcConnectionDelegator" />
+		</property>
+	
 		<property name="sessionModules">
 			<bean class="org.openlegacy.support.SessionModules">
 				<property name="modules">

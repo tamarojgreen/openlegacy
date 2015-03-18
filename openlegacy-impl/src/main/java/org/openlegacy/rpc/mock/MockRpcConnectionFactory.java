@@ -10,27 +10,34 @@
  *******************************************************************************/
 package org.openlegacy.rpc.mock;
 
-import org.apache.commons.lang.SerializationUtils;
-import org.openlegacy.rpc.RpcConnection;
-import org.openlegacy.rpc.RpcConnectionFactory;
-import org.openlegacy.rpc.RpcSnapshot;
-import org.openlegacy.rpc.modules.trail.RpcPersistedTrail;
-import org.openlegacy.utils.XmlSerializationUtil;
-import org.springframework.util.Assert;
-
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
 
-public class MockRpcConnectionFactory implements RpcConnectionFactory {
+import org.apache.commons.lang.SerializationUtils;
+import org.openlegacy.OpenLegacyProperties;
+import org.openlegacy.exceptions.UnableToLoadSnapshotException;
+import org.openlegacy.rpc.MockHostRpcConnectionFactory;
+import org.openlegacy.rpc.RpcConnection;
+import org.openlegacy.rpc.RpcSnapshot;
+import org.openlegacy.rpc.modules.trail.RpcPersistedTrail;
+import org.openlegacy.utils.StringUtil;
+import org.openlegacy.utils.XmlSerializationUtil;
+import org.springframework.util.Assert;
+
+public class MockRpcConnectionFactory implements MockHostRpcConnectionFactory {
 
 	private List<RpcSnapshot> snapshots = null;
 	private String root;
 	private String trailName;
 	private boolean verifySend;
+	
+	@Inject
+	private OpenLegacyProperties openLegacyProperties;
 
 	public boolean isVerifySend() {
 		return verifySend;
@@ -42,6 +49,12 @@ public class MockRpcConnectionFactory implements RpcConnectionFactory {
 
 	@Override
 	public RpcConnection getConnection() {
+		String trailFilePath = openLegacyProperties.getTrailFilePath();
+		
+		if (StringUtil.isEmpty(trailFilePath)) {
+			throw (new UnableToLoadSnapshotException("Can't define both trail and files for mock terminal connection factory"));
+		}
+		
 		List<RpcSnapshot> clonedSnapshots = new ArrayList<RpcSnapshot>();
 		for (RpcSnapshot rpcSnapshot : fetchRpcSnapshots()) {
 			clonedSnapshots.add((RpcSnapshot)SerializationUtils.clone(rpcSnapshot));
@@ -55,7 +68,7 @@ public class MockRpcConnectionFactory implements RpcConnectionFactory {
 		if (snapshots == null) {
 			RpcPersistedTrail trail = null;
 			try {
-				String trailClasspath = MessageFormat.format("{0}/{1}", root, trailName);
+				String trailClasspath = openLegacyProperties.getTrailFilePath();
 				InputStream trailStream = getClass().getResourceAsStream(trailClasspath);
 				Assert.notNull(trailStream, "Trail file not found. In development, Verify it exist in a src/main/resources");
 				trail = XmlSerializationUtil.deserialize(RpcPersistedTrail.class, trailStream);
