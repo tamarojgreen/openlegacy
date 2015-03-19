@@ -55,6 +55,12 @@ End Uncomment for OpenLegacy enterprise managemenent plugin -->
 			type="annotation" />
 	</context:component-scan>
 
+	<context:component-scan base-package="org.openlegacy.terminal.mvc"
+		use-default-filters="false" resource-pattern="*.class">
+		<context:include-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
+
 	<mvc:interceptors>
 		<bean class="org.openlegacy.terminal.mvc.web.interceptors.DesigntimeInterceptor" />
 	</mvc:interceptors>
