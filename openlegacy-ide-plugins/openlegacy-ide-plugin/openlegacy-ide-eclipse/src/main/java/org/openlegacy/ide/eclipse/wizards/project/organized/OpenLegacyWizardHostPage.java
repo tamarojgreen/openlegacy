@@ -42,7 +42,10 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 	private Label hostTypeDescriptionLabel;
 	private String m_fileName;
 	private String trailFileName;
-	private Text trailFileText;
+	private Text trailFileText; 
+	private List<String> sslConfigurations = new ArrayList<String>();
+	private Combo sslCombo;
+	private Button isSslCheckbox;
 
 	protected OpenLegacyWizardHostPage() {
 		super("wizardProviderPage"); //$NON-NLS-1$
@@ -108,7 +111,20 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 		codePageText.addModifyListener(getDefaultModifyListener());
 
 		createFileChooser(container);
-
+		
+		isSslCheckbox = new Button(container, SWT.CHECK);
+		isSslCheckbox.setText("Is support ssl:");
+		isSslCheckbox.addSelectionListener(getDefaultSelectionListener());
+		
+		sslCombo = new Combo(container, SWT.SINGLE | SWT.READ_ONLY);
+		GridData sslGd = new GridData();
+		sslGd.widthHint = 100;
+		sslCombo.setLayoutData(sslGd);
+		sslCombo.setItems(new String[] { "Pending..." });
+		sslCombo.select(0);
+		sslCombo.addSelectionListener(getDefaultSelectionListener());
+		sslCombo.setVisible(false);
+		
 		setControl(container);
 		setPageComplete(false);
 	}
@@ -215,6 +231,10 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 		hostTypes.clear();
 		hostTypes.addAll(retriever.getHostTypes());
 		checkHostTypes();
+		
+		sslConfigurations.clear();
+		sslConfigurations.addAll(retriever.getSslConigurationss());
+		
 	}
 
 	/**
@@ -237,6 +257,9 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 						hostTypeCombo.setItems(hostNames.toArray(new String[] {}));
 						hostTypeCombo.select(0);
 						hostTypeCombo.notifyListeners(SWT.Selection, new Event());
+						sslCombo.setItems(sslConfigurations.toArray(new String[] {}));
+						sslCombo.select(0);
+						sslCombo.notifyListeners(SWT.Selection, new Event());
 					}
 				});
 			}
@@ -281,6 +304,13 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 				} else {
 					hostTypeDescriptionLabel.setText("");
 				}
+				hostType.setSslType(sslCombo.getText());
+				if (isSslCheckbox.getSelection()) {
+					sslCombo.setVisible(true);
+				} else {
+					sslCombo.setVisible(false);	
+				}
+				hostType.setSupportSsl(isSslCheckbox.getSelection());
 				getWizardModel().update(hostType);
 				if (hostTypeCombo.getText().contains("mock-up")) {
 					updateStatus(null);

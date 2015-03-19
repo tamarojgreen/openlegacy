@@ -20,6 +20,8 @@ public class HostType {
 	private String displayName;
 	private String description;
 	private String backendSolution;
+	private String sslType;
+	private boolean isSupportSsl;
 
 	public HostType() {}
 
@@ -55,6 +57,24 @@ public class HostType {
 	@XmlElement(name = "backend-solution")
 	public void setBackendSolution(String backendSolution) {
 		this.backendSolution = backendSolution;
+	}
+
+	public String getSslType() {
+		return sslType;
+	}
+
+	@XmlElement(name = "ssl-type")
+	public void setSslType(String sslType) {
+		this.sslType = sslType;
+	}
+
+	public boolean isSupportSsl() {
+		return isSupportSsl;
+	}
+
+	@XmlElement(name = "is-support-ssl")
+	public void setSupportSsl(boolean isSupportSsl) {
+		this.isSupportSsl = isSupportSsl;
 	}
 
 }

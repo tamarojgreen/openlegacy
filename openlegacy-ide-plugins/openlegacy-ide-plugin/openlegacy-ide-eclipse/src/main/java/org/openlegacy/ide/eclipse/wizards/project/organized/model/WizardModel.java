@@ -24,6 +24,8 @@ public class WizardModel {
 	private String host;
 	private int hostPort;
 	private String codePage;
+	private boolean isSupportSsl;
+	private String sslType;
 	// theme
 	private ProjectTheme projectTheme;
 	// db type
@@ -212,6 +214,8 @@ public class WizardModel {
 			clear();
 		} else {
 			hostTypeName = hostType.getName();
+			isSupportSsl = hostType.isSupportSsl();
+			sslType = hostType.getSslType();
 		}
 	}
 
@@ -252,6 +256,8 @@ public class WizardModel {
 		dbDdlAuto = null;
 		dbDialect = null;
 		restFulService = false;
+		isSupportSsl = false;
+		sslType = null;
 	}
 
 	/**
@@ -266,5 +272,21 @@ public class WizardModel {
 	 */
 	public void setTrailFilePath(String trailFilePath) {
 		this.trailFilePath = trailFilePath;
+	}
+
+	public boolean isSupportSsl() {
+		return isSupportSsl;
+	}
+
+	public void setSupportSsl(boolean isSupportSsl) {
+		this.isSupportSsl = isSupportSsl;
+	}
+
+	public String getSslType() {
+		return sslType;
+	}
+
+	public void setSslType(String sslType) {
+		this.sslType = sslType;
 	}
 }

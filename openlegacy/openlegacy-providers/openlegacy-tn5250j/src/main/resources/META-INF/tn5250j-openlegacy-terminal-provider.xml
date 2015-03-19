@@ -25,6 +25,7 @@
 	    		<prop key="SESSION_HOST_PORT">${host.port}</prop>
 	    		<prop key="SESSION_CODE_PAGE">${host.codePage}</prop>
 	    		<prop key="SESSION_TN_ENHANCED">true</prop>
+				<prop key="-sslType">${host.sslType}</prop>
 			</props>
 	    </property>
     </bean>

@@ -26,6 +26,8 @@ public class ProjectCreationRequest {
 	private String hostName;
 	private int hostPort;
 	private String codePage;
+	private String sslType;
+	private boolean isSupportSsl;
 
 	private boolean supportTheme;
 	private ProjectTheme projectTheme;
@@ -243,6 +245,22 @@ public class ProjectCreationRequest {
 
 	public void setRestFulService(boolean restFulService) {
 		this.restFulService = restFulService;
+	}
+
+	public String getSslType() {
+		return sslType;
+	}
+
+	public void setSslType(String sslType) {
+		this.sslType = sslType;
+	}
+
+	public boolean isSupportSsl() {
+		return isSupportSsl;
+	}
+
+	public void setSupportSsl(boolean isSupportSsl) {
+		this.isSupportSsl = isSupportSsl;
 	}
 
 }

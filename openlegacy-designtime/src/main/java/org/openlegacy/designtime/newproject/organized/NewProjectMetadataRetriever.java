@@ -90,6 +90,13 @@ public class NewProjectMetadataRetriever {
 		}
 		return hostTypeStore.getHostTypes();
 	}
+	
+	public List<String> getSslConigurationss() {
+		if (hostTypeStore == null || hostTypeStore.getSslConigurations() == null) {
+			return new ArrayList<String>();
+		}
+		return hostTypeStore.getSslConigurations();
+	}
 
 	public List<ProjectTheme> getThemes() {
 		if (projectThemeStore == null) {
@@ -269,6 +276,7 @@ public class NewProjectMetadataRetriever {
 	private static class HostTypesStore {
 
 		private List<HostType> hostTypes;
+		private List<String> sslConigurations;
 
 		@XmlElements({ @XmlElement(name = "host-type", type = HostType.class) })
 		public List<HostType> getHostTypes() {
@@ -282,6 +290,17 @@ public class NewProjectMetadataRetriever {
 
 		public boolean isDataExist() {
 			return hostTypes != null;
+		}
+
+		@XmlElementWrapper(name = "ssl-configurations")
+		@XmlElement(name = "ssl")
+		public List<String> getSslConigurations() {
+			return sslConigurations;
+		}
+
+		@SuppressWarnings("unused")
+		public void setSslConigurations(List<String> sslConigurations) {
+			this.sslConigurations = sslConigurations;
 		}
 	}
 
