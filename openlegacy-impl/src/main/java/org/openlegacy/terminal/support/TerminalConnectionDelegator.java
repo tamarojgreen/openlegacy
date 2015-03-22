@@ -10,12 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support;
 
-import java.io.Serializable;
-import java.text.MessageFormat;
-import java.util.List;
-
-import javax.inject.Inject;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,6 +29,12 @@ import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
+
+import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.List;
+
+import javax.inject.Inject;
 
 public class TerminalConnectionDelegator implements TerminalConnection, Serializable {
 
@@ -146,14 +146,7 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 
 	private void lazyConnect() {
 		if (terminalConnection == null) {
-			final OpenLegacyProperties olProperties = applicationContext.getBean(OpenLegacyProperties.class);
-			boolean isLiveSession = olProperties.isLiveSession();
-			TerminalConnectionFactory terminalConnectionFactory;
-			if (isLiveSession){
-				terminalConnectionFactory = applicationContext.getBean(LiveTerminalConnectionFactory.class);
-			}else{
-				terminalConnectionFactory = applicationContext.getBean(MockTerminalConnectionFactory.class);
-			}
+			TerminalConnectionFactory terminalConnectionFactory = getConnectionFactory();
 			ConnectionPropertiesProvider connectionPropertiesProvider = applicationContext.getBean(ConnectionPropertiesProvider.class);
 			ConnectionProperties connectionProperties = connectionPropertiesProvider.getConnectionProperties();
 			terminalConnection = terminalConnectionFactory.getConnection(connectionProperties);
@@ -165,6 +158,18 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 		}
 	}
 
+	private TerminalConnectionFactory getConnectionFactory() {
+		final OpenLegacyProperties olProperties = applicationContext.getBean(OpenLegacyProperties.class);
+		boolean isLiveSession = olProperties.isLiveSession();
+		TerminalConnectionFactory terminalConnectionFactory;
+		if (isLiveSession) {
+			terminalConnectionFactory = applicationContext.getBean(LiveTerminalConnectionFactory.class);
+		} else {
+			terminalConnectionFactory = applicationContext.getBean(MockTerminalConnectionFactory.class);
+		}
+		return terminalConnectionFactory;
+	}
+
 	@Override
 	public void disconnect() {
 		logger.info("Disconnecting session");
@@ -173,7 +178,7 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 			logger.debug("Session not connected");
 			return;
 		}
-		TerminalConnectionFactory terminalConnectionFactory = applicationContext.getBean(TerminalConnectionFactory.class);
+		TerminalConnectionFactory terminalConnectionFactory = getConnectionFactory();
 		try {
 			terminalConnectionFactory.disconnect(terminalConnection);
 		} catch (Exception e) {
