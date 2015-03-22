@@ -108,4 +108,6 @@ End use this definition to replay a mock-up session application -->
 	End uncomment for bidi support -->
 		
 	<bean class="org.openlegacy.terminal.testing.support.DefaultScreensApiTester" scope="prototype"/>
+
+	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 </beans>
