@@ -28,6 +28,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.openlegacy.ide.eclipse.preview.screen.ScreenPreview;
 import org.openlegacy.ide.eclipse.preview.screen.SelectedObject;
+import org.openlegacy.modules.menu.Menu.MenuSelectionField;
 
 import java.text.MessageFormat;
 import java.util.Iterator;
@@ -123,6 +124,11 @@ public class FieldsCreator {
 					model.setEndColumn(selectedObject.getFieldRectangle().getEndColumn());
 					model.setSampleValue(selectedObject.getFieldRectangle().getValue());
 					model.setRectangle(selectedObject.getFieldRectangle().getRow() != selectedObject.getFieldRectangle().getEndRow());
+					int columnSize = model.getEndColumn() - model.getColumn();
+					if ((columnSize == 1 || columnSize == 2) && model.isEditable()) {				
+						model.setFieldType(MenuSelectionField.class);
+						model.setFieldTypeName(MenuSelectionField.class.getSimpleName());
+					}
 				}
 			}
 		}
