@@ -42,6 +42,8 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
+import org.openlegacy.Session;
+import org.openlegacy.SessionAction;
 import org.openlegacy.annotations.screen.Action.ActionType;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.designtime.generators.AnnotationConstants;
@@ -53,13 +55,16 @@ import org.openlegacy.ide.eclipse.preview.screen.SelectedObject;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.actions.TerminalActions.SimpleTerminalMappedAction;
 import org.openlegacy.utils.StringConstants;
 import org.openlegacy.utils.StringUtil;
 
 import java.lang.annotation.Annotation;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Ivan Bort
@@ -277,7 +282,7 @@ public class ActionsPage extends AbstractPage {
 		tcol.setResizable(true);
 		tcol.setWidth(150);
 
-		vcol.setEditingSupport(new ActionsDialogCellEditingSupport(viewer, AnnotationConstants.ACTION));
+		vcol.setEditingSupport(new ActionsComboBoxCellEditingSupport(viewer, AnnotationConstants.ACTION, getTerminalActions()));
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
@@ -525,14 +530,13 @@ public class ActionsPage extends AbstractPage {
 		tcol.setText(Messages.getString("ActionsPage.col.keyboardKey"));//$NON-NLS-1$
 		tcol.setResizable(true);
 		tcol.setWidth(100);
-		vcol.setEditingSupport(new ActionsDialogCellEditingSupport(viewer, AnnotationConstants.KEYBOARD_KEY));
+		vcol.setEditingSupport(new ActionsComboBoxCellEditingSupport(viewer, AnnotationConstants.KEYBOARD_KEY, getKeyboardKeys()));
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
 			public void update(ViewerCell cell) {
 				ActionModel action = (ActionModel)cell.getElement();
-				cell.setText(TerminalActions.NONE.class.getSimpleName().equals(action.getKeyboardKeyName()) ? ""
-						: action.getKeyboardKeyName());
+				cell.setText(action.getKeyboardKeyName());
 				updateModel();
 			}
 		});
@@ -690,5 +694,33 @@ public class ActionsPage extends AbstractPage {
 			editor.removeValidationMarker(validationMarkerKey);
 		}
 	}
-
+	
+	private static List<String> getTerminalActions() {
+		List<String> list = new ArrayList<String>();
+		list.addAll(getKeyboardKeys());
+		return list;
+	}
+	
+	private static List<String> getKeyboardKeys() {
+		List<String> list = new ArrayList<String>();
+		list.add(TerminalActions.NONE.class.getSimpleName());
+		list.add(TerminalActions.NULL.class.getSimpleName());
+		list.add(TerminalActions.ENTER.class.getSimpleName());
+		list.add(TerminalActions.ESCAPE.class.getSimpleName());
+		list.add(TerminalActions.PAGE_DOWN.class.getSimpleName());
+		list.add(TerminalActions.PAGE_UP.class.getSimpleName());
+		list.add(TerminalActions.F1.class.getSimpleName());
+		list.add(TerminalActions.F2.class.getSimpleName());
+		list.add(TerminalActions.F3.class.getSimpleName());
+		list.add(TerminalActions.F4.class.getSimpleName());
+		list.add(TerminalActions.F5.class.getSimpleName());
+		list.add(TerminalActions.F6.class.getSimpleName());
+		list.add(TerminalActions.F7.class.getSimpleName());
+		list.add(TerminalActions.F8.class.getSimpleName());
+		list.add(TerminalActions.F9.class.getSimpleName());
+		list.add(TerminalActions.F10.class.getSimpleName());
+		list.add(TerminalActions.F11.class.getSimpleName());
+		list.add(TerminalActions.F12.class.getSimpleName());
+		return list;
+	}
 }

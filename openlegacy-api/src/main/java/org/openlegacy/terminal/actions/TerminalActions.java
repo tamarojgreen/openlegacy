@@ -79,6 +79,10 @@ public class TerminalActions {
 
 		private static final long serialVersionUID = 1L;
 	}
+	
+	public static NULL NULL() {
+		return new NULL();
+	}
 
 	public static class NONE extends SimpleTerminalMappedAction {
 
