@@ -428,7 +428,7 @@ public class GeneralScreenNavigationDetailsPage extends AbstractScreenDetailsPag
 	private boolean validateAccessedFromControl(TextValidator validator, UUID uuid) {
 		boolean isValid = true;
 		String text = validator.getControl().getText();
-		String fullyQuailifiedName = (String)validator.getControl().getData(FormRowCreator.ID_FULLY_QUALIFIED_NAME);
+		String fullyQuailifiedName = (String)validator.getControl().getData(FormRowCreator.ID_FULLY_QUALIFIED_NAME);		
 		if (StringUtils.isEmpty(fullyQuailifiedName) || StringUtils.isEmpty(text)) {
 			return isValid;
 		}
@@ -441,16 +441,21 @@ public class GeneralScreenNavigationDetailsPage extends AbstractScreenDetailsPag
 		}
 		boolean isScreenEntity = false;
 		try {
-			Class<?> clazz = Utils.getClazz(fullyQuailifiedName);
-			for (Annotation annotation : clazz.getDeclaredAnnotations()) {
-				if (annotation.annotationType().getName().equals(ScreenEntity.class.getName())) {
-					isScreenEntity = true;
-					break;
+			if (fullyQuailifiedName.equals(org.openlegacy.terminal.ScreenEntity.NONE.class.getName())){
+				isScreenEntity = true;
+			} else {
+				Class<?> clazz = Utils.getClazz(fullyQuailifiedName);
+				for (Annotation annotation : clazz.getDeclaredAnnotations()) {
+					if (annotation.annotationType().getName().equals(ScreenEntity.class.getName())) {
+						isScreenEntity = true;
+						break;
+					}
 				}
 			}
 		} catch (MalformedURLException e) {
 		} catch (CoreException e) {
 		}
+		
 		if (!isScreenEntity) {
 			isValid = false;
 			validator.addMessage(
