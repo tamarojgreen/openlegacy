@@ -10,15 +10,20 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.zest.core.viewers.AbstractZoomableViewer;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.viewers.IZoomableWorkbenchPart;
+import org.eclipse.zest.core.viewers.ZoomContributionViewItem;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
@@ -43,6 +48,10 @@ public class EntityMapView extends ViewPart implements IZoomableWorkbenchPart {
 	private ViewScreenFromMapAction viewScreenFromMapAction;
 	private IProject project;
 
+	/** handles the zoom requests **/
+	private ZoomContributionViewItem m_contextMenuZoomContributer;
+
+	
 	@Override
 	public void createPartControl(Composite parent) {
 		viewer = new GraphViewer(parent, SWT.NONE);
@@ -61,6 +70,34 @@ public class EntityMapView extends ViewPart implements IZoomableWorkbenchPart {
 		
 		viewScreenFromMapAction = new ViewScreenFromMapAction(this);
 		viewer.addDoubleClickListener(viewScreenFromMapAction);
+		initActions();
+		hookContextMenu();
+		
+	}
+	
+	private void hookContextMenu() {
+		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
+		menuMgr.setRemoveAllWhenShown(true);
+		fillContextMenu(menuMgr);
+
+		menuMgr.addMenuListener(new IMenuListener() {
+			public void menuAboutToShow(IMenuManager manager) {
+				EntityMapView.this.fillContextMenu(manager);
+			}
+		});
+		Menu menu = menuMgr.createContextMenu(viewer.getControl());
+
+		viewer.getControl().setMenu(menu);
+		getSite().registerContextMenu(menuMgr, viewer);
+
+	}
+
+	private void initActions() {
+		m_contextMenuZoomContributer = new ZoomContributionViewItem(this);
+	}
+	
+	private void fillContextMenu(IMenuManager manager) {
+		manager.add(m_contextMenuZoomContributer);
 	}
 
 	@Override
@@ -145,5 +182,4 @@ public class EntityMapView extends ViewPart implements IZoomableWorkbenchPart {
 		return selectedObjects;
 	}
 	
-
 }
