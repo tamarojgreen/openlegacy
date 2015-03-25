@@ -1,8 +1,8 @@
 package com.openlegacy.enterprise.ide.eclipse.views;
 
-import com.openlegacy.enterprise.ide.eclipse.Messages;
-import com.openlegacy.enterprise.ide.eclipse.ws.generator.EntitiesFetcher;
-import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.AbstractEntityModel;
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -10,6 +10,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -27,8 +28,9 @@ import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.mains.DesignTimeExecuterImpl;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
 
-import java.io.File;
-import java.util.List;
+import com.openlegacy.enterprise.ide.eclipse.Messages;
+import com.openlegacy.enterprise.ide.eclipse.ws.generator.EntitiesFetcher;
+import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.AbstractEntityModel;
 
 public class EntityMapView extends ViewPart implements IZoomableWorkbenchPart {
 
@@ -38,6 +40,8 @@ public class EntityMapView extends ViewPart implements IZoomableWorkbenchPart {
 
 	private MapLabelProvider mapLabelProvider;
 	private MapScreenEntityContentProvider screenContentProvider;
+	private ViewScreenFromMapAction viewScreenFromMapAction;
+	private IProject project;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -54,6 +58,9 @@ public class EntityMapView extends ViewPart implements IZoomableWorkbenchPart {
 
 		viewer.setLayoutAlgorithm(new CompositeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING,
 				new LayoutAlgorithm[] { new EntityMapSpringLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING) }));
+		
+		viewScreenFromMapAction = new ViewScreenFromMapAction(this);
+		viewer.addDoubleClickListener(viewScreenFromMapAction);
 	}
 
 	@Override
@@ -62,7 +69,12 @@ public class EntityMapView extends ViewPart implements IZoomableWorkbenchPart {
 	}
 
 	public void setProject(final IProject project) {
+		this.project = project;
 		refresh(project);
+	}
+	
+	public IProject getProject() {
+		return project;
 	}
 
 	private void refresh(final IProject project) {
@@ -121,5 +133,17 @@ public class EntityMapView extends ViewPart implements IZoomableWorkbenchPart {
 	public AbstractZoomableViewer getZoomableViewer() {
 		return viewer;
 	}
+	
+	public Object[] getSelectedObjects() {
+		Object[] selectedObjects = new Object[((IStructuredSelection) viewer.getSelection()).size()];
+		if (((IStructuredSelection) viewer.getSelection()).size() > 0) {
+			Iterator<Object> iter = ((IStructuredSelection) viewer.getSelection()).iterator();
+			for (int i = 0; iter.hasNext(); i++) {
+				selectedObjects[i] = iter.next();
+			}
+		}
+		return selectedObjects;
+	}
+	
 
 }
