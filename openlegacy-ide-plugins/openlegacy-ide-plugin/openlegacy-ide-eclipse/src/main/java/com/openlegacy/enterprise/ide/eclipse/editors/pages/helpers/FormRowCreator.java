@@ -59,11 +59,11 @@ public class FormRowCreator {
 	private static final String HELP_VIEW_ID = "com.openlegacy.enterprise.ide.eclipse.views.OpenLegacyHelpView";
 
 	public enum JAVA_DOCUMENTATION_TYPE {
-		SCREEN("http://files.openlegacy.org/javadoc/org/openlegacy/annotations/screen/{0}.html#{1}()"),
-		RPC("http://files.openlegacy.org/javadoc/org/openlegacy/annotations/rpc/{0}.html#{1}()"),
-		JPA("http://docs.oracle.com/javaee/7/api/javax/persistence/{0}.html#{1}()"),
-		JAVA_BASICS("http://docs.oracle.com/javase/tutorial/java/nutsandbolts/{0}.html#{1}"),
-		DB("http://files.openlegacy.org/javadoc/org/openlegacy/annotations/db/{0}.html#{1}()");
+		SCREEN("http://files.openlegacy.org/javadoc/org/openlegacy/annotations/screen/{0}.html#{1}()"), RPC(
+				"http://files.openlegacy.org/javadoc/org/openlegacy/annotations/rpc/{0}.html#{1}()"), JPA(
+				"http://docs.oracle.com/javaee/7/api/javax/persistence/{0}.html#{1}()"), JAVA_BASICS(
+				"http://docs.oracle.com/javase/tutorial/java/nutsandbolts/{0}.html#{1}"), DB(
+				"http://files.openlegacy.org/javadoc/org/openlegacy/annotations/db/{0}.html#{1}()");
 
 		private static final long serialVersionUID = 1L;
 
@@ -282,7 +282,7 @@ public class FormRowCreator {
 	 * @param key
 	 * @param dataKey
 	 */
-	public static void createComboBoxRow(FormToolkit toolkit, Composite parent, Map<String, CCombo> map,
+	public static CCombo createComboBoxRow(FormToolkit toolkit, Composite parent, Map<String, CCombo> map,
 			ModifyListener modifyListener, KeyListener keyListener, String label, String[] items, int index, String key,
 			boolean editable, JAVA_DOCUMENTATION_TYPE helpBaseUrl, String helpPage, String helpAnchor) {
 
@@ -311,6 +311,7 @@ public class FormRowCreator {
 		if (map != null) {
 			map.put(key, combo);
 		}
+		return combo;
 	}
 
 	public static Text createStringRowWithBrowseButton(FormToolkit toolkit, Composite parent, Map<String, Text> map,
@@ -370,7 +371,7 @@ public class FormRowCreator {
 				}
 				dialog.setTitle(Messages.getString("Dialog.selectClass.title"));//$NON-NLS-1$
 				if (dialog.open() == Window.OK) {
-					IType res = (IType)dialog.getResult()[0];
+					IType res = (IType) dialog.getResult()[0];
 					// text.setData(ID_FULLY_QUALIFIED_NAME, res.getFullyQualifiedName('.'));
 					text.setData(ID_FULLY_QUALIFIED_NAME, res.getFullyQualifiedName());
 					text.setText(res.getElementName());
@@ -450,7 +451,7 @@ public class FormRowCreator {
 				}
 				dialog.setTitle(Messages.getString("Dialog.selectClass.title"));//$NON-NLS-1$
 				if (dialog.open() == Window.OK) {
-					IType res = (IType)dialog.getResult()[0];
+					IType res = (IType) dialog.getResult()[0];
 					// combo.setData(ID_FULLY_QUALIFIED_NAME, res.getFullyQualifiedName('.'));
 					combo.setData(ID_FULLY_QUALIFIED_NAME, res.getFullyQualifiedName());
 					combo.setText(res.getElementName());
@@ -512,14 +513,14 @@ public class FormRowCreator {
 			if (ref != null) {
 				IViewPart view = ref.getView(true);
 				if (view != null) {
-					helpView = (OpenLegacyHelpView)view;
+					helpView = (OpenLegacyHelpView) view;
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(HELP_VIEW_ID, "help",
 							IWorkbenchPage.VIEW_ACTIVATE);
 				}
 			}
 
 			if (helpView == null) {
-				helpView = (OpenLegacyHelpView)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(
+				helpView = (OpenLegacyHelpView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(
 						HELP_VIEW_ID, "help", IWorkbenchPage.VIEW_VISIBLE);
 			}
 			helpView.setUrl(MessageFormat.format(baseUrl.getUrl(), page, anchor));
