@@ -102,7 +102,7 @@ public class ScreenEntityDefinitionsBuilderUtils {
 	public ScreenFieldDefinition addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field,
 			TerminalField labelField) {
 		SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)addField(screenEntityDefinition, field,
-				labelField.getValue());
+				labelField != null ? labelField.getValue() : "command");
 		if (fieldDefinition != null && labelField != null) {
 			fieldDefinition.setLabelPosition(labelField.getPosition());
 			fieldDefinition.setTerminalLabelField(labelField);
