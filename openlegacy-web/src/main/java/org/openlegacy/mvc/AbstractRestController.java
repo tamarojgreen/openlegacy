@@ -389,7 +389,7 @@ public abstract class AbstractRestController {
 	}
 
 	public Object loginPostXml(String xml, HttpServletResponse response) throws IOException {
-		xml = UrlUtil.decode(xml, "{");
+		xml = UrlUtil.decode(xml, "<");
 		if (!enableLogin) {
 			throw (new UnsupportedOperationException("/login is not support"));
 		}
