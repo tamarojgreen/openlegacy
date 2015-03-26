@@ -109,6 +109,7 @@
 								<property name="ruleParameters">
 									<map>
 										<entry key="labelRegex" value="\s*([a-zA-Z\p{L}]|\. \.)+.*" />
+										<entry key="commandLength" value="50" />
 									</map>
 								</property>
 							</bean>

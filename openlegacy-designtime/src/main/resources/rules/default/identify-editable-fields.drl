@@ -26,3 +26,24 @@ then
 	ScreenFieldDefinition screenFieldDefinition = screenEntityDefinitionsBuilder.addField($screenEntityDefinition,$editableField,$labelField);
 	update($screenEntityDefinition);
 end
+
+
+rule "find-command-fields"
+ruleflow-group "identify-editable-fields"
+no-loop
+when
+	$ruleParameterSet: RuleParametersSet(ruleId == "identify-editable-fields")
+	$commandLength   : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("commandLength");
+	
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// and a snapshot
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	
+	// and an editable field within the snapshot
+	$editableField: TerminalField(editable == true, length >= $commandLength) from $snapshot.getFields()
+then
+	ScreenFieldDefinition screenFieldDefinition = screenEntityDefinitionsBuilder.addField($screenEntityDefinition,$editableField,null);
+	update($screenEntityDefinition);
+end

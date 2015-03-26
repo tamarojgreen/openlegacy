@@ -11,8 +11,9 @@ import org.openlegacy.annotations.screen.*;
 public class DallasTexas {
     
 	
-	@ScreenField(row = 21, column = 17, endColumn= 80 ,labelColumn= 1 ,editable= true ,displayName = "Desired Target")
-    private String desiredTarget;
+	@ScreenField(row = 21, column = 2, endColumn= 65 ,editable= true ,displayName = "Command")
+    private String command;
+
 
     
 
