@@ -239,6 +239,7 @@ public class ActionsMasterBlock extends AbstractScreenEntityMasterBlock {
 					ActionModel model = (ActionModel) selection.getFirstElement();
 					actionsModel.getActions().remove(model);
 					// remove all validation markers for this model
+					getEntity().removeActionsSet(model.getUUID());
 					page.getEntityEditor().removeValidationMarkers(model.getUUID());
 
 					ScreenEntityUtils.ActionGenerator.generateScreenActionsActions(getEntity(), actionsModel);

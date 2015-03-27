@@ -453,6 +453,12 @@ public class ActionsActionDetailsPage extends AbstractScreenDetailsPage {
 						break;
 					}
 				}
+			} else {
+				// add validation marker
+				String message = MessageFormat.format("Target entity: {0} \n {1}", fullyQuailifiedName,//$NON-NLS-1$
+						Messages.getString("validation.could.not.load.selected.class"));//$NON-NLS-1$
+				validator.addMessage(message, IMessageProvider.ERROR, uuid);
+				return false;
 			}
 		} catch (MalformedURLException e) {
 		} catch (CoreException e) {

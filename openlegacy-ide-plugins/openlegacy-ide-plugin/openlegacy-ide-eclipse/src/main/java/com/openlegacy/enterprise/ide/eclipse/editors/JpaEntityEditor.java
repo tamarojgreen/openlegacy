@@ -2,7 +2,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors;
 
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntity;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.jpa.ActionsPape;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.jpa.ActionsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.jpa.FieldsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.jpa.GeneralPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.jpa.JpaEntitySaver;
@@ -33,7 +33,7 @@ public class JpaEntityEditor extends AbstractEditor {
 
 	private GeneralPage generalPage;
 	private FieldsPage fieldsPage;
-	private ActionsPape actionsPape;
+	private ActionsPage actionsPape;
 
 	private JpaEntity entity;
 
@@ -41,7 +41,7 @@ public class JpaEntityEditor extends AbstractEditor {
 	protected void addEditorPages() throws PartInitException {
 		generalPage = new GeneralPage(this);
 		fieldsPage = new FieldsPage(this);
-		actionsPape = new ActionsPape(this);
+		actionsPape = new ActionsPage(this);
 
 		addPage(generalPage);
 		addPage(fieldsPage);
@@ -53,7 +53,7 @@ public class JpaEntityEditor extends AbstractEditor {
 	protected void populateEntity(IEditorInput editorInput) throws PartInitException {
 		JpaEntity entity = null;
 		if (editorInput instanceof FileEditorInput) {
-			FileEditorInput feInput = (FileEditorInput)editorInput;
+			FileEditorInput feInput = (FileEditorInput) editorInput;
 			try {
 				File inputFile = PathsUtil.toOsLocation(feInput.getFile());
 				CompilationUnit compilationUnit = JavaParser.parse(inputFile, CharEncoding.UTF_8);

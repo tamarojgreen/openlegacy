@@ -14,16 +14,15 @@ package com.openlegacy.enterprise.ide.eclipse.editors.models.jpa;
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
+import org.openlegacy.annotations.db.Action;
 import org.openlegacy.db.definitions.DbActionDefinition;
 import org.openlegacy.utils.StringUtil;
-
-import java.util.UUID;
 
 /**
  * @author Ivan Bort
  * 
  */
-public class ActionModel implements DbActionDefinition {
+public class ActionModel extends JpaNamedObject implements DbActionDefinition {
 
 	private static final Class<?> DEFAULT_TARGET_ENTITY = void.class;
 
@@ -43,9 +42,9 @@ public class ActionModel implements DbActionDefinition {
 	private boolean prevGlobal;
 	private String prevTargetEntityClassName;
 
-	private UUID uuid = UUID.randomUUID();
-
 	public ActionModel(String actionName, String displayName, boolean global, String alias, String targetEntityClassName) {
+		super(Action.class.getSimpleName());
+
 		this.actionName = actionName;
 		this.displayName = displayName;
 		this.global = global;
@@ -158,10 +157,6 @@ public class ActionModel implements DbActionDefinition {
 		return prevTargetEntityClassName;
 	}
 
-	public UUID getUuid() {
-		return uuid;
-	}
-
 	public void setAction(SessionAction<? extends Session> action) {
 		this.action = action;
 	}
@@ -188,6 +183,11 @@ public class ActionModel implements DbActionDefinition {
 
 	public void setTargetEntityClassName(String targetEntityClassName) {
 		this.targetEntityClassName = targetEntityClassName;
+	}
+
+	public void setTargetEntityDefaultValue() {
+		targetEntityClassName = DEFAULT_TARGET_ENTITY.getSimpleName();
+		targetEntity = DEFAULT_TARGET_ENTITY;
 	}
 
 }

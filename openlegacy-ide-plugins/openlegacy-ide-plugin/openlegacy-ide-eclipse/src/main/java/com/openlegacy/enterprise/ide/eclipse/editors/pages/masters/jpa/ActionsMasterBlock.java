@@ -8,18 +8,19 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package com.openlegacy.enterprise.ide.eclipse.editors.pages.masters.rpc;
+
+package com.openlegacy.enterprise.ide.eclipse.editors.pages.masters.jpa;
 
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.ActionModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcActionsModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.ActionModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaActionsModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.IOpenLegacyDetailsPage;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc.ActionsActionDetailsPage;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.rpc.ActionsMasterBlockContentProvider;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.rpc.ActionsMasterBlockLabelProvider;
-import com.openlegacy.enterprise.ide.eclipse.editors.utils.rpc.RpcEntityUtils;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa.ActionsActionDetailsPage;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.jpa.ActionsMasterBlockContentProvider;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.jpa.ActionsMasterBlockLabelProvider;
+import com.openlegacy.enterprise.ide.eclipse.editors.utils.jpa.JpaEntityUtils;
 
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -47,11 +48,10 @@ import java.util.UUID;
 
 /**
  * @author Ivan Bort
- *
  */
-public class ActionsMasterBlock extends AbstractRpcEntityMasterBlock {
+public class ActionsMasterBlock extends AbstractJpaEntityMasterBlock {
 
-	private RpcActionsModel actionsModel;
+	private JpaActionsModel actionsModel;
 
 	public ActionsMasterBlock(AbstractPage page) {
 		super(page);
@@ -78,8 +78,8 @@ public class ActionsMasterBlock extends AbstractRpcEntityMasterBlock {
 
 		FormToolkit toolkit = managedForm.getToolkit();
 		Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
-		section.setText(Messages.getString("ActionsPageScrolledBlock.masterPartName")); //$NON-NLS-1$
-		section.setDescription(Messages.getString("ActionsPageScrolledBlock.masterPartDesc")); //$NON-NLS-1$
+		section.setText(Messages.getString("jpa.actions.page.masterPartName")); //$NON-NLS-1$
+		section.setDescription(Messages.getString("jpa.actions.page.masterPartDesc")); //$NON-NLS-1$
 		section.marginWidth = 10;
 		section.marginHeight = 5;
 
@@ -160,9 +160,9 @@ public class ActionsMasterBlock extends AbstractRpcEntityMasterBlock {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				ActionModel model = new ActionModel("", "", "", "", true);
+				ActionModel model = new ActionModel("", "", true, "", "");
 				actionsModel.getActions().add(model);
-				RpcEntityUtils.ActionGenerator.generateRpcActionsAction(getEntity(), actionsModel);
+				JpaEntityUtils.ActionGenerator.generateJpaActionsAction(getEntity(), actionsModel);
 				reassignMasterBlockViewerInput(model.getUUID());
 			}
 
@@ -181,11 +181,12 @@ public class ActionsMasterBlock extends AbstractRpcEntityMasterBlock {
 				if (selection.size() > 0) {
 					ActionModel model = (ActionModel) selection.getFirstElement();
 					actionsModel.getActions().remove(model);
+
 					// remove all validation markers for this model
 					getEntity().removeActionsSet(model.getUUID());
 					page.getEntityEditor().removeValidationMarkers(model.getUUID());
 
-					RpcEntityUtils.ActionGenerator.generateRpcActionsAction(getEntity(), actionsModel);
+					JpaEntityUtils.ActionGenerator.generateJpaActionsAction(getEntity(), actionsModel);
 					int selectionIndex = tableViewer.getTable().getSelectionIndex();
 					if (tableViewer.getTable().getItemCount() > 1) {
 						TableItem item = tableViewer.getTable().getItem(selectionIndex > 0 ? selectionIndex - 1 : 1);
@@ -198,7 +199,7 @@ public class ActionsMasterBlock extends AbstractRpcEntityMasterBlock {
 		});
 	}
 
-	public RpcActionsModel getActionsModel() {
+	public JpaActionsModel getActionsModel() {
 		return actionsModel;
 	}
 

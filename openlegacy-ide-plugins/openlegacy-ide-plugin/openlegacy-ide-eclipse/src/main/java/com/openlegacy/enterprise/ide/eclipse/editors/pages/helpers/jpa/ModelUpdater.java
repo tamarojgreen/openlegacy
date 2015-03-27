@@ -1,6 +1,7 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa;
 
 import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaActionsModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
@@ -16,7 +17,10 @@ import com.openlegacy.enterprise.ide.eclipse.editors.utils.jpa.JpaEntityUtils;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.runtime.CoreException;
+import org.openlegacy.db.actions.DbAction;
+import org.openlegacy.db.actions.DbActions;
 import org.openlegacy.designtime.db.generators.support.DbAnnotationConstants;
+import org.openlegacy.designtime.generators.AnnotationConstants;
 
 import java.net.MalformedURLException;
 
@@ -124,7 +128,7 @@ public class ModelUpdater {
 		if (text != null) {
 			if (key.equals(DbAnnotationConstants.CASCADE)) {
 				model.setCascade(StringUtils.isEmpty(text) ? new CascadeType[] {}
-				: new CascadeType[] { CascadeType.valueOf(text) });
+						: new CascadeType[] { CascadeType.valueOf(text) });
 			} else if (key.equals(DbAnnotationConstants.FETCH)) {
 				model.setFetch(StringUtils.isEmpty(text) ? FetchType.LAZY : FetchType.valueOf(text));
 			} else if (key.equals(DbAnnotationConstants.MAPPED_BY)) {
@@ -171,14 +175,14 @@ public class ModelUpdater {
 				}
 			} else if (key.equals(DbAnnotationConstants.CASCADE)) {
 				model.setCascade(StringUtils.isEmpty(text) ? new CascadeType[] {}
-				: new CascadeType[] { CascadeType.valueOf(text) });
+						: new CascadeType[] { CascadeType.valueOf(text) });
 			} else if (key.equals(DbAnnotationConstants.FETCH)) {
 				model.setFetch(StringUtils.isEmpty(text) ? FetchType.LAZY : FetchType.valueOf(text));
 			} else if (key.equals(Constants.JAVA_TYPE)) {
-				((JpaManyToOneFieldModel)model.getParent()).setJavaTypeName(text);
+				((JpaManyToOneFieldModel) model.getParent()).setJavaTypeName(text);
 				if (fullyQualifiedName != null) {
 					Class<?> clazz = Utils.getClazz(fullyQualifiedName);
-					((JpaManyToOneFieldModel)model.getParent()).setJavaType(clazz);
+					((JpaManyToOneFieldModel) model.getParent()).setJavaType(clazz);
 				}
 			}
 		}
@@ -215,6 +219,42 @@ public class ModelUpdater {
 			}
 		}
 		JpaEntityUtils.ActionGenerator.generateJpaJoinColumnAction(entity, model);
+	}
+
+	public static void updateJpaActionModel(JpaEntity entity, ActionModel model, JpaActionsModel actionsModel, String key,
+			String text, Boolean selection, String fullyQualifiedName) throws MalformedURLException, CoreException {
+
+		if (selection != null) {
+			if (key.equals(AnnotationConstants.GLOBAL)) {
+				model.setGlobal(selection);
+			}
+		}
+		if (text != null) {
+			if (key.equals(AnnotationConstants.DISPLAY_NAME)) {
+				model.setDisplayName(text);
+			} else if (key.equals(AnnotationConstants.ALIAS)) {
+				model.setAlias(text);
+			} else if (key.equals(AnnotationConstants.TARGET_ENTITY)) {
+				model.setTargetEntityClassName(text);
+				if (fullyQualifiedName != null) {
+					Class<?> clazz = Utils.getClazz(fullyQualifiedName);
+					model.setTargetEntity(clazz);
+				}
+			} else if (key.equals(AnnotationConstants.ACTION)) {
+				if (!StringUtils.isEmpty(text)) {
+					model.setActionName(text);
+					DbAction action = DbActions.newAction(text.toUpperCase());
+					if (action != null) {
+						model.setAction(action);
+					}
+				} else {
+					model.setActionName("");
+					model.setAction(null);
+				}
+			}
+		}
+
+		JpaEntityUtils.ActionGenerator.generateJpaActionsAction(entity, actionsModel);
 	}
 
 }

@@ -9,40 +9,46 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc;
+package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa;
 
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.ActionModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcActionsModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.ActionModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaActionsModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ControlsUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc.ModelUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.masters.rpc.ActionsMasterBlock;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ControlsUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ModelUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.masters.jpa.ActionsMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.ComboValidator;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.Utils;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
-import org.openlegacy.annotations.rpc.RpcEntity;
+import org.openlegacy.db.actions.DbActions;
 import org.openlegacy.designtime.generators.AnnotationConstants;
-import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
-import org.openlegacy.rpc.actions.RpcActions;
+import org.openlegacy.ide.eclipse.Activator;
 
 import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
@@ -52,14 +58,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.persistence.Entity;
+
 /**
  * @author Ivan Bort
  */
-public class ActionsActionDetailsPage extends AbstractRpcDetailsPage {
+public class ActionsActionDetailsPage extends AbstractJpaDetailsPage {
 
 	private ActionModel model;
 	private ComboValidator actionComboValidator;
 	private TextValidator targetEntityControlValidator;
+	private Text targetEntityControl;
 
 	public ActionsActionDetailsPage(AbstractMasterBlock master) {
 		super(master);
@@ -130,8 +139,8 @@ public class ActionsActionDetailsPage extends AbstractRpcDetailsPage {
 		FormRowCreator.createSpacer(toolkit, client, 2);
 		// "action" row - combo
 		CCombo actionsCombo = FormRowCreator.createComboBoxRow(toolkit, client, mapCombos, getDefaultModifyListener(),
-				getDefaultComboBoxKeyListener(), Messages.getString("rpc.actions.page.col.action.label"), getRpcActions(),//$NON-NLS-1$
-				0, AnnotationConstants.ACTION, false, JAVA_DOCUMENTATION_TYPE.RPC, "Action", "action");//$NON-NLS-1$ //$NON-NLS-2$
+				getDefaultComboBoxKeyListener(), Messages.getString("jpa.actions.page.col.action.label"), getJpaActions(),//$NON-NLS-1$
+				0, AnnotationConstants.ACTION, false, JAVA_DOCUMENTATION_TYPE.DB, "Action", "action");//$NON-NLS-1$ //$NON-NLS-2$
 		actionComboValidator = new ComboValidator(master, managedForm, actionsCombo, null) {
 
 			@Override
@@ -146,24 +155,20 @@ public class ActionsActionDetailsPage extends AbstractRpcDetailsPage {
 		};
 		// "displayName" - string
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("rpc.actions.page.col.display.name.label"), "", AnnotationConstants.DISPLAY_NAME,//$NON-NLS-1$ //$NON-NLS-2$
-				JAVA_DOCUMENTATION_TYPE.RPC, "Action", "displayName");//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.actions.page.col.display.name.label"), "", AnnotationConstants.DISPLAY_NAME,//$NON-NLS-1$ //$NON-NLS-2$
+				JAVA_DOCUMENTATION_TYPE.DB, "Action", "displayName");//$NON-NLS-1$ //$NON-NLS-2$
 		// "alias" - string
 		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("rpc.actions.page.col.alias.label"), "", AnnotationConstants.ALIAS,//$NON-NLS-1$ //$NON-NLS-2$
-				JAVA_DOCUMENTATION_TYPE.RPC, "Action", "alias");//$NON-NLS-1$ //$NON-NLS-2$
-		// "path" - string
-		FormRowCreator.createStringRow(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("rpc.actions.page.col.path.label"), "", RpcAnnotationConstants.PATH,//$NON-NLS-1$ //$NON-NLS-2$
-				JAVA_DOCUMENTATION_TYPE.RPC, "Action", "path");//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("jpa.actions.page.col.alias.label"), "", AnnotationConstants.ALIAS,//$NON-NLS-1$ //$NON-NLS-2$
+				JAVA_DOCUMENTATION_TYPE.DB, "Action", "alias");//$NON-NLS-1$ //$NON-NLS-2$
 		// "is global" - boolean
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
 				Messages.getString("rpc.actions.page.col.global.label"), false, AnnotationConstants.GLOBAL,//$NON-NLS-1$
 				JAVA_DOCUMENTATION_TYPE.RPC, "Action", "global");//$NON-NLS-1$ //$NON-NLS-2$
-		// "target entity" - browse
-		Text targetEntityControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts,
-				getDefaultModifyListener(), Messages.getString("rpc.actions.page.col.target.entity"), "", //$NON-NLS-1$ //$NON-NLS-2$
-				AnnotationConstants.TARGET_ENTITY, null, JAVA_DOCUMENTATION_TYPE.RPC, "Action", "targetEntity");//$NON-NLS-1$ //$NON-NLS-2$
+		targetEntityControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts,
+				getDefaultModifyListener(), Messages.getString("jpa.actions.page.col.target.entity"), "",//$NON-NLS-1$ //$NON-NLS-2$
+				AnnotationConstants.TARGET_ENTITY, null, true, getTargetEntityClearListener(), JAVA_DOCUMENTATION_TYPE.DB,
+				"Action", "targetEntity");
 		targetEntityControlValidator = new TextValidator(master, managedForm, targetEntityControl, null) {
 
 			@Override
@@ -188,16 +193,17 @@ public class ActionsActionDetailsPage extends AbstractRpcDetailsPage {
 
 	@Override
 	protected void updateControls() {
-		ControlsUpdater.updateRpcActionDetailsControls(model, mapTexts, mapCombos, mapCheckBoxes);
+		ControlsUpdater.updateJpaActionDetailsControl(model, mapTexts, mapCombos, mapCheckBoxes);
 		revalidate();
 	}
 
 	@Override
 	protected void doUpdateModel(String key) throws MalformedURLException, CoreException {
-		RpcActionsModel actionsModel = ((ActionsMasterBlock) master).getActionsModel();
+		JpaActionsModel actionsModel = ((ActionsMasterBlock) master).getActionsModel();
 		Map<String, Object> map = getValuesOfControlsForKey(key);
-		ModelUpdater.updateRpcActionModel(getEntity(), model, actionsModel, key, (String) map.get(Constants.TEXT_VALUE),
+		ModelUpdater.updateJpaActionModel(getEntity(), model, actionsModel, key, (String) map.get(Constants.TEXT_VALUE),
 				(Boolean) map.get(Constants.BOOL_VALUE), (String) map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
+
 	}
 
 	@Override
@@ -214,12 +220,12 @@ public class ActionsActionDetailsPage extends AbstractRpcDetailsPage {
 		}
 	}
 
-	private static String[] getRpcActions() {
+	private static String[] getJpaActions() {
 		List<String> list = new ArrayList<String>();
-		list.add(RpcActions.READ.class.getSimpleName());
-		list.add(RpcActions.CREATE.class.getSimpleName());
-		list.add(RpcActions.DELETE.class.getSimpleName());
-		list.add(RpcActions.UPDATE.class.getSimpleName());
+		list.add(DbActions.READ.class.getSimpleName());
+		list.add(DbActions.CREATE.class.getSimpleName());
+		list.add(DbActions.DELETE.class.getSimpleName());
+		list.add(DbActions.UPDATE.class.getSimpleName());
 		return list.toArray(new String[] {});
 	}
 
@@ -239,13 +245,13 @@ public class ActionsActionDetailsPage extends AbstractRpcDetailsPage {
 		if (StringUtils.isEmpty(fullyQuailifiedName) || StringUtils.isEmpty(text)) {
 			return isValid;
 		}
-		boolean isRpcEntity = false;
+		boolean isJpaEntity = false;
 		try {
 			Class<?> clazz = Utils.getClazz(fullyQuailifiedName);
 			if (clazz != null) {
 				for (Annotation annotation : clazz.getDeclaredAnnotations()) {
-					if (annotation.annotationType().getName().equals(RpcEntity.class.getName())) {
-						isRpcEntity = true;
+					if (annotation.annotationType().getName().equals(Entity.class.getName())) {
+						isJpaEntity = true;
 						break;
 					}
 				}
@@ -259,14 +265,36 @@ public class ActionsActionDetailsPage extends AbstractRpcDetailsPage {
 		} catch (MalformedURLException e) {
 		} catch (CoreException e) {
 		}
-		if (!isRpcEntity && !StringUtils.equals(fullyQuailifiedName, org.openlegacy.rpc.RpcEntity.NONE.class.getName())) {
+		if (!isJpaEntity && !StringUtils.equals(fullyQuailifiedName, void.class.getName())) {
 			isValid = false;
 			// add validation marker
 			String message = MessageFormat.format("Target entity: {0} \n {1}", fullyQuailifiedName,//$NON-NLS-1$
-					Messages.getString("validation.selected.class.is.not.rpc.entity"));//$NON-NLS-1$
+					Messages.getString("validation.selected.class.is.not.jpa.entity"));//$NON-NLS-1$
 			validator.addMessage(message, IMessageProvider.ERROR, uuid);
 		}
 		return isValid;
+	}
+
+	private SelectionListener getTargetEntityClearListener() {
+		return new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				model.setTargetEntityDefaultValue();
+				targetEntityControl.setData(FormRowCreator.ID_FULLY_QUALIFIED_NAME, model.getTargetEntity().getName());
+				targetEntityControl.setText(model.getTargetEntityClassName());
+				try {
+					JpaActionsModel actionsModel = ((ActionsMasterBlock) master).getActionsModel();
+					ModelUpdater.updateJpaActionsModel(getEntity(), actionsModel);
+					setDirty(getEntity().isDirty());
+				} catch (Exception ex) {
+					ErrorDialog.openError(((IEditorPart) managedForm.getContainer()).getSite().getShell(),
+							Messages.getString("error.problem.occurred"), ex.getMessage(), new Status(IStatus.ERROR,
+									Activator.PLUGIN_ID, ex.getMessage()));
+				}
+			}
+
+		};
 	}
 
 }
