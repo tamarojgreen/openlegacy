@@ -446,16 +446,19 @@ public class ActionsActionDetailsPage extends AbstractScreenDetailsPage {
 		boolean isScreenEntity = false;
 		try {
 			Class<?> clazz = Utils.getClazz(fullyQuailifiedName);
-			for (Annotation annotation : clazz.getDeclaredAnnotations()) {
-				if (annotation.annotationType().getName().equals(ScreenEntity.class.getName())) {
-					isScreenEntity = true;
-					break;
+			if (clazz != null) {
+				for (Annotation annotation : clazz.getDeclaredAnnotations()) {
+					if (annotation.annotationType().getName().equals(ScreenEntity.class.getName())) {
+						isScreenEntity = true;
+						break;
+					}
 				}
 			}
 		} catch (MalformedURLException e) {
 		} catch (CoreException e) {
 		}
-		if (!isScreenEntity && StringUtils.equals(fullyQuailifiedName, org.openlegacy.terminal.ScreenEntity.NONE.class.getName())) {
+		if (!isScreenEntity
+				&& !StringUtils.equals(fullyQuailifiedName, org.openlegacy.terminal.ScreenEntity.NONE.class.getName())) {
 			isValid = false;
 			// add validation marker
 			String message = MessageFormat.format("Target entity: {0} \n {1}", fullyQuailifiedName,//$NON-NLS-1$

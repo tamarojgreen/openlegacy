@@ -8,20 +8,19 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package com.openlegacy.enterprise.ide.eclipse.editors.pages.masters.screen;
+package com.openlegacy.enterprise.ide.eclipse.editors.pages.masters.rpc;
 
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ActionModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenActionsModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.ActionModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcActionsModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.IOpenLegacyDetailsPage;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.screen.ActionsActionDetailsPage;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.screen.ActionsMasterBlockContentProvider;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.screen.ActionsMasterBlockLabelProvider;
-import com.openlegacy.enterprise.ide.eclipse.editors.utils.screen.ScreenEntityUtils;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.rpc.ActionsActionDetailsPage;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.rpc.ActionsMasterBlockContentProvider;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.rpc.ActionsMasterBlockLabelProvider;
+import com.openlegacy.enterprise.ide.eclipse.editors.utils.rpc.RpcEntityUtils;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -36,7 +35,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IManagedForm;
@@ -44,14 +42,6 @@ import org.eclipse.ui.forms.SectionPart;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-import org.openlegacy.annotations.screen.Action.ActionType;
-import org.openlegacy.ide.eclipse.preview.screen.FieldRectangle;
-import org.openlegacy.ide.eclipse.preview.screen.ScreenPreview;
-import org.openlegacy.ide.eclipse.preview.screen.SelectedObject;
-import org.openlegacy.terminal.actions.TerminalAction;
-import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
-import org.openlegacy.terminal.actions.TerminalActions;
-import org.openlegacy.utils.StringUtil;
 
 import java.util.UUID;
 
@@ -59,9 +49,9 @@ import java.util.UUID;
  * @author Ivan Bort
  *
  */
-public class ActionsMasterBlock extends AbstractScreenEntityMasterBlock {
+public class ActionsMasterBlock extends AbstractRpcEntityMasterBlock {
 
-	private ScreenActionsModel actionsModel;
+	private RpcActionsModel actionsModel;
 
 	public ActionsMasterBlock(AbstractPage page) {
 		super(page);
@@ -170,56 +160,9 @@ public class ActionsMasterBlock extends AbstractScreenEntityMasterBlock {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				ActionModel model = new ActionModel("", "", "", AdditionalKey.NONE, 0, 0, 0, null, "", ActionType.GENERAL,//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-						org.openlegacy.terminal.ScreenEntity.NONE.class.getSimpleName(), 0, true,
-						TerminalActions.NONE.class.getSimpleName());
-
-				ScreenPreview screenPreview = (ScreenPreview) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(
-						ScreenPreview.ID);
-				if (screenPreview != null) {
-					SelectedObject selectedObject = screenPreview.getSelectedObject();
-
-					if (selectedObject != null) {
-						FieldRectangle fieldRectangle = selectedObject.getFieldRectangle();
-						String selectedText = fieldRectangle.getValue();
-
-						if (selectedText != null && !(selectedText = selectedText.trim()).isEmpty()) {
-							String[] selectedTextParts = selectedText.split("-|=");
-
-							if (selectedTextParts.length == 2) {
-								String key = selectedTextParts[0];
-								String label = selectedTextParts[1];
-
-								TerminalAction terminalAction = TerminalActions.newAction(key);
-								if (terminalAction != null) {
-									model.setAction(terminalAction);
-									model.setActionName(terminalAction.getClass().getSimpleName());
-								} else if (key.matches("^(F1[3-9])|(F2[0-4])$")) {
-									// F13 -> SHIFT + F1 etc
-									Integer fKey = Integer.parseInt(key.substring(1)) - 12;
-									terminalAction = TerminalActions.newAction("F" + fKey);
-									model.setAction(terminalAction);
-									model.setAdditionalKey(AdditionalKey.SHIFT);
-									model.setActionName(terminalAction.getClass().getSimpleName());
-								}
-
-								if (StringUtil.containsRTLChar(label)) {
-									label = StringUtils.reverse(label);
-								}
-
-								model.setDisplayName(label);
-								model.setAlias(StringUtil.toJavaFieldName(label));
-
-								model.setRow(fieldRectangle.getRow());
-								model.setColumn(fieldRectangle.getColumn() + fieldRectangle.getValue().indexOf(selectedText));
-								model.setLength(selectedText.length());
-								model.setWhen(".*" + key + ".*");
-							}
-						}
-					}
-				}
+				ActionModel model = new ActionModel("", "", "", "", true);
 				actionsModel.getActions().add(model);
-				ScreenEntityUtils.ActionGenerator.generateScreenActionsActions(getEntity(), actionsModel);
+				RpcEntityUtils.ActionGenerator.generateRpcActionsAction(getEntity(), actionsModel);
 				reassignMasterBlockViewerInput(model.getUUID());
 			}
 
@@ -241,7 +184,7 @@ public class ActionsMasterBlock extends AbstractScreenEntityMasterBlock {
 					// remove all validation markers for this model
 					page.getEntityEditor().removeValidationMarkers(model.getUUID());
 
-					ScreenEntityUtils.ActionGenerator.generateScreenActionsActions(getEntity(), actionsModel);
+					RpcEntityUtils.ActionGenerator.generateRpcActionsAction(getEntity(), actionsModel);
 					int selectionIndex = tableViewer.getTable().getSelectionIndex();
 					if (tableViewer.getTable().getItemCount() > 1) {
 						TableItem item = tableViewer.getTable().getItem(selectionIndex > 0 ? selectionIndex - 1 : 1);
@@ -254,7 +197,7 @@ public class ActionsMasterBlock extends AbstractScreenEntityMasterBlock {
 		});
 	}
 
-	public ScreenActionsModel getActionsModel() {
+	public RpcActionsModel getActionsModel() {
 		return actionsModel;
 	}
 

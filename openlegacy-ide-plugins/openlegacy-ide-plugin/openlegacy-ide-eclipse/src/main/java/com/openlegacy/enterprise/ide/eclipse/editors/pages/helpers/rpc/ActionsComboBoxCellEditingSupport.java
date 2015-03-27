@@ -7,6 +7,8 @@ import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.openlegacy.designtime.generators.AnnotationConstants;
+import org.openlegacy.rpc.actions.RpcAction;
+import org.openlegacy.rpc.actions.RpcActions;
 
 import java.util.List;
 
@@ -55,7 +57,9 @@ public class ActionsComboBoxCellEditingSupport extends EditingSupport {
 	@Override
 	protected Object getValue(Object element) {
 		if (this.fieldName.equals(AnnotationConstants.GLOBAL)) {
-			return this.items.indexOf(String.valueOf(((ActionModel)element).isGlobal()).toLowerCase());
+			return this.items.indexOf(String.valueOf(((ActionModel) element).isGlobal()).toLowerCase());
+		} else if (fieldName.equals(AnnotationConstants.ACTION)) {
+			return items.indexOf(((ActionModel) element).getActionName());
 		}
 		return 0;
 	}
@@ -67,10 +71,17 @@ public class ActionsComboBoxCellEditingSupport extends EditingSupport {
 	 */
 	@Override
 	protected void setValue(Object element, Object value) {
-		if (this.fieldName.equals(AnnotationConstants.GLOBAL) && ((Integer)value >= 0)) {
-			((ActionModel)element).setGlobal(Boolean.valueOf(this.items.get((Integer)value).toLowerCase()));
-			this.viewer.update(element, null);
+		if (this.fieldName.equals(AnnotationConstants.GLOBAL) && ((Integer) value >= 0)) {
+			((ActionModel) element).setGlobal(Boolean.valueOf(this.items.get((Integer) value).toLowerCase()));
+		} else if (fieldName.equals(AnnotationConstants.ACTION) && ((Integer) value >= 0)) {
+			String actionName = items.get((Integer) value);
+			((ActionModel) element).setActionName(actionName);
+			RpcAction action = RpcActions.newAction(actionName);
+			if (action != null) {
+				((ActionModel) element).setAction(action);
+			}
 		}
+		this.viewer.update(element, null);
 	}
 
 }

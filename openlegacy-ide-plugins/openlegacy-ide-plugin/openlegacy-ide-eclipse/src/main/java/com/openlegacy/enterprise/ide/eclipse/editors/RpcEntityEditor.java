@@ -57,7 +57,7 @@ public class RpcEntityEditor extends AbstractEditor {
 	protected void populateEntity(IEditorInput editorInput) throws PartInitException {
 		RpcEntity entity = null;
 		if (editorInput instanceof FileEditorInput) {
-			FileEditorInput feInput = (FileEditorInput)editorInput;
+			FileEditorInput feInput = (FileEditorInput) editorInput;
 			try {
 				File inputFile = PathsUtil.toOsLocation(feInput.getFile());
 				CompilationUnit compilationUnit = JavaParser.parse(inputFile, CharEncoding.UTF_8);

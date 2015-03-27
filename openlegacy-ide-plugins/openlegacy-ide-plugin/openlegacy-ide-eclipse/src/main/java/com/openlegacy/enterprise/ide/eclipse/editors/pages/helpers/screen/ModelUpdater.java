@@ -60,10 +60,6 @@ public class ModelUpdater {
 		}
 	}
 
-	public static void updateScreenActionsModel(ScreenEntity entity, ScreenActionsModel model) {
-		ScreenEntityUtils.ActionGenerator.generateScreenActionsActions(entity, model);
-	}
-
 	@SuppressWarnings("unchecked")
 	public static void updateScreenActionModel(ScreenEntity entity, ActionModel model, ScreenActionsModel actionsModel,
 			String key, String text, Boolean selection, String fullyQualifiedName) throws MalformedURLException, CoreException {

@@ -116,9 +116,9 @@ public class RpcEntityUtils {
 		public static void generateRpcBooleanFieldActions(RpcEntity entity, RpcBooleanFieldModel model, boolean checkPrevious) {
 			boolean isPrevious = true;
 			boolean isDefault = true;
-			RpcBooleanFieldModel entityModel = (RpcBooleanFieldModel)entity.getFields().get(model.getUUID());
+			RpcBooleanFieldModel entityModel = (RpcBooleanFieldModel) entity.getFields().get(model.getUUID());
 			if (entityModel == null) {
-				entityModel = (RpcBooleanFieldModel)entity.getPartByUUID(model.getParent().getUUID()).getFields().get(
+				entityModel = (RpcBooleanFieldModel) entity.getPartByUUID(model.getParent().getUUID()).getFields().get(
 						model.getUUID());
 			}
 			// @RpcBooleanField.trueValue: default none
@@ -147,9 +147,9 @@ public class RpcEntityUtils {
 		public static void generateRpcNumericFieldActions(RpcEntity entity, RpcIntegerFieldModel model, boolean checkPrevious) {
 			boolean isPrevious = true;
 			boolean isDefault = true;
-			RpcIntegerFieldModel entityModel = (RpcIntegerFieldModel)entity.getFields().get(model.getUUID());
+			RpcIntegerFieldModel entityModel = (RpcIntegerFieldModel) entity.getFields().get(model.getUUID());
 			if (entityModel == null) {
-				entityModel = (RpcIntegerFieldModel)entity.getPartByUUID(model.getParent().getUUID()).getFields().get(
+				entityModel = (RpcIntegerFieldModel) entity.getPartByUUID(model.getParent().getUUID()).getFields().get(
 						model.getUUID());
 			}
 			// @RpcNumericField.minimumValue: default 0.0
@@ -353,7 +353,7 @@ public class RpcEntityUtils {
 			if (!(model.getParent() instanceof RpcPartModel)) {
 				return;
 			}
-			RpcPartModel partModel = (RpcPartModel)model.getParent();
+			RpcPartModel partModel = (RpcPartModel) model.getParent();
 			RpcPartModel entityModel = entity.getPartByUUID(partModel.getUUID());
 			if (entityModel == null) {
 				return;
@@ -384,9 +384,9 @@ public class RpcEntityUtils {
 		public static void generateRpcDateFieldActions(RpcEntity entity, RpcDateFieldModel model, boolean checkPrevious) {
 			boolean isPrevious = true;
 			boolean isDefault = true;
-			RpcDateFieldModel entityModel = (RpcDateFieldModel)entity.getFields().get(model.getUUID());
+			RpcDateFieldModel entityModel = (RpcDateFieldModel) entity.getFields().get(model.getUUID());
 			if (entityModel == null) {
-				entityModel = (RpcDateFieldModel)entity.getPartByUUID(model.getParent().getUUID()).getFields().get(
+				entityModel = (RpcDateFieldModel) entity.getPartByUUID(model.getParent().getUUID()).getFields().get(
 						model.getUUID());
 			}
 			// @RpcDateField.pattern: default none;
@@ -401,9 +401,9 @@ public class RpcEntityUtils {
 		public static void generateRpcEnumFieldActions(RpcEntity entity, RpcEnumFieldModel model, boolean checkPrevious) {
 			boolean isPrevious = false;
 			boolean isDefault = true;
-			RpcEnumFieldModel entityModel = (RpcEnumFieldModel)entity.getFields().get(model.getUUID());
+			RpcEnumFieldModel entityModel = (RpcEnumFieldModel) entity.getFields().get(model.getUUID());
 			if (entityModel == null) {
-				entityModel = (RpcEnumFieldModel)entity.getParts().get(model.getParent().getUUID()).getFields().get(
+				entityModel = (RpcEnumFieldModel) entity.getParts().get(model.getParent().getUUID()).getFields().get(
 						model.getUUID());
 			}
 			// @RpcField java type: default none
@@ -585,13 +585,13 @@ public class RpcEntityUtils {
 
 	public static RpcEntityModel getRpcEntityModel(RpcEntityDefinition entityDefinition) {
 		RpcEntityModel model = new RpcEntityModel();
-		model.init((CodeBasedRpcEntityDefinition)entityDefinition);
+		model.init((CodeBasedRpcEntityDefinition) entityDefinition);
 		return model;
 	}
 
 	public static RpcNavigationModel getRpcNavigationModel(RpcEntityDefinition entityDefinition) {
 		RpcNavigationModel model = new RpcNavigationModel();
-		model.init((CodeBasedRpcEntityDefinition)entityDefinition);
+		model.init((CodeBasedRpcEntityDefinition) entityDefinition);
 		return model;
 	}
 
@@ -613,9 +613,9 @@ public class RpcEntityUtils {
 			} else if (fieldDefinition.getFieldTypeDefinition() instanceof EnumFieldTypeDefinition) {
 				model = new RpcEnumFieldModel(parent);
 			} else {
-				if (((SimpleRpcFieldDefinition)fieldDefinition).getJavaTypeName().equalsIgnoreCase(Integer.class.getSimpleName())) {
+				if (((SimpleRpcFieldDefinition) fieldDefinition).getJavaTypeName().equalsIgnoreCase(Integer.class.getSimpleName())) {
 					model = new RpcIntegerFieldModel(parent);
-				} else if (((SimpleRpcFieldDefinition)fieldDefinition).getJavaTypeName().equalsIgnoreCase(
+				} else if (((SimpleRpcFieldDefinition) fieldDefinition).getJavaTypeName().equalsIgnoreCase(
 						BigInteger.class.getSimpleName())) {
 					model = new RpcBigIntegerFieldModel(parent);
 				} else {
@@ -641,7 +641,7 @@ public class RpcEntityUtils {
 		for (T part : values) {
 			if (part instanceof CodeBasedRpcPartDefinition) {
 				RpcPartModel model = new RpcPartModel(parent);
-				model.init((CodeBasedRpcPartDefinition)part);
+				model.init((CodeBasedRpcPartDefinition) part);
 				map.put(model.getUUID(), model);
 				sortedParts.add(model.clone());
 			}
@@ -651,7 +651,7 @@ public class RpcEntityUtils {
 
 	public static RpcActionsModel getRpcActionsModel(RpcEntityDefinition entityDefinition) {
 		RpcActionsModel model = new RpcActionsModel();
-		model.init((CodeBasedRpcEntityDefinition)entityDefinition);
+		model.init((CodeBasedRpcEntityDefinition) entityDefinition);
 		return model;
 	}
 
@@ -678,14 +678,14 @@ public class RpcEntityUtils {
 				for (AbstractAction action : values2) {
 					for (ActionType actionType : actionTypes) {
 						if (action.getActionType().equals(actionType) && (action.getTarget() == target)) {
-							list.add((T)action);
+							list.add((T) action);
 							break;
 						}
 					}
 				}
 			}
 		}
-		return (List<T>)RpcEntityActionsSorter.INSTANCE.sort((List<AbstractAction>)list);
+		return (List<T>) RpcEntityActionsSorter.INSTANCE.sort((List<AbstractAction>) list);
 	}
 
 	/**
@@ -707,13 +707,13 @@ public class RpcEntityUtils {
 			if (!map.isEmpty()) {
 				Collection<AbstractAction> values2 = map.values();
 				for (AbstractAction action : values2) {
-					if (actionClass.isAssignableFrom(action.getClass())) {
-						list.add((T)action);
+					if (StringUtils.equals(actionClass.getName(), action.getClass().getName())) {
+						list.add((T) action);
 					}
 				}
 			}
 		}
-		return (List<T>)RpcEntityActionsSorter.INSTANCE.sort((List<AbstractAction>)list);
+		return (List<T>) RpcEntityActionsSorter.INSTANCE.sort((List<AbstractAction>) list);
 	}
 
 	public static void reorderFieldsAndParts(RpcEntity entity) {

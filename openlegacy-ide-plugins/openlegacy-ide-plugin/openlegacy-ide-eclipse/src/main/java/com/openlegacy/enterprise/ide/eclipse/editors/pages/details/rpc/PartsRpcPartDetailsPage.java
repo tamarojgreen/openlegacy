@@ -47,6 +47,7 @@ import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
+import org.openlegacy.rpc.actions.RpcActions;
 
 import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
@@ -190,7 +191,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 	protected void doUpdateModel(String key) throws MalformedURLException, CoreException {
 		if (!StringUtils.equals(key, Constants.RPC_PART_ACTIONS)) {
 			Map<String, Object> map = getValuesOfControlsForKey(key);
-			ModelUpdater.updateRpcPartModel(getEntity(), partModel, key, (String)map.get(Constants.TEXT_VALUE));
+			ModelUpdater.updateRpcPartModel(getEntity(), partModel, key, (String) map.get(Constants.TEXT_VALUE));
 		} else {
 			ModelUpdater.updateRpcPartActionsModel(getEntity(), partModel.getActionsModel());
 		}
@@ -215,7 +216,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 	@Override
 	protected void selectionChanged(IStructuredSelection selection) {
 		if (selection.size() == 1) {
-			partModel = (RpcPartModel)selection.getFirstElement();
+			partModel = (RpcPartModel) selection.getFirstElement();
 		} else {
 			partModel = null;
 		}
@@ -381,9 +382,9 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				IStructuredSelection structuredSelection = (IStructuredSelection)tableViewer.getSelection();
+				IStructuredSelection structuredSelection = (IStructuredSelection) tableViewer.getSelection();
 				if (structuredSelection.size() == 1) {
-					ActionModel model = (ActionModel)structuredSelection.getFirstElement();
+					ActionModel model = (ActionModel) structuredSelection.getFirstElement();
 					partModel.getActionsModel().getActions().remove(model);
 					tableViewer.setInput(partModel);
 					updateModel(Constants.RPC_PART_ACTIONS);
@@ -402,12 +403,18 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 		tcol.setResizable(false);
 		tcol.setWidth(100);
 
-		vcol.setEditingSupport(new ActionsDialogCellEditingSupport(viewer, AnnotationConstants.ACTION));
+		List<String> list = new ArrayList<String>();
+		list.add(RpcActions.READ.class.getSimpleName());
+		list.add(RpcActions.CREATE.class.getSimpleName());
+		list.add(RpcActions.DELETE.class.getSimpleName());
+		list.add(RpcActions.UPDATE.class.getSimpleName());
+
+		vcol.setEditingSupport(new ActionsComboBoxCellEditingSupport(viewer, AnnotationConstants.ACTION, list));
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
 			public void update(ViewerCell cell) {
-				ActionDefinition action = (ActionDefinition)cell.getElement();
+				ActionDefinition action = (ActionDefinition) cell.getElement();
 				cell.setText(action.getActionName());
 				updateModel(Constants.RPC_PART_ACTIONS);
 			}
@@ -425,7 +432,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 
 			@Override
 			public void update(ViewerCell cell) {
-				ActionDefinition action = (ActionDefinition)cell.getElement();
+				ActionDefinition action = (ActionDefinition) cell.getElement();
 				cell.setText(action.getDisplayName());
 				updateModel(Constants.RPC_PART_ACTIONS);
 			}
@@ -443,7 +450,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 
 			@Override
 			public void update(ViewerCell cell) {
-				ActionDefinition action = (ActionDefinition)cell.getElement();
+				ActionDefinition action = (ActionDefinition) cell.getElement();
 				cell.setText(action.getAlias());
 				updateModel(Constants.RPC_PART_ACTIONS);
 			}
@@ -461,7 +468,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 
 			@Override
 			public void update(ViewerCell cell) {
-				RpcActionDefinition action = (RpcActionDefinition)cell.getElement();
+				RpcActionDefinition action = (RpcActionDefinition) cell.getElement();
 				cell.setText(action.getProgramPath());
 				updateModel(Constants.RPC_PART_ACTIONS);
 			}
@@ -483,7 +490,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 
 			@Override
 			public void update(ViewerCell cell) {
-				RpcActionDefinition action = (RpcActionDefinition)cell.getElement();
+				RpcActionDefinition action = (RpcActionDefinition) cell.getElement();
 				cell.setText(String.valueOf(action.isGlobal()));
 				updateModel(Constants.RPC_PART_ACTIONS);
 			}
@@ -501,7 +508,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 
 			@Override
 			public void update(ViewerCell cell) {
-				ActionModel action = (ActionModel)cell.getElement();
+				ActionModel action = (ActionModel) cell.getElement();
 				cell.setText(action.getTargetEntityClassName());
 				updateModel(Constants.RPC_PART_ACTIONS);
 				validateTargetEntityColumn(action);
@@ -518,8 +525,8 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 				break;
 			}
 		}
-		String validationMarkerKey = MessageFormat.format("{0}-{1}", model.getUuid(), "targetEntity");//$NON-NLS-1$ //$NON-NLS-2$
-		RpcEntityEditor editor = (RpcEntityEditor)master.getAbstractPage().getEntityEditor();
+		String validationMarkerKey = MessageFormat.format("{0}-{1}", model.getUUID(), "targetEntity");//$NON-NLS-1$ //$NON-NLS-2$
+		RpcEntityEditor editor = (RpcEntityEditor) master.getAbstractPage().getEntityEditor();
 		if (isRpcEntity || targetEntity.getName().equals(org.openlegacy.rpc.RpcEntity.NONE.class.getName())) {
 			// remove validation marker
 			managedForm.getMessageManager().removeMessage(validationMarkerKey);
