@@ -2,6 +2,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.models.screen;
 
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
+import org.openlegacy.annotations.screen.Action;
 import org.openlegacy.annotations.screen.Action.ActionType;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.terminal.ScreenEntity;
@@ -9,13 +10,11 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.actions.TerminalActions.SimpleTerminalMappedAction;
 
-import java.util.UUID;
-
 /**
  * @author Ivan Bort
  * 
  */
-public class ActionModel implements ActionDefinition {
+public class ActionModel extends ScreenNamedObject implements ActionDefinition {
 
 	private static final String DEFAULT_STRING = "";
 	private static final int DEFAULT_INT = 0;
@@ -60,11 +59,14 @@ public class ActionModel implements ActionDefinition {
 	private String keyboardKeyName;
 	private String prevKeyboardKeyName;
 
-	private UUID uuid = UUID.randomUUID();
+	//	private UUID uuid = UUID.randomUUID();
 
 	public ActionModel(String actionName, String displayName, String alias, AdditionalKey additionalKey, int row, int column,
 			int length, String when, String focusField, ActionType type, String targetEntityName, int sleep, boolean global,
 			String keyboardKeyName) {
+
+		super(Action.class.getSimpleName());
+
 		this.actionName = actionName;
 		this.displayName = displayName;
 		this.alias = alias;
@@ -75,7 +77,7 @@ public class ActionModel implements ActionDefinition {
 		this.prevAdditionalKey = additionalKey;
 		this.prevWhen = when;
 		this.when = when;
-		this.setRow(row);
+		this.row = row;
 		this.prevRow = row;
 		this.column = column;
 		this.prevColumn = column;
@@ -352,10 +354,6 @@ public class ActionModel implements ActionDefinition {
 		this.global = global;
 	}
 
-	public UUID getUuid() {
-		return uuid;
-	}
-
 	public Class<? extends SimpleTerminalMappedAction> getKeyboardKey() {
 		return keyboardKey;
 	}
@@ -374,6 +372,11 @@ public class ActionModel implements ActionDefinition {
 
 	public String getPrevKeyboardKeyName() {
 		return prevKeyboardKeyName;
+	}
+
+	public void setKeyboardKeyDefaultValue() {
+		keyboardKeyName = DEFAULT_KEYBOARD_KEY.getSimpleName();
+		keyboardKey = DEFAULT_KEYBOARD_KEY;
 	}
 
 	// ----------------- DEFAULTS --------------------

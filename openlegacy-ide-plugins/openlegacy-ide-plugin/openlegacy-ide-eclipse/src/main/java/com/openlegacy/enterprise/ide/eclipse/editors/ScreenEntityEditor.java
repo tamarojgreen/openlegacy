@@ -1,14 +1,10 @@
 package com.openlegacy.enterprise.ide.eclipse.editors;
 
-import com.openlegacy.enterprise.ide.eclipse.Messages;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEntity;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.screen.ActionsPage;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.screen.ChildEntitiesPage;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.screen.GeneralPage;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.screen.IdentifiersPage;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.screen.PartsPage;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.screen.TablesPage;
-import com.openlegacy.enterprise.ide.eclipse.editors.utils.screen.ScreenEntitySaver;
+import japa.parser.JavaParser;
+import japa.parser.ast.CompilationUnit;
+
+import java.io.File;
+import java.text.MessageFormat;
 
 import org.apache.commons.lang.CharEncoding;
 import org.eclipse.ui.IEditorInput;
@@ -25,11 +21,15 @@ import org.openlegacy.terminal.layout.ScreenPageBuilder;
 import org.openlegacy.terminal.layout.support.DefaultBidiScreenPageBuilder;
 import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
 
-import japa.parser.JavaParser;
-import japa.parser.ast.CompilationUnit;
-
-import java.io.File;
-import java.text.MessageFormat;
+import com.openlegacy.enterprise.ide.eclipse.Messages;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEntity;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.screen.ActionsPage;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.screen.ChildEntitiesPage;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.screen.GeneralPage;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.screen.IdentifiersPage;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.screen.PartsPage;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.screen.TablesPage;
+import com.openlegacy.enterprise.ide.eclipse.editors.utils.screen.ScreenEntitySaver;
 
 /**
  * Graphical editor for Java files containing @ScreenEntity annotation
@@ -57,7 +57,8 @@ public class ScreenEntityEditor extends AbstractEditor {
 	/**
 	 * 
 	 */
-	public ScreenEntityEditor() {}
+	public ScreenEntityEditor() {
+	}
 
 	@Override
 	protected void addEditorPages() throws PartInitException {
@@ -80,7 +81,8 @@ public class ScreenEntityEditor extends AbstractEditor {
 
 	@Override
 	protected void doSave() throws PartInitException, OpenLegacyException {
-		ScreenEntitySaver.INSTANCE.saveEntity(getEditorSite(), getEditorInput(), this.entity);
+		ScreenEntitySaver.INSTANCE.saveEntity(getEditorSite(),
+				getEditorInput(), this.entity);
 		populateEntity(getEditorInput());
 	}
 
@@ -104,19 +106,25 @@ public class ScreenEntityEditor extends AbstractEditor {
 	protected void populateEntity(IEditorInput input) throws PartInitException {
 		ScreenEntity entity = null;
 		if (input instanceof FileEditorInput) {
-			FileEditorInput feInput = (FileEditorInput)input;
+			FileEditorInput feInput = (FileEditorInput) input;
 			try {
 				File inputFile = PathsUtil.toOsLocation(feInput.getFile());
-				CompilationUnit compilationUnit = JavaParser.parse(inputFile, CharEncoding.UTF_8);
+				CompilationUnit compilationUnit = JavaParser.parse(inputFile,
+						CharEncoding.UTF_8);
 				//				File packageDir = new File("", compilationUnit.getPackage().getName().toString().replaceAll("\\.", "/"));//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				File packageDir = new File(inputFile.getParentFile().getAbsolutePath());
-				entity = new ScreenEntity(ScreenCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir));
+				File packageDir = new File(inputFile.getParentFile()
+						.getAbsolutePath());
+				entity = new ScreenEntity(
+						ScreenCodeBasedDefinitionUtils.getEntityDefinition(
+								compilationUnit, packageDir));
 			} catch (Exception e) {
-				throw new PartInitException(Messages.getString("error.editor.init.message"), e);//$NON-NLS-1$
+				throw new PartInitException(
+						Messages.getString("error.editor.init.message"), e);//$NON-NLS-1$
 			}
 		}
 		if (entity.getEntityDefinition() == null) {
-			throw new PartInitException(MessageFormat.format("{0} is not a screen entity", input.getName()));//$NON-NLS-1$
+			throw new PartInitException(MessageFormat.format(
+					"{0} is not a screen entity", input.getName()));//$NON-NLS-1$
 		}
 		this.entity = entity;
 	}
@@ -140,9 +148,11 @@ public class ScreenEntityEditor extends AbstractEditor {
 	protected PageDefinition getPageDefinitionForHtmlPreview() {
 		ScreenPageBuilder builder = null;
 		if (getEditorInput() instanceof FileEditorInput) {
-			FileEditorInput feInput = (FileEditorInput)getEditorInput();
-			File project = PathsUtil.toOsLocation(feInput.getFile().getProject());
-			String designtimeContext = designTimeExecuter.getPreferences(project, PreferencesConstants.DESIGNTIME_CONTEXT);
+			FileEditorInput feInput = (FileEditorInput) getEditorInput();
+			File project = PathsUtil.toOsLocation(feInput.getFile()
+					.getProject());
+			String designtimeContext = designTimeExecuter.getPreferences(
+					project, PreferencesConstants.DESIGNTIME_CONTEXT);
 			if (designtimeContext != null && designtimeContext.equals("rtl")) {
 				builder = new DefaultBidiScreenPageBuilder();
 			}

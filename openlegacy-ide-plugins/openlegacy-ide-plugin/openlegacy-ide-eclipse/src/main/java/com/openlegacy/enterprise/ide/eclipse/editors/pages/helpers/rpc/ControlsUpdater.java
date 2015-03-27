@@ -1,6 +1,7 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc;
 
 import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBooleanFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcDateFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntityModel;
@@ -165,7 +166,7 @@ public class ControlsUpdater {
 				text.setText((fieldModel.getMaximumValue() != 0) ? String.valueOf(fieldModel.getMaximumValue()) : "");//$NON-NLS-1$
 			} else if (key.equals(RpcAnnotationConstants.DECIMAL_PLACES)) {
 				text.setText((fieldModel.getDecimalPlaces() != 0) ? String.valueOf(fieldModel.getDecimalPlaces()) : "");//$NON-NLS-1$
-			}  else if (key.equals(RpcAnnotationConstants.NUMERIC_PATTERN)) {
+			} else if (key.equals(RpcAnnotationConstants.NUMERIC_PATTERN)) {
 				text.setText(!fieldModel.getPattern().isEmpty() ? fieldModel.getPattern() : "");
 			}
 		}
@@ -223,6 +224,44 @@ public class ControlsUpdater {
 		}
 		if (tableViewer != null) {
 			tableViewer.setInput(fieldModel);
+		}
+	}
+
+	public static void updateRpcActionDetailsControls(ActionModel model, Map<String, Text> mapTexts,
+			Map<String, CCombo> mapCombos, Map<String, Button> mapCheckBoxes) {
+
+		if (model == null) {
+			return;
+		}
+
+		Set<String> mapKeys = mapTexts.keySet();
+		for (String key : mapKeys) {
+			Text text = mapTexts.get(key);
+			if (key.equals(AnnotationConstants.DISPLAY_NAME)) {
+				text.setText(model.getDisplayName());
+			} else if (key.equals(AnnotationConstants.ALIAS)) {
+				text.setText(model.getAlias());
+			} else if (key.equals(RpcAnnotationConstants.PATH)) {
+				text.setText(model.getProgramPath());
+			} else if (key.equals(AnnotationConstants.TARGET_ENTITY)) {
+				text.setText(model.getTargetEntityClassName());
+			}
+		}
+
+		mapKeys = mapCheckBoxes.keySet();
+		for (String key : mapKeys) {
+			if (key.equals(AnnotationConstants.GLOBAL)) {
+				mapCheckBoxes.get(key).setSelection(model.isGlobal());
+			}
+		}
+
+		// update CCombo controls
+		mapKeys = mapCombos.keySet();
+		for (String key : mapKeys) {
+			CCombo combo = mapCombos.get(key);
+			if (key.equals(AnnotationConstants.ACTION)) {
+				combo.setText(model.getActionName());
+			}
 		}
 	}
 

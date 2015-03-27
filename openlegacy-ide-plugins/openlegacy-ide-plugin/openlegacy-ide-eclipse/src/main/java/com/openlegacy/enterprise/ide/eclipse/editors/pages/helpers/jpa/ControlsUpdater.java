@@ -1,6 +1,7 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa;
 
 import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaJoinColumnModel;
@@ -18,6 +19,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.openlegacy.designtime.db.generators.support.DbAnnotationConstants;
+import org.openlegacy.designtime.generators.AnnotationConstants;
 
 import java.util.Map;
 import java.util.Set;
@@ -209,7 +211,7 @@ public class ControlsUpdater {
 			if (key.equals(DbAnnotationConstants.TARGET_ENTITY)) {
 				text.setText(model.getTargetEntityClassName());
 			} else if (key.equals(Constants.JAVA_TYPE)) {
-				String javaTypeName = ((JpaFieldModel)model.getParent()).getJavaTypeName();
+				String javaTypeName = ((JpaFieldModel) model.getParent()).getJavaTypeName();
 				text.setText(!StringUtils.equals(javaTypeName, void.class.getSimpleName()) ? javaTypeName : "");
 			}
 		}
@@ -263,6 +265,41 @@ public class ControlsUpdater {
 				button.setSelection(model.isInsertable());
 			} else if (key.equals(Constants.JC_UPDATABLE)) {
 				button.setSelection(model.isUpdatable());
+			}
+		}
+	}
+
+	public static void updateJpaActionDetailsControl(ActionModel model, Map<String, Text> mapTexts,
+			Map<String, CCombo> mapCombos, Map<String, Button> mapCheckBoxes) {
+		if (model == null) {
+			return;
+		}
+
+		Set<String> mapKeys = mapTexts.keySet();
+		for (String key : mapKeys) {
+			Text text = mapTexts.get(key);
+			if (key.equals(AnnotationConstants.DISPLAY_NAME)) {
+				text.setText(model.getDisplayName());
+			} else if (key.equals(AnnotationConstants.ALIAS)) {
+				text.setText(model.getAlias());
+			} else if (key.equals(AnnotationConstants.TARGET_ENTITY)) {
+				text.setText(model.getTargetEntityClassName());
+			}
+		}
+
+		mapKeys = mapCheckBoxes.keySet();
+		for (String key : mapKeys) {
+			if (key.equals(AnnotationConstants.GLOBAL)) {
+				mapCheckBoxes.get(key).setSelection(model.isGlobal());
+			}
+		}
+
+		// update CCombo controls
+		mapKeys = mapCombos.keySet();
+		for (String key : mapKeys) {
+			CCombo combo = mapCombos.get(key);
+			if (key.equals(AnnotationConstants.ACTION)) {
+				combo.setText(model.getActionName());
 			}
 		}
 	}

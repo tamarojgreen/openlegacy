@@ -3,17 +3,16 @@ package com.openlegacy.enterprise.ide.eclipse.editors.models.rpc;
 import org.drools.core.util.StringUtils;
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
+import org.openlegacy.annotations.screen.Action;
 import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.utils.StringUtil;
-
-import java.util.UUID;
 
 /**
  * @author Ivan Bort
  * 
  */
-public class ActionModel implements RpcActionDefinition {
+public class ActionModel extends RpcNamedObject implements RpcActionDefinition {
 
 	private static final Class<?> DEFAULT_TARGET_ENTITY = RpcEntity.NONE.class;
 
@@ -35,14 +34,15 @@ public class ActionModel implements RpcActionDefinition {
 	private boolean prevGlobal;
 	private String prevTargetEntityClassName;
 
-	private UUID uuid = UUID.randomUUID();
-
 	public ActionModel(String actionName, String displayName, String alias, String path, boolean global) {
 		this(actionName, displayName, alias, path, global, RpcEntity.NONE.class.getSimpleName());
 	}
 
 	public ActionModel(String actionName, String displayName, String alias, String path, boolean global,
 			String targetEntityClassName) {
+
+		super(Action.class.getSimpleName(), null);
+
 		this.actionName = actionName;
 		this.displayName = displayName;
 		this.alias = alias;
@@ -156,10 +156,6 @@ public class ActionModel implements RpcActionDefinition {
 
 	public String getPrevTargetEntityClassName() {
 		return prevTargetEntityClassName;
-	}
-
-	public UUID getUuid() {
-		return uuid;
 	}
 
 	public Class<?> getDefaultTargetEntity() {

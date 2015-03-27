@@ -1,6 +1,7 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen;
 
 import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenBooleanFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenColumnModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenDateFieldModel;
@@ -240,11 +241,11 @@ public class ControlsUpdater {
 			} else if (key.equals(ScreenAnnotationConstants.COLUMN)) {
 				text.setText(new Integer(fieldModel.getColumn()).toString());
 			} else if (key.equals(ScreenAnnotationConstants.END_COLUMN)) {
-				text.setText(((fieldModel.getEndColumn() != null) && (fieldModel.getEndColumn() != 0)) ? fieldModel.getEndColumn().toString()
-						: "");
+				text.setText(((fieldModel.getEndColumn() != null) && (fieldModel.getEndColumn() != 0)) ? fieldModel
+						.getEndColumn().toString() : "");
 			} else if (key.equals(ScreenAnnotationConstants.END_ROW)) {
-				text.setText(((fieldModel.getEndRow() != null) && (fieldModel.getEndRow() != 0)) ? fieldModel.getEndRow().toString()
-						: "");
+				text.setText(((fieldModel.getEndRow() != null) && (fieldModel.getEndRow() != 0)) ? fieldModel.getEndRow()
+						.toString() : "");
 			} else if (key.equals(AnnotationConstants.DISPLAY_NAME)) {
 				text.setText(fieldModel.getDisplayName());
 			} else if (key.equals(AnnotationConstants.SAMPLE_VALUE)) {
@@ -329,8 +330,8 @@ public class ControlsUpdater {
 			if (key.equals(Constants.DESC_ROW)) {
 				text.setText((fieldModel.getRow() != null && fieldModel.getRow() != 0) ? fieldModel.getRow().toString() : "");//$NON-NLS-1$
 			} else if (key.equals(Constants.DESC_END_COLUMN)) {
-				text.setText((fieldModel.getEndColumn() != null & fieldModel.getEndColumn() != 0) ? fieldModel.getEndColumn().toString()
-						: "");//$NON-NLS-1$
+				text.setText((fieldModel.getEndColumn() != null & fieldModel.getEndColumn() != 0) ? fieldModel.getEndColumn()
+						.toString() : "");//$NON-NLS-1$
 			}
 		}
 	}
@@ -363,11 +364,11 @@ public class ControlsUpdater {
 				text.setText((fieldModel.getEndRow() != null & fieldModel.getEndRow() != 0) ? fieldModel.getEndRow().toString()
 						: "");//$NON-NLS-1$
 			} else if (key.equals(Constants.DYNAMIC_END_COLUMN)) {
-				text.setText((fieldModel.getEndColumn() != null & fieldModel.getEndColumn() != 0) ? fieldModel.getEndColumn().toString()
-						: "");//$NON-NLS-1$
+				text.setText((fieldModel.getEndColumn() != null & fieldModel.getEndColumn() != 0) ? fieldModel.getEndColumn()
+						.toString() : "");//$NON-NLS-1$
 			} else if (key.equals(Constants.DYNAMIC_OFFSET)) {
-				text.setText((fieldModel.getFieldOffset() != null & fieldModel.getFieldOffset() != 0) ? fieldModel.getFieldOffset().toString()
-						: "");//$NON-NLS-1$
+				text.setText((fieldModel.getFieldOffset() != null & fieldModel.getFieldOffset() != 0) ? fieldModel
+						.getFieldOffset().toString() : "");//$NON-NLS-1$
 			}
 		}
 	}
@@ -616,6 +617,66 @@ public class ControlsUpdater {
 			Text text = mapTexts.get(key);
 			if (key.equals(ScreenAnnotationConstants.NUMERIC_PATTERN)) {
 				text.setText(fieldModel.getPattern());
+			}
+		}
+	}
+
+	/**
+	 * @param model
+	 * @param mapTexts
+	 * @param mapCombos
+	 * @param mapCheckBoxes
+	 */
+	public static void updateScreenActionDetailsControls(ActionModel model, Map<String, Text> mapTexts,
+			Map<String, CCombo> mapCombos, Map<String, Button> mapCheckBoxes) {
+
+		if (model == null) {
+			return;
+		}
+
+		Set<String> mapKeys = mapTexts.keySet();
+		for (String key : mapKeys) {
+			Text text = mapTexts.get(key);
+			if (key.equals(AnnotationConstants.DISPLAY_NAME)) {
+				text.setText(model.getDisplayName());
+			} else if (key.equals(AnnotationConstants.ALIAS)) {
+				text.setText(model.getAlias());
+			} else if (key.equals(ScreenAnnotationConstants.ROW)) {
+				text.setText(String.valueOf(model.getRow()));
+			} else if (key.equals(ScreenAnnotationConstants.COLUMN)) {
+				text.setText(String.valueOf(model.getColumn()));
+			} else if (key.equals(ScreenAnnotationConstants.LENGTH)) {
+				text.setText(String.valueOf(model.getLength()));
+			} else if (key.equals(AnnotationConstants.WHEN)) {
+				text.setText(model.getWhen() == null ? "" : model.getWhen());
+			} else if (key.equals(ScreenAnnotationConstants.FOCUS_FIELD)) {
+				text.setText(model.getFocusField() == null ? "" : model.getFocusField());
+			} else if (key.equals(AnnotationConstants.TARGET_ENTITY)) {
+				text.setText(model.getTargetEntityClassName());
+			} else if (key.equals(ScreenAnnotationConstants.SLEEP)) {
+				text.setText(String.valueOf(model.getSleep()));
+			}
+		}
+
+		mapKeys = mapCheckBoxes.keySet();
+		for (String key : mapKeys) {
+			if (key.equals(ScreenAnnotationConstants.GLOBAL)) {
+				mapCheckBoxes.get(key).setSelection(model.isGlobal());
+			}
+		}
+
+		// update CCombo controls
+		mapKeys = mapCombos.keySet();
+		for (String key : mapKeys) {
+			CCombo combo = mapCombos.get(key);
+			if (key.equals(ScreenAnnotationConstants.ACTION)) {
+				combo.setText(model.getActionName());
+			} else if (key.equals(ScreenAnnotationConstants.ADDITIONAL_KEY)) {
+				combo.setText(model.getAdditionalKey().toString());
+			} else if (key.equals(ScreenAnnotationConstants.TYPE)) {
+				combo.setText(model.getType().toString());
+			} else if (key.equals(AnnotationConstants.KEYBOARD_KEY)) {
+				combo.setText(model.getKeyboardKeyName());
 			}
 		}
 	}

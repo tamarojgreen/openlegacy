@@ -9,12 +9,12 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package com.openlegacy.enterprise.ide.eclipse.editors.pages.rpc;
+package com.openlegacy.enterprise.ide.eclipse.editors.pages.jpa;
 
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.AbstractEditor;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractPage;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.masters.rpc.ActionsMasterBlock;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.masters.jpa.ActionsMasterBlock;
 
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.openlegacy.ide.eclipse.Activator;
@@ -24,12 +24,12 @@ import org.openlegacy.ide.eclipse.Activator;
  */
 public class ActionsPage extends AbstractPage {
 
-	private final static String PAGE_ID = "org.openlegacy.enterprise.ide.eclipse.rpc.pages.actions"; //$NON-NLS-1$
+	private final static String PAGE_ID = "org.openlegacy.enterprise.ide.eclipse.jpa.pages.actions"; //$NON-NLS-1$
 
 	private ActionsMasterBlock block;
 
 	public ActionsPage(AbstractEditor editor) {
-		super(editor, PAGE_ID, Messages.getString("ActionsPage.title"));//$NON-NLS-1$
+		super(editor, PAGE_ID, Messages.getString("jpa.actions.page.title"));//$NON-NLS-1$
 		block = new ActionsMasterBlock(this);
 	}
 
@@ -37,7 +37,7 @@ public class ActionsPage extends AbstractPage {
 	public void createFormContent() {
 		final ScrolledForm form = managedForm.getForm();
 		form.setImage(Activator.getDefault().getImage(Activator.IMG_TRANSPARENT));
-		form.setText(Messages.getString("ActionsPage.form.title")); //$NON-NLS-1$
+		form.setText(Messages.getString("jpa.actions.page.title")); //$NON-NLS-1$
 		form.setBackgroundImage(Activator.getDefault().getImage(Activator.IMG_FORM_BG));
 		block.createContent(managedForm);
 	}

@@ -1,6 +1,7 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen;
 
 import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ChildEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenActionsModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenBooleanFieldModel;
@@ -24,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.runtime.CoreException;
 import org.openlegacy.EntityType;
 import org.openlegacy.FieldType;
+import org.openlegacy.annotations.screen.Action.ActionType;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
 import org.openlegacy.terminal.FieldAttributeType;
@@ -31,6 +33,7 @@ import org.openlegacy.terminal.ScreenRecordsProvider;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.actions.TerminalActions.SimpleTerminalMappedAction;
 import org.openlegacy.terminal.table.ScreenTableCollector;
 
 import java.net.MalformedURLException;
@@ -57,8 +60,75 @@ public class ModelUpdater {
 		}
 	}
 
-	public static void updateScreenActionsModel(ScreenEntity entity, ScreenActionsModel model) {
-		ScreenEntityUtils.ActionGenerator.generateScreenActionsActions(entity, model);
+	@SuppressWarnings("unchecked")
+	public static void updateScreenActionModel(ScreenEntity entity, ActionModel model, ScreenActionsModel actionsModel,
+			String key, String text, Boolean selection, String fullyQualifiedName) throws MalformedURLException, CoreException {
+
+		if (selection != null) {
+			if (key.equals(ScreenAnnotationConstants.GLOBAL)) {
+				model.setGlobal(selection);
+			}
+		}
+		if (text != null) {
+			if (key.equals(AnnotationConstants.DISPLAY_NAME)) {
+				model.setDisplayName(text);
+			} else if (key.equals(AnnotationConstants.ALIAS)) {
+				model.setAlias(text);
+			} else if (key.equals(ScreenAnnotationConstants.ROW)) {
+				model.setRow(!StringUtils.isEmpty(text) ? Integer.valueOf(text) : 0);
+			} else if (key.equals(ScreenAnnotationConstants.COLUMN)) {
+				model.setColumn(!StringUtils.isEmpty(text) ? Integer.valueOf(text) : 0);
+			} else if (key.equals(ScreenAnnotationConstants.LENGTH)) {
+				model.setLength(!StringUtils.isEmpty(text) ? Integer.valueOf(text) : 0);
+			} else if (key.equals(AnnotationConstants.WHEN)) {
+				model.setWhen(text);
+			} else if (key.equals(ScreenAnnotationConstants.FOCUS_FIELD)) {
+				model.setFocusField(text);
+			} else if (key.equals(ScreenAnnotationConstants.SLEEP)) {
+				model.setSleep(!StringUtils.isEmpty(text) ? Integer.valueOf(text) : 0);
+			} else if (key.equals(AnnotationConstants.TARGET_ENTITY)) {
+				model.setTargetEntityClassName(text);
+				if (fullyQualifiedName != null) {
+					Class<?> clazz = Utils.getClazz(fullyQualifiedName);
+					model.setTargetEntity(clazz);
+				}
+			} else if (key.equals(ScreenAnnotationConstants.ACTION)) {
+				if (!StringUtils.isEmpty(text)) {
+					model.setActionName(text);
+					TerminalAction action = TerminalActions.newAction(text.toUpperCase());
+					if (action != null) {
+						model.setAction(action);
+					}
+				} else {
+					model.setActionName("");
+					model.setAction(null);
+				}
+			} else if (key.equals(ScreenAnnotationConstants.ADDITIONAL_KEY)) {
+				if (!StringUtils.isEmpty(text)) {
+					model.setAdditionalKey(AdditionalKey.valueOf(text.toUpperCase()));
+				} else {
+					model.setAdditionalKeyDefaultValue();
+				}
+			} else if (key.equals(ScreenAnnotationConstants.TYPE)) {
+				if (!StringUtils.isEmpty(text)) {
+					model.setType(ActionType.valueOf(text.toUpperCase()));
+				} else {
+					model.setTypeDefaultValue();
+				}
+			} else if (key.equals(AnnotationConstants.KEYBOARD_KEY)) {
+				if (!StringUtils.isEmpty(text)) {
+					model.setKeyboardKeyName(text);
+					TerminalAction action = TerminalActions.newAction(text.toUpperCase());
+					if (action != null) {
+						model.setKeyboardKey((Class<? extends SimpleTerminalMappedAction>) action.getClass());
+					}
+				} else {
+					model.setKeyboardKeyDefaultValue();
+				}
+			}
+		}
+
+		ScreenEntityUtils.ActionGenerator.generateScreenActionsActions(entity, actionsModel);
 	}
 
 	public static void updateScreenBooleanFieldModel(ScreenEntity entity, ScreenBooleanFieldModel model, String key, String text,
@@ -191,7 +261,7 @@ public class ModelUpdater {
 					model.setScreenType(ScreenEntityModel.mapScreenTypes.get(text));
 				} else if (fullyQualifiedName != null) {
 					Class<?> clazz = Utils.getClazz(fullyQualifiedName);
-					model.setScreenType((Class<? extends EntityType>)clazz);
+					model.setScreenType((Class<? extends EntityType>) clazz);
 				} else {
 					model.setScreenTypeDefaultValue();
 				}
@@ -264,7 +334,7 @@ public class ModelUpdater {
 						model.setFieldTypeName(ScreenFieldModel.mapFieldTypes.get(text).getSimpleName());
 					} else if (fullyQualifiedName != null) {
 						Class<?> clazz = Utils.getClazz(fullyQualifiedName);
-						model.setFieldType((Class<? extends FieldType>)clazz);
+						model.setFieldType((Class<? extends FieldType>) clazz);
 						model.setFieldTypeName(clazz.getSimpleName());
 					}
 				} else {
@@ -341,7 +411,7 @@ public class ModelUpdater {
 			} else if (key.equals(AnnotationConstants.PROVIDER)) {
 				if (fullyQualifiedName != null) {
 					Class<?> clazz = Utils.getClazz(fullyQualifiedName);
-					model.setProvider((Class<? extends ScreenRecordsProvider>)clazz);
+					model.setProvider((Class<? extends ScreenRecordsProvider>) clazz);
 				}
 			} else if (key.equals(ScreenAnnotationConstants.DISPLAY_FIELD_NAME)) {
 				model.setDisplayFieldName(text);
@@ -355,7 +425,7 @@ public class ModelUpdater {
 						model.setAutoSubmitAction(action.getClass());
 					} else if (fullyQualifiedName != null) {
 						Class<?> clazz = Utils.getClazz(fullyQualifiedName);
-						model.setAutoSubmitAction((Class<? extends TerminalAction>)clazz);
+						model.setAutoSubmitAction((Class<? extends TerminalAction>) clazz);
 					}
 				} else {
 					model.setAutoSubmitActionDefaultValue();
@@ -399,7 +469,7 @@ public class ModelUpdater {
 						model.setTerminalAction(action.getClass());
 					} else if (fullyQualifiedName != null) {
 						Class<?> clazz = Utils.getClazz(fullyQualifiedName);
-						model.setTerminalAction((Class<? extends TerminalAction>)clazz);
+						model.setTerminalAction((Class<? extends TerminalAction>) clazz);
 					}
 				} else {
 					model.setTerminalActionDefaultValue();
@@ -412,7 +482,7 @@ public class ModelUpdater {
 						model.setExitAction(action.getClass());
 					} else if (fullyQualifiedName != null) {
 						Class<?> clazz = Utils.getClazz(fullyQualifiedName);
-						model.setExitAction((Class<? extends TerminalAction>)clazz);
+						model.setExitAction((Class<? extends TerminalAction>) clazz);
 					}
 				} else {
 					model.setExitActionDefaultValue();
@@ -491,7 +561,7 @@ public class ModelUpdater {
 				model.setTableCollectorName(text);
 				if (fullyQualifiedName != null) {
 					Class<?> clazz = Utils.getClazz(fullyQualifiedName);
-					model.setTableCollector((Class<? extends ScreenTableCollector>)clazz);
+					model.setTableCollector((Class<? extends ScreenTableCollector>) clazz);
 				}
 			} else if (key.equals(ScreenAnnotationConstants.ROW_GAPS)) {
 				model.setRowGaps(text.isEmpty() ? 0 : Integer.valueOf(text));
@@ -507,7 +577,7 @@ public class ModelUpdater {
 						model.setNextScreenAction(action.getClass());
 					} else if (fullyQualifiedName != null) {
 						Class<?> clazz = Utils.getClazz(fullyQualifiedName);
-						model.setNextScreenAction((Class<? extends TerminalAction>)clazz);
+						model.setNextScreenAction((Class<? extends TerminalAction>) clazz);
 					}
 				} else {
 					model.setNextScreenActionDefaultValue();
@@ -520,7 +590,7 @@ public class ModelUpdater {
 						model.setPreviousScreenAction(action.getClass());
 					} else if (fullyQualifiedName != null) {
 						Class<?> clazz = Utils.getClazz(fullyQualifiedName);
-						model.setPreviousScreenAction((Class<? extends TerminalAction>)clazz);
+						model.setPreviousScreenAction((Class<? extends TerminalAction>) clazz);
 					}
 				} else {
 					model.setPreviousScreenActionDefaultValue();
@@ -564,7 +634,7 @@ public class ModelUpdater {
 			if (key.equals(AnnotationConstants.ACTION)) {
 				if (fullyQualifiedName != null) {
 					Class<?> clazz = Utils.getClazz(fullyQualifiedName);
-					model.setAction((Class<? extends TerminalAction>)clazz);
+					model.setAction((Class<? extends TerminalAction>) clazz);
 				}
 			} else if (key.equals(AnnotationConstants.ACTION_VALUE)) {
 				model.setActionValue(text);
@@ -605,4 +675,5 @@ public class ModelUpdater {
 		}
 		ScreenEntityUtils.ActionGenerator.generateScreenNumericFieldActions(entity, model);
 	}
+
 }

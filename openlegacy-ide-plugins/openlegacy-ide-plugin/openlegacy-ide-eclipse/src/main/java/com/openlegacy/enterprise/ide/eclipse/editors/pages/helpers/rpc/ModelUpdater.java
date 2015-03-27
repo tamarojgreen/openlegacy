@@ -1,6 +1,7 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.rpc;
 
 import com.openlegacy.enterprise.ide.eclipse.Constants;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcActionsModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcBooleanFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcDateFieldModel;
@@ -21,6 +22,8 @@ import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.annotations.rpc.Languages;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
+import org.openlegacy.rpc.actions.RpcAction;
+import org.openlegacy.rpc.actions.RpcActions;
 
 import java.net.MalformedURLException;
 
@@ -78,7 +81,7 @@ public class ModelUpdater {
 					model.setFieldTypeName(RpcFieldModel.mapFieldTypes.get(text).getSimpleName());
 				} else if (fullyQualifiedName != null) {
 					Class<?> clazz = Utils.getClazz(fullyQualifiedName);
-					model.setFieldType((Class<? extends FieldType>)clazz);
+					model.setFieldType((Class<? extends FieldType>) clazz);
 					model.setFieldTypeName(clazz.getSimpleName());
 				}
 			} else if (key.equals(AnnotationConstants.DISPLAY_NAME)) {
@@ -184,6 +187,44 @@ public class ModelUpdater {
 			}
 		}
 		RpcEntityUtils.ActionGenerator.generateRpcEnumFieldActions(entity, model, true);
+	}
+
+	public static void updateRpcActionModel(RpcEntity entity, ActionModel model, RpcActionsModel actionsModel, String key,
+			String text, Boolean selection, String fullyQualifiedName) throws MalformedURLException, CoreException {
+
+		if (selection != null) {
+			if (key.equals(AnnotationConstants.GLOBAL)) {
+				model.setGlobal(selection);
+			}
+		}
+		if (text != null) {
+			if (key.equals(AnnotationConstants.DISPLAY_NAME)) {
+				model.setDisplayName(text);
+			} else if (key.equals(AnnotationConstants.ALIAS)) {
+				model.setAlias(text);
+			} else if (key.equals(RpcAnnotationConstants.PATH)) {
+				model.setProgramPath(text);
+			} else if (key.equals(AnnotationConstants.TARGET_ENTITY)) {
+				model.setTargetEntityClassName(text);
+				if (fullyQualifiedName != null) {
+					Class<?> clazz = Utils.getClazz(fullyQualifiedName);
+					model.setTargetEntity(clazz);
+				}
+			} else if (key.equals(AnnotationConstants.ACTION)) {
+				if (!StringUtils.isEmpty(text)) {
+					model.setActionName(text);
+					RpcAction action = RpcActions.newAction(text.toUpperCase());
+					if (action != null) {
+						model.setAction(action);
+					}
+				} else {
+					model.setActionName("");
+					model.setAction(null);
+				}
+			}
+		}
+
+		RpcEntityUtils.ActionGenerator.generateRpcActionsAction(entity, actionsModel);
 	}
 
 }
