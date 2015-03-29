@@ -10,15 +10,16 @@
  *******************************************************************************/
 package org.openlegacy.annotations.screen;
 
+import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+import org.openlegacy.terminal.actions.TerminalActions.ENTER;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.actions.TerminalAction;
-import org.openlegacy.terminal.actions.TerminalActions.ENTER;
 
 /**
  * A table action for a screen table entity. Defined within {@link ScreenTableActions}<br/>
@@ -64,4 +65,6 @@ public @interface TableAction {
 	 * @return
 	 */
 	String when() default ".*";
+
+	AdditionalKey additionalKey() default AdditionalKey.NONE;
 }

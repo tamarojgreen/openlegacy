@@ -21,7 +21,6 @@ import org.openlegacy.loaders.support.AbstractClassAnnotationLoader;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction;
-import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
@@ -78,7 +77,7 @@ public class ScreenTableActionsAnnotationLoader extends AbstractClassAnnotationL
 					position = new SimpleTerminalPosition(action.row(), action.column());
 				}
 				SimpleTerminalActionDefinition actionDefinition = new SimpleTerminalActionDefinition(drilldownAction,
-						AdditionalKey.NONE, action.displayName(), position);
+						action.additionalKey(), action.displayName(), position);
 
 				if (position != null) {
 					actionDefinition.setLength(action.length());
