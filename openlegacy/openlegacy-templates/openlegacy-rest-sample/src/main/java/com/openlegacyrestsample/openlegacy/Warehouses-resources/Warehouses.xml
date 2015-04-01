@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot sequence="53" type="INCOMING">
+    <row rowNumber="1">
+        <field column="2" length="0" color="BLUE"/>
+        <field column="2" value="OPENLEGA1 " length="10" color="BLUE"/>
+        <field column="13" value="       " length="7"/>
+        <field column="21" value="                                        " length="40" color="WHITE"/>
+        <field column="62" value="          " length="10"/>
+        <field column="73" value="18/03/15" length="8" color="BLUE"/>
+    </row>
+    <row rowNumber="2">
+        <field column="2" value="MWAREHED  " length="10" color="BLUE"/>
+        <field column="13" value="            " length="12"/>
+        <field column="26" value="  Work with Warehouse Details " length="30" color="WHITE"/>
+        <field column="57" value="               " length="15"/>
+        <field column="73" value="12:27:36" length="8" color="BLUE"/>
+    </row>
+    <row rowNumber="3">
+        <field column="2" value="SC0001    " length="10" color="BLUE"/>
+        <field column="13" value="                                                                    " length="68"/>
+    </row>
+    <row rowNumber="4">
+        <field column="2" value="Type one or more action codes. Then Enter.                                    " length="78" color="BLUE"/>
+    </row>
+    <row rowNumber="5">
+        <field column="1" value="  " length="2"/>
+        <field column="4" value="2=Revise" length="8" color="BLUE"/>
+        <field column="13" length="0" color="BLUE"/>
+        <field column="14" value="4=Delete" length="8" color="BLUE"/>
+        <field column="23" length="0" color="BLUE"/>
+        <field column="24" value="5=Display" length="9" color="BLUE"/>
+        <field column="34" length="0" color="BLUE"/>
+        <field column="35" value="6=Items" length="7" color="BLUE"/>
+        <field column="43" length="0" color="BLUE"/>
+        <field column="44" value="7=Locations" length="11" color="BLUE"/>
+        <field column="56" value="                         " length="25"/>
+    </row>
+    <row rowNumber="7">
+        <field column="1" length="0" color="WHITE"/>
+        <field column="2" value="Action" length="6" color="WHITE"/>
+        <field column="9" length="0" color="WHITE"/>
+        <field column="10" value="Whse" length="4" color="WHITE"/>
+        <field column="15" length="0" color="WHITE"/>
+        <field column="16" value="Description" length="11" color="WHITE"/>
+        <field column="28" value="                                                     " length="53"/>
+    </row>
+    <row rowNumber="8">
+        <field column="2" value=" " length="1"/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
+        <field column="6" value="   " length="3"/>
+        <field column="10" value="1  " length="3"/>
+        <field column="14" value=" " length="1"/>
+        <field column="16" value="Discount warehouse                      " length="40"/>
+        <field column="57" value="                        " length="24"/>
+    </row>
+    <row rowNumber="9">
+        <field column="4" value=" " length="1" hidden="true"/>
+        <field column="6" value="   " length="3"/>
+        <field column="10" value="   " length="3"/>
+        <field column="14" value=" " length="1"/>
+        <field column="16" value="                                        " length="40"/>
+        <field column="57" value="                        " length="24"/>
+    </row>
+    <row rowNumber="10">
+        <field column="4" value=" " length="1" hidden="true"/>
+        <field column="6" value="   " length="3"/>
+        <field column="10" value="   " length="3"/>
+        <field column="14" value=" " length="1"/>
+        <field column="16" value="                                        " length="40"/>
+        <field column="57" value="                        " length="24"/>
+    </row>
+    <row rowNumber="11">
+        <field column="4" value=" " length="1" hidden="true"/>
+        <field column="6" value="   " length="3"/>
+        <field column="10" value="   " length="3"/>
+        <field column="14" value=" " length="1"/>
+        <field column="16" value="                                        " length="40"/>
+        <field column="57" value="                        " length="24"/>
+    </row>
+    <row rowNumber="12">
+        <field column="4" value=" " length="1" hidden="true"/>
+        <field column="6" value="   " length="3"/>
+        <field column="10" value="   " length="3"/>
+        <field column="14" value=" " length="1"/>
+        <field column="16" value="                                        " length="40"/>
+        <field column="57" value="                        " length="24"/>
+    </row>
+    <row rowNumber="13">
+        <field column="4" value=" " length="1" hidden="true"/>
+        <field column="6" value="   " length="3"/>
+        <field column="10" value="   " length="3"/>
+        <field column="14" value=" " length="1"/>
+        <field column="16" value="                                        " length="40"/>
+        <field column="57" value="                        " length="24"/>
+    </row>
+    <row rowNumber="14">
+        <field column="4" value=" " length="1" hidden="true"/>
+        <field column="6" value="   " length="3"/>
+        <field column="10" value="   " length="3"/>
+        <field column="14" value=" " length="1"/>
+        <field column="16" value="                                        " length="40"/>
+        <field column="57" value="                        " length="24"/>
+    </row>
+    <row rowNumber="15">
+        <field column="4" value=" " length="1" hidden="true"/>
+        <field column="6" value="   " length="3"/>
+        <field column="10" value="   " length="3"/>
+        <field column="14" value=" " length="1"/>
+        <field column="16" value="                                        " length="40"/>
+        <field column="57" value="                        " length="24"/>
+    </row>
+    <row rowNumber="16">
+        <field column="4" value=" " length="1" hidden="true"/>
+        <field column="6" value="   " length="3"/>
+        <field column="10" value="   " length="3"/>
+        <field column="14" value=" " length="1"/>
+        <field column="16" value="                                        " length="40"/>
+        <field column="57" value="                        " length="24"/>
+    </row>
+    <row rowNumber="17">
+        <field column="4" value=" " length="1" hidden="true"/>
+        <field column="6" value="   " length="3"/>
+        <field column="10" value="   " length="3"/>
+        <field column="14" value=" " length="1"/>
+        <field column="16" value="                                        " length="40"/>
+        <field column="57" value="                        " length="24"/>
+    </row>
+    <row rowNumber="18">
+        <field column="4" value=" " length="1" hidden="true"/>
+        <field column="6" value="   " length="3"/>
+        <field column="10" value="   " length="3"/>
+        <field column="14" value=" " length="1"/>
+        <field column="16" value="                                        " length="40"/>
+        <field column="57" value="                        " length="24"/>
+    </row>
+    <row rowNumber="19">
+        <field column="4" value=" " length="1" hidden="true"/>
+        <field column="6" value="   " length="3"/>
+        <field column="10" value="   " length="3"/>
+        <field column="14" value=" " length="1"/>
+        <field column="16" value="                                        " length="40"/>
+        <field column="57" value="                     " length="21"/>
+        <field column="79" value=" " length="1" color="WHITE"/>
+    </row>
+    <row rowNumber="21">
+        <field column="1" length="0"/>
+        <field column="2" value="Position to . ." length="15"/>
+        <field column="18" length="3" editable="true" uppercase="true"/>
+        <field column="22" value="                                                           " length="59"/>
+    </row>
+    <row rowNumber="23">
+        <field column="1" length="0" color="BLUE"/>
+        <field column="2" value="F1=Help  F3=Exit  F6=Create  F12=Cancel" length="39" color="BLUE"/>
+        <field column="42" value="                                       " length="39"/>
+    </row>
+    <row rowNumber="24">
+        <field column="2" value="Record added to file IMS Warehouse Header        WH.                        " length="76" color="WHITE"/>
+        <field column="79" value="+" length="1" color="WHITE"/>
+    </row>
+    <size rows="24" columns="80"/>
+    <cursor row="8" column="4"/>
+</snapshot>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot sequence="7" type="INCOMING">
+    <row rowNumber="1">
+        <field column="2" length="0" hidden="true"/>
+        <field column="3" value=" " length="1" hidden="true"/>
+        <field column="5" value="      " length="6"/>
+        <field column="12" value=" " length="1" hidden="true"/>
+        <field column="14" value=" " length="1"/>
+        <field column="16" value="            Display Program Messages            " length="48" color="WHITE"/>
+        <field column="65" value="                " length="16"/>
+    </row>
+    <row rowNumber="3">
+        <field column="1" length="0" color="WHITE"/>
+        <field column="2" value="Job 024355/OPENLEGA1/QPADEV0010 started on 18/03/15 at 10:27:00 in subsystem" length="76" color="WHITE"/>
+        <field column="79" value="  " length="2"/>
+    </row>
+    <row rowNumber="4">
+        <field column="2" value="Message queue OPENLEGA1 is allocated to another job.                        " length="76" color="WHITE"/>
+        <field column="79" value="  " length="2"/>
+    </row>
+    <row rowNumber="19">
+        <field column="1" length="0" color="BLUE"/>
+        <field column="2" value="Press Enter to continue.                   " length="43" color="BLUE"/>
+        <field column="46" value="                                   " length="35"/>
+    </row>
+    <row rowNumber="23">
+        <field column="1" length="0" color="BLUE"/>
+        <field column="2" value="F3=Exit   F12=Cancel          " length="30" color="BLUE"/>
+    </row>
+    <size rows="24" columns="80"/>
+    <cursor row="1" column="1"/>
+</snapshot>

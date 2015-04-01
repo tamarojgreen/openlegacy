@@ -3,18 +3,20 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<groupId>org.openlegacy.templates</groupId>
+	<groupId>openlegacy-rest-sample</groupId>
 	<artifactId>openlegacy-rest-sample</artifactId>
 	
 	<name>openlegacy-rest-sample</name>
 	<packaging>war</packaging>
-	<version>2.2.0-SNAPSHOT</version>
+	<version>0.1</version>
 	<properties>
 		<java-version>1.6</java-version>
 		<org.springframework-version>3.1.4.RELEASE</org.springframework-version>
 		<aspectj.version>1.8.1</aspectj.version>
 		<org.slf4j-version>1.7.7</org.slf4j-version>
 		<openlegacy-version>2.2.0-SNAPSHOT</openlegacy-version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
 	<pluginRepositories>
@@ -64,31 +66,6 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>${org.springframework-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>${org.springframework-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>${org.springframework-version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-jdbc</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-tx</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
 
@@ -175,6 +152,24 @@
 			<version>${org.springframework-version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.openlegacy</groupId>
+			<artifactId>openlegacy-api</artifactId>
+			<version>${openlegacy-version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy</groupId>
+			<artifactId>openlegacy-web</artifactId>
+			<version>${openlegacy-version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy.providers</groupId>
+			<artifactId>openlegacy-tn5250j</artifactId>
+			<version>${openlegacy-version}</version>
+			<scope>compile</scope>
+		</dependency>		
 		
 		<dependency>
 			<groupId>org.openlegacy.web</groupId>
@@ -190,33 +185,14 @@
 			<groupId>org.openlegacy.web</groupId>
 			<artifactId>openlegacy-themes-rest-dynamics</artifactId>
 			<version>${openlegacy-version}</version>
-		</dependency>
-
-		<!-- TODO -remove. This is included just yo have a model for testing -->
-		<dependency>
-			<groupId>org.openlegacy</groupId>
-			<artifactId>openlegacy-test-apps</artifactId>
-			<version>${openlegacy-version}</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.openlegacy</groupId>
-			<artifactId>openlegacy-api</artifactId>
-			<version>${openlegacy-version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.openlegacy</groupId>
-			<artifactId>openlegacy-web</artifactId>
-			<version>${openlegacy-version}</version>
-			<scope>compile</scope>
-		</dependency>
+		</dependency>	
+<!-- Uncomment for OpenLegacy enterprise managemenent plugin
  		<dependency>
 			<groupId>com.openlegacy.enterprise.plugins</groupId>
 			<artifactId>management-plugin</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
+End Uncomment for OpenLegacy enterprise managemenent plugin -->
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>
@@ -249,9 +225,28 @@
 			<artifactId>castor-xml</artifactId>
 			<version>1.3.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.openlegacy.web</groupId>
+  			<artifactId>openlegacy-web-resources</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>		
+<!-- Uncomment for bidi support
+ 		<dependency> 
+		    <groupId>com.ibm.icu</groupId> 
+			<artifactId>icu4j</artifactId> 
+			<version>49.1</version> 
+		</dependency>
+ End uncomment for bidi support -->
+	<!-- Uncomment for mail support
+	<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+	-->
 	</dependencies>
 	<build>
-		<finalName>${project.artifactId}</finalName>
+		<finalName>openlegacy-rest-sample</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>

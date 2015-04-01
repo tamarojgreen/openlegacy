@@ -1,0 +1,11 @@
+#
+#Sun Mar 22 12:38:51 IST 2015
+API_SOURCE_FOLDER=src/main/java
+FRONTEND_SOLUTION=REST
+GENERATE_TEST=1
+WEB_PACKAGE=com.openlegacyrestsample.openlegacy.web
+API_PACKAGE=com.openlegacyrestsample.openlegacy
+SUPPORT_RESTFUL_SERVICE=FALSE
+USE_AJ=1
+BACKEND_SOLUTION=SCREEN
+DESIGNTIME_CONTEXT=default

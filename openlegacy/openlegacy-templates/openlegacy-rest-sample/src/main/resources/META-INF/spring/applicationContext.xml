@@ -3,11 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:security="http://www.springframework.org/schema/security"
  	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
-		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
@@ -21,41 +19,86 @@
 	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
 	    <property name="packages">
 	        <list>
-	            <value>org.openlegacy.terminal.samples.model</value>
+	            <value>com.openlegacyrestsample.openlegacy</value>
             </list>
 	    </property>
     </bean>
-			
-	<!-- Using a mock-up session application -->
- 	<bean id="terminalConnectionFactory"
-		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
-		<property name="root" value="/trails" />
-		<property name="trailName" value="demo_session.trail" />
-	</bean>
-	<bean id="terminalSession" class="org.openlegacy.terminal.support.MockupTerminalSession" scope="session" parent="abstractTerminalSession">
-		<property name="terminalConnection">
-			<bean class="org.openlegacy.terminal.mock.MockTerminalConnection" factory-bean="terminalConnectionFactory" factory-method="getConnection">
-				<constructor-arg>
-					<bean class="org.openlegacy.terminal.support.SimpleConnectionProperties" />
-				</constructor-arg>
+
+<!-- Use this definition to configure modules properties
+	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" scope="session" parent="abstractTerminalSession">
+        <aop:scoped-proxy/>
+		<property name="sessionModules">
+			<bean class="org.openlegacy.support.SessionModules">
+				<property name="modules">
+					<list>
+						<bean
+							class="org.openlegacy.terminal.modules.trail.DefaultTerminalTrailModule">
+							<property name="sessionTrail">
+								<bean class="org.openlegacy.terminal.modules.trail.DefaultTerminalTrail"
+									p:historyCount="3" />
+							</property>
+						</bean>
+						<bean class="org.openlegacy.terminal.modules.login.DefaultTerminalLoginModule"
+							p:loginActionClass="org.openlegacy.terminal.actions.TerminalActions.ENTER"
+							p:defaultExitActionClass="org.openlegacy.terminal.actions.TerminalActions.F3"
+							p:maxActionsToLogin="5" p:loginTimeout="2000"/>
+						<bean class="org.openlegacy.terminal.modules.table.DefaultTerminalTableModule" />
+						<bean
+							class="org.openlegacy.terminal.modules.navigation.DefaultTerminalNavigationModule" p:defaultExitActionClass="org.openlegacy.terminal.actions.TerminalActions.F3"/>
+						<bean
+							class="org.openlegacy.terminal.modules.menu.DefaultTerminalMenuModule" />
+						<bean
+							class="org.openlegacy.terminal.modules.messages.DefaultTerminalMessagesModule" p:defaultSkipActionClass="org.openlegacy.terminal.actions.TerminalActions.ENTER"/>
+						<bean
+							class="org.openlegacy.terminal.modules.registry.DefaultSessionRegistryModule" />
+						<bean
+							class="org.openlegacy.terminal.modules.globals.DefaultGlobalsModule" />
+						<bean
+							class="org.openlegacy.terminal.modules.messages.ResetMessagesModule" p:messageField="message">
+							<property name="messages">
+								<list>
+									<value>.*</value>
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
 			</bean>
 		</property>
-	    <aop:scoped-proxy/>
+   	</bean>
+-->
+					
+<!-- Use this definition to replay a mock-up session application
+ 	<bean id="terminalConnectionFactory"
+		class="org.openlegacy.terminal.mock.MockStateMachineTerminalConnectionFactory"
+		p:verifySend="true" p:root="/trails" p:trailName="demo_session.trail"
+		p:exactCursor="false" p:exactFields="false" p:exactCommand="true" />
+End use this definition to replay a mock-up session application -->
+
+	<!-- Uncomment for bidi support
+	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultBidiScreenPageBuilder" />
+ 	<bean id="menuOptionFinder" class="org.openlegacy.modules.support.menu.RightToLeftMenuOptionFinder" />
+
+	<bean id="elementsProvider" scope="prototype" class="org.openlegacy.terminal.web.render.support.DefaultBidiElementsProvider">
+		<property name="colorMapper">
+			<map>
+				<entry key="WHITE" value="black" />
+				<entry key="BLACK" value="white" />
+				<entry key="YELLOW" value="orange" />
+				<entry key="PINK" value="purple" />
+				<entry key="AQUA" value="#00E6FF" />
+			</map>
+		</property>
+		<property name="backcolorMapper">
+			<map>
+				<entry key="BLACK" value="white" />
+				<entry key="WHITE" value="black" />
+				<entry key="AQUA" value="#00E6FF" />
+			</map>
+		</property>
 	</bean>
-	<!-- End using a mock-up session application -->
-
-	<security:http auto-config="true" use-expressions="true">
-	    <security:intercept-url pattern="/management/**" access="hasRole('ROLE_ADMIN')"/>
-		<security:http-basic />
-	</security:http>
-	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:user-service>
-				<security:user name="admin" password="pwd" authorities="ROLE_ADMIN" />
-			</security:user-service>
-		</security:authentication-provider>
-	</security:authentication-manager>
-
+	End uncomment for bidi support -->
+	
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 
 </beans>

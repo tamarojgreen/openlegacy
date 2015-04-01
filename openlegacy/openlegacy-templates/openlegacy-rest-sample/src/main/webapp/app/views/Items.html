@@ -1,0 +1,82 @@
+<h1>Items</h1>
+
+<nav class="navbar navbar-default" role="navigation">
+    <form class="navbar-form xnavbar-left" role="navigation">
+    		<!-- <button data-ng-click="doAction('Items', '')" class="btn btn-primary navbar-btn">Submit</button> -->
+			<!-- button data-ng-show="isActionAvailable('help')" data-ng-click="doAction('Items', 'help')" class="btn btn-primary navbar-btn">Help</button>
+			<button data-ng-show="isActionAvailable('exit')" data-ng-click="doAction('Items', 'exit')" class="btn btn-primary navbar-btn">Exit</button> -->
+			<button data-ng-show="isActionAvailable('create')" data-ng-click="doAction('Items', 'create')" class="btn btn-primary navbar-btn">Create</button>
+			<!-- <button data-ng-show="isActionAvailable('cancel')" data-ng-click="doAction('Items', 'cancel')" class="btn btn-primary navbar-btn">Cancel</button>
+			<button data-ng-show="isActionAvailable('numberSeq')" data-ng-click="doAction('Items', 'numberSeq')" class="btn btn-primary navbar-btn">Number Seq</button> -->
+		<a ng-href="{{baseUrl}}Items{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="true">
+		<span class="glyphicon glyphicon-export"></span>	        	
+           	Excel
+        </a>            
+    </form>
+</nav>
+<div class="panel panel-default">
+	<div class="panel-heading" data-toggle="collapse"
+		data-target="#itemspart1">
+		<h4 class="panel-title"></h4>
+	</div>
+	<div id="itemspart1" class="panel-collapse collapse in">
+		<div class="panel-body">
+
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th></th>
+							<!-- <th>Actions</th> -->
+							<th>Alpha Search</th>
+							<th>Item Description</th>
+							<th>Item Number</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr
+							data-ng-repeat="itemDetailesRecord in model.itemDetailesRecords">
+							<td ng-class="terminalColors('action_', itemDetailesRecord)">
+								<a href="" class="child-terminal-colors" ng-click="itemDetailesRecord.act='2';doActionNoTargetEntity('revise')">
+									Revise 
+								</a>  | 
+								<a href="" class="child-terminal-colors" ng-click="itemDetailesRecord.act='4';doActionNoTargetEntity('delete')">
+									Delete 
+								</a> |
+								<a href="" class="child-terminal-colors" ng-click="itemDetailesRecord.act='5';doActionNoTargetEntity('display')">
+									Display
+								</a>
+							</td>
+
+<!-- 							<td ng-class="terminalColors('act', itemDetailesRecord)"><input
+								data-ng-class="readOnlyCss(itemDetailesRecord,'act')"
+								data-ng-readonly="isReadOnly(itemDetailesRecord,'act')"
+								type="text" size="1" ng-model="itemDetailesRecord.act" /></td> -->
+							<td ng-class="terminalColors('alphaSearch', itemDetailesRecord)">
+								{{itemDetailesRecord.alphaSearch}}</td>
+							<td
+								ng-class="terminalColors('itemDescription', itemDetailesRecord)">
+								{{itemDetailesRecord.itemDescription}}</td>
+							<td ng-class="terminalColors('itemNumber', itemDetailesRecord)">
+								{{itemDetailesRecord.itemNumber}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="top-margin-50">
+				<button ng-click="doAction('Items', 'next')" type="button"
+					class="btn btn-default navbar-btn pull-right">
+					Next <span class="glyphicon glyphicon-forward"></span>
+				</button>
+				<button ng-click="doAction('Items', 'previous')" type="button"
+					class="btn btn-default navbar-btn pull-left">
+					<span class="glyphicon glyphicon-backward"></span> Prev
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+

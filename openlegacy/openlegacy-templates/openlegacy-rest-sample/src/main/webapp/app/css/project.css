@@ -1,153 +1,169 @@
-.header {
-	margin-left: 80%;
-	margin-top: 10px;
+.center {
+	vertical-align: middle;
+	text-align: center;
 }
 
-/* .ng-invalid input {
-	border-color: red;
-} */
 .row {
-	margin-top: 10px;
+	margin-left: 0px;
 }
 
-html {
-	position: relative;
-	min-height: 100%;
+#warhouseActions {
+	top: inherit;
+	left: inherit;
 }
 
-body {
-	margin-top: 50px;
-}
-
-.navbar ul li .glyphicon {
-	font-size: 18px;
-	vertical-align: text-bottom;
-}
-
-/*
- * logo row
- */
-.logo {
-	background-color: #333;
-	padding: 10px;
-}
-
-@media ( max-width : 768px) {
-	.logo img {
-		width: 60%;
-	}
-}
-
-.ol-brand {
-	font-weight: bold;
-	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-}
-
-/* make sidebar nav vertical */
-@media ( min-width : 768px) {
-	.sidebar-nav .navbar .navbar-collapse {
-		padding: 0;
-		max-height: none;
-	}
-	.sidebar-nav .navbar ul {
-		float: none;
-		display: block;
-	}
-	.sidebar-nav .navbar li {
-		float: none;
-		display: block;
-	}
-	.sidebar-nav .navbar li a {
-		padding-top: 12px;
-		padding-bottom: 12px;
-	}
-}
-
-@media ( max-width : 768px) {
-	.no-gutters-sm {
-		padding: 0px;
-		margin: 0px;
-		background-color: #eee;
-	}
-}
-
-/*
- * ender and fotter
- */
-.ender {
-	margin-top: 100px;
-}
-
-.footer {
-	position: absolute;
-	bottom: 0;
+.highcharts-container {
 	width: 100%;
-	/* Set the fixed height of the footer here */
-	min-height: 60px;
-	padding: 20px 10px;
-	color: #999;
-	border-top: 1px solid #e5e5e5;
-	background: none repeat scroll 0% 0% rgb(46, 58, 75);
 }
 
-@media ( max-width : 768px) {
-	.footer {
-		color: #999;
-		text-align: center;
-		font-size: 8px;
-	}
-	.footer img {
-		width: 20%;
-	}
+.dropdown-menu {
+	min-width: 0px;
 }
 
-/*
- * Helper classes
- */
-.top-margin-10 {
-	margin-top: 10px;
+
+.navbar-form {
+	margin-right: 0px;
+	margin-left: 0px;
+	border-top: 0px;
+	border-bottom: 0px;
 }
 
-.top-margin-50 {
-	margin-top: 50px;
+.readonly {
+	border: 0px;
 }
 
-.clickable {
-	cursor: pointer;
+.content-wrapper {
+	display: block;
 }
 
-.transparant {
-	background: rgba(0, 0, 0, .0);
-	box-shadow: none;
-	outline: none;
-	border: none;
+div .black,.black .child-terminal-colors {
+	color: black;
 }
 
-.preloader {
-	position: absolute;
-	margin: auto;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
+div .blue,.blue .child-terminal-colors {
+	color: blue;
 }
 
-.panel-heading {
-	height: 40px;
-	cursor: pointer;
+div .green,.green .child-terminal-colors {
+	color: green;
 }
 
-.panel-heading:before {
-	font-family: 'Glyphicons Halflings';
-	content: "\e114";
-	float: left;
-	color: grey;
-	margin-right: 10px;
-	vertical-align: center;
+div .aqua,.aqua .child-terminal-colors {
+	color: aqua;
 }
 
-.panel-heading.collapsed:before {
-	content: "\e080";
+div .red,.red .child-terminal-colors {
+	color: red;
+}
+
+div .purple,.purple .child-terminal-colors {
+	color: purple;
+}
+
+div .brown,.brown .child-terminal-colors {
+	color: brown;
+}
+
+div .white,.white .child-terminal-colors {
+	color: white;
+}
+
+div .gray,.gray .child-terminal-colors {
+	color: gray;
+}
+
+div .light_blue,.light_blue .child-terminal-colors {
+	color: lightblue;
+}
+
+,
+div .light_green,.light_green .child-terminal-colors {
+	color: lightgreen;
+}
+
+div .light_aqua,.light_aqua .child-terminal-colors {
+	color: aqua;
+}
+
+div .light_red,.light_red .child-terminal-colors {
+	color: red;
+}
+
+div .pink,.pink .child-terminal-colors {
+	color: pink;
+}
+
+div .yellow,.yellow .child-terminal-colors {
+	color: yellow;
+}
+
+div .light_white,.light_white .child-terminal-colors {
+	color: white;
+}
+
+.back_black,.back_black .child-terminal-colors {
+	background-color: black;
+}
+
+.back_blue,.back_blue .child-terminal-colors {
+	background-color: blue;
+}
+
+.back_green,.back_green .child-terminal-colors {
+	background-color: green;
+}
+
+.back_aqua,.back_aqua .child-terminal-colors {
+	background-color: aqua;
+}
+
+.back_red,.back_red .child-terminal-colors {
+	background-color: red;
+}
+
+.back_purple,.back_purple .child-terminal-colors {
+	background-color: purple;
+}
+
+.back_brown,.back_brown .child-terminal-colors {
+	background-color: brown;
+}
+
+.back_white,.back_white .child-terminal-colors {
+	background-color: white;
+}
+
+.back_gray,.back_gray .child-terminal-colors {
+	background-color: gray;
+}
+
+.back_light_blue,.back_light_blue .child-terminal-colors {
+	background-color: lightblue;
+}
+
+,
+.back_light_green,.back_light_green .child-terminal-colors {
+	background-color: lightgreen;
+}
+
+.back_light_aqua,.back_light_aqua .child-terminal-colors {
+	background-color: aqua;
+}
+
+.back_light_red,.back_light_red .child-terminal-colors {
+	background-color: red;
+}
+
+.back_pink,.back_pink .child-terminal-colors {
+	background-color: pink;
+}
+
+.back_yellow,.back_yellow .child-terminal-colors {
+	background-color: yellow;
+}
+
+.back_light_white,.back_light_white .child-terminal-colors {
+	background-color: white;
 }
 
 @media ( min-width : 605px) {
