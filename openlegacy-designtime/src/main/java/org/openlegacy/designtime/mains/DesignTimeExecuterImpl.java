@@ -404,10 +404,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 					MessageFormat.format("host.port={0}", String.valueOf(projectCreationRequest.getHostPort())));
 			hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.codePage=.*",
 					MessageFormat.format("host.codePage={0}", projectCreationRequest.getCodePage()));
-			if (projectCreationRequest.isSupportSsl()) {
-				hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.sslType=.*",
-						MessageFormat.format("host.sslType={0}", projectCreationRequest.getSslType()));
-			}
+
+			hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.sslType=.*",
+					MessageFormat.format("host.sslType={0}", projectCreationRequest.getSslType()));
+
 			FileUtils.write(hostPropertiesFileContent, hostPropertiesFile);
 		}
 
