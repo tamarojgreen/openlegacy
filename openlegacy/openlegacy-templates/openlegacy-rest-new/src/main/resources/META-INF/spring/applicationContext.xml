@@ -67,13 +67,6 @@
 		</property>
    	</bean>
 -->
-					
-<!-- Use this definition to replay a mock-up session application
- 	<bean id="terminalConnectionFactory"
-		class="org.openlegacy.terminal.mock.MockStateMachineTerminalConnectionFactory"
-		p:verifySend="true" p:root="/trails" p:trailName="demo_session.trail"
-		p:exactCursor="false" p:exactFields="false" p:exactCommand="true" />
-End use this definition to replay a mock-up session application -->
 
 	<!-- Uncomment for bidi support
 	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultBidiScreenPageBuilder" />
