@@ -26,7 +26,7 @@ public class ScreenFieldsExpressionBinder implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private ExpressionParser expressionParser;
+	private transient ExpressionParser expressionParser;
 
 	public void populatedFields(Object screenEntity, ScreenPojoFieldAccessor fieldAccessor, TerminalSnapshot terminalSnapshot,
 			Collection<ScreenFieldDefinition> fieldMappingDefinitions) {

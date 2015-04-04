@@ -14,6 +14,8 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.annotations.screen.ScreenField;
 
+import java.io.Serializable;
+
 /**
  * Defines a binder between a screen entity instance from a {@link TerminalSnapshot} and to a {@link TerminalSendAction},
  * typically using field mappings defined using {@link ScreenField} annotations.
@@ -21,7 +23,7 @@ import org.openlegacy.annotations.screen.ScreenField;
  * @author Roi Mor
  * 
  */
-public interface ScreenEntityBinder {
+public interface ScreenEntityBinder extends Serializable {
 
 	/**
 	 * populates the given entity with values from the given snapshot. Typically using metadata on {@link EntityDefinition} from

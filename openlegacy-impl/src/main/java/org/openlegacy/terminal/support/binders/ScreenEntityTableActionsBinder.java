@@ -33,6 +33,8 @@ import javax.inject.Inject;
 
 public class ScreenEntityTableActionsBinder implements ScreenEntityBinder {
 
+	private static final long serialVersionUID = 1L;
+
 	private final static Log logger = LogFactory.getLog(ScreenEntityTableActionsBinder.class);
 
 	@Inject

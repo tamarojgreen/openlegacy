@@ -18,8 +18,11 @@ import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.terminal.wait_conditions.WaitCoditionAdapter;
 import org.openlegacy.utils.ProxyUtil;
 
-public class WaitForNonEmptyField extends WaitCoditionAdapter {
+import java.io.Serializable;
 
+public class WaitForNonEmptyField extends WaitCoditionAdapter implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private Class<?> entityClass;
 	private String fieldName;
 

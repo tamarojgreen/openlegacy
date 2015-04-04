@@ -30,8 +30,10 @@ import javax.inject.Inject;
 
 public class FieldAttributeBinder implements ScreenEntityBinder {
 
+	private static final long serialVersionUID = 1L;
+
 	private final static Log logger = LogFactory.getLog(FieldAttributeBinder.class);
-	
+
 	@Inject
 	private ScreenFieldsDefinitionProvider fieldMappingsProvider;
 
@@ -48,7 +50,7 @@ public class FieldAttributeBinder implements ScreenEntityBinder {
 			}
 
 			TerminalPosition position = ScreenBinderLogic.retrievePosition(fieldDefinition, snapshot);
-			if (position == null){
+			if (position == null) {
 				logger.warn("A field was not found for field:" + fieldDefinition.getName());
 				continue;
 			}

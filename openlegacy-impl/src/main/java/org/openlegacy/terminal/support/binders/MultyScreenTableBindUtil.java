@@ -19,6 +19,7 @@ import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,9 @@ import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
-public class MultyScreenTableBindUtil {
+public class MultyScreenTableBindUtil implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;

@@ -14,14 +14,16 @@ import org.openlegacy.Session;
 import org.openlegacy.SessionProperties;
 import org.openlegacy.SessionsRegistry;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class SimpleSessionsRegistry<S extends Session> implements SessionsRegistry<S> {
+public class SimpleSessionsRegistry<S extends Session> implements SessionsRegistry<S>, Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private Map<SessionProperties, S> sessions = new HashMap<SessionProperties, S>();
 	private Map<String, S> sessionsById = new HashMap<String, S>();
 

@@ -132,4 +132,15 @@ public interface EntitiesRegistry<H extends EntityDefinition<D>, D extends Field
 
 	P getPart(Class<?> containingClass);
 
+	/**
+	 * Gets all entities within the registry
+	 * 
+	 * @param targetType
+	 *            determines collection result type (available: java.util.List, java.util.Map, java.util.Set)
+	 * 
+	 * @return all entities within the registry
+	 */
+	@SuppressWarnings("rawtypes")
+	public Collection<H> getEntitiesDefinitions(Class<? extends Collection> targetType) throws RegistryException;
+
 }

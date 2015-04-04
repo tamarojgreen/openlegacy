@@ -1,0 +1,21 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/mobile"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<div>	
+		<form method="post" id="uploadForm"
+			action="${pageContext.request.contextPath}/StockItemImages/uploadImage" enctype="multipart/form-data">
+			
+			<div style="margin-top: 50px">
+				<input name="file" multiple="true" type="file" label="Select File"
+					id="uploader" onchange="uploadStockItemImage();" />
+			</div>
+		</form>
+		<c:forEach items="${stockItem.images}" var="image">
+			<image class="stockImage" src="${pageContext.request.contextPath}/StockItemImages/images/${image.id}" />
+		</c:forEach>
+	</div>
+</jsp:root>

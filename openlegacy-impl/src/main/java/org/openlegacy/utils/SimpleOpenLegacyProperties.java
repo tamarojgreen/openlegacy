@@ -12,8 +12,11 @@ package org.openlegacy.utils;
 
 import org.openlegacy.OpenLegacyProperties;
 
-public class SimpleOpenLegacyProperties implements OpenLegacyProperties {
+import java.io.Serializable;
 
+public class SimpleOpenLegacyProperties implements OpenLegacyProperties, Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private boolean rightToLeft;
 	private boolean uppercaseInput;
 	private boolean liveSession = false;

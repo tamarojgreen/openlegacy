@@ -30,7 +30,7 @@ public class SimpleTerminalSessionPoolFactory extends AbstractSessionPoolFactory
 	private static final Log logger = LogFactory.getLog(SimpleTerminalSessionPoolFactory.class);
 
 	@Inject
-	private ApplicationContext applicationContext;
+	private transient ApplicationContext applicationContext;
 
 	@Override
 	protected void init() {

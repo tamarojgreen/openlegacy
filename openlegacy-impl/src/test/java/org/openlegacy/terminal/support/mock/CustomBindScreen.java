@@ -45,6 +45,8 @@ public class CustomBindScreen implements org.openlegacy.terminal.ScreenEntity {
 
 	public static class CustomBinder implements ScreenEntityBinder {
 
+		private static final long serialVersionUID = 1L;
+
 		@Override
 		public void populateEntity(Object entity, TerminalSnapshot snapshot) {
 			CustomBindScreen customBindScreen = (CustomBindScreen)entity;

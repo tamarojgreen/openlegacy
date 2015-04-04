@@ -37,7 +37,7 @@ import javax.inject.Inject;
 public class ScreenFieldValuesAnnotationLoader extends AbstractFieldAnnotationLoader implements ApplicationContextAware {
 
 	@Inject
-	private ApplicationContext applicationContext;
+	private transient ApplicationContext applicationContext;
 
 	@Override
 	public boolean match(Annotation annotation) {

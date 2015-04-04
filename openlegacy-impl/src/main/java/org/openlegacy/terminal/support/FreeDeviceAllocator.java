@@ -17,15 +17,18 @@ import org.openlegacy.terminal.DeviceNotAvailableException;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSessionPropertiesConsts;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Set;
 
 import javax.inject.Inject;
 
-public class FreeDeviceAllocator implements DeviceAllocator {
+public class FreeDeviceAllocator implements DeviceAllocator, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private static final String IP = "IP";
-	
+
 	@Inject
 	private SessionsManager<TerminalSession> sessionsManager;
 
@@ -36,7 +39,7 @@ public class FreeDeviceAllocator implements DeviceAllocator {
 	private long delayAfterDisconnect = 3000;
 
 	@Override
-	public String allocate(String pullName,SessionProperties newSessionProperties) {
+	public String allocate(String pullName, SessionProperties newSessionProperties) {
 		if (pullName == null) {
 			return null;
 		}
@@ -48,8 +51,7 @@ public class FreeDeviceAllocator implements DeviceAllocator {
 			for (SessionProperties sessionProperties : sessionsProperties) {
 				String activeDevice = (String)sessionProperties.getProperty(TerminalSessionPropertiesConsts.DEVICE_NAME);
 				if (possibleDevice.equals(activeDevice)) {
-					used = !disconnectWhenSameIp(newSessionProperties,
-							sessionProperties);
+					used = !disconnectWhenSameIp(newSessionProperties, sessionProperties);
 				}
 			}
 			if (!used) {
@@ -62,12 +64,11 @@ public class FreeDeviceAllocator implements DeviceAllocator {
 		return null;
 	}
 
-	private boolean disconnectWhenSameIp(SessionProperties newSessionProperties,
-			SessionProperties sessionProperties) {
-		if (disconnectOtherSessionWhenSameIP){
-			String activeDeviceIp = (String) sessionProperties.getProperty(IP);
-			String newSessionIp = (String) newSessionProperties.getProperty(IP);
-			if (activeDeviceIp != null && newSessionIp != null && activeDeviceIp.equals(newSessionIp)){
+	private boolean disconnectWhenSameIp(SessionProperties newSessionProperties, SessionProperties sessionProperties) {
+		if (disconnectOtherSessionWhenSameIP) {
+			String activeDeviceIp = (String)sessionProperties.getProperty(IP);
+			String newSessionIp = (String)newSessionProperties.getProperty(IP);
+			if (activeDeviceIp != null && newSessionIp != null && activeDeviceIp.equals(newSessionIp)) {
 				sessionsManager.disconnect(sessionProperties.getId());
 				try {
 					Thread.sleep(delayAfterDisconnect);
@@ -90,6 +91,7 @@ public class FreeDeviceAllocator implements DeviceAllocator {
 	public void setDisconnectOtherSessionWhenSameIP(boolean disconnectOtherSessionWhenSameIP) {
 		this.disconnectOtherSessionWhenSameIP = disconnectOtherSessionWhenSameIP;
 	}
+
 	public void setDelayAfterDisconnect(long delayAfterDisconnect) {
 		this.delayAfterDisconnect = delayAfterDisconnect;
 	}

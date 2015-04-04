@@ -27,6 +27,7 @@ import javax.inject.Inject;
 
 public class ScreenEntityActionsBinder implements ScreenEntityBinder {
 
+	private static final long serialVersionUID = 1L;
 	@Inject
 	private ScreenEntitiesRegistry entitiesRegistry;
 

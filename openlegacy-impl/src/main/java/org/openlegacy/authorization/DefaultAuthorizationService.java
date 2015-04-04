@@ -9,13 +9,16 @@ import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.springframework.util.Assert;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class DefaultAuthorizationService implements AuthorizationService {
+public class DefaultAuthorizationService implements AuthorizationService, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private EntitiesRegistry<?, ?, ?> entitiesRegistry;

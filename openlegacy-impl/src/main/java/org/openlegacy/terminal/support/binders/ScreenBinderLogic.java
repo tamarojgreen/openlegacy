@@ -70,7 +70,7 @@ public class ScreenBinderLogic implements Serializable {
 	private TablesDefinitionProvider tablesDefinitionProvider;
 
 	@Inject
-	private ApplicationContext applicationContext;
+	private transient ApplicationContext applicationContext;
 
 	private String descriptionFieldSuffix = "Description";
 
@@ -257,7 +257,7 @@ public class ScreenBinderLogic implements Serializable {
 						final List<Object> rows = (List<Object>)fieldAccessor.getFieldValue(tableDefinitionEntry.getKey());
 						// final ScreenTableDefinition tableDefinition = tableDefinitions.get(tableFieldName);
 						int rowNumber = 0;
-						if (rows == null){
+						if (rows == null) {
 							continue;
 						}
 						for (Object row : rows) {

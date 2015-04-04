@@ -45,6 +45,8 @@ import javax.inject.Inject;
 
 public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 
+	private static final long serialVersionUID = 1L;
+
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
 
@@ -54,7 +56,7 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 	private final static Log logger = LogFactory.getLog(ScreenEntityTablesBinder.class);
 
 	@Inject
-	private ExpressionParser expressionParser;
+	private transient ExpressionParser expressionParser;
 
 	@Override
 	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) {

@@ -191,4 +191,22 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 		}
 		return allFields;
 	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Collection<E> getEntitiesDefinitions(Class<? extends Collection> targetType) throws RegistryException {
+		if (targetType == null) {
+			throw new RegistryException("Method argument must be specified");
+		}
+		if (targetType.isAssignableFrom(List.class)) {
+			return new ArrayList<E>(entitiesDefinitions.values());
+		} else if (targetType.isAssignableFrom(Map.class)) {
+			return entitiesDefinitions.values();
+		} else if (targetType.isAssignableFrom(Set.class)) {
+			return new HashSet<E>(entitiesDefinitions.values());
+		} else {
+			throw new RegistryException("Cannot return collection for type " + targetType.getName());
+		}
+	}
+
 }

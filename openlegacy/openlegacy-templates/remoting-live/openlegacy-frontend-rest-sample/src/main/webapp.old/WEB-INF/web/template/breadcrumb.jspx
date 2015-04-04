@@ -1,0 +1,23 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<div class="breadcrumbs">
+		<ul>
+			<c:forEach items="${breadCrumb}" var="pathItem" varStatus="rowCounter">
+				<li>
+					<c:choose>
+						<c:when test="${!rowCounter.last}">
+							<a href="${pageContext.request.contextPath}/${pathItem.entityName}">${pathItem.displayName}</a>
+						</c:when>
+						<c:otherwise>
+	 						${pathItem.displayName}
+						</c:otherwise>
+					</c:choose>
+				</li>
+			</c:forEach>
+		</ul>
+	</div>
+</jsp:root>

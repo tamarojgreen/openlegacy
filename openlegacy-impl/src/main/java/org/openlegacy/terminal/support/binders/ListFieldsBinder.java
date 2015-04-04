@@ -39,8 +39,10 @@ import javax.inject.Inject;
 
 public class ListFieldsBinder implements ScreenEntityBinder {
 
+	private static final long serialVersionUID = 1L;
+
 	private final static Log logger = LogFactory.getLog(ListFieldsBinder.class);
-	
+
 	@Inject
 	private ScreenFieldsDefinitionProvider fieldMappingsProvider;
 
@@ -69,9 +71,9 @@ public class ListFieldsBinder implements ScreenEntityBinder {
 			Assert.notNull(fieldTypeDefinition, "A field of type List is defined without @ScreenListField annotation");
 			int fieldsInList = fieldTypeDefinition.getCount();
 			int[] gapBetweenFields = fieldTypeDefinition.getGaps();
-			TerminalPosition position =  ScreenBinderLogic.retrievePosition(fieldDefinition, snapshot);
+			TerminalPosition position = ScreenBinderLogic.retrievePosition(fieldDefinition, snapshot);
 
-			if (position == null){
+			if (position == null) {
 				logger.warn("A field was not found for field:" + fieldDefinition.getName());
 				continue;
 			}
