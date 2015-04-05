@@ -80,7 +80,7 @@ function get(){
 				
 			},
 			error : function(e) {
-				alert(e);
+				alert(e.response.text);
 			}
 		}
 		var deferred = dojo.xhrGet(xhrArgs);
@@ -102,7 +102,7 @@ function post(){
 				loadData(data);
 			},
 			error : function(e) {
-				alert(e);
+				alert(e.response.text);
 			}
 		}
 		var deferred = dojo.xhrPost(xhrArgs);

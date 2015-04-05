@@ -25,7 +25,11 @@ public class DefaultRpcLoginModule extends RpcSessionModuleAdapter implements Lo
 		if (loggedInUser != null) {
 			return;
 		}
-		getSession().login(user, password);
+		try {
+			getSession().login(user, password);
+		} catch (Exception e) {
+			throw (new LoginException(e.getMessage(), e));
+		}
 
 		loggedInUser = new PersistedUser(user);
 		logger.info(MessageFormat.format("User {0} successfully logged in", loggedInUser.getUserName()));

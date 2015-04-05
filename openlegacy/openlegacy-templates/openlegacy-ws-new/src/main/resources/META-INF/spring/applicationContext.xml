@@ -18,7 +18,6 @@
 
 	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession"
 		scope="prototype" parent="abstractTerminalSession">
-		<!--  Uncomment for modifying session setting		
    		<property name="sessionModules">
 			<bean class="org.openlegacy.support.SessionModules">
 				<property name="modules">
@@ -53,11 +52,11 @@
 								</list>
 							</property>
 						</bean>
+						<bean class="com.openlegacy.plugins.management.UserCountModule" />
 					</list>
 				</property>
 			</bean>
 		</property>
-		Uncomment for modifying session setting -->		
 	</bean>
 
 		

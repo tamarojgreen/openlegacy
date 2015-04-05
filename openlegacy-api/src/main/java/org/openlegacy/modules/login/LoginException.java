@@ -22,6 +22,10 @@ public class LoginException extends OpenLegacyRuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
+	public LoginException(String s, Exception e) {
+		super(s);
+	}
+
 	public LoginException(String s) {
 		super(s);
 	}

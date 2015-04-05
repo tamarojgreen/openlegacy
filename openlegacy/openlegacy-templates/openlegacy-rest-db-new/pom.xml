@@ -224,7 +224,7 @@
 			<groupId>org.openlegacy.web</groupId>
 			<artifactId>openlegacy-themes-rest-dynamics</artifactId>
 			<version>${openlegacy-version}</version>
-		</dependency>
+		</dependency>		
 		<dependency>
 			<groupId>org.openlegacy</groupId>
 			<artifactId>openlegacy-api</artifactId>
@@ -236,6 +236,11 @@
 			<artifactId>openlegacy-web</artifactId>
 			<version>${openlegacy-version}</version>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.openlegacy.enterprise.plugins</groupId>
+			<artifactId>management-plugin</artifactId>
+			<version>${openlegacy-version}</version>
 		</dependency>		
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>

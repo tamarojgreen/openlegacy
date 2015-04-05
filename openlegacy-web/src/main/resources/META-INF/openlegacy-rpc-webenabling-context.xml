@@ -16,4 +16,8 @@
 	    <aop:scoped-proxy/>
 	</bean>
 
+	<bean scope="request" class="org.openlegacy.web.RequestBasedSessionPropertiesFiller">
+ 		<aop:scoped-proxy/>
+ 	</bean>
+		
 </beans>
