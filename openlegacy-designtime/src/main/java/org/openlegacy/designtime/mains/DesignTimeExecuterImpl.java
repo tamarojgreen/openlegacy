@@ -277,8 +277,12 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (!appPropertiesFile.exists()) {
 			return;
 		}
+		boolean liveSession = true;
+		if (projectCreationRequest.getTrailContent() != null) {
+			liveSession = false;
+		}
 		appPropertiesFileContent = appPropertiesFileContent.replaceFirst("openLegacyProperties.liveSession=.*",
-				"openLegacyProperties.liveSession=true");
+				MessageFormat.format("openLegacyProperties.liveSession={0}", liveSession));
 		appPropertiesFileContent = appPropertiesFileContent.replaceFirst("openLegacyProperties.trailFilePath=.*",
 				MessageFormat.format("openLegacyProperties.trailFilePath=/trails/{0}.trail", projectName));
 
@@ -400,10 +404,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 					MessageFormat.format("host.port={0}", String.valueOf(projectCreationRequest.getHostPort())));
 			hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.codePage=.*",
 					MessageFormat.format("host.codePage={0}", projectCreationRequest.getCodePage()));
-			if (projectCreationRequest.isSupportSsl()) {
-				hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.sslType=.*",
-						MessageFormat.format("host.sslType={0}", projectCreationRequest.getSslType()));
-			}
+
+			hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.sslType=.*",
+					MessageFormat.format("host.sslType={0}", projectCreationRequest.getSslType()));
+
 			FileUtils.write(hostPropertiesFileContent, hostPropertiesFile);
 		}
 
@@ -747,7 +751,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		List<ScreenEntityDefinition> screenDefinitions = getSortedSnapshots(screenEntitiesDefinitions);
 
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
-			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setGenerateAspect(generateModelRequest.isGenerateAspectJ());
+			((ScreenEntityDesigntimeDefinition) screenEntityDefinition).setGenerateAspect(generateModelRequest.isGenerateAspectJ());
 
 			generateScreenEntityDefinition(generateModelRequest, screenEntityDefinition);
 		}
@@ -771,7 +775,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			}
 		}
 
-		((ScreenEntityDesigntimeDefinition)entityDefinition).setPackageName(generateScreenModelRequest.getPackageDirectory().replaceAll(
+		((ScreenEntityDesigntimeDefinition) entityDefinition).setPackageName(generateScreenModelRequest.getPackageDirectory().replaceAll(
 				"/", "."));
 
 		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(generateScreenModelRequest.getProjectPath());
@@ -842,10 +846,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			}
 		}
 
-		((SimpleRpcEntityDesigntimeDefinition)entityDefinition).setPackageName(generateRpcModelRequest.getPackageDirectory().replaceAll(
+		((SimpleRpcEntityDesigntimeDefinition) entityDefinition).setPackageName(generateRpcModelRequest.getPackageDirectory().replaceAll(
 				"/", "."));
 
-		((SimpleRpcEntityDesigntimeDefinition)entityDefinition).setNavigation(generateRpcModelRequest.getNavigation());
+		((SimpleRpcEntityDesigntimeDefinition) entityDefinition).setNavigation(generateRpcModelRequest.getNavigation());
 
 		SimpleRpcActionDefinition actionDefinition = new SimpleRpcActionDefinition(RpcActions.READ(), "Read");
 
@@ -1320,7 +1324,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				String fileContent = writer.toString();
 				parseResults = codeParser.parse(fileContent, copyBookName);
 				RpcEntityDefinition rpcEntityDefinition = parseResults.getEntityDefinition();
-				SimpleRpcEntityDesigntimeDefinition devEntity = (SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition;
+				SimpleRpcEntityDesigntimeDefinition devEntity = (SimpleRpcEntityDesigntimeDefinition) rpcEntityDefinition;
 				devEntity.setEntityName(baseName);
 				devEntity.setPackageName(packegeName);
 				devEntity.setOnlyPart(true);
@@ -1376,16 +1380,16 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 					externalParts.add(FileUtils.fileWithoutAnyExtension(externalPart));
 				}
 				Map<String, String> localToExternal = cobolLocalPartNamesFethcher.get(fileContent, externalParts);
-				((SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition).convertToExternal(localToExternal);
+				((SimpleRpcEntityDesigntimeDefinition) rpcEntityDefinition).convertToExternal(localToExternal);
 			}
 
 			CobolNameRecognizer cobolNameRecognizer = getCobolNameRecognizer();
-			((SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition).setEntityName(cobolNameRecognizer.getEntityName(
+			((SimpleRpcEntityDesigntimeDefinition) rpcEntityDefinition).setEntityName(cobolNameRecognizer.getEntityName(
 					fileContent, sourceFile.getName()));
 		} catch (IOException e) {
 			throw (new OpenLegacyRuntimeException(e));
 		}
-		((SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition).setGenerateAspect(generateRpcModelRequest.isGenerateAspectJ());
+		((SimpleRpcEntityDesigntimeDefinition) rpcEntityDefinition).setGenerateAspect(generateRpcModelRequest.isGenerateAspectJ());
 
 		boolean generated = generateRpcEntityDefinition(generateRpcModelRequest, rpcEntityDefinition);
 
@@ -1468,7 +1472,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		TerminalSnapshotTextRenderer textRenderer = projectApplicationContext.getBean(TerminalSnapshotTextRenderer.class);
 		DefaultTerminalSnapshotXmlRenderer xmlRenderer = projectApplicationContext.getBean(DefaultTerminalSnapshotXmlRenderer.class);
 
-		TerminalSnapshot snapshot = (TerminalSnapshot)SerializationUtils.clone(generateScreenModelRequest.getTerminalSnapshots()[0]);
+		TerminalSnapshot snapshot = (TerminalSnapshot) SerializationUtils.clone(generateScreenModelRequest.getTerminalSnapshots()[0]);
 
 		if (generateScreenModelRequest.isGenerateSnapshotText()) {
 			// generate txt file with screen content

@@ -42,7 +42,7 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 	private Label hostTypeDescriptionLabel;
 	private String m_fileName;
 	private String trailFileName;
-	private Text trailFileText; 
+	private Text trailFileText;
 	private List<String> sslConfigurations = new ArrayList<String>();
 	private Combo sslCombo;
 	private Button isSslCheckbox;
@@ -111,11 +111,11 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 		codePageText.addModifyListener(getDefaultModifyListener());
 
 		createFileChooser(container);
-		
+
 		isSslCheckbox = new Button(container, SWT.CHECK);
 		isSslCheckbox.setText("Is support ssl:");
 		isSslCheckbox.addSelectionListener(getDefaultSelectionListener());
-		
+
 		sslCombo = new Combo(container, SWT.SINGLE | SWT.READ_ONLY);
 		GridData sslGd = new GridData();
 		sslGd.widthHint = 100;
@@ -124,7 +124,7 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 		sslCombo.select(0);
 		sslCombo.addSelectionListener(getDefaultSelectionListener());
 		sslCombo.setVisible(false);
-		
+
 		setControl(container);
 		setPageComplete(false);
 	}
@@ -231,10 +231,10 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 		hostTypes.clear();
 		hostTypes.addAll(retriever.getHostTypes());
 		checkHostTypes();
-		
+
 		sslConfigurations.clear();
 		sslConfigurations.addAll(retriever.getSslConigurationss());
-		
+
 	}
 
 	/**
@@ -300,17 +300,25 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 			public void widgetSelected(SelectionEvent e) {
 				HostType hostType = getSelectedHostType();
 				if (hostType != null) {
+					if (hostType.isSupportSsl()) {
+						isSslCheckbox.setVisible(true);
+						if (isSslCheckbox.getSelection()) {
+							sslCombo.setVisible(true);
+							hostType.setSslType(sslCombo.getText());
+						} else {
+							sslCombo.setVisible(false);
+							hostType.setSslType("");
+						}
+					} else {
+						isSslCheckbox.setVisible(false);
+						sslCombo.setVisible(false);
+						hostType.setSslType("");
+					}
 					hostTypeDescriptionLabel.setText(hostType.getDescription());
 				} else {
 					hostTypeDescriptionLabel.setText("");
 				}
-				hostType.setSslType(sslCombo.getText());
-				if (isSslCheckbox.getSelection()) {
-					sslCombo.setVisible(true);
-				} else {
-					sslCombo.setVisible(false);	
-				}
-				hostType.setSupportSsl(isSslCheckbox.getSelection());
+
 				getWizardModel().update(hostType);
 				if (hostTypeCombo.getText().contains("mock-up")) {
 					updateStatus(null);
