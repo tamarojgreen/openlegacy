@@ -27,7 +27,7 @@ public abstract class SessionModuleAdapter<S extends Session> implements Session
 
 	private static final long serialVersionUID = 1L;
 
-	private S session;
+	private transient S session;
 
 	/**
 	 * for serialization purpose only

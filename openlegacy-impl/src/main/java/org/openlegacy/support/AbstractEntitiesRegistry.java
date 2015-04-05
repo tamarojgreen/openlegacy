@@ -103,7 +103,7 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 
 	@Override
 	public Collection<E> getEntitiesDefinitions() {
-		return entitiesDefinitions.values();
+		return new ArrayList<E>(entitiesDefinitions.values());
 	}
 
 	@Override
