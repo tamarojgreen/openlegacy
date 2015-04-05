@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.openlegacy.templates</groupId>
+	<groupId>openlegacy-ws-sample</groupId>
 	<artifactId>openlegacy-ws-sample</artifactId>
-	<version>2.2.0-SNAPSHOT</version>
-	<name>OpenLegacy Web Services demo application</name>
+	<version>0.1</version>
+	<name>openlegacy-ws-sample</name>
 	<packaging>war</packaging>
 
 	<properties>
@@ -54,8 +54,14 @@
 	<dependencies>
 		<!-- OpenLegacy -->
 		<dependency>
+			<groupId>org.openlegacy.providers</groupId>
+			<artifactId>openlegacy-tn5250j</artifactId>
+			<version>${openlegacy-version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.openlegacy</groupId>
-			<artifactId>openlegacy-impl</artifactId>
+			<artifactId>openlegacy-web</artifactId>
 			<version>${openlegacy-version}</version>
 			<scope>compile</scope>
 		</dependency>
@@ -91,26 +97,6 @@ End Uncomment for OpenLegacy enterprise managemenent plugin -->
 			<version>${org.springframework-version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>${org.springframework-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>${org.springframework-version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-jdbc</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-tx</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 			<version>${org.springframework-version}</version>
@@ -125,7 +111,7 @@ End Uncomment for OpenLegacy enterprise managemenent plugin -->
 			<artifactId>spring-security-config</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		<!-- CXF -->
+		<!-- CXF start tag -->
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxws</artifactId>
@@ -141,6 +127,7 @@ End Uncomment for OpenLegacy enterprise managemenent plugin -->
 			<artifactId>wss4j</artifactId>
 			<version>1.6.7</version>
 		</dependency>
+		<!-- CXF end tag -->
 		<!-- Javax -->
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
@@ -148,10 +135,29 @@ End Uncomment for OpenLegacy enterprise managemenent plugin -->
 			<version>1.0.1.Final</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+		    <groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>3.1.4.RELEASE</version>
+			<scope>test</scope>
+		</dependency>	
+<!-- Uncomment for bidi support
+ 		<dependency> 
+		    <groupId>com.ibm.icu</groupId> 
+			<artifactId>icu4j</artifactId> 
+			<version>49.1</version> 
+		</dependency>
+End uncomment for bidi support -->
 	</dependencies>
 
 	<build>
-		<finalName>${project.artifactId}</finalName>
+		<finalName>openlegacy-ws-sample</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
@@ -174,9 +180,6 @@ End Uncomment for OpenLegacy enterprise managemenent plugin -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.3</version>
-				<configuration>
-					<attachClasses>true</attachClasses>
-				</configuration>
 			</plugin>
 
 			<plugin>

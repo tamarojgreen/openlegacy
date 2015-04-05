@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+<!-- auto generated service GetWarehouseDetails start-->
+	<bean id="getWarehouseDetailsPool"
+	class="org.openlegacy.terminal.support.SimpleTerminalSessionPoolFactory" p:maxConnections="2" 
+	p:keepAliveAction="com.openlegacy.ws.openlegacy.services.GetWarehouseDetailsServiceImpl.KeepAliveAction" p:keepAliveInterval="600000" 
+	p:initAction="com.openlegacy.ws.openlegacy.services.GetWarehouseDetailsServiceImpl.InitAction" p:cleanupAction="com.openlegacy.ws.openlegacy.services.GetWarehouseDetailsServiceImpl.CleanupAction"/>
+	<bean id="getWarehouseDetailsImpl" class="com.openlegacy.ws.openlegacy.services.GetWarehouseDetailsServiceImpl" />
+
+	<jaxws:endpoint id="getWarehouseDetails" implementor="#getWarehouseDetailsImpl" address="/getWarehouseDetails" />
+
+	<jaxws:client id="getWarehouseDetailsClient" serviceClass="com.openlegacy.ws.openlegacy.services.GetWarehouseDetailsService"
+		address="http://localhost:8080/openlegacy-ws-sample/services/getWarehouseDetails" /><!-- auto generated service GetWarehouseDetails end -->
+<!-- auto generated service GetItemDetailes start-->
+	<bean id="getItemDetailesPool"
+	class="org.openlegacy.terminal.support.SimpleTerminalSessionPoolFactory" p:maxConnections="2" 
+	p:keepAliveAction="com.openlegacy.ws.openlegacy.services.GetItemDetailesServiceImpl.KeepAliveAction" p:keepAliveInterval="600000" 
+	p:initAction="com.openlegacy.ws.openlegacy.services.GetItemDetailesServiceImpl.InitAction" p:cleanupAction="com.openlegacy.ws.openlegacy.services.GetItemDetailesServiceImpl.CleanupAction"/>
+	<bean id="getItemDetailesImpl" class="com.openlegacy.ws.openlegacy.services.GetItemDetailesServiceImpl" />
+
+	<jaxws:endpoint id="getItemDetailes" implementor="#getItemDetailesImpl" address="/getItemDetailes" />
+
+	<jaxws:client id="getItemDetailesClient" serviceClass="com.openlegacy.ws.openlegacy.services.GetItemDetailesService"
+		address="http://localhost:8080/openlegacy-ws-sample/services/getItemDetailes" /><!-- auto generated service GetItemDetailes end -->
+<!-- auto generated service GetItems start-->
+	<bean id="getItemsPool"
+	class="org.openlegacy.terminal.support.SimpleTerminalSessionPoolFactory" p:maxConnections="2" 
+	p:keepAliveAction="com.openlegacy.ws.openlegacy.services.GetItemsServiceImpl.KeepAliveAction" p:keepAliveInterval="600000" 
+	p:initAction="com.openlegacy.ws.openlegacy.services.GetItemsServiceImpl.InitAction" p:cleanupAction="com.openlegacy.ws.openlegacy.services.GetItemsServiceImpl.CleanupAction"/>
+	<bean id="getItemsImpl" class="com.openlegacy.ws.openlegacy.services.GetItemsServiceImpl" />
+
+	<jaxws:endpoint id="getItems" implementor="#getItemsImpl" address="/getItems" />
+
+	<jaxws:client id="getItemsClient" serviceClass="com.openlegacy.ws.openlegacy.services.GetItemsService"
+		address="http://localhost:8080/openlegacy-ws-sample/services/getItems" /><!-- auto generated service GetItems end -->
+<!-- Register WS place-holder start
+<#if generatePool>
+	<bean id="${serviceName?uncap_first}Pool"
+	class="org.openlegacy.terminal.support.SimpleTerminalSessionPoolFactory" p:maxConnections="2" 
+	p:keepAliveAction="${package}.${serviceName}ServiceImpl.KeepAliveAction" p:keepAliveInterval="600000" 
+	p:initAction="${package}.${serviceName}ServiceImpl.InitAction" p:cleanupAction="${package}.${serviceName}ServiceImpl.CleanupAction"/>
+</#if>
+	<bean id="${serviceName?uncap_first}Impl" class="${package}.${serviceName}ServiceImpl" />
+
+	<jaxws:endpoint id="${serviceName?uncap_first}" implementor="#${serviceName?uncap_first}Impl" address="/${serviceName?uncap_first}" />
+
+	<jaxws:client id="${serviceName?uncap_first}Client" serviceClass="${package}.${serviceName}Service"
+		address="http://localhost:8080/${projectPath.name}/services/${serviceName?uncap_first}" />
+
+Register WS place-holder end -->
+
+</beans>

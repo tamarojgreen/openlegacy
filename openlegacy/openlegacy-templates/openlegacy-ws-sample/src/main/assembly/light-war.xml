@@ -12,6 +12,7 @@
 	<dependencySets>
 		<dependencySet>
 			<includes>
+				<include>org.openlegacy:openlegacy-api</include>
 				<include>org.openlegacy:openlegacy-impl</include>
 				<include>org.openlegacy:openlegacy-utils</include>
 				<include>org.openlegacy:openlegacy-web</include>

@@ -9,32 +9,33 @@
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 
+	 <bean id="marshaller" class="org.springframework.oxm.xstream.XStreamMarshaller"/>
+
 	<context:property-placeholder location="classpath*:/*.properties" />
 
-	<import resource="classpath*:/META-INF/openlegacy-terminal-basic-context.xml" />
+	<bean class="org.openlegacy.terminal.support.DefaultTerminalSnapshotsOrganizer" />
+	<bean class="org.openlegacy.terminal.support.DefaultSnapshotSimilarityChecker" />
+				
+<!-- Use this definition to replay a mock-up session application
+ 	<bean id="terminalConnectionFactory"
+		class="org.openlegacy.terminal.mock.MockStateMachineTerminalConnectionFactory"
+		p:verifySend="true" p:root="/trails" p:trailName="demo_session.trail"
+		p:exactCursor="false" p:exactFields="false" p:exactCommand="true" />
+End use this definition to replay a mock-up session application -->
+
+<!-- auto generated service GetWarehouseDetails start-->
+	<jaxws:client id="getWarehouseDetailsClient" serviceClass="com.openlegacy.ws.openlegacy.services.GetWarehouseDetailsService"
+		address="http://localhost:8080/openlegacy-ws-sample/services/getWarehouseDetails" /><!-- auto generated service GetWarehouseDetails end -->
+<!-- auto generated service GetItemDetailes start-->
+	<jaxws:client id="getItemDetailesClient" serviceClass="com.openlegacy.ws.openlegacy.services.GetItemDetailesService"
+		address="http://localhost:8080/openlegacy-ws-sample/services/getItemDetailes" /><!-- auto generated service GetItemDetailes end -->
+<!-- auto generated service GetItems start-->
+	<jaxws:client id="getItemsClient" serviceClass="com.openlegacy.ws.openlegacy.services.GetItemsService"
+		address="http://localhost:8080/openlegacy-ws-sample/services/getItems" /><!-- auto generated service GetItems end -->
+<!-- Register WS place-holder start
+	<jaxws:client id="${serviceName?uncap_first}Client" serviceClass="${package}.${serviceName}Service"
+		address="http://localhost:8080/${projectPath.name}/services/${serviceName?uncap_first}" />
 
-	<import resource="classpath:/META-INF/spring/actions-mappings.xml"/>
-		
-	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession"
-		scope="prototype" parent="abstractTerminalSession" />
-
-	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
-		<property name="packages">
-			<list>
-				<value>org.openlegacy.terminal.samples.model</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="terminalConnectionFactory" class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
-		<property name="root" value="/trails" />
-		<property name="trailName" value="demo_session.trail" />
-	</bean>
-
-	<jaxws:client id="itemsClient" serviceClass="org.openlegacy.terminal.samples.services.ItemsWebService"
-		address="http://localhost:8080/openlegacy-ws-sample/items" />
-
-	<jaxws:client id="itemDetailsClient" serviceClass="org.openlegacy.terminal.samples.services.ItemDetailsWebService"
-		address="http://localhost:8080/openlegacy-ws-sample/itemDetails"/>
+Register WS place-holder end -->
 
 </beans>

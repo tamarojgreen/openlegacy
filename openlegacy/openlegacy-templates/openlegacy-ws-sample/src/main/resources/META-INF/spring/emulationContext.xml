@@ -36,12 +36,14 @@
 			</bean>
 		</property>
 	</bean>
-    End use this definition to replay a mock-up session application -->
+End use this definition to replay a mock-up session application -->
     
-	<!-- comment when using mock-up session -->
+<!-- Delete this definition to replay a mock-up session application -->
 	<bean id="terminalSession" parent="abstractTerminalSession" />
-	
+<!-- End delete this definition to replay a mock-up session application -->
+		
 	<!-- Uncomment for bidi support
+ 	<bean id="menuOptionFinder" class="org.openlegacy.modules.support.menu.RightToLeftMenuOptionFinder" />
 	<bean id="elementsProvider" class="org.openlegacy.terminal.web.render.support.DefaultBidiElementsProvider">
 		<property name="colorMapper">
 			<map>

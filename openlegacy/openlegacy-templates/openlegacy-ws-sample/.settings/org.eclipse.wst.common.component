@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="openlegacy-ws-sample">
+    <wb-module deploy-name="openlegacy-ws-new">
         <wb-resource deploy-path="/WEB-INF/web.xml" source-path="/src/main/webapp/WEB-INF/web.xml"/>
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
@@ -14,7 +14,10 @@
         <dependent-module archiveName="openlegacy-utils-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-utils/openlegacy-utils">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <property name="java-output-path" value="/openlegacy-ws-sample/target/classes"/>
-        <property name="context-root" value="openlegacy-ws-sample"/>
+        <dependent-module archiveName="openlegacy-web-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-web/openlegacy-web">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="java-output-path" value="/openlegacy-ws-new/target/classes"/>
+        <property name="context-root" value="openlegacy-ws-new"/>
     </wb-module>
 </project-modules>
