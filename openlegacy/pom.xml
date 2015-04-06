@@ -68,6 +68,7 @@
 				<module>openlegacy-tools</module>
 				<module>../openlegacy-designtime</module>
 				<module>openlegacy-plugins</module>
+				<module>../openlegacy-remoting</module>
 			</modules>
 		</profile>
 		<profile>

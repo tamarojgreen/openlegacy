@@ -74,7 +74,7 @@ public class PersistedUser implements User {
 		if (!(other instanceof PersistedUser)) {
 			return false;
 		}
-		return ((PersistedUser)other).getUserName().equalsIgnoreCase(getUserName());
+		return ((PersistedUser) other).getUserName().equalsIgnoreCase(getUserName());
 	}
 
 	@Override

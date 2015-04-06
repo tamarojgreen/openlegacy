@@ -45,7 +45,12 @@
 			<groupId>org.openlegacy.web</groupId>
 			<artifactId>openlegacy-themes-rest-dynamics</artifactId>
 			<version>${openlegacy.version}</version>
-		</dependency>	
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy</groupId>
+			<artifactId>openlegacy-remoting</artifactId>
+			<version>${openlegacy.version}</version>
+		</dependency>
 		<!-- SpringFramework -->
 		<dependency>
 			<groupId>org.springframework</groupId>

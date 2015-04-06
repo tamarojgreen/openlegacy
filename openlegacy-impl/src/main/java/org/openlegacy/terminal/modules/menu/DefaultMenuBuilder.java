@@ -59,10 +59,10 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 		}
 		ScreenEntityDefinition menuDefinition = getScreenEntitiesRegistry().get(menuEntityClass);
 
-		Assert.notNull(menuDefinition,
-				MessageFormat.format("Class {0} is not a registered screen entity", menuEntityClass.getName()));
-		Assert.isTrue(menuDefinition.getType() == MenuEntity.class,
-				MessageFormat.format("{0} is not a screen entity", menuEntityClass.getName()));
+		Assert.notNull(menuDefinition, MessageFormat.format("Class {0} is not a registered screen entity",
+				menuEntityClass.getName()));
+		Assert.isTrue(menuDefinition.getType() == MenuEntity.class, MessageFormat.format("{0} is not a screen entity",
+				menuEntityClass.getName()));
 
 		sortToMenus();
 		Integer subMenuDepth = allMenusDepths.get(ProxyUtil.getOriginalClass(menuEntityClass));
@@ -237,7 +237,9 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 	 * @author RoiM
 	 * 
 	 */
-	private static class MenuItemsComparator implements Comparator<Class<?>> {
+	private static class MenuItemsComparator implements Comparator<Class<?>>, Serializable {
+
+		private static final long serialVersionUID = 1L;
 
 		private ScreenEntitiesRegistry screenEntitiesRegistry;
 

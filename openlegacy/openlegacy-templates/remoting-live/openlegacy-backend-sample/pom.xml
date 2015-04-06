@@ -26,13 +26,19 @@
 			<version>${openlegacy.version}</version>
 			<scope>compile</scope>
 		</dependency>
-		<!-- Servlet -->
 		<dependency>
 			<groupId>org.openlegacy.providers</groupId>
 			<artifactId>openlegacy-tn5250j</artifactId>
 			<version>${openlegacy.version}</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.openlegacy</groupId>
+			<artifactId>openlegacy-remoting</artifactId>
+			<version>${openlegacy.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
