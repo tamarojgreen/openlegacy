@@ -228,7 +228,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		String frontendSolution = (projectCreationRequest.getFrontendSolution() != null) ? projectCreationRequest.getFrontendSolution().toUpperCase()
 				: "REST";
 
-		if (StringUtils.equals(frontendSolution, "REST/MOBILE")) {
+		if (StringUtils.contains(frontendSolution, "REST") || StringUtils.contains(frontendSolution, "Mobile")) {
 			frontendSolution = "REST";
 		}
 
@@ -392,7 +392,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void updatePropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath) throws IOException,
-			FileNotFoundException {
+	FileNotFoundException {
 		File hostPropertiesFile = new File(targetPath, "src/main/resources/host.properties");
 		if (hostPropertiesFile.exists()) {
 			String hostPropertiesFileContent = IOUtils.toString(new FileInputStream(hostPropertiesFile));
@@ -448,7 +448,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameLaunchers(final String projectName, final File targetPath) throws FileNotFoundException,
-			IOException {
+	IOException {
 		targetPath.listFiles(new FileFilter() {
 
 			@Override
@@ -466,7 +466,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameLauncher(String projectName, File targetPath, String fileName) throws FileNotFoundException,
-			IOException {
+	IOException {
 		File launcherFile = new File(targetPath, fileName);
 
 		if (!launcherFile.exists()) {
@@ -482,14 +482,14 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void updateSpringContextWithDefaultPackage(String defaultPackageName, File targetPath) throws IOException,
-			FileNotFoundException {
+	FileNotFoundException {
 		updateSpringFile(defaultPackageName, new File(targetPath, DesigntimeConstants.DEFAULT_SPRING_CONTEXT_FILE));
 		updateSpringFile(defaultPackageName + ".web", new File(targetPath, DEFAULT_SPRING_WEB_CONTEXT_FILE));
 		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_TEST_CONTEXT_FILE));
 	}
 
 	private static void createDefaultPackage(String defaultPackageName, File targetPath) throws IOException,
-			FileNotFoundException {
+	FileNotFoundException {
 		String packageFolders = defaultPackageName.replace(".", "/");
 		File packageDir = new File(targetPath + PACKAGE_DIR);
 		if (!packageDir.exists()) {
@@ -559,7 +559,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void addDbDriverDependency(File targetPath, String mavenDependencyString) throws FileNotFoundException,
-			IOException {
+	IOException {
 		File pomFile = new File(targetPath, "pom.xml");
 
 		if (!pomFile.exists()) {
@@ -646,7 +646,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameThemeInAppProperties(ProjectTheme projectTheme, File targetPath) throws FileNotFoundException,
-			IOException {
+	IOException {
 		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
 
 		if (!appPropertiesFile.exists()) {
@@ -708,8 +708,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (matcher.find()) {
 			fileContent = fileContent.replaceFirst("<context-param>\\s+<param-name>" + paramName
 					+ "</param-name>\\s+<param-value>.*</param-value>", MessageFormat.format(
-					"<context-param>\n\t\t<param-name>{0}</param-name>\n\t\t<param-value>{1}</param-value>", paramName,
-					paramValue));
+							"<context-param>\n\t\t<param-name>{0}</param-name>\n\t\t<param-value>{1}</param-value>", paramName,
+							paramValue));
 		} else {
 			// add new <context-param> into the end of file
 			int indexOf = fileContent.indexOf("</web-app>");
@@ -751,7 +751,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		List<ScreenEntityDefinition> screenDefinitions = getSortedSnapshots(screenEntitiesDefinitions);
 
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
-			((ScreenEntityDesigntimeDefinition) screenEntityDefinition).setGenerateAspect(generateModelRequest.isGenerateAspectJ());
+			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setGenerateAspect(generateModelRequest.isGenerateAspectJ());
 
 			generateScreenEntityDefinition(generateModelRequest, screenEntityDefinition);
 		}
@@ -775,7 +775,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			}
 		}
 
-		((ScreenEntityDesigntimeDefinition) entityDefinition).setPackageName(generateScreenModelRequest.getPackageDirectory().replaceAll(
+		((ScreenEntityDesigntimeDefinition)entityDefinition).setPackageName(generateScreenModelRequest.getPackageDirectory().replaceAll(
 				"/", "."));
 
 		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(generateScreenModelRequest.getProjectPath());
@@ -846,10 +846,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			}
 		}
 
-		((SimpleRpcEntityDesigntimeDefinition) entityDefinition).setPackageName(generateRpcModelRequest.getPackageDirectory().replaceAll(
+		((SimpleRpcEntityDesigntimeDefinition)entityDefinition).setPackageName(generateRpcModelRequest.getPackageDirectory().replaceAll(
 				"/", "."));
 
-		((SimpleRpcEntityDesigntimeDefinition) entityDefinition).setNavigation(generateRpcModelRequest.getNavigation());
+		((SimpleRpcEntityDesigntimeDefinition)entityDefinition).setNavigation(generateRpcModelRequest.getNavigation());
 
 		SimpleRpcActionDefinition actionDefinition = new SimpleRpcActionDefinition(RpcActions.READ(), "Read");
 
@@ -1324,7 +1324,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				String fileContent = writer.toString();
 				parseResults = codeParser.parse(fileContent, copyBookName);
 				RpcEntityDefinition rpcEntityDefinition = parseResults.getEntityDefinition();
-				SimpleRpcEntityDesigntimeDefinition devEntity = (SimpleRpcEntityDesigntimeDefinition) rpcEntityDefinition;
+				SimpleRpcEntityDesigntimeDefinition devEntity = (SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition;
 				devEntity.setEntityName(baseName);
 				devEntity.setPackageName(packegeName);
 				devEntity.setOnlyPart(true);
@@ -1380,16 +1380,16 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 					externalParts.add(FileUtils.fileWithoutAnyExtension(externalPart));
 				}
 				Map<String, String> localToExternal = cobolLocalPartNamesFethcher.get(fileContent, externalParts);
-				((SimpleRpcEntityDesigntimeDefinition) rpcEntityDefinition).convertToExternal(localToExternal);
+				((SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition).convertToExternal(localToExternal);
 			}
 
 			CobolNameRecognizer cobolNameRecognizer = getCobolNameRecognizer();
-			((SimpleRpcEntityDesigntimeDefinition) rpcEntityDefinition).setEntityName(cobolNameRecognizer.getEntityName(
+			((SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition).setEntityName(cobolNameRecognizer.getEntityName(
 					fileContent, sourceFile.getName()));
 		} catch (IOException e) {
 			throw (new OpenLegacyRuntimeException(e));
 		}
-		((SimpleRpcEntityDesigntimeDefinition) rpcEntityDefinition).setGenerateAspect(generateRpcModelRequest.isGenerateAspectJ());
+		((SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition).setGenerateAspect(generateRpcModelRequest.isGenerateAspectJ());
 
 		boolean generated = generateRpcEntityDefinition(generateRpcModelRequest, rpcEntityDefinition);
 
@@ -1472,7 +1472,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		TerminalSnapshotTextRenderer textRenderer = projectApplicationContext.getBean(TerminalSnapshotTextRenderer.class);
 		DefaultTerminalSnapshotXmlRenderer xmlRenderer = projectApplicationContext.getBean(DefaultTerminalSnapshotXmlRenderer.class);
 
-		TerminalSnapshot snapshot = (TerminalSnapshot) SerializationUtils.clone(generateScreenModelRequest.getTerminalSnapshots()[0]);
+		TerminalSnapshot snapshot = (TerminalSnapshot)SerializationUtils.clone(generateScreenModelRequest.getTerminalSnapshots()[0]);
 
 		if (generateScreenModelRequest.isGenerateSnapshotText()) {
 			// generate txt file with screen content
