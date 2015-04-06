@@ -56,6 +56,8 @@
     </bean>
 	<bean id="dbLoginModule" class="org.openlegacy.db.modules.login.LoginModule"/>
  	<bean id="dbService" class="org.openlegacy.db.services.DbService"/>
+ 	<bean id="dbSession" class="org.openlegacy.db.support.DefaultDbSession" scope="prototype" parent="abstractDbSession"/>
+ 	<!-- Uncomment to load UserCountModule of Management plugin
 	<bean id="dbSession" class="org.openlegacy.db.support.DefaultDbSession" scope="prototype" parent="abstractDbSession">
 		<property name="sessionModules">
 			<bean class="org.openlegacy.support.SessionModules">
@@ -68,7 +70,7 @@
 				</property>
 			</bean>
 		</property>
-	</bean>
+	</bean> -->
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>	
 
 </beans>

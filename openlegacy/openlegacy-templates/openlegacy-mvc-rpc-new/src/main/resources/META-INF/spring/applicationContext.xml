@@ -25,8 +25,8 @@
             </list>
 	    </property>
     </bean>
-    
-    <bean id="rpcSession" class="org.openlegacy.rpc.support.DefaultRpcSession" scope="session" parent="abstractRpcSession">
+   <!--  Uncomment to load UserCountModule of Management plugin. 
+   <bean id="rpcSession" class="org.openlegacy.rpc.support.DefaultRpcSession" scope="session" parent="abstractRpcSession">
 		<property name="sessionModules">
 			<bean class="org.openlegacy.support.SessionModules">
 				<property name="modules">
@@ -47,7 +47,7 @@
 			</bean>
 		</property>
 	    <aop:scoped-proxy/>
-	</bean>
+	</bean> -->
 	
 <!-- Use this definition to replay a mock-up session application
 	<bean id="rpcConnection" factory-bean="rpcConnectionFactory" factory-method="getConnection" />
