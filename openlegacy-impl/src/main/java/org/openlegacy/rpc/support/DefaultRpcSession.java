@@ -221,7 +221,9 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	@Override
 	public void login(String user, String password) {
+		notifyModulesBeforeConnect();
 		rpcConnection.login(user, password);
+		notifyModulesAfterConnect();
 	}
 
 }

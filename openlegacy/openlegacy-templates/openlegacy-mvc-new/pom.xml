@@ -229,13 +229,13 @@
 			<artifactId>html-emulation-plugin</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
-<!-- Uncomment for OpenLegacy enterprise managemenent plugin
+
  		<dependency>
 			<groupId>com.openlegacy.enterprise.plugins</groupId>
 			<artifactId>management-plugin</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
-End Uncomment for OpenLegacy enterprise managemenent plugin -->
+
 
 <!-- commented dependency start
 		<dependency>

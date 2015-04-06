@@ -182,13 +182,11 @@
   			<artifactId>openlegacy-web-resources</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
-<!-- Uncomment for OpenLegacy enterprise managemenent plugin
  		<dependency>
 			<groupId>com.openlegacy.enterprise.plugins</groupId>
 			<artifactId>management-plugin</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
-End Uncomment for OpenLegacy enterprise managemenent plugin -->
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>

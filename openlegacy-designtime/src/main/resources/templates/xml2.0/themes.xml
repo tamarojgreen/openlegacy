@@ -47,25 +47,25 @@
 		<image-file>insurance.jpg</image-file>
 	</theme>
 	<theme>
-		<frontend-solution>REST/Mobile</frontend-solution>
+		<frontend-solution>Mobile/Responsive</frontend-solution>
 		<name>openlegacy-themes-rest-emily</name>
 		<display-name>Emily</display-name>
 		<image-file>emily.jpg</image-file>
 	</theme>
 	<theme>
-		<frontend-solution>REST/Mobile</frontend-solution>
+		<frontend-solution>Mobile/Responsive</frontend-solution>
 		<name>openlegacy-themes-rest-dynamics</name>
 		<display-name>Dynamics</display-name>
 		<image-file>dynamics.jpg</image-file>
 	</theme>
 	<theme>
-		<frontend-solution>REST/Mobile</frontend-solution>
+		<frontend-solution>Mobile/Responsive</frontend-solution>
 		<name>openlegacy-themes-rest-light</name>
 		<display-name>Light</display-name>
 		<image-file>light.jpg</image-file>
 	</theme>
 	<theme>
-		<frontend-solution>REST/Mobile</frontend-solution>
+		<frontend-solution>Mobile/Responsive</frontend-solution>
 		<name>openlegacy-themes-rest-healthcare</name>
 		<display-name>Healthcare</display-name>
 		<image-file>healthcare.jpg</image-file>

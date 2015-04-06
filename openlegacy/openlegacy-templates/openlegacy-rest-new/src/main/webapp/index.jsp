@@ -82,7 +82,7 @@ function get(){
 			},
 			error : function(e) {
 				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image?ts=" + (new Date())); 
-				alert(e);
+				alert(e.response.text);
 			}
 		}
 		var deferred = dojo.xhrGet(xhrArgs);
@@ -113,7 +113,7 @@ function post(){
 			},
 			error : function(e) {
 				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image?ts=" + (new Date())); 
-				alert(e);
+				alert(e.response.text);
 			}
 		}
 		var deferred = dojo.xhrPost(xhrArgs);

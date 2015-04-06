@@ -23,6 +23,43 @@
             </list>
 	    </property>
     </bean>
+    
+    <bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" scope="session" parent="abstractTerminalSession">
+		<property name="sessionModules">
+			<bean class="org.openlegacy.support.SessionModules">
+				<property name="modules">
+					<list>
+						<bean
+							class="org.openlegacy.terminal.modules.trail.DefaultTerminalTrailModule">
+							<property name="sessionTrail">
+								<bean class="org.openlegacy.terminal.modules.trail.DefaultTerminalTrail"
+									p:historyCount="3" />
+							</property>
+						</bean>
+						<bean class="org.openlegacy.terminal.modules.login.DefaultTerminalLoginModule"
+							p:loginActionClass="org.openlegacy.terminal.actions.TerminalActions.ENTER"
+							p:defaultExitActionClass="org.openlegacy.terminal.actions.TerminalActions.F3"
+							p:maxActionsToLogin="5" p:loginTimeout="2000"/>
+						<bean class="org.openlegacy.terminal.modules.table.DefaultTerminalTableModule" />
+						<bean
+							class="org.openlegacy.terminal.modules.navigation.DefaultTerminalNavigationModule" p:defaultExitActionClass="org.openlegacy.terminal.actions.TerminalActions.F3"/>
+						<bean
+							class="org.openlegacy.terminal.modules.menu.DefaultTerminalMenuModule" />
+						<bean
+							class="org.openlegacy.terminal.modules.messages.DefaultTerminalMessagesModule" p:defaultSkipActionClass="org.openlegacy.terminal.actions.TerminalActions.ENTER"/>
+						<bean
+							class="org.openlegacy.terminal.modules.registry.DefaultSessionRegistryModule" />
+						<bean
+							class="org.openlegacy.terminal.modules.globals.DefaultGlobalsModule" />
+						<bean
+							class="com.openlegacy.plugins.management.UserCountModule" />	
+																		
+					</list>
+				</property>
+			</bean>
+		</property>
+	    <aop:scoped-proxy/>
+	</bean>
 
 <!-- Use this definition to configure modules properties
 	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" scope="session" parent="abstractTerminalSession">

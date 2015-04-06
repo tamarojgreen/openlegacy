@@ -8,8 +8,8 @@
 	
 	<frontend-solutions>
 		<solution>Java</solution>
-		<solution>Web</solution>
-		<solution>REST/Mobile</solution>
+		<solution>REST API</solution>
+		<solution>Mobile/Responsive</solution>
 		<solution>Integration</solution>
 	</frontend-solutions>
 
@@ -31,56 +31,22 @@
 		<frontend-solution>Java</frontend-solution>
 	</project-type>
 	
-	<!-- Web -->
-	<project-type>
-		<template-name>openlegacy-mvc-new</template-name>
-		<is-demo>false</is-demo>
-		<support-theme>true</support-theme>
-		<zip-file>openlegacy-mvc-new.zip</zip-file>
-		<backend-solution>Screens</backend-solution>
-		<frontend-solution>Web</frontend-solution>
-	</project-type>
-	<project-type>
-		<template-name>openlegacy-mvc-rpc-new</template-name>
-		<is-demo>false</is-demo>
-		<support-theme>true</support-theme>
-		<zip-file>openlegacy-mvc-rpc-new.zip</zip-file>
-		<backend-solution>RPC</backend-solution>
-		<frontend-solution>Web</frontend-solution>
-	</project-type>
-	<project-type>
-		<template-name>openlegacy-mvc-sample</template-name>
-		<is-demo>true</is-demo>
-		<support-theme>false</support-theme>
-		<zip-file>openlegacy-mvc-rpc-new.zip</zip-file>
-		<backend-solution>Screens</backend-solution>
-		<frontend-solution>Web</frontend-solution>
-	</project-type>
-	<project-type>
-		<template-name>openlegacy-mvc-rpc-sample</template-name>
-		<is-demo>true</is-demo>
-		<support-theme>false</support-theme>
-		<zip-file>openlegacy-mvc-rpc-sample.zip</zip-file>
-		<backend-solution>RPC</backend-solution>
-		<frontend-solution>Web</frontend-solution>
-	</project-type>
-	
-	<!-- REST/Mobile -->
+	<!-- REST API -->
 	<project-type>
 		<template-name>openlegacy-rest-new</template-name>
 		<is-demo>false</is-demo>
-		<support-theme>true</support-theme>
+		<support-theme>false</support-theme>
 		<zip-file>openlegacy-rest-new.zip</zip-file>
 		<backend-solution>Screens</backend-solution>
-		<frontend-solution>REST/Mobile</frontend-solution>
+		<frontend-solution>REST API</frontend-solution>
 	</project-type>
 	<project-type>
 		<template-name>openlegacy-rest-rpc-new</template-name>
 		<is-demo>false</is-demo>
-		<support-theme>true</support-theme>
+		<support-theme>false</support-theme>
 		<zip-file>openlegacy-rest-rpc-new.zip</zip-file>
 		<backend-solution>RPC</backend-solution>
-		<frontend-solution>REST/Mobile</frontend-solution>
+		<frontend-solution>REST API</frontend-solution>
 	</project-type>
 	<project-type>
 		<template-name>openlegacy-rest-sample</template-name>
@@ -88,7 +54,7 @@
 		<support-theme>false</support-theme>
 		<zip-file>openlegacy-rest-sample.zip</zip-file>
 		<backend-solution>Screens</backend-solution>
-		<frontend-solution>REST/Mobile</frontend-solution>
+		<frontend-solution>REST API</frontend-solution>
 	</project-type>
 	<project-type>
 		<template-name>openlegacy-rest-rpc-sample</template-name>
@@ -96,15 +62,15 @@
 		<support-theme>false</support-theme>
 		<zip-file>openlegacy-rest-rpc-sample.zip</zip-file>
 		<backend-solution>RPC</backend-solution>
-		<frontend-solution>REST/Mobile</frontend-solution>
+		<frontend-solution>REST API</frontend-solution>
 	</project-type>
 	<project-type>
 		<template-name>openlegacy-rest-db-new</template-name>
 		<is-demo>false</is-demo>
-		<support-theme>true</support-theme>
+		<support-theme>false</support-theme>
 		<zip-file>openlegacy-rest-db-new.zip</zip-file>
 		<backend-solution>JDBC</backend-solution>
-		<frontend-solution>REST/Mobile</frontend-solution>
+		<frontend-solution>REST API</frontend-solution>
 	</project-type>
 	<project-type>
 		<template-name>openlegacy-rest-db-sample</template-name>
@@ -112,9 +78,59 @@
 		<support-theme>false</support-theme>
 		<zip-file>openlegacy-rest-db-sample.zip</zip-file>
 		<backend-solution>JDBC</backend-solution>
-		<frontend-solution>REST/Mobile</frontend-solution>
+		<frontend-solution>REST API</frontend-solution>
 	</project-type>
-	
+
+	<!-- Mobile/Responsive -->
+	<project-type>
+		<template-name>openlegacy-rest-new</template-name>
+		<is-demo>false</is-demo>
+		<support-theme>true</support-theme>
+		<zip-file>openlegacy-rest-new.zip</zip-file>
+		<backend-solution>Screens</backend-solution>
+		<frontend-solution>Mobile/Responsive</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-rest-rpc-new</template-name>
+		<is-demo>false</is-demo>
+		<support-theme>true</support-theme>
+		<zip-file>openlegacy-rest-rpc-new.zip</zip-file>
+		<backend-solution>RPC</backend-solution>
+		<frontend-solution>Mobile/Responsive</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-rest-sample</template-name>
+		<is-demo>true</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-rest-sample.zip</zip-file>
+		<backend-solution>Screens</backend-solution>
+		<frontend-solution>Mobile/Responsive</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-rest-rpc-sample</template-name>
+		<is-demo>true</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-rest-rpc-sample.zip</zip-file>
+		<backend-solution>RPC</backend-solution>
+		<frontend-solution>Mobile/Responsive</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-rest-db-new</template-name>
+		<is-demo>false</is-demo>
+		<support-theme>true</support-theme>
+		<zip-file>openlegacy-rest-db-new.zip</zip-file>
+		<backend-solution>JDBC</backend-solution>
+		<frontend-solution>Mobile/Responsive</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-rest-db-sample</template-name>
+		<is-demo>true</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-rest-db-sample.zip</zip-file>
+		<backend-solution>JDBC</backend-solution>
+		<frontend-solution>Mobile/Responsive</frontend-solution>
+	</project-type>
+			
 	<!-- Integration -->
 	<project-type>
 		<template-name>openlegacy-ws-sample</template-name>

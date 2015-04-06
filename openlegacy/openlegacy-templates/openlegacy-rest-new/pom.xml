@@ -175,14 +175,12 @@
 			<groupId>org.openlegacy.web</groupId>
 			<artifactId>openlegacy-themes-rest-light</artifactId>
 			<version>${openlegacy-version}</version>
-		</dependency>		
-<!-- Uncomment for OpenLegacy enterprise managemenent plugin
+		</dependency>
  		<dependency>
 			<groupId>com.openlegacy.enterprise.plugins</groupId>
 			<artifactId>management-plugin</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
-End Uncomment for OpenLegacy enterprise managemenent plugin -->
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>
