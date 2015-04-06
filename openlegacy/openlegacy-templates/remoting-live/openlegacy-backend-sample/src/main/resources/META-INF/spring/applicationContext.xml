@@ -16,7 +16,8 @@
 	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
 		<property name="packages">
 			<list>
-				<value>org.openlegacy.remoting.entities</value>
+<!-- 				<value>org.openlegacy.remoting.entities</value> -->
+				<value>org.openlegacy.as400.menus</value>
 			</list>
 		</property>
 	</bean>

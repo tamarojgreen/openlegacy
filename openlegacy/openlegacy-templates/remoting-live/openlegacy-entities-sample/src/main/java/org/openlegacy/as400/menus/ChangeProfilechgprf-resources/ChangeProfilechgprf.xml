@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING" sequence="45">
+    <row rowNumber="1">
+        <field column="2" length="0"/>
+        <field column="3" value=" " length="1"/>
+        <field column="5" value="    " length="4"/>
+        <field column="10" value=" " length="1"/>
+        <field column="12" value="       " length="7"/>
+        <field column="20" value="          Change Profile (CHGPRF)          " length="43" color="WHITE"/>
+        <field column="64" value="                 " length="17"/>
+    </row>
+    <row rowNumber="2">
+        <field column="3" value=" " length="1"/>
+        <field column="5" value="    " length="4"/>
+        <field column="10" value=" " length="1"/>
+        <field column="12" value="                                                                     " length="69"/>
+    </row>
+    <row rowNumber="3">
+        <field column="2" value="Type choices, press Enter." length="26" color="BLUE"/>
+        <field column="29" value="                                                    " length="52"/>
+    </row>
+    <row rowNumber="5">
+        <field column="1" length="0"/>
+        <field column="2" value="Assistance level . . . . . . . ." length="32"/>
+        <field column="35" value=" " length="1"/>
+        <field column="37" value="*SYSVAL" length="9" editable="true"/>
+        <field column="47" value="   " length="3"/>
+        <field column="51" value="*SAME, *SYSVAL, *BASIC...     " length="30"/>
+    </row>
+    <row rowNumber="6">
+        <field column="2" value="Current library  . . . . . . . ." length="32"/>
+        <field column="35" value=" " length="1"/>
+        <field column="37" value="RMR2L1" length="10" editable="true"/>
+        <field column="48" value="  " length="2"/>
+        <field column="51" value="Name, *SAME, *CRTDFT          " length="30"/>
+    </row>
+    <row rowNumber="7">
+        <field column="2" value="Initial program to call  . . . ." length="32"/>
+        <field column="35" value=" " length="1"/>
+        <field column="37" value="SIGNONCLP" length="10" editable="true"/>
+        <field column="48" value="  " length="2"/>
+        <field column="51" value="Name, *SAME, *NONE            " length="30"/>
+    </row>
+    <row rowNumber="8">
+        <field column="2" value="  Library  . . . . . . . . . . ." length="32"/>
+        <field column="35" value="   " length="3"/>
+        <field column="39" value="QGPL" length="10" editable="true"/>
+        <field column="50" length="0"/>
+        <field column="51" value="Name, *LIBL, *CURLIB          " length="30"/>
+    </row>
+    <row rowNumber="9">
+        <field column="2" value="Initial menu . . . . . . . . . ." length="32"/>
+        <field column="35" value=" " length="1"/>
+        <field column="37" value="MAIN" length="10" editable="true"/>
+        <field column="48" value="  " length="2"/>
+        <field column="51" value="Name, *SAME, *SIGNOFF         " length="30"/>
+    </row>
+    <row rowNumber="10">
+        <field column="2" value="  Library  . . . . . . . . . . ." length="32"/>
+        <field column="35" value="   " length="3"/>
+        <field column="39" value="*LIBL" length="10" editable="true"/>
+        <field column="50" length="0"/>
+        <field column="51" value="Name, *LIBL, *CURLIB          " length="30"/>
+    </row>
+    <row rowNumber="11">
+        <field column="2" value="Text 'description' . . . . . . ." length="32"/>
+        <field column="35" value=" " length="1"/>
+        <field column="37" value="'ROI MOR'" length="44" editable="true"/>
+    </row>
+    <row rowNumber="21">
+        <field column="1" value="                                                                 " length="65"/>
+        <field column="67" value="       Bottom" length="13" color="WHITE"/>
+    </row>
+    <row rowNumber="22">
+        <field column="1" length="0" color="BLUE"/>
+        <field column="2" value="F3=Exit   F4=Prompt   F5=Refresh   F10=Additional parameters   F12=Cancel      " length="79" color="BLUE"/>
+    </row>
+    <size rows="24" columns="80"/>
+    <cursor row="5" column="37"/>
+</snapshot>

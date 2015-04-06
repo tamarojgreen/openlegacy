@@ -2,6 +2,7 @@ package org.openlegacy.terminal.modules.login;
 
 import org.openlegacy.modules.login.User;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -15,7 +16,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PersistedUser implements User {
+public class PersistedUser implements User, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@XmlAttribute
 	private String userName;
@@ -74,7 +77,7 @@ public class PersistedUser implements User {
 		if (!(other instanceof PersistedUser)) {
 			return false;
 		}
-		return ((PersistedUser) other).getUserName().equalsIgnoreCase(getUserName());
+		return ((PersistedUser)other).getUserName().equalsIgnoreCase(getUserName());
 	}
 
 	@Override

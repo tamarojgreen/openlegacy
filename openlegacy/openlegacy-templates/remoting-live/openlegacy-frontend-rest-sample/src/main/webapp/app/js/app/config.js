@@ -3,7 +3,7 @@ var olConfig = {
     hostUrl : "http://host.name/application.name",
     showSystemMessages : true,
     expiration : 30,
-    afterLoginView : "Items",
+    afterLoginView : "IbmIMainMenu",
     defaultView : "login",
     idleTimeout : 10
 };

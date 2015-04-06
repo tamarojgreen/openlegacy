@@ -14,9 +14,12 @@ import org.openlegacy.EntityDescriptor;
 import org.openlegacy.EntityWrapper;
 import org.openlegacy.definitions.ActionDefinition;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SimpleEntityWrapper implements EntityWrapper {
+public class SimpleEntityWrapper implements EntityWrapper, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Object entity;
 
@@ -34,7 +37,7 @@ public class SimpleEntityWrapper implements EntityWrapper {
 		// for de-serialization
 	}
 
-	public SimpleEntityWrapper(Object entity, List<EntityDescriptor> paths, List<ActionDefinition> actions,boolean isWindow) {
+	public SimpleEntityWrapper(Object entity, List<EntityDescriptor> paths, List<ActionDefinition> actions, boolean isWindow) {
 		this.entity = entity;
 		if (entity != null) {
 			this.entityName = entity.getClass().getSimpleName();
@@ -74,7 +77,7 @@ public class SimpleEntityWrapper implements EntityWrapper {
 	public Integer getPageCount() {
 		return pageCount;
 	}
-	
+
 	public boolean isWindow() {
 		return isWindow;
 	}
