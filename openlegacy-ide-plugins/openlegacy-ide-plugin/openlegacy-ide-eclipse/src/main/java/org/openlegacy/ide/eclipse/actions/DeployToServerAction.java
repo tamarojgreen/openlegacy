@@ -55,7 +55,7 @@ public class DeployToServerAction extends AbstractAction {
 
 	@Override
 	public void run(IAction action) {
-		final IProject project = (IProject)((TreeSelection)getSelection()).getFirstElement();
+		final IProject project = (IProject) ((TreeSelection) getSelection()).getFirstElement();
 
 		final DeployToServerDialog dialog = new DeployToServerDialog(getShell(), loadServersList(project));
 		int returnCode = dialog.open();
@@ -76,7 +76,7 @@ public class DeployToServerAction extends AbstractAction {
 			ILaunchConfiguration[] configurations = lm.getLaunchConfigurations(type);
 			for (ILaunchConfiguration configuration : configurations) {
 				IFile file = configuration.getFile();
-				if (StringUtils.equals(configuration.getName(), "build-light-war") && file != null
+				if (StringUtils.equals(configuration.getName(), ".build-light-war") && file != null
 						&& file.getProject().equals(project)) {
 					launchConfiguration = configuration;
 					break;
@@ -107,6 +107,8 @@ public class DeployToServerAction extends AbstractAction {
 			} catch (CoreException e) {
 				e.printStackTrace();
 			}
+		} else {
+			PopupUtil.warn(Messages.getString("error_cannot_build_light_war"));
 		}
 
 	}
@@ -127,11 +129,11 @@ public class DeployToServerAction extends AbstractAction {
 					return Status.CANCEL_STATUS;
 				}
 
+				String serverURL = MessageFormat.format("http://{0}:{1}", serverName, serverPort);
 				try {
-					String serverURL = MessageFormat.format("http://{0}:{1}", serverName, serverPort);
 					URL url = new URL(MessageFormat.format("{0}/manager/text/deploy?path=/{1}&update=true", serverURL,
 							project.getName()));
-					HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+					HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 					connection.setDoInput(true);
 					connection.setDoOutput(true);
 					connection.setRequestMethod("PUT");
@@ -158,11 +160,16 @@ public class DeployToServerAction extends AbstractAction {
 								warFileName, serverURL));
 					} else if (responseCode == 401) {
 						PopupUtil.warn(Messages.getString("warn_user_not_authorized"));
+					} else {
+						PopupUtil.error(MessageFormat.format(Messages.getString("error_deploying_to_server"), warFileName,
+								serverURL, connection.getResponseMessage()));
 					}
 				} catch (MalformedURLException e) {
-					e.printStackTrace();
+					PopupUtil.error(MessageFormat.format(Messages.getString("error_deploying_to_server"), warFileName, serverURL,
+							e.getMessage()));
 				} catch (IOException e) {
-					e.printStackTrace();
+					PopupUtil.error(MessageFormat.format(Messages.getString("error_deploying_to_server"), warFileName, serverURL,
+							e.getMessage()));
 				}
 
 				monitor.done();
@@ -177,8 +184,8 @@ public class DeployToServerAction extends AbstractAction {
 		JSONArray serversList = loadServersList(project);
 		// modify existing
 		for (Object obj : serversList) {
-			JSONObject jsonObject = (JSONObject)obj;
-			if (StringUtils.equals((String)jsonObject.get("serverName"), serverName)) {
+			JSONObject jsonObject = (JSONObject) obj;
+			if (StringUtils.equals((String) jsonObject.get("serverName"), serverName)) {
 				jsonObject.put("serverPort", serverPort);
 				jsonObject.put("userName", userName);
 				EclipseDesignTimeExecuter.instance().savePreference(project, "SERVERS_LIST", serversList.toJSONString());
@@ -201,7 +208,7 @@ public class DeployToServerAction extends AbstractAction {
 		if (!StringUtils.isEmpty(jsonServersList)) {
 			Object obj = JSONValue.parse(jsonServersList);
 			serversList.clear();
-			serversList.addAll((JSONArray)obj);
+			serversList.addAll((JSONArray) obj);
 		} else {
 			serversList.clear();
 		}
