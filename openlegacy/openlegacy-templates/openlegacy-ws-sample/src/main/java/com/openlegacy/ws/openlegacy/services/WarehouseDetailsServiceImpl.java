@@ -12,7 +12,7 @@ import javax.inject.Inject;
 
 import javax.jws.WebService;
 
-import com.openlegacy.ws.openlegacy.ItemDetails;
+import com.openlegacy.ws.openlegacy.WarehouseDetails;
 
 
 import org.openlegacy.terminal.wait_conditions.WaitCondition;
@@ -20,47 +20,38 @@ import org.openlegacy.terminal.wait_conditions.WaitCondition;
 /**
  *  A service implementation which invokes OpenLegacy API, and returns a service output.
  *  The code below should be customize to perform a working scenario which goes through the relevant screens.
- *  Can be tested by invoking the test GetItemDetailesServiceTest.
- *  The interface GetItemDetailesService can be customized to enabling passing parameters to the service, and this class can consume the parameters within the relavant screens.    
+ *  Can be tested by invoking the test WarehouseDetailsServiceTest.
+ *  The interface WarehouseDetailsService can be customized to enabling passing parameters to the service, and this class can consume the parameters within the relavant screens.    
  */
-@WebService(endpointInterface = "com.openlegacy.ws.openlegacy.services.GetItemDetailesService")
-public class GetItemDetailesServiceImpl implements GetItemDetailesService {
+@WebService(endpointInterface = "com.openlegacy.ws.openlegacy.services.WarehouseDetailsService")
+public class WarehouseDetailsServiceImpl implements WarehouseDetailsService {
 
 	@Inject
-	@Qualifier("getItemDetailesPool")
+	@Qualifier("warehouseDetailsPool")
 	private TerminalSessionFactory terminalSessionFactory;
 
 	@Override
-	public GetItemDetailesOut getGetItemDetailes(GetItemDetailesIn getItemDetailesIn) {
+	public WarehouseDetailsOut getWarehouseDetails(WarehouseDetailsIn warehouseDetailsIn) {
 
 		TerminalSession terminalSession = terminalSessionFactory.getSession();		
 		try{
 			
-			ItemDetails itemDetails = terminalSession.getEntity(ItemDetails.class, getItemDetailesIn.getItemNumber());
+			WarehouseDetails warehouseDetails = terminalSession.getEntity(WarehouseDetails.class, warehouseDetailsIn.getWarehouseNumber());
 			
 			
 			
-			GetItemDetailesOut getItemDetailesOut = new GetItemDetailesOut();
-			getItemDetailesOut.setItemNumber(itemDetails.getItemNumber());
-			getItemDetailesOut.setItemDescription(itemDetails.getItemDescription());
-			getItemDetailesOut.setAlphaSearch(itemDetails.getAlphaSearch());
-			getItemDetailesOut.setSupercedingItemto(itemDetails.getSupercedingItemto());
-			getItemDetailesOut.setSupercedingItemfrom(itemDetails.getSupercedingItemfrom());
-			getItemDetailesOut.setSubstituteItemNumber(itemDetails.getSubstituteItemNumber());
-			getItemDetailesOut.setManufacturersItemNo(itemDetails.getManufacturersItemNo());
-			getItemDetailesOut.setItemWeight(itemDetails.getItemWeight());
-			getItemDetailesOut.setItemClass(itemDetails.getItemClass());
-			getItemDetailesOut.setItemClassName(itemDetails.getItemClassName());
-			getItemDetailesOut.setStockGroup(itemDetails.getStockGroup());
-			getItemDetailesOut.setStockGroupName(itemDetails.getStockGroupName());
-			getItemDetailesOut.setUnitOfMeasure(itemDetails.getUnitOfMeasure());
-			getItemDetailesOut.setPackingMultiplier(itemDetails.getPackingMultiplier());
-			getItemDetailesOut.setOuterUnitOfMeasure(itemDetails.getOuterUnitOfMeasure());
-			getItemDetailesOut.setOuterQuantity(itemDetails.getOuterQuantity());
-			getItemDetailesOut.setPalletLabelRequired(itemDetails.getPalletLabelRequired());
-			getItemDetailesOut.setVatCode(itemDetails.getVatCode());
+			WarehouseDetailsOut warehouseDetailsOut = new WarehouseDetailsOut();
+			warehouseDetailsOut.setWarehouseNumber(warehouseDetails.getWarehouseNumber());
+			warehouseDetailsOut.setWarehouseDescription(warehouseDetails.getWarehouseDescription());
+			warehouseDetailsOut.setWarehouseType(warehouseDetails.getWarehouseType());
+			warehouseDetailsOut.setWarehouseTypeName(warehouseDetails.getWarehouseTypeName());
+			warehouseDetailsOut.setCostingType(warehouseDetails.getCostingType());
+			warehouseDetailsOut.setAmendedDate(warehouseDetails.getAmendedDate());
+			warehouseDetailsOut.setAmendedBy(warehouseDetails.getAmendedBy());
+			warehouseDetailsOut.setCreatedDate(warehouseDetails.getCreatedDate());
+			warehouseDetailsOut.setCreatedBy(warehouseDetails.getCreatedBy());
 
-			return getItemDetailesOut;
+			return warehouseDetailsOut;
 		} catch(RuntimeException e){
 			terminalSession.disconnect();
 			throw(e);

@@ -21,28 +21,28 @@ import org.openlegacy.terminal.wait_conditions.WaitCondition;
 /**
  *  A service implementation which invokes OpenLegacy API, and returns a service output.
  *  The code below should be customize to perform a working scenario which goes through the relevant screens.
- *  Can be tested by invoking the test GetItemsServiceTest.
- *  The interface GetItemsService can be customized to enabling passing parameters to the service, and this class can consume the parameters within the relavant screens.    
+ *  Can be tested by invoking the test ItemsServiceTest.
+ *  The interface ItemsService can be customized to enabling passing parameters to the service, and this class can consume the parameters within the relavant screens.    
  */
-@WebService(endpointInterface = "com.openlegacy.ws.openlegacy.services.GetItemsService")
-public class GetItemsServiceImpl implements GetItemsService {
+@WebService(endpointInterface = "com.openlegacy.ws.openlegacy.services.ItemsService")
+public class ItemsServiceImpl implements ItemsService {
 
 	@Inject
-	@Qualifier("getItemsPool")
+	@Qualifier("itemsPool")
 	private TerminalSessionFactory terminalSessionFactory;
 
 	@Override
-	public GetItemsOut getGetItems() {
+	public ItemsOut getItems() {
 
 		TerminalSession terminalSession = terminalSessionFactory.getSession();		
 		try{
-			GetItemsOut getItemsOut = new GetItemsOut();
+			ItemsOut itemsOut = new ItemsOut();
 			Items items = terminalSession.getEntity(Items.class);
 			List<ItemDetailesRecord> records = items.getItemDetailesRecords();
-			getItemsOut.setItems(items);
-			getItemsOut.setRecords(records);
+			itemsOut.setItems(items);
+			itemsOut.setRecords(records);
 
-			return getItemsOut;
+			return itemsOut;
 		} catch(RuntimeException e){
 			terminalSession.disconnect();
 			throw(e);

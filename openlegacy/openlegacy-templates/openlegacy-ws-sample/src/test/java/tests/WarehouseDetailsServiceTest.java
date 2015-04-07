@@ -16,43 +16,43 @@ import org.springframework.oxm.XmlMappingException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.openlegacy.ws.openlegacy.services.GetWarehouseDetailsService;
-import com.openlegacy.ws.openlegacy.services.GetWarehouseDetailsService.*;
+import com.openlegacy.ws.openlegacy.services.WarehouseDetailsService;
+import com.openlegacy.ws.openlegacy.services.WarehouseDetailsService.*;
 /**
- *  A test which invokes GetWarehouseDetails web service via an http client.
+ *  A test which invokes WarehouseDetails web service via an http client.
  *  The application should be app and running (via run-application.launch)
  *  To run the test, select Run As -> JUnit test.
  *  If the service has parameters, they should be set via the test. 
  */
 @ContextConfiguration("/META-INF/spring/applicationContext-test.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class GetWarehouseDetailsServiceTest {
+public class WarehouseDetailsServiceTest {
 
 	@Inject
-	@Qualifier("getWarehouseDetailsClient")
-	private GetWarehouseDetailsService getWarehouseDetailsClient;
+	@Qualifier("warehouseDetailsClient")
+	private WarehouseDetailsService warehouseDetailsClient;
 
 	@Inject
 	private Marshaller marshaller;
 	
 	@Test
-	public void testGetWarehouseDetailsService() throws ParseException, XmlMappingException, IOException {
+	public void testWarehouseDetailsService() throws ParseException, XmlMappingException, IOException {
 
 
 		long before = System.currentTimeMillis();
 
-		GetWarehouseDetailsIn getWarehouseDetailsIn = new GetWarehouseDetailsIn();
-		getWarehouseDetailsIn.setWarehouseNumber("2");
+		WarehouseDetailsIn warehouseDetailsIn = new WarehouseDetailsIn();
+		warehouseDetailsIn.setWarehouseNumber("1");
 
-		GetWarehouseDetailsOut getWarehouseDetailsOut = getWarehouseDetailsClient.getGetWarehouseDetails(getWarehouseDetailsIn);
-		Assert.assertNotNull(getWarehouseDetailsOut);
+		WarehouseDetailsOut warehouseDetailsOut = warehouseDetailsClient.getWarehouseDetails(warehouseDetailsIn);
+		Assert.assertNotNull(warehouseDetailsOut);
 
         long after = System.currentTimeMillis();
   		System.out.println("Execution time:" + (after-before));
   				
 		StringWriter stringWriter = new StringWriter();
 		StreamResult result = new StreamResult(stringWriter);
-		marshaller.marshal(getWarehouseDetailsOut, result);
+		marshaller.marshal(warehouseDetailsOut, result);
 		System.out.println(stringWriter.toString());
 		
 	}
