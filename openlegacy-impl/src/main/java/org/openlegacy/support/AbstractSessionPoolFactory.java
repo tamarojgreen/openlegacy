@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
 import org.openlegacy.SessionFactory;
+import org.openlegacy.SessionPoolListner;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.beans.factory.DisposableBean;
@@ -15,6 +16,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+
+import javax.inject.Inject;
 
 public abstract class AbstractSessionPoolFactory<S extends Session, A extends SessionAction<S>> implements SessionFactory<S, A>, InitializingBean, DisposableBean {
 
@@ -44,7 +47,14 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 
 	protected boolean stopThreads = false;
 
-	protected abstract void initSession();
+	@Inject
+	private List<SessionPoolListner> listeners;
+
+	protected void initSession() {
+		for (SessionPoolListner listener : listeners) {
+			listener.newSession();
+		}
+	}
 
 	protected abstract void init();
 
@@ -131,11 +141,18 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 			blockingQueue.offer(session);
 			logger.debug(MessageFormat.format("Session {0} offered to queue", session));
 		} else {
+			endSession();
 			logger.debug(MessageFormat.format("Session {0} removed from queue as session is not connected", session));
 			blockingQueue.remove(session);
 		}
 		actives.remove(session);
 		logger.debug(MessageFormat.format("Session {0} removed from active sessions", session));
+	}
+
+	protected void endSession() {
+		for (SessionPoolListner listener : listeners) {
+			listener.endSession();
+		}
 	}
 
 }
