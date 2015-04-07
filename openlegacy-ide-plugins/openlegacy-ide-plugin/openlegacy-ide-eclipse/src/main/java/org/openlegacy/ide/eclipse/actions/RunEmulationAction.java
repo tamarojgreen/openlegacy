@@ -24,11 +24,11 @@ import java.util.TimerTask;
 
 public class RunEmulationAction extends AbstractAction {
 
-	private static final String LAUNCHER_FILE_NAME = "run-emulation.launch";
+	private static final String LAUNCHER_FILE_NAME = ".run-emulation.launch";
 
 	@Override
 	public void run(IAction arg0) {
-		final IProject project = (IProject)((TreeSelection)getSelection()).getFirstElement();
+		final IProject project = (IProject) ((TreeSelection) getSelection()).getFirstElement();
 		String backEndSolutuion = EclipseDesignTimeExecuter.instance().getPreference(project, "BACKEND_SOLUTION");
 		if (backEndSolutuion != null && backEndSolutuion.equals(BackendSolution.SCREEN.name())) {
 			ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();

@@ -23,11 +23,11 @@ import java.util.TimerTask;
 
 public class RunApplicationAction extends AbstractAction {
 
-	private static final String LAUNCHER_FILE_NAME = "run-application.launch";
+	private static final String LAUNCHER_FILE_NAME = ".run-application.launch";
 
 	@Override
 	public void run(IAction arg0) {
-		final IProject project = (IProject)((TreeSelection)getSelection()).getFirstElement();
+		final IProject project = (IProject) ((TreeSelection) getSelection()).getFirstElement();
 		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
 		IFile configFile = project.getFile(LAUNCHER_FILE_NAME);
 		if (configFile.exists()) {
