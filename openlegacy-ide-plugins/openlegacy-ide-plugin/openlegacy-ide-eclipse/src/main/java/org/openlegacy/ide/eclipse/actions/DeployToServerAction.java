@@ -34,8 +34,14 @@ import org.eclipse.jface.window.Window;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.util.PopupUtil;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -47,15 +53,30 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 /**
  * @author Ivan Bort
  * 
  */
 public class DeployToServerAction extends AbstractAction {
 
+	private static final String MANAGEMENT_PLUGIN_GROUPID = "com.openlegacy.enterprise.plugins";
+	private static final String MANAGEMENT_PLUGIN_ARTIFACTID = "management-plugin";
+
 	@Override
 	public void run(IAction action) {
 		final IProject project = (IProject) ((TreeSelection) getSelection()).getFirstElement();
+
+		try {
+			isDeploymentAvailable(project);
+		} catch (OpenLegacyException e) {
+			PopupUtil.warn(MessageFormat.format("{0}\n{1}", Messages.getString("warn_direct_deployment_not_supported"),
+					e.getMessage()));
+			return;
+		}
 
 		final DeployToServerDialog dialog = new DeployToServerDialog(getShell(), loadServersList(project));
 		int returnCode = dialog.open();
@@ -215,4 +236,48 @@ public class DeployToServerAction extends AbstractAction {
 		return serversList;
 	}
 
+	private boolean isDeploymentAvailable(IProject project) throws OpenLegacyException {
+		// check if src\main\webapp\WEB-INF\openlegacy.management.license file exist
+		IFile licenseFile = project.getFile("src/main/webapp/WEB-INF/openlegacy.management.license");
+		if (!licenseFile.exists()) {
+			throw new OpenLegacyException("License file doesn't exist at src/main/webapp/WEB-INF");
+		}
+		// check if management-plugin dependency exist in pom.xml
+		IFile pomFile = project.getFile("pom.xml");
+		if (!pomFile.exists()) {
+			throw new OpenLegacyException("pom.xml file doesn't exist at root of project");
+		}
+		try {
+			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			Document document = builder.parse(pomFile.getLocation().toFile());
+			document.getDocumentElement().normalize();
+
+			boolean isManagementPluginDependencyExist = false;
+
+			NodeList list = document.getElementsByTagName("dependency");
+			for (int i = 0; i < list.getLength(); i++) {
+				Node item = list.item(i);
+				if (item.getNodeType() == Node.ELEMENT_NODE) {
+					Element el = (Element) item;
+					String groupId = el.getElementsByTagName("groupId").item(0).getTextContent();
+					String artifactId = el.getElementsByTagName("artifactId").item(0).getTextContent();
+					if (StringUtils.equals(MANAGEMENT_PLUGIN_GROUPID, groupId)
+							&& StringUtils.equals(MANAGEMENT_PLUGIN_ARTIFACTID, artifactId)) {
+						isManagementPluginDependencyExist = true;
+						break;
+					}
+				}
+			}
+			if (!isManagementPluginDependencyExist) {
+				throw new OpenLegacyException("pom.xml file doesn't contain management-plugin dependency");
+			}
+		} catch (IOException e) {
+			throw new OpenLegacyException(e);
+		} catch (ParserConfigurationException e) {
+			throw new OpenLegacyException(e);
+		} catch (SAXException e) {
+			throw new OpenLegacyException(e);
+		}
+		return true;
+	}
 }
