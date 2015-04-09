@@ -12,9 +12,9 @@
 	<dependencySets>
 		<dependencySet>
 			<includes>
-				<include>org.openlegacy:openlegacy-api</include>
+<!-- 				<include>org.openlegacy:openlegacy-api</include> -->
 				<include>org.openlegacy:openlegacy-impl</include>
-				<include>org.openlegacy:openlegacy-utils</include>
+<!-- 				<include>org.openlegacy:openlegacy-utils</include> -->
 				<include>org.openlegacy:openlegacy-web</include>
 				<include>org.openlegacy.providers:*</include>
 				<include>org.openlegacy.templates:*</include>
@@ -22,7 +22,7 @@
 				<include>org.openlegacy.web:openlegacy-themes-*</include>
 				<include>com.openlegacy.enterprise.plugins:*</include>
 				<include>com.openlegacy.enterprise.connectors:*</include>
-				<include>commons-lang:commons-lang</include>
+<!-- 				<include>commons-lang:commons-lang</include> -->
 				<include>org.apache.tiles:tiles-el</include>
 				<include>com.ibm.icu:icu4j</include>
 			</includes>

@@ -14,10 +14,13 @@
         <dependent-module archiveName="openlegacy-api-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-api/openlegacy-api">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="openlegacy-entities-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-entities/openlegacy-entities">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="openlegacy-utils-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-utils/openlegacy-utils">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/openlegacy-ws-sample/target/classes"/>
-        <property name="context-root" value="openlegacy-ws-sample"/>
+        <property name="context-root" value="openlegacy-ws-db-sample"/>
     </wb-module>
 </project-modules>
