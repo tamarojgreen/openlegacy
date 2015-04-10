@@ -12,17 +12,17 @@ import com.openlegacy.ws.openlegacy.Items.ItemDetailesRecord;
 /**
  *  A service interface and input/oputput definition for a web service.
  *  Defines the contract between the client and server. The client uses the same interface for testing the service via Java code. 
- *  The interface GetItemsService can be customized to enabling passing parameters to the service.     
+ *  The interface ItemsService can be customized to enabling passing parameters to the service.     
  */
 
 @WebService
-public interface GetItemsService {
+public interface ItemsService {
 
-	@WebMethod(operationName = "getGetItems")
-	@WebResult(name = "GetItemsOutput")
-	public GetItemsOut getGetItems();
+	@WebMethod(operationName = "getItems")
+	@WebResult(name = "ItemsOutput")
+	public ItemsOut getItems();
 
-	public static class GetItemsOut{
+	public static class ItemsOut{
 		Items items;
 		List<ItemDetailesRecord> records;
 				

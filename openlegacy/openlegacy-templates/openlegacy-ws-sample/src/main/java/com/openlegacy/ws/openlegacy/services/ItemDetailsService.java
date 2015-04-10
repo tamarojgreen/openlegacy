@@ -8,17 +8,17 @@ import javax.jws.WebService;
 /**
  *  A service interface and input/oputput definition for a web service.
  *  Defines the contract between the client and server. The client uses the same interface for testing the service via Java code. 
- *  The interface GetItemDetailesService can be customized to enabling passing parameters to the service.     
+ *  The interface ItemDetailsService can be customized to enabling passing parameters to the service.     
  */
 
 @WebService
-public interface GetItemDetailesService {
+public interface ItemDetailsService {
 
-	@WebMethod(operationName = "getGetItemDetailes")
-	@WebResult(name = "GetItemDetailesOutput")
-	public GetItemDetailesOut getGetItemDetailes(GetItemDetailesIn getItemDetailesIn);
+	@WebMethod(operationName = "getItemDetails")
+	@WebResult(name = "ItemDetailsOutput")
+	public ItemDetailsOut getItemDetails(ItemDetailsIn itemDetailsIn);
 
-	public static class GetItemDetailesIn{
+	public static class ItemDetailsIn{
 		String itemNumber;
 		
 		public String getItemNumber(){
@@ -30,7 +30,7 @@ public interface GetItemDetailesService {
 		}
 
 	}
-	public static class GetItemDetailesOut{
+	public static class ItemDetailsOut{
 		String itemNumber;
 		String itemDescription;
 		String alphaSearch;
