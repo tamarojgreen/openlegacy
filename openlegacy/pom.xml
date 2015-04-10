@@ -25,7 +25,7 @@
 			</activation>
 			<modules>
 				<module>../openlegacy-api</module>
-				<module>../openlegacy-entities</module>
+				<module>../openlegacy-common</module>
 				<module>../openlegacy-utils</module>
 				<module>../openlegacy-test-apps</module>
 				<module>../openlegacy-impl</module>
@@ -42,7 +42,7 @@
 			<id>test</id>
 			<modules>
 				<module>../openlegacy-api</module>
-				<module>../openlegacy-entities</module>
+				<module>../openlegacy-common</module>
 				<module>../openlegacy-utils</module>
 				<module>../openlegacy-test-apps</module>
 				<module>../openlegacy-impl</module>
@@ -58,7 +58,7 @@
 			<id>infrastructure</id>
 			<modules>
 				<module>../openlegacy-api</module>
-				<module>../openlegacy-entities</module>
+				<module>../openlegacy-common</module>
 				<module>../openlegacy-utils</module>
 				<module>../openlegacy-test-apps</module>
 				<module>../openlegacy-impl</module>

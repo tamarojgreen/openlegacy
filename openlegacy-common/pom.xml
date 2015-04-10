@@ -9,7 +9,7 @@
 		<relativePath>../openlegacy/pom.xml</relativePath>
 	</parent>
 
-	<artifactId>openlegacy-entities</artifactId>
+	<artifactId>openlegacy-common</artifactId>
 	<packaging>jar</packaging>
 
 	<properties>

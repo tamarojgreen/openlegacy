@@ -86,7 +86,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy</groupId>
-			<artifactId>openlegacy-entities</artifactId>
+			<artifactId>openlegacy-common</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
 		</dependency>
