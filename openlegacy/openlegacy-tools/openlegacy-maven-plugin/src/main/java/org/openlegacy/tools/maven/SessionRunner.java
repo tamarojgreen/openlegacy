@@ -10,16 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.tools.maven;
 
-import java.awt.Desktop;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.text.MessageFormat;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -39,6 +29,16 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.text.MessageFormat;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * An embedded terminal session HTML runner. Runs an HTML session within an embedded Jetty and serves ALL requests: get, post, JS
@@ -75,12 +75,14 @@ public class SessionRunner extends AbstractMojo {
 	private ApplicationContext applicationContext;
 	private TerminalSnapshotHtmlRenderer terminalHtmlRenderer;
 
+	@Override
 	public void execute() throws MojoExecutionException {
-		int port = (Integer)getProperty(PORT, defaultPort);
+		int port = (Integer) getProperty(PORT, defaultPort);
 
 		Server server = new Server(port);
 		Handler handler = new AbstractHandler() {
 
+			@Override
 			public void handle(String target, HttpServletRequest request, HttpServletResponse response, int dispatch)
 					throws IOException, ServletException {
 
@@ -95,13 +97,13 @@ public class SessionRunner extends AbstractMojo {
 
 					if (uri.contains("sequence")) {
 						response.getWriter().write(getTerminalSession().getSequence().toString());
-						((Request)request).setHandled(true);
+						((Request) request).setHandled(true);
 						return;
 					}
 
 					if (uri.contains("logoff")) {
 						handleLogoff(response);
-						((Request)request).setHandled(true);
+						((Request) request).setHandled(true);
 						return;
 					}
 					String flip = request.getParameter("flip");
@@ -162,24 +164,24 @@ public class SessionRunner extends AbstractMojo {
 		response.getWriter().write(html);
 
 		response.setStatus(HttpServletResponse.SC_OK);
-		((Request)request).setHandled(true);
+		((Request) request).setHandled(true);
 	}
 
 	private static void handleJsFiles(HttpServletRequest request, HttpServletResponse response, String uri) throws IOException {
 		PathMatchingResourcePatternResolver pathResolver = new PathMatchingResourcePatternResolver();
 		Resource resource = pathResolver.getResource(uri);
-		if (resource == null) {
+		if (resource == null || !resource.exists()) {
 			throw (new RuntimeException("Unable to find resource:" + uri));
 		}
 		response.setDateHeader(HEADER_EXPIRES, Long.MAX_VALUE);
 		IOUtils.copy(resource.getInputStream(), response.getOutputStream());
 		response.setStatus(HttpServletResponse.SC_OK);
-		((Request)request).setHandled(true);
+		((Request) request).setHandled(true);
 	}
 
 	private void initApplicationContext() {
 		if (applicationContext == null) {
-			String configLocation = (String)getProperty(CONTEXT_FILE, defaultContext);
+			String configLocation = (String) getProperty(CONTEXT_FILE, defaultContext);
 			applicationContext = new ClassPathXmlApplicationContext("/META-INF/openlegacy-webcomponents-context.xml",
 					configLocation);
 		}
@@ -189,7 +191,7 @@ public class SessionRunner extends AbstractMojo {
 		if (terminalSession == null) {
 			terminalSession = applicationContext.getBean(TerminalSession.class);
 			// set unlimited recording
-			DefaultTerminalTrail trail = (DefaultTerminalTrail)terminalSession.getModule(Trail.class).getSessionTrail();
+			DefaultTerminalTrail trail = (DefaultTerminalTrail) terminalSession.getModule(Trail.class).getSessionTrail();
 			trail.setHistoryCount(null);
 		}
 		return terminalSession;
@@ -200,7 +202,7 @@ public class SessionRunner extends AbstractMojo {
 			terminalHtmlRenderer = applicationContext.getBean(TerminalSnapshotHtmlRenderer.class);
 
 		}
-		((DefaultTerminalSnapshotHtmlRenderer)terminalHtmlRenderer).setTemplateResourceName(RENDERER_TEMPLATE);
+		((DefaultTerminalSnapshotHtmlRenderer) terminalHtmlRenderer).setTemplateResourceName(RENDERER_TEMPLATE);
 		return terminalHtmlRenderer;
 	}
 

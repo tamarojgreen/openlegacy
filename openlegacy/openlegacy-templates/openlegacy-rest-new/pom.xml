@@ -182,6 +182,11 @@
 			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.openlegacy.plugins</groupId>
+			<artifactId>html-emulation-plugin</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>
 			<version>1.0.1.Final</version>
