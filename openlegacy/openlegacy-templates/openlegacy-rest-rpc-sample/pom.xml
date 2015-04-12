@@ -166,7 +166,11 @@
 			<artifactId>openlegacy-themes-rest-dynamics</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.openlegacy.web</groupId>
+			<artifactId>openlegacy-themes-rest-blue</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
 		<!-- TODO -remove. This is included just yo have a model for testing -->
 		<dependency>
 			<groupId>org.openlegacy</groupId>

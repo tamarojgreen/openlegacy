@@ -225,6 +225,11 @@
 			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.openlegacy.web</groupId>
+			<artifactId>openlegacy-themes-rest-blue</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>		
+		<dependency>
 			<groupId>org.openlegacy</groupId>
 			<artifactId>openlegacy-api</artifactId>
 			<version>${openlegacy-version}</version>
