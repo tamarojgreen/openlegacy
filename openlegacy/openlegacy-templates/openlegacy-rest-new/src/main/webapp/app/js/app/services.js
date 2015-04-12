@@ -127,7 +127,7 @@
 			},
 			
 			'getThemeList': function() {
-				return ['light', 'emily', 'dynamics'];
+				return ['light', 'emily', 'dynamics', 'blue'];
 			}
 			
 		};

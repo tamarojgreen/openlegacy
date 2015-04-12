@@ -70,4 +70,10 @@
 		<display-name>Healthcare</display-name>
 		<image-file>healthcare.jpg</image-file>
 	</theme>
+	<theme>
+		<frontend-solution>Mobile/Responsive</frontend-solution>
+		<name>openlegacy-themes-rest-blue</name>
+		<display-name>Blue</display-name>
+		<image-file>blue.jpg</image-file>
+	</theme>	
 </themes>
