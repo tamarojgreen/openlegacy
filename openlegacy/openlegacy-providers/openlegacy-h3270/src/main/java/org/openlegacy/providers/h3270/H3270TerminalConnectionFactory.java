@@ -49,6 +49,7 @@ public class H3270TerminalConnectionFactory implements LiveTerminalConnectionFac
 
 	private int maxWait = 500;
 
+	@Override
 	public TerminalConnection getConnection(ConnectionProperties connectionProperties) {
 		try {
 			// TODO set device
@@ -61,8 +62,9 @@ public class H3270TerminalConnectionFactory implements LiveTerminalConnectionFac
 		}
 	}
 
+	@Override
 	public void disconnect(TerminalConnection terminalConnection) {
-		S3270 delegate = (S3270)terminalConnection.getDelegate();
+		S3270 delegate = (S3270) terminalConnection.getDelegate();
 		releaseLogicalUnit(delegate.getLogicalUnit());
 		delegate.disconnect();
 	}
@@ -95,6 +97,7 @@ public class H3270TerminalConnectionFactory implements LiveTerminalConnectionFac
 
 	}
 
+	@Override
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(properties, "properties not set for " + getClass().getName());
 		initialize();
@@ -116,10 +119,10 @@ public class H3270TerminalConnectionFactory implements LiveTerminalConnectionFac
 		initConfiguration(targetFile);
 
 		if (OsUtils.isUnix()) {
-			initResource("/s3270");
+			initResource("/s3270", true);
 		} else {
-			initResource("/s3270.exe");
-			initResource("/cygwin1.dll");
+			initResource("/s3270.exe", false);
+			initResource("/cygwin1.dll", false);
 		}
 
 		properties.put("s3270.execPath", targetFile.getParent());
@@ -127,8 +130,11 @@ public class H3270TerminalConnectionFactory implements LiveTerminalConnectionFac
 		logicalUnitPool = LogicalUnitPoolFactory.createLogicalUnitPool(configuration);
 	}
 
-	private void initResource(String resourceName) throws IOException {
+	private void initResource(String resourceName, boolean isUnix) throws IOException {
 		File targetFile = new File(initWorkingDir(), resourceName);
+		if (isUnix) {
+			targetFile.setExecutable(true);
+		}
 		targetFile.getParentFile().mkdirs();
 		if (!targetFile.exists()) {
 			IOUtils.copy(getClass().getResourceAsStream(resourceName), new FileOutputStream(targetFile));

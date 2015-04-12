@@ -8,7 +8,7 @@
 			<a target="_new" href="http://www.openlegacy.org" class="logo" title="OpenLegacy">OpenLegacy</a>
 		</div>
 		<div id="footer_right">
-			Copyright &#169; 2012 OpenLegacy. All rights reserved. <br />Powered
+			Copyright &#169; 2015 OpenLegacy. All rights reserved. <br />Powered
 			by OpenLegacy &#174; ${openLegacyProperties.version}
 			<br/>
 			Web | <a href="${pageContext.request.contextPath}/?site_preference=mobile">Mobile</a>
