@@ -23,7 +23,10 @@ when
 	$userField: TerminalField(editable == true) from $snapshot.getFields()
 	$userLabelField: TerminalField(position.row == $userField.position.row, position.column < $userField.position.column, 
 															editable == false,value matches $userFieldRegex) from $snapshot.getFields();
-
+	not TerminalField(this != $userField,editable == true, 
+						position.row == $userField.position.row, 
+						position.column - $userLabelField.position.column < $userField.position.column - $userLabelField.position.column) 
+		from $snapshot.getFields()
 	// collect all the password fields
 	$passwordFields: List(size >= 1) from collect (TerminalField(password == true, position.row >= $userField.position.row) from $snapshot.getFields())
 
