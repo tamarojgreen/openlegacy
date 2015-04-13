@@ -29,6 +29,7 @@
 							<!-- <th>Action</th> -->
 							<th>Serial Number</th>
 							<th>Description</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -57,6 +58,11 @@
 								{{warehousesRecord.serialNumber}}</td>
 							<td ng-class="terminalColors('description', warehousesRecord)">
 								{{warehousesRecord.description}}</td>
+							<td>
+								<button ng-click="setMapLocation('HaTaasiya St Tel Aviv-Yafo')" class="btn btn-link" type="button" data-toggle="modal" data-target="#myModal">
+									<i class="glyphicon glyphicon-map-marker"></i>
+								</button>
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -74,6 +80,29 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title center" id="myModalLabel">Warehouse location</h4>
+      </div>
+      <div class="modal-body">
+        <div id="map_canvas">
+		    <ui-gmap-google-map center="map.center" zoom="map.zoom" options="options">
+		    	<ui-gmap-marker coords="markers.coords" options="markers.options" events="markers.events" idkey="markers.id">
+	        	</ui-gmap-marker>
+		    </ui-gmap-google-map>
+		</div>
+      </div>
+      <div class="modal-footer center">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 

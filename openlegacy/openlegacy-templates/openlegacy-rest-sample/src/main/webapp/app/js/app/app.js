@@ -4,7 +4,7 @@
 
 	/* App Module */
 	
-	var olApp = angular.module( 'olApp', ['controllers', 'services', 'directives', 'ngRoute', 'ui.router']).run(['$themeService', '$rootScope', '$state', '$idleTimeout', '$location', function($themeService, $rootScope, $state, $idleTimeout, $location) {
+	var olApp = angular.module( 'olApp', ['controllers', 'services', 'directives', 'ngRoute', 'ui.router', 'uiGmapgoogle-maps']).run(['$themeService', '$rootScope', '$state', '$idleTimeout', '$location', function($themeService, $rootScope, $state, $idleTimeout, $location) {
 		$rootScope.allowHidePreloader = true;
 		$rootScope.allowShowPreloader = true;		
 		
@@ -119,6 +119,14 @@
 		}*/
 	}]);	
 
+	olApp.config(function(uiGmapGoogleMapApiProvider) {
+	    uiGmapGoogleMapApiProvider.configure({
+	        //    key: 'your api key',
+	        v: '3.17',
+	        libraries: 'weather,geometry,visualization'
+	    });
+	})
+	
 	olApp.config( ['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 		var header = { templateUrl: "views/partials/header.html", controller: "headerCtrl" };
 		var auth = function($q, $http) {
