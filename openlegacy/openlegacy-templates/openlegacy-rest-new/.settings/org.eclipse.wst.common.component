@@ -19,7 +19,7 @@
         <dependent-module archiveName="openlegacy-utils-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-utils/openlegacy-utils">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="management-plugin-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/management-plugin/management-plugin">
+        <dependent-module archiveName="html-emulation-plugin-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/html-emulation-plugin/html-emulation-plugin">
             <dependency-type>uses</dependency-type>
         </dependent-module>
 		<property name="java-output-path" value="target/classes"/>
