@@ -31,6 +31,10 @@
 		<script src="lib/angular/angular-route.min.js"></script>
 		<script src="lib/angular/angular-ui-router.min.js"></script>	
 		
+		<!-- Include angular-hotkeys -->
+		<script src="lib/angular/hotkeys.js"></script>	
+		<link type="text/css" rel="stylesheet" href="css/hotkeys.css" />
+		
 		<!-- Include angular-ui Google Maps -->
 		<script src="lib/angular/GoogleMaps/lodash.js"></script>
 		<script src="lib/angular/GoogleMaps/angular-google-maps.min.js"></script>	

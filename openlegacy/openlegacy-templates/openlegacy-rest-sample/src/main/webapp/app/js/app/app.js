@@ -4,7 +4,7 @@
 
 	/* App Module */
 	
-	var olApp = angular.module( 'olApp', ['controllers', 'services', 'directives', 'ngRoute', 'ui.router', 'uiGmapgoogle-maps']).run(['$themeService', '$rootScope', '$state', '$idleTimeout', '$location', function($themeService, $rootScope, $state, $idleTimeout, $location) {
+	var olApp = angular.module( 'olApp', ['controllers', 'services', 'directives', 'ngRoute', 'ui.router', 'uiGmapgoogle-maps', 'cfp.hotkeys']).run(['$themeService', '$rootScope', '$state', '$idleTimeout', '$location', function($themeService, $rootScope, $state, $idleTimeout, $location) {
 		$rootScope.allowHidePreloader = true;
 		$rootScope.allowShowPreloader = true;		
 		
@@ -106,17 +106,33 @@
 			$idleTimeout.start();
 		}
 		
-		/*$rootScope.currentTheme = 'themes/light/light.css';
-		$rootScope.currentThemePos = 0;
-		$rootScope.themes = ['themes/light/light.css', 'css/emily.css', 'css/dynamics.css'];
-		$rootScope.changeTheme = function() {
-			if ($rootScope.currentTheme == 2) {
-				$rootScope.currentTheme = 0;
+		$rootScope.keydown = function (event) {
+			for (var i = 0; i < $rootScope.jsKeyCodes.length; i++) {
+				if ($rootScope.jsKeyCodes[i].code == event.keyCode) {
+					event.preventDefault();
+					break;
+				}
 			}
-			else {
-				$rootScope.currentTheme++;
-			}
-		}*/
+		}
+		
+		$rootScope.jsKeyCodes = [
+				{ 'key' : 'F1', 'code' : '112' },
+				{ 'key' : 'F2', 'code' : '113' },
+				{ 'key' : 'F3', 'code' : '114' },
+				{ 'key' : 'F4', 'code'  : '115' },
+				{ 'key' : 'F5', 'code'  : '116' },
+				{ 'key' : 'F6', 'code'  : '117' },
+				{ 'key' : 'F7', 'code'  : '118' },
+				{ 'key' : 'F8', 'code'  : '119' },
+				{ 'key' : 'F9', 'code'  : '120' },
+				{ 'key' : 'F10', 'code'  : '121' },
+				{ 'key' : 'F11', 'code'  : '122' },
+				{ 'key' : 'F12', 'code'  : '123' },
+				{ 'key' : 'ENTER', 'code'  : '13' },
+				{ 'key' : 'ESCAPE', 'code'  : '27' },
+				{ 'key' : 'PUP', 'code'  : '33' },
+				{ 'key' : 'PDOWN', 'code'  : '34' }
+		]
 	}]);	
 
 	olApp.config(function(uiGmapGoogleMapApiProvider) {

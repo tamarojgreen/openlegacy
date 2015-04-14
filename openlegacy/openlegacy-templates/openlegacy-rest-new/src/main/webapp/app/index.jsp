@@ -31,6 +31,10 @@
 		<script src="lib/angular/angular-route.min.js"></script>
 		<script src="lib/angular/angular-ui-router.min.js"></script>	
 		
+		<!-- Include angular-hotkeys -->
+		<script src="lib/angular/hotkeys.js"></script>	
+		<link type="text/css" rel="stylesheet" href="css/hotkeys.css" />
+		
 		<script src="lib/bootstrap/js/ui-bootstrap-tpls-0.11.2.min.js"></script>	
 
 		<script src="js/app/app.js_ng" type="text/javascript"></script>
@@ -42,7 +46,7 @@
 		<script src="js/app/${entityName}.js" type="text/javascript"></script>
 		Include controller place-holder end -->
 	</head>
-	<body class="main" ng-class="theme">
+	<body class="main" ng-class="theme" ng-keydown="keydown($event);">
 		<img src="img/preloader.gif" class="preloader" ng-show="_showPreloader" style="z-index:99">
 		<div class="content-wrapper" ng-show="_showContent">	
 			<div ui-view="header" ng-cloak></div>	

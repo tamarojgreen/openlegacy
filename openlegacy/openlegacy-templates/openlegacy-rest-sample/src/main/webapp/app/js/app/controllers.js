@@ -194,7 +194,7 @@
 		<#if entitiesDefinitions??>
 		<#list entitiesDefinitions as entityDefinition>	
 		module = module.controller('${entityDefinition.entityName}Ctrl',
-				function($scope, $olHttp,$stateParams, $themeService, $rootScope, $state,$modal) {
+				function($scope, $olHttp,$stateParams, $themeService, $rootScope, $state,$modal, hotkeys) {
 					$scope.noTargetScreenEntityAlert = function() {
 						alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 					}; 
@@ -215,6 +215,8 @@
 								$scope.model = data.model.entity;							
 								$scope.baseUrl = olConfig.baseUrl;
 								$rootScope.$broadcast("olApp:breadcrumbs", data.model.paths);
+								
+								setHotkeys();
 								
 								$scope.terminalColors = function(name, model) {
 									if (model == undefined) model = $scope.model; 
@@ -324,6 +326,29 @@
 							</#if>						
 						</#list>
 					</#if>
+					
+					function setHotkeys() {
+						for (var i = 0; i < $scope.model.actions.length; i++) {
+							if ($scope.model.actions[i].keyboardKey != null) {
+								var combo = $scope.model.actions[i].keyboardKey.split('$')[1].toLowerCase();
+								hotkeys.bindTo($scope)
+									.add({
+										combo: combo,
+										description: $scope.model.actions[i].displayName,
+								        callback: function(event, hotkey) {
+								        	var alias = '';
+								        	for (var i = 0; i < $scope.model.actions.length; i++) {
+								        		if ($scope.model.actions[i].displayName == hotkey.description) {
+								        			alias = $scope.model.actions[i].alias;
+								        			break;
+								        		}
+								        	}
+								        	$scope.doAction('${entityDefinition.entityName}', alias);
+								    }
+								});
+							}
+						}
+					}
 					
 					$scope.read();
 				});
