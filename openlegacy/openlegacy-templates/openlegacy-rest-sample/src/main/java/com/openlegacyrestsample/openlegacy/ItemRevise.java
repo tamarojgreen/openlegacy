@@ -80,8 +80,6 @@ public class ItemRevise {
 	@ScreenField(row = 21, column = 33, endColumn= 34 ,labelColumn= 2 ,editable= true ,displayName = "VAT Code")
     private String vatCode;
 
-	private ItemReviseStock itemReviseStock;
-
 
     
 

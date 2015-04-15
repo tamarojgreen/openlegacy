@@ -189,12 +189,6 @@ privileged @SuppressWarnings("unused") aspect ItemRevise_Aspect {
     	this.vatCode = vatCode;
     }
 
-    public ItemReviseStock ItemRevise.getItemReviseStock(){
-    	return this.itemReviseStock;
-    }
-    
-
-
     public String ItemRevise.getFocusField(){
     	return focusField;
     }
