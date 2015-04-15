@@ -51,6 +51,7 @@
 		<script src="js/app/config.js" type="text/javascript"></script>
 		<!-- auto generated include start ItemRevise --> 
 		<script src="js/app/ItemRevise.js" type="text/javascript"></script>
+		<script src="js/app/Warehouses.js" type="text/javascript"></script>
 <!-- auto generated include end ItemRevise --> 
 <!-- Include controller place-holder start
 		<script src="js/app/${entityName}.js" type="text/javascript"></script>
