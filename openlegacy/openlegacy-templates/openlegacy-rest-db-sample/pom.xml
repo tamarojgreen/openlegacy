@@ -242,6 +242,11 @@
 			<scope>compile</scope>
 		</dependency>		
 		<dependency>
+			<groupId>com.openlegacy.enterprise.plugins</groupId>
+			<artifactId>management-plugin</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.2.1</version>

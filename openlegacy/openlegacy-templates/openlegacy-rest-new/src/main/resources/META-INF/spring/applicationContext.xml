@@ -23,7 +23,7 @@
             </list>
 	    </property>
     </bean>
-    
+    <!-- Use this definition to configure modules properties
     <bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" scope="session" parent="abstractTerminalSession">
 		<property name="sessionModules">
 			<bean class="org.openlegacy.support.SessionModules">
@@ -60,6 +60,7 @@
 		</property>
 	    <aop:scoped-proxy/>
 	</bean>
+	-->
 
 <!-- Use this definition to configure modules properties
 	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" scope="session" parent="abstractTerminalSession">

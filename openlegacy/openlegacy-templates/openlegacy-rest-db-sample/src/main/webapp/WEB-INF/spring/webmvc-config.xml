@@ -62,4 +62,6 @@
 		id="applicationConversionService" />
 	
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
+	
+	<bean id="reloadContextController" class="org.openlegacy.mvc.ReloadContextController" />
 </beans>

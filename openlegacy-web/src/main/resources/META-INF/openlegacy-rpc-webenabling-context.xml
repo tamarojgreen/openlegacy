@@ -13,6 +13,25 @@
 	<bean id="tableWriter" class="org.openlegacy.web.DefaultHtmlTableWriter" />
 	<bean id="rpcSession" parent="abstractRpcSession" scope="session">
 		<property name="connection" ref="rpcConnection" />
+		<property name="sessionModules">
+			<bean class="org.openlegacy.support.SessionModules">
+				<property name="modules">
+					<list>
+						<bean
+							class="org.openlegacy.rpc.modules.trail.DefaultRpcTrailModule">
+							<property name="sessionTrail">
+								<bean class="org.openlegacy.rpc.modules.trail.DefaultRpcSessionTrail"
+									p:historyCount="3" />
+							</property>
+						</bean>
+						<bean class="org.openlegacy.rpc.modules.registry.DefaultSessionRegistryModule" />
+						<bean class="org.openlegacy.rpc.modules.menu.DefaultRpcMenuModule" />
+						<bean class="org.openlegacy.rpc.modules.login.DefaultRpcLoginModule"/>
+						<bean class="com.openlegacy.plugins.management.UserCountModule" />
+					</list>
+				</property>
+			</bean>
+		</property>
 	    <aop:scoped-proxy/>
 	</bean>
 

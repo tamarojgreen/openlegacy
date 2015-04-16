@@ -24,6 +24,7 @@
 	    </property>
     </bean>
     
+    <!-- Use this definition to configure modules properties
     <bean id="rpcSession" class="org.openlegacy.rpc.support.DefaultRpcSession" scope="session" parent="abstractRpcSession">
 		<property name="connection" ref="rpcConnection" />
      	<property name="sessionModules">
@@ -47,6 +48,7 @@
 		</property>
 	    <aop:scoped-proxy/>
 	</bean>
+	-->
 
 <!-- Use this definition to replay a mock-up session application
 	<bean id="rpcConnection" factory-bean="rpcConnectionFactory" factory-method="getConnection" />

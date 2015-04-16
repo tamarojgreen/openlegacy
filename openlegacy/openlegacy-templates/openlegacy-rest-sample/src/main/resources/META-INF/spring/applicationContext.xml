@@ -24,7 +24,8 @@
 	    </property>
     </bean>
 
-<!-- Use this definition to configure modules properties
+
+	<!-- Use this definition to configure modules properties
 	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" scope="session" parent="abstractTerminalSession">
         <aop:scoped-proxy/>
 		<property name="sessionModules">
@@ -61,12 +62,13 @@
 								</list>
 							</property>
 						</bean>
+						<bean
+							class="com.openlegacy.plugins.management.UserCountModule" />
 					</list>
 				</property>
 			</bean>
 		</property>
-   	</bean>
--->
+   	</bean> -->
 					
 <!-- Use this definition to replay a mock-up session application
  	<bean id="terminalConnectionFactory"

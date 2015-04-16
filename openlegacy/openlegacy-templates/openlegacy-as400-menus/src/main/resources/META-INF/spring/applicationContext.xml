@@ -26,7 +26,8 @@
 	    </property>
     </bean>
     
-    <bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" scope="session" parent="abstractTerminalSession">
+<!-- Use this definition to configure modules properties
+     <bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" scope="session" parent="abstractTerminalSession">
 		<property name="sessionModules">
 			<bean class="org.openlegacy.support.SessionModules">
 				<property name="modules">
@@ -61,7 +62,7 @@
 			</bean>
 		</property>
 	    <aop:scoped-proxy/>
-	</bean>
+	</bean> -->
     
 	
 <!--

@@ -195,10 +195,7 @@
 			<groupId>org.openlegacy.web</groupId>
 			<artifactId>openlegacy-themes-rest-blue</artifactId>
 			<version>${openlegacy-version}</version>
-		</dependency>			
-<!-- Uncomment for OpenLegacy enterprise managemenent plugin
- 		
-End Uncomment for OpenLegacy enterprise managemenent plugin -->
+		</dependency>
 		<dependency>
 			<groupId>com.openlegacy.enterprise.plugins</groupId>
 			<artifactId>management-plugin</artifactId>
