@@ -9,7 +9,11 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.as400.menus.WorkWithPrinterOutput.WorkWithPrinterOutputRecord;
 
 privileged @SuppressWarnings("unused") aspect WorkWithPrinterOutputRecord_Aspect {
+
+	
     
+    private String WorkWithPrinterOutputRecord.focusField;
+	
     public String WorkWithPrinterOutputRecord.getOpt(){
     	return this.opt;
     }
@@ -29,6 +33,24 @@ privileged @SuppressWarnings("unused") aspect WorkWithPrinterOutputRecord_Aspect
     
 
 
+    /**
+    	Focus on the given field, or on the first field in the table if none is given
+    */
+    public void WorkWithPrinterOutputRecord.focus(String... field) {
+        if (field.length > 0) {
+            this.focusField = field[0];
+        } else {
+            this.focusField = "opt";
+        }
+    }
+
+    public String WorkWithPrinterOutputRecord.getFocus() {
+        return focusField;
+    }
+    public void WorkWithPrinterOutputRecord.setFocus(String focus) {
+        this.focusField = focus;
+    }
+		
     public int WorkWithPrinterOutputRecord.hashCode(){
 		return HashCodeBuilder.reflectionHashCode(this);
     }

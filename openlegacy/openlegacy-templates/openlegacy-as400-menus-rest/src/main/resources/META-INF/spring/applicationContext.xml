@@ -20,6 +20,7 @@
 	    <property name="packages">
 	        <list>
 	            <value>org.openlegacy.as400.menus</value>
+	            <value>org.openlegacy.as400.menus</value>
             </list>
 	    </property>
     </bean>

@@ -9,7 +9,11 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.as400.menus.WorkWithMessages.WorkWithMessagesRecord;
 
 privileged @SuppressWarnings("unused") aspect WorkWithMessagesRecord_Aspect {
+
+	
     
+    private String WorkWithMessagesRecord.focusField;
+	
     public String WorkWithMessagesRecord.getOpt(){
     	return this.opt;
     }
@@ -21,6 +25,24 @@ privileged @SuppressWarnings("unused") aspect WorkWithMessagesRecord_Aspect {
     
 
 
+    /**
+    	Focus on the given field, or on the first field in the table if none is given
+    */
+    public void WorkWithMessagesRecord.focus(String... field) {
+        if (field.length > 0) {
+            this.focusField = field[0];
+        } else {
+            this.focusField = "opt";
+        }
+    }
+
+    public String WorkWithMessagesRecord.getFocus() {
+        return focusField;
+    }
+    public void WorkWithMessagesRecord.setFocus(String focus) {
+        this.focusField = focus;
+    }
+		
     public int WorkWithMessagesRecord.hashCode(){
 		return HashCodeBuilder.reflectionHashCode(this);
     }
