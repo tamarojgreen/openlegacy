@@ -128,6 +128,10 @@ angular.module('controllers').controller('WarehousesCtrl', function($scope, $htt
 				  
 			  });		
 		}
+		
+		$('#googleMapsModal').on('shown.bs.modal', function () {
+		    google.maps.event.trigger($scope.map, "resize");
+		});
 
 		$scope.read();
 	});

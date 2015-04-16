@@ -9,7 +9,11 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.as400.menus.WorkWithSubmittedJobs.WorkWithSubmittedJobsRecord;
 
 privileged @SuppressWarnings("unused") aspect WorkWithSubmittedJobsRecord_Aspect {
+
+	
     
+    private String WorkWithSubmittedJobsRecord.focusField;
+	
     public String WorkWithSubmittedJobsRecord.getOpt(){
     	return this.opt;
     }
@@ -21,6 +25,24 @@ privileged @SuppressWarnings("unused") aspect WorkWithSubmittedJobsRecord_Aspect
     
 
 
+    /**
+    	Focus on the given field, or on the first field in the table if none is given
+    */
+    public void WorkWithSubmittedJobsRecord.focus(String... field) {
+        if (field.length > 0) {
+            this.focusField = field[0];
+        } else {
+            this.focusField = "opt";
+        }
+    }
+
+    public String WorkWithSubmittedJobsRecord.getFocus() {
+        return focusField;
+    }
+    public void WorkWithSubmittedJobsRecord.setFocus(String focus) {
+        this.focusField = focus;
+    }
+		
     public int WorkWithSubmittedJobsRecord.hashCode(){
 		return HashCodeBuilder.reflectionHashCode(this);
     }

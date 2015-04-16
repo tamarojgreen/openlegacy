@@ -9,7 +9,11 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.as400.menus.EditLibraryList.EditLibraryListRecord;
 
 privileged @SuppressWarnings("unused") aspect EditLibraryListRecord_Aspect {
+
+	
     
+    private String EditLibraryListRecord.focusField;
+	
     public Integer EditLibraryListRecord.getNumber(){
     	return this.number;
     }
@@ -59,6 +63,24 @@ privileged @SuppressWarnings("unused") aspect EditLibraryListRecord_Aspect {
     }
 
 
+    /**
+    	Focus on the given field, or on the first field in the table if none is given
+    */
+    public void EditLibraryListRecord.focus(String... field) {
+        if (field.length > 0) {
+            this.focusField = field[0];
+        } else {
+            this.focusField = "number";
+        }
+    }
+
+    public String EditLibraryListRecord.getFocus() {
+        return focusField;
+    }
+    public void EditLibraryListRecord.setFocus(String focus) {
+        this.focusField = focus;
+    }
+		
     public int EditLibraryListRecord.hashCode(){
 		return HashCodeBuilder.reflectionHashCode(this);
     }

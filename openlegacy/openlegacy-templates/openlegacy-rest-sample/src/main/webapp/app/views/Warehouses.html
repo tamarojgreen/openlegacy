@@ -59,7 +59,7 @@
 							<td ng-class="terminalColors('description', warehousesRecord)">
 								{{warehousesRecord.description}}</td>
 							<td>
-								<button ng-click="setMapLocation('HaTaasiya St Tel Aviv-Yafo')" class="btn btn-link" type="button" data-toggle="modal" data-target="#myModal">
+								<button ng-click="setMapLocation('HaTaasiya St Tel Aviv-Yafo')" class="btn btn-link" type="button" data-toggle="modal" data-target="#googleMapsModal">
 									<i class="glyphicon glyphicon-map-marker"></i>
 								</button>
 							</td>
@@ -83,7 +83,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="googleMapsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -104,6 +104,3 @@
     </div>
   </div>
 </div>
-
-
-
