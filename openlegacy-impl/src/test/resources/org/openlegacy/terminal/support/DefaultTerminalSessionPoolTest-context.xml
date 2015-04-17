@@ -14,9 +14,7 @@
 				<ref bean="sessionCountListenerMock"/>
 			</list>			
 		</constructor-arg>
-	</bean>	
-	
-	
+	</bean>
 	
 	<bean id="terminalSessionPool" scope="prototype" p:keepAliveAction="org.openlegacy.terminal.support.SimpleTerminalSessionPoolTest.CleanupDummyAction" p:keepAliveInterval="2000"
 		class="org.openlegacy.terminal.support.SimpleTerminalSessionPoolFactory" p:maxConnections="2" />

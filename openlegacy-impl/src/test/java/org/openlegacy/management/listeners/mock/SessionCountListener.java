@@ -15,6 +15,8 @@ import org.openlegacy.SessionPoolListner;
 /**
  * @author Aleksey Yeremeyev
  * 
+ *         This mock class used for correct defining dependencies for SimpleTerminalSessionPoolFactory bean in
+ *         DefaultTerminalSessionPoolTest-context.xml.
  */
 public class SessionCountListener implements SessionPoolListner {
 
