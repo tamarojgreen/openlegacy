@@ -94,6 +94,7 @@ public class SimpleTerminalSessionPoolFactory extends AbstractSessionPoolFactory
 
 	@Override
 	protected void initSession() {
+		super.initSession();
 		TerminalSession terminalSession = applicationContext.getBean(TerminalSession.class);
 		logger.debug(MessageFormat.format("New session {0} created for pool", terminalSession));
 		if (initAction != null) {

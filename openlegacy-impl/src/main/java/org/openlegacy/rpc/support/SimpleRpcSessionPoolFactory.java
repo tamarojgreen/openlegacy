@@ -62,6 +62,7 @@ public class SimpleRpcSessionPoolFactory extends AbstractSessionPoolFactory<RpcS
 
 	@Override
 	protected void initSession() {
+		super.initSession();
 		RpcSession rpcSession = applicationContext.getBean(RpcSession.class);
 		logger.debug(MessageFormat.format("New session {0} created for pool", rpcSession));
 		if (initAction != null) {

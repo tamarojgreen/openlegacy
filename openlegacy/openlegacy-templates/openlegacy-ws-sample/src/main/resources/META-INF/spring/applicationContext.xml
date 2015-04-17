@@ -14,11 +14,11 @@
 
 	<context:property-placeholder location="classpath*:/*.properties" />
 
-	<import resource="classpath*:/META-INF/openlegacy-terminal-basic-context.xml" />
+	<import resource="classpath*:/META-INF/openlegacy-terminal-basic-context.xml" />	
 
 	<import resource="classpath:/META-INF/spring/actions-mappings.xml"/>
 
-	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" scope="prototype" parent="abstractTerminalSession">
+ 	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" scope="prototype" parent="abstractTerminalSession">
 <!-- Use this definition to configure modules properties
 		<property name="sessionModules">
 			<bean class="org.openlegacy.support.SessionModules">
@@ -59,7 +59,7 @@
 			</bean>
 		</property>
 -->
-   	</bean>
+   	</bean>   	
 		
 	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
 		<property name="packages">
