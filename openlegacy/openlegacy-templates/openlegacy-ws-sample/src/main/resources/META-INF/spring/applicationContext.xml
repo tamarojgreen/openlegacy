@@ -13,9 +13,7 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 
 	<context:property-placeholder location="classpath*:/*.properties" />
-	<bean class="org.openlegacy.web.RequestBasedSessionPropertiesFiller">
- 		<aop:scoped-proxy/>
- 	</bean>
+
 	<import resource="classpath*:/META-INF/openlegacy-terminal-basic-context.xml" />	
 
 	<import resource="classpath:/META-INF/spring/actions-mappings.xml"/>
