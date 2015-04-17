@@ -88,8 +88,9 @@ public class GenerateUtil {
 			String definitionTemplate = fileContent.substring(templateMarkerStart + placeHolderStart.length(), templateMarkerEnd);
 
 			String definitionTemplateNew = generate(model, new StringReader(definitionTemplate));
-			fileContent = fileContent.insert(templateMarkerStart, MessageFormat.format("{0}{1}{2}{3}",
-					existingCodeplaceHolderStart, definitionTemplateNew, existingCodePlaceHolderEnd, SystemUtils.LINE_SEPARATOR));
+			fileContent = fileContent.insert(templateMarkerStart, MessageFormat.format("{0}{1}{2}{3}{4}",
+					existingCodeplaceHolderStart, definitionTemplateNew, SystemUtils.LINE_SEPARATOR, existingCodePlaceHolderEnd,
+					SystemUtils.LINE_SEPARATOR));
 
 			FileUtils.write(file, fileContent);
 
@@ -189,7 +190,7 @@ public class GenerateUtil {
 
 	public static void setPackageName(Collection<ScreenEntityDefinition> screenDefinitions, String packageName) {
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
-			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(packageName);
+			((ScreenEntityDesigntimeDefinition) screenEntityDefinition).setPackageName(packageName);
 		}
 
 	}

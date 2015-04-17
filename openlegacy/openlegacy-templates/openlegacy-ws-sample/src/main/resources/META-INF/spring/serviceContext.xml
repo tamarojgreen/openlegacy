@@ -48,8 +48,8 @@
 <#if generatePool>
 	<bean id="${serviceName?uncap_first}Pool"
 	class="org.openlegacy.terminal.support.SimpleTerminalSessionPoolFactory" p:maxConnections="2" 
-	p:keepAliveAction="${package}.${serviceName}ServiceImpl.KeepAliveAction" p:keepAliveInterval="600000" 
-	p:initAction="${package}.${serviceName}ServiceImpl.InitAction" p:cleanupAction="${package}.${serviceName}ServiceImpl.CleanupAction"/>
+	p:keepAliveAction="${package}.actions.KeepAliveAction" p:keepAliveInterval="600000" 
+	p:initAction="${package}.actions.InitAction" p:cleanupAction="${package}.actions.CleanupAction"/>
 </#if>
 	<bean id="${serviceName?uncap_first}Impl" class="${package}.${serviceName}ServiceImpl" />
 

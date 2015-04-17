@@ -21,6 +21,7 @@ import org.openlegacy.utils.FileUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.MessageFormat;
 
@@ -38,12 +39,22 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 	private static final String SERVICE_SUFFIX = "Service.java";
 	private static final String TEST_SUFFIX = "Test.java";
 	private static final String CONTROLLER_SUFFIX = "Controller.java";
+	private static final String INIT_ACTION = "InitAction.java";
+	private static final String CLEANUP_ACTION = "CleanupAction.java";
+	private static final String KEEP_ALIVE_ACTION = "KeepAliveAction.java";
 
 	private static final String WS_SERVICE_TEMPLATE = "jax-ws/Service.java.template";
 	private static final String WS_SERVICE_TEST_TEMPLATE = "jax-ws/ServiceTest.java.template";
 	private static final String WS_SCREEN_SERVICE_IMPL_TEMPLATE = "jax-ws/ScreenServiceImpl.java.template";
 	private static final String WS_RPC_SERVICE_IMPL_TEMPLATE = "jax-ws/RpcServiceImpl.java.template";
 	private static final String WS_DB_SERVICE_IMPL_TEMPLATE = "jax-ws/DbServiceImpl.java.template";
+
+	private static final String WS_TERMINAL_INIT_ACTION_TEMPLATE = "jax-ws/terminal/InitAction.java.template";
+	private static final String WS_TERMINAL_CLEANUP_ACTION_TEMPLATE = "jax-ws/terminal/CleanupAction.java.template";
+	private static final String WS_TERMINAL_KEEP_ALIVE_ACTION_TEMPLATE = "jax-ws/terminal/KeepAliveAction.java.template";
+	private static final String WS_RPC_INIT_ACTION_TEMPLATE = "jax-ws/rpc/InitAction.java.template";
+	private static final String WS_RPC_CLEANUP_ACTION_TEMPLATE = "jax-ws/rpc/CleanupAction.java.template";
+	private static final String WS_RPC_KEEP_ALIVE_ACTION_TEMPLATE = "jax-ws/rpc/KeepAliveAction.java.template";
 
 	private static final String RS_SERVICE_TEMPLATE = "jax-rs/Service.java.template";
 	private static final String RS_SERVICE_TEST_TEMPLATE = "jax-rs/ServiceTest.java.template";
@@ -90,6 +101,7 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 		UserInteraction userInteraction = generateServiceRequest.getUserInteraction();
 		FileOutputStream fos = null;
 		try {
+			BackendSolution serviceType = generateServiceRequest.getServiceType();
 
 			File sourceDir = new File(generateServiceRequest.getSourceDirectory(), generateServiceRequest.getPackageDirectory());
 			String serviceName = generateServiceRequest.getServiceName();
@@ -117,23 +129,38 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 			}
 			if (generate) {
 				fos = new FileOutputStream(serviceImplFile);
-				String serviceImplTemplate = generateServiceRequest.getServiceType().equals(BackendSolution.SCREEN) ? WS_SCREEN_SERVICE_IMPL_TEMPLATE
-						: (generateServiceRequest.getServiceType().equals(BackendSolution.RPC) ? WS_RPC_SERVICE_IMPL_TEMPLATE
-								: WS_DB_SERVICE_IMPL_TEMPLATE);
+				String serviceImplTemplate = serviceType.equals(BackendSolution.SCREEN) ? WS_SCREEN_SERVICE_IMPL_TEMPLATE
+						: (serviceType.equals(BackendSolution.RPC) ? WS_RPC_SERVICE_IMPL_TEMPLATE : WS_DB_SERVICE_IMPL_TEMPLATE);
 				getGenerateUtil().generate(generateServiceRequest, fos, serviceImplTemplate);
+			}
+
+			if (generateServiceRequest.isGeneratePool()) {
+				// generate actions
+				GenerateServiceRequest gsr = copyGenerateServiceRequest(generateServiceRequest);
+				gsr.setPackageDirectory(gsr.getPackageDirectory() + "/actions");
+
+				generateActionFile(gsr, INIT_ACTION,
+						serviceType.equals(BackendSolution.SCREEN) ? WS_TERMINAL_INIT_ACTION_TEMPLATE
+								: WS_RPC_INIT_ACTION_TEMPLATE);
+				generateActionFile(gsr, CLEANUP_ACTION,
+						serviceType.equals(BackendSolution.SCREEN) ? WS_TERMINAL_CLEANUP_ACTION_TEMPLATE
+								: WS_RPC_CLEANUP_ACTION_TEMPLATE);
+				generateActionFile(gsr, KEEP_ALIVE_ACTION,
+						serviceType.equals(BackendSolution.SCREEN) ? WS_TERMINAL_KEEP_ALIVE_ACTION_TEMPLATE
+								: WS_RPC_KEEP_ALIVE_ACTION_TEMPLATE);
 			}
 
 			File serviceContextFile = new File(generateServiceRequest.getProjectPath(),
 					DesigntimeConstants.SERVICE_CONTEXT_RELATIVE_PATH);
 
 			GenerateUtil.replicateTemplate(serviceContextFile, generateServiceRequest, REGISTER_WS_START, REGISTER_WS_END,
-					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_START, serviceName),
-					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_END, serviceName));
+					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_START, serviceName), MessageFormat.format(
+							EXISTING_SERVICE_PLACE_HOLDER_END, serviceName));
 
 			File testContextFile = new File(generateServiceRequest.getProjectPath(), TEST_CONTEXT_RELATIVE_PATH);
 			GenerateUtil.replicateTemplate(testContextFile, generateServiceRequest, REGISTER_WS_START, REGISTER_WS_END,
-					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_START, serviceName),
-					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_END, serviceName));
+					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_START, serviceName), MessageFormat.format(
+							EXISTING_SERVICE_PLACE_HOLDER_END, serviceName));
 
 			if (generateServiceRequest.isGenerateTest()) {
 				File testFile = new File(generateServiceRequest.getProjectPath(), "src/test/java/tests/" + serviceName
@@ -239,6 +266,41 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 		} finally {
 			IOUtils.closeQuietly(fos);
 		}
+	}
 
+	private void generateActionFile(GenerateServiceRequest gsr, String fileName, String template) throws FileNotFoundException {
+		File actionsSourceDir = new File(gsr.getSourceDirectory(), gsr.getPackageDirectory());
+		if (!actionsSourceDir.exists()) {
+			actionsSourceDir.mkdirs();
+		}
+
+		File actionFile = new File(actionsSourceDir, fileName);
+		boolean generate = true;
+		if (actionFile.exists()) {
+			boolean override = gsr.getUserInteraction().isOverride(actionFile);
+			if (!override) {
+				generate = false;
+			}
+		}
+		if (generate) {
+			FileOutputStream fos = new FileOutputStream(actionFile);
+			getGenerateUtil().generate(gsr, fos, template);
+		}
+
+	}
+
+	private static GenerateServiceRequest copyGenerateServiceRequest(GenerateServiceRequest request) {
+		GenerateServiceRequest gsr = new GenerateServiceRequest();
+		gsr.setGenerateAspectJ(request.isGenerateAspectJ());
+		gsr.setGeneratePool(request.isGeneratePool());
+		gsr.setGenerateTest(request.isGenerateTest());
+		gsr.setPackageDirectory(request.getPackageDirectory());
+		gsr.setProjectPath(request.getProjectPath());
+		gsr.setServiceName(request.getServiceName());
+		gsr.setServiceType(request.getServiceType());
+		gsr.setSourceDirectory(request.getSourceDirectory());
+		gsr.setTemplatesDirectory(request.getTemplatesDirectory());
+		gsr.setUserInteraction(request.getUserInteraction());
+		return gsr;
 	}
 }
