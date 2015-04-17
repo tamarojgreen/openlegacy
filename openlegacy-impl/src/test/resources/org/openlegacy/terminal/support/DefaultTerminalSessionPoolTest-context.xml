@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:p="http://www.springframework.org/schema/p"	
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<import resource="classpath*:/test-mock-context.xml" />
-
+	
+	<bean name="sessionCountListenerMock" class="org.openlegacy.management.listeners.mock.SessionCountListener"/>
+	<bean name="listeners" class="java.util.ArrayList">
+		<constructor-arg>
+			<list value-type="org.openlegacy.SessionPoolListner">
+				<ref bean="sessionCountListenerMock"/>
+			</list>			
+		</constructor-arg>
+	</bean>	
+	
+	
+	
 	<bean id="terminalSessionPool" scope="prototype" p:keepAliveAction="org.openlegacy.terminal.support.SimpleTerminalSessionPoolTest.CleanupDummyAction" p:keepAliveInterval="2000"
 		class="org.openlegacy.terminal.support.SimpleTerminalSessionPoolFactory" p:maxConnections="2" />
 
