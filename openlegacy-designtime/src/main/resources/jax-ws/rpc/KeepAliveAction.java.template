@@ -1,0 +1,11 @@
+package ${package};
+
+import org.openlegacy.rpc.RpcSession;
+import org.openlegacy.rpc.actions.RpcAction;
+
+public class ${serviceName}KeepAliveAction implements RpcAction {
+		
+		public void perform(RpcSession rpcSession, Object entity, Object... keys){
+			// PLACE HOLDER for keep alive action
+		}
+}

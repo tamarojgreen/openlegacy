@@ -22,16 +22,22 @@
 		p:verifySend="true" p:root="/trails" p:trailName="demo_session.trail"
 		p:exactCursor="false" p:exactFields="false" p:exactCommand="true" />
 End use this definition to replay a mock-up session application -->
-
+
 <!-- auto generated service ItemDetails start-->
 	<jaxws:client id="itemDetailsClient" serviceClass="com.openlegacy.ws.openlegacy.services.ItemDetailsService"
-		address="http://localhost:8080/openlegacy-ws-sample/services/itemDetails" /><!-- auto generated service ItemDetails end -->
+		address="http://localhost:8080/openlegacy-ws-sample/services/itemDetails" />
+<!-- auto generated service ItemDetails end -->
+
 <!-- auto generated service WarehouseDetails start-->
 	<jaxws:client id="warehouseDetailsClient" serviceClass="com.openlegacy.ws.openlegacy.services.WarehouseDetailsService"
-		address="http://localhost:8080/openlegacy-ws-sample/services/warehouseDetails" /><!-- auto generated service WarehouseDetails end -->
+		address="http://localhost:8080/openlegacy-ws-sample/services/warehouseDetails" />
+<!-- auto generated service WarehouseDetails end -->
+
 <!-- auto generated service Items start-->
 	<jaxws:client id="itemsClient" serviceClass="com.openlegacy.ws.openlegacy.services.ItemsService"
-		address="http://localhost:8080/openlegacy-ws-sample/services/items" /><!-- auto generated service Items end -->
+		address="http://localhost:8080/openlegacy-ws-sample/services/items" />
+<!-- auto generated service Items end -->
+
 <!-- Register WS place-holder start
 	<jaxws:client id="${serviceName?uncap_first}Client" serviceClass="${package}.${serviceName}Service"
 		address="http://localhost:8080/${projectPath.name}/services/${serviceName?uncap_first}" />

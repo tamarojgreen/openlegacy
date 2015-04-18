@@ -16,7 +16,6 @@ import freemarker.template.TemplateException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.CharEncoding;
-import org.apache.commons.lang.SystemUtils;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -88,8 +87,8 @@ public class GenerateUtil {
 			String definitionTemplate = fileContent.substring(templateMarkerStart + placeHolderStart.length(), templateMarkerEnd);
 
 			String definitionTemplateNew = generate(model, new StringReader(definitionTemplate));
-			fileContent = fileContent.insert(templateMarkerStart, MessageFormat.format("{0}{1}{2}{3}",
-					existingCodeplaceHolderStart, definitionTemplateNew, existingCodePlaceHolderEnd, SystemUtils.LINE_SEPARATOR));
+			fileContent = fileContent.insert(templateMarkerStart, MessageFormat.format("{0}{1}\n{2}\n\n",
+					existingCodeplaceHolderStart, definitionTemplateNew, existingCodePlaceHolderEnd));
 
 			FileUtils.write(file, fileContent);
 

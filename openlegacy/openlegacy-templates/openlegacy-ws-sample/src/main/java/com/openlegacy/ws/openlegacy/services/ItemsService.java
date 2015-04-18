@@ -1,13 +1,10 @@
 package com.openlegacy.ws.openlegacy.services;
 
-import java.util.List;
-
 import javax.jws.WebMethod;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 
 import com.openlegacy.ws.openlegacy.Items;
-import com.openlegacy.ws.openlegacy.Items.ItemDetailesRecord;
 
 /**
  *  A service interface and input/oputput definition for a web service.
@@ -24,7 +21,7 @@ public interface ItemsService {
 
 	public static class ItemsOut{
 		Items items;
-		List<ItemDetailesRecord> records;
+
 				
 		public Items getItems(){
 			return items;
@@ -32,14 +29,6 @@ public interface ItemsService {
 		
 		public void setItems(Items items){
 			this.items = items;
-		}
-		
-		public List<ItemDetailesRecord> getRecords() {
-			return records;
-		}
-		
-		public void setRecords(List<ItemDetailesRecord> records2) {
-			this.records = records2;
 		}
 	}
 }

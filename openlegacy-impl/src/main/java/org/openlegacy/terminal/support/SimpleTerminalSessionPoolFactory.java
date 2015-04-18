@@ -24,7 +24,8 @@ import java.text.MessageFormat;
 
 import javax.inject.Inject;
 
-public class SimpleTerminalSessionPoolFactory extends AbstractSessionPoolFactory<TerminalSession, TerminalAction> implements TerminalSessionFactory {
+public class SimpleTerminalSessionPoolFactory extends AbstractSessionPoolFactory<TerminalSession, TerminalAction> implements
+		TerminalSessionFactory {
 
 	private static final Log logger = LogFactory.getLog(SimpleTerminalSessionPoolFactory.class);
 
@@ -98,9 +99,10 @@ public class SimpleTerminalSessionPoolFactory extends AbstractSessionPoolFactory
 		TerminalSession terminalSession = applicationContext.getBean(TerminalSession.class);
 		logger.debug(MessageFormat.format("New session {0} created for pool", terminalSession));
 		if (initAction != null) {
-			ReflectionUtil.newInstance(initAction).perform(terminalSession, null);
+			initAction.perform(terminalSession, null);
+			//			ReflectionUtil.newInstance(initAction).perform(terminalSession, null);
 			logger.debug(MessageFormat.format("New session {0} init action {1} performed", terminalSession,
-					initAction.getSimpleName()));
+					initAction.getClass().getSimpleName()));
 		}
 		try {
 			blockingQueue.put(terminalSession);

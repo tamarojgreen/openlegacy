@@ -5,7 +5,6 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.TerminalSessionFactory;
-import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.springframework.beans.factory.annotation.Qualifier;
 import javax.inject.Inject;
@@ -37,7 +36,9 @@ public class ItemDetailsServiceImpl implements ItemDetailsService {
 		try{
 			
 			ItemDetails itemDetails = terminalSession.getEntity(ItemDetails.class, itemDetailsIn.getItemNumber());
-
+			
+			
+			
 			ItemDetailsOut itemDetailsOut = new ItemDetailsOut();
 			itemDetailsOut.setItemNumber(itemDetails.getItemNumber());
 			itemDetailsOut.setItemDescription(itemDetails.getItemDescription());
@@ -67,43 +68,4 @@ public class ItemDetailsServiceImpl implements ItemDetailsService {
 		}
 	}
 
-	public static class InitAction implements TerminalAction{
-		
-		public void perform(TerminalSession terminalSession, Object entity,Object... keys){
-			terminalSession.getModule(Login.class).login("OPENLEGA1","OPENLEGA");
-			// PLACE HOLDER for init action
-		}
-
-		@Override
-		public boolean isMacro() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-	}
-	public static class KeepAliveAction implements TerminalAction{
-		
-		public void perform(TerminalSession terminalSession, Object entity,Object... keys){
-			// PLACE HOLDER for keep alive action
-		}
-
-		@Override
-		public boolean isMacro() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-	}
-	public static class CleanupAction implements TerminalAction{
-		
-		public void perform(TerminalSession terminalSession, Object entity,Object... keys){
-			terminalSession.doAction(TerminalActions.F12());
-			terminalSession.doAction(TerminalActions.F12());
-			// PLACE HOLDER for cleanup action
-		}
-
-		@Override
-		public boolean isMacro() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-	}
 }

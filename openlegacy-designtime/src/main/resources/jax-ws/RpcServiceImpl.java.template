@@ -26,7 +26,6 @@ import org.openlegacy.rpc.RpcSession;
 import org.openlegacy.modules.login.Login;
 <#if generatePool>
 import org.openlegacy.rpc.RpcSessionFactory;
-import org.openlegacy.rpc.actions.RpcAction;
 import org.openlegacy.rpc.actions.RpcActions;
 import org.springframework.beans.factory.annotation.Qualifier;
 </#if>
@@ -172,26 +171,4 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 		}
 	}
 
-	<#if generatePool>
-	public static class InitAction implements RpcAction{
-		
-		public void perform(RpcSession rpcSession, Object entity,Object... keys){
-			//rpcSession.getModule(Login.class).login("USER","PASSWORD");
-			// PLACE HOLDER for init action
-		}
-	}
-	public static class KeepAliveAction implements RpcAction{
-		
-		public void perform(RpcSession rpcSession, Object entity,Object... keys){
-			// PLACE HOLDER for keep alive action
-		}
-	}
-	public static class CleanupAction implements RpcAction{
-		
-		public void perform(RpcSession rpcSession, Object entity,Object... keys){
-			//rpcSession.doAction(RpcActions.UPDATE());
-			// PLACE HOLDER for cleanup action
-		}
-	}
-	</#if> 
 }

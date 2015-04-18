@@ -17,7 +17,9 @@
 	<jaxws:endpoint id="testService1" implementor="#testService1Impl" address="/testService1" />
 
 	<jaxws:client id="testService1Client" serviceClass="org.openlegacy.demo.db.model.services.TestService1Service"
-		address="http://localhost:8080/openlegacy-ws-db-sample/testService1" /><!-- auto generated service TestService1 end -->
+		address="http://localhost:8080/openlegacy-ws-db-sample/testService1" />
+<!-- auto generated service TestService1 end -->
+
 <!-- Register WS place-holder start
 	<bean id="${serviceName?uncap_first}Impl" class="${package}.${serviceName}ServiceImpl" />
 

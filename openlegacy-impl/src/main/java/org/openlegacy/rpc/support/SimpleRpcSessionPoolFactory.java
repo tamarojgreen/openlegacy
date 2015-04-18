@@ -66,8 +66,10 @@ public class SimpleRpcSessionPoolFactory extends AbstractSessionPoolFactory<RpcS
 		RpcSession rpcSession = applicationContext.getBean(RpcSession.class);
 		logger.debug(MessageFormat.format("New session {0} created for pool", rpcSession));
 		if (initAction != null) {
-			ReflectionUtil.newInstance(initAction).perform(rpcSession, null);
-			logger.debug(MessageFormat.format("New session {0} init action {1} performed", rpcSession, initAction.getSimpleName()));
+			initAction.perform(rpcSession, null);
+			//			ReflectionUtil.newInstance(initAction).perform(rpcSession, null);
+			logger.debug(MessageFormat.format("New session {0} init action {1} performed", rpcSession,
+					initAction.getClass().getSimpleName()));
 		}
 		try {
 			blockingQueue.put(rpcSession);

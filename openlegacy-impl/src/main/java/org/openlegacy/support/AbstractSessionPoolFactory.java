@@ -19,7 +19,8 @@ import java.util.concurrent.BlockingQueue;
 
 import javax.inject.Inject;
 
-public abstract class AbstractSessionPoolFactory<S extends Session, A extends SessionAction<S>> implements SessionFactory<S, A>, InitializingBean, DisposableBean {
+public abstract class AbstractSessionPoolFactory<S extends Session, A extends SessionAction<S>> implements SessionFactory<S, A>,
+		InitializingBean, DisposableBean {
 
 	private static final Log logger = LogFactory.getLog(AbstractSessionPoolFactory.class);
 
@@ -31,7 +32,7 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 
 	protected List<S> dirties = new LinkedList<S>();
 
-	protected Class<A> initAction = null;
+	protected A initAction = null;
 
 	protected Class<A> cleanupAction = null;
 
@@ -92,7 +93,7 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 		init();
 	}
 
-	public void setInitAction(Class<A> initAction) {
+	public void setInitAction(A initAction) {
 		this.initAction = initAction;
 	}
 
