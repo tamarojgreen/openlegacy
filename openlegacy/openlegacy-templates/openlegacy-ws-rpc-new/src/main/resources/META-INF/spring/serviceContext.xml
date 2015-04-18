@@ -14,14 +14,22 @@
 
 <!-- Register WS place-holder start
 <#if generatePool>
+	<bean id="${serviceName?uncap_first}InitAction" class="${package}.actions.${serviceName}InitAction">
+		<property name="user" value="${r"${"}user}"/>
+		<property name="password" value="${r"${"}password}"/>
+	</bean>
+
 	<bean id="${serviceName?uncap_first}Pool"
-	class="org.openlegacy.rpc.support.SimpleRpcSessionPoolFactory" p:maxConnections="2" 
-	p:keepAliveAction="${package}.${serviceName}ServiceImpl.KeepAliveAction" p:keepAliveInterval="600000" 
-	p:initAction="${package}.${serviceName}ServiceImpl.InitAction" p:cleanupAction="${package}.${serviceName}ServiceImpl.CleanupAction"/>
+		class="org.openlegacy.rpc.support.SimpleRpcSessionPoolFactory" p:maxConnections="2" 
+		p:keepAliveAction="${package}.actions.${serviceName}KeepAliveAction" p:keepAliveInterval="600000" 
+		p:cleanupAction="${package}.actions.${serviceName}CleanupAction">
+		<property name="initAction" ref="${serviceName?uncap_first}InitAction" />
+	</bean>
 </#if>
 	<bean id="${serviceName?uncap_first}Impl" class="${package}.${serviceName}ServiceImpl" />
 
-	<jaxws:endpoint id="${serviceName?uncap_first}" implementor="#${serviceName?uncap_first}Impl" address="/${serviceName?uncap_first}" />
+	<jaxws:endpoint id="${serviceName?uncap_first}" implementor="#${serviceName?uncap_first}Impl" 
+		address="/${serviceName?uncap_first}" />
 
 	<jaxws:client id="${serviceName?uncap_first}Client" serviceClass="${package}.${serviceName}Service"
 		address="http://localhost:8080/${projectPath.name}/services/${serviceName?uncap_first}" />

@@ -1,12 +1,15 @@
-package ${package};
+package com.openlegacy.ws.openlegacy.services.actions;
 
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalActions;
 
-public class ${serviceName}KeepAliveAction implements TerminalAction {
+
+public class ItemDetailsCleanupAction implements TerminalAction {
 		
 		public void perform(TerminalSession terminalSession, Object entity, Object... keys){
-			// PLACE HOLDER for keep alive action
+			terminalSession.doAction(TerminalActions.F12());
+			// PLACE HOLDER for cleanup action
 		}
 
 		@Override

@@ -1,11 +1,11 @@
-package ${package};
+package com.openlegacy.ws.openlegacy.services.actions;
 
 import org.openlegacy.modules.login.Login;
 
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
 
-public class ${serviceName}InitAction implements TerminalAction {
+public class WarehouseDetailsInitAction implements TerminalAction {
 		
 		private String user;
 		private String password;

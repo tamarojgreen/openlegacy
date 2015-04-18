@@ -41,9 +41,9 @@ public class ItemsServiceTest {
 
 		long before = System.currentTimeMillis();
 
-		//ItemsIn itemsIn = new ItemsIn();
+//		ItemsIn itemsIn = new ItemsIn();
 
-		//ItemsOut itemsOut = itemsClient.getItems(itemsIn);
+//		ItemsOut itemsOut = itemsClient.getItems(itemsIn);
 		ItemsOut itemsOut = itemsClient.getItems();
 		Assert.assertNotNull(itemsOut);
 

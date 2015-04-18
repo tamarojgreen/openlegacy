@@ -1,9 +1,9 @@
-package ${package};
+package com.openlegacy.ws.openlegacy.services.actions;
 
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
 
-public class ${serviceName}KeepAliveAction implements TerminalAction {
+public class WarehouseDetailsKeepAliveAction implements TerminalAction {
 		
 		public void perform(TerminalSession terminalSession, Object entity, Object... keys){
 			// PLACE HOLDER for keep alive action
