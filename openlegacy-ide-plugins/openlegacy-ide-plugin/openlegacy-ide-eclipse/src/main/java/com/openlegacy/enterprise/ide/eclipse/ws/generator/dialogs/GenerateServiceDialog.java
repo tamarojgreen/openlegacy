@@ -23,7 +23,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -93,8 +92,6 @@ import org.openlegacy.terminal.support.SimpleTerminalPosition;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -272,13 +269,9 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 			@Override
 			public void run() {
-				Path projectPath = Paths.get(project.getLocationURI());
-				Path fileParentPath = Paths.get(file.getParent());
-				Path relativizedPath = projectPath.relativize(fileParentPath);
-				final IFolder folder = project.getFolder(relativizedPath.toString());
 				try {
-					if (folder != null) {
-						folder.refreshLocal(1, null);
+					if (project != null) {
+						project.refreshLocal(1, null);
 					}
 				} catch (CoreException e1) {
 					logger.fatal(e1);
@@ -286,7 +279,7 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 				IWorkbenchPage page = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage();
 				try {
-					IFile javaFile = project.getFile(folder.getProjectRelativePath().toPortableString() + "/" + file.getName());
+					IFile javaFile = project.getFile(project.getProjectRelativePath().toPortableString() + "/" + file.getName());
 
 					IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(
 							javaFile.getName());
