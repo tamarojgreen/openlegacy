@@ -10,6 +10,7 @@ import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.MessageFormat;
 import java.util.LinkedList;
@@ -17,10 +18,7 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import javax.inject.Inject;
-
-public abstract class AbstractSessionPoolFactory<S extends Session, A extends SessionAction<S>> implements SessionFactory<S, A>,
-		InitializingBean, DisposableBean {
+public abstract class AbstractSessionPoolFactory<S extends Session, A extends SessionAction<S>> implements SessionFactory<S, A>, InitializingBean, DisposableBean {
 
 	private static final Log logger = LogFactory.getLog(AbstractSessionPoolFactory.class);
 
@@ -48,7 +46,7 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 
 	protected boolean stopThreads = false;
 
-	@Inject
+	@Autowired(required = false)
 	private List<SessionPoolListner> listeners;
 
 	protected void initSession() {
