@@ -19,6 +19,8 @@ import org.openlegacy.db.definitions.SimpleDbFieldDefinition;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 import javax.persistence.Column;
 
@@ -57,6 +59,18 @@ public class DbJpaColumnAnnotationLoader extends DbFieldsLoader {
 				columnFieldDefinition.setLength(column.length());
 				columnFieldDefinition.setPrecision(column.precision());
 				columnFieldDefinition.setScale(column.scale());
+				
+				Type genericFieldType = field.getGenericType();
+
+				if (genericFieldType instanceof ParameterizedType) {
+					ParameterizedType aType = (ParameterizedType)genericFieldType;
+					Type[] fieldArgTypes = aType.getActualTypeArguments();
+					columnFieldDefinition.setJavaType((Class)fieldArgTypes[fieldArgTypes.length - 1]);
+					columnFieldDefinition.setJavaTypeName(((Class)fieldArgTypes[fieldArgTypes.length - 1]).getSimpleName());
+				} else {
+					columnFieldDefinition.setJavaType(field.getType());
+					columnFieldDefinition.setJavaTypeName(field.getType().getSimpleName());
+				}
 			}
 			dbEntityDefinition.getColumnFieldsDefinitions().put(field.getName(), dbFieldDefinition);
 		}

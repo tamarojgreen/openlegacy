@@ -64,7 +64,9 @@ public class DbColumnAnnotationLoader extends DbFieldsLoader {
 					Type[] fieldArgTypes = aType.getActualTypeArguments();
 					columnFieldDefinition.setJavaType((Class)fieldArgTypes[fieldArgTypes.length - 1]);
 					columnFieldDefinition.setJavaTypeName(((Class)fieldArgTypes[fieldArgTypes.length - 1]).getSimpleName());
-
+				} else {
+					columnFieldDefinition.setJavaType(field.getType());
+					columnFieldDefinition.setJavaTypeName(field.getType().getSimpleName());
 				}
 
 			}

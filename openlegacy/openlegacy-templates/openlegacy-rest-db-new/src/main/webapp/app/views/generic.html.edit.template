@@ -180,7 +180,19 @@
 												</#if>
 											</#if>
 										</label>
-										<input class="col-sm-6 col-xs-6" ng-model="model.entity.<#if propertyName != "">${propertyName}['1'].</#if>${column.name}" ng-disabled="<#if isUPDATEAction && column.updatable>false<#else>true</#if>"></input>
+										<#if column.javaTypeName == "Integer">
+											<input type="number" class="col-sm-6 col-xs-6" ng-model="model.entity.<#if propertyName != "">${propertyName}['1'].</#if>${column.name}" ng-disabled="<#if isUPDATEAction && column.updatable>false<#else>true</#if>"></input>
+										<#elseif column.javaTypeName == "boolean">
+											<div class="checkbox col-sm-6 col-xs-6" id="${column.name}">
+												<label>
+						      						<input ng-checked="model.entity.<#if propertyName != "">${propertyName}['1'].</#if>${column.name}" type="checkbox" ng-disabled="<#if isUPDATEAction && column.updatable>false<#else>true</#if>">
+						    					</label>
+						  					</div>
+						  				<#elseif column.javaTypeName == "Date">
+						  					<input type="text" class="col-sm-6 col-xs-6" datepicker-popup="MM/dd/yyyy" ng-model="model.entity.<#if propertyName != "">${propertyName}['1'].</#if>${column.name}" is-open="opened" ng-required="true" close-text="Close" ng-click="opened=true" date-disabled="<#if isUPDATEAction && column.updatable>false<#else>true</#if>" />		
+										<#else>
+											<input class="col-sm-6 col-xs-6" ng-model="model.entity.<#if propertyName != "">${propertyName}['1'].</#if>${column.name}" ng-disabled="<#if isUPDATEAction && column.updatable>false<#else>true</#if>"></input>
+										</#if>
 									</div>
 								</#if>
 								<#if (!column.internal?? || column.internal == false) && column.oneToManyDefinition??>
