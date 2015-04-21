@@ -24,7 +24,8 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String displayName;
-	private transient SessionAction<? extends Session> action;
+	//	private transient SessionAction<? extends Session> action;
+	private SessionAction<? extends Session> action;
 	private String alias;
 	private String actionName;
 
@@ -58,7 +59,7 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 	public SimpleActionDefinition(SessionAction<? extends Session> action, String displayName) {
 		this.action = action;
 		if (action instanceof SimpleDrilldownAction) {
-			this.actionName = ((SimpleDrilldownAction)action).getAction().getClass().getSimpleName();
+			this.actionName = ((SimpleDrilldownAction) action).getAction().getClass().getSimpleName();
 		} else {
 			this.actionName = action.getClass().getSimpleName();
 		}

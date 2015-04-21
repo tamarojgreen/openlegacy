@@ -113,9 +113,8 @@ public class DefaultScreensRestController extends AbstractRestController {
 
 	@Override
 	@RequestMapping(value = "/{entity}", method = RequestMethod.GET, consumes = { JSON, XML })
-	public ModelAndView getEntity(@PathVariable("entity") String entityName,
-			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children,
-			HttpServletResponse response) throws IOException {
+	public ModelAndView getEntity(@PathVariable("entity") String entityName, @RequestParam(value = "children", required = false,
+			defaultValue = "true") boolean children, HttpServletResponse response) throws IOException {
 		return super.getEntity(entityName, children, response);
 	}
 
@@ -126,7 +125,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 			SimpleEntityWrapper wrapper = new SimpleEntityWrapper(null, null, null, false);
 			return new ModelAndView(MODEL, MODEL, wrapper);
 		}
-		return multyScreenTableBindUtil.bindCollectTable(terminalSession, entity);
+		return multyScreenTableBindUtil.bindCollectTable((TerminalSession) getSession(), entity);
 	}
 
 	@Override
@@ -145,7 +144,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 			return null;
 		}
 		// fetch child entities
-		ScreenEntityDefinition entityDefinition = (ScreenEntityDefinition)getEntitiesRegistry().get(entity.getClass());
+		ScreenEntityDefinition entityDefinition = (ScreenEntityDefinition) getEntitiesRegistry().get(entity.getClass());
 		List<EntityDefinition<?>> childEntitiesDefinitions = entityDefinition.getChildEntitiesDefinitions();
 		if (children && childEntitiesDefinitions.size() > 0) {
 			PropertyDescriptor[] properties = PropertyUtils.getPropertyDescriptors(entity);
@@ -180,9 +179,9 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@Override
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntityJson(@PathVariable("entity") String entityName,
-			@RequestParam(value = ACTION, required = false) String action,
-			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children,
-			@RequestBody String json, HttpServletResponse response) throws IOException {
+			@RequestParam(value = ACTION, required = false) String action, @RequestParam(value = "children", required = false,
+					defaultValue = "true") boolean children, @RequestBody String json, HttpServletResponse response)
+			throws IOException {
 		return super.postEntityJson(entityName, action, children, json, response);
 	}
 
@@ -197,15 +196,15 @@ public class DefaultScreensRestController extends AbstractRestController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON, params = "action=next")
-	public ModelAndView postNextJson(@PathVariable("entity") String entityName,
-			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children,
-			@RequestBody String json, HttpServletResponse response) throws IOException {
+	public ModelAndView postNextJson(@PathVariable("entity") String entityName, @RequestParam(value = "children",
+			required = false, defaultValue = "true") boolean children, @RequestBody String json, HttpServletResponse response)
+			throws IOException {
 
 		if (!resetRowsWhenSameOnNext) {
 			return super.postEntityJson(entityName, "next", children, json, response);
 		}
 		preSendJsonEntity(entityName, null, json, response);
-		ScreenEntity entity = terminalSession.getEntity();
+		ScreenEntity entity = ((TerminalSession) getSession()).getEntity();
 
 		Object resultEntity = sendEntity(entity, "next");
 
@@ -222,9 +221,9 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@Override
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntityJsonWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
-			@RequestParam(value = ACTION, required = false) String action,
-			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children,
-			@RequestBody String json, HttpServletResponse response) throws IOException {
+			@RequestParam(value = ACTION, required = false) String action, @RequestParam(value = "children", required = false,
+					defaultValue = "true") boolean children, @RequestBody String json, HttpServletResponse response)
+			throws IOException {
 		return super.postEntityJsonWithKey(entityName, key, action, children, json, response);
 	}
 
@@ -250,23 +249,24 @@ public class DefaultScreensRestController extends AbstractRestController {
 			return null;
 		}
 
-		ScreenEntity screenEntity = terminalSession.getEntity();
+		ScreenEntity screenEntity = ((TerminalSession) getSession()).getEntity();
 		return getEntityInner(screenEntity, false);
 
 	}
 
 	@RequestMapping(value = "/current", method = RequestMethod.GET, consumes = { JSON, XML })
 	public ModelAndView getCurrent(HttpServletResponse response) throws IOException {
-		if (terminalSession.getEntity() == null) {
+		if (((TerminalSession) getSession()).getEntity() == null) {
 			return null;
 		}
-		return getEntityRequest(ProxyUtil.getTargetObject(terminalSession.getEntity()).getClass().getSimpleName(), null, false,
+		return getEntityRequest(
+				ProxyUtil.getTargetObject(((TerminalSession) getSession()).getEntity()).getClass().getSimpleName(), null, false,
 				response);
 	}
 
 	@RequestMapping(value = "/sequence", method = RequestMethod.GET, consumes = { JSON, XML })
 	public Object getSequence(HttpServletResponse response) throws IOException {
-		return terminalSession.getSequence();
+		return ((TerminalSession) getSession()).getSequence();
 	}
 
 	@Override
@@ -287,9 +287,9 @@ public class DefaultScreensRestController extends AbstractRestController {
 	public Object loginPostJson(@RequestBody String json, HttpServletResponse response) throws IOException {
 		super.loginPostJson(json, response);
 
-		ScreenEntity entity = terminalSession.getEntity();
+		ScreenEntity entity = ((TerminalSession) getSession()).getEntity();
 		if (entity != null) {
-			ScreenEntityDefinition entityDefinition = screenEntitiesRegistry.get(entity.getClass());
+			ScreenEntityDefinition entityDefinition = ((ScreenEntitiesRegistry) getEntitiesRegistry()).get(entity.getClass());
 			Class<? extends EntityType> screenType = entityDefinition.getType();
 
 			if (!screenType.getSimpleName().equals(MenuEntity.class.getSimpleName())) {
@@ -318,10 +318,10 @@ public class DefaultScreensRestController extends AbstractRestController {
 			logger.warn("emulation for REST controller not enabled");
 			return null;
 		}
-		TerminalSendAction action = sendActionBuilder.buildSendAction(terminalSession.getSnapshot(), request);
+		TerminalSendAction action = sendActionBuilder.buildSendAction(((TerminalSession) getSession()).getSnapshot(), request);
 
-		terminalSession.doAction(action);
-		ScreenEntity entity = terminalSession.getEntity();
+		((TerminalSession) getSession()).doAction(action);
+		ScreenEntity entity = ((TerminalSession) getSession()).getEntity();
 		Navigation navigationModule = getSession().getModule(Navigation.class);
 		boolean isWindow = entity != null ? getEntitiesRegistry().get(entity.getClass()).isWindow() : false;
 
@@ -334,7 +334,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@RequestMapping(value = "/messages", consumes = { JSON, XML })
 	public ModelAndView messages() throws IOException {
 
-		Messages messagesModule = terminalSession.getModule(Messages.class);
+		Messages messagesModule = getSession().getModule(Messages.class);
 		List<String> messages = messagesModule.getMessages();
 		if (messages.size() > 0) {
 			ModelAndView modelAndView = new ModelAndView(MODEL, MODEL, new ArrayList<String>(messages));
@@ -348,7 +348,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@RequestMapping(value = "/globals", consumes = { JSON, XML })
 	public ModelAndView globals() throws IOException {
 
-		Globals globalsModule = terminalSession.getModule(Globals.class);
+		Globals globalsModule = getSession().getModule(Globals.class);
 		Map<String, Object> globals = globalsModule.getGlobals();
 		if (globals.size() > 0) {
 			ModelAndView modelAndView = new ModelAndView(MODEL, MODEL, globals);
@@ -362,7 +362,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/{screen}/excel", method = RequestMethod.GET)
 	public void excel(@PathVariable("screen") String entityName, HttpServletResponse response) throws IOException {
-		ScreenEntity entity = (ScreenEntity)getSession().getEntity(entityName);
+		ScreenEntity entity = (ScreenEntity) getSession().getEntity(entityName);
 		if (entity == null) {
 			return;
 		}
@@ -371,7 +371,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 		response.addHeader("Content-Disposition", MessageFormat.format("attachment; filename=\"{0}.xls\"", entityName));
 		Entry<String, ScreenTableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
 				tablesDefinitionProvider, entity.getClass());
-		tableWriter.writeTable(records, (TableDefinition)tableDefinition.getValue(), response.getOutputStream());
+		tableWriter.writeTable(records, (TableDefinition) tableDefinition.getValue(), response.getOutputStream());
 	}
 
 	@Override
@@ -399,8 +399,8 @@ public class DefaultScreensRestController extends AbstractRestController {
 
 	@Override
 	protected Object sendEntity(Object entity, String action) {
-		TerminalActionDefinition actionDefinition = screenEntityUtils.findAction((ScreenEntity)entity, action);
-		return terminalSession.doAction((TerminalAction)actionDefinition.getAction(), (ScreenEntity)entity);
+		TerminalActionDefinition actionDefinition = screenEntityUtils.findAction((ScreenEntity) entity, action);
+		return ((TerminalSession) getSession()).doAction((TerminalAction) actionDefinition.getAction(), (ScreenEntity) entity);
 	}
 
 	@Override

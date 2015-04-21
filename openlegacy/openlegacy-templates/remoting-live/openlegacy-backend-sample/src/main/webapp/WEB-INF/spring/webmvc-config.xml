@@ -11,7 +11,7 @@
 
 	<bean id="terminalSessionExporter" name="/TerminalSessionService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
 		<property name="service" ref="terminalSession"/>
-		<property name="serviceInterface" value="org.openlegacy.remoting.terminal.IRemotingTerminalSession"/>
+		<property name="serviceInterface" value="org.openlegacy.remoting.terminal.RemotingTerminalSession"/>
 	</bean>
 
 	<bean id="screenEntitiesRegistryExporter" name="/ScreenEntitiesRegistryService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">

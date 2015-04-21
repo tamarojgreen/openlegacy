@@ -30,6 +30,7 @@
 				<module>../openlegacy-test-apps</module>
 				<module>../openlegacy-impl</module>
 				<module>../openlegacy-web</module>
+				<module>../openlegacy-remoting</module>
 				<module>openlegacy-providers</module>
 				<module>openlegacy-tools</module>
 				<module>../openlegacy-as400-entities</module>
@@ -48,6 +49,7 @@
 				<module>../openlegacy-test-apps</module>
 				<module>../openlegacy-impl</module>
 				<module>../openlegacy-web</module>
+				<module>../openlegacy-remoting</module>
 				<module>openlegacy-providers</module>
 				<module>openlegacy-tools</module>
 				<module>openlegacy-templates</module>
@@ -64,11 +66,11 @@
 				<module>../openlegacy-test-apps</module>
 				<module>../openlegacy-impl</module>
 				<module>../openlegacy-web</module>
+				<module>../openlegacy-remoting</module>
 				<module>openlegacy-providers</module>
 				<module>openlegacy-tools</module>
 				<module>../openlegacy-designtime</module>
 				<module>openlegacy-plugins</module>
-				<module>../openlegacy-remoting</module>
 			</modules>
 		</profile>
 		<profile>

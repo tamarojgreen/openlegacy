@@ -9,16 +9,13 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy.remoting.terminal.support;
+package org.openlegacy.remoting.terminal;
 
-import org.openlegacy.remoting.terminal.RemotingTerminalSession;
-import org.openlegacy.terminal.support.DefaultTerminalSession;
+import org.openlegacy.terminal.TerminalSession;
 
 /**
  * @author Ivan Bort
  */
-public class DefaultRemotingTerminalSession extends DefaultTerminalSession implements RemotingTerminalSession {
-
-	private static final long serialVersionUID = 1L;
+public interface RemotingTerminalSession extends TerminalSession {
 
 }

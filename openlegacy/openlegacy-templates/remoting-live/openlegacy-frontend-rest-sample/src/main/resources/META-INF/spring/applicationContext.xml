@@ -16,22 +16,31 @@
 	<import resource="classpath:/META-INF/openlegacy-webcomponents-context.xml" />
 	
 	<!-- openlegacy-terminal-basic-context.xml -->
+	<context:component-scan base-package="org.openlegacy"
+		use-default-filters="false">
+		<context:include-filter expression="org.springframework.stereotype.Component"
+			type="annotation" />
+		<context:exclude-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
+
+	<bean class="org.openlegacy.modules.trail.TrailUtil" />
+	<bean id="openLegacyProperties" class="org.openlegacy.utils.SimpleOpenLegacyProperties" />
+
 	<bean id="screenEntityUtils" class="org.openlegacy.terminal.utils.ScreenEntityUtils" />
 	<bean id="tableDefinitionsProvider" class="org.openlegacy.terminal.support.providers.RegistryBasedTablesDefinitionProvider" />
 	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder" />
-	<bean id="openLegacyProperties" class="org.openlegacy.utils.SimpleOpenLegacyProperties" />
 	<bean id="imageRenderer" class="org.openlegacy.terminal.render.DefaultTerminalSnapshotImageRenderer" />
 	<bean id="trailWriter" class="org.openlegacy.terminal.modules.trail.TerminalTrailXmlWriter" />
 	<bean id="registryLoader" class="org.openlegacy.terminal.support.DefaultScreensRegistryLoader"/>
 	
 	<bean class="org.openlegacy.terminal.support.binders.MultyScreenTableBindUtil" />
-	<bean class="org.openlegacy.modules.trail.TrailUtil" />
 
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true" />
 
 	<bean id="terminalSession" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
 		<property name="serviceUrl" value="http://localhost:8081/openlegacy-backend-sample/TerminalSessionService" />
-		<property name="serviceInterface" value="org.openlegacy.remoting.terminal.IRemotingTerminalSession" />
+		<property name="serviceInterface" value="org.openlegacy.remoting.terminal.RemotingTerminalSession" />
 	</bean>
 
 	<bean id="screenEntitiesRegistry" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">

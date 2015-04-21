@@ -22,6 +22,8 @@ public class SimpleOpenLegacyProperties implements OpenLegacyProperties, Seriali
 	private boolean liveSession = false;
 	private String trailFilePath;
 
+	public SimpleOpenLegacyProperties() {}
+
 	@Override
 	public String getProperty(String propertyName) {
 		return System.getProperty(propertyName);
