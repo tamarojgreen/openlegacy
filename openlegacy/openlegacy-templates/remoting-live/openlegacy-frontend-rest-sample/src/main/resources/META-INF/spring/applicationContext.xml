@@ -48,4 +48,9 @@
 		<property name="serviceInterface" value="org.openlegacy.terminal.services.ScreenEntitiesRegistry" />
 	</bean>
 
+	<bean id="remoteController" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+		<property name="serviceUrl" value="http://localhost:8081/openlegacy-backend-sample/RemotingBackendScreensRestController"/>
+		<property name="serviceInterface" value="org.openlegacy.remoting.web.backend.RemotingBackendScreensRestController"/>
+	</bean>
+
 </beans>

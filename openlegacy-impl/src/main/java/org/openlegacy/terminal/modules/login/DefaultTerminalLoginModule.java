@@ -88,7 +88,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 		}
 
 		try {
-			ScreenEntity loginEntity = (ScreenEntity)loginMetadata.getLoginScreenDefinition().getEntityClass().newInstance();
+			ScreenEntity loginEntity = (ScreenEntity) loginMetadata.getLoginScreenDefinition().getEntityClass().newInstance();
 			ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(loginEntity);
 			fieldAccessor.setFieldValue(loginMetadata.getUserField().getName(), user);
 			fieldAccessor.setFieldValue(loginMetadata.getPasswordField().getName(), password);
@@ -120,7 +120,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 		}
 
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(loginEntity);
-		String user = (String)fieldAccessor.getFieldValue(loginMetadata.getUserField().getName());
+		String user = (String) fieldAccessor.getFieldValue(loginMetadata.getUserField().getName());
 
 		loggedInUser = new PersistedUser(user);
 
@@ -129,11 +129,11 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 		WaitForNonEmptyField waitForNonEmptyLoginError = waitConditionFactory.create(WaitForNonEmptyField.class,
 				registryLoginClass, errorFieldName);
 
-		ScreenEntity firstScreenEntity = (ScreenEntity)getSession().getEntity(
+		ScreenEntity firstScreenEntity = (ScreenEntity) getSession().getEntity(
 				loginMetadata.getLoginScreenDefinition().getEntityClass());
 		Assert.notNull(firstScreenEntity, "Login entity not recognized as the 1st application screen");
 
-		Object currentEntity = getSession().doAction(loginAction, (ScreenEntity)loginEntity, waitForNonEmptyLoginError);
+		Object currentEntity = getSession().doAction(loginAction, (ScreenEntity) loginEntity, waitForNonEmptyLoginError);
 
 		Class<? extends Object> currentEntityClass = null;
 		if (currentEntity != null) {

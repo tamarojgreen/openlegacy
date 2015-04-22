@@ -120,7 +120,7 @@ public class DefaultDbRestController extends AbstractRestController {
 	public Object login(@RequestBody String json, HttpServletResponse response) throws IOException, ParseException {
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(json);
-		JSONObject jsonObj = (JSONObject)obj;
+		JSONObject jsonObj = (JSONObject) obj;
 		try {
 			if (dbLoginModule != null) {
 				dbLoginModule.login(jsonObj.get("user").toString(), jsonObj.get("password").toString());
@@ -176,9 +176,9 @@ public class DefaultDbRestController extends AbstractRestController {
 
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntity(@PathVariable("entity") String entityName,
-			@RequestParam(value = ACTION, required = false) String action,
-			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children,
-			@RequestBody String json, HttpServletResponse response) throws IOException {
+			@RequestParam(value = ACTION, required = false) String action, @RequestParam(value = "children", required = false,
+					defaultValue = "true") boolean children, @RequestBody String json, HttpServletResponse response)
+			throws IOException {
 
 		// json = "{\"itemId\":\"111\",\"description\":\"sadasd\", \"notes\":[{\"text\":\"qqqq\"},{\"text\":\"sssss\"}]}";
 		return postEntityJson(entityName, action, children, json, response);
@@ -262,7 +262,7 @@ public class DefaultDbRestController extends AbstractRestController {
 					return null;
 				}
 			} else {
-				primaryKey = toObject(getFirstIdJavaType(entityClass), (String)keys[0]);
+				primaryKey = toObject(getFirstIdJavaType(entityClass), (String) keys[0]);
 			}
 			return dbService.getEntityById(entityClass, primaryKey);
 		} else {
@@ -289,7 +289,7 @@ public class DefaultDbRestController extends AbstractRestController {
 			if (keys.length == idFields.size()) {
 				for (int i = 0; i < keys.length; i++) {
 					idFields.get(i).setAccessible(true);
-					idFields.get(i).set(compositeClazz, toObject(idFields.get(i).getType(), (String)keys[i]));
+					idFields.get(i).set(compositeClazz, toObject(idFields.get(i).getType(), (String) keys[i]));
 				}
 				return compositeClazz;
 			}
@@ -349,8 +349,8 @@ public class DefaultDbRestController extends AbstractRestController {
 		}
 		int pageCount = 0;
 		if (entity.getClass() == TableDbObject.class) {
-			pageCount = ((TableDbObject)entity).getPageCount();
-			entity = ProxyUtil.getTargetJpaObject(((TableDbObject)entity).getResult(), children);
+			pageCount = ((TableDbObject) entity).getPageCount();
+			entity = ProxyUtil.getTargetJpaObject(((TableDbObject) entity).getResult(), children);
 		} else {
 			entity = ProxyUtil.getTargetJpaObject(entity, children);
 		}
@@ -551,15 +551,6 @@ public class DefaultDbRestController extends AbstractRestController {
 
 	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
-	}
-
-	private static void sendError(int errorCode, String message, HttpServletResponse response) throws IOException {
-		response.resetBuffer();
-		response.setStatus(errorCode);
-		response.setHeader("Content-Type", "application/json");
-		response.setCharacterEncoding("UTF-8");
-		response.getWriter().write(String.format("{\"error\":\"%s\"}", message));
-		response.flushBuffer();
 	}
 
 	@Override

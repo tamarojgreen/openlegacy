@@ -379,7 +379,7 @@ public abstract class AbstractRestController {
 		return getMenu(response);
 	}
 
-	private static void sendError(int errorCode, String message, HttpServletResponse response) throws IOException {
+	protected static void sendError(int errorCode, String message, HttpServletResponse response) throws IOException {
 		response.resetBuffer();
 		response.setStatus(errorCode);
 		response.setHeader("Content-Type", "application/json");
@@ -396,7 +396,7 @@ public abstract class AbstractRestController {
 
 		try {
 			InputSource inputSource = new InputSource(new ByteArrayInputStream(xml.getBytes()));
-			LoginObject login = (LoginObject)Unmarshaller.unmarshal(LoginObject.class, inputSource);
+			LoginObject login = (LoginObject) Unmarshaller.unmarshal(LoginObject.class, inputSource);
 			getSession().getModule(org.openlegacy.modules.login.Login.class).login(login.getUser(), login.getPassword());
 		} catch (LoginException e) {
 			getSession().disconnect();
