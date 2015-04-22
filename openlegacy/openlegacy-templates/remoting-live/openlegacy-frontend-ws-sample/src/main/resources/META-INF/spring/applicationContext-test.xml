@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+
+	 <bean id="marshaller" class="org.springframework.oxm.xstream.XStreamMarshaller"/>
+
+	<context:property-placeholder location="classpath*:/*.properties" />
+
+	<bean class="org.openlegacy.terminal.support.DefaultTerminalSnapshotsOrganizer" />
+	<bean class="org.openlegacy.terminal.support.DefaultSnapshotSimilarityChecker" />
+				
+<!-- Use this definition to replay a mock-up session application
+ 	<bean id="terminalConnectionFactory"
+		class="org.openlegacy.terminal.mock.MockStateMachineTerminalConnectionFactory"
+		p:verifySend="true" p:root="/trails" p:trailName="demo_session.trail"
+		p:exactCursor="false" p:exactFields="false" p:exactCommand="true" />
+End use this definition to replay a mock-up session application -->
+
+<!-- auto generated service ItemDetails start-->
+	<jaxws:client id="itemDetailsClient" serviceClass="com.openlegacy.ws.openlegacy.services.ItemDetailsService"
+		address="http://localhost:8080/openlegacy-ws-sample/services/itemDetails" />
+<!-- auto generated service ItemDetails end -->
+
+<!-- auto generated service WarehouseDetails start-->
+	<jaxws:client id="warehouseDetailsClient" serviceClass="com.openlegacy.ws.openlegacy.services.WarehouseDetailsService"
+		address="http://localhost:8080/openlegacy-ws-sample/services/warehouseDetails" />
+<!-- auto generated service WarehouseDetails end -->
+
+<!-- auto generated service Items start-->
+	<jaxws:client id="itemsClient" serviceClass="com.openlegacy.ws.openlegacy.services.ItemsService"
+		address="http://localhost:8080/openlegacy-ws-sample/services/items" />
+<!-- auto generated service Items end -->
+
+<!-- Register WS place-holder start
+	<jaxws:client id="${serviceName?uncap_first}Client" serviceClass="${package}.${serviceName}Service"
+		address="http://localhost:8080/${projectPath.name}/services/${serviceName?uncap_first}" />
+
+Register WS place-holder end -->
+
+</beans>

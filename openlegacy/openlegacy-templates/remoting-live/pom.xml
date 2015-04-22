@@ -12,6 +12,7 @@
 		<module>openlegacy-entities-sample</module>
 		<module>openlegacy-backend-sample</module>
 		<module>openlegacy-frontend-rest-sample</module>
+		<module>openlegacy-frontend-ws-sample</module>
 	</modules>
 
 	<properties>

@@ -45,6 +45,12 @@
 			<artifactId>openlegacy-remoting</artifactId>
 			<version>${openlegacy.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.openlegacy.providers</groupId>
+			<artifactId>openlegacy-tn5250j</artifactId>
+			<version>${openlegacy.version}</version>
+			<scope>compile</scope>
+		</dependency>
 		<!-- SpringFramework -->
 		<dependency>
 			<groupId>org.springframework</groupId>
