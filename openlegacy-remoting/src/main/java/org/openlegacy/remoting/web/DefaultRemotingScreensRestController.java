@@ -122,6 +122,19 @@ public class DefaultRemotingScreensRestController extends DefaultScreensRestCont
 	}
 
 	@Override
+	@RequestMapping(value = "/login", consumes = { XML }, method = RequestMethod.POST)
+	public Object loginPostXml(@RequestBody String xml, HttpServletResponse response) throws IOException {
+		try {
+			remoteController.loginPostXml(xml);
+		} catch (LoginException e) {
+			sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage(), response);
+		} catch (Exception e) {
+			sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid login", response);
+		}
+		return getMenu(response);
+	}
+
+	@Override
 	@RequestMapping(value = "/messages", consumes = { JSON, XML })
 	public ModelAndView messages() throws IOException {
 		List<String> messages = remoteController.messages();

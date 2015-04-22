@@ -13,6 +13,7 @@ package org.openlegacy.remoting.web.backend;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.exolab.castor.xml.Unmarshaller;
 import org.openlegacy.json.EntitySerializationUtils;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
@@ -20,7 +21,9 @@ import org.openlegacy.modules.messages.Messages;
 import org.openlegacy.mvc.AbstractRestController.LoginObject;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.utils.UrlUtil;
+import org.xml.sax.InputSource;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +78,26 @@ public class DefaultRemotingBackendScreensRestController implements RemotingBack
 			throw e;
 		}
 
+	}
+
+	@Override
+	public void loginPostXml(String xml) throws Exception {
+		xml = UrlUtil.decode(xml, "<");
+		if (!enableLogin) {
+			throw (new UnsupportedOperationException("/login is not support"));
+		}
+
+		try {
+			InputSource inputSource = new InputSource(new ByteArrayInputStream(xml.getBytes()));
+			LoginObject login = (LoginObject)Unmarshaller.unmarshal(LoginObject.class, inputSource);
+			terminalSession.getModule(org.openlegacy.modules.login.Login.class).login(login.getUser(), login.getPassword());
+		} catch (LoginException e) {
+			terminalSession.disconnect();
+			throw e;
+		} catch (Exception e) {
+			logger.fatal("Invalid login", e);
+			throw e;
+		}
 	}
 
 	@Override

@@ -25,7 +25,10 @@ public interface RemotingBackendScreensRestController {
 
 	public void loginPostJson(String json) throws Exception;
 
+	public void loginPostXml(String xml) throws Exception;
+
 	public List<String> messages() throws IOException;
 
 	public void logoff();
+
 }
