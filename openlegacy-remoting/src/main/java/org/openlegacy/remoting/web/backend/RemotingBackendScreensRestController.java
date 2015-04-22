@@ -27,4 +27,5 @@ public interface RemotingBackendScreensRestController {
 
 	public List<String> messages() throws IOException;
 
+	public void logoff();
 }

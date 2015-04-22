@@ -89,6 +89,16 @@ public class DefaultRemotingBackendScreensRestController implements RemotingBack
 		return null;
 	}
 
+	@Override
+	public void logoff() {
+		Login loginModule = terminalSession.getModule(Login.class);
+		if (loginModule != null) {
+			loginModule.logoff();
+		} else {
+			terminalSession.disconnect();
+		}
+	}
+
 	public void setEnableLogin(boolean enableLogin) {
 		this.enableLogin = enableLogin;
 	}

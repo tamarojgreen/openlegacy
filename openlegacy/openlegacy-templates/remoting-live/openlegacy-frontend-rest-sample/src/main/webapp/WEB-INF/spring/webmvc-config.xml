@@ -53,6 +53,7 @@ End Uncomment for OpenLegacy enterprise managemenent plugin -->
 		use-default-filters="false" resource-pattern="*.class">
 		<context:include-filter expression="org.springframework.stereotype.Controller"
 			type="annotation" />
+		<context:exclude-filter type="assignable" expression="org.openlegacy.mvc.LogoffController"/>
 	</context:component-scan>
 	
 	<context:component-scan base-package="org.openlegacy.terminal.spa"

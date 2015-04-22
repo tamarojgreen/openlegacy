@@ -11,6 +11,8 @@
 
 package org.openlegacy.remoting.web;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityType;
@@ -18,6 +20,7 @@ import org.openlegacy.Session;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.menu.Menu.MenuEntity;
+import org.openlegacy.modules.trail.TrailUtil;
 import org.openlegacy.remoting.terminal.RemotingTerminalSession;
 import org.openlegacy.remoting.web.backend.RemotingBackendScreensRestController;
 import org.openlegacy.terminal.ScreenEntity;
@@ -25,17 +28,21 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.mvc.rest.DefaultScreensRestController;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author Ivan Bort
@@ -43,7 +50,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class DefaultRemotingScreensRestController extends DefaultScreensRestController {
 
-	//	private final static Log logger = LogFactory.getLog(DefaultRemotingScreensRestController.class);
+	private final static Log logger = LogFactory.getLog(DefaultRemotingScreensRestController.class);
 
 	private static final String JSON = "application/json";
 	private static final String XML = "application/xml";
@@ -56,6 +63,11 @@ public class DefaultRemotingScreensRestController extends DefaultScreensRestCont
 
 	@Inject
 	private RemotingBackendScreensRestController remoteController;
+
+	@Inject
+	private TrailUtil trailUtil;
+
+	private boolean invalidateWebSession = true;
 
 	@Override
 	protected Session getSession() {
@@ -114,6 +126,33 @@ public class DefaultRemotingScreensRestController extends DefaultScreensRestCont
 	public ModelAndView messages() throws IOException {
 		List<String> messages = remoteController.messages();
 		return new ModelAndView(MODEL, MODEL, messages);
+	}
+
+	@RequestMapping(value = "/logoff", method = RequestMethod.GET)
+	public String logoff(HttpSession webSession, Model uiModel) throws IOException {
+		List<String> trailFiles = new ArrayList<String>();
+		try {
+			File trailFile = trailUtil.saveTrail(terminalSession);
+			if (trailFile != null) {
+				trailFiles.add(trailFile.getAbsolutePath());
+			}
+		} catch (Exception e) {
+			logger.warn("Failed to save trail - " + e.getMessage(), e);
+		} finally {
+			remoteController.logoff();
+		}
+
+		if (invalidateWebSession) {
+			webSession.invalidate();
+		}
+		if (trailFiles.size() > 0) {
+			uiModel.addAttribute("trail", trailFiles.get(0));
+		}
+		return "logoff";
+	}
+
+	public void setInvalidateWebSession(boolean invalidateWebSession) {
+		this.invalidateWebSession = invalidateWebSession;
 	}
 
 }
