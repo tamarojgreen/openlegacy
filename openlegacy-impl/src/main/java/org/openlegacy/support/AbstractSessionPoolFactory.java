@@ -50,8 +50,10 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 	private List<SessionPoolListner> listeners;
 
 	protected void initSession() {
-		for (SessionPoolListner listener : listeners) {
-			listener.newSession();
+		if (listeners != null) {
+			for (SessionPoolListner listener : listeners) {
+				listener.newSession();
+			}
 		}
 	}
 
@@ -149,8 +151,10 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 	}
 
 	protected void endSession() {
-		for (SessionPoolListner listener : listeners) {
-			listener.endSession();
+		if (listeners != null) {
+			for (SessionPoolListner listener : listeners) {
+				listener.endSession();
+			}
 		}
 	}
 
