@@ -19,14 +19,19 @@ import java.io.Serializable;
 @ScreenIdentifiers(identifiers = { @Identifier(row = 2, column = 26, value = "    Work with Item Master     "),
 		@Identifier(row = 6, column = 2, value = "Item Number . . . . . . . . ."),
 		@Identifier(row = 7, column = 33, value = "false", attribute = FieldAttributeType.Editable) })
-@ScreenActions(actions = { @Action(action = TerminalActions.F12.class, displayName = "Cancel", alias = "cancel"),
-		@Action(action = TerminalActions.F2.class, displayName = "Delete", alias = "delete", additionalKey = AdditionalKey.SHIFT) })
-@ScreenNavigation(accessedFrom = Items.class, exitAction = F12.class, assignedFields = { @AssignedField(field = "act", value = "5") })
+@ScreenActions(
+		actions = {
+				@Action(action = TerminalActions.F12.class, displayName = "Cancel", alias = "cancel"),
+				@Action(action = TerminalActions.F2.class, displayName = "Delete", alias = "delete",
+						additionalKey = AdditionalKey.SHIFT) })
+@ScreenNavigation(accessedFrom = Items.class, exitAction = F12.class, assignedFields = { @AssignedField(field = "act",
+		value = "5") })
 public class ItemDetails implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@ScreenField(row = 6, column = 33, endColumn = 52, labelColumn = 2, displayName = "Item Number", sampleValue = "001-01")
+	@ScreenField(row = 6, column = 33, endColumn = 52, labelColumn = 2, displayName = "Item Number", sampleValue = "001-01",
+			key = true)
 	private String itemNumber;
 
 	@ScreenField(row = 7, column = 33, endColumn = 72, displayName = "Item Description")
@@ -68,7 +73,8 @@ public class ItemDetails implements Serializable {
 	@ScreenField(row = 17, column = 33, endColumn = 37, labelColumn = 2, displayName = "Packing Multiplier", sampleValue = "0")
 	private String packingMultiplier;
 
-	@ScreenField(row = 18, column = 33, endColumn = 37, labelColumn = 2, displayName = "Outer Unit of Measure", sampleValue = "EA")
+	@ScreenField(row = 18, column = 33, endColumn = 37, labelColumn = 2, displayName = "Outer Unit of Measure",
+			sampleValue = "EA")
 	private String outerUnitOfMeasure;
 
 	@ScreenField(row = 19, column = 33, endColumn = 41, labelColumn = 2, displayName = "Outer Quantity", sampleValue = "0")

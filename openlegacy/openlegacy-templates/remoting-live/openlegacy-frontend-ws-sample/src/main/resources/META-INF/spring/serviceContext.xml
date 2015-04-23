@@ -31,8 +31,8 @@
 	<jaxws:endpoint id="itemDetails" implementor="#itemDetailsImpl" 
 		address="/itemDetails" />
 
-	<jaxws:client id="itemDetailsClient" serviceClass="com.openlegacy.ws.openlegacy.services.ItemDetailsService"
-		address="http://localhost:8080/openlegacy-ws-sample/services/itemDetails" />
+<!-- 	<jaxws:client id="itemDetailsClient" serviceClass="com.openlegacy.ws.openlegacy.services.ItemDetailsService" -->
+<!-- 		address="http://localhost:8080/openlegacy-ws-sample/services/itemDetails" /> -->
 <!-- auto generated service ItemDetails end -->
 
 <!-- auto generated service WarehouseDetails start-->
@@ -52,8 +52,8 @@
 	<jaxws:endpoint id="warehouseDetails" implementor="#warehouseDetailsImpl" 
 		address="/warehouseDetails" />
 
-	<jaxws:client id="warehouseDetailsClient" serviceClass="com.openlegacy.ws.openlegacy.services.WarehouseDetailsService"
-		address="http://localhost:8080/openlegacy-ws-sample/services/warehouseDetails" />
+<!-- 	<jaxws:client id="warehouseDetailsClient" serviceClass="com.openlegacy.ws.openlegacy.services.WarehouseDetailsService" -->
+<!-- 		address="http://localhost:8080/openlegacy-ws-sample/services/warehouseDetails" /> -->
 <!-- auto generated service WarehouseDetails end -->
 
 <!-- auto generated service Items start-->
@@ -73,8 +73,8 @@
 	<jaxws:endpoint id="items" implementor="#itemsImpl" 
 		address="/items" />
 
-	<jaxws:client id="itemsClient" serviceClass="com.openlegacy.ws.openlegacy.services.ItemsService"
-		address="http://localhost:8080/openlegacy-ws-sample/services/items" />
+<!-- 	<jaxws:client id="itemsClient" serviceClass="com.openlegacy.ws.openlegacy.services.ItemsService" -->
+<!-- 		address="http://localhost:8080/openlegacy-ws-sample/services/items" /> -->
 <!-- auto generated service Items end -->
 
 <!-- Register WS place-holder start

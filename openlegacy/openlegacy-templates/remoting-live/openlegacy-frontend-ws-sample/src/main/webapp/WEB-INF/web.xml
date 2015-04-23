@@ -22,23 +22,23 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<!-- CXF end tag -->
-	<servlet>
-		<servlet-name>registryReloadServlet</servlet-name>
-		<servlet-class>org.openlegacy.web.RegistryReloaderServlet</servlet-class>
-		<init-param>
-			<param-name>apiSourcesPath</param-name>
-			<param-value>src/main/java</param-value>
-		</init-param>
-		<init-param>
-			<param-name>compileInterval</param-name>
-			<param-value>5000</param-value>
-		</init-param>
-		<init-param>
-			<param-name>reloadAttemptInterval</param-name>
-			<param-value>4000</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>registryReloadServlet</servlet-name> -->
+<!-- 		<servlet-class>org.openlegacy.web.RegistryReloaderServlet</servlet-class> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>apiSourcesPath</param-name> -->
+<!-- 			<param-value>src/main/java</param-value> -->
+<!-- 		</init-param> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>compileInterval</param-name> -->
+<!-- 			<param-value>5000</param-value> -->
+<!-- 		</init-param> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>reloadAttemptInterval</param-name> -->
+<!-- 			<param-value>4000</param-value> -->
+<!-- 		</init-param> -->
+<!-- 		<load-on-startup>1</load-on-startup> -->
+<!-- 	</servlet> -->
 	<!-- CXF start tag -->
 	<servlet-mapping>
 		<servlet-name>CXFServlet</servlet-name>

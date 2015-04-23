@@ -69,16 +69,15 @@
 			<version>${openlegacy-version}</version>
 			<scope>compile</scope>
 		</dependency>
- 		<dependency>
-			<groupId>com.openlegacy.enterprise.plugins</groupId>
-			<artifactId>management-plugin</artifactId>
-			<version>${openlegacy-version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.openlegacy.templates.remoting</groupId>
 			<artifactId>openlegacy-entities-sample</artifactId>
 			<version>${openlegacy.version}</version>
-			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy</groupId>
+			<artifactId>openlegacy-remoting</artifactId>
+			<version>${openlegacy.version}</version>
 		</dependency>
 		<!-- JUnit -->
 		<dependency>
@@ -165,7 +164,7 @@ End uncomment for bidi support -->
 	</dependencies>
 
 	<build>
-		<finalName>openlegacy-ws-sample</finalName>
+		<finalName>openlegacy-frontend-ws-sample</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>

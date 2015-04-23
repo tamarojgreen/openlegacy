@@ -14,10 +14,16 @@
 		<property name="serviceInterface" value="org.openlegacy.remoting.terminal.RemotingTerminalSession"/>
 	</bean>
 
+<!-- 	<bean id="terminalSessionFactoryExporter" name="/TerminalSessionFactory" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter"> -->
+<!-- 		<property name="service" ref="liveHostTerminalConnectionFactory"/> -->
+<!-- 		<property name="serviceInterface" value="org.openlegacy.terminal.TerminalSessionFactory"/> -->
+<!-- 	</bean> -->
+
 	<bean id="screenEntitiesRegistryExporter" name="/ScreenEntitiesRegistryService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
 		<property name="service" ref="screensRegistry"/>
 		<property name="serviceInterface" value="org.openlegacy.terminal.services.ScreenEntitiesRegistry"/>
 	</bean>
+	
 	
 	<bean id="remotingBackendScreensRestController" class="org.openlegacy.remoting.web.backend.DefaultRemotingBackendScreensRestController">
 		<property name="terminalSession" ref="terminalSession"/>
