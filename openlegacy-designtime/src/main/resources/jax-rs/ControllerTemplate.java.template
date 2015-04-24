@@ -79,6 +79,20 @@ public class ${serviceName}Controller {
 
 	@Inject
 	private ${serviceName}Service ${serviceName?uncap_first}Service;
+
+	<#assign groupHash = {} />
+	<#list inputParameters as parameter>
+		<#if isFieldParameter(parameter) && parameter.fieldDefinition.key>
+		<#assign entityName = parameter.entityDefinition.entityName/>
+			<#if !groupHash?keys?seq_contains(entityName)>
+				<#assign groupHash = groupHash + {entityName:[parameter]}>
+			<#else>
+				<#assign keys = groupHash[entityName] + [parameter]>
+				<#assign groupHash = groupHash + {entityName:keys}>
+			</#if>
+		</#if>
+	</#list>
+
 	
 	<#list outputParameters as parameter>
 		<#assign entityName = parameter.entityDefinition.entityName />
@@ -86,7 +100,11 @@ public class ${serviceName}Controller {
 	@GET
 	@Path("/${entityName?lower_case}")
 	public Response get${entityName}(){
-		${entityName}Out ${entityName?uncap_first}Out = ${serviceName?uncap_first}Service.get${entityName}(null);
+			<#if groupHash[entityName]??>
+		${entityName}Out ${entityName?uncap_first}Out = ${serviceName?uncap_first}Service.get${serviceName}(<#list groupHash[entityName] as key>${serviceName?uncap_first}In.get${key.fieldDefinition.name?cap_first}()<#if key_has_next>, </#if></#list>);
+			<#else>
+		${entityName}Out ${entityName?uncap_first}Out = ${serviceName?uncap_first}Service.get${serviceName}();
+			</#if>
 		${entityName} ${entityName?uncap_first} = ${entityName?uncap_first}Out.get${entityName}();
 		Object targetObject = ProxyUtil.getTargetObject(${entityName?uncap_first});
 		
@@ -97,7 +115,11 @@ public class ${serviceName}Controller {
 	@GET
 	@Path("/${partName?lower_case}")
 	public Response get${partName}(){
-		${entityName}Out ${entityName?uncap_first}Out = ${serviceName?uncap_first}Service.get${entityName}(null);
+			<#if groupHash[entityName]??>
+		${entityName}Out ${entityName?uncap_first}Out = ${serviceName?uncap_first}Service.get${serviceName}(<#list groupHash[entityName] as key>${serviceName?uncap_first}In.get${key.fieldDefinition.name?cap_first}()<#if key_has_next>, </#if></#list>);
+			<#else>
+		${entityName}Out ${entityName?uncap_first}Out = ${serviceName?uncap_first}Service.get${serviceName}();
+			</#if>
 		${partName} ${partName?uncap_first} = ${entityName?uncap_first}Out.get${entityName}().get${partName}();
 		Object targetObject = ProxyUtil.getTargetObject(${partName?uncap_first});
 		
@@ -112,11 +134,14 @@ public class ${serviceName}Controller {
 	@GET
 	@Path("/${fieldName?lower_case}")
 	public Response get${fieldName}(){
-		${entityName}Out ${entityName?uncap_first}Out = ${serviceName?uncap_first}Service.get${entityName}(null);
-		${fieldName} ${fieldName?uncap_first} = ${entityName?uncap_first}Out.get${entityName}().get${fieldName}();
-		Object targetObject = ProxyUtil.getTargetObject(${fieldName?uncap_first});
+			<#if groupHash[entityName]??>
+		${entityName}Out ${entityName?uncap_first}Out = ${serviceName?uncap_first}Service.get${serviceName}(<#list groupHash[entityName] as key>${serviceName?uncap_first}In.get${key.fieldDefinition.name?cap_first}()<#if key_has_next>, </#if></#list>);
+			<#else>
+		${entityName}Out ${entityName?uncap_first}Out = ${serviceName?uncap_first}Service.get${serviceName}();
+			</#if>
+		${parameter.fieldDefinition.javaTypeName} ${fieldName?uncap_first} = ${entityName?uncap_first}Out.get${fieldName}();
 		
-		return Response.status(200).entity(targetObject).build();
+		return Response.status(200).entity(${fieldName?uncap_first}).build();
 	}
 		</#if>
 	</#list>
