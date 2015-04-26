@@ -44,9 +44,9 @@
 	</bean>
 
 	<jaxws:client id="itemsClient" serviceClass="org.openlegacy.rpc.samples.services.ItemsWebService"
-		address="http://localhost:8080/openlegacy-ws-rpc-sample/items" />
+		address="http://localhost:8080/openlegacy-ws-rpc-sample/services/items" />
 
 	<jaxws:client id="itemDetailsClient" serviceClass="org.openlegacy.rpc.samples.services.ItemDetailsWebService"
-		address="http://localhost:8080/openlegacy-ws-rpc-sample/itemDetails"/>
+		address="http://localhost:8080/openlegacy-ws-rpc-sample/services/itemDetails"/>
 
 </beans>

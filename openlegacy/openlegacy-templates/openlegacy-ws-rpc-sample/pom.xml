@@ -65,6 +65,11 @@
 			<version>${openlegacy-version}</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.openlegacy.enterprise.plugins</groupId>
+			<artifactId>management-plugin</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
 		<!-- JUnit -->
 		<dependency>
 			<groupId>junit</groupId>
