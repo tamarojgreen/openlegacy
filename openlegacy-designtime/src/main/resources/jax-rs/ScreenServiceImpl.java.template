@@ -212,44 +212,4 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 		}
 	}
 
-	<#if generatePool>
-	public static class InitAction implements TerminalAction{
-		
-		public void perform(TerminalSession terminalSession, Object entity,Object... keys){
-			//terminalSession.getModule(Login.class).login("USER","PASSWORD");
-			// PLACE HOLDER for init action
-		}
-
-		@Override
-		public boolean isMacro() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-	}
-	public static class KeepAliveAction implements TerminalAction{
-		
-		public void perform(TerminalSession terminalSession, Object entity,Object... keys){
-			// PLACE HOLDER for keep alive action
-		}
-
-		@Override
-		public boolean isMacro() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-	}
-	public static class CleanupAction implements TerminalAction{
-		
-		public void perform(TerminalSession terminalSession, Object entity,Object... keys){
-			//terminalSession.doAction(TerminalActions.F12());
-			// PLACE HOLDER for cleanup action
-		}
-
-		@Override
-		public boolean isMacro() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-	}
-	</#if> 
 }

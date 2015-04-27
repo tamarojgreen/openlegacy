@@ -69,6 +69,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.designtime.DesigntimeConstants;
 import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.enums.BackendSolution;
@@ -164,7 +165,7 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		Composite area = (Composite)super.createDialogArea(parent);
+		Composite area = (Composite) super.createDialogArea(parent);
 		GridLayout gl = new GridLayout();
 		gl.marginHeight = 0;
 		gl.marginWidth = 0;
@@ -204,7 +205,7 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 		if (!serviceType.equals(BackendSolution.JDBC)) {
 			ToolBar toolBar = new ToolBar(parent, SWT.FLAT | SWT.NO_FOCUS);
-			((GridLayout)parent.getLayout()).numColumns++;
+			((GridLayout) parent.getLayout()).numColumns++;
 			toolBar.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
 			final Cursor cursor = new Cursor(parent.getDisplay(), SWT.CURSOR_HAND);
 			toolBar.setCursor(cursor);
@@ -235,7 +236,7 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 		}
 		Label l = new Label(parent, SWT.NONE);
 		l.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		GridLayout layout = (GridLayout)parent.getLayout();
+		GridLayout layout = (GridLayout) parent.getLayout();
 		layout.numColumns++;
 		layout.makeColumnsEqualWidth = false;
 
@@ -255,31 +256,27 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 			@Override
 			public void run() {
-				result[0] = MessageDialog.openQuestion(getShell(), Messages.getString("title.openlegacy"),
-						MessageFormat.format(Messages.getString("question.override.file"), file.getName()));
+				result[0] = MessageDialog.openQuestion(getShell(), Messages.getString("title.openlegacy"), MessageFormat.format(
+						Messages.getString("question.override.file"), file.getName()));
 			}
 		});
 
-		return (Boolean)result[0];
+		return (Boolean) result[0];
 	}
 
 	@Override
 	public void open(final File file) {
+		if (!file.exists()) {
+			return;
+		}
 		Display.getDefault().asyncExec(new Runnable() {
 
 			@Override
 			public void run() {
-				try {
-					if (project != null) {
-						project.refreshLocal(1, null);
-					}
-				} catch (CoreException e1) {
-					logger.fatal(e1);
-				}
-
 				IWorkbenchPage page = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage();
 				try {
-					IFile javaFile = project.getFile(project.getProjectRelativePath().toPortableString() + "/" + file.getName());
+					IFile javaFile = project.getFile(file.getPath().substring(
+							file.getPath().indexOf(project.getName()) + project.getName().length() + 1));
 
 					IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(
 							javaFile.getName());
@@ -333,7 +330,7 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 			@Override
 			public void modifyText(ModifyEvent e) {
-				serviceName = ((Text)e.widget).getText();
+				serviceName = ((Text) e.widget).getText();
 			}
 		});
 
@@ -547,15 +544,15 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String dataValue = (String)e.widget.getData(STRUCTURE_TYPE);
+				String dataValue = (String) e.widget.getData(STRUCTURE_TYPE);
 				if (StringUtils.isEmpty(dataValue)) {
 					return;
 				}
-				IStructuredSelection selection = (IStructuredSelection)mTreeViewer.getSelection();
+				IStructuredSelection selection = (IStructuredSelection) mTreeViewer.getSelection();
 				if (selection.size() == 1) {
 					Object element = selection.getFirstElement();
 					if (element instanceof AbstractNamedModel && !(element instanceof LoadingModel)) {
-						AbstractNamedModel model = (AbstractNamedModel)element;
+						AbstractNamedModel model = (AbstractNamedModel) element;
 						// Ivan: no need hide now, maybe in future
 						// model.setVisible(false);
 						if (STRUCTURE_IN.equals(dataValue)) {
@@ -577,20 +574,20 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String dataValue = (String)e.widget.getData(STRUCTURE_TYPE);
+				String dataValue = (String) e.widget.getData(STRUCTURE_TYPE);
 				if (StringUtils.isEmpty(dataValue)) {
 					return;
 				}
 				IStructuredSelection selection = null;
 				if (STRUCTURE_IN.equals(dataValue)) {
-					selection = (IStructuredSelection)mInTableViewer.getSelection();
+					selection = (IStructuredSelection) mInTableViewer.getSelection();
 				} else {
-					selection = (IStructuredSelection)mOutTableViewer.getSelection();
+					selection = (IStructuredSelection) mOutTableViewer.getSelection();
 				}
 				if (selection != null && selection.size() == 1) {
 					Object element = selection.getFirstElement();
 					if (element instanceof AbstractNamedModel && !(element instanceof LoadingModel)) {
-						AbstractNamedModel model = (AbstractNamedModel)element;
+						AbstractNamedModel model = (AbstractNamedModel) element;
 						// model.setVisible(true);
 						if (STRUCTURE_IN.equals(dataValue)) {
 							mInTableModel.getElements().remove(model);
@@ -611,20 +608,20 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String dataValue = (String)e.widget.getData(STRUCTURE_TYPE);
+				String dataValue = (String) e.widget.getData(STRUCTURE_TYPE);
 				if (StringUtils.isEmpty(dataValue)) {
 					return;
 				}
 				IStructuredSelection selection = null;
 				if (STRUCTURE_IN.equals(dataValue)) {
-					selection = (IStructuredSelection)mInTableViewer.getSelection();
+					selection = (IStructuredSelection) mInTableViewer.getSelection();
 				} else {
-					selection = (IStructuredSelection)mOutTableViewer.getSelection();
+					selection = (IStructuredSelection) mOutTableViewer.getSelection();
 				}
 				if (selection != null && selection.size() == 1) {
 					Object element = selection.getFirstElement();
 					if (element instanceof AbstractNamedModel) {
-						AbstractNamedModel model = (AbstractNamedModel)element;
+						AbstractNamedModel model = (AbstractNamedModel) element;
 						if (STRUCTURE_IN.equals(dataValue)) {
 							mInTableModel.moveUp(model);
 							mInTableViewer.setInput(mInTableModel);
@@ -644,20 +641,20 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String dataValue = (String)e.widget.getData(STRUCTURE_TYPE);
+				String dataValue = (String) e.widget.getData(STRUCTURE_TYPE);
 				if (StringUtils.isEmpty(dataValue)) {
 					return;
 				}
 				IStructuredSelection selection = null;
 				if (STRUCTURE_IN.equals(dataValue)) {
-					selection = (IStructuredSelection)mInTableViewer.getSelection();
+					selection = (IStructuredSelection) mInTableViewer.getSelection();
 				} else {
-					selection = (IStructuredSelection)mOutTableViewer.getSelection();
+					selection = (IStructuredSelection) mOutTableViewer.getSelection();
 				}
 				if (selection != null && selection.size() == 1) {
 					Object element = selection.getFirstElement();
 					if (element instanceof AbstractNamedModel) {
-						AbstractNamedModel model = (AbstractNamedModel)element;
+						AbstractNamedModel model = (AbstractNamedModel) element;
 						if (STRUCTURE_IN.equals(dataValue)) {
 							mInTableModel.moveDown(model);
 							mInTableViewer.setInput(mInTableModel);
@@ -677,7 +674,7 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				IStructuredSelection selection = (IStructuredSelection)event.getSelection();
+				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 				if (selection != null && selection.size() == 1) {
 					Object element = selection.getFirstElement();
 					AbstractEntityModel entityModel = getEntityModelFromSelectionElement(element);
@@ -686,8 +683,8 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 						// draw rectangle of field and part.
 						// Cannot draw earlier because showPreviewImage clears list of rectangles
 						if ((element instanceof ScreenPartModel) || (element instanceof ScreenFieldModel)) {
-							setPreviewDrawingRectangle((AbstractNamedModel)element,
-									((ScreenEntityModel)entityModel).getTerminalSnapshot());
+							setPreviewDrawingRectangle((AbstractNamedModel) element,
+									((ScreenEntityModel) entityModel).getTerminalSnapshot());
 						}
 					} else if (entityModel != null && (entityModel instanceof RpcEntityModel)) {
 						showRpcPreviewImage(entityModel.getResourceFile());
@@ -699,28 +696,28 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 	private static AbstractEntityModel getEntityModelFromSelectionElement(Object element) {
 		if (element instanceof ScreenEntityModel) {
-			return (AbstractEntityModel)element;
+			return (AbstractEntityModel) element;
 		} else if (element instanceof ScreenPartModel) {
-			return (AbstractEntityModel)((ScreenPartModel)element).getParent();
+			return (AbstractEntityModel) ((ScreenPartModel) element).getParent();
 		} else if (element instanceof ScreenFieldModel) {
-			ScreenFieldModel fieldModel = (ScreenFieldModel)element;
+			ScreenFieldModel fieldModel = (ScreenFieldModel) element;
 			AbstractNamedModel parent = fieldModel.getParent();
 			if (parent instanceof ScreenEntityModel) {
-				return (AbstractEntityModel)parent;
+				return (AbstractEntityModel) parent;
 			} else if (parent instanceof ScreenPartModel) {
-				return (AbstractEntityModel)parent.getParent();
+				return (AbstractEntityModel) parent.getParent();
 			}
 		} else if (element instanceof RpcEntityModel) {
-			return (AbstractEntityModel)element;
+			return (AbstractEntityModel) element;
 		} else if (element instanceof RpcPartModel) {
-			return (AbstractEntityModel)((RpcPartModel)element).getParent();
+			return (AbstractEntityModel) ((RpcPartModel) element).getParent();
 		} else if (element instanceof RpcFieldModel) {
-			RpcFieldModel fieldModel = (RpcFieldModel)element;
+			RpcFieldModel fieldModel = (RpcFieldModel) element;
 			AbstractNamedModel parent = fieldModel.getParent();
 			if (parent instanceof RpcEntityModel) {
-				return (AbstractEntityModel)parent;
+				return (AbstractEntityModel) parent;
 			} else if (parent instanceof RpcPartModel) {
-				return (AbstractEntityModel)parent.getParent();
+				return (AbstractEntityModel) parent.getParent();
 			}
 		}
 		return null;
@@ -752,9 +749,9 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 	private void setPreviewDrawingRectangle(AbstractNamedModel model, TerminalSnapshot terminalSnapshot) {
 		if (model instanceof ScreenPartModel) {
-			setPreviewDrawingRectangleForPart((ScreenPartModel)model, terminalSnapshot);
+			setPreviewDrawingRectangleForPart((ScreenPartModel) model, terminalSnapshot);
 		} else if (model instanceof ScreenFieldModel) {
-			setPreviewDrawingRectangleForField((ScreenFieldModel)model, terminalSnapshot);
+			setPreviewDrawingRectangleForField((ScreenFieldModel) model, terminalSnapshot);
 		}
 	}
 
@@ -816,8 +813,8 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 			endPosition = new SimpleTerminalPosition(row, endColumn);
 		}
 
-		mSnapshotComposite.addDrawingRectangle(
-				getRectangle(row, endPosition.getRow(), column, endPosition.getColumn(), "", terminalSnapshot), SWT.COLOR_YELLOW, true);//$NON-NLS-1$
+		mSnapshotComposite.addDrawingRectangle(getRectangle(row, endPosition.getRow(), column, endPosition.getColumn(),
+				"", terminalSnapshot), SWT.COLOR_YELLOW, true);//$NON-NLS-1$
 		// add rectangle for @ScreenDescriptionField
 		if (definition.getDescriptionFieldDefinition() != null
 				&& definition.getDescriptionFieldDefinition().getPosition() != null
@@ -888,7 +885,7 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 				EclipseDesignTimeExecuter executer = EclipseDesignTimeExecuter.instance();
 
-				GenerateServiceRequest request = new GenerateServiceRequest();
+				final GenerateServiceRequest request = new GenerateServiceRequest();
 				request.setServiceType(serviceType);
 				List<ServiceParameter> inputParameters = request.getInputParameters();
 				List<AbstractNamedModel> inputElements = mInTableModel.getElements();
@@ -949,10 +946,36 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 							monitor.worked(1);
 							ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, monitor);
 							monitor.done();
+
 						} catch (CoreException e) {
 							logger.fatal(e);
 						}
 					}
+				});
+				Display.getDefault().syncExec(new Runnable() {
+
+					@Override
+					public void run() {
+						// open generated files after workspace refresh
+						UserInteraction userInteraction = request.getUserInteraction();
+						if (userInteraction != null) {
+							userInteraction.open(new File(request.getSourceDirectory(), request.getPackageDirectory() + "/"
+									+ request.getServiceName() + DesigntimeConstants.SERVICE_IMPL_SUFFIX));
+							userInteraction.open(new File(request.getSourceDirectory(), request.getPackageDirectory() + "/"
+									+ request.getServiceName() + DesigntimeConstants.SERVICE_SUFFIX));
+							userInteraction.open(new File(request.getSourceDirectory(), request.getPackageDirectory()
+									+ "/controllers/" + request.getServiceName() + DesigntimeConstants.CONTROLLER_SUFFIX));
+							if (request.isGeneratePool()) {
+								userInteraction.open(new File(request.getSourceDirectory(), request.getPackageDirectory()
+										+ "/actions/" + request.getServiceName() + DesigntimeConstants.INIT_ACTION));
+								userInteraction.open(new File(request.getSourceDirectory(), request.getPackageDirectory()
+										+ "/actions/" + request.getServiceName() + DesigntimeConstants.KEEP_ALIVE_ACTION));
+								userInteraction.open(new File(request.getSourceDirectory(), request.getPackageDirectory()
+										+ "/actions/" + request.getServiceName() + DesigntimeConstants.CLEANUP_ACTION));
+							}
+						}
+					}
+
 				});
 
 				return Status.OK_STATUS;
@@ -963,38 +986,38 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 	private static ServiceParameter getServiceParameter(AbstractNamedModel model) {
 		if (model instanceof ScreenEntityModel) {
-			return new ServiceEntityParameter(((ScreenEntityModel)model).getDefinition());
+			return new ServiceEntityParameter(((ScreenEntityModel) model).getDefinition());
 		} else if (model instanceof ScreenPartModel) {
-			return new ServicePartParameter(((ScreenEntityModel)model.getParent()).getDefinition(),
-					((ScreenPartModel)model).getDefinition());
+			return new ServicePartParameter(((ScreenEntityModel) model.getParent()).getDefinition(),
+					((ScreenPartModel) model).getDefinition());
 		} else if (model instanceof ScreenFieldModel) {
 			AbstractNamedModel parent = model.getParent();
 			if (parent instanceof ScreenEntityModel) {
-				return new ServiceEntityFieldParameter(((ScreenEntityModel)parent).getDefinition(),
-						((ScreenFieldModel)model).getDefinition());
+				return new ServiceEntityFieldParameter(((ScreenEntityModel) parent).getDefinition(),
+						((ScreenFieldModel) model).getDefinition());
 			} else {
-				return new ServiceEntityFieldParameter(((ScreenEntityModel)parent.getParent()).getDefinition(),
-						((ScreenFieldModel)model).getDefinition());
+				return new ServiceEntityFieldParameter(((ScreenEntityModel) parent.getParent()).getDefinition(),
+						((ScreenFieldModel) model).getDefinition());
 			}
 		} else if (model instanceof RpcEntityModel) {
-			return new ServiceEntityParameter(((RpcEntityModel)model).getDefinition());
+			return new ServiceEntityParameter(((RpcEntityModel) model).getDefinition());
 		} else if (model instanceof RpcPartModel) {
-			return new ServicePartParameter(((RpcEntityModel)model.getParent()).getDefinition(),
-					((RpcPartModel)model).getDefinition());
+			return new ServicePartParameter(((RpcEntityModel) model.getParent()).getDefinition(),
+					((RpcPartModel) model).getDefinition());
 		} else if (model instanceof RpcFieldModel) {
 			AbstractNamedModel parent = model.getParent();
 			if (parent instanceof RpcEntityModel) {
-				return new ServiceEntityFieldParameter(((RpcEntityModel)parent).getDefinition(),
-						((RpcFieldModel)model).getDefinition());
+				return new ServiceEntityFieldParameter(((RpcEntityModel) parent).getDefinition(),
+						((RpcFieldModel) model).getDefinition());
 			} else {
-				return new ServiceEntityFieldParameter(((RpcEntityModel)parent.getParent()).getDefinition(),
-						((RpcFieldModel)model).getDefinition());
+				return new ServiceEntityFieldParameter(((RpcEntityModel) parent.getParent()).getDefinition(),
+						((RpcFieldModel) model).getDefinition());
 			}
 		} else if (model instanceof JpaEntityModel) {
-			return new ServiceEntityParameter(((JpaEntityModel)model).getDefinition());
+			return new ServiceEntityParameter(((JpaEntityModel) model).getDefinition());
 		} else if (model instanceof JpaFieldModel) {
-			return new ServiceEntityFieldParameter(((JpaEntityModel)model.getParent()).getDefinition(),
-					((JpaFieldModel)model).getDefinition());
+			return new ServiceEntityFieldParameter(((JpaEntityModel) model.getParent()).getDefinition(),
+					((JpaFieldModel) model).getDefinition());
 		}
 		return null;
 	}

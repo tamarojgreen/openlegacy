@@ -168,27 +168,4 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 		</#if>
 		}
 	}
-
-	<#if generatePool>
-	public static class InitAction implements RpcAction{
-		
-		public void perform(RpcSession rpcSession, Object entity,Object... keys){
-			//rpcSession.getModule(Login.class).login("USER","PASSWORD");
-			// PLACE HOLDER for init action
-		}
-	}
-	public static class KeepAliveAction implements RpcAction{
-		
-		public void perform(RpcSession rpcSession, Object entity,Object... keys){
-			// PLACE HOLDER for keep alive action
-		}
-	}
-	public static class CleanupAction implements RpcAction{
-		
-		public void perform(RpcSession rpcSession, Object entity,Object... keys){
-			//rpcSession.doAction(RpcActions.UPDATE());
-			// PLACE HOLDER for cleanup action
-		}
-	}
-	</#if> 
 }

@@ -326,8 +326,8 @@ public class EclipseDesignTimeExecuter {
 		generateServiceRequest.setUserInteraction(userInteraction);
 		generateServiceRequest.setGenerateTest(generateTest);
 		generateServiceRequest.setGeneratePool(generatePool);
-		designTimeExecuter.generateService(generateServiceRequest,
-				Boolean.valueOf(getPreference(project, PreferencesConstants.SUPPORT_RESTFUL_SERVICE)));
+		designTimeExecuter.generateService(generateServiceRequest, Boolean.valueOf(getPreference(project,
+				PreferencesConstants.SUPPORT_RESTFUL_SERVICE)));
 
 		designTimeExecuter.addServiceOutputAnnotation(javaFile);
 
@@ -399,24 +399,8 @@ public class EclipseDesignTimeExecuter {
 	}
 
 	public void generateService(GenerateServiceRequest request) {
-		designTimeExecuter.generateService(request,
-				Boolean.valueOf(getPreference(request.getProjectPath(), PreferencesConstants.SUPPORT_RESTFUL_SERVICE)));
-
-		UserInteraction userInteraction = request.getUserInteraction();
-		if (userInteraction != null) {
-			userInteraction.open(new File(request.getSourceDirectory(), request.getPackageDirectory() + "/"
-					+ request.getServiceName() + "ServiceImpl.java"));
-			userInteraction.open(new File(request.getSourceDirectory(), request.getPackageDirectory() + "/"
-					+ request.getServiceName() + "Service.java"));
-			if (request.isGeneratePool()) {
-				userInteraction.open(new File(request.getSourceDirectory(), request.getPackageDirectory() + "/actions/"
-						+ request.getServiceName() + "InitAction.java"));
-				userInteraction.open(new File(request.getSourceDirectory(), request.getPackageDirectory() + "/actions/"
-						+ request.getServiceName() + "KeepAliveAction.java"));
-				userInteraction.open(new File(request.getSourceDirectory(), request.getPackageDirectory() + "/actions/"
-						+ request.getServiceName() + "CleanupAction.java"));
-			}
-		}
+		designTimeExecuter.generateService(request, Boolean.valueOf(getPreference(request.getProjectPath(),
+				PreferencesConstants.SUPPORT_RESTFUL_SERVICE)));
 	}
 
 	public boolean isSupportRestControllerGeneration(IFile file) {
