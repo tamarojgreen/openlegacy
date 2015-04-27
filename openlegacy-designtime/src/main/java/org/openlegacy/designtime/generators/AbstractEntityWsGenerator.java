@@ -19,10 +19,12 @@ import org.openlegacy.designtime.mains.GenerateServiceRequest;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.utils.FileUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.MessageFormat;
 
 import javax.inject.Inject;
@@ -34,14 +36,6 @@ import javax.inject.Inject;
  * 
  */
 public abstract class AbstractEntityWsGenerator implements EntityServiceGenerator {
-
-	private static final String SERVICE_IMPL_SUFFIX = "ServiceImpl.java";
-	private static final String SERVICE_SUFFIX = "Service.java";
-	private static final String TEST_SUFFIX = "Test.java";
-	private static final String CONTROLLER_SUFFIX = "Controller.java";
-	private static final String INIT_ACTION = "InitAction.java";
-	private static final String CLEANUP_ACTION = "CleanupAction.java";
-	private static final String KEEP_ALIVE_ACTION = "KeepAliveAction.java";
 
 	private static final String WS_SERVICE_TEMPLATE = "jax-ws/Service.java.template";
 	private static final String WS_SERVICE_TEST_TEMPLATE = "jax-ws/ServiceTest.java.template";
@@ -62,6 +56,14 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 	private static final String RS_RPC_SERVICE_IMPL_TEMPLATE = "jax-rs/RpcServiceImpl.java.template";
 	private static final String RS_DB_SERVICE_IMPL_TEMPLATE = "jax-rs/DbServiceImpl.java.template";
 	private static final String RS_CONTROLLER_TEMPLATE = "jax-rs/ControllerTemplate.java.template";
+
+	private static final String RS_TERMINAL_INIT_ACTION_TEMPLATE = "jax-rs/terminal/InitAction.java.template";
+	private static final String RS_TERMINAL_CLEANUP_ACTION_TEMPLATE = "jax-rs/terminal/CleanupAction.java.template";
+	private static final String RS_TERMINAL_KEEP_ALIVE_ACTION_TEMPLATE = "jax-rs/terminal/KeepAliveAction.java.template";
+	private static final String RS_RPC_INIT_ACTION_TEMPLATE = "jax-rs/rpc/InitAction.java.template";
+	private static final String RS_RPC_CLEANUP_ACTION_TEMPLATE = "jax-rs/rpc/CleanupAction.java.template";
+	private static final String RS_RPC_KEEP_ALIVE_ACTION_TEMPLATE = "jax-rs/rpc/KeepAliveAction.java.template";
+	private static final String RS_BEANS_TEMPLATE = "jax-rs/beans.template";
 
 	private static final String TEST_CONTEXT_RELATIVE_PATH = "src/main/resources/META-INF/spring/applicationContext-test.xml";
 	private static final String APPLICATION_PROPERTIES = "src/main/resources/application.properties";
@@ -106,7 +108,7 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 
 			File sourceDir = new File(generateServiceRequest.getSourceDirectory(), generateServiceRequest.getPackageDirectory());
 			String serviceName = generateServiceRequest.getServiceName();
-			File serviceInterfaceFile = new File(sourceDir, serviceName + SERVICE_SUFFIX);
+			File serviceInterfaceFile = new File(sourceDir, serviceName + DesigntimeConstants.SERVICE_SUFFIX);
 			boolean generate = true;
 			if (serviceInterfaceFile.exists()) {
 				boolean override = userInteraction.isOverride(serviceInterfaceFile);
@@ -121,7 +123,7 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 			}
 
 			generate = true;
-			File serviceImplFile = new File(sourceDir, serviceName + SERVICE_IMPL_SUFFIX);
+			File serviceImplFile = new File(sourceDir, serviceName + DesigntimeConstants.SERVICE_IMPL_SUFFIX);
 			if (serviceImplFile.exists()) {
 				boolean override = userInteraction.isOverride(serviceImplFile);
 				if (!override) {
@@ -135,57 +137,23 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 				getGenerateUtil().generate(generateServiceRequest, fos, serviceImplTemplate);
 			}
 
-			if (generateServiceRequest.isGeneratePool()) {
-				// generate actions
-				GenerateServiceRequest gsr = copyGenerateServiceRequest(generateServiceRequest);
-				gsr.setPackageDirectory(gsr.getPackageDirectory() + "/actions");
-
-				generateActionFile(gsr, serviceName + INIT_ACTION,
-						serviceType.equals(BackendSolution.SCREEN) ? WS_TERMINAL_INIT_ACTION_TEMPLATE
-								: WS_RPC_INIT_ACTION_TEMPLATE);
-				generateActionFile(gsr, serviceName + CLEANUP_ACTION,
-						serviceType.equals(BackendSolution.SCREEN) ? WS_TERMINAL_CLEANUP_ACTION_TEMPLATE
-								: WS_RPC_CLEANUP_ACTION_TEMPLATE);
-				generateActionFile(gsr, serviceName + KEEP_ALIVE_ACTION,
-						serviceType.equals(BackendSolution.SCREEN) ? WS_TERMINAL_KEEP_ALIVE_ACTION_TEMPLATE
-								: WS_RPC_KEEP_ALIVE_ACTION_TEMPLATE);
-				// check user/password in application.properties
-				File appPropertiesFile = new File(gsr.getProjectPath(), APPLICATION_PROPERTIES);
-				if (appPropertiesFile.exists()) {
-					String appPropertiesFileContent = IOUtils.toString(new FileInputStream(appPropertiesFile));
-
-					String userProperty = MessageFormat.format("user=", StringUtils.uncapitalize(serviceName));
-					String passwordProperty = MessageFormat.format("password=", StringUtils.uncapitalize(serviceName));
-
-					if (!appPropertiesFileContent.contains(userProperty)) {
-						StringBuilder sb = new StringBuilder(appPropertiesFileContent);
-						sb.append("\n").append(userProperty);
-						appPropertiesFileContent = sb.toString();
-					}
-					if (!appPropertiesFileContent.contains(passwordProperty)) {
-						StringBuilder sb = new StringBuilder(appPropertiesFileContent);
-						sb.append("\n").append(passwordProperty);
-						appPropertiesFileContent = sb.toString();
-					}
-					FileUtils.write(appPropertiesFileContent, appPropertiesFile);
-				}
-			}
+			generateActionFiles(generateServiceRequest, serviceName, serviceType, false);
 
 			File serviceContextFile = new File(generateServiceRequest.getProjectPath(),
 					DesigntimeConstants.SERVICE_CONTEXT_RELATIVE_PATH);
 
 			GenerateUtil.replicateTemplate(serviceContextFile, generateServiceRequest, REGISTER_WS_START, REGISTER_WS_END,
-					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_START, serviceName),
-					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_END, serviceName));
+					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_START, serviceName), MessageFormat.format(
+							EXISTING_SERVICE_PLACE_HOLDER_END, serviceName));
 
 			File testContextFile = new File(generateServiceRequest.getProjectPath(), TEST_CONTEXT_RELATIVE_PATH);
 			GenerateUtil.replicateTemplate(testContextFile, generateServiceRequest, REGISTER_WS_START, REGISTER_WS_END,
-					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_START, serviceName),
-					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_END, serviceName));
+					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_START, serviceName), MessageFormat.format(
+							EXISTING_SERVICE_PLACE_HOLDER_END, serviceName));
 
 			if (generateServiceRequest.isGenerateTest()) {
 				File testFile = new File(generateServiceRequest.getProjectPath(), "src/test/java/tests/" + serviceName
-						+ "Service" + TEST_SUFFIX);
+						+ "Service" + DesigntimeConstants.TEST_SUFFIX);
 				if (testFile.exists()) {
 					boolean override = userInteraction.isOverride(testFile);
 					if (!override) {
@@ -208,10 +176,12 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 		UserInteraction userInteraction = generateServiceRequest.getUserInteraction();
 		FileOutputStream fos = null;
 		try {
+			BackendSolution serviceType = generateServiceRequest.getServiceType();
+
 			// 1. generate interface
 			File sourceDir = new File(generateServiceRequest.getSourceDirectory(), generateServiceRequest.getPackageDirectory());
 			String serviceName = generateServiceRequest.getServiceName();
-			File serviceInterfaceFile = new File(sourceDir, serviceName + SERVICE_SUFFIX);
+			File serviceInterfaceFile = new File(sourceDir, serviceName + DesigntimeConstants.SERVICE_SUFFIX);
 			boolean generate = true;
 			if (serviceInterfaceFile.exists()) {
 				boolean override = userInteraction.isOverride(serviceInterfaceFile);
@@ -226,7 +196,7 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 			}
 			// 2. generate implementation
 			generate = true;
-			File serviceImplFile = new File(sourceDir, serviceName + SERVICE_IMPL_SUFFIX);
+			File serviceImplFile = new File(sourceDir, serviceName + DesigntimeConstants.SERVICE_IMPL_SUFFIX);
 			if (serviceImplFile.exists()) {
 				boolean override = userInteraction.isOverride(serviceImplFile);
 				if (!override) {
@@ -235,14 +205,13 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 			}
 			if (generate) {
 				fos = new FileOutputStream(serviceImplFile);
-				String serviceImplTemplate = generateServiceRequest.getServiceType().equals(BackendSolution.SCREEN) ? RS_SCREEN_SERVICE_IMPL_TEMPLATE
-						: (generateServiceRequest.getServiceType().equals(BackendSolution.RPC) ? RS_RPC_SERVICE_IMPL_TEMPLATE
-								: RS_DB_SERVICE_IMPL_TEMPLATE);
+				String serviceImplTemplate = serviceType.equals(BackendSolution.SCREEN) ? RS_SCREEN_SERVICE_IMPL_TEMPLATE
+						: (serviceType.equals(BackendSolution.RPC) ? RS_RPC_SERVICE_IMPL_TEMPLATE : RS_DB_SERVICE_IMPL_TEMPLATE);
 				getGenerateUtil().generate(generateServiceRequest, fos, serviceImplTemplate);
 			}
 			// 3. generate controller
 			generate = true;
-			File controllerFile = new File(sourceDir + "/controllers", serviceName + CONTROLLER_SUFFIX);
+			File controllerFile = new File(sourceDir + "/controllers", serviceName + DesigntimeConstants.CONTROLLER_SUFFIX);
 			if (controllerFile.exists()) {
 				boolean override = userInteraction.isOverride(controllerFile);
 				if (!override) {
@@ -257,7 +226,7 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 			// 4. generate test
 			if (generateServiceRequest.isGenerateTest()) {
 				File testFile = new File(generateServiceRequest.getProjectPath(), "src/test/java/tests/" + serviceName
-						+ "Service" + TEST_SUFFIX);
+						+ "Service" + DesigntimeConstants.TEST_SUFFIX);
 				if (testFile.exists()) {
 					boolean override = userInteraction.isOverride(testFile);
 					if (!override) {
@@ -268,7 +237,10 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 				fos = new FileOutputStream(testFile);
 				getGenerateUtil().generate(generateServiceRequest, fos, RS_SERVICE_TEST_TEMPLATE);
 			}
-			// 5. process applicationContext.xml
+			// 5. added action files
+			generateActionFiles(generateServiceRequest, serviceName, serviceType, true);
+
+			// 6. process applicationContext.xml
 			File defaultSpringContextFile = new File(generateServiceRequest.getProjectPath(),
 					DesigntimeConstants.DEFAULT_SPRING_CONTEXT_FILE);
 			FileInputStream fis = new FileInputStream(defaultSpringContextFile);
@@ -281,6 +253,16 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 					indexOf,
 					MessageFormat.format("\t<bean id=\"{0}Service\" class=\"{1}.{2}ServiceImpl\" />\n",
 							StringUtils.uncapitalize(serviceName), generateServiceRequest.getPackage(), serviceName)).toString();
+			// 7. add TerminalSessionPoolFactory
+			if (generateServiceRequest.isGeneratePool()) {
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				getGenerateUtil().generate(generateServiceRequest, baos, RS_BEANS_TEMPLATE);
+				String generatedBeans = new String(baos.toByteArray());
+				indexOf = contextFileContent.indexOf("</beans>");
+				sb = new StringBuilder(contextFileContent);
+				contextFileContent = sb.insert(indexOf, generatedBeans).toString();
+			}
+
 			FileUtils.write(contextFileContent, defaultSpringContextFile);
 		} catch (Exception e) {
 			throw (new GenerationException(e));
@@ -323,5 +305,56 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 		gsr.setTemplatesDirectory(request.getTemplatesDirectory());
 		gsr.setUserInteraction(request.getUserInteraction());
 		return gsr;
+	}
+
+	private void generateActionFiles(GenerateServiceRequest generateServiceRequest, String serviceName,
+			BackendSolution serviceType, boolean supportRestFulService) throws IOException {
+		if (generateServiceRequest.isGeneratePool()) {
+			// generate actions
+			GenerateServiceRequest gsr = copyGenerateServiceRequest(generateServiceRequest);
+			gsr.setPackageDirectory(gsr.getPackageDirectory() + "/actions");
+
+			if (supportRestFulService) {
+				generateActionFile(gsr, serviceName + DesigntimeConstants.INIT_ACTION,
+						serviceType.equals(BackendSolution.SCREEN) ? RS_TERMINAL_INIT_ACTION_TEMPLATE
+								: RS_RPC_INIT_ACTION_TEMPLATE);
+				generateActionFile(gsr, serviceName + DesigntimeConstants.CLEANUP_ACTION,
+						serviceType.equals(BackendSolution.SCREEN) ? RS_TERMINAL_CLEANUP_ACTION_TEMPLATE
+								: RS_RPC_CLEANUP_ACTION_TEMPLATE);
+				generateActionFile(gsr, serviceName + DesigntimeConstants.KEEP_ALIVE_ACTION,
+						serviceType.equals(BackendSolution.SCREEN) ? RS_TERMINAL_KEEP_ALIVE_ACTION_TEMPLATE
+								: RS_RPC_KEEP_ALIVE_ACTION_TEMPLATE);
+			} else {
+				generateActionFile(gsr, serviceName + DesigntimeConstants.INIT_ACTION,
+						serviceType.equals(BackendSolution.SCREEN) ? WS_TERMINAL_INIT_ACTION_TEMPLATE
+								: WS_RPC_INIT_ACTION_TEMPLATE);
+				generateActionFile(gsr, serviceName + DesigntimeConstants.CLEANUP_ACTION,
+						serviceType.equals(BackendSolution.SCREEN) ? WS_TERMINAL_CLEANUP_ACTION_TEMPLATE
+								: WS_RPC_CLEANUP_ACTION_TEMPLATE);
+				generateActionFile(gsr, serviceName + DesigntimeConstants.KEEP_ALIVE_ACTION,
+						serviceType.equals(BackendSolution.SCREEN) ? WS_TERMINAL_KEEP_ALIVE_ACTION_TEMPLATE
+								: WS_RPC_KEEP_ALIVE_ACTION_TEMPLATE);
+			}
+			// check user/password in application.properties
+			File appPropertiesFile = new File(gsr.getProjectPath(), APPLICATION_PROPERTIES);
+			if (appPropertiesFile.exists()) {
+				String appPropertiesFileContent = IOUtils.toString(new FileInputStream(appPropertiesFile));
+
+				String userProperty = MessageFormat.format("user=", StringUtils.uncapitalize(serviceName));
+				String passwordProperty = MessageFormat.format("password=", StringUtils.uncapitalize(serviceName));
+
+				if (!appPropertiesFileContent.contains(userProperty)) {
+					StringBuilder sb = new StringBuilder(appPropertiesFileContent);
+					sb.append("\n").append(userProperty);
+					appPropertiesFileContent = sb.toString();
+				}
+				if (!appPropertiesFileContent.contains(passwordProperty)) {
+					StringBuilder sb = new StringBuilder(appPropertiesFileContent);
+					sb.append("\n").append(passwordProperty);
+					appPropertiesFileContent = sb.toString();
+				}
+				FileUtils.write(appPropertiesFileContent, appPropertiesFile);
+			}
+		}
 	}
 }

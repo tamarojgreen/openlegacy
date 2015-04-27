@@ -1,0 +1,156 @@
+<#function isFieldParameter parameter>
+	<#if parameter.entityDefinition?? && parameter.fieldDefinition??>
+		<#return true>
+	</#if>
+	<#return false>
+</#function>
+<#function isStringType type>
+	<#if ["char", "String"]?seq_contains(type)>
+		<#return true>
+	</#if>
+	<#return false>
+</#function>
+<#function isDateType type>
+	<#if type = "Date">
+		<#return true>
+	</#if>
+	<#return false>
+</#function>
+<#function isNumberType type>
+	<#if ["byte", "byte[]", "short", "int", "long", "float", "double", "Integer", "Long", "Double"]?seq_contains(type)>
+		<#return true>
+	</#if>
+	<#return false>
+</#function>
+<#function isBooleanType type>
+	<#if ["boolean", "Boolean"]?seq_contains(type)>
+		<#return true>
+	</#if>
+	<#return false>
+</#function>
+package tests;
+
+<#if inputParameters?? && inputParameters?size != 0>
+import javax.ws.rs.core.MultivaluedMap;
+</#if>
+
+import org.apache.commons.lang.StringUtils;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+<#if inputParameters?? && inputParameters?size != 0>
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+</#if>
+
+<#assign addedImports = []/>
+<#assign primitiveTypes = ["byte", "byte[]", "short", "int", "long", "float", "double", "char", "boolean", "Integer", "String", "Boolean", "Long", "Double"]/>
+<#list inputParameters as parameter>
+	<#if isFieldParameter(parameter)>
+		<#if !primitiveTypes?seq_contains(parameter.fieldDefinition.javaTypeName)>
+			<#assign import = parameter.entityDefinition.packageName + "." + parameter.entityDefinition.entityClassName + "." + parameter.fieldDefinition.javaTypeName />
+			<#if parameter.fieldDefinition.javaTypeName = "Date" && !addedImports?seq_contains("java.util.Date")>
+import java.util.Date;
+				<#assign addedImports = addedImports + ["java.util.Date"]/> 
+			<#elseif parameter.fieldDefinition.javaTypeName != "Date" && !addedImports?seq_contains(import) && !parameter.fieldDefinition.manyToOneDefinition??>
+import ${import};
+				<#assign addedImports = addedImports + [import]/>
+			<#elseif parameter.fieldDefinition.javaTypeName != "Date" && !addedImports?seq_contains(import) && parameter.fieldDefinition.manyToOneDefinition??>
+				<#assign import = parameter.entityDefinition.packageName + "." + parameter.fieldDefinition.javaTypeName />
+import ${import};
+				<#assign addedImports = addedImports + [import]/>
+			</#if>
+		</#if>
+	</#if>
+</#list>
+/**
+ *  A test which invokes ${serviceName} web service via an http client.
+ *  The application should be app and running (via run-application.launch)
+ *  To run the test, select Run As -> JUnit test.
+ *  If the service has parameters, they should be set via the test. 
+ */
+@ContextConfiguration("/META-INF/spring/applicationContext-test.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+public class ${serviceName}ServiceTest {
+
+	<#if inputParameters?? && inputParameters?size != 0>
+	@Test
+	public void testGet${serviceName}(){
+		Client client = new Client();
+		WebResource resource = client.resource("http://localhost:8080/${projectPath.name}/${serviceName?lower_case}");
+		
+		MultivaluedMap<String, String> queryParams = new MultivaluedMapImpl();
+		<#assign fields = []/>
+		<#list inputParameters as parameter>
+			<#if isFieldParameter(parameter)>
+				<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
+				<#assign fieldNames = fieldName?split(".")/>
+				<#if fieldNames?is_sequence && (fieldNames?size > 1)>
+					<#assign fieldName = fieldNames[1]?cap_first/>
+				</#if>
+				<#if !fields?seq_contains(fieldName)>
+		queryParams.add("${fieldName?uncap_first}", "${parameter.fieldDefinition.sampleValue}");
+					<#assign fields = fields + [fieldName]/>
+				</#if>
+			</#if>
+		</#list>
+		
+		ClientResponse clientResponse = resource.queryParams(queryParams).accept("application/json").get(ClientResponse.class);
+		Assert.assertEquals(200, clientResponse.getStatus());
+		
+		String output = clientResponse.getEntity(String.class);
+		Assert.assertFalse(StringUtils.isEmpty(output));
+		System.out.println("Client output: " + output);
+	}
+
+	@Test
+	public void testPost${serviceName}(){
+		Client client = new Client();
+		WebResource resource = client.resource("http://localhost:8080/${projectPath.name}/${serviceName?lower_case}");
+		
+		<#assign jsonInput = "{" />
+		<#assign fields = []/>
+		<#list inputParameters as parameter>
+			<#if isFieldParameter(parameter)>
+				<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
+				<#assign fieldNames = fieldName?split(".")/>
+				<#if fieldNames?is_sequence && (fieldNames?size > 1)>
+					<#assign fieldName = fieldNames[1]?cap_first/>
+				</#if>
+				<#if !fields?seq_contains(fieldName)>
+					<#assign jsonInput = jsonInput + "\\\"${fieldName?uncap_first}\\\":\\\"${parameter.fieldDefinition.sampleValue}\\\"" />
+					<#assign fields = fields + [fieldName]/>
+				</#if>
+			</#if>
+		</#list>
+		<#assign jsonInput = jsonInput + "}" />
+		String input = "${jsonInput}";
+		
+		ClientResponse clientResponse = resource.type("application/json").post(ClientResponse.class, input);
+		Assert.assertEquals(200, clientResponse.getStatus());
+		
+		String output = clientResponse.getEntity(String.class);
+		Assert.assertFalse(StringUtils.isEmpty(output));
+		System.out.println("Client output: " + output);
+	}
+	<#else>
+	@Test
+	public void testGet${serviceName}(){
+		Client client = new Client();
+		WebResource resource = client.resource("http://localhost:8080/${projectPath.name}/${serviceName?lower_case}");
+		
+		ClientResponse clientResponse = resource.accept("application/json").get(ClientResponse.class);
+		Assert.assertEquals(200, clientResponse.getStatus());
+		
+		String output = clientResponse.getEntity(String.class);
+		Assert.assertFalse(StringUtils.isEmpty(output));
+		System.out.println("Client output: " + output);
+	}
+	</#if>
+
+}

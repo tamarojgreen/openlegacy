@@ -19,4 +19,13 @@ public interface DesigntimeConstants {
 
 	public static final String SERVICE_CONTEXT_RELATIVE_PATH = "src/main/resources/META-INF/spring/serviceContext.xml";
 	public static final String DEFAULT_SPRING_CONTEXT_FILE = "/src/main/resources/META-INF/spring/applicationContext.xml";
+
+	public static final String SERVICE_IMPL_SUFFIX = "ServiceImpl.java";
+	public static final String SERVICE_SUFFIX = "Service.java";
+	public static final String TEST_SUFFIX = "Test.java";
+	public static final String CONTROLLER_SUFFIX = "Controller.java";
+	public static final String INIT_ACTION = "InitAction.java";
+	public static final String CLEANUP_ACTION = "CleanupAction.java";
+	public static final String KEEP_ALIVE_ACTION = "KeepAliveAction.java";
+
 }

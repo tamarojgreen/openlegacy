@@ -51,18 +51,21 @@ import ${import};
 		</#if>
 	</#list>
 </#macro>
+
 package ${package}.controllers;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+<#if inputParameters?size != 0>
+import javax.ws.rs.POST;
+import javax.ws.rs.QueryParam;
+</#if>
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Component;
 
 import ${package}.${serviceName}Service;
@@ -80,99 +83,42 @@ public class ${serviceName}Controller {
 	@Inject
 	private ${serviceName}Service ${serviceName?uncap_first}Service;
 
-	<#assign groupHash = {} />
+	<#assign getMethodArgs = "" />
 	<#list inputParameters as parameter>
-		<#if isFieldParameter(parameter) && parameter.fieldDefinition.key>
-		<#assign entityName = parameter.entityDefinition.entityName/>
-			<#if !groupHash?keys?seq_contains(entityName)>
-				<#assign groupHash = groupHash + {entityName:[parameter]}>
-			<#else>
-				<#assign keys = groupHash[entityName] + [parameter]>
-				<#assign groupHash = groupHash + {entityName:keys}>
-			</#if>
+		<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
+		<#assign fieldNames = fieldName?split(".")/>
+		<#if fieldNames?is_sequence && (fieldNames?size > 1)>
+			<#assign fieldName = fieldNames[1]?cap_first/>
+		</#if>
+		<#assign getMethodArgs = getMethodArgs + "@QueryParam(value=\"${fieldName?uncap_first}\") ${parameter.fieldDefinition.javaTypeName} ${fieldName?uncap_first}"/>
+		<#if parameter_has_next>
+			<#assign getMethodArgs = getMethodArgs + ", "/>
 		</#if>
 	</#list>
-
-	
-	<#list outputParameters as parameter>
-		<#assign entityName = parameter.entityDefinition.entityName />
-		<#if isEntityParameter(parameter)>
 	@GET
-	@Path("/${entityName?lower_case}")
-	public Response get${entityName}(){
-			<#if groupHash[entityName]??>
-		${entityName}Out ${entityName?uncap_first}Out = ${serviceName?uncap_first}Service.get${serviceName}(<#list groupHash[entityName] as key>${serviceName?uncap_first}In.get${key.fieldDefinition.name?cap_first}()<#if key_has_next>, </#if></#list>);
-			<#else>
-		${entityName}Out ${entityName?uncap_first}Out = ${serviceName?uncap_first}Service.get${serviceName}();
-			</#if>
-		${entityName} ${entityName?uncap_first} = ${entityName?uncap_first}Out.get${entityName}();
-		Object targetObject = ProxyUtil.getTargetObject(${entityName?uncap_first});
-		
-		return Response.status(200).entity(targetObject).build();
-	}
-		<#elseif isPartParameter(parameter)>
-			<#assign partName = parameter.partEntityDefinition.partName />
-	@GET
-	@Path("/${partName?lower_case}")
-	public Response get${partName}(){
-			<#if groupHash[entityName]??>
-		${entityName}Out ${entityName?uncap_first}Out = ${serviceName?uncap_first}Service.get${serviceName}(<#list groupHash[entityName] as key>${serviceName?uncap_first}In.get${key.fieldDefinition.name?cap_first}()<#if key_has_next>, </#if></#list>);
-			<#else>
-		${entityName}Out ${entityName?uncap_first}Out = ${serviceName?uncap_first}Service.get${serviceName}();
-			</#if>
-		${partName} ${partName?uncap_first} = ${entityName?uncap_first}Out.get${entityName}().get${partName}();
-		Object targetObject = ProxyUtil.getTargetObject(${partName?uncap_first});
-		
-		return Response.status(200).entity(targetObject).build();
-	}
-		<#elseif isFieldParameter(parameter)>
+	public Response get${serviceName}(${getMethodArgs}) {
+		<#if inputParameters?size != 0 >
+		${serviceName}In ${serviceName?uncap_first}In = new ${serviceName}In();
+		<#list inputParameters as parameter>
 			<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
 			<#assign fieldNames = fieldName?split(".")/>
 			<#if fieldNames?is_sequence && (fieldNames?size > 1)>
 				<#assign fieldName = fieldNames[1]?cap_first/>
 			</#if>
-	@GET
-	@Path("/${fieldName?lower_case}")
-	public Response get${fieldName}(){
-			<#if groupHash[entityName]??>
-		${entityName}Out ${entityName?uncap_first}Out = ${serviceName?uncap_first}Service.get${serviceName}(<#list groupHash[entityName] as key>${serviceName?uncap_first}In.get${key.fieldDefinition.name?cap_first}()<#if key_has_next>, </#if></#list>);
-			<#else>
-		${entityName}Out ${entityName?uncap_first}Out = ${serviceName?uncap_first}Service.get${serviceName}();
-			</#if>
-		${parameter.fieldDefinition.javaTypeName} ${fieldName?uncap_first} = ${entityName?uncap_first}Out.get${fieldName}();
-		
-		return Response.status(200).entity(${fieldName?uncap_first}).build();
-	}
+		${serviceName?uncap_first}In.set${fieldName}(${fieldName?uncap_first});
+		</#list>
+		${serviceName}Out ${serviceName?uncap_first}Out = ${serviceName?uncap_first}Service.get${serviceName}(${serviceName?uncap_first}In);
+		<#else>
+		${serviceName}Out ${serviceName?uncap_first}Out = ${serviceName?uncap_first}Service.get${serviceName}();
 		</#if>
-	</#list>
+		return Response.status(200).entity(${serviceName?uncap_first}Out).build();
+	}
 	
-
-	<#list inputParameters as parameter>
-		<#assign entityName = parameter.entityDefinition.entityName />
-		<#if isEntityParameter(parameter)>
+	<#if inputParameters?size != 0 >
 	@POST
-	@Path("/${entityName?lower_case}")
-	public Response post${entityName}(${entityName} ${entityName?uncap_first}){
-		return Response.status(200).entity(${entityName?uncap_first}).build();
+	public Response post${serviceName}(${serviceName}In ${serviceName?uncap_first}In) {
+		${serviceName}Out ${serviceName?uncap_first}Out = ${serviceName?uncap_first}Service.get${serviceName}(${serviceName?uncap_first}In);
+		return Response.status(200).entity(${serviceName?uncap_first}Out).build();
 	}
-		<#elseif isPartParameter(parameter)>
-			<#assign partName = parameter.partEntityDefinition.partName />
-	@POST
-	@Path("/${partName?lower_case}")
-	public Response post${partName}(${partName} ${partName?uncap_first}){
-		return Response.status(200).entity(${partName?uncap_first}).build();
-	}
-		<#elseif isFieldParameter(parameter)>
-			<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
-			<#assign fieldNames = fieldName?split(".")/>
-			<#if fieldNames?is_sequence && (fieldNames?size > 1)>
-				<#assign fieldName = fieldNames[1]?cap_first/>
-			</#if>
-	@POST
-	@Path("/${fieldName?lower_case}")
-	public Response post${fieldName}(${parameter.fieldDefinition.javaTypeName} ${fieldName?uncap_first}){
-		return Response.status(200).entity(${fieldName?uncap_first}).build();
-	}
-		</#if>
-	</#list>
+	</#if>
 }
