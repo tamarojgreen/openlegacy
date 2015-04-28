@@ -53,6 +53,7 @@ import ${import};
 <#if inputParameters?size != 0 || outputParameters?size != 0>
 import org.openlegacy.db.actions.DbActions;
 </#if>
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *  A service implementation which invokes OpenLegacy API, and returns a service output.
@@ -67,6 +68,7 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 	private DbSession dbSession;
 
 	@Override
+	@Transactional
 	public ${serviceName}Out get${serviceName}(<#if inputParameters?size != 0>${serviceName}In ${serviceName?uncap_first}In</#if>) {
 
 		try{
@@ -132,11 +134,11 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 					<#assign eName = parameter.entityDefinition.entityName/>
 					<#if isFieldParameter(parameter)>
 						<#if !parameter.fieldDefinition.key>
-			dbSession.doAction(DbActions.READ(), (DbEntity)${eName?uncap_first});
+			dbSession.doAction(DbActions.READ(), ${eName?uncap_first});
 							<#assign eNames = eNames + [eName]/>
 						</#if>
 					<#else>	
-			dbSession.doAction(DbActions.READ(), (DbEntity)${eName?uncap_first});
+			dbSession.doAction(DbActions.READ(), ${eName?uncap_first});
 						<#assign eNames = eNames + [eName]/>
 					</#if>
 				</#if>
