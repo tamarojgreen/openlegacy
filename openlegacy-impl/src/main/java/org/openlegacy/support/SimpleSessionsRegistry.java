@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.Session;
 import org.openlegacy.SessionProperties;
 import org.openlegacy.SessionsRegistry;
@@ -21,6 +23,8 @@ import java.util.Set;
 import java.util.UUID;
 
 public class SimpleSessionsRegistry<S extends Session> implements SessionsRegistry<S> {
+
+	private final static Log logger = LogFactory.getLog(SimpleSessionsRegistry.class);
 
 	private Map<SessionProperties, S> sessions = new HashMap<SessionProperties, S>();
 	private Map<String, S> sessionsById = new HashMap<String, S>();
@@ -39,8 +43,12 @@ public class SimpleSessionsRegistry<S extends Session> implements SessionsRegist
 
 	@Override
 	public void unregister(S session) {
-		sessions.remove(session.getProperties());
-		sessionsById.remove(session.getProperties().getId());
+		try {
+			sessions.remove(session.getProperties());
+			sessionsById.remove(session.getProperties().getId());
+		} catch (Exception e) {
+			logger.warn(e.getMessage());
+		}
 
 	}
 
