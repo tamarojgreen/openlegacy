@@ -81,11 +81,13 @@ public class ${entityName} {
     </#if>
 
  	<#list childEntitiesDefinitions as childScreen>
+ 	<#if childScreen?? && childScreen.entityName??>
     private ${childScreen.entityName} ${childScreen.entityName?uncap_first};
     <#if generateAspect = false>
     public ${childScreen.entityName} get${childScreen.entityName?cap_first}(){
     	return this.${childScreen.entityName?uncap_first};
     }
+ 	</#if>
 	</#if>
 	</#list>	
     
