@@ -2,6 +2,9 @@ package org.openlegacy.db.services;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -31,7 +34,7 @@ public class DbService {
 		countQuery.select(criteriaBuilder.count(countQuery.from(entityClass)));
 		Long count = entityManager.createQuery(countQuery).getSingleResult();
 		Query query = entityManager.createQuery(String.format("FROM %s", entityClass.getSimpleName()));
-		int pageCount = (int)Math.ceil((count.intValue() * 1.0) / pageSize);
+		int pageCount = (int) Math.ceil((count.intValue() * 1.0) / pageSize);
 		if (pageNumber > pageCount || pageNumber <= 0) {
 			pageNumber = 1;
 		}
@@ -74,6 +77,38 @@ public class DbService {
 			throw new EntityNotFoundException(e.getMessage());
 		} catch (Exception e) {
 			throw new Exception(e);
+		}
+	}
+
+	public void deleteEntityByIdWithParent(Class<?> entityClass, Object id, Class<?> parentClass, Object parentId)
+			throws EntityNotFoundException, Exception {
+		Object entity = entityManager.find(entityClass, id);
+		Object parent = entityManager.find(parentClass, parentId);
+		Field[] parentFields = parentClass.getDeclaredFields();
+		for (Field field : parentFields) {
+			Type genericFieldType = field.getGenericType();
+
+			if (genericFieldType instanceof ParameterizedType) {
+				ParameterizedType aType = (ParameterizedType) genericFieldType;
+				Type[] fieldArgTypes = aType.getActualTypeArguments();
+				Class<?> fieldParameterizedType = (Class<?>) fieldArgTypes[fieldArgTypes.length - 1];
+
+				if (entity.getClass().getSimpleName().equals(fieldParameterizedType.getSimpleName())) {
+					field.setAccessible(true);
+					try {
+						Object listValue = field.get(parent);
+						if (listValue instanceof List) {
+							((List<?>) listValue).remove(entity);
+						}
+						entityManager.merge(parent);
+						entityManager.remove(entity);
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					}
+				}
+			}
 		}
 	}
 

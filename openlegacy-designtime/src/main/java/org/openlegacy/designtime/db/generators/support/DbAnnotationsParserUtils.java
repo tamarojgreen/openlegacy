@@ -91,12 +91,12 @@ public class DbAnnotationsParserUtils {
 		List<Action> actions = new ArrayList<Action>();
 
 		if (annotationExpr instanceof NormalAnnotationExpr) {
-			List<MemberValuePair> actionAttributes = ((NormalAnnotationExpr)annotationExpr).getPairs();
+			List<MemberValuePair> actionAttributes = ((NormalAnnotationExpr) annotationExpr).getPairs();
 			MemberValuePair actionsKeyValue = actionAttributes.get(0);
-			ArrayInitializerExpr actionsPairs = (ArrayInitializerExpr)actionsKeyValue.getValue();
+			ArrayInitializerExpr actionsPairs = (ArrayInitializerExpr) actionsKeyValue.getValue();
 			List<Expression> actionsAnnotations = actionsPairs.getValues();
 			for (Expression expression : actionsAnnotations) {
-				NormalAnnotationExpr singleAction = (NormalAnnotationExpr)expression;
+				NormalAnnotationExpr singleAction = (NormalAnnotationExpr) expression;
 				String actionClassName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ACTION);
 				String displayName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.DISPLAY_NAME);
 				String actionAlias = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ALIAS);
@@ -129,21 +129,21 @@ public class DbAnnotationsParserUtils {
 			definition.setSchema(StringUtil.stripQuotes(schemaValue));
 		}
 		if (annotationExpr instanceof NormalAnnotationExpr) {
-			List<MemberValuePair> pairs = ((NormalAnnotationExpr)annotationExpr).getPairs();
+			List<MemberValuePair> pairs = ((NormalAnnotationExpr) annotationExpr).getPairs();
 			for (MemberValuePair pair : pairs) {
 				if (pair.getName().equals(DbAnnotationConstants.UNIQUE_CONSTRAINTS)) {
 					Expression expression = pair.getValue();
 					if (expression instanceof ArrayInitializerExpr) {
 						// uniqueConstraints={@UniqueConstraint(columnNames={"", ""}, name=""),
 						// @UniqueConstraint(columnNames={"",""}, name="")}
-						ArrayInitializerExpr array = (ArrayInitializerExpr)expression;
+						ArrayInitializerExpr array = (ArrayInitializerExpr) expression;
 						List<Expression> values = array.getValues();
 						for (Expression expr : values) {
-							definition.getUniqueConstraints().add(populateUniqueConstraintDefinition((NormalAnnotationExpr)expr));
+							definition.getUniqueConstraints().add(populateUniqueConstraintDefinition((NormalAnnotationExpr) expr));
 						}
 					} else if (expression instanceof NormalAnnotationExpr) {
 						// uniqueConstraints=@UniqueConstraint(columnNames="name")
-						NormalAnnotationExpr annotation = (NormalAnnotationExpr)expression;
+						NormalAnnotationExpr annotation = (NormalAnnotationExpr) expression;
 						definition.getUniqueConstraints().add(populateUniqueConstraintDefinition(annotation));
 					}
 					continue;
@@ -161,7 +161,7 @@ public class DbAnnotationsParserUtils {
 			if (pair.getName().equals(DbAnnotationConstants.COLUMN_NAMES)) {
 				Expression value = pair.getValue();
 				if (value instanceof ArrayInitializerExpr) {
-					ArrayInitializerExpr expr = (ArrayInitializerExpr)value;
+					ArrayInitializerExpr expr = (ArrayInitializerExpr) value;
 					List<Expression> values = expr.getValues();
 					for (Expression expression : values) {
 						definition.getColumnNames().add(StringUtil.stripQuotes(expression.toString()));
@@ -259,19 +259,21 @@ public class DbAnnotationsParserUtils {
 
 	public static DbOneToManyDefinition loadDbOneToManyDefinition(AnnotationExpr annotationExpr, String currentClassName,
 			String typeArgs, File packageDir) {
-		SimpleDbOneToManyDefinition definition = null;
+		SimpleDbOneToManyDefinition definition = new SimpleDbOneToManyDefinition();
+		//		SimpleDbOneToManyDefinition definition = null;
 		String cascadeValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.CASCADE);
 		String fetchValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.FETCH);
 		String mappedByValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.MAPPED_BY);
 		String orphanRemovalValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.ORPHAN_REMOVAL);
 		String targetEntityValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.TARGET_ENTITY);
 
-		if (!StringUtils.isEmpty(cascadeValue) || !StringUtils.isEmpty(fetchValue) || !StringUtils.isEmpty(mappedByValue)
-				|| !StringUtils.isEmpty(orphanRemovalValue) || !StringUtils.isEmpty(targetEntityValue)) {
-			definition = new SimpleDbOneToManyDefinition();
-		} else {
-			return null;
-		}
+		//todo: check commented code and delete if api editor works fine without this check.
+		//		if (!StringUtils.isEmpty(cascadeValue) || !StringUtils.isEmpty(fetchValue) || !StringUtils.isEmpty(mappedByValue)
+		//				|| !StringUtils.isEmpty(orphanRemovalValue) || !StringUtils.isEmpty(targetEntityValue)) {
+		//			definition = new SimpleDbOneToManyDefinition();
+		//		} else {
+		//			return null;
+		//		}
 		if (!StringUtils.isEmpty(cascadeValue)) {
 			definition.setCascadeTypeNames(parseCascadeValue(cascadeValue).toArray(new String[] {}));
 		}
@@ -323,7 +325,7 @@ public class DbAnnotationsParserUtils {
 		SimpleDbNavigationDefinition navigationDefinition = new SimpleDbNavigationDefinition();
 
 		if (annotationExpr instanceof NormalAnnotationExpr) {
-			List<MemberValuePair> navigationAttributes = ((NormalAnnotationExpr)annotationExpr).getPairs();
+			List<MemberValuePair> navigationAttributes = ((NormalAnnotationExpr) annotationExpr).getPairs();
 			for (MemberValuePair memberValuePair : navigationAttributes) {
 				String attributeValue = memberValuePair.getValue().toString();
 				if (memberValuePair.getName().equals(DbAnnotationConstants.CATEGORY)) {
