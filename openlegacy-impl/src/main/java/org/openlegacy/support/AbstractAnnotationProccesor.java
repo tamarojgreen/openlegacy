@@ -17,6 +17,7 @@ import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.loaders.FieldLoader;
 import org.openlegacy.loaders.RegistryLoader;
+import org.openlegacy.loaders.listeners.RegistryLoaderListener;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -34,6 +35,7 @@ public abstract class AbstractAnnotationProccesor implements BeanFactoryPostProc
 		Collection<ClassAnnotationsLoader> classAnnotationsLoaders = beanFactory.getBeansOfType(ClassAnnotationsLoader.class).values();
 		Collection<FieldAnnotationsLoader> fieldAnnotationLoaders = beanFactory.getBeansOfType(FieldAnnotationsLoader.class).values();
 		Collection<FieldLoader> fieldLoaders = beanFactory.getBeansOfType(FieldLoader.class).values();
+		Collection<RegistryLoaderListener> registryLoaderListeners = beanFactory.getBeansOfType(RegistryLoaderListener.class).values();
 
 		EntitiesRegistry<?, ?, ?> entitiesRegistry = getEntitiesRegistry(beanFactory);
 
@@ -41,12 +43,13 @@ public abstract class AbstractAnnotationProccesor implements BeanFactoryPostProc
 		filterByPackage(fieldAnnotationLoaders);
 		filterByPackage(fieldLoaders);
 
-		DefaultRegistryLoader registryLoader = (DefaultRegistryLoader)beanFactory.getBean(RegistryLoader.class);
+		DefaultRegistryLoader registryLoader = (DefaultRegistryLoader) beanFactory.getBean(RegistryLoader.class);
 
 		registryLoader.setAnnotationLoaders(classAnnotationsLoaders);
 		registryLoader.setFieldAnnotationLoaders(fieldAnnotationLoaders);
 		registryLoader.setFieldLoaders(fieldLoaders);
 		registryLoader.setBeanFactory(beanFactory);
+		registryLoader.setRegistryLoaderListeners(registryLoaderListeners);
 
 		registryLoader.load(entitiesRegistry);
 	}

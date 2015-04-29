@@ -24,6 +24,7 @@ import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.loaders.FieldLoader;
 import org.openlegacy.loaders.RegistryLoader;
+import org.openlegacy.loaders.listeners.RegistryLoaderListener;
 import org.openlegacy.loaders.support.AbstractClassAnnotationLoader;
 import org.openlegacy.utils.TypesUtil;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -55,6 +56,8 @@ public class DefaultRegistryLoader implements RegistryLoader {
 
 	private ConfigurableListableBeanFactory beanFactory;
 
+	private Collection<RegistryLoaderListener> registryLoaderListeners;
+
 	@Override
 	public void load(EntitiesRegistry<?, ?, ?> entitiesRegistry) {
 		entitiesRegistry.clear();
@@ -62,6 +65,7 @@ public class DefaultRegistryLoader implements RegistryLoader {
 		Assert.notNull(classAnnotationLoaders);
 		Assert.notNull(fieldAnnotationLoaders);
 		Assert.notNull(fieldLoaders);
+		Assert.notNull(registryLoaderListeners);
 
 		ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
 		Resource[] resources;
@@ -93,6 +97,10 @@ public class DefaultRegistryLoader implements RegistryLoader {
 		}
 
 		fillEntitiesReferences(entitiesRegistry);
+
+		for (RegistryLoaderListener listener : registryLoaderListeners) {
+			listener.registryLoaded(entitiesRegistry);
+		}
 	}
 
 	@Override
@@ -103,7 +111,7 @@ public class DefaultRegistryLoader implements RegistryLoader {
 		}
 		if (entitiesRegistry.contains(beanClass)) {
 			// class is reloaded - define the registry as dirty for designtime usage
-			((AbstractEntitiesRegistry<?, ?, ?>)entitiesRegistry).setDirty(true);
+			((AbstractEntitiesRegistry<?, ?, ?>) entitiesRegistry).setDirty(true);
 		}
 		Class<?> currentBeanClass = beanClass;
 		// scan parent classes for annotations
@@ -133,6 +141,10 @@ public class DefaultRegistryLoader implements RegistryLoader {
 		this.fieldLoaders = fieldLoaders;
 	}
 
+	public void setRegistryLoaderListeners(Collection<RegistryLoaderListener> registryLoaderListeners) {
+		this.registryLoaderListeners = registryLoaderListeners;
+	}
+
 	private static Class<?> getClassFromResource(String packagePath, Resource resource) throws IOException,
 			ClassNotFoundException {
 		String resourcePath = resource.getURI().toString();
@@ -150,7 +162,7 @@ public class DefaultRegistryLoader implements RegistryLoader {
 	 */
 	private void fillEntitiesReferences(final EntitiesRegistry<?, ?, ?> entitiesRegistry) {
 		@SuppressWarnings("unchecked")
-		Collection<EntityDefinition<?>> entities = (Collection<EntityDefinition<?>>)entitiesRegistry.getEntitiesDefinitions();
+		Collection<EntityDefinition<?>> entities = (Collection<EntityDefinition<?>>) entitiesRegistry.getEntitiesDefinitions();
 		for (final EntityDefinition<?> entityDefinition : entities) {
 			fillEntityReferences(entitiesRegistry, entityDefinition);
 		}
@@ -163,7 +175,7 @@ public class DefaultRegistryLoader implements RegistryLoader {
 		}
 		Collection<?> parts = entityDefinition.getPartsDefinitions().values();
 		for (Object object : parts) {
-			final PartEntityDefinition<?> part = (PartEntityDefinition<?>)object;
+			final PartEntityDefinition<?> part = (PartEntityDefinition<?>) object;
 
 			ReflectionUtils.doWithFields(part.getPartClass(), new FieldCallback() {
 
@@ -209,9 +221,9 @@ public class DefaultRegistryLoader implements RegistryLoader {
 	private static void assignFieldWithValues(final EntitiesRegistry<?, ?, ?> entitiesRegistry, FieldDefinition fieldDefinition,
 			Field field) {
 		if (fieldDefinition != null && fieldDefinition.getFieldTypeDefinition() instanceof FieldWithValuesTypeDefinition) {
-			FieldWithValuesTypeDefinition fieldTypeDefinition = (FieldWithValuesTypeDefinition)fieldDefinition.getFieldTypeDefinition();
+			FieldWithValuesTypeDefinition fieldTypeDefinition = (FieldWithValuesTypeDefinition) fieldDefinition.getFieldTypeDefinition();
 			EntityDefinition<?> sourceEntityDefinition = entitiesRegistry.get(fieldTypeDefinition.getSourceEntityClass());
-			((SimpleFieldWthValuesTypeDefinition)fieldTypeDefinition).setSourceEntityDefinition(sourceEntityDefinition);
+			((SimpleFieldWthValuesTypeDefinition) fieldTypeDefinition).setSourceEntityDefinition(sourceEntityDefinition);
 		}
 	}
 
@@ -219,7 +231,7 @@ public class DefaultRegistryLoader implements RegistryLoader {
 			Class<?> rootBeanClass, Annotation[] annotations) {
 		for (ClassAnnotationsLoader annotationsLoader : annotationLoaders) {
 			if (annotationsLoader instanceof AbstractClassAnnotationLoader) {
-				((AbstractClassAnnotationLoader)annotationsLoader).setBeanFactory(beanFactory);
+				((AbstractClassAnnotationLoader) annotationsLoader).setBeanFactory(beanFactory);
 			}
 			for (Annotation annotation : annotations) {
 				if (annotationsLoader.match(annotation)) {
