@@ -85,28 +85,32 @@ public class ${serviceName}Controller {
 
 	<#assign getMethodArgs = "" />
 	<#list inputParameters as parameter>
-		<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
-		<#assign fieldNames = fieldName?split(".")/>
-		<#if fieldNames?is_sequence && (fieldNames?size > 1)>
-			<#assign fieldName = fieldNames[1]?cap_first/>
-		</#if>
-		<#assign getMethodArgs = getMethodArgs + "@QueryParam(value=\"${fieldName?uncap_first}\") ${parameter.fieldDefinition.javaTypeName} ${fieldName?uncap_first}"/>
-		<#if parameter_has_next>
-			<#assign getMethodArgs = getMethodArgs + ", "/>
+		<#if isFieldParameter(parameter)>
+			<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
+			<#assign fieldNames = fieldName?split(".")/>
+			<#if fieldNames?is_sequence && (fieldNames?size > 1)>
+				<#assign fieldName = fieldNames[1]?cap_first/>
+			</#if>
+			<#assign getMethodArgs = getMethodArgs + "@QueryParam(value=\"${fieldName?uncap_first}\") ${parameter.fieldDefinition.javaTypeName} ${fieldName?uncap_first}"/>
+			<#if parameter_has_next>
+				<#assign getMethodArgs = getMethodArgs + ", "/>
+			</#if>
 		</#if>
 	</#list>
 	@GET
 	public Response get${serviceName}(${getMethodArgs}) {
 		<#if inputParameters?size != 0 >
 		${serviceName}In ${serviceName?uncap_first}In = new ${serviceName}In();
-		<#list inputParameters as parameter>
-			<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
-			<#assign fieldNames = fieldName?split(".")/>
-			<#if fieldNames?is_sequence && (fieldNames?size > 1)>
-				<#assign fieldName = fieldNames[1]?cap_first/>
-			</#if>
+			<#list inputParameters as parameter>
+				<#if isFieldParameter(parameter)>
+					<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
+					<#assign fieldNames = fieldName?split(".")/>
+					<#if fieldNames?is_sequence && (fieldNames?size > 1)>
+						<#assign fieldName = fieldNames[1]?cap_first/>
+					</#if>
 		${serviceName?uncap_first}In.set${fieldName}(${fieldName?uncap_first});
-		</#list>
+				</#if>
+			</#list>
 		${serviceName}Out ${serviceName?uncap_first}Out = ${serviceName?uncap_first}Service.get${serviceName}(${serviceName?uncap_first}In);
 		<#else>
 		${serviceName}Out ${serviceName?uncap_first}Out = ${serviceName?uncap_first}Service.get${serviceName}();
