@@ -138,7 +138,7 @@
 					resolve: { auth: auth }
 				});
 				
-				function addRoute(stateName, entityName, ctrlName, url) {
+				function addRoute(stateName, entityName, ctrlName, url, params) {
 					$stateProvider.state(stateName, {
 						 url: url,
 						 views: {
@@ -153,9 +153,7 @@
 							 }
 						 },
 						 resolve: { auth: auth },
-						 params: {
-							 keys:[]
-						 }
+						 params: params
 					});
 				}
 				
@@ -167,24 +165,24 @@
 							<#switch action.actionName>
 								<#case "READ">
 									<#if keys?size &gt; 0>
-										var url = "/${entityName}/:<#list keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>";
+										var url = "/${entityName}/:<#list keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>?parent";
 										if ($.inArray(url, urlsToFilter) == -1) {
-											addRoute("${entityName}Details", "${entityName}.edit", "${entityName}DetailsCtrl", url);
+											addRoute("${entityName}Details", "${entityName}.edit", "${entityName}DetailsCtrl", url, {keys:[]});
 											urlsToFilter.push(url);
 										}
 									</#if>
 									<#break>
 								<#case "CREATE">
-									var url = "/${entityName}/new";
+									var url = "/${entityName}/new?parent";
 									if ($.inArray(url, urlsToFilter) == -1) {
-										addRoute("${entityName}New", "${entityName}.edit", "${entityName}NewCtrl", url);
+										addRoute("${entityName}New", "${entityName}.edit", "${entityName}NewCtrl", url, {parent:null});
 										urlsToFilter.push(url);
 									}
 							</#switch>							
 						</#list>
 						var url = "/${entityName}";
 						if ($.inArray(url, urlsToFilter) == -1) {
-							addRoute("${entityName}", "${entityName}.list", "${entityName}Ctrl", url);
+							addRoute("${entityName}", "${entityName}.list", "${entityName}Ctrl", url, {});
 							urlsToFilter.push(url);
 						}					
 					</#if>	
@@ -193,23 +191,23 @@
 					<#list entitiesDefinitions as entityDefinition>
 						<#list entityDefinition.actions as action>
 							<#if action.actionName == "CREATE">
-								var url = "/${entityDefinition.entityName}/new";
+								var url = "/${entityDefinition.entityName}/new?parent";
 								if ($.inArray(url, urlsToFilter) == -1) {
-									addRoute("${entityDefinition.entityName}New", "${entityDefinition.entityName}.edit", "${entityDefinition.entityName}NewCtrl", url);
+									addRoute("${entityDefinition.entityName}New", "${entityDefinition.entityName}.edit", "${entityDefinition.entityName}NewCtrl", url, {parent:null});
 								}
 							</#if>
 						</#list>
 						<#list entityDefinition.actions as action>
 							<#if action.actionName == "READ" && entityDefinition.keys?size &gt; 0>
-								var url = "/${entityDefinition.entityName}/:id";
+								var url = "/${entityDefinition.entityName}/:id?parent";
 								if ($.inArray(url, urlsToFilter) == -1) {
-									addRoute("${entityDefinition.entityName}Details", "${entityDefinition.entityName}.edit", "${entityDefinition.entityName}DetailsCtrl", url);
+									addRoute("${entityDefinition.entityName}Details", "${entityDefinition.entityName}.edit", "${entityDefinition.entityName}DetailsCtrl", url, {keys:[]});
 								}
 							</#if>
 						</#list>
 						var url = "/${entityDefinition.entityName}";
 						if ($.inArray(url, urlsToFilter) == -1) {
-							addRoute("${entityDefinition.entityName}", "${entityDefinition.entityName}.list", "${entityDefinition.entityName}Ctrl", url);
+							addRoute("${entityDefinition.entityName}", "${entityDefinition.entityName}.list", "${entityDefinition.entityName}Ctrl", url, {});
 						}
 					</#list>
 				</#if>	

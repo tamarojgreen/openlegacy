@@ -7,101 +7,157 @@
 		<#case "READ">
 	//=================================READ======================================
 	angular.module('controllers').controller('${entityName}DetailsCtrl', function($scope, $stateParams, $olHttp, $state, $modal) {		
-		$scope.currentAction = "READ";
-		
-		$olHttp.get('${entityName}/' + $stateParams[Object.keys($stateParams)[0]], function(data) {			
-			$scope.entityName = data.model.entityName;
-			$scope.model = data.model;			
-			$scope.doREADAction = function(targetEntityName, rowIndex, propertyName) {
-	    		if (targetEntityName == "${entityName}") {
-	    			var targetData = $scope.model.entity[propertyName]
-	    			var keys = Object.keys( targetData );	        			    
-			    	$state.go(targetEntityName + "Details", {${keys[0].name?replace(".", "_")}:<#list keys as key>targetData[keys[rowIndex]].${key.name}<#if key_has_next>+</#if></#list>});
-	    		}
-        	}
-			$scope.doUPDATEAction = function() {				
-				var modalInstance = $modal.open({
-					templateUrl: 'views/partials/confirmation_dialog.html',
-					controller: 'ConfirmationDialogCtrl',
-					resolve: {
-						func: function () {
-							return function() {
-								$olHttp.post('${entityName}?action=', $scope.model.entity, function(data) {					
-									alert("Entity was successfully updated!");
-								});
+						$scope.currentAction = "READ";
+						$scope.entityId = $stateParams.id;		
+						
+						$olHttp.get('${entityName}/' + $scope.entityId, function(data) {			
+							$scope.entityName = data.model.entityName;
+							$scope.model = data.model;
+							
+							var redirectToDetailsWithParent = function(targetEntityName, rowIndex, propertyName) {							
+									<#if columnFieldsDefinitions??>																
+						        		<#list columnFieldsDefinitions?keys as key>
+						        			<#if columnFieldsDefinitions[key].oneToManyDefinition??>
+						        				<#assign childEntity = columnFieldsDefinitions[key].oneToManyDefinition.targetEntityDefinition>
+						        				if ('${childEntity.entityName}' == targetEntityName) {
+								        			var targetData = $scope.model.entity[propertyName][rowIndex];
+								        			var entityKey = <#list childEntity.keys as key>targetData.${key.name}<#if key_has_next> + '+' + </#if></#list>;
+								        			var parent = {entityName: $scope.entityName, id: $scope.entityId}
+								        			$state.go(targetEntityName + "Details", {id: entityKey, parent: encodeURIComponent(JSON.stringify(parent))});
+							        			}
+							        		</#if>						        		
+						        		</#list>
+					        		</#if>
 							} 
-						}
-					}
-			    });				
-			}
-			
-			$scope.doDELETEAction = function() {
-				var modalInstance = $modal.open({
-					templateUrl: 'views/partials/confirmation_dialog.html',
-					controller: 'ConfirmationDialogCtrl',					
-					resolve: {
-						func: function () {
-							return function() {
-								$olHttp.remove('${entityName}/' + $stateParams[Object.keys($stateParams)[0]], function(data) {
-									$state.go('${entityName}');
-								});
-							} 
-						}
-					}
-			    });
-			}
-		});
-	});
+							
+							$scope.doREADAction = function(targetEntityName, rowIndex, propertyName) {				
+								redirectToDetailsWithParent(targetEntityName, rowIndex, propertyName);
+				        	}
+							$scope.doUPDATEAction = function(targetEntityName, rowIndex, propertyName) {
+								if (rowIndex != null && targetEntityName != null && propertyName != null) {
+									redirectToDetailsWithParent(targetEntityName, rowIndex, propertyName);
+								} else {
+									var modalInstance = $modal.open({
+										templateUrl: 'views/partials/confirmation_dialog.html',
+										controller: 'ConfirmationDialogCtrl',
+										resolve: {
+											func: function () {
+												return function() {
+													$olHttp.post('${entityName}?action=', $scope.model.entity, function(data) {					
+														alert("Entity was successfully updated!");
+													});								
+												} 
+											}
+										}
+								    });
+								}
+							}
+							
+							$scope.doDELETEAction = function(targetEntityName, rowIndex, propertyName) {				
+				    			var modalInstance = $modal.open({
+									templateUrl: 'views/partials/confirmation_dialog.html',
+									controller: 'ConfirmationDialogCtrl',					
+									resolve: {
+										func: function () {
+											return function() {
+												if (rowIndex != null && targetEntityName != null && propertyName != null) {				    								
+									        		<#if columnFieldsDefinitions??>																
+										        		<#list columnFieldsDefinitions?keys as key>
+										        			<#if columnFieldsDefinitions[key].oneToManyDefinition??>
+										        				<#assign childEntity = columnFieldsDefinitions[key].oneToManyDefinition.targetEntityDefinition>
+										        				if ('${childEntity.entityName}' == targetEntityName) {
+							    				        			var targetData = $scope.model.entity[propertyName][rowIndex];	    				        			
+							    				        			var entityKey = <#list childEntity.keys as key>targetData.${key.name}<#if key_has_next> + '+' + </#if></#list>;
+						    				        			}
+					    				        			</#if>
+					    				        		</#list>
+				    				        		</#if>					    					        	
+				    					        	$olHttp.remove(targetEntityName + '/' + entityKey + "?parentEntityName=" + $scope.entityName + "&parentId=" + $scope.entityId, function(data) {
+				    									$state.go($state.current, {}, {reload: true});
+				    								});
+												} else {
+													if ($stateParams.parent != undefined) {
+														var parent = JSON.parse(decodeURIComponent($stateParams.parent));										
+														$olHttp.remove('${entityName}/' + $stateParams.id + "?parentEntityName=" + parent.entityName + "&parentId=" + parent.id, function(data) {
+															$state.go('${entityName}');
+					    								});
+													} else {
+														$olHttp.remove('${entityName}/' + $stateParams.id, function(data) {
+															$state.go('${entityName}');
+														});
+													}									
+												}	    								
+											} 
+										}
+									}
+							    });
+				        	}
+							
+							$scope.doCREATEAction = function(targetEntityName) {								
+								var parent = {entityName: $scope.entityName, id: $scope.entityId};
+								$state.go(targetEntityName + "New", {parent: encodeURIComponent(JSON.stringify(parent))});
+							}
+						});
+					});
 				<#break>
 				<#case "CREATE">
-	//==========================================CREATE========================================================			
-	angular.module('controllers').controller('${entityName}NewCtrl', function($scope, $modal, $olHttp, $state) {
-		$scope.currentAction = "CREATE";
-		$scope.model = {'entity':{}};
-		$scope.nestedModels = {};
-		
-		
-		<#if columnFieldsDefinitions??>
-		<#list columnFieldsDefinitions?keys as key>								
-			<#assign column = columnFieldsDefinitions[key]>
-			<#if (!column.internal?? || column.internal == false) && column.oneToManyDefinition??>
-				$scope.${column.name}_showNext = true;
-				$scope.${column.name}_showPrev = true;				
-				getItems('${column.javaTypeName}', '${column.name}', false, 1, $scope, $olHttp, $state, null);
-				$scope.nestedModels['${column.name}'] = [];
-			</#if>
-		</#list>
-		</#if>
-		
-		$scope.toggleSelection = function toggleSelection(item, itemArray, joinColumnName) {
-			delete item[joinColumnName];
-		    var idx = itemArray.indexOf(item);
-
-		    if (idx > -1) {
-		    	itemArray.splice(idx, 1);
-		    } else {		    	
-		    	itemArray.push(item);
-		    }
-		  };
-		
-		$scope.doUPDATEAction = function() {				
-			var modalInstance = $modal.open({
-				templateUrl: 'views/partials/confirmation_dialog.html',
-				controller: 'ConfirmationDialogCtrl',
-				resolve: {
-					func: function () {
-						return function() {
-							var entity = $.extend($scope.model.entity, $scope.nestedModels);							
-							$olHttp.post('${entityName}?action=', entity, function(data) {
-								alert("Entity was created successfully!");
-								$state.go('${entityName}');
-							});												
-						} 
-					}
-				}
-		    });				
-		}
-	});
+					//==========================================CREATE========================================================			
+					angular.module('controllers').controller('${entityName}NewCtrl', function($scope, $modal, $olHttp, $state, $stateParams) {
+						$scope.currentAction = 'CREATE';
+						$scope.model = {'entity':{}};
+						if ($stateParams.parent != undefined) {
+							var parent = JSON.parse(decodeURIComponent($stateParams.parent));
+							$scope.model.entity['parent'] = parent;
+						}
+						$scope.nestedModels = {};
+						
+						<#if columnFieldsDefinitions??>
+						<#list columnFieldsDefinitions?keys as key>
+							<#assign column = columnFieldsDefinitions[key]>
+							<#if (!column.internal?? || column.internal == false) && column.oneToManyDefinition??>
+								$scope.${column.name}_showNext = true;
+								$scope.${column.name}_showPrev = true;
+								getItems('${column.oneToManyDefinition.targetEntityDefinition.entityName}', '${column.name}', false, 1, $scope, $olHttp, $state, null);
+								$scope.nestedModels['${column.name}'] = [];
+							</#if>
+						</#list>
+						</#if>
+						
+						$scope.toggleSelection = function toggleSelection(item, itemArray, joinColumnName) {
+							delete item[joinColumnName];
+						    var idx = itemArray.indexOf(item);
+				
+						    if (idx > -1) {
+						    	itemArray.splice(idx, 1);
+						    } else {		    	
+						    	itemArray.push(item);
+						    }
+						  };
+						
+						$scope.doUPDATEAction = function() {				
+							var modalInstance = $modal.open({
+								templateUrl: 'views/partials/confirmation_dialog.html',
+								controller: 'ConfirmationDialogCtrl',
+								resolve: {
+									func: function () {
+										return function() {
+											var entity = $.extend($scope.model.entity, $scope.nestedModels);							
+											$olHttp.post('${entityName}?action=', entity, function(data) {
+												alert("Entity was created successfully!");
+												$state.go('${entityName}');
+											});												
+										} 
+									}
+								}
+						    });				
+						}
+						
+						$scope.doREADAction = function(targetEntityName, rowIndex, propertyName) {				        		
+		        			var targetData = $scope.model.entity[propertyName]
+		        			var keys = Object.keys( targetData );	        			    
+					    	$state.go(targetEntityName + "Details", {${keys[0].name?replace(".", "_")}:<#list keys as key>targetData[keys[rowIndex]].${key.name}<#if key_has_next>+</#if></#list>});				        						        	
+				    	}
+					});
 			</#switch>
 		</#list>
 	//=============================================LIST============================================================

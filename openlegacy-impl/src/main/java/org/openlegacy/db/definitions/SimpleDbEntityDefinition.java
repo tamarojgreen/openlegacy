@@ -10,14 +10,16 @@
  *******************************************************************************/
 package org.openlegacy.db.definitions;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
+import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.support.AbstractEntityDefinition;
 
-public class SimpleDbEntityDefinition extends
-		AbstractEntityDefinition<DbFieldDefinition> implements
-		DbEntityDefinition {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+public class SimpleDbEntityDefinition extends AbstractEntityDefinition<DbFieldDefinition> implements DbEntityDefinition {
 
 	private static final long serialVersionUID = 1L;
 
@@ -25,6 +27,7 @@ public class SimpleDbEntityDefinition extends
 	private DbNavigationDefinition navigationDefinition = new SimpleDbNavigationDefinition();
 	private boolean child;
 	private String pluralName;
+	private List<FieldDefinition> columnKeys;
 
 	private final Map<String, DbFieldDefinition> columnsDefinitions = new LinkedHashMap<String, DbFieldDefinition>();
 
@@ -67,6 +70,19 @@ public class SimpleDbEntityDefinition extends
 
 	public void setPluralName(String pluralName) {
 		this.pluralName = pluralName;
+	}
+
+	public List<FieldDefinition> getColumnsKeys() {
+		if (columnKeys == null) {
+			Collection<DbFieldDefinition> allColumns = columnsDefinitions.values();
+			columnKeys = new ArrayList<FieldDefinition>();
+			for (DbFieldDefinition field : allColumns) {
+				if (field.isKey()) {
+					columnKeys.add(field);
+				}
+			}
+		}
+		return columnKeys;
 	}
 
 }

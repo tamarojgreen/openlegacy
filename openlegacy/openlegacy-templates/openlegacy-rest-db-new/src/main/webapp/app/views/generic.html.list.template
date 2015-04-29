@@ -12,7 +12,7 @@
 				    <#break>
 			    <#case "CREATE">
 			    	<#if allowCREATE>
-			    		<#assign actions = actions + ['<a ng-href="#/${entity.entityName}/new" class="btn btn-primary navbar-btn">${action.displayName}</a>']>					    		
+			    		<#assign actions = actions + ['<a ui-sref="${entity.entityName}New" class="btn btn-primary navbar-btn">${action.displayName}</a>']>					    		
 			    	</#if>
 			    	<#break>
 		    	<#case "UPDATE">

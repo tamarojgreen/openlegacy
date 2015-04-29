@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.db.mvc.rest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.xml.MarshalException;
@@ -21,6 +22,7 @@ import org.json.simple.parser.ParseException;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.db.DbSession;
+import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.db.services.DbEntitiesRegistry;
 import org.openlegacy.db.services.DbService;
 import org.openlegacy.db.services.DbService.TableDbObject;
@@ -50,6 +52,8 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
@@ -120,7 +124,7 @@ public class DefaultDbRestController extends AbstractRestController {
 	public Object login(@RequestBody String json, HttpServletResponse response) throws IOException, ParseException {
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(json);
-		JSONObject jsonObj = (JSONObject)obj;
+		JSONObject jsonObj = (JSONObject) obj;
 		try {
 			if (dbLoginModule != null) {
 				dbLoginModule.login(jsonObj.get("user").toString(), jsonObj.get("password").toString());
@@ -176,11 +180,10 @@ public class DefaultDbRestController extends AbstractRestController {
 
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntity(@PathVariable("entity") String entityName,
-			@RequestParam(value = ACTION, required = false) String action,
-			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children,
+			@RequestParam(value = ACTION, required = false) String action, @RequestParam(value = "children", required = false,
+					defaultValue = "true") boolean children, @RequestParam(value = "parent", required = false) String parent,
 			@RequestBody String json, HttpServletResponse response) throws IOException {
 
-		// json = "{\"itemId\":\"111\",\"description\":\"sadasd\", \"notes\":[{\"text\":\"qqqq\"},{\"text\":\"sssss\"}]}";
 		return postEntityJson(entityName, action, children, json, response);
 	}
 
@@ -198,10 +201,12 @@ public class DefaultDbRestController extends AbstractRestController {
 	}
 
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.DELETE)
-	protected void deleteEntityWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
-			HttpServletResponse response) throws IOException {
+	protected void deleteEntityWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key, @RequestParam(
+			value = "parentId", required = false) String parentId,
+			@RequestParam(value = "parentEntityName", required = false) String parentEntityName, HttpServletResponse response)
+			throws IOException {
 		try {
-			deleteEntityRequest(entityName, key, response);
+			deleteEntityRequest(entityName, key, parentId, parentEntityName, response);
 		} catch (EntityNotFoundException e) {
 			sendError(HttpServletResponse.SC_NOT_FOUND, e.getMessage(), response);
 		} catch (Exception e) {
@@ -238,10 +243,22 @@ public class DefaultDbRestController extends AbstractRestController {
 		}
 	}
 
-	protected void deleteEntityRequest(String entityName, String key, HttpServletResponse response)
-			throws EntityNotFoundException, Exception {
+	protected void deleteEntityRequest(String entityName, String key, String parentId, String parentEntityName,
+			HttpServletResponse response) throws EntityNotFoundException, Exception {
 		Class<?> entityClass = dbEntitiesRegistry.get(entityName).getEntityClass();
-		dbService.deleteEntityById(entityClass, toObject(getFirstIdJavaType(entityClass), key.split("\\+")[0]));
+		if (parentId == null || parentEntityName == null) {
+			dbService.deleteEntityById(entityClass, toObject(getFirstIdJavaType(entityClass), key.split("\\+")[0]));
+		} else {
+			Object convertedParentId = null;
+			Class<?> parentClass = dbEntitiesRegistry.get(parentEntityName).getEntityClass();
+			if (StringUtils.isNumeric(parentId)) {
+				convertedParentId = Integer.valueOf(parentId);
+			} else {
+				convertedParentId = parentId;
+			}
+			dbService.deleteEntityByIdWithParent(entityClass, toObject(getFirstIdJavaType(entityClass), key.split("\\+")[0]),
+					parentClass, convertedParentId);
+		}
 	}
 
 	@Override
@@ -262,7 +279,7 @@ public class DefaultDbRestController extends AbstractRestController {
 					return null;
 				}
 			} else {
-				primaryKey = toObject(getFirstIdJavaType(entityClass), (String)keys[0]);
+				primaryKey = toObject(getFirstIdJavaType(entityClass), (String) keys[0]);
 			}
 			return dbService.getEntityById(entityClass, primaryKey);
 		} else {
@@ -289,7 +306,7 @@ public class DefaultDbRestController extends AbstractRestController {
 			if (keys.length == idFields.size()) {
 				for (int i = 0; i < keys.length; i++) {
 					idFields.get(i).setAccessible(true);
-					idFields.get(i).set(compositeClazz, toObject(idFields.get(i).getType(), (String)keys[i]));
+					idFields.get(i).set(compositeClazz, toObject(idFields.get(i).getType(), (String) keys[i]));
 				}
 				return compositeClazz;
 			}
@@ -349,8 +366,8 @@ public class DefaultDbRestController extends AbstractRestController {
 		}
 		int pageCount = 0;
 		if (entity.getClass() == TableDbObject.class) {
-			pageCount = ((TableDbObject)entity).getPageCount();
-			entity = ProxyUtil.getTargetJpaObject(((TableDbObject)entity).getResult(), children);
+			pageCount = ((TableDbObject) entity).getPageCount();
+			entity = ProxyUtil.getTargetJpaObject(((TableDbObject) entity).getResult(), children);
 		} else {
 			entity = ProxyUtil.getTargetJpaObject(entity, children);
 		}
@@ -394,10 +411,66 @@ public class DefaultDbRestController extends AbstractRestController {
 		}
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private ModelAndView postEntityJsonInner(String entityName, String key, String action, boolean children, String json,
 			HttpServletResponse response) throws IOException {
+		JSONObject jsonObject = new JSONObject();
+		JSONParser jsonParser = new JSONParser();
+		Object entity = null;
+		Object daoParent = null;
+		try {
+			jsonObject = (JSONObject) jsonParser.parse(json);
+			if (jsonObject.get("parent") != null) {
+				JSONObject jsonParent = (JSONObject) jsonObject.get("parent");
+				DbEntityDefinition dbEntityDefinition = dbEntitiesRegistry.get((String) jsonParent.get("entityName"));
+				if (dbEntityDefinition != null) {
+					Class<?> parentClass = dbEntityDefinition.getEntityClass();
+					String parentId = (String) jsonParent.get("id");
+					if (StringUtils.isNumeric(parentId)) {
+						daoParent = dbService.getEntityById(parentClass, Integer.valueOf(parentId));
+					} else {
+						daoParent = dbService.getEntityById(parentClass, parentId);
+					}
 
-		Object entity = preSendJsonEntity(entityName, key, json, response);
+					jsonObject.remove("parent");
+					json = jsonObject.toString();
+
+					entity = preSendJsonEntity(entityName, key, json, response);
+					entity = sendEntity(entity, action);
+
+					Field[] parentFields = daoParent.getClass().getDeclaredFields();
+					for (Field field : parentFields) {
+						Type genericFieldType = field.getGenericType();
+
+						if (genericFieldType instanceof ParameterizedType) {
+							ParameterizedType aType = (ParameterizedType) genericFieldType;
+							Type[] fieldArgTypes = aType.getActualTypeArguments();
+							Class fieldParameterizedType = (Class) fieldArgTypes[fieldArgTypes.length - 1];
+
+							if (entity.getClass().getSimpleName().equals(fieldParameterizedType.getSimpleName())) {
+								field.setAccessible(true);
+								try {
+									Object listValue = field.get(daoParent);
+									if (listValue instanceof List) {
+										((List) listValue).add(entity);
+									}
+								} catch (IllegalArgumentException e) {
+									e.printStackTrace();
+								} catch (IllegalAccessException e) {
+									e.printStackTrace();
+								}
+							}
+						}
+					}
+
+					entity = daoParent;
+				}
+			} else {
+				entity = preSendJsonEntity(entityName, key, json, response);
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 
 		Object resultEntity = sendEntity(entity, action);
 		return getEntityInner(resultEntity, children);
@@ -530,7 +603,13 @@ public class DefaultDbRestController extends AbstractRestController {
 	public Object sendEntity(Object entity, String action) {
 		Object resultEntity = null;
 		if (action == "") {
-			resultEntity = dbService.createOrUpdateEntity(entity);
+			try {
+				resultEntity = dbService.createOrUpdateEntity(entity);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				e.printStackTrace();
+			}
 
 		}
 		return resultEntity;
