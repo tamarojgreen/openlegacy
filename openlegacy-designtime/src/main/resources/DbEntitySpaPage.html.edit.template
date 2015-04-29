@@ -192,11 +192,7 @@
 						<#assign childColumns = []>
 						<#if entity.columnFieldsDefinitions??>
 							<#list entity.columnFieldsDefinitions?keys as key>
-								<#assign column = entity.columnFieldsDefinitions[key]>
-								${column.name}
-								${column.oneToManyDefinition???string}
-								${column.internal???string}
-								${column.internal?string}
+								<#assign column = entity.columnFieldsDefinitions[key]>								
 								<#if (!column.internal?? || column.internal == false) && !column.oneToManyDefinition?? && !column.staticField && !column.key && inputDisplayTypes?seq_contains(column.javaTypeName)>
 									<div class="row">
 										<label class="col-sm-3 col-xs-6">											

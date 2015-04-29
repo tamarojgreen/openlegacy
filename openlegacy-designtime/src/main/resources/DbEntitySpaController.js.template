@@ -14,13 +14,20 @@
 							$scope.entityName = data.model.entityName;
 							$scope.model = data.model;
 							
-							var redirectToDetailsWithParent = function(targetEntityName, rowIndex, propertyName) {								
-					        		if (targetEntityName == "${entityName}") {
-					        			var targetData = $scope.model.entity[propertyName][rowIndex];
-					        			var entityKey = <#list keys as key>targetData.${key.name}<#if key_has_next> + '+' + </#if></#list>;
-					        			var parent = {entityName: $scope.entityName, id: $scope.entityId}
-					        			$state.go(targetEntityName + "Details", {id: entityKey, parent: encodeURIComponent(JSON.stringify(parent))});
-					        		}
+							var redirectToDetailsWithParent = function(targetEntityName, rowIndex, propertyName) {							
+									<#if columnFieldsDefinitions??>																
+						        		<#list columnFieldsDefinitions?keys as key>
+						        			<#if columnFieldsDefinitions[key].oneToManyDefinition??>
+						        				<#assign childEntity = columnFieldsDefinitions[key].oneToManyDefinition.targetEntityDefinition>
+						        				if ('${childEntity.entityName}' == targetEntityName) {
+								        			var targetData = $scope.model.entity[propertyName][rowIndex];
+								        			var entityKey = <#list childEntity.keys as key>targetData.${key.name}<#if key_has_next> + '+' + </#if></#list>;
+								        			var parent = {entityName: $scope.entityName, id: $scope.entityId}
+								        			$state.go(targetEntityName + "Details", {id: entityKey, parent: encodeURIComponent(JSON.stringify(parent))});
+							        			}
+							        		</#if>						        		
+						        		</#list>
+					        		</#if>
 							} 
 							
 							$scope.doREADAction = function(targetEntityName, rowIndex, propertyName) {				
@@ -54,10 +61,17 @@
 										func: function () {
 											return function() {
 												if (rowIndex != null && targetEntityName != null && propertyName != null) {				    								
-					    				        		if (targetEntityName == "${entityName}") {
-					    				        			var targetData = $scope.model.entity[propertyName][rowIndex];	    				        			
-					    				        			var entityKey = <#list keys as key>targetData.${key.name}<#if key_has_next> + '+' + </#if></#list>;
-					    				        		}				    					        	
+									        		<#if columnFieldsDefinitions??>																
+										        		<#list columnFieldsDefinitions?keys as key>
+										        			<#if columnFieldsDefinitions[key].oneToManyDefinition??>
+										        				<#assign childEntity = columnFieldsDefinitions[key].oneToManyDefinition.targetEntityDefinition>
+										        				if ('${childEntity.entityName}' == targetEntityName) {
+							    				        			var targetData = $scope.model.entity[propertyName][rowIndex];	    				        			
+							    				        			var entityKey = <#list childEntity.keys as key>targetData.${key.name}<#if key_has_next> + '+' + </#if></#list>;
+						    				        			}
+					    				        			</#if>
+					    				        		</#list>
+				    				        		</#if>					    					        	
 				    					        	$olHttp.remove(targetEntityName + '/' + entityKey + "?parentEntityName=" + $scope.entityName + "&parentId=" + $scope.entityId, function(data) {
 				    									$state.go($state.current, {}, {reload: true});
 				    								});
@@ -103,7 +117,7 @@
 							<#if (!column.internal?? || column.internal == false) && column.oneToManyDefinition??>
 								$scope.${column.name}_showNext = true;
 								$scope.${column.name}_showPrev = true;
-								getItems('${column.javaTypeName}', '${column.name}', false, 1, $scope, $olHttp, $state, null);
+								getItems('${column.oneToManyDefinition.targetEntityDefinition.entityName}', '${column.name}', false, 1, $scope, $olHttp, $state, null);
 								$scope.nestedModels['${column.name}'] = [];
 							</#if>
 						</#list>
@@ -138,12 +152,10 @@
 						    });				
 						}
 						
-						$scope.doREADAction = function(targetEntityName, rowIndex, propertyName) {
-				        		if (targetEntityName == "${entityName}") {
-				        			var targetData = $scope.model.entity[propertyName]
-				        			var keys = Object.keys( targetData );	        			    
-							    	$state.go(targetEntityName + "Details", {${keys[0].name?replace(".", "_")}:<#list keys as key>targetData[keys[rowIndex]].${key.name}<#if key_has_next>+</#if></#list>});
-				        		}				        	
+						$scope.doREADAction = function(targetEntityName, rowIndex, propertyName) {				        		
+		        			var targetData = $scope.model.entity[propertyName]
+		        			var keys = Object.keys( targetData );	        			    
+					    	$state.go(targetEntityName + "Details", {${keys[0].name?replace(".", "_")}:<#list keys as key>targetData[keys[rowIndex]].${key.name}<#if key_has_next>+</#if></#list>});				        						        	
 				    	}
 					});
 			</#switch>
