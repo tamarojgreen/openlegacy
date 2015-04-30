@@ -10,6 +10,7 @@
 	</parent>
 
 	<artifactId>openlegacy-ide-eclipse-updatesite</artifactId>
+	<version>2.1.1.RELEASE</version>
 	<packaging>eclipse-repository</packaging>
 	<name>OpenLegacy eclipse plug-in update site</name>
 

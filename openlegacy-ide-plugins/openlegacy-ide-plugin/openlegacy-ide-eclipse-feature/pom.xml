@@ -10,6 +10,7 @@
 	</parent>
 
 	<artifactId>org.openlegacy.ide.eclipse.feature</artifactId>
+	<version>2.1.1.RELEASE</version>
 	<packaging>eclipse-feature</packaging>
 	<name>OpenLegacy eclipse plug-in feature</name>
 
