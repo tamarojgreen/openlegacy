@@ -58,6 +58,29 @@ public class SimpleRpcSessionPoolFactory extends AbstractSessionPoolFactory<RpcS
 			};
 			keepAliveThread.start();
 		}
+		if (cleanupAction != null) {
+			returnSessionsThread = new Thread() {
+
+				@Override
+				public void run() {
+					while (!stopThreads) {
+						while (dirties.size() > 0) {
+							RpcSession session = dirties.get(0);
+							logger.debug(MessageFormat.format("Async clean up of session {0}", session));
+							returnSessionInner(session);
+							dirties.remove(0);
+						}
+						try {
+							Thread.sleep(returnSessionsInterval);
+						} catch (InterruptedException e) {
+							throw (new RuntimeException(e));
+						}
+					}
+				}
+			};
+			returnSessionsThread.start();
+		}
+
 	}
 
 	@Override
@@ -67,7 +90,7 @@ public class SimpleRpcSessionPoolFactory extends AbstractSessionPoolFactory<RpcS
 		logger.debug(MessageFormat.format("New session {0} created for pool", rpcSession));
 		if (initAction != null) {
 			initAction.perform(rpcSession, null);
-			//			ReflectionUtil.newInstance(initAction).perform(rpcSession, null);
+			// ReflectionUtil.newInstance(initAction).perform(rpcSession, null);
 			logger.debug(MessageFormat.format("New session {0} init action {1} performed", rpcSession,
 					initAction.getClass().getSimpleName()));
 		}
