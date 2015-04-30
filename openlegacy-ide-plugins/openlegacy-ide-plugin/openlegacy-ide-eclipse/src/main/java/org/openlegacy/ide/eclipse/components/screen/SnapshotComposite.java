@@ -81,8 +81,7 @@ public class SnapshotComposite extends ImageComposite {
 	}
 
 	private enum RectangleDrawType {
-		DRAW,
-		FILL
+		DRAW, FILL
 	}
 
 	private static final String CURSOR_TEXT_ID = "cursor.text";
@@ -152,8 +151,8 @@ public class SnapshotComposite extends ImageComposite {
 			}
 			// calculate rectangle for mouse double click
 			// fetch row & column for terminal position
-			int row = (int)(renderer.fromHeight(startY) / scale) + LEFT_START_OFFSET;
-			int col = (int)(renderer.fromWidth(startX) / scale) + LEFT_COLUMN_OFFSET;
+			int row = (int) (renderer.fromHeight(startY) / scale) + LEFT_START_OFFSET;
+			int col = (int) (renderer.fromWidth(startX) / scale) + LEFT_COLUMN_OFFSET;
 			// if row or column less then cursorRow or cursorColumn then that means that mouse click was out of range of rectangle
 			if (row < this.cursorRow || col < this.cursorCol) {
 				return;
@@ -172,10 +171,10 @@ public class SnapshotComposite extends ImageComposite {
 				this.selectedObject.setStartsWithSeparator(isSelectionStartsWithSeparator(this.selectedObject.getFieldRectangle()));
 			}
 		} else {
-			int row = (int)(renderer.fromHeight(startY) / scale) + LEFT_START_OFFSET;
-			int col = (int)(renderer.fromWidth(startX) / scale) + LEFT_COLUMN_OFFSET;
-			int endRow = (int)(renderer.fromHeight(endY) / scale) + LEFT_START_OFFSET;
-			int endCol = (int)(renderer.fromWidth(endX) / scale) + LEFT_COLUMN_OFFSET;
+			int row = (int) (renderer.fromHeight(startY) / scale) + LEFT_START_OFFSET;
+			int col = (int) (renderer.fromWidth(startX) / scale) + LEFT_COLUMN_OFFSET;
+			int endRow = (int) (renderer.fromHeight(endY) / scale) + LEFT_START_OFFSET;
+			int endCol = (int) (renderer.fromWidth(endX) / scale) + LEFT_COLUMN_OFFSET;
 			// check if dragging starts outside the image
 			if ((dragState == DND_START) && (col < 1 || col > this.maxColCount || row < 1 || row > this.maxRowCount)) {
 				isDragging = false;
@@ -208,7 +207,7 @@ public class SnapshotComposite extends ImageComposite {
 			}
 		}
 	}
-	
+
 	private boolean isSelectionStartsWithSeparator(FieldRectangle rectangle) {
 		if (terminalSnapshotCopy != null) {
 			for (TerminalPosition position : terminalSnapshotCopy.getFieldSeperators()) {
@@ -245,7 +244,7 @@ public class SnapshotComposite extends ImageComposite {
 
 	private void displaySelectedRectangleLabel() {
 		if ((this.cursorLabel != null) && (this.selectedObject != null)) {
-			String prevText = (String)this.cursorLabel.getData(CURSOR_TEXT_ID);
+			String prevText = (String) this.cursorLabel.getData(CURSOR_TEXT_ID);
 			this.cursorLabel.setText(MessageFormat.format("{0}    Selection -> {1}", prevText,//$NON-NLS-1$
 					this.selectedObject.getFieldRectangle().toCoordsString()));
 			this.cursorLabel.pack(true);
@@ -340,7 +339,7 @@ public class SnapshotComposite extends ImageComposite {
 				if (!(rowPartItem instanceof SimpleRowPart)) {
 					continue;
 				}
-				int rightBorder = rowPartItem.getPosition().getColumn() + ((SimpleRowPart)rowPartItem).getLength();
+				int rightBorder = rowPartItem.getPosition().getColumn() + ((SimpleRowPart) rowPartItem).getLength();
 				if ((fieldColumn >= rowPartItem.getPosition().getColumn()) && (fieldColumn <= rightBorder)) {
 					int index = rowParts.indexOf(rowPartItem);
 					if (!isRtl) {
@@ -352,7 +351,7 @@ public class SnapshotComposite extends ImageComposite {
 							++index;
 						}
 					}
-					rowPart = (SimpleRowPart)rowParts.get(index);
+					rowPart = (SimpleRowPart) rowParts.get(index);
 					break;
 				}
 
@@ -381,7 +380,7 @@ public class SnapshotComposite extends ImageComposite {
 		}
 	}
 
-	private void fillSelectedObject(SelectedObject selectedObject, TerminalField field){
+	private void fillSelectedObject(SelectedObject selectedObject, TerminalField field) {
 		if (field != null && StringUtils.isNotBlank(field.getValue())) {
 			selectedObject.setLabelColumn(field.getPosition().getColumn());
 			selectedObject.setDisplayName(StringUtil.toDisplayName(field.getValue().trim()));
@@ -389,7 +388,7 @@ public class SnapshotComposite extends ImageComposite {
 					field.getValue().trim(), projectPath)));
 		}
 	}
-	
+
 	private void generateDefaultImage() {
 		if (terminalSnapshot == null) {
 			return;
@@ -448,16 +447,16 @@ public class SnapshotComposite extends ImageComposite {
 		}
 		Rectangle canvasBounds = this.canvas.getBounds();
 		if (calcScale) {
-			double hScale = (double)canvasBounds.width / rect.width;
-			double vScale = (double)canvasBounds.height / rect.height;
+			double hScale = (double) canvasBounds.width / rect.width;
+			double vScale = (double) canvasBounds.height / rect.height;
 
 			scale = Math.min(1.0d, Math.min(hScale, vScale));
 		}
-		int width = (int)(rect.width * scale);
-		int height = (int)(rect.height * scale);
+		int width = (int) (rect.width * scale);
+		int height = (int) (rect.height * scale);
 
-		int x = (int)(rect.x * scale);
-		int y = (int)(rect.y * scale);
+		int x = (int) (rect.x * scale);
+		int y = (int) (rect.y * scale);
 
 		return new Rectangle(x, y, width, height);
 	}
@@ -682,8 +681,8 @@ public class SnapshotComposite extends ImageComposite {
 	}
 
 	private void setCursorPosition(int x, int y) {
-		int row = (int)(renderer.fromHeight(y) / scale) + LEFT_START_OFFSET;
-		int col = (int)(renderer.fromWidth(x) / scale) + LEFT_COLUMN_OFFSET;
+		int row = (int) (renderer.fromHeight(y) / scale) + LEFT_START_OFFSET;
+		int col = (int) (renderer.fromWidth(x) / scale) + LEFT_COLUMN_OFFSET;
 
 		if (col > 0 && col <= maxColCount && row > 0 && row <= maxRowCount) {
 			this.cursorRow = (row);
@@ -703,7 +702,6 @@ public class SnapshotComposite extends ImageComposite {
 		}
 	}
 
-	
 	/**
 	 * Add rectangle draw action. Will draw borders only. Default color of borders is yellow. Also this method doesn't clear a
 	 * list of draw actions
@@ -762,6 +760,9 @@ public class SnapshotComposite extends ImageComposite {
 			this.terminalSnapshotCopy = terminalSnapshot;
 			this.generateDefaultImage();
 			this.clearCursorLabel();
+			this.cursorRow = 1;
+			this.cursorCol = 1;
+			this.displayCursorPositionText();
 		}
 		if (terminalSnapshot != null) {
 			this.rectangleDrawActions.clear();
@@ -839,8 +840,8 @@ public class SnapshotComposite extends ImageComposite {
 		this.projectPath = projectPath;
 	}
 
-	public SelectedObject getSelectedObject(int row, int column){
-		if (terminalSnapshotCopy != null){
+	public SelectedObject getSelectedObject(int row, int column) {
+		if (terminalSnapshotCopy != null) {
 			SimpleTerminalPosition terminalPosition = new SimpleTerminalPosition(row, column);
 			TerminalField field = terminalSnapshotCopy.getField(terminalPosition);
 			if (field != null) {
@@ -858,5 +859,5 @@ public class SnapshotComposite extends ImageComposite {
 		}
 		return null;
 	}
-	
+
 }
