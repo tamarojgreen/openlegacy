@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: OpenLegacy eclipse plug-in
 Bundle-SymbolicName: org.openlegacy.ide.eclipse; singleton:=true
-Bundle-Version: 2.2.0.qualifier
+Bundle-Version: 2.1.1.RELEASE
 Bundle-Activator: org.openlegacy.ide.eclipse.Activator
 Bundle-Localization: plugin
 Bundle-Vendor: OpenLegacy
@@ -68,12 +68,12 @@ Bundle-ClassPath: .,
  lib/koopa-105.jar,
  lib/log4j-1.2.15.jar,
  lib/mvel2-2.1.0.drools4.jar,
- lib/openlegacy-api-2.2.0-SNAPSHOT.jar,
- lib/openlegacy-designtime-2.2.0-SNAPSHOT.jar,
- lib/openlegacy-impl-2.2.0-SNAPSHOT.jar,
- lib/openlegacy-common-2.2.0-SNAPSHOT.jar,
- lib/openlegacy-jt400-2.2.0-SNAPSHOT.jar,
- lib/openlegacy-utils-2.2.0-SNAPSHOT.jar,
+ lib/openlegacy-api-2.1.1-RELEASE.jar,
+ lib/openlegacy-designtime-2.1.1-RELEASE.jar,
+ lib/openlegacy-impl-2.1.1-RELEASE.jar,
+ lib/openlegacy-common-2.1.1-RELEASE.jar,
+ lib/openlegacy-jt400-2.1.1-RELEASE.jar,
+ lib/openlegacy-utils-2.1.1-RELEASE.jar,
  lib/spring-aop-3.1.4.RELEASE.jar,
  lib/spring-asm-3.1.4.RELEASE.jar,
  lib/spring-aspects-3.1.4.RELEASE.jar,
