@@ -92,18 +92,20 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 				<#if parameter.entityDefinition??>
 					<#assign entityName = parameter.entityDefinition.entityName/>
 					<#if !addedEntities?seq_contains(entityName)>
+						${entityName} ${entityName?uncap_first} = new ${entityName}();
+					</#if>
+					<#if !addedEntities?seq_contains(entityName)>
 						<#assign addedEntities = addedEntities + [entityName]/>
 					</#if>
 				</#if>
-		
-				<#assign entityName = parameter.entityDefinition.entityName/>
+				
 				<#if isFieldParameter(parameter)>
 					<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
 					<#if isPartParameter(parameter)>
 						<#assign partName = parameter.partEntityDefinition.partName?cap_first/>
 						${entityName} ${entityName?uncap_first} = rpcSession.getEntity(${entityName}.class, ${serviceName?uncap_first}In.get${fieldName?cap_first}(), ${serviceName?uncap_first}In.get${partName}());
-					<#else>
-						${entityName} ${entityName?uncap_first} = rpcSession.getEntity(${entityName}.class, ${serviceName?uncap_first}In.get${fieldName?cap_first}());
+					<#else>						
+						${entityName?uncap_first}.set${fieldName?cap_first}(${serviceName?uncap_first}In.get${fieldName?cap_first}());
 					</#if>
 					<#assign fieldNames = fieldName?split(".")/>
 					<#if fieldNames?is_sequence && (fieldNames?size > 1)>
@@ -112,6 +114,9 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 				<#else>
 					${entityName} ${entityName?uncap_first} = rpcSession.getEntity(${entityName}.class);
 				</#if>
+			</#list>
+			<#list addedEntities as entityName>
+				rpcSession.doAction(RpcActions.READ(), ${entityName?uncap_first});
 			</#list>
 			
 			${serviceName}Out ${serviceName?uncap_first}Out = new ${serviceName}Out();

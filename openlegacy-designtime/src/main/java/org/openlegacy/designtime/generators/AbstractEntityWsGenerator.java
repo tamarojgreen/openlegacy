@@ -63,7 +63,8 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 	private static final String RS_RPC_INIT_ACTION_TEMPLATE = "jax-rs/rpc/InitAction.java.template";
 	private static final String RS_RPC_CLEANUP_ACTION_TEMPLATE = "jax-rs/rpc/CleanupAction.java.template";
 	private static final String RS_RPC_KEEP_ALIVE_ACTION_TEMPLATE = "jax-rs/rpc/KeepAliveAction.java.template";
-	private static final String RS_BEANS_TEMPLATE = "jax-rs/beans.template";
+	private static final String RS_SCREEN_BEANS_TEMPLATE = "jax-rs/beans.screen.template";
+	private static final String RS_RPC_BEANS_TEMPLATE = "jax-rs/beans.rpc.template";
 
 	private static final String TEST_CONTEXT_RELATIVE_PATH = "src/main/resources/META-INF/spring/applicationContext-test.xml";
 	private static final String APPLICATION_PROPERTIES = "src/main/resources/application.properties";
@@ -143,13 +144,13 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 					DesigntimeConstants.SERVICE_CONTEXT_RELATIVE_PATH);
 
 			GenerateUtil.replicateTemplate(serviceContextFile, generateServiceRequest, REGISTER_WS_START, REGISTER_WS_END,
-					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_START, serviceName), MessageFormat.format(
-							EXISTING_SERVICE_PLACE_HOLDER_END, serviceName));
+					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_START, serviceName),
+					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_END, serviceName));
 
 			File testContextFile = new File(generateServiceRequest.getProjectPath(), TEST_CONTEXT_RELATIVE_PATH);
 			GenerateUtil.replicateTemplate(testContextFile, generateServiceRequest, REGISTER_WS_START, REGISTER_WS_END,
-					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_START, serviceName), MessageFormat.format(
-							EXISTING_SERVICE_PLACE_HOLDER_END, serviceName));
+					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_START, serviceName),
+					MessageFormat.format(EXISTING_SERVICE_PLACE_HOLDER_END, serviceName));
 
 			if (generateServiceRequest.isGenerateTest()) {
 				File testFile = new File(generateServiceRequest.getProjectPath(), "src/test/java/tests/" + serviceName
@@ -256,7 +257,9 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 			// 7. add TerminalSessionPoolFactory
 			if (generateServiceRequest.isGeneratePool()) {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				getGenerateUtil().generate(generateServiceRequest, baos, RS_BEANS_TEMPLATE);
+				String beansTemplate = serviceType.equals(BackendSolution.SCREEN) ? RS_SCREEN_BEANS_TEMPLATE
+						: RS_RPC_BEANS_TEMPLATE;
+				getGenerateUtil().generate(generateServiceRequest, baos, beansTemplate);
 				String generatedBeans = new String(baos.toByteArray());
 				indexOf = contextFileContent.indexOf("</beans>");
 				sb = new StringBuilder(contextFileContent);
