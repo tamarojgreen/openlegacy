@@ -68,13 +68,6 @@
 			<artifactId>aspectjrt</artifactId>
 			<version>${aspectj.version}</version>
 		</dependency>
-		<!-- Javax -->
-		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.0-api</artifactId>
-			<version>1.0.1.Final</version>
-			<scope>compile</scope>
-		</dependency>
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>

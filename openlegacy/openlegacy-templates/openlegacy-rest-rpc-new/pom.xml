@@ -177,12 +177,6 @@
 			<version>${openlegacy-version}</version>
 		</dependency>		
 		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.0-api</artifactId>
-			<version>1.0.1.Final</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.2.1</version>
