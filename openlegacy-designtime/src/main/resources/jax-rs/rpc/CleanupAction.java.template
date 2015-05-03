@@ -7,7 +7,7 @@ import org.openlegacy.rpc.actions.RpcActions;
 public class ${serviceName}CleanupAction implements RpcAction {
 		
 		public void perform(RpcSession rpcSession, Object entity, Object... keys){
-			rpcSession.doAction(RpcActions.UPDATE());
+			//rpcSession.doAction(RpcActions.UPDATE());
 			// PLACE HOLDER for cleanup action
 		}
 }
