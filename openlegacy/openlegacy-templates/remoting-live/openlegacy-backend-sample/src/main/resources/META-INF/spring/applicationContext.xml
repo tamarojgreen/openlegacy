@@ -22,12 +22,14 @@
 		</property>
 	</bean>
 
-<!--  	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" parent="abstractTerminalSession"> -->
-<!-- 		<property name="useProxyForEntities" value="false"/> -->
+	<bean id="terminalConnection" class="org.openlegacy.terminal.support.TerminalConnectionDelegator"/>
+<!-- 	<bean id="terminalConnection" class="org.openlegacy.providers.tn5250j.Tn5250jTerminalConnection"> -->
+<!-- 		<constructor-arg value="false"/> -->
+<!-- 		<constructor-arg value="30000"/> -->
 <!-- 	</bean> -->
 
- 	<bean id="terminalSession" class="org.openlegacy.remoting.terminal.support.DefaultRemotingTerminalSession" parent="abstractTerminalSession">
-		<property name="useProxyForEntities" value="false"/>
+	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" scope="session" parent="abstractTerminalSession">
+		<property name="connection" ref="terminalConnection"/>
 	</bean>
 
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>

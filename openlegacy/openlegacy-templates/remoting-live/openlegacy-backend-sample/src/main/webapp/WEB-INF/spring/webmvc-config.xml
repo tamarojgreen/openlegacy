@@ -9,40 +9,10 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<bean id="terminalSessionExporter" name="/TerminalSessionService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-		<property name="service" ref="terminalSession"/>
-		<property name="serviceInterface" value="org.openlegacy.remoting.terminal.RemotingTerminalSession"/>
+	<bean id="terminalConnectionExporter" name="/TerminalConnectionService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+		<property name="service" ref="terminalConnection"/>
+		<property name="serviceInterface" value="org.openlegacy.terminal.TerminalConnection"/>
 	</bean>
-
-<!-- 	<bean id="terminalSessionFactoryExporter" name="/TerminalSessionFactory" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter"> -->
-<!-- 		<property name="service" ref="liveHostTerminalConnectionFactory"/> -->
-<!-- 		<property name="serviceInterface" value="org.openlegacy.terminal.TerminalSessionFactory"/> -->
-<!-- 	</bean> -->
-
-	<bean id="screenEntitiesRegistryExporter" name="/ScreenEntitiesRegistryService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-		<property name="service" ref="screensRegistry"/>
-		<property name="serviceInterface" value="org.openlegacy.terminal.services.ScreenEntitiesRegistry"/>
-	</bean>
-	
-	
-	<bean id="remotingBackendScreensRestController" class="org.openlegacy.remoting.web.backend.DefaultRemotingBackendScreensRestController">
-		<property name="terminalSession" ref="terminalSession"/>
-	</bean>
-	
-	<bean id="remotingBackendScreensRestControllerExporter" name="/RemotingBackendScreensRestController" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-		<property name="service" ref="remotingBackendScreensRestController"/>
-		<property name="serviceInterface" value="org.openlegacy.remoting.web.backend.RemotingBackendScreensRestController"/>
-	</bean>
-	
-<!-- 	<bean id="stockItemsExporter" name="/StockItemsService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter"> -->
-<!-- 		<property name="service" ref="stockItemsDbService"/> -->
-<!-- 		<property name="serviceInterface" value="org.openlegacy.mvc.remoting.services.StockItemsService"/> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="terminalConnectionFactoryExporter" name="/TerminalConnectionFactory" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter"> -->
-<!-- 		<property name="service" ref="terminalConnectionFactory"/> -->
-<!-- 		<property name="serviceInterface" value="org.openlegacy.terminal.TerminalConnectionFactory"/> -->
-<!-- 	</bean> -->
 
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 </beans>

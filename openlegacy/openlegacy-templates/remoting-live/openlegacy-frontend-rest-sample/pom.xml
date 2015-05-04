@@ -42,7 +42,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy</groupId>
-			<artifactId>openlegacy-remoting</artifactId>
+			<artifactId>openlegacy-web</artifactId>
 			<version>${openlegacy.version}</version>
 		</dependency>
 		<dependency>
@@ -91,6 +91,12 @@
 			<groupId>org.codehaus.castor</groupId>
 			<artifactId>castor-xml</artifactId>
 			<version>1.3.2</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-lang</groupId>
+					<artifactId>commons-lang</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	
 	</dependencies>

@@ -32,12 +32,6 @@
 			<version>${openlegacy.version}</version>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.openlegacy</groupId>
-			<artifactId>openlegacy-remoting</artifactId>
-			<version>${openlegacy.version}</version>
-			<scope>compile</scope>
-		</dependency>
 		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>

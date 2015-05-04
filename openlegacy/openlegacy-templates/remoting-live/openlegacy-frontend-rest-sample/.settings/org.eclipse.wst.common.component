@@ -16,9 +16,6 @@
         <dependent-module archiveName="openlegacy-common-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-common/openlegacy-common">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="openlegacy-remoting-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-remoting/openlegacy-remoting">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="openlegacy-web-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-web/openlegacy-web">
             <dependency-type>uses</dependency-type>
         </dependent-module>
