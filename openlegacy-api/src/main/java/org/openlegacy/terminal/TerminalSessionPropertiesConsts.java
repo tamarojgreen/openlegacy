@@ -13,4 +13,5 @@ package org.openlegacy.terminal;
 public class TerminalSessionPropertiesConsts {
 
 	public static final String DEVICE_NAME = "Device name";
+	public static final String CODE_PAGE = "Code page";
 }
