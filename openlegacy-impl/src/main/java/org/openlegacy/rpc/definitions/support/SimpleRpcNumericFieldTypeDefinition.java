@@ -27,6 +27,10 @@ public class SimpleRpcNumericFieldTypeDefinition extends SimpleNumericFieldTypeD
 		super();
 	}
 
+	public SimpleRpcNumericFieldTypeDefinition(double minimumValue, double maximumValue) {
+		super(minimumValue, maximumValue, "");
+	}
+
 	public SimpleRpcNumericFieldTypeDefinition(double minimumValue, double maximumValue, Integer decimalPlaces, String pattern) {
 		super(minimumValue, maximumValue, pattern);
 		this.decimalPlaces = decimalPlaces;

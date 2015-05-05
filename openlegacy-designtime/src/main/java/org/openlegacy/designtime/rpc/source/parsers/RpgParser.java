@@ -12,7 +12,6 @@ package org.openlegacy.designtime.rpc.source.parsers;
 
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
-import org.openlegacy.definitions.support.SimpleNumericFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleTextFieldTypeDefinition;
 import org.openlegacy.designtime.DesigntimeException;
 import org.openlegacy.designtime.rpc.model.support.SimpleRpcEntityDesigntimeDefinition;
@@ -68,12 +67,6 @@ public class RpgParser implements CodeParser {
 		fieldJavaTypeMap.put('I', Integer.class);
 		fieldJavaTypeMap.put('S', Integer.class);
 
-		fieldTypeMap.put(' ', new SimpleTextFieldTypeDefinition());
-		fieldTypeMap.put('A', new SimpleTextFieldTypeDefinition());
-		fieldTypeMap.put('D', new SimpleDateFieldTypeDefinition());
-		fieldTypeMap.put('F', new SimpleRpcNumericFieldTypeDefinition());
-		fieldTypeMap.put('I', new SimpleRpcNumericFieldTypeDefinition());
-		fieldTypeMap.put('S', new SimpleNumericFieldTypeDefinition());
 	}
 
 	private static Class<?> getJavaType(Character c) throws DesigntimeException {
@@ -85,12 +78,26 @@ public class RpgParser implements CodeParser {
 		}
 	}
 
-	private static FieldTypeDefinition getType(Character c) throws DesigntimeException {
-		try {
-			return fieldTypeMap.get(c);
+	private static FieldTypeDefinition getType(Character c, Integer length) throws DesigntimeException {
 
-		} catch (Exception e) {
-			throw (new DesigntimeException("Type " + c.toString() + " not supported"));
+		switch (c) {
+			case ' ':
+			case 'A':
+				return new SimpleTextFieldTypeDefinition();
+			case 'D':
+				return new SimpleDateFieldTypeDefinition();
+
+			case 'F':
+				return new SimpleRpcNumericFieldTypeDefinition();
+
+			case 'I':
+			case 'S':
+				double maxVal = Math.pow(10.0, length) - 1;
+				return new SimpleRpcNumericFieldTypeDefinition(-maxVal, maxVal);
+
+			default:
+				throw (new DesigntimeException("Type " + c.toString() + " not supported"));
+
 		}
 	}
 
@@ -161,7 +168,7 @@ public class RpgParser implements CodeParser {
 						rpcFieldDefinition.setLength(Integer.parseInt(StringUtil.leftTrim(match.group(6))));
 						Character fieldType = match.group(7).charAt(0);
 						rpcFieldDefinition.setJavaType(getJavaType(fieldType));
-						FieldTypeDefinition type = getType(fieldType);
+						FieldTypeDefinition type = getType(fieldType, rpcFieldDefinition.getLength());
 						rpcFieldDefinition.setFieldTypeDefinition(type);
 						rpcDefinition.getFieldsDefinitions().put(javaFieldName, rpcFieldDefinition);
 						// Integer asd = rpcFieldDefinition.getDecimalPlaces();

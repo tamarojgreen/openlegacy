@@ -3,6 +3,7 @@ package org.openlegacy.designtime.rpc.source.parsers;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.openlegacy.definitions.NumericFieldTypeDefinition;
 import org.openlegacy.designtime.DesigntimeException;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcFieldDefinition;
@@ -30,6 +31,8 @@ public class RpgParsetTest {
 		RpcFieldDefinition ageField = fieldDefinition.get("myAge");
 		Assert.assertTrue(Math.abs(ageField.getLength() - 3) < 0.001);
 		Assert.assertEquals(ageField.getJavaType(), Integer.class);
+		NumericFieldTypeDefinition numericFieldTypeDefinition = (NumericFieldTypeDefinition)ageField.getFieldTypeDefinition();
+		Assert.assertEquals(-999.0, numericFieldTypeDefinition.getMinimumValue(), 0.0001);
 
 	}
 }
