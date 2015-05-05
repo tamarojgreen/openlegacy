@@ -48,11 +48,12 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 
 	private String preferencePath;
 
+	@Override
 	public synchronized TerminalConnection getConnection(ConnectionProperties connectionProperties) {
 
-		properties.put("SESSION_HOST", hostProperties.get("host.name"));
-		properties.put("SESSION_HOST_PORT", hostProperties.get("host.port"));
-		properties.put("SESSION_CODE_PAGE", hostProperties.get("host.codePage"));
+		properties.put(TN5250jConstants.SESSION_HOST, hostProperties.get("host.name"));
+		properties.put(TN5250jConstants.SESSION_HOST_PORT, hostProperties.get("host.port"));
+		properties.put(TN5250jConstants.SESSION_CODE_PAGE, hostProperties.get("host.codePage"));
 
 		Properties sessionProperties = (Properties)properties.clone();
 
@@ -90,11 +91,17 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 	}
 
 	private static void setSessionProperties(ConnectionProperties connectionProperties, Properties sessionProperties) {
-		if (connectionProperties != null && connectionProperties.getDeviceName() != null) {
-			sessionProperties.put(TN5250jConstants.SESSION_DEVICE_NAME, connectionProperties.getDeviceName());
+		if (connectionProperties != null) {
+			if (connectionProperties.getDeviceName() != null) {
+				sessionProperties.put(TN5250jConstants.SESSION_DEVICE_NAME, connectionProperties.getDeviceName());
+			}
+			if (connectionProperties.getCodePage() != null) {
+				sessionProperties.put(TN5250jConstants.SESSION_CODE_PAGE, connectionProperties.getCodePage());
+			}
 		}
 	}
 
+	@Override
 	public void disconnect(TerminalConnection terminalConnection) {
 		((Session5250)terminalConnection.getDelegate()).disconnect();
 	}
