@@ -258,10 +258,10 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			getEntity(screenEntity.getClass());
 		}
 
-		if (terminalAction instanceof SimpleDrilldownAction){
+		if (terminalAction instanceof SimpleDrilldownAction) {
 			terminalAction = ((SimpleDrilldownAction)terminalAction).getAction();
 		}
-		
+
 		Object command = terminalActionMapper.getCommand(terminalAction);
 		if (command == null) {
 			terminalAction.perform(this, screenEntity);
@@ -516,6 +516,12 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 						getProperties().setProperty(TerminalSessionPropertiesConsts.DEVICE_NAME, device);
 					}
 					return device;
+				}
+
+				@Override
+				public String getCodePage() {
+					String codePage = (String)getProperties().getProperty(TerminalSessionPropertiesConsts.CODE_PAGE);
+					return codePage;
 				}
 
 			};
