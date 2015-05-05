@@ -16,11 +16,26 @@
 	</#if>
 	<#return false>
 </#function>
+<#function isTableParameter parameter>
+	<#if parameter.tableDefinition??>
+		<#return true>
+	</#if>
+	<#return false>
+</#function>
 <#assign addedImports = []/>
 <#macro addImports parameters>
 	<#assign primitiveTypes = ["byte", "byte[]", "short", "int", "long", "float", "double", "char", "boolean", "Integer", "String", "Boolean", "Long", "Double"]/>
 	<#list parameters as parameter>
-		<#if isEntityParameter(parameter)>
+		<#if isTableParameter(parameter)>
+			<#assign imports = [parameter.entityDefinition.packageName + "." + parameter.entityDefinition.entityClassName]/>			
+			<#assign imports = imports + ["java.util.List"]/>
+			<#list imports as import>
+				<#if !addedImports?seq_contains(import)>
+import ${import};
+					<#assign addedImports = addedImports + [import]/>
+				</#if>	
+			</#list>				
+		<#elseif isEntityParameter(parameter)>
 			<#assign import = parameter.entityDefinition.packageName + "." + parameter.entityDefinition.entityClassName/>
 			<#if !addedImports?seq_contains(import)>
 import ${import};
@@ -142,15 +157,21 @@ public interface ${serviceName}Service {
 	public static class ${serviceName}Out{
 		<#assign fields = []/>
 		<#list outputParameters as parameter>
-			<#if isEntityParameter(parameter)>
-				<#if !fields?seq_contains(parameter.entityDefinition.entityName)>
-		${parameter.entityDefinition.entityName} ${parameter.entityDefinition.entityName?uncap_first};
-					<#assign fields = fields + [parameter.entityDefinition.entityName]/>
-				</#if>
-			<#elseif isPartParameter(parameter)>
+			<#if isTableParameter(parameter)>			
+					<#if !fields?seq_contains(parameter.tableDefinition.tableEntityName?uncap_first + "s")>				
+			List<${parameter.entityDefinition.entityName}.${parameter.tableDefinition.tableEntityName}> ${parameter.tableDefinition.tableEntityName?uncap_first}s;
+						<#assign fields = fields + [parameter.tableDefinition.tableEntityName?uncap_first + "s"]/>
+					</#if>	
+			
+			<#elseif isPartParameter(parameter)>			
 				<#if !fields?seq_contains(parameter.partEntityDefinition.partName)>
 		${parameter.partEntityDefinition.partName} ${parameter.partEntityDefinition.partName?uncap_first};
 					<#assign fields = fields + [parameter.partEntityDefinition.partName]/>
+				</#if>
+			<#elseif isEntityParameter(parameter)>			
+				<#if !fields?seq_contains(parameter.entityDefinition.entityName)>
+		${parameter.entityDefinition.entityName} ${parameter.entityDefinition.entityName?uncap_first};
+					<#assign fields = fields + [parameter.entityDefinition.entityName]/>
 				</#if>
 			<#elseif isFieldParameter(parameter)>
 				<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
@@ -167,20 +188,20 @@ public interface ${serviceName}Service {
 
 		<#assign gettersSetters = []/>
 		<#list outputParameters as parameter>
-			<#if isEntityParameter(parameter)>
-				<#assign entityName = parameter.entityDefinition.entityName/>
-				<#assign getter = "get" + entityName?cap_first/>
-				<#if !gettersSetters?seq_contains(getter)>
+			<#if isTableParameter(parameter)>			
+					<#assign tableName = parameter.tableDefinition.tableEntityName />
+						<#assign getter = "get" + tableName?cap_first + "s"/>
+						<#if !gettersSetters?seq_contains(getter)>
+						
+				public List<${parameter.entityDefinition.entityName}.${tableName?cap_first}> ${getter}(){
+					return this.${tableName?uncap_first}s;
+				}
 				
-		public ${entityName?cap_first} ${getter}(){
-			return ${entityName?uncap_first};
-		}
-		
-		public void set${entityName?cap_first}(${entityName?cap_first} ${entityName?uncap_first}){
-			this.${entityName?uncap_first} = ${entityName?uncap_first};
-		}
-					<#assign gettersSetters = gettersSetters + [getter]/>
-				</#if>
+				public void set${tableName?cap_first}s(List<${parameter.entityDefinition.entityName}.${tableName?cap_first}> ${tableName?uncap_first}s){
+					this.${tableName?uncap_first}s = ${tableName?uncap_first}s;
+				}
+							<#assign gettersSetters = gettersSetters + [getter]/>
+					</#if>			
 			<#elseif isPartParameter(parameter)>
 				<#assign partName = parameter.partEntityDefinition.partName />
 				<#assign getter = "get" + partName?cap_first/>
@@ -195,6 +216,7 @@ public interface ${serviceName}Service {
 		}
 					<#assign gettersSetters = gettersSetters + [getter]/>
 				</#if>
+			
 			<#elseif isFieldParameter(parameter)>
 				<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
 				<#assign fieldNames = fieldName?split(".")/>
@@ -210,6 +232,20 @@ public interface ${serviceName}Service {
 		
 		public void set${fieldName?cap_first}(${parameter.fieldDefinition.javaTypeName} ${fieldName?uncap_first}){
 			this.${fieldName?uncap_first} = ${fieldName?uncap_first};
+		}
+					<#assign gettersSetters = gettersSetters + [getter]/>
+				</#if>
+			<#elseif isEntityParameter(parameter)>
+				<#assign entityName = parameter.entityDefinition.entityName/>
+				<#assign getter = "get" + entityName?cap_first/>
+				<#if !gettersSetters?seq_contains(getter)>
+				
+		public ${entityName?cap_first} ${getter}(){
+			return ${entityName?uncap_first};
+		}
+		
+		public void set${entityName?cap_first}(${entityName?cap_first} ${entityName?uncap_first}){
+			this.${entityName?uncap_first} = ${entityName?uncap_first};
 		}
 					<#assign gettersSetters = gettersSetters + [getter]/>
 				</#if>

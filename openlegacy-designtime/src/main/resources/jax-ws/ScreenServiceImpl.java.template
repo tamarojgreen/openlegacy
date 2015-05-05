@@ -16,6 +16,12 @@
 	</#if>
 	<#return false>
 </#function>
+<#function isTableParameter parameter>
+	<#if parameter.tableDefinition??>
+		<#return true>
+	</#if>
+	<#return false>
+</#function>
 package ${package};
 
 <#if inputParameters?size != 0 || outputParameters?size != 0>
@@ -81,6 +87,8 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 
 	@Override
 	public ${serviceName}Out get${serviceName}(<#if inputParameters?size != 0>${serviceName}In ${serviceName?uncap_first}In</#if>) {
+	
+	
 
 		<#if generatePool>
 		TerminalSession terminalSession = terminalSessionFactory.getSession();		
@@ -169,11 +177,15 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 						<#assign addedEntities = addedEntities + [entityName]/>
 					</#if>
 				</#if>
-				<#if isEntityParameter(parameter)>
+				<#if isTableParameter(parameter)>
+					<#assign entityName = parameter.entityDefinition.entityName/>
+					<#assign tableName = parameter.tableDefinition.tableEntityName/>
+					${serviceName?uncap_first}Out.set${tableName}s(${entityName?uncap_first}.get${tableName}s());
+				<#elseif isEntityParameter(parameter)>
 					<#assign entityName = parameter.entityDefinition.entityName/>					
 			${serviceName?uncap_first}Out.set${entityName?cap_first}(${entityName?uncap_first});
-				</#if>
-				<#if isFieldParameter(parameter)>
+				
+				<#elseif isFieldParameter(parameter)>
 					<#assign entityName = parameter.entityDefinition.entityName/>
 					<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
 					<#assign fieldNames = fieldName?split(".")/>
@@ -186,9 +198,8 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 			${serviceName?uncap_first}Out.set${fieldName?cap_first}(${entityName?uncap_first}.get${fieldNames[0]?cap_first}().get${fieldName?cap_first}());
 					<#else>
 			${serviceName?uncap_first}Out.set${fieldName?cap_first}(${entityName?uncap_first}.get${fieldName?cap_first}());
-					</#if>
-				</#if>
-				<#if isPartParameter(parameter)>
+					</#if>				
+				<#elseif isPartParameter(parameter)>
 					<#assign entityName = parameter.entityDefinition.entityName/>
 					<#assign partName = parameter.partEntityDefinition.partName?cap_first/>
 					<#if !addedEntities?seq_contains(entityName)>						

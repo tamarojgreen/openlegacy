@@ -15,6 +15,7 @@ import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.rpc.RpcPartMode
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.screen.ScreenEntityModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.screen.ScreenFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.screen.ScreenPartModel;
+import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.screen.ScreenTableModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.providers.ItemLabelProvider;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.providers.TableContentProvider;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.providers.TreeViewContentProvider;
@@ -79,6 +80,7 @@ import org.openlegacy.designtime.mains.ServiceEntityFieldParameter;
 import org.openlegacy.designtime.mains.ServiceEntityParameter;
 import org.openlegacy.designtime.mains.ServiceParameter;
 import org.openlegacy.designtime.mains.ServicePartParameter;
+import org.openlegacy.designtime.mains.ServiceTableParameter;
 import org.openlegacy.ide.eclipse.Activator;
 import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
 import org.openlegacy.ide.eclipse.components.rpc.RpcComposite;
@@ -256,8 +258,8 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 			@Override
 			public void run() {
-				result[0] = MessageDialog.openQuestion(getShell(), Messages.getString("title.openlegacy"), MessageFormat.format(
-						Messages.getString("question.override.file"), file.getName()));
+				result[0] = MessageDialog.openQuestion(getShell(), Messages.getString("title.openlegacy"),
+						MessageFormat.format(Messages.getString("question.override.file"), file.getName()));
 			}
 		});
 
@@ -740,9 +742,7 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 				mRpcComposite.setSource(IOUtils.toString(resourceFile.getContents()));
 				mRpcComposite.setVisible(true);
 				return;
-			} catch (IOException e) {
-			} catch (CoreException e) {
-			}
+			} catch (IOException e) {} catch (CoreException e) {}
 		}
 		mRpcComposite.setVisible(false);
 	}
@@ -813,8 +813,8 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 			endPosition = new SimpleTerminalPosition(row, endColumn);
 		}
 
-		mSnapshotComposite.addDrawingRectangle(getRectangle(row, endPosition.getRow(), column, endPosition.getColumn(),
-				"", terminalSnapshot), SWT.COLOR_YELLOW, true);//$NON-NLS-1$
+		mSnapshotComposite.addDrawingRectangle(
+				getRectangle(row, endPosition.getRow(), column, endPosition.getColumn(), "", terminalSnapshot), SWT.COLOR_YELLOW, true);//$NON-NLS-1$
 		// add rectangle for @ScreenDescriptionField
 		if (definition.getDescriptionFieldDefinition() != null
 				&& definition.getDescriptionFieldDefinition().getPosition() != null
@@ -990,6 +990,9 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 		} else if (model instanceof ScreenPartModel) {
 			return new ServicePartParameter(((ScreenEntityModel) model.getParent()).getDefinition(),
 					((ScreenPartModel) model).getDefinition());
+		} else if (model instanceof ScreenTableModel) {
+			return new ServiceTableParameter(((ScreenEntityModel) model.getParent()).getDefinition(),
+					((ScreenTableModel) model).getDefinition());
 		} else if (model instanceof ScreenFieldModel) {
 			AbstractNamedModel parent = model.getParent();
 			if (parent instanceof ScreenEntityModel) {

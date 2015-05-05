@@ -34,6 +34,10 @@ public class ScreenEntityModel extends AbstractEntityModel {
 			children.addAll(ScreenEntityUtils.getParts(entityDefinition, this));
 		}
 
+		if (!entityDefinition.getTableDefinitions().isEmpty()) {
+			children.addAll(ScreenEntityUtils.getTables(entityDefinition, this));
+		}
+
 		if (xmlFile != null && xmlFile.exists()) {
 			DefaultTerminalSnapshotsLoader loader = new DefaultTerminalSnapshotsLoader();
 			terminalSnapshot = loader.load(new File(xmlFile.getLocationURI()).getAbsolutePath());

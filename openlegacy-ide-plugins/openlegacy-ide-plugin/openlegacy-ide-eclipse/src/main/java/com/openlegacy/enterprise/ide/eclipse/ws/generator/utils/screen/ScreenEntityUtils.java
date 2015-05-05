@@ -7,6 +7,7 @@ import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.screen.ScreenEn
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.screen.ScreenFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.screen.ScreenIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.screen.ScreenPartModel;
+import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.screen.ScreenTableModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.screen.ScreenValuesFieldModel;
 
 import org.openlegacy.definitions.BooleanFieldTypeDefinition;
@@ -15,8 +16,10 @@ import org.openlegacy.definitions.EnumFieldTypeDefinition;
 import org.openlegacy.definitions.FieldWithValuesTypeDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.designtime.generators.CodeBasedScreenPartDefinition;
+import org.openlegacy.designtime.generators.CodeBasedScreenTableDefinition;
 import org.openlegacy.designtime.terminal.generators.support.CodeBasedScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 
 import java.util.ArrayList;
@@ -42,7 +45,7 @@ public class ScreenEntityUtils {
 			} else if (definition.getFieldTypeDefinition() instanceof EnumFieldTypeDefinition) {
 				model = new ScreenEnumFieldModel(definition, parent);
 			} else {
-				if (((SimpleScreenFieldDefinition)definition).getJavaTypeName().equals(Integer.class.getSimpleName())) {
+				if (((SimpleScreenFieldDefinition) definition).getJavaTypeName().equals(Integer.class.getSimpleName())) {
 					model = new ScreenIntegerFieldModel(definition, parent);
 				} else {
 					// string field by default
@@ -61,7 +64,19 @@ public class ScreenEntityUtils {
 		Collection<PartEntityDefinition<ScreenFieldDefinition>> values = entityDefinition.getPartsDefinitions().values();
 		for (PartEntityDefinition<ScreenFieldDefinition> partEntityDefinition : values) {
 			if (partEntityDefinition instanceof CodeBasedScreenPartDefinition) {
-				ScreenPartModel model = new ScreenPartModel((CodeBasedScreenPartDefinition)partEntityDefinition, parent);
+				ScreenPartModel model = new ScreenPartModel((CodeBasedScreenPartDefinition) partEntityDefinition, parent);
+				list.add(model);
+			}
+		}
+		return list;
+	}
+
+	public static List<ScreenTableModel> getTables(CodeBasedScreenEntityDefinition entityDefinition, AbstractNamedModel parent) {
+		List<ScreenTableModel> list = new ArrayList<ScreenTableModel>();
+		Collection<ScreenTableDefinition> values = entityDefinition.getTableDefinitions().values();
+		for (ScreenTableDefinition screenTableDefinition : values) {
+			if (screenTableDefinition instanceof CodeBasedScreenTableDefinition) {
+				ScreenTableModel model = new ScreenTableModel((CodeBasedScreenTableDefinition) screenTableDefinition, parent);
 				list.add(model);
 			}
 		}
