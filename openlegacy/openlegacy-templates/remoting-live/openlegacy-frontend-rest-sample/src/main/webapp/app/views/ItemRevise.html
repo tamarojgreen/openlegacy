@@ -1,0 +1,47 @@
+<h1>Item Revise</h1>
+
+<nav class="navbar navbar-default" role="navigation">
+    <form class="navbar-form xnavbar-left" role="navigation">
+    	<button data-ng-click="doAction('ItemRevise', '')" class="btn btn-primary navbar-btn"><span class="glyphicon glyphicon-share-alt"></span> Submit</button>
+			<button data-ng-show="isActionAvailable('help')" data-ng-click="doAction('ItemRevise', 'help')" class="btn btn-primary navbar-btn"><span class="glyphicon glyphicon-question-sign"></span> Help</button>
+			<button data-ng-show="isActionAvailable('prompt')" data-ng-click="doAction('ItemRevise', 'prompt')" class="btn btn-primary navbar-btn"><span class="glyphicon glyphicon-comment"></span> Prompt</button>
+			<button data-ng-show="isActionAvailable('cancel')" data-ng-click="doAction('ItemRevise', 'cancel')" class="btn btn-primary navbar-btn"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
+			<button data-ng-show="isActionAvailable('delete')" data-ng-click="doAction('ItemRevise', 'delete')" class="btn btn-primary navbar-btn"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+		<a ng-href="{{baseUrl}}ItemRevise{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="false">
+		<span class="glyphicon glyphicon-export"></span>	        	
+           	Excel
+           </a>            
+    </form>
+</nav>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<form role="form" class="form-horizontal">
+			<!-- tabs -->
+           	<ul class="nav nav-tabs">
+           		<li class="active"><a href="/#main-details" data-toggle="tab">Main Details</a></li>
+           		<li><a href="/#stock" data-toggle="tab">Stock</a></li>
+           		<li><a href="/#gallery" data-toggle="tab">Gallery</a></li>
+           		<li><a href="/#sales" data-toggle="tab">Sales</a></li>
+           	</ul>
+
+           	<!--  tabs content -->
+           	<div class="tab-content top-margin-10">
+           		<div class="tab-pane active" id="main-details">
+					<div ng-include="'views/partials/tabs/itemRevise_mainDetails.html'"></div>
+				</div>
+           		<div class="tab-pane" id="stock">
+           			<div ng-include="'views/partials/tabs/itemRevise_stock.html'"></div>
+           		</div>
+           		<div class="tab-pane" id="gallery">
+           			<div ng-include="'views/partials/tabs/itemRevise_galary.html'"></div>
+           		</div>
+           		<div class="tab-pane" id="sales">
+           			<div ng-include="'views/partials/tabs/itemRevise_sales.html'"></div>
+           		</div>
+           	</div> 	           	
+		</form>
+	</div>
+</div>
+
+
+

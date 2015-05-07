@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot sequence="21" type="INCOMING">
+    <row rowNumber="1">
+        <field column="2" length="0" color="BLUE"/>
+        <field column="2" value="OPENLEGA1 " length="10" color="BLUE"/>
+        <field column="13" value="       " length="7"/>
+        <field column="21" value="                                        " length="40" color="WHITE"/>
+        <field column="62" value="          " length="10"/>
+        <field column="73" value="19/03/15" length="8" color="BLUE"/>
+    </row>
+    <row rowNumber="2">
+        <field column="2" value="MITMMAST  " length="10" color="BLUE"/>
+        <field column="13" value="            " length="12"/>
+        <field column="26" value="    Work with Item Master     " length="30" color="WHITE"/>
+        <field column="57" value="               " length="15"/>
+        <field column="73" value="10:47:45" length="8" color="BLUE"/>
+    </row>
+    <row rowNumber="3">
+        <field column="2" value="SUP014    " length="10" color="BLUE"/>
+        <field column="13" value="                                                                    " length="68"/>
+    </row>
+    <row rowNumber="4">
+        <field column="2" value="Enter data, press Enter.  " length="26" color="BLUE"/>
+        <field column="29" value="                                                    " length="52"/>
+    </row>
+    <row rowNumber="5">
+        <field column="2" value="Item Number/Desc :" length="18"/>
+        <field column="21" value=" " length="1"/>
+        <field column="23" value="1000                " length="20" color="BLUE"/>
+        <field column="44" value="                                     " length="37"/>
+    </row>
+    <row rowNumber="6">
+        <field column="23" value="Domino Cubes - Board                    " length="40" color="BLUE"/>
+        <field column="64" value="                 " length="17"/>
+    </row>
+    <row rowNumber="7">
+        <field column="2" value="N/L Cost of Sales Account" length="25"/>
+        <field column="28" length="0"/>
+        <field column="29" value="               " length="15"/>
+        <field column="45" value="                                    " length="36"/>
+    </row>
+    <row rowNumber="8">
+        <field column="2" value="N/L Sales Account . . . ." length="25"/>
+        <field column="28" length="0"/>
+        <field column="29" value="               " length="15"/>
+        <field column="45" value="                                    " length="36"/>
+    </row>
+    <row rowNumber="9">
+        <field column="2" value="N/L Stock Account . . . ." length="25"/>
+        <field column="28" length="0"/>
+        <field column="29" value="               " length="15"/>
+        <field column="45" value="                                    " length="36"/>
+    </row>
+    <row rowNumber="10">
+        <field column="2" value="               " length="15"/>
+        <field column="18" value=". . . . ." length="9"/>
+        <field column="28" length="0"/>
+        <field column="29" value="     " length="5"/>
+        <field column="35" value="                                              " length="46"/>
+    </row>
+    <row rowNumber="11">
+        <field column="2" value="               " length="15"/>
+        <field column="18" value=". . . . ." length="9"/>
+        <field column="28" length="0"/>
+        <field column="29" value="     " length="5"/>
+        <field column="35" value="                                              " length="46"/>
+    </row>
+    <row rowNumber="12">
+        <field column="2" value="               " length="15"/>
+        <field column="18" value=". . . . ." length="9"/>
+        <field column="28" length="0"/>
+        <field column="29" value="     " length="5"/>
+        <field column="35" value="                                              " length="46"/>
+    </row>
+    <row rowNumber="13">
+        <field column="2" value="Item Type - business area" length="25"/>
+        <field column="28" length="0"/>
+        <field column="29" value=" " length="1"/>
+        <field column="31" value="                                        " length="40"/>
+        <field column="72" value="         " length="9"/>
+    </row>
+    <row rowNumber="14">
+        <field column="2" value="Stock Analysis Code . . ." length="25"/>
+        <field column="28" length="0"/>
+        <field column="29" value=" " length="1"/>
+        <field column="31" value="                                        " length="40"/>
+        <field column="72" value="         " length="9"/>
+    </row>
+    <row rowNumber="15">
+        <field column="2" value="Stock Value Group . . . ." length="25"/>
+        <field column="28" length="0"/>
+        <field column="29" value=" " length="1"/>
+        <field column="31" value="                                        " length="40"/>
+        <field column="72" value="         " length="9"/>
+    </row>
+    <row rowNumber="16">
+        <field column="2" value="Stock Inventory Group . ." length="25"/>
+        <field column="28" length="0"/>
+        <field column="29" value="  " length="2"/>
+        <field column="32" value="                                        " length="40"/>
+        <field column="73" value="        " length="8"/>
+    </row>
+    <row rowNumber="17">
+        <field column="2" value="List Price  . . . . . . ." length="25"/>
+        <field column="28" length="0"/>
+        <field column="29" value="       .0000" length="12"/>
+        <field column="42" value="                                       " length="39"/>
+    </row>
+    <row rowNumber="18">
+        <field column="2" value="Standard unit cost  . . ." length="25"/>
+        <field column="28" length="0"/>
+        <field column="29" value="       .00000" length="13"/>
+        <field column="43" value="             " length="13"/>
+        <field column="57" value="Audit Details" length="13" color="WHITE"/>
+        <field column="71" value="          " length="10"/>
+    </row>
+    <row rowNumber="19">
+        <field column="51" value="Created date . :" length="16"/>
+        <field column="68" length="0"/>
+        <field column="69" value="          " length="10"/>
+        <field column="80" value=" " length="1"/>
+    </row>
+    <row rowNumber="20">
+        <field column="51" value="Created By . . :" length="16"/>
+        <field column="68" length="0"/>
+        <field column="69" value="OPENLEGA1 " length="10"/>
+        <field column="80" value=" " length="1"/>
+    </row>
+    <row rowNumber="21">
+        <field column="51" value="Amended date . :" length="16"/>
+        <field column="68" length="0"/>
+        <field column="69" value="          " length="10"/>
+        <field column="80" value=" " length="1"/>
+    </row>
+    <row rowNumber="22">
+        <field column="51" value="Amended By . . :" length="16"/>
+        <field column="68" length="0"/>
+        <field column="69" value="OPENLEGA1 " length="10"/>
+        <field column="80" value=" " length="1"/>
+    </row>
+    <row rowNumber="23">
+        <field column="2" value="F1=Help  F3=Cancel  F4=Prompt  F12=Return  F14=Delete" length="53" color="BLUE"/>
+    </row>
+    <size rows="24" columns="80"/>
+    <cursor row="18" column="29"/>
+</snapshot>

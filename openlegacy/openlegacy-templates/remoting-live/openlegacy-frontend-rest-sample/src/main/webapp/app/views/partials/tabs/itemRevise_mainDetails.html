@@ -1,0 +1,150 @@
+<div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+		<img class="img-thumbnail" ng-src="img/{{model.itemNumber}}/main.jpg" style="width:100%;" />
+	</div>
+	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+		<div class="form-group" ng-class="terminalColors('itemNumber')">
+			<label for="itemNumber" class="control-label">Item	Number:</label>
+			<span id="itemNumber" ng-model="model.itemNumber">{{model.itemNumber}}</span>
+		</div>
+		<div class="form-group" ng-class="terminalColors('itemDescription')">
+			<label for="itemDescription" class="control-label ">Item
+				Description:</label>
+				<input data-ng-class="readOnlyCss(model,'itemDescription')"
+					data-ng-readonly="isReadOnly(model,'itemDescription')"
+					type="text" class="form-control child-terminal-colors"
+					id="itemDescription" ng-model="model.itemDescription">
+		</div>
+		<div class="form-group" ng-class="terminalColors('alphaSearch')">
+			<label for="alphaSearch" class="control-label ">Alpha
+				Search:</label>
+				<input data-ng-class="readOnlyCss(model,'alphaSearch')"
+					data-ng-readonly="isReadOnly(model,'alphaSearch')" type="text"
+					class="form-control child-terminal-colors" id="alphaSearch"
+					ng-model="model.alphaSearch">
+		</div>
+		<div class="form-group"
+			ng-class="terminalColors('supercedingItemto')">
+			<label for="supercedingItemto" class="control-label ">Superceding
+				item To:</label>
+				<input data-ng-class="readOnlyCss(model,'supercedingItemto')"
+					data-ng-readonly="isReadOnly(model,'supercedingItemto')"
+					type="text" class="form-control child-terminal-colors"
+					id="supercedingItemto" ng-model="model.supercedingItemto">
+		</div>
+		<div class="form-group"
+			ng-class="terminalColors('supercedingItemfrom')">
+			<label for="supercedingItemfrom" class="control-label ">Superceding
+				Item From:</label>
+				<input data-ng-class="readOnlyCss(model,'supercedingItemfrom')"
+					data-ng-readonly="isReadOnly(model,'supercedingItemfrom')"
+					type="text" class="form-control child-terminal-colors"
+					id="supercedingItemfrom" ng-model="model.supercedingItemfrom">
+		</div>
+		<div class="form-group"
+			ng-class="terminalColors('substituteItemNumber')">
+			<label for="substituteItemNumber" class="control-label ">Substitute
+				item number:</label>
+				<input data-ng-class="readOnlyCss(model,'substituteItemNumber')"
+					data-ng-readonly="isReadOnly(model,'substituteItemNumber')"
+					type="text" class="form-control child-terminal-colors"
+					id="substituteItemNumber" ng-model="model.substituteItemNumber">
+		</div>
+		<div class="form-group"
+			ng-class="terminalColors('manufacturersItemNo')">
+			<label for="manufacturersItemNo" class="control-label ">Manufacturers
+				Item No:</label>
+				<input data-ng-class="readOnlyCss(model,'manufacturersItemNo')"
+					data-ng-readonly="isReadOnly(model,'manufacturersItemNo')"
+					type="text" class="form-control child-terminal-colors"
+					id="manufacturersItemNo" ng-model="model.manufacturersItemNo">
+		</div>
+		<div class="form-group" ng-class="terminalColors('itemWeight')">
+			<label for="itemWeight" class="control-label ">Item
+				weight:</label>
+				<input data-ng-class="readOnlyCss(model,'itemWeight')"
+					data-ng-readonly="isReadOnly(model,'itemWeight')" type="text"
+					class="form-control child-terminal-colors" id="itemWeight"
+					ng-model="model.itemWeight">
+		</div>
+		<!-- <div class="form-group" ng-class="terminalColors('itemClass')">
+			<label for="itemClass" class="control-label ">Item
+				Class:</label>
+				<input data-ng-class="readOnlyCss(model,'itemClass')"
+					data-ng-readonly="isReadOnly(model,'itemClass')" type="text"
+					class="form-control child-terminal-colors" id="itemClass"
+					ng-model="model.itemClass">
+				<span class="alert-success" id="itemClassName" ng-model="model.itemClassName">{{model.itemClassName}}</span>
+		</div>
+		<div class="form-group" ng-class="terminalColors('itemClassName')">
+			<label for="itemClassName" class="control-label ">Item
+				Class Name:</label>
+				<span id="itemClassName" ng-model="model.itemClassName">{{model.itemClassName}}</span>
+		</div>
+		<div class="form-group" ng-class="terminalColors('stockGroup')">
+			<label for="stockGroup" class="control-label ">Stock
+				Group:</label>
+				<input data-ng-class="readOnlyCss(model,'stockGroup')"
+					data-ng-readonly="isReadOnly(model,'stockGroup')" type="text"
+					class="form-control child-terminal-colors" id="stockGroup"
+					ng-model="model.stockGroup">
+				<span class="alert-success" id="stockGroupName" ng-model="model.stockGroupName">{{model.stockGroupName}}</span>
+		</div>
+		<div class="form-group" ng-class="terminalColors('stockGroupName')">
+			<label for="stockGroupName" class="control-label ">Stock
+				Group Name:</label>
+				<span id="stockGroupName" ng-model="model.stockGroupName">{{model.stockGroupName}}</span>
+		</div>
+		<div class="form-group" ng-class="terminalColors('unitOfMeasure')">
+			<label for="unitOfMeasure" class="control-label ">Unit
+				of Measure:</label>
+				<input data-ng-class="readOnlyCss(model,'unitOfMeasure')"
+					data-ng-readonly="isReadOnly(model,'unitOfMeasure')" type="text"
+					class="form-control child-terminal-colors" id="unitOfMeasure"
+					ng-model="model.unitOfMeasure">
+		</div>
+		<div class="form-group"
+			ng-class="terminalColors('packingMultiplier')">
+			<label for="packingMultiplier" class="control-label ">Packing
+				Multiplier:</label>
+				<input data-ng-class="readOnlyCss(model,'packingMultiplier')"
+					data-ng-readonly="isReadOnly(model,'packingMultiplier')"
+					type="text" class="form-control child-terminal-colors"
+					id="packingMultiplier" ng-model="model.packingMultiplier">
+		</div>
+		<div class="form-group"
+			ng-class="terminalColors('outerUnitOfMeasure')">
+			<label for="outerUnitOfMeasure" class="control-label ">Outer
+				Unit of Measure:</label>
+				<input data-ng-class="readOnlyCss(model,'outerUnitOfMeasure')"
+					data-ng-readonly="isReadOnly(model,'outerUnitOfMeasure')"
+					type="text" class="form-control child-terminal-colors"
+					id="outerUnitOfMeasure" ng-model="model.outerUnitOfMeasure">
+		</div>
+		<div class="form-group" ng-class="terminalColors('outerQuantity')">
+			<label for="outerQuantity" class="control-label ">Outer
+				Quantity:</label>
+				<input data-ng-class="readOnlyCss(model,'outerQuantity')"
+					data-ng-readonly="isReadOnly(model,'outerQuantity')" type="text"
+					class="form-control child-terminal-colors" id="outerQuantity"
+					ng-model="model.outerQuantity">
+		</div>
+		<div class="form-group"
+			ng-class="terminalColors('palletLabelRequired')">
+			<label for="palletLabelRequired" class="control-label ">Pallet
+				label required:</label>
+				<input data-ng-class="readOnlyCss(model,'palletLabelRequired')"
+					data-ng-readonly="isReadOnly(model,'palletLabelRequired')"
+					type="text" class="form-control child-terminal-colors"
+					id="palletLabelRequired" ng-model="model.palletLabelRequired">
+		</div>
+		<div class="form-group" ng-class="terminalColors('vatCode')">
+			<label for="vatCode" class="control-label ">VAT
+				Code:</label>
+				<input data-ng-class="readOnlyCss(model,'vatCode')"
+					data-ng-readonly="isReadOnly(model,'vatCode')" type="text"
+					class="form-control child-terminal-colors" id="vatCode"
+					ng-model="model.vatCode">
+		</div> -->
+	</div>
+</div>

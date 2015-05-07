@@ -118,6 +118,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	private boolean enableConnectWithoutDevice = true;
 
+	private TerminalSnapshot snapshot;
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public synchronized <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
@@ -314,6 +316,17 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	@Override
 	public synchronized TerminalSnapshot getSnapshot() {
+
+		// clear the snapshot sequence is different from the session, clear it so it will re-build
+		if (snapshot != null && snapshot.getSequence() != null
+				&& !terminalConnection.getSequence().equals(snapshot.getSequence())) {
+			snapshot = null;
+		}
+
+		if (snapshot != null) {
+			return snapshot;
+		}
+
 		boolean newSession = false;
 		if (!terminalConnection.isConnected()) {
 			notifyModulesBeforeConnect();
@@ -323,7 +336,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 				throw (new LoginException("Device cannot be empty"));
 			}
 		}
-		TerminalSnapshot snapshot = terminalConnection.getSnapshot();
+		snapshot = terminalConnection.getSnapshot();
 
 		if (newSession) {
 			notifyModulesAfterConnect();
@@ -409,6 +422,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		notifyModulesBeforeSend(sendAction);
 
 		terminalConnection.doAction(sendAction);
+		snapshot = null;
+
 		lastSequence = getSequence();
 		resetEntity();
 

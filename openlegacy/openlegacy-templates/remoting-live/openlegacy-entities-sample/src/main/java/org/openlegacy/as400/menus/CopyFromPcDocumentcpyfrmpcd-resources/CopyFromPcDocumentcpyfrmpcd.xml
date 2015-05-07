@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING" sequence="57">
+    <row rowNumber="1">
+        <field column="2" length="0"/>
+        <field column="3" value=" " length="1"/>
+        <field column="5" value="    " length="4"/>
+        <field column="10" value=" " length="1"/>
+        <field column="12" value="       " length="7"/>
+        <field column="20" value="     Copy From PC Document (CPYFRMPCD)     " length="43" color="WHITE"/>
+        <field column="64" value="                 " length="17"/>
+    </row>
+    <row rowNumber="2">
+        <field column="3" value=" " length="1"/>
+        <field column="5" value="    " length="4"/>
+        <field column="10" value=" " length="1"/>
+        <field column="12" value="                                                                     " length="69"/>
+    </row>
+    <row rowNumber="3">
+        <field column="2" value="Type choices, press Enter." length="26" color="BLUE"/>
+        <field column="29" value="                                                    " length="52"/>
+    </row>
+    <row rowNumber="5">
+        <field column="1" length="0"/>
+        <field column="2" value="From folder  . . . . . . . . . ." length="32"/>
+        <field column="35" value=" " length="1"/>
+        <field column="37" length="44" editable="true" color="WHITE"/>
+    </row>
+    <row rowNumber="7">
+        <field column="2" value="To file  . . . . . . . . . . . ." length="32"/>
+        <field column="35" value=" " length="1"/>
+        <field column="37" length="10" editable="true" color="WHITE"/>
+        <field column="48" value="  " length="2"/>
+        <field column="51" value="Name                          " length="30"/>
+    </row>
+    <row rowNumber="8">
+        <field column="2" value="  Library  . . . . . . . . . . ." length="32"/>
+        <field column="35" value="   " length="3"/>
+        <field column="39" value="*LIBL" length="10" editable="true"/>
+        <field column="50" length="0"/>
+        <field column="51" value="Name, *LIBL, *CURLIB          " length="30"/>
+    </row>
+    <row rowNumber="9">
+        <field column="2" value="From document  . . . . . . . . ." length="32"/>
+        <field column="35" value=" " length="1"/>
+        <field column="37" length="12" editable="true" color="WHITE"/>
+        <field column="50" length="0"/>
+        <field column="51" value="Name                          " length="30"/>
+    </row>
+    <row rowNumber="10">
+        <field column="2" value="To member  . . . . . . . . . . ." length="32"/>
+        <field column="35" value=" " length="1"/>
+        <field column="37" value="*FIRST" length="10" editable="true"/>
+        <field column="48" value="  " length="2"/>
+        <field column="51" value="Name, *FIRST, *FROMDOC        " length="30"/>
+    </row>
+    <row rowNumber="11">
+        <field column="2" value="Replace or add records . . . . ." length="32"/>
+        <field column="35" value=" " length="1"/>
+        <field column="37" value="*REPLACE" length="8" editable="true"/>
+        <field column="46" value="    " length="4"/>
+        <field column="51" value="*REPLACE, *ADD                " length="30"/>
+    </row>
+    <row rowNumber="12">
+        <field column="2" value="Translate table  . . . . . . . ." length="32"/>
+        <field column="35" value=" " length="1"/>
+        <field column="37" value="*DFT" length="10" editable="true"/>
+        <field column="48" value="  " length="2"/>
+        <field column="51" value="Name, *DFT, *NONE             " length="30"/>
+    </row>
+    <row rowNumber="13">
+        <field column="2" value="  Library  . . . . . . . . . . ." length="32"/>
+        <field column="35" value="   " length="3"/>
+        <field column="39" length="10" editable="true"/>
+        <field column="50" length="0"/>
+        <field column="51" value="Name, *LIBL, *CURLIB          " length="30"/>
+    </row>
+    <row rowNumber="14">
+        <field column="2" value="Format of PC data  . . . . . . ." length="32"/>
+        <field column="35" value=" " length="1"/>
+        <field column="37" value="*TEXT" length="7" editable="true"/>
+        <field column="45" value="     " length="5"/>
+        <field column="51" value="*TEXT, *NOTEXT                " length="30"/>
+    </row>
+    <row rowNumber="15">
+        <field column="2" value="DBCS code page . . . . . . . . ." length="32"/>
+        <field column="35" value=" " length="1"/>
+        <field column="37" value="*DFT" length="5" editable="true"/>
+        <field column="43" value="       " length="7"/>
+        <field column="51" value="*DFT, *JPN, *CHT, *BG5...     " length="30"/>
+    </row>
+    <row rowNumber="16">
+        <field column="2" value="Insert DBCS SO/SI  . . . . . . ." length="32"/>
+        <field column="35" value=" " length="1"/>
+        <field column="37" value="*YES" length="4" editable="true"/>
+        <field column="42" value="        " length="8"/>
+        <field column="51" value="*YES, *NO                     " length="30"/>
+    </row>
+    <row rowNumber="21">
+        <field column="1" value="                                                                 " length="65"/>
+        <field column="67" value="       Bottom" length="13" color="WHITE"/>
+    </row>
+    <row rowNumber="22">
+        <field column="1" length="0" color="BLUE"/>
+        <field column="2" value="F3=Exit   F4=Prompt   F5=Refresh   F12=Cancel   F13=How to use this display    " length="79" color="BLUE"/>
+    </row>
+    <size rows="24" columns="80"/>
+    <cursor row="5" column="37"/>
+</snapshot>
