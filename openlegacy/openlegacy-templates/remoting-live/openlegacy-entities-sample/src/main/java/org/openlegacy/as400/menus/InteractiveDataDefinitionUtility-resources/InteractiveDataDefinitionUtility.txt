@@ -1,0 +1,32 @@
+
+    2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0
+            1 1 1 1 1 2 2 2 2 2 3 3 3 3 3 4 4 4 4 4 5 5 5 5 5 6 6 6 6 6 7 7 7 7 7 8
+___________________________________________________________________________________
+1 |^IDDU      ^         ^Interactive Data Definition Utility^                      |
+2 | ^ ^      ^ ^                                               ^System:^ ^S1051C6E |
+3 |^Select one of the following:^                                                  |
+4 |                                                                                |
+5 |     ^1. Work with data definitions^                                            |
+6 |     ^2. Work with data dictionaries^                                           |
+7 |     ^3. Work with database files^                                              |
+8 |                                                                                |
+9 |    ^20. Work with libraries^                                                   |
+10|    ^21. Work with files^                                                       |
+11|                                                                                |
+12|    ^30. Office tasks^                                                          |
+13|                                                                                |
+14|    ^70. Related commands^                                                      |
+15|                                                                                |
+16|                                                                                |
+17|                                                                                |
+18|                                                                                |
+19|^Selection or command^                                                          |
+20|^===>[                                                                          ]
+21|                                                                                |
+22|^F3=Exit^ ^F4=Prompt^ ^F9=Retrieve^ ^F12=Cancel^ ^F13=Information Assistant^    |
+23|^F16=System Main menu^                                                          |
+24|^(C) COPYRIGHT IBM CORP. 1980, 2009.                                         ^  |
+___________________________________________________________________________________
+    2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0
+            1 1 1 1 1 2 2 2 2 2 3 3 3 3 3 4 4 4 4 4 5 5 5 5 5 6 6 6 6 6 7 7 7 7 7 8
+___________________________________________________________________________________

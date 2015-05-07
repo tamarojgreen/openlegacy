@@ -1,0 +1,3 @@
+Known issue:
+Currently all screens must have setters for all fields, when using same screens model API, for the client (as the JUnit test).
+https://github.com/openlegacy/openlegacy/issues/356 

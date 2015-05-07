@@ -56,12 +56,6 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 	public TerminalSnapshot getSnapshot() {
 		lazyConnect();
 
-		// clear the snapshot sequence is different from the session, clear it so it will re-build
-		if (terminalSnapshot != null && terminalSnapshot.getSequence() != null
-				&& !terminalConnection.getSequence().equals(terminalSnapshot.getSequence())) {
-			terminalSnapshot = null;
-		}
-
 		waitForNonEmptySnapshot();
 
 		if (!isConnected()) {
@@ -227,6 +221,9 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 
 	@Override
 	public boolean isRightToLeftState() {
+		if (terminalConnection == null) {
+			return false;
+		}
 		return terminalConnection.isRightToLeftState();
 	}
 }

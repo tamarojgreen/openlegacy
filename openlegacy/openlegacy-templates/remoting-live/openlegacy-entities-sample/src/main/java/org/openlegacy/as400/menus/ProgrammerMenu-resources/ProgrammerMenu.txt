@@ -1,0 +1,32 @@
+
+    2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0
+            1 1 1 1 1 2 2 2 2 2 3 3 3 3 3 4 4 4 4 4 5 5 5 5 5 6 6 6 6 6 7 7 7 7 7 8
+___________________________________________________________________________________
+1 |^                             Programmer Menu                                 ^ |
+2 |                                                      ^      System:^ ^S1051C6E |
+3 |^Select one of the following:                                         ^         |
+4 |     ^1. Start Data File Utility                       ^                        |
+5 |     ^2. Work with Queries                                                      |
+6 |     ^3. Create an object from a source file     object name, type, pgm for CMD |
+7 |     ^4. Call a program                          program name                   |
+8 |     ^5. Run a command                           command                        |
+9 |     ^6. Submit a job                            (job name), , ,(command)       |
+10|     ^7. Go to a menu                            menu name                      |
+11|     ^8. Edit a source file member               (srcmbr), (type)               |
+12|     ^9. Design display format using SDA         (srcmbr), ,(mode)              |
+13|    ^90. Sign off                                (*nolist, *list)             ^ |
+14|                                                                                |
+15|^Selection . . . . .^ [  ]          ^Parm . . . .^ [          ]                 |
+16|^Type  . . . . . . .^ [          ]  ^Parm 2 . . .^ [                     ]      |
+17|^Command . . . . . .^ [                                                         ]
+18|                                                                                |
+19|^Source file . . . .^ [          ]  ^Source library . . . . . . .^ [*LIBL     ] |
+20|^Object library  . .^ [          ]  ^Job description  . . . . . .^ [*USRPRF   ] |
+21|                                                                                |
+22|^F3=Exit        F4=Prompt            F6=Display messages   F10=Command entry    |
+23|^F12=Cancel     F14=Work with submitted jobs               F18=Work with output |
+24|^          ^                                                                    |
+___________________________________________________________________________________
+    2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0
+            1 1 1 1 1 2 2 2 2 2 3 3 3 3 3 4 4 4 4 4 5 5 5 5 5 6 6 6 6 6 7 7 7 7 7 8
+___________________________________________________________________________________
