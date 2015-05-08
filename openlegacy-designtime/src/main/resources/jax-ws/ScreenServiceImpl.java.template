@@ -130,6 +130,15 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 							<#assign addedEntities = addedEntities + [entityName]/>
 						</#if>
 					</#if>
+				</#if>
+				<#if isTableParameter(parameter)>
+					<#assign entityName = parameter.entityDefinition.entityName/>
+					<#assign tableName = parameter.tableDefinition.tableEntityName/>
+					<#if !addedEntities?seq_contains(entityName)>						
+						${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class);
+						<#assign addedEntities = addedEntities + [entityName]/>
+					</#if>					
+			${entityName?uncap_first}.set${tableName}s(${serviceName?uncap_first}In.get${tableName}s());
 				</#if>				
 				<#if isFieldParameter(parameter)>
 					<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
@@ -180,7 +189,7 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 				<#if isTableParameter(parameter)>
 					<#assign entityName = parameter.entityDefinition.entityName/>
 					<#assign tableName = parameter.tableDefinition.tableEntityName/>
-					${serviceName?uncap_first}Out.set${tableName}s(${entityName?uncap_first}.get${tableName}s());
+			${serviceName?uncap_first}Out.set${tableName}s(${entityName?uncap_first}.get${tableName}s());
 				<#elseif isEntityParameter(parameter)>
 					<#assign entityName = parameter.entityDefinition.entityName/>					
 			${serviceName?uncap_first}Out.set${entityName?cap_first}(${entityName?uncap_first});

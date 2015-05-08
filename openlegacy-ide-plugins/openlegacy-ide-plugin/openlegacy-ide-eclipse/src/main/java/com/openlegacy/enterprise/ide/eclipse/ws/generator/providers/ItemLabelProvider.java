@@ -22,6 +22,7 @@ import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.screen.ScreenEn
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.screen.ScreenFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.screen.ScreenIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.screen.ScreenPartModel;
+import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.screen.ScreenTableModel;
 import com.openlegacy.enterprise.ide.eclipse.ws.generator.models.screen.ScreenValuesFieldModel;
 
 import org.eclipse.jface.viewers.LabelProvider;
@@ -37,7 +38,7 @@ public class ItemLabelProvider extends LabelProvider {
 	@Override
 	public String getText(Object element) {
 		if (element instanceof AbstractNamedModel) {
-			return ((AbstractNamedModel)element).getName();
+			return ((AbstractNamedModel) element).getName();
 		}
 		return "unknown";//$NON-NLS-1$
 	}
@@ -61,6 +62,8 @@ public class ItemLabelProvider extends LabelProvider {
 			return Activator.getDefault().getImage(Activator.ICON_INTEGER);
 		} else if (element instanceof ScreenFieldModel) {
 			return Activator.getDefault().getImage(Activator.ICON_STRING);
+		} else if (element instanceof ScreenTableModel) {
+			return Activator.getDefault().getImage(Activator.ICON_TABLE);
 		} else if (element instanceof RpcEntityModel) {
 			// for RpcEntity
 			return Activator.getDefault().getImage(Activator.ICON_RPC_ENTITY);
@@ -78,23 +81,23 @@ public class ItemLabelProvider extends LabelProvider {
 			// for Jpa Entity
 			return Activator.getDefault().getImage(Activator.ICON_JPA_ENTITY);
 		} else if (element instanceof JpaBooleanFieldModel) {
-			boolean key = ((JpaFieldModel)element).getDefinition().isKey();
+			boolean key = ((JpaFieldModel) element).getDefinition().isKey();
 			return Activator.getDefault().getImage(key ? Activator.ICON_BOOLEAN_KEY : Activator.ICON_BOOLEAN);
 		} else if (element instanceof JpaByteFieldModel) {
-			boolean key = ((JpaFieldModel)element).getDefinition().isKey();
+			boolean key = ((JpaFieldModel) element).getDefinition().isKey();
 			return Activator.getDefault().getImage(key ? Activator.ICON_BYTE_KEY : Activator.ICON_BYTE);
 		} else if (element instanceof JpaDateFieldModel) {
-			boolean key = ((JpaFieldModel)element).getDefinition().isKey();
+			boolean key = ((JpaFieldModel) element).getDefinition().isKey();
 			return Activator.getDefault().getImage(key ? Activator.ICON_DATE_KEY : Activator.ICON_DATE);
 		} else if (element instanceof JpaIntegerFieldModel) {
-			boolean key = ((JpaFieldModel)element).getDefinition().isKey();
+			boolean key = ((JpaFieldModel) element).getDefinition().isKey();
 			return Activator.getDefault().getImage(key ? Activator.ICON_INTEGER_KEY : Activator.ICON_INTEGER);
 		} else if (element instanceof JpaListFieldModel) {
 			return Activator.getDefault().getImage(Activator.ICON_LIST);
 		} else if (element instanceof JpaManyToOneFieldModel) {
 			return Activator.getDefault().getImage(Activator.ICON_MANY_TO_ONE);
 		} else if (element instanceof JpaFieldModel) {
-			boolean key = ((JpaFieldModel)element).getDefinition().isKey();
+			boolean key = ((JpaFieldModel) element).getDefinition().isKey();
 			return Activator.getDefault().getImage(key ? Activator.ICON_STRING_KEY : Activator.ICON_STRING);
 		}
 		return null;

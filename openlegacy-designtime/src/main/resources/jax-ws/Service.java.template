@@ -91,7 +91,12 @@ public interface ${serviceName}Service {
 	public static class ${serviceName}In{
 		<#assign fields = []/>
 		<#list inputParameters as parameter>
-			<#if isEntityParameter(parameter)>
+			<#if isTableParameter(parameter)>
+				<#if !fields?seq_contains(parameter.tableDefinition.tableEntityName)>
+		List<${parameter.entityDefinition.entityName}.${parameter.tableDefinition.tableEntityName}> ${parameter.tableDefinition.tableEntityName?uncap_first}s;
+						<#assign fields = fields + [parameter.tableDefinition.tableEntityName]/>
+				</#if>
+			<#elseif isEntityParameter(parameter)>
 				<#if !fields?seq_contains(parameter.entityDefinition.entityName)>
 		${parameter.entityDefinition.entityName} ${parameter.entityDefinition.entityName?uncap_first};
 					<#assign fields = fields + [parameter.entityDefinition.entityName]/>
@@ -116,7 +121,15 @@ public interface ${serviceName}Service {
 		
 		<#assign getters = []/>
 		<#list inputParameters as parameter>
-			<#if isEntityParameter(parameter)>
+			<#if isTableParameter(parameter)>
+				<#assign getter = "get" + parameter.tableDefinition.tableEntityName?cap_first + "s"/>
+				<#if !getters?seq_contains(getter)>
+		public List<${parameter.entityDefinition.entityName}.${parameter.tableDefinition.tableEntityName}> ${getter}(){
+			return ${parameter.tableDefinition.tableEntityName?uncap_first}s;
+		}
+					<#assign getters = getters + [getter]/>
+				</#if>
+			<#elseif isEntityParameter(parameter)>
 				<#assign getter = "get" + parameter.entityDefinition.entityName?cap_first/>
 				<#if !getters?seq_contains(getter)>
 		public ${parameter.entityDefinition.entityName} ${getter}(){
@@ -193,13 +206,13 @@ public interface ${serviceName}Service {
 						<#assign getter = "get" + tableName?cap_first + "s"/>
 						<#if !gettersSetters?seq_contains(getter)>
 						
-				public List<${parameter.entityDefinition.entityName}.${tableName?cap_first}> ${getter}(){
-					return this.${tableName?uncap_first}s;
-				}
-				
-				public void set${tableName?cap_first}s(List<${parameter.entityDefinition.entityName}.${tableName?cap_first}> ${tableName?uncap_first}s){
-					this.${tableName?uncap_first}s = ${tableName?uncap_first}s;
-				}
+		public List<${parameter.entityDefinition.entityName}.${tableName?cap_first}> ${getter}(){
+			return this.${tableName?uncap_first}s;
+		}
+		
+		public void set${tableName?cap_first}s(List<${parameter.entityDefinition.entityName}.${tableName?cap_first}> ${tableName?uncap_first}s){
+			this.${tableName?uncap_first}s = ${tableName?uncap_first}s;
+		}
 							<#assign gettersSetters = gettersSetters + [getter]/>
 					</#if>			
 			<#elseif isPartParameter(parameter)>
