@@ -111,6 +111,12 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 				</#if>
 			</#list>
 			
+			<#assign analyzedHash = {}>
+			<#assign scannedEntities = []>
+			<#list inputParameters as parameter>				
+				<#assign analyzedHash = analyzedHash + {parameter.entityDefinition.entityName: parameter}>								
+			</#list>
+			
 			<#list groupHash?keys as hashKey>				
 			${hashKey} ${hashKey?uncap_first} = terminalSession.getEntity(${hashKey}.class, <#list groupHash[hashKey] as key>${serviceName?uncap_first}In.get${key.fieldDefinition.name?cap_first}()<#if key_has_next>, </#if></#list>);
 				<#assign addedEntities = addedEntities + [hashKey]/>
@@ -134,7 +140,7 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 				<#if isTableParameter(parameter)>
 					<#assign entityName = parameter.entityDefinition.entityName/>
 					<#assign tableName = parameter.tableDefinition.tableEntityName/>
-					<#if !addedEntities?seq_contains(entityName)>						
+					<#if !addedEntities?seq_contains(entityName)>
 						${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class);
 						<#assign addedEntities = addedEntities + [entityName]/>
 					</#if>					
@@ -150,7 +156,7 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 			${entityName?uncap_first}.set${fieldName?cap_first}(${serviceName?uncap_first}In.get${fieldName?cap_first}());
 					</#if>				
 				</#if>
-				<#if isPartParameter(parameter)>					
+				<#if isPartParameter(parameter)>
 					<#assign partName = parameter.partEntityDefinition.partName?cap_first/>					
 					<#assign entityName = parameter.entityDefinition.entityName/>
 					<#if !addedEntities?seq_contains(entityName)>						
@@ -158,25 +164,25 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 						<#assign addedEntities = addedEntities + [entityName]/>
 					</#if>					
 			${entityName?uncap_first}.set${partName}(${serviceName?uncap_first}In.get${partName}());
-				</#if>
-			</#list>
-			
-			<#assign eNames = []/>
-			<#list inputParameters as parameter>
-				<#if parameter.entityDefinition?? && !eNames?seq_contains(parameter.entityDefinition.entityName)>
-					<#assign eName = parameter.entityDefinition.entityName/>
-					<#if isFieldParameter(parameter)>
-						<#if !parameter.fieldDefinition.key>
+				</#if>				
+				<#if parameter.entityDefinition??>
+					<#assign eName = parameter.entityDefinition.entityName>
+					<#assign eNames = []/>
+					<#if analyzedHash[eName] == parameter>
+						<#if isFieldParameter(parameter)>
+							<#if !parameter.fieldDefinition.key>
 			terminalSession.doAction(TerminalActions.ENTER(), (ScreenEntity)${eName?uncap_first});
+				
+								<#assign eNames = eNames + [eName]/>
+							</#if>
+						<#else>	
+			terminalSession.doAction(TerminalActions.ENTER(), (ScreenEntity)${eName?uncap_first});
+				
 							<#assign eNames = eNames + [eName]/>
 						</#if>
-					<#else>	
-			terminalSession.doAction(TerminalActions.ENTER(), (ScreenEntity)${eName?uncap_first});
-						<#assign eNames = eNames + [eName]/>
 					</#if>
 				</#if>
-			</#list>
-			
+			</#list>			
 			${serviceName}Out ${serviceName?uncap_first}Out = new ${serviceName}Out();
 			<#list outputParameters as parameter>
 				<#if parameter.entityDefinition??>
