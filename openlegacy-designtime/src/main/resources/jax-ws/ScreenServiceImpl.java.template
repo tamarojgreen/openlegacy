@@ -111,8 +111,7 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 				</#if>
 			</#list>
 			
-			<#assign analyzedHash = {}>
-			<#assign scannedEntities = []>
+			<#assign analyzedHash = {}>			
 			<#list inputParameters as parameter>				
 				<#assign analyzedHash = analyzedHash + {parameter.entityDefinition.entityName: parameter}>								
 			</#list>
