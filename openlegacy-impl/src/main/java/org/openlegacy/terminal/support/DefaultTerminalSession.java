@@ -465,7 +465,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	@Override
 	public synchronized TerminalSnapshot fetchSnapshot() {
-		return terminalConnection.fetchSnapshot();
+		snapshot = terminalConnection.fetchSnapshot();
+		return snapshot;
 	}
 
 	@Override
