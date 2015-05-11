@@ -54,7 +54,7 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 
 	@Override
 	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) throws EntityNotFoundException,
-	ScreenEntityNotAccessibleException {
+			ScreenEntityNotAccessibleException {
 
 		ScreenPojoFieldAccessor fieldAccessor = null;
 
@@ -84,9 +84,6 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 			TerminalField enumField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(position.getRow(),
 					position.getColumn()));
 
-			if (!enumField.isEditable()) {
-				continue;
-			}
 			if (enumField.isHidden()) {
 				logger.debug("A hidden field was not bound " + fieldDefinition.getName());
 				return;
