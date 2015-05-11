@@ -7,6 +7,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaActionsActio
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbColumnAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaEntityAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaEnumFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaGeneratedValueFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaIdFieldAction;
@@ -16,6 +17,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaManyToOneAct
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaManyToOneFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaNavigationAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaTableAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.enums.EnumEntryModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaActionsModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaBooleanFieldModel;
@@ -23,6 +25,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaByteFieldMode
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaDateFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEnumFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaJoinColumnModel;
@@ -328,7 +331,7 @@ public class JpaEntityUtils {
 		public static void generateJpaListFieldActions(JpaEntity entity, JpaListFieldModel model) {
 			boolean isPrevious = true;
 			boolean isDefault = true;
-			JpaListFieldModel entityModel = (JpaListFieldModel)entity.getFields().get(model.getUUID());
+			JpaListFieldModel entityModel = (JpaListFieldModel) entity.getFields().get(model.getUUID());
 			// // add @OneToMany annotation
 			// if (entityModel.isDefaultOneToManyAttrs() && !model.isDefaultOneToManyAttrs()) {
 			// entity.addAction(new JpaListFieldAction(model.getUUID(), model, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
@@ -439,8 +442,8 @@ public class JpaEntityUtils {
 		public static void generateJpaManyToOneAction(JpaEntity entity, JpaManyToOneModel model) {
 			boolean isPrevious = true;
 			boolean isDefault = true;
-			JpaManyToOneFieldModel fieldModel = (JpaManyToOneFieldModel)model.getParent();
-			JpaManyToOneFieldModel entityFieldModel = (JpaManyToOneFieldModel)entity.getFields().get(fieldModel.getUUID());
+			JpaManyToOneFieldModel fieldModel = (JpaManyToOneFieldModel) model.getParent();
+			JpaManyToOneFieldModel entityFieldModel = (JpaManyToOneFieldModel) entity.getFields().get(fieldModel.getUUID());
 			JpaManyToOneModel entityModel = entityFieldModel.getManyToOneModel();
 			// // add @ManyToOne annotation
 			// if (entityModel.isDefaultAttrs() && !model.isDefaultAttrs()) {
@@ -493,7 +496,7 @@ public class JpaEntityUtils {
 		public static void generateJpaJoinColumnAction(JpaEntity entity, JpaJoinColumnModel model) {
 			boolean isPrevious = true;
 			boolean isDefault = true;
-			JpaFieldModel fieldModel = (JpaFieldModel)model.getParent();
+			JpaFieldModel fieldModel = (JpaFieldModel) model.getParent();
 			JpaJoinColumnModel entityModel = entity.getFields().get(fieldModel.getUUID()).getJoinColumnModel();
 			// add @JoinColumn annotation
 			if (entityModel.isDefaultAttrs() && !model.isDefaultAttrs()) {
@@ -554,6 +557,27 @@ public class JpaEntityUtils {
 			isDefault = StringUtils.isEmpty(model.getTable());
 			PrivateMethods.addRemoveJpaJoinColumnAction(entity, fieldModel, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, DbAnnotationConstants.TABLE, model.getTable());
+		}
+
+		public static void generateJpaEnumFieldActions(JpaEntity entity, JpaEnumFieldModel model) {
+			boolean isPrevious = true;
+			boolean isDefault = true;
+			JpaEnumFieldModel entityModel = (JpaEnumFieldModel) entity.getFields().get(model.getUUID());
+
+			// @ScreenField java type: default none
+
+			isPrevious = model.getJavaTypeName().equals(entityModel.getJavaTypeName());
+
+			isDefault = false;
+			PrivateMethods.addRemoveJpaEnumFieldAction(entity, model, isPrevious, isDefault, ASTNode.FIELD_DECLARATION
+					| ASTNode.SIMPLE_TYPE, Constants.JAVA_TYPE, model.getType());
+			// Enum properties: default none;
+
+			isPrevious = PrivateMethods.compareEnumEntries(model.getEntries(), entityModel.getEntries());
+
+			isDefault = false;
+			PrivateMethods.addRemoveJpaEnumFieldAction(entity, model, isPrevious, isDefault, ASTNode.ENUM_CONSTANT_DECLARATION,
+					Constants.ENUM_FIELD_ENTRIES, model.getEntries());
 		}
 
 	}
@@ -685,6 +709,17 @@ public class JpaEntityUtils {
 			}
 		}
 
+		private static void addRemoveJpaEnumFieldAction(JpaEntity entity, JpaEnumFieldModel model, boolean isPrevious,
+				boolean isDefault, int target, String key, Object value) {
+			if (!isPrevious && !isDefault) {
+				entity.addAction(new JpaEnumFieldAction(model.getUUID(), model, ActionType.MODIFY, target, key, value));
+			} else if (!isPrevious && isDefault) {
+				entity.addAction(new JpaEnumFieldAction(model.getUUID(), model, ActionType.REMOVE, target, key, null));
+			} else {
+				entity.removeAction(model.getUUID(), key);
+			}
+		}
+
 		private static boolean compareUniqueConstraintsDefintions(List<UniqueConstraintDefinition> a,
 				List<UniqueConstraintDefinition> b) {
 			if (a.size() != b.size()) {
@@ -744,17 +779,32 @@ public class JpaEntityUtils {
 			}
 			return true;
 		}
+
+		private static boolean compareEnumEntries(List<EnumEntryModel> a, List<EnumEntryModel> b) {
+			if (a.size() != b.size()) {
+				return false;
+			}
+			for (int i = 0; i < a.size(); i++) {
+				EnumEntryModel aClass = a.get(i);
+				EnumEntryModel bClass = b.get(i);
+				if (!aClass.getName().equals(bClass.getName()) || (!aClass.getValue().equals(bClass.getValue()))
+						|| (!aClass.getDisplayName().equals(bClass.getDisplayName()))) {
+					return false;
+				}
+			}
+			return true;
+		}
 	}
 
 	public static JpaEntityModel getJpaEntityModel(DbEntityDefinition entityDefinition) {
 		JpaEntityModel model = new JpaEntityModel();
-		model.init((CodeBasedDbEntityDefinition)entityDefinition);
+		model.init((CodeBasedDbEntityDefinition) entityDefinition);
 		return model;
 	}
 
 	public static JpaTableModel getJpaTableModel(DbEntityDefinition entityDefinition) {
 		JpaTableModel model = new JpaTableModel();
-		model.init((CodeBasedDbEntityDefinition)entityDefinition);
+		model.init((CodeBasedDbEntityDefinition) entityDefinition);
 		return model;
 	}
 
@@ -778,12 +828,12 @@ public class JpaEntityUtils {
 				Collection<AbstractAction> values2 = map.values();
 				for (AbstractAction action : values2) {
 					if (actionClass.isAssignableFrom(action.getClass())) {
-						list.add((T)action);
+						list.add((T) action);
 					}
 				}
 			}
 		}
-		return (List<T>)JpaEntityActionsSorter.INSTANCE.sort((List<AbstractAction>)list);
+		return (List<T>) JpaEntityActionsSorter.INSTANCE.sort((List<AbstractAction>) list);
 	}
 
 	/**
@@ -809,14 +859,14 @@ public class JpaEntityUtils {
 				for (AbstractAction action : values2) {
 					for (ActionType actionType : actionTypes) {
 						if (action.getActionType().equals(actionType) && (action.getTarget() == target)) {
-							list.add((T)action);
+							list.add((T) action);
 							break;
 						}
 					}
 				}
 			}
 		}
-		return (List<T>)JpaEntityActionsSorter.INSTANCE.sort((List<AbstractAction>)list);
+		return (List<T>) JpaEntityActionsSorter.INSTANCE.sort((List<AbstractAction>) list);
 	}
 
 	public static Map<UUID, JpaFieldModel> getJpaFieldsModels(JpaEntityModel parent,
@@ -829,7 +879,7 @@ public class JpaEntityUtils {
 		Set<String> keySet = fieldsDefinitions.keySet();
 		for (String key : keySet) {
 			JpaFieldModel model = null;
-			SimpleDbColumnFieldDefinition fieldDefinition = (SimpleDbColumnFieldDefinition)fieldsDefinitions.get(key);
+			SimpleDbColumnFieldDefinition fieldDefinition = (SimpleDbColumnFieldDefinition) fieldsDefinitions.get(key);
 			// skip static fields
 			if (fieldDefinition.isStaticField()) {
 				continue;
@@ -876,13 +926,13 @@ public class JpaEntityUtils {
 
 	public static JpaNavigationModel getJpaNavigationModel(DbEntityDefinition entityDefinition) {
 		JpaNavigationModel model = new JpaNavigationModel();
-		model.init((CodeBasedDbEntityDefinition)entityDefinition);
+		model.init((CodeBasedDbEntityDefinition) entityDefinition);
 		return model;
 	}
 
 	public static JpaActionsModel getJpaActionsModel(DbEntityDefinition entityDefinition) {
 		JpaActionsModel model = new JpaActionsModel();
-		model.init((CodeBasedDbEntityDefinition)entityDefinition);
+		model.init((CodeBasedDbEntityDefinition) entityDefinition);
 		return model;
 	}
 

@@ -7,6 +7,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaBooleanFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaByteFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaDateFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEnumFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
@@ -75,10 +76,10 @@ public class FieldsMasterBlock extends AbstractJpaEntityMasterBlock implements I
 		for (IDetailsPage page : detailsPages) {
 			page.refresh();
 		}
-		IStructuredSelection structuredSelection = (IStructuredSelection)tableViewer.getSelection();
+		IStructuredSelection structuredSelection = (IStructuredSelection) tableViewer.getSelection();
 		tableViewer.setInput(getEntity());
 		if (structuredSelection.size() == 1) {
-			tableViewerSetSelectionByLabel(((JpaFieldModel)structuredSelection.getFirstElement()).getFieldName());
+			tableViewerSetSelectionByLabel(((JpaFieldModel) structuredSelection.getFirstElement()).getFieldName());
 		} else {
 			tableViewerSetSelection(0);
 		}
@@ -152,6 +153,7 @@ public class FieldsMasterBlock extends AbstractJpaEntityMasterBlock implements I
 		addNewByteFieldMenuItem(splitButton.getMenu());
 		addNewIntegerFieldMenuItem(splitButton.getMenu());
 		addNewDateFieldMenuItem(splitButton.getMenu());
+		addNewEnumFieldMenuItem(splitButton.getMenu());
 		addNewListFieldMenuItem(splitButton.getMenu());
 		addNewManyToOneFieldMenuItem(splitButton.getMenu());
 
@@ -174,7 +176,7 @@ public class FieldsMasterBlock extends AbstractJpaEntityMasterBlock implements I
 		detailsPages.add(new FieldsJpaStringFieldDetailsPage(this));
 		detailsPages.add(new FieldsJpaManyToOneFieldDetailsPage(this));
 		for (IDetailsPage page : detailsPages) {
-			detailsPart.registerPage(((IOpenLegacyDetailsPage)page).getDetailsModel(), page);
+			detailsPart.registerPage(((IOpenLegacyDetailsPage) page).getDetailsModel(), page);
 		}
 	}
 
@@ -211,7 +213,7 @@ public class FieldsMasterBlock extends AbstractJpaEntityMasterBlock implements I
 		if (itemCount > 0) {
 			for (int i = 0; i < itemCount; i++) {
 				TableItem item = tableViewer.getTable().getItem(i);
-				if (((NamedObject)item.getData()).getUUID().equals(selectUUID)) {
+				if (((NamedObject) item.getData()).getUUID().equals(selectUUID)) {
 					setViewerSelection(i);
 					return;
 				}
@@ -234,15 +236,15 @@ public class FieldsMasterBlock extends AbstractJpaEntityMasterBlock implements I
 
 	@Override
 	public IStructuredSelection getMasterBlockViewerSelection() {
-		return (IStructuredSelection)tableViewer.getSelection();
+		return (IStructuredSelection) tableViewer.getSelection();
 	}
 
 	@Override
 	public void removeValidationMarkers(UUID uuid) {
 		for (IDetailsPage detailsPage : detailsPages) {
-			if (((IOpenLegacyDetailsPage)detailsPage).getModelUUID() != null
-					&& ((IOpenLegacyDetailsPage)detailsPage).getModelUUID().equals(uuid)) {
-				((IOpenLegacyDetailsPage)detailsPage).removeValidationMarkers();
+			if (((IOpenLegacyDetailsPage) detailsPage).getModelUUID() != null
+					&& ((IOpenLegacyDetailsPage) detailsPage).getModelUUID().equals(uuid)) {
+				((IOpenLegacyDetailsPage) detailsPage).removeValidationMarkers();
 				break;
 			}
 		}
@@ -320,6 +322,12 @@ public class FieldsMasterBlock extends AbstractJpaEntityMasterBlock implements I
 		MenuItem item = new MenuItem(menu, SWT.PUSH);
 		item.setText(Messages.getString("Button.add.many.to.one.field"));//$NON-NLS-1$
 		item.addSelectionListener(new CreateMenuItemSelectionAdapter(JpaManyToOneFieldModel.class));
+	}
+
+	private void addNewEnumFieldMenuItem(Menu menu) {
+		MenuItem item = new MenuItem(menu, SWT.PUSH);
+		item.setText(Messages.getString("Button.add.enum.field"));//$NON-NLS-1$
+		item.addSelectionListener(new CreateMenuItemSelectionAdapter(JpaEnumFieldModel.class));
 	}
 
 	private void createRemoveButton(FormToolkit toolkit, Composite composite) {
