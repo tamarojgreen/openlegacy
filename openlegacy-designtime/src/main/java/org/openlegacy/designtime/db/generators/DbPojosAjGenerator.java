@@ -55,6 +55,8 @@ public class DbPojosAjGenerator extends AbstractPojosAjGenerator {
 	@Inject
 	private GenerateUtil generateUtil;
 
+	private File packageDir;
+
 	@Override
 	public boolean generate(File javaFile, CompilationUnit compilationUnit) throws GenerationException {
 
@@ -71,7 +73,7 @@ public class DbPojosAjGenerator extends AbstractPojosAjGenerator {
 		for (BodyDeclaration bodyDeclaration : members) {
 			// look for inner classes
 			if (bodyDeclaration instanceof ClassOrInterfaceDeclaration) {
-				types.add((TypeDeclaration)bodyDeclaration);
+				types.add((TypeDeclaration) bodyDeclaration);
 			}
 		}
 
@@ -90,7 +92,8 @@ public class DbPojosAjGenerator extends AbstractPojosAjGenerator {
 							|| JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_ENTITY_ANNOTATION)
 							|| JavaParserUtil.hasAnnotation(annotationExpr,
 									DbAnnotationConstants.DB_ENTITY_SUPER_CLASS_ANNOTATION)) {
-						dbEntityCodeModel = generateEntity(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration, baos);
+						this.packageDir = new File(javaFile.getParentFile().getAbsolutePath());
+						dbEntityCodeModel = generateEntity(compilationUnit, (ClassOrInterfaceDeclaration) typeDeclaration, baos);
 					}
 					if (dbEntityCodeModel != null && dbEntityCodeModel.isRelevant()) {
 						boolean generated = GenerateUtil.writeAspectToFile(javaFile, baos, dbEntityCodeModel, parentClassName);
@@ -117,7 +120,7 @@ public class DbPojosAjGenerator extends AbstractPojosAjGenerator {
 			TemplateException, ParseException {
 
 		DbPojoCodeModel dbEntityCodeModel = new DefaultDbPojoCodeModel(compilationUnit, typeDeclaration,
-				typeDeclaration.getName(), parentClass);
+				typeDeclaration.getName(), parentClass, packageDir);
 
 		if (!dbEntityCodeModel.isRelevant()) {
 			return dbEntityCodeModel;
