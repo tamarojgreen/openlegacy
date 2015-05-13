@@ -31,7 +31,7 @@ import javax.inject.Inject;
 public class FieldAttributeBinder implements ScreenEntityBinder {
 
 	private final static Log logger = LogFactory.getLog(FieldAttributeBinder.class);
-	
+
 	@Inject
 	private ScreenFieldsDefinitionProvider fieldMappingsProvider;
 
@@ -48,7 +48,7 @@ public class FieldAttributeBinder implements ScreenEntityBinder {
 			}
 
 			TerminalPosition position = ScreenBinderLogic.retrievePosition(fieldDefinition, snapshot);
-			if (position == null){
+			if (position == null) {
 				logger.warn("A field was not found for field:" + fieldDefinition.getName());
 				continue;
 			}
@@ -65,6 +65,8 @@ public class FieldAttributeBinder implements ScreenEntityBinder {
 
 			} else if (fieldDefinition.getAttribute() == FieldAttributeType.Color) {
 				fieldAccessor.setFieldValue(fieldName, terminalField.getColor());
+			} else if (fieldDefinition.getAttribute() == FieldAttributeType.BackColor) {
+				fieldAccessor.setFieldValue(fieldName, terminalField.getBackColor());
 			}
 		}
 	}
