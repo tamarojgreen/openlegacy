@@ -78,4 +78,22 @@ public class JpaEnumFieldModel extends JpaFieldModel implements IEnumFieldModel 
 		this.type = type;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel#clone()
+	 */
+	@Override
+	public JpaEnumFieldModel clone() {
+		JpaEnumFieldModel model = new JpaEnumFieldModel(this.uuid, this.parent);
+
+		model.prevJavaTypeName = this.prevJavaTypeName;
+
+		List<EnumEntryModel> list = new ArrayList<EnumEntryModel>();
+		for (EnumEntryModel entry : this.entries) {
+			list.add(entry.clone());
+		}
+		model.getEntries().addAll(list);
+		return model;
+
+	}
+
 }

@@ -562,7 +562,8 @@ public class JpaEntityUtils {
 		public static void generateJpaEnumFieldActions(JpaEntity entity, JpaEnumFieldModel model) {
 			boolean isPrevious = true;
 			boolean isDefault = true;
-			JpaEnumFieldModel entityModel = (JpaEnumFieldModel) entity.getFields().get(model.getUUID());
+			JpaFieldModel jpaFieldModel = entity.getFields().get(model.getUUID());
+			JpaEnumFieldModel entityModel = (JpaEnumFieldModel) jpaFieldModel;
 
 			// @ScreenField java type: default none
 

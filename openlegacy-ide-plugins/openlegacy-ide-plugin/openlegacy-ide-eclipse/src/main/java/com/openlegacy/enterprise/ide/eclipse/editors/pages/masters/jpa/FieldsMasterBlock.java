@@ -17,6 +17,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.pages.IOpenLegacyDetailsPag
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa.FieldsJpaBooleanFieldDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa.FieldsJpaByteFieldDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa.FieldsJpaDateFieldDetailsPage;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa.FieldsJpaEnumFieldDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa.FieldsJpaIntegerFieldDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa.FieldsJpaListFieldDetailsPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa.FieldsJpaManyToOneFieldDetailsPage;
@@ -175,6 +176,7 @@ public class FieldsMasterBlock extends AbstractJpaEntityMasterBlock implements I
 		detailsPages.add(new FieldsJpaListFieldDetailsPage(this));
 		detailsPages.add(new FieldsJpaStringFieldDetailsPage(this));
 		detailsPages.add(new FieldsJpaManyToOneFieldDetailsPage(this));
+		detailsPages.add(new FieldsJpaEnumFieldDetailsPage(this));
 		for (IDetailsPage page : detailsPages) {
 			detailsPart.registerPage(((IOpenLegacyDetailsPage) page).getDetailsModel(), page);
 		}
