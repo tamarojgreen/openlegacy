@@ -187,8 +187,8 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	final protected void converToLegacyFields(RpcInvokeAction rpcAction) {
 
-		for (RpcFieldConverter fpcFieldConverter : rpcFieldConverters) {
-			fpcFieldConverter.toLegacy(rpcAction.getFields());
+		for (RpcFieldConverter rpcFieldConverter : rpcFieldConverters) {
+			rpcFieldConverter.toLegacy(rpcAction.getFields());
 		}
 
 		Collections.sort(rpcAction.getFields(), new RpcOrderFieldComparator());
@@ -197,8 +197,8 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	final protected void converToApiFields(List<RpcField> fields) {
 
-		for (RpcFieldConverter fpcFieldConverter : rpcFieldConverters) {
-			fpcFieldConverter.toApi(fields);
+		for (RpcFieldConverter rpcFieldConverter : rpcFieldConverters) {
+			rpcFieldConverter.toApi(fields);
 		}
 
 		Collections.sort(fields, new RpcOrderFieldComparator());
