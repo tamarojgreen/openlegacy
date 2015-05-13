@@ -17,6 +17,7 @@ package org.openlegacy.terminal;
 public enum FieldAttributeType {
 	Value,
 	Editable,
-	Color
+	Color,
+	BackColor
 
 }
