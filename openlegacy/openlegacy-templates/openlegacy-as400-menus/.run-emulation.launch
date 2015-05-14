@@ -7,7 +7,7 @@
 <stringAttribute key="M2_PROFILES" value=""/>
 <listAttribute key="M2_PROPERTIES">
 <listEntry value="org.openlegacy.trail.path=${workspace_loc:openlegacy-as400-menus}/src/test/resources/trails"/>
-<listEntry value="org.openlegacy.browser=C:\Program Files\Mozilla Firefox\firefox.exe"/>
+<listEntry value="org.openlegacy.browser="/>
 </listAttribute>
 <stringAttribute key="M2_RUNTIME" value="EMBEDDED"/>
 <booleanAttribute key="M2_SKIP_TESTS" value="false"/>
