@@ -25,6 +25,7 @@ import org.openlegacy.terminal.modules.trail.DefaultTerminalTrail;
 import org.openlegacy.terminal.web.render.TerminalSnapshotHtmlRenderer;
 import org.openlegacy.terminal.web.render.support.DefaultHttpPostSendActionBuilder;
 import org.openlegacy.terminal.web.render.support.DefaultTerminalSnapshotHtmlRenderer;
+import org.openlegacy.utils.OsUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
@@ -143,7 +144,8 @@ public class SessionRunner extends AbstractMojo {
 		Object browserPath = getProperty(BROWSER_PATH, null);
 		if (browserPath != null) {
 			try {
-				Runtime.getRuntime().exec("\"" + browserPath + "\" http://localhost:" + port);
+				String wrapper = OsUtils.isWindows() ? "\"" : "";
+				Runtime.getRuntime().exec(wrapper + browserPath + wrapper + " http://localhost:" + port);
 			} catch (IOException e) {
 				try {
 					getLog().warn("Unable to open browser at:" + browserPath);
