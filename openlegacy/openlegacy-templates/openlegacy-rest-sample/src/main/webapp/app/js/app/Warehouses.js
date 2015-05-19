@@ -2,7 +2,7 @@
 the new one for designtime generation.		 
 */
 
-angular.module('controllers').controller('WarehousesCtrl', function($scope, $http, $olHttp,$stateParams, $themeService, $rootScope, $state,$modal, uiGmapGoogleMapApi) {
+angular.module('controllers').controller('WarehousesCtrl', function($scope, $http, $olHttp,$stateParams, $themeService, $rootScope, $state, $modal, $timeout, uiGmapGoogleMapApi) {
 		$scope.noTargetScreenEntityAlert = function() {
 			alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 		}; 
@@ -82,6 +82,7 @@ angular.module('controllers').controller('WarehousesCtrl', function($scope, $htt
 		
 		$scope.map = {};
 		$scope.options = {};
+		$scope.modalOpened = false;
 		$scope.markers = {
 			      id: 0,
 			      coords: {
@@ -123,15 +124,17 @@ angular.module('controllers').controller('WarehousesCtrl', function($scope, $htt
 			    	        latitude: lat,
 			    	        longitude: lng
 			    	      };
+			      
+			      $('#googleMapsModal').modal('show');
+			      google.maps.event.trigger($scope.map, "resize");			      
+			      $timeout(function() {
+			    	  $scope.modalOpened = true;
+			      }, 1000);
 			  }).
 			  error(function(result, status, headers, config) {
 				  
 			  });		
 		}
-		
-		$('#googleMapsModal').on('shown.bs.modal', function () {
-		    google.maps.event.trigger($scope.map, "resize");
-		});
 
 		$scope.read();
 	});
