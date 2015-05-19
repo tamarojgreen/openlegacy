@@ -91,7 +91,7 @@
         <h4 class="modal-title center" id="myModalLabel">Warehouse location</h4>
       </div>
       <div class="modal-body">
-        <div id="map_canvas">
+        <div id="map_canvas" ng-if="modalOpened">
 		    <ui-gmap-google-map center="map.center" zoom="map.zoom" options="options">
 		    	<ui-gmap-marker coords="markers.coords" options="markers.options" events="markers.events" idkey="markers.id">
 	        	</ui-gmap-marker>

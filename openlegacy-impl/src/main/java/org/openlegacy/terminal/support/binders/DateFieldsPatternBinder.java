@@ -98,6 +98,10 @@ public class DateFieldsPatternBinder implements ScreenEntityBinder, Serializable
 				}
 				value = fieldFormatter.format(value);
 				if (!value.equals(fieldDefinition.getNullValue())) {
+					if (value.length() == 5) {
+						value = "0" + value;
+					}
+					
 					Date dateVal = dateFormater.parse(value);
 					fieldAccessor.setFieldValue(fieldDefinition.getName(), dateVal);
 					if (logger.isDebugEnabled()) {

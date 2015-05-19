@@ -25,6 +25,7 @@ import org.openlegacy.terminal.modules.trail.DefaultTerminalTrail;
 import org.openlegacy.terminal.web.render.TerminalSnapshotHtmlRenderer;
 import org.openlegacy.terminal.web.render.support.DefaultHttpPostSendActionBuilder;
 import org.openlegacy.terminal.web.render.support.DefaultTerminalSnapshotHtmlRenderer;
+import org.openlegacy.utils.OsUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
@@ -77,7 +78,7 @@ public class SessionRunner extends AbstractMojo {
 
 	@Override
 	public void execute() throws MojoExecutionException {
-		int port = (Integer) getProperty(PORT, defaultPort);
+		int port = (Integer)getProperty(PORT, defaultPort);
 
 		Server server = new Server(port);
 		Handler handler = new AbstractHandler() {
@@ -97,13 +98,13 @@ public class SessionRunner extends AbstractMojo {
 
 					if (uri.contains("sequence")) {
 						response.getWriter().write(getTerminalSession().getSequence().toString());
-						((Request) request).setHandled(true);
+						((Request)request).setHandled(true);
 						return;
 					}
 
 					if (uri.contains("logoff")) {
 						handleLogoff(response);
-						((Request) request).setHandled(true);
+						((Request)request).setHandled(true);
 						return;
 					}
 					String flip = request.getParameter("flip");
@@ -143,16 +144,29 @@ public class SessionRunner extends AbstractMojo {
 		Object browserPath = getProperty(BROWSER_PATH, null);
 		if (browserPath != null) {
 			try {
+				String wrapper = OsUtils.isWindows() ? "\"" : "";
+				Runtime.getRuntime().exec(wrapper + browserPath + wrapper + " http://localhost:" + port);
+			} catch (IOException e) {
+				try {
+					getLog().warn("Unable to open browser at:" + browserPath);
+					Desktop.getDesktop().browse(new URL("http://localhost:" + port).toURI());
+				} catch (Exception e1) {
+					getLog().warn("Unable to open default browser");
+				}
+			}
+		} else {
+			try {
 				Desktop.getDesktop().browse(new URL("http://localhost:" + port).toURI());
 			} catch (Exception e) {
-				getLog().warn("Unable to open browser at:" + browserPath);
+				getLog().warn("Unable to open default browser");
 			}
+
 		}
 	}
 
 	private static Object getProperty(String propertyName, Object defaultValue) {
 		String propertyValue = System.getProperty(propertyName);
-		if (propertyValue != null) {
+		if (propertyValue != null && propertyValue.length() > 0) {
 			return propertyValue;
 		}
 		return defaultValue;
@@ -164,7 +178,7 @@ public class SessionRunner extends AbstractMojo {
 		response.getWriter().write(html);
 
 		response.setStatus(HttpServletResponse.SC_OK);
-		((Request) request).setHandled(true);
+		((Request)request).setHandled(true);
 	}
 
 	private static void handleJsFiles(HttpServletRequest request, HttpServletResponse response, String uri) throws IOException {
@@ -176,12 +190,12 @@ public class SessionRunner extends AbstractMojo {
 		response.setDateHeader(HEADER_EXPIRES, Long.MAX_VALUE);
 		IOUtils.copy(resource.getInputStream(), response.getOutputStream());
 		response.setStatus(HttpServletResponse.SC_OK);
-		((Request) request).setHandled(true);
+		((Request)request).setHandled(true);
 	}
 
 	private void initApplicationContext() {
 		if (applicationContext == null) {
-			String configLocation = (String) getProperty(CONTEXT_FILE, defaultContext);
+			String configLocation = (String)getProperty(CONTEXT_FILE, defaultContext);
 			applicationContext = new ClassPathXmlApplicationContext("/META-INF/openlegacy-webcomponents-context.xml",
 					configLocation);
 		}
@@ -191,7 +205,7 @@ public class SessionRunner extends AbstractMojo {
 		if (terminalSession == null) {
 			terminalSession = applicationContext.getBean(TerminalSession.class);
 			// set unlimited recording
-			DefaultTerminalTrail trail = (DefaultTerminalTrail) terminalSession.getModule(Trail.class).getSessionTrail();
+			DefaultTerminalTrail trail = (DefaultTerminalTrail)terminalSession.getModule(Trail.class).getSessionTrail();
 			trail.setHistoryCount(null);
 		}
 		return terminalSession;
@@ -202,7 +216,7 @@ public class SessionRunner extends AbstractMojo {
 			terminalHtmlRenderer = applicationContext.getBean(TerminalSnapshotHtmlRenderer.class);
 
 		}
-		((DefaultTerminalSnapshotHtmlRenderer) terminalHtmlRenderer).setTemplateResourceName(RENDERER_TEMPLATE);
+		((DefaultTerminalSnapshotHtmlRenderer)terminalHtmlRenderer).setTemplateResourceName(RENDERER_TEMPLATE);
 		return terminalHtmlRenderer;
 	}
 
