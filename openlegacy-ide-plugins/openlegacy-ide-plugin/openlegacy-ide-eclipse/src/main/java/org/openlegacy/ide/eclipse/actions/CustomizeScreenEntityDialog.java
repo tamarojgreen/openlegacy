@@ -22,12 +22,14 @@ import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowData;
@@ -106,33 +108,45 @@ public class CustomizeScreenEntityDialog extends Dialog {
 	}
 
 	@Override
-	protected Control createDialogArea(Composite parent) {
+	protected Control createContents(Composite parent) {
+		parent.setLayout(new FillLayout());
 
-		parent = new Composite(parent, SWT.NONE);
+		// Create the ScrolledComposite to scroll horizontally and vertically
+		ScrolledComposite sc = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+		sc.getShell().setText(MessageFormat.format(Messages.getString("title_ol_generate_screens_api"), PluginConstants.TITLE));
+		sc.setExpandHorizontal(true);
+		sc.setExpandVertical(true);
 
-		parent.getShell().setText(
-				MessageFormat.format(Messages.getString("title_ol_generate_screens_api"), PluginConstants.TITLE));
+		Composite composite = new Composite(sc, SWT.NONE);
+		composite.setLayout(new GridLayout(1, true));
 
-		GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 1;
-		GridData gd = new GridData();
-		gd.widthHint = DIALOG_WIDTH;
-		gd.heightHint = DIALOG_HEIGHT;
-		parent.setLayoutData(gd);
-		parent.setLayout(gridLayout);
+		Composite contentComposite = new Composite(composite, SWT.NONE);
+
+		contentComposite.setLayout(new GridLayout(1, true));
+		contentComposite.setLayoutData(new GridData(DIALOG_WIDTH, DIALOG_HEIGHT - 50));
 
 		// entity panel
-		createEntityLevelControls(parent);
+		createEntityLevelControls(contentComposite);
 
 		// fields/identifiers level
-		TablesComposite tablesComposite = new TablesComposite(parent, SWT.NONE, screenEntityDefinition);
+		TablesComposite tablesComposite = new TablesComposite(contentComposite, SWT.NONE, screenEntityDefinition);
 		// image level
-		snapshotComposite = new SnapshotComposite(parent, screenEntityDefinition.getOriginalSnapshot(), projectPath);
+		snapshotComposite = new SnapshotComposite(contentComposite, screenEntityDefinition.getOriginalSnapshot(), projectPath);
 		snapshotComposite.setIsScalable(true);
 
 		tablesComposite.setPaintedControl(snapshotComposite);
 
-		return parent;
+		Composite buttonsComposite = new Composite(composite, SWT.NONE);
+		buttonsComposite.setLayout(new GridLayout(1, false));
+		buttonsComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
+		createButtonsForButtonBar(buttonsComposite);
+
+		sc.setContent(composite);
+		// Set the minimum size
+		sc.setMinSize(DIALOG_WIDTH, DIALOG_HEIGHT);
+		sc.getShell().setSize(DIALOG_WIDTH + 15, DIALOG_HEIGHT + 30);
+
+		return sc;
 	}
 
 	@Override
@@ -141,7 +155,7 @@ public class CustomizeScreenEntityDialog extends Dialog {
 			PopupUtil.error(Messages.getString("error_entity_name_not_specified"));
 			return;
 		}
-		((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setEntityName(entityNameTxt.getText());
+		((ScreenEntityDesigntimeDefinition) screenEntityDefinition).setEntityName(entityNameTxt.getText());
 		// should organize imports for newly created or deleted fields
 		organizeImports();
 		super.okPressed();
@@ -221,24 +235,22 @@ public class CustomizeScreenEntityDialog extends Dialog {
 				if (!(screenEntityDefinition instanceof SimpleScreenEntityDefinition)) {
 					return;
 				}
-				String text = ((CCombo)e.widget).getText();
-				String fullyQualifiedName = (String)e.widget.getData(ID_FULLY_QUALIFIED_NAME);
+				String text = ((CCombo) e.widget).getText();
+				String fullyQualifiedName = (String) e.widget.getData(ID_FULLY_QUALIFIED_NAME);
 				Class<? extends EntityType> screenType = null;
 				if (mapScreenTypes.get(text) != null) {
 					screenType = mapScreenTypes.get(text);
 				} else if (!StringUtils.isEmpty(fullyQualifiedName)) {
 					try {
-						screenType = (Class<? extends EntityType>)Utils.getClazz(fullyQualifiedName);
-					} catch (MalformedURLException e1) {
-					} catch (CoreException e1) {
-					}
+						screenType = (Class<? extends EntityType>) Utils.getClazz(fullyQualifiedName);
+					} catch (MalformedURLException e1) {} catch (CoreException e1) {}
 				}
 
 				if (screenType == null) {
 					screenType = ScreenEntityType.General.class;
 				}
 
-				((SimpleScreenEntityDefinition)screenEntityDefinition).setType(screenType);
+				((SimpleScreenEntityDefinition) screenEntityDefinition).setType(screenType);
 			}
 		});
 
@@ -264,9 +276,9 @@ public class CustomizeScreenEntityDialog extends Dialog {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				boolean selection = ((Button)e.widget).getSelection();
+				boolean selection = ((Button) e.widget).getSelection();
 				if (screenEntityDefinition instanceof SimpleScreenEntityDefinition) {
-					((SimpleScreenEntityDefinition)screenEntityDefinition).setWindow(selection);
+					((SimpleScreenEntityDefinition) screenEntityDefinition).setWindow(selection);
 				}
 			}
 
@@ -295,7 +307,7 @@ public class CustomizeScreenEntityDialog extends Dialog {
 				dialog.addListFilter(filter);
 				dialog.setTitle(Messages.getString("title_select_class_dialog"));//$NON-NLS-1$
 				if (dialog.open() == Window.OK) {
-					IType res = (IType)dialog.getResult()[0];
+					IType res = (IType) dialog.getResult()[0];
 					combo.setData(ID_FULLY_QUALIFIED_NAME, res.getFullyQualifiedName());
 					combo.setText(res.getElementName());
 				}
@@ -306,7 +318,7 @@ public class CustomizeScreenEntityDialog extends Dialog {
 
 	private void organizeImports() {
 		if (screenEntityDefinition instanceof ScreenEntityDesigntimeDefinition) {
-			ScreenEntityDesigntimeDefinition designtimeDefinition = (ScreenEntityDesigntimeDefinition)screenEntityDefinition;
+			ScreenEntityDesigntimeDefinition designtimeDefinition = (ScreenEntityDesigntimeDefinition) screenEntityDefinition;
 
 			designtimeDefinition.getReferredClasses().clear();
 			Class<?> entityType = designtimeDefinition.getType();
