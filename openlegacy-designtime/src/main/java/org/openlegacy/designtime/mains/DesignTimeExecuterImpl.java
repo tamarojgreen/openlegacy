@@ -114,7 +114,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.persistence.Entity;
@@ -182,9 +181,6 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			return;
 		}
 
-		// change folder name for user properties files
-		changeOrAddContextParamInWebXml(USER_PROPERTIES_FOLDER_NAME, projectCreationRequest.getProjectName(), targetPath);
-
 		// maven files
 		renameProjectProperties(projectCreationRequest.getProjectName(), targetPath);
 		if (projectCreationRequest.getBackendSolution().equals("JDBC")) {
@@ -234,8 +230,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		savePreference(targetPath, PreferencesConstants.FRONTEND_SOLUTION, frontendSolution);
 
-		savePreference(targetPath, PreferencesConstants.SUPPORT_RESTFUL_SERVICE,
-				String.valueOf(projectCreationRequest.isRestFulService()).toUpperCase());
+		savePreference(targetPath, PreferencesConstants.SUPPORT_RESTFUL_SERVICE, String.valueOf(
+				projectCreationRequest.isRestFulService()).toUpperCase());
 
 		if (projectCreationRequest.isRightToLeft()) {
 			handleRightToLeft(targetPath);
@@ -392,21 +388,21 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void updatePropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath) throws IOException,
-	FileNotFoundException {
+			FileNotFoundException {
 		File hostPropertiesFile = new File(targetPath, "src/main/resources/host.properties");
 		if (hostPropertiesFile.exists()) {
 			String hostPropertiesFileContent = IOUtils.toString(new FileInputStream(hostPropertiesFile));
 
-			hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.name=.*",
-					MessageFormat.format("host.name={0}", projectCreationRequest.getHostName()));
+			hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.name=.*", MessageFormat.format(
+					"host.name={0}", projectCreationRequest.getHostName()));
 
-			hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.port=.*",
-					MessageFormat.format("host.port={0}", String.valueOf(projectCreationRequest.getHostPort())));
-			hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.codePage=.*",
-					MessageFormat.format("host.codePage={0}", projectCreationRequest.getCodePage()));
+			hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.port=.*", MessageFormat.format(
+					"host.port={0}", String.valueOf(projectCreationRequest.getHostPort())));
+			hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.codePage=.*", MessageFormat.format(
+					"host.codePage={0}", projectCreationRequest.getCodePage()));
 
-			hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.sslType=.*",
-					MessageFormat.format("host.sslType={0}", projectCreationRequest.getSslType()));
+			hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.sslType=.*", MessageFormat.format(
+					"host.sslType={0}", projectCreationRequest.getSslType()));
 
 			FileUtils.write(hostPropertiesFileContent, hostPropertiesFile);
 		}
@@ -415,8 +411,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (rpcPropertiesFile.exists()) {
 			String rpcPropertiesFileContent = IOUtils.toString(new FileInputStream(rpcPropertiesFile));
 
-			rpcPropertiesFileContent = rpcPropertiesFileContent.replaceFirst("rpc.host.name=.*",
-					MessageFormat.format("rpc.host.name={0}", projectCreationRequest.getHostName()));
+			rpcPropertiesFileContent = rpcPropertiesFileContent.replaceFirst("rpc.host.name=.*", MessageFormat.format(
+					"rpc.host.name={0}", projectCreationRequest.getHostName()));
 
 			FileUtils.write(rpcPropertiesFileContent, rpcPropertiesFile);
 		}
@@ -427,6 +423,18 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			appPropertiesFileContent = appPropertiesFileContent.replaceFirst("terminalConnectionFactory.preferencePath=.*",
 					MessageFormat.format("terminalConnectionFactory.preferencePath={0}", projectCreationRequest.getProjectName()));
 
+			// change folder name for user properties files
+			boolean contains = appPropertiesFileContent.contains("openLegacyProperties." + USER_PROPERTIES_FOLDER_NAME + "=");
+			if (contains) {
+				appPropertiesFileContent = appPropertiesFileContent.replaceFirst("openLegacyProperties."
+						+ USER_PROPERTIES_FOLDER_NAME + "=.*", MessageFormat.format("openLegacyProperties."
+						+ USER_PROPERTIES_FOLDER_NAME + "={0}", projectCreationRequest.getProjectName()));
+			} else {
+				appPropertiesFileContent = appPropertiesFileContent
+						+ MessageFormat.format("\nopenLegacyProperties." + USER_PROPERTIES_FOLDER_NAME + "={0}",
+								projectCreationRequest.getProjectName());
+			}
+
 			FileUtils.write(appPropertiesFileContent, appPropertiesFile);
 		}
 
@@ -434,21 +442,21 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (dbPropertiesFile.exists()) {
 			String dbPropertiesFileContent = IOUtils.toString(new FileInputStream(dbPropertiesFile));
 
-			dbPropertiesFileContent = dbPropertiesFileContent.replaceFirst("database.username=.*",
-					MessageFormat.format("database.username={0}", projectCreationRequest.getDbUser()));
-			dbPropertiesFileContent = dbPropertiesFileContent.replaceFirst("database.password=.*",
-					MessageFormat.format("database.password={0}", projectCreationRequest.getDbPass()));
-			dbPropertiesFileContent = dbPropertiesFileContent.replaceFirst("database.driverClassName=.*",
-					MessageFormat.format("database.driverClassName={0}", projectCreationRequest.getDbDriver()));
-			dbPropertiesFileContent = dbPropertiesFileContent.replaceFirst("database.url=.*",
-					MessageFormat.format("database.url={0}", projectCreationRequest.getDbUrl()));
+			dbPropertiesFileContent = dbPropertiesFileContent.replaceFirst("database.username=.*", MessageFormat.format(
+					"database.username={0}", projectCreationRequest.getDbUser()));
+			dbPropertiesFileContent = dbPropertiesFileContent.replaceFirst("database.password=.*", MessageFormat.format(
+					"database.password={0}", projectCreationRequest.getDbPass()));
+			dbPropertiesFileContent = dbPropertiesFileContent.replaceFirst("database.driverClassName=.*", MessageFormat.format(
+					"database.driverClassName={0}", projectCreationRequest.getDbDriver()));
+			dbPropertiesFileContent = dbPropertiesFileContent.replaceFirst("database.url=.*", MessageFormat.format(
+					"database.url={0}", projectCreationRequest.getDbUrl()));
 
 			FileUtils.write(dbPropertiesFileContent, dbPropertiesFile);
 		}
 	}
 
 	private static void renameLaunchers(final String projectName, final File targetPath) throws FileNotFoundException,
-	IOException {
+			IOException {
 		targetPath.listFiles(new FileFilter() {
 
 			@Override
@@ -466,7 +474,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameLauncher(String projectName, File targetPath, String fileName) throws FileNotFoundException,
-	IOException {
+			IOException {
 		File launcherFile = new File(targetPath, fileName);
 
 		if (!launcherFile.exists()) {
@@ -482,14 +490,14 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void updateSpringContextWithDefaultPackage(String defaultPackageName, File targetPath) throws IOException,
-	FileNotFoundException {
+			FileNotFoundException {
 		updateSpringFile(defaultPackageName, new File(targetPath, DesigntimeConstants.DEFAULT_SPRING_CONTEXT_FILE));
 		updateSpringFile(defaultPackageName + ".web", new File(targetPath, DEFAULT_SPRING_WEB_CONTEXT_FILE));
 		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_TEST_CONTEXT_FILE));
 	}
 
 	private static void createDefaultPackage(String defaultPackageName, File targetPath) throws IOException,
-	FileNotFoundException {
+			FileNotFoundException {
 		String packageFolders = defaultPackageName.replace(".", "/");
 		File packageDir = new File(targetPath + PACKAGE_DIR);
 		if (!packageDir.exists()) {
@@ -509,14 +517,14 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		 * Replace only the 1st component-scan definition, assuming it is the project component-scan, 2nd component-scan points to
 		 * openlegacy controllers
 		 */
-		springFileContent = springFileContent.replaceFirst("<context:component-scan base-package=\".*\"",
-				MessageFormat.format("<context:component-scan base-package=\"{0}\"", defaultPackageName));
+		springFileContent = springFileContent.replaceFirst("<context:component-scan base-package=\".*\"", MessageFormat.format(
+				"<context:component-scan base-package=\"{0}\"", defaultPackageName));
 
 		/*
 		 * Replace apps.inventory.screens with default package
 		 */
-		springFileContent = springFileContent.replaceFirst("<value>[a-z_0-9\\.]+</value>",
-				MessageFormat.format("<value>{0}</value>", defaultPackageName));
+		springFileContent = springFileContent.replaceFirst("<value>[a-z_0-9\\.]+</value>", MessageFormat.format(
+				"<value>{0}</value>", defaultPackageName));
 		FileUtils.write(springFileContent, springFile);
 	}
 
@@ -525,8 +533,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		String projectFileContent = IOUtils.toString(new FileInputStream(projectFile));
 
 		// NOTE assuming all project templates starts with "openlegacy-"
-		projectFileContent = projectFileContent.replaceAll("<name>openlegacy-.*</name>",
-				MessageFormat.format("<name>{0}</name>", projectName));
+		projectFileContent = projectFileContent.replaceAll("<name>openlegacy-.*</name>", MessageFormat.format("<name>{0}</name>",
+				projectName));
 		FileUtils.write(projectFileContent, projectFile);
 	}
 
@@ -559,7 +567,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void addDbDriverDependency(File targetPath, String mavenDependencyString) throws FileNotFoundException,
-	IOException {
+			IOException {
 		File pomFile = new File(targetPath, "pom.xml");
 
 		if (!pomFile.exists()) {
@@ -646,7 +654,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void renameThemeInAppProperties(ProjectTheme projectTheme, File targetPath) throws FileNotFoundException,
-	IOException {
+			IOException {
 		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
 
 		if (!appPropertiesFile.exists()) {
@@ -657,8 +665,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		String appPropertiesFileContent = IOUtils.toString(new FileInputStream(appPropertiesFile));
 
 		if (projectTheme != null) {
-			appPropertiesFileContent = appPropertiesFileContent.replaceFirst("themeUtil.defaultTheme=.*",
-					MessageFormat.format("themeUtil.defaultTheme={0}", projectTheme.getDisplayName().toLowerCase()));
+			appPropertiesFileContent = appPropertiesFileContent.replaceFirst("themeUtil.defaultTheme=.*", MessageFormat.format(
+					"themeUtil.defaultTheme={0}", projectTheme.getDisplayName().toLowerCase()));
 			FileUtils.write(appPropertiesFileContent, appPropertiesFile);
 		}
 	}
@@ -686,42 +694,42 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			if (rightToLeft) {
 				themeName = themeName + "_rtl";
 			}
-			indexFileContent = indexFileContent.replaceFirst("<link ng-href=\"themes/.+/.+\\.css\".+>",
-					MessageFormat.format("<link ng-href=\"themes/{0}/{1}.css\" rel=\"stylesheet\" >", themeFolderName, themeName));
+			indexFileContent = indexFileContent.replaceFirst("<link ng-href=\"themes/.+/.+\\.css\".+>", MessageFormat.format(
+					"<link ng-href=\"themes/{0}/{1}.css\" rel=\"stylesheet\" >", themeFolderName, themeName));
 			FileUtils.write(indexFileContent, indexFile);
 		}
 
 	}
 
-	private static void changeOrAddContextParamInWebXml(String paramName, String paramValue, File targetPath)
-			throws FileNotFoundException, IOException {
-		File webXmlFile = new File(targetPath, "src/main/webapp/WEB-INF/web.xml");
-		if (!webXmlFile.exists()) {
-			logger.error(MessageFormat.format("Unable to find web.xml within {0}", targetPath));
-			return;
-		}
-
-		String fileContent = IOUtils.toString(new FileInputStream(webXmlFile));
-
-		Pattern pattern = Pattern.compile(".*<context-param>\\s+<param-name>" + paramName + "</param-name>.*");
-		Matcher matcher = pattern.matcher(fileContent);
-		if (matcher.find()) {
-			fileContent = fileContent.replaceFirst("<context-param>\\s+<param-name>" + paramName
-					+ "</param-name>\\s+<param-value>.*</param-value>", MessageFormat.format(
-							"<context-param>\n\t\t<param-name>{0}</param-name>\n\t\t<param-value>{1}</param-value>", paramName,
-							paramValue));
-		} else {
-			// add new <context-param> into the end of file
-			int indexOf = fileContent.indexOf("</web-app>");
-			StringBuilder sb = new StringBuilder(fileContent);
-			fileContent = sb.insert(
-					indexOf,
-					MessageFormat.format(
-							"\t<context-param>\n\t\t<param-name>{0}</param-name>\n\t\t<param-value>{1}</param-value>\n\t</context-param>\n",
-							paramName, paramValue)).toString();
-		}
-		FileUtils.write(fileContent, webXmlFile);
-	}
+	//	private static void changeOrAddContextParamInWebXml(String paramName, String paramValue, File targetPath)
+	//			throws FileNotFoundException, IOException {
+	//		File webXmlFile = new File(targetPath, "src/main/webapp/WEB-INF/web.xml");
+	//		if (!webXmlFile.exists()) {
+	//			logger.error(MessageFormat.format("Unable to find web.xml within {0}", targetPath));
+	//			return;
+	//		}
+	//
+	//		String fileContent = IOUtils.toString(new FileInputStream(webXmlFile));
+	//
+	//		Pattern pattern = Pattern.compile(".*<context-param>\\s+<param-name>" + paramName + "</param-name>.*");
+	//		Matcher matcher = pattern.matcher(fileContent);
+	//		if (matcher.find()) {
+	//			fileContent = fileContent.replaceFirst("<context-param>\\s+<param-name>" + paramName
+	//					+ "</param-name>\\s+<param-value>.*</param-value>", MessageFormat.format(
+	//					"<context-param>\n\t\t<param-name>{0}</param-name>\n\t\t<param-value>{1}</param-value>", paramName,
+	//					paramValue));
+	//		} else {
+	//			// add new <context-param> into the end of file
+	//			int indexOf = fileContent.indexOf("</web-app>");
+	//			StringBuilder sb = new StringBuilder(fileContent);
+	//			fileContent = sb.insert(
+	//					indexOf,
+	//					MessageFormat.format(
+	//							"\t<context-param>\n\t\t<param-name>{0}</param-name>\n\t\t<param-value>{1}</param-value>\n\t</context-param>\n",
+	//							paramName, paramValue)).toString();
+	//		}
+	//		FileUtils.write(fileContent, webXmlFile);
+	//	}
 
 	@Override
 	public void generateScreenModel(GenerateScreenModelRequest generateModelRequest) throws GenerationException {
@@ -751,7 +759,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		List<ScreenEntityDefinition> screenDefinitions = getSortedSnapshots(screenEntitiesDefinitions);
 
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
-			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setGenerateAspect(generateModelRequest.isGenerateAspectJ());
+			((ScreenEntityDesigntimeDefinition) screenEntityDefinition).setGenerateAspect(generateModelRequest.isGenerateAspectJ());
 
 			generateScreenEntityDefinition(generateModelRequest, screenEntityDefinition);
 		}
@@ -775,7 +783,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			}
 		}
 
-		((ScreenEntityDesigntimeDefinition)entityDefinition).setPackageName(generateScreenModelRequest.getPackageDirectory().replaceAll(
+		((ScreenEntityDesigntimeDefinition) entityDefinition).setPackageName(generateScreenModelRequest.getPackageDirectory().replaceAll(
 				"/", "."));
 
 		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(generateScreenModelRequest.getProjectPath());
@@ -846,10 +854,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			}
 		}
 
-		((SimpleRpcEntityDesigntimeDefinition)entityDefinition).setPackageName(generateRpcModelRequest.getPackageDirectory().replaceAll(
+		((SimpleRpcEntityDesigntimeDefinition) entityDefinition).setPackageName(generateRpcModelRequest.getPackageDirectory().replaceAll(
 				"/", "."));
 
-		((SimpleRpcEntityDesigntimeDefinition)entityDefinition).setNavigation(generateRpcModelRequest.getNavigation());
+		((SimpleRpcEntityDesigntimeDefinition) entityDefinition).setNavigation(generateRpcModelRequest.getNavigation());
 
 		SimpleRpcActionDefinition actionDefinition = new SimpleRpcActionDefinition(RpcActions.READ(), "Read");
 
@@ -1324,7 +1332,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				String fileContent = writer.toString();
 				parseResults = codeParser.parse(fileContent, copyBookName);
 				RpcEntityDefinition rpcEntityDefinition = parseResults.getEntityDefinition();
-				SimpleRpcEntityDesigntimeDefinition devEntity = (SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition;
+				SimpleRpcEntityDesigntimeDefinition devEntity = (SimpleRpcEntityDesigntimeDefinition) rpcEntityDefinition;
 				devEntity.setEntityName(baseName);
 				devEntity.setPackageName(packegeName);
 				devEntity.setOnlyPart(true);
@@ -1380,16 +1388,16 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 					externalParts.add(FileUtils.fileWithoutAnyExtension(externalPart));
 				}
 				Map<String, String> localToExternal = cobolLocalPartNamesFethcher.get(fileContent, externalParts);
-				((SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition).convertToExternal(localToExternal);
+				((SimpleRpcEntityDesigntimeDefinition) rpcEntityDefinition).convertToExternal(localToExternal);
 			}
 
 			CobolNameRecognizer cobolNameRecognizer = getCobolNameRecognizer();
-			((SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition).setEntityName(cobolNameRecognizer.getEntityName(
+			((SimpleRpcEntityDesigntimeDefinition) rpcEntityDefinition).setEntityName(cobolNameRecognizer.getEntityName(
 					fileContent, sourceFile.getName()));
 		} catch (IOException e) {
 			throw (new OpenLegacyRuntimeException(e));
 		}
-		((SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition).setGenerateAspect(generateRpcModelRequest.isGenerateAspectJ());
+		((SimpleRpcEntityDesigntimeDefinition) rpcEntityDefinition).setGenerateAspect(generateRpcModelRequest.isGenerateAspectJ());
 
 		boolean generated = generateRpcEntityDefinition(generateRpcModelRequest, rpcEntityDefinition);
 
@@ -1472,7 +1480,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		TerminalSnapshotTextRenderer textRenderer = projectApplicationContext.getBean(TerminalSnapshotTextRenderer.class);
 		DefaultTerminalSnapshotXmlRenderer xmlRenderer = projectApplicationContext.getBean(DefaultTerminalSnapshotXmlRenderer.class);
 
-		TerminalSnapshot snapshot = (TerminalSnapshot)SerializationUtils.clone(generateScreenModelRequest.getTerminalSnapshots()[0]);
+		TerminalSnapshot snapshot = (TerminalSnapshot) SerializationUtils.clone(generateScreenModelRequest.getTerminalSnapshots()[0]);
 
 		if (generateScreenModelRequest.isGenerateSnapshotText()) {
 			// generate txt file with screen content
@@ -1557,8 +1565,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		if (ddlAutoValue != null || ddlAutoValue != "") {
 			persistenceFileContent = persistenceFileContent.replaceFirst(
-					"<property name=\"hibernate\\.hbm2ddl\\.auto\" value=\"update\"/>",
-					MessageFormat.format("<property name=\"hibernate\\.hbm2ddl\\.auto\" value=\"{0}\"/>", ddlAutoValue));
+					"<property name=\"hibernate\\.hbm2ddl\\.auto\" value=\"update\"/>", MessageFormat.format(
+							"<property name=\"hibernate\\.hbm2ddl\\.auto\" value=\"{0}\"/>", ddlAutoValue));
 			try {
 				FileUtils.write(persistenceFileContent, persistenceFile);
 			} catch (IOException e) {

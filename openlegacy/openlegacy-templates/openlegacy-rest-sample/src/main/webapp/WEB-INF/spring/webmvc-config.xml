@@ -11,6 +11,7 @@
 
 
 <!-- Uncomment for OpenLegacy enterprise managemenent plugin
+-->
 	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
 		<property name="order" value="0"/>
 	</bean>
@@ -18,7 +19,7 @@
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
 		<property name="order" value="1"/>
 	</bean>
-End Uncomment for OpenLegacy enterprise managemenent plugin -->
+<!-- End Uncomment for OpenLegacy enterprise managemenent plugin -->
 
 	<!-- Common controllers for terminal sessions -->
 	<context:component-scan base-package="com.openlegacyrestsample.openlegacy.web"
