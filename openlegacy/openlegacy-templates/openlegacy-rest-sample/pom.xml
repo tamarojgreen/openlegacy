@@ -150,8 +150,9 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${org.springframework-version}</version>
-			<scope>test</scope>
+<!-- 			<scope>test</scope> -->
 		</dependency>
+		<!-- OpenLegacy -->
 		<dependency>
 			<groupId>org.openlegacy</groupId>
 			<artifactId>openlegacy-api</artifactId>
