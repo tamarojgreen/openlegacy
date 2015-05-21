@@ -6,6 +6,7 @@ package ${packageName};
 import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.openlegacy.terminal.Color;
 <#if supportTerminalData>
 import org.openlegacy.terminal.TerminalField;
 </#if>

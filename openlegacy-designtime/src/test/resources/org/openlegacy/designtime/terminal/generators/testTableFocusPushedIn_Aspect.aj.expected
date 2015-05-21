@@ -6,6 +6,7 @@ package com.someorg.examples.screens;
 import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.openlegacy.terminal.Color;
 import com.someorg.examples.screens.TestClass.TableScreenRecord;
 
 privileged @SuppressWarnings("unused") aspect TableScreenRecord_Aspect {
