@@ -202,7 +202,7 @@
 					<#elseif field.fieldTypeDefinition.typeName == 'boolean'>
 						<div class="checkbox" id="${field.name}">
 							<label>
-	      						<input ng-checked="model.${field.name}" type="checkbox">
+	      						<input ng-model="model.${field.name}" type="checkbox">
 	    					</label>
 	  					</div>											
 					<#elseif field.fieldTypeDefinition.typeName == 'enum'>
@@ -226,7 +226,7 @@
 				<#elseif field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'boolean'>
 					<div class="checkbox" id="${field.name}">
 						<label>
-	  						<input disabled="disabled" ng-checked="model.${field.name}" type="checkbox">
+	  						<input disabled="disabled" ng-model="model.${field.name}" type="checkbox">
 						</label>
 					</div>
 				<#else>
