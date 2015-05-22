@@ -17,3 +17,10 @@
 /openlegacy-ide-eclipse-updatesite/features
 /openlegacy-ide-eclipse-updatesite/artifacts.jar
 /openlegacy-ide-eclipse-updatesite/content.jar
+
+
+.classpath
+.project
+.settings
+bin/
+target/
