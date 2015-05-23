@@ -52,7 +52,7 @@ public class DbCodeBasedDefinitionUtils {
 		for (BodyDeclaration bodyDeclaration : members) {
 			// look for inner classes
 			if (bodyDeclaration instanceof ClassOrInterfaceDeclaration) {
-				types.add((TypeDeclaration)bodyDeclaration);
+				types.add((TypeDeclaration) bodyDeclaration);
 			}
 		}
 
@@ -66,7 +66,7 @@ public class DbCodeBasedDefinitionUtils {
 				if (JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_JPA_ENTITY_ANNOTATION)
 						|| JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_ENTITY_ANNOTATION)
 						|| JavaParserUtil.hasAnnotation(annotationExpr, DbAnnotationConstants.DB_ENTITY_SUPER_CLASS_ANNOTATION)) {
-					dbPojoCodeModel = new DefaultDbPojoCodeModel(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration,
+					dbPojoCodeModel = new DefaultDbPojoCodeModel(compilationUnit, (ClassOrInterfaceDeclaration) typeDeclaration,
 							typeDeclaration.getName(), null, packageDir);
 					entityDefinition = new CodeBasedDbEntityDefinition(dbPojoCodeModel, packageDir);
 					return entityDefinition;
@@ -110,6 +110,8 @@ public class DbCodeBasedDefinitionUtils {
 
 			definition.setManyToOneDefinition(javaColumnField.getManyToOneDefinition());
 			definition.setJoinColumnDefinition(javaColumnField.getJoinColumnDefinition());
+
+			definition.setFieldTypeDefinition(javaColumnField.getFieldTypeDefinition());
 
 			fieldDefinitions.put(javaColumnField.getFieldName(), definition);
 		}

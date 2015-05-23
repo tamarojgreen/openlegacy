@@ -15,8 +15,14 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.enums.EnumEntryModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.enums.IEnumFieldModel;
 
+import org.openlegacy.DisplayItem;
+import org.openlegacy.db.definitions.DbFieldDefinition;
+import org.openlegacy.definitions.support.SimpleEnumFieldTypeDefinition;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -48,16 +54,31 @@ public class JpaEnumFieldModel extends JpaFieldModel implements IEnumFieldModel 
 	}
 
 	/* (non-Javadoc)
-	 * @see com.openlegacy.enterprise.ide.eclipse.editors.models.enums.IEnumFieldModel#getPrevJavaTypeName()
+	 * @see com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel#init(org.openlegacy.db.definitions.DbFieldDefinition)
 	 */
+	@Override
+	public void init(DbFieldDefinition dbFieldDefinition) {
+		super.init(dbFieldDefinition);
+		if (super.isInitialized()) {
+			this.prevJavaTypeName = this.javaTypeName;
+			SimpleEnumFieldTypeDefinition fieldTypeDefinition = (SimpleEnumFieldTypeDefinition) dbFieldDefinition.getFieldTypeDefinition();
+			Map<Object, DisplayItem> map = fieldTypeDefinition.getEnums();
+			Set<Object> keySet = map.keySet();
+			for (Object key : keySet) {
+				EnumEntryModel entryModel = new EnumEntryModel(this);
+				entryModel.setName((String) key);
+				entryModel.setValue((String) map.get(key).getValue());
+				entryModel.setDisplayName((String) map.get(key).getDisplay());
+				this.entries.add(entryModel);
+			}
+		}
+	}
+
 	@Override
 	public String getPrevJavaTypeName() {
 		return prevJavaTypeName;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.openlegacy.enterprise.ide.eclipse.editors.models.enums.IEnumFieldModel#getEntries()
-	 */
 	@Override
 	public List<EnumEntryModel> getEntries() {
 		return entries;
@@ -85,6 +106,33 @@ public class JpaEnumFieldModel extends JpaFieldModel implements IEnumFieldModel 
 	public JpaEnumFieldModel clone() {
 		JpaEnumFieldModel model = new JpaEnumFieldModel(this.uuid, this.parent);
 
+		model.setModelName(this.getModelName());
+		model.setFieldName(this.getFieldName());
+		model.previousFieldName = this.previousFieldName;
+		model.javaTypeName = this.javaTypeName;
+		model.setName(getName());
+		model.setUnique(isUnique());
+		model.setNullable(isNullable());
+		model.setInsertable(isInsertable());
+		model.setUpdatable(isUpdatable());
+		model.setColumnDefinition(getColumnDefinition());
+		model.setTable(getTable());
+		model.setLength(getLength());
+		model.setPrecision(getPrecision());
+		model.setScale(getScale());
+		model.setKey(isKey());
+
+		model.setDisplayName(getDisplayName());
+		model.setPassword(isPassword());
+		model.setSampleValue(getSampleValue());
+		model.setDefaultValue(getDefaultValue());
+		model.setHelpText(getHelpText());
+		model.setRightToLeft(isRightToLeft());
+		model.setInternal(isInternal());
+		model.setMainDisplayFiled(isMainDisplayFiled());
+
+		model.initialized = isInitialized();
+
 		model.prevJavaTypeName = this.prevJavaTypeName;
 
 		List<EnumEntryModel> list = new ArrayList<EnumEntryModel>();
@@ -93,7 +141,17 @@ public class JpaEnumFieldModel extends JpaFieldModel implements IEnumFieldModel 
 		}
 		model.getEntries().addAll(list);
 		return model;
+	}
 
+	public void setPrevJavaTypeName(String typeName) {
+		if (this.prevJavaTypeName.isEmpty()) {
+			this.prevJavaTypeName = typeName;
+		}
+	}
+
+	public void setJavaTypeName(String javaTypeName) {
+		this.javaTypeName = javaTypeName;
+		setPrevJavaTypeName(javaTypeName);
 	}
 
 }

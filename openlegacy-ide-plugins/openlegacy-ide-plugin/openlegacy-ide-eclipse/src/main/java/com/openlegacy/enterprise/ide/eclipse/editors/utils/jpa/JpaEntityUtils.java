@@ -41,6 +41,7 @@ import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.db.definitions.DbFieldDefinition;
 import org.openlegacy.db.definitions.DbTableDefinition.UniqueConstraintDefinition;
 import org.openlegacy.db.definitions.SimpleDbColumnFieldDefinition;
+import org.openlegacy.definitions.EnumFieldTypeDefinition;
 import org.openlegacy.designtime.db.generators.support.CodeBasedDbEntityDefinition;
 import org.openlegacy.designtime.db.generators.support.DbAnnotationConstants;
 import org.openlegacy.designtime.generators.AnnotationConstants;
@@ -898,6 +899,8 @@ public class JpaEntityUtils {
 				model = new JpaListFieldModel(parent);
 			} else if (fieldDefinition.getManyToOneDefinition() != null) {
 				model = new JpaManyToOneFieldModel(parent);
+			} else if (fieldDefinition.getFieldTypeDefinition() instanceof EnumFieldTypeDefinition) {
+				model = new JpaEnumFieldModel(parent);
 			} else {
 				model = new JpaFieldModel(parent);
 			}

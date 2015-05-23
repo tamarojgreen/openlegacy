@@ -69,7 +69,7 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 	protected void addContent(FormToolkit toolkit, Composite client) {
 		// create row for selecting Enum type
 		Text enumControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts, getDefaultModifyListener(),
-				Messages.getString("ScreenEnumField.enum"), "", Constants.JAVA_TYPE, null, IJavaSearchConstants.ENUM, false,//$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getString("EnumField.enum"), "", Constants.JAVA_TYPE, null, IJavaSearchConstants.ENUM, false,//$NON-NLS-1$ //$NON-NLS-2$
 				null, JAVA_DOCUMENTATION_TYPE.JAVA_BASICS, "datatypes", "");//$NON-NLS-1$ //$NON-NLS-2$
 
 		enumControl.addModifyListener(getEnumModifyListener());
@@ -102,7 +102,7 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 	@Override
 	protected void selectionChanged(IStructuredSelection selection) {
 		if (selection.size() == 1) {
-			fieldModel = (ScreenEnumFieldModel)selection.getFirstElement();
+			fieldModel = (ScreenEnumFieldModel) selection.getFirstElement();
 		} else {
 			fieldModel = null;
 		}
@@ -116,12 +116,12 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 	@Override
 	protected void doUpdateModel(String key) throws MalformedURLException, CoreException {
 		Map<String, Object> map = getValuesOfControlsForKey(key);
-		ModelUpdater.updateScreenFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE),
-				(Boolean)map.get(Constants.BOOL_VALUE), (String)map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
-		ModelUpdater.updateScreenEnumFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE),
-				(String)map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
-		ModelUpdater.updateScreenDescriptionFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE));
-		ModelUpdater.updateScreenDynamicFieldModel(getEntity(), fieldModel, key, (String)map.get(Constants.TEXT_VALUE));
+		ModelUpdater.updateScreenFieldModel(getEntity(), fieldModel, key, (String) map.get(Constants.TEXT_VALUE),
+				(Boolean) map.get(Constants.BOOL_VALUE), (String) map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
+		ModelUpdater.updateScreenEnumFieldModel(getEntity(), fieldModel, key, (String) map.get(Constants.TEXT_VALUE),
+				(String) map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
+		ModelUpdater.updateScreenDescriptionFieldModel(getEntity(), fieldModel, key, (String) map.get(Constants.TEXT_VALUE));
+		ModelUpdater.updateScreenDynamicFieldModel(getEntity(), fieldModel, key, (String) map.get(Constants.TEXT_VALUE));
 	}
 
 	@Override
@@ -188,9 +188,9 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				IStructuredSelection selection = (IStructuredSelection)tableViewer.getSelection();
+				IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
 				if (selection.size() == 1) {
-					EnumEntryModel model = (EnumEntryModel)selection.getFirstElement();
+					EnumEntryModel model = (EnumEntryModel) selection.getFirstElement();
 					fieldModel.getEntries().remove(model);
 					tableViewer.setInput(fieldModel);
 					updateModel(Constants.ENUM_FIELD_ENTRIES);
@@ -200,7 +200,7 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 
 		});
 
-		section.setText(Messages.getString("ScreenEnumField.properties"));//$NON-NLS-1$
+		section.setText(Messages.getString("EnumField.properties"));//$NON-NLS-1$
 		section.setClient(client);
 		section.setExpanded(true);
 		gd = new GridData(GridData.FILL_BOTH);
@@ -227,17 +227,17 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 		TableColumn tcol = vcol.getColumn();
 		tcol.setResizable(false);
 		tcol.setWidth(150);
-		tcol.setText(Messages.getString("ScreenEnumField.col.name"));//$NON-NLS-1$
+		tcol.setText(Messages.getString("EnumField.col.name"));//$NON-NLS-1$
 
 		vcol.setEditingSupport(new EnumFieldEntryTextCellEditingSupport(viewer, AnnotationConstants.NAME));
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
 			public void update(ViewerCell cell) {
-				EnumEntryModel model = (EnumEntryModel)cell.getElement();
+				EnumEntryModel model = (EnumEntryModel) cell.getElement();
 				cell.setText(model.getName());
 				if (!updatingControls) {
-					updateModel((String)viewer.getData(FormRowCreator.ID_KEY));
+					updateModel((String) viewer.getData(FormRowCreator.ID_KEY));
 				}
 			}
 		});
@@ -246,14 +246,14 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 		tcol = vcol.getColumn();
 		tcol.setResizable(false);
 		tcol.setWidth(50);
-		tcol.setText(Messages.getString("ScreenEnumField.col.value"));//$NON-NLS-1$
+		tcol.setText(Messages.getString("EnumField.col.value"));//$NON-NLS-1$
 
 		vcol.setEditingSupport(new EnumFieldEntryTextCellEditingSupport(viewer, ScreenAnnotationConstants.VALUE));
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
 			public void update(ViewerCell cell) {
-				EnumEntryModel model = (EnumEntryModel)cell.getElement();
+				EnumEntryModel model = (EnumEntryModel) cell.getElement();
 				cell.setText(model.getValue());
 			}
 		});
@@ -262,14 +262,14 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 		tcol = vcol.getColumn();
 		tcol.setResizable(false);
 		tcol.setWidth(200);
-		tcol.setText(Messages.getString("ScreenEnumField.col.display"));//$NON-NLS-1$
+		tcol.setText(Messages.getString("EnumField.col.display"));//$NON-NLS-1$
 
 		vcol.setEditingSupport(new EnumFieldEntryTextCellEditingSupport(viewer, AnnotationConstants.DISPLAY_NAME));
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
 			public void update(ViewerCell cell) {
-				EnumEntryModel model = (EnumEntryModel)cell.getElement();
+				EnumEntryModel model = (EnumEntryModel) cell.getElement();
 				cell.setText(model.getDisplayName());
 			}
 		});

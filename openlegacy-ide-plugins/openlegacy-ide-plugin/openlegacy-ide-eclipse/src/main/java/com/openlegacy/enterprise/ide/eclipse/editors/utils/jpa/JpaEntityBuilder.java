@@ -1,5 +1,6 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.utils.jpa;
 
+import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaActionsAction;
@@ -8,6 +9,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaByteFieldAct
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDateFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbEntityAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaEntityAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaEnumFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaIntegerFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaListFieldAction;
@@ -17,6 +19,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaTableAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEnumFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaManyToOneFieldModel;
@@ -32,6 +35,7 @@ import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.BooleanLiteral;
 import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
@@ -54,6 +58,7 @@ import org.openlegacy.annotations.db.DbColumn;
 import org.openlegacy.annotations.db.DbEntity;
 import org.openlegacy.annotations.db.DbNavigation;
 import org.openlegacy.db.definitions.DbTableDefinition.UniqueConstraintDefinition;
+import org.openlegacy.definitions.EnumGetValue;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.utils.StringUtil;
 
@@ -94,10 +99,10 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 
 		private static boolean isActionAvailableForField(AbstractAction action, String rootName) {
 			if (action instanceof JpaFieldAction) {
-				NamedObject parentModel = ((JpaFieldModel)action.getNamedObject()).getParent();
+				NamedObject parentModel = ((JpaFieldModel) action.getNamedObject()).getParent();
 				String parentClassName = "";
 				if (parentModel instanceof JpaEntityModel) {
-					parentClassName = ((JpaEntityModel)parentModel).getClassName();
+					parentClassName = ((JpaEntityModel) parentModel).getClassName();
 				}
 				if (parentClassName.equals(rootName)) {
 					return true;
@@ -116,7 +121,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 			List<ActionModel> toRemove = new ArrayList<ActionModel>();
 
 			// get pair value
-			ArrayInitializer arrayLiteral = (ArrayInitializer)target.getValue();
+			ArrayInitializer arrayLiteral = (ArrayInitializer) target.getValue();
 			// get annotations from value
 			List<NormalAnnotation> expressions = arrayLiteral.expressions();
 			for (NormalAnnotation normalAnnotation : expressions) {
@@ -133,7 +138,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 
 				for (MemberValuePair pair : pairs) {
 					if (pair.getName().getFullyQualifiedName().equals(AnnotationConstants.ACTION)) {
-						String[] split = ((SimpleType)((TypeLiteral)pair.getValue()).getType()).getName().getFullyQualifiedName().split(
+						String[] split = ((SimpleType) ((TypeLiteral) pair.getValue()).getType()).getName().getFullyQualifiedName().split(
 								"\\.");//$NON-NLS-1$
 						actionName = split[split.length - 1];
 						actionPair = pair;
@@ -145,13 +150,13 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 							alias = actionName.toLowerCase();
 						}
 					} else if (pair.getName().getFullyQualifiedName().equals(AnnotationConstants.DISPLAY_NAME)) {
-						displayName = ((StringLiteral)pair.getValue()).getLiteralValue();
+						displayName = ((StringLiteral) pair.getValue()).getLiteralValue();
 					} else if (pair.getName().getFullyQualifiedName().equals(AnnotationConstants.ALIAS)) {
-						alias = ((StringLiteral)pair.getValue()).getLiteralValue();
+						alias = ((StringLiteral) pair.getValue()).getLiteralValue();
 					} else if (pair.getName().getFullyQualifiedName().equals(AnnotationConstants.GLOBAL)) {
-						global = ((BooleanLiteral)pair.getValue()).booleanValue();
+						global = ((BooleanLiteral) pair.getValue()).booleanValue();
 					} else if (pair.getName().getFullyQualifiedName().equals(AnnotationConstants.TARGET_ENTITY)) {
-						String[] split = ((SimpleType)((TypeLiteral)pair.getValue()).getType()).getName().getFullyQualifiedName().split(
+						String[] split = ((SimpleType) ((TypeLiteral) pair.getValue()).getType()).getName().getFullyQualifiedName().split(
 								"\\.");//$NON-NLS-1$
 						targetEntityName = split[split.length - 1];
 						targetEntityPair = pair;
@@ -273,7 +278,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 					if (node.getNodeType() == ASTNode.NORMAL_ANNOTATION) {
 						lastNode = node;
 						// check if annotation already exist
-						NormalAnnotation normalAnnotation = (NormalAnnotation)node;
+						NormalAnnotation normalAnnotation = (NormalAnnotation) node;
 						if (normalAnnotation.getTypeName().getFullyQualifiedName().equals(
 								annotation.getTypeName().getFullyQualifiedName())) {
 							isAnnotationExist = true;
@@ -282,7 +287,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 					} else if (node.getNodeType() == ASTNode.MARKER_ANNOTATION) {
 						lastNode = node;
 						// check if annotation already exist
-						MarkerAnnotation markerAnnotation = (MarkerAnnotation)node;
+						MarkerAnnotation markerAnnotation = (MarkerAnnotation) node;
 						if (markerAnnotation.getTypeName().getFullyQualifiedName().equals(
 								annotation.getTypeName().getFullyQualifiedName())) {
 							isAnnotationExist = true;
@@ -311,7 +316,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 			if (action.getActionType().equals(ActionType.REMOVE) && (action.getTarget() == ASTNode.NORMAL_ANNOTATION)) {
 				for (ASTNode node : nodeList) {
 					if (node.getNodeType() == ASTNode.NORMAL_ANNOTATION) {
-						NormalAnnotation annotation = (NormalAnnotation)node;
+						NormalAnnotation annotation = (NormalAnnotation) node;
 						if (annotation.getTypeName().getFullyQualifiedName().equals(action.getAnnotationClass().getSimpleName())) {
 							listRewriter.remove(node, null);
 						}
@@ -340,7 +345,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 				if (fragments.size() > 0) {
 					fieldName = fragments.get(0).getName().getFullyQualifiedName();
 				}
-				JpaFieldModel model = (JpaFieldModel)action.getNamedObject();
+				JpaFieldModel model = (JpaFieldModel) action.getNamedObject();
 				if (StringUtils.equals(model.getFieldName(), fieldName)) {
 
 					NormalAnnotation annotation = ast.newNormalAnnotation();
@@ -351,7 +356,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 					for (IExtendedModifier modifier : modifiers) {
 						if (modifier.isAnnotation() && modifier instanceof Annotation) {
 							// check if annotation already exist
-							Annotation annotation2 = (Annotation)modifier;
+							Annotation annotation2 = (Annotation) modifier;
 							if (StringUtils.equals(annotation2.getTypeName().getFullyQualifiedName(),
 									annotation.getTypeName().getFullyQualifiedName())) {
 								isAnnotationExist = true;
@@ -363,11 +368,11 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 						VariableDeclarationFragment fragment = ast.newVariableDeclarationFragment();
 						fragment.setName(ast.newSimpleName(StringUtils.uncapitalize(fieldName)));
 						FieldDeclaration newField = ast.newFieldDeclaration(fragment);
-						if (((VariableDeclarationFragment)field.fragments().get(0)).getInitializer() != null) {
-							fragment.setInitializer((Expression)ASTNode.copySubtree(ast,
-									((VariableDeclarationFragment)field.fragments().get(0)).getInitializer()));
+						if (((VariableDeclarationFragment) field.fragments().get(0)).getInitializer() != null) {
+							fragment.setInitializer((Expression) ASTNode.copySubtree(ast,
+									((VariableDeclarationFragment) field.fragments().get(0)).getInitializer()));
 						}
-						newField.setType((Type)ASTNode.copySubtree(ast, field.getType()));
+						newField.setType((Type) ASTNode.copySubtree(ast, field.getType()));
 						newField.modifiers().add(annotation);
 						newField.modifiers().addAll(ASTNode.copySubtrees(ast, field.modifiers()));
 						listRewriter.replace(field, newField, null);
@@ -400,21 +405,21 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 				if (fragments.size() > 0) {
 					fieldName = fragments.get(0).getName().getFullyQualifiedName();
 				}
-				JpaFieldModel model = (JpaFieldModel)action.getNamedObject();
+				JpaFieldModel model = (JpaFieldModel) action.getNamedObject();
 				if (StringUtils.equals(model.getFieldName(), fieldName)) {
 					ListRewrite listRewrite = listRewriter.getASTRewrite().getListRewrite(field,
 							FieldDeclaration.MODIFIERS2_PROPERTY);
 					List<ASTNode> originalList = listRewrite.getOriginalList();
 					for (ASTNode node : originalList) {
 						if (node.getNodeType() == ASTNode.NORMAL_ANNOTATION) {
-							NormalAnnotation normalAnnotation = (NormalAnnotation)node;
+							NormalAnnotation normalAnnotation = (NormalAnnotation) node;
 							if (StringUtils.equals(normalAnnotation.getTypeName().getFullyQualifiedName(),
 									action.getAnnotationClass().getSimpleName())) {
 								listRewrite.remove(node, null);
 								break;
 							}
 						} else if (node.getNodeType() == ASTNode.MARKER_ANNOTATION) {
-							MarkerAnnotation markerAnnotation = (MarkerAnnotation)node;
+							MarkerAnnotation markerAnnotation = (MarkerAnnotation) node;
 							if (StringUtils.equals(markerAnnotation.getTypeName().getFullyQualifiedName(),
 									action.getAnnotationClass().getSimpleName())) {
 								listRewrite.remove(node, null);
@@ -455,7 +460,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 					newAnnotation = ast.newNormalAnnotation();
 					newAnnotation.setTypeName(ast.newSimpleName(annotation.getTypeName().getFullyQualifiedName()));
 					if (annotation instanceof NormalAnnotation) {
-						newAnnotation.values().addAll(ASTNode.copySubtrees(ast, ((NormalAnnotation)annotation).values()));
+						newAnnotation.values().addAll(ASTNode.copySubtrees(ast, ((NormalAnnotation) annotation).values()));
 					}
 				}
 				List<MemberValuePair> pairs = newAnnotation.values();
@@ -465,7 +470,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 				if (pair == null) {
 					if (val instanceof List) {
 						MemberValuePair arrPair = JpaEntityASTUtils.INSTANCE.createArrayPair(ast, cu, rewriter, action.getKey(),
-								(List<UniqueConstraintDefinition>)val);
+								(List<UniqueConstraintDefinition>) val);
 						if (arrPair != null) {
 							pairs.add(arrPair);
 							ASTUtils.addImport(ast, cu, rewriter, UniqueConstraint.class);
@@ -478,7 +483,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 					case MODIFY:
 						if (val instanceof List) {
 							pair.setValue(JpaEntityASTUtils.INSTANCE.createArrayLiteral(ast, cu, rewriter,
-									(List<UniqueConstraintDefinition>)val));
+									(List<UniqueConstraintDefinition>) val));
 						}
 						break;
 					case REMOVE:
@@ -503,11 +508,11 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 					&& (action.getTarget() == ASTNode.FIELD_DECLARATION)) {
 				for (BodyDeclaration bd : nodeList) {
 					if (bd.getNodeType() == ASTNode.FIELD_DECLARATION) {
-						FieldDeclaration field = (FieldDeclaration)bd;
+						FieldDeclaration field = (FieldDeclaration) bd;
 						List<VariableDeclarationFragment> fragments = field.fragments();
 						if (fragments.size() > 0) {
 							String fieldName = fragments.get(0).getName().getFullyQualifiedName();
-							if (fieldName.equals(((JpaFieldModel)action.getNamedObject()).getPreviousFieldName())) {
+							if (fieldName.equals(((JpaFieldModel) action.getNamedObject()).getPreviousFieldName())) {
 								listRewriter.remove(bd, null);
 							}
 						}
@@ -526,7 +531,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 					&& (action.getTarget() == ASTNode.FIELD_DECLARATION)) {
 				// create empty field declaration
 				VariableDeclarationFragment fragment = ast.newVariableDeclarationFragment();
-				String fieldName = ((JpaFieldModel)action.getNamedObject()).getFieldName();
+				String fieldName = ((JpaFieldModel) action.getNamedObject()).getFieldName();
 				fragment.setName(ast.newSimpleName(StringUtils.uncapitalize(fieldName)));
 				FieldDeclaration field = ast.newFieldDeclaration(fragment);
 
@@ -551,7 +556,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 				}
 				// List field
 				if (action instanceof JpaListFieldAction) {
-					JpaListFieldModel model = (JpaListFieldModel)action.getNamedObject();
+					JpaListFieldModel model = (JpaListFieldModel) action.getNamedObject();
 					ParameterizedType listType = ast.newParameterizedType(ast.newSimpleType(ast.newSimpleName(List.class.getSimpleName())));
 					listType.typeArguments().add(ast.newSimpleType(ast.newSimpleName(model.getFieldTypeArgs())));
 					field.setType(listType);
@@ -560,7 +565,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 					ParameterizedType ptype = ast.newParameterizedType(ast.newSimpleType(ast.newName(ArrayList.class.getSimpleName())));
 					ptype.typeArguments().add(ast.newSimpleType(ast.newSimpleName(model.getFieldTypeArgs())));
 					cic.setType(ptype);
-					((VariableDeclarationFragment)field.fragments().get(0)).setInitializer(cic);
+					((VariableDeclarationFragment) field.fragments().get(0)).setInitializer(cic);
 
 					ASTUtils.addImport(ast, cu, rewriter, List.class);
 					ASTUtils.addImport(ast, cu, rewriter, ArrayList.class);
@@ -568,9 +573,29 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 				}
 				// ManyToOne field
 				if (action instanceof JpaManyToOneFieldAction) {
-					JpaManyToOneFieldModel model = (JpaManyToOneFieldModel)action.getNamedObject();
+					JpaManyToOneFieldModel model = (JpaManyToOneFieldModel) action.getNamedObject();
 					field.setType(ast.newSimpleType(ast.newSimpleName(model.getJavaType().getSimpleName())));
 					ASTUtils.addImport(ast, cu, rewriter, model.getJavaType());
+				}
+
+				if (action instanceof JpaEnumFieldAction) {
+					JpaEnumFieldModel model = (JpaEnumFieldModel) action.getNamedObject();
+					if (model.getPrevJavaTypeName().isEmpty()) {
+						field.setType(ast.newSimpleType(ast.newSimpleName(StringUtils.capitalize(model.getFieldName()))));
+					} else {
+						field.setType(ast.newSimpleType(ast.newSimpleName(model.getJavaTypeName())));
+					}
+					field.setProperty(Constants.ENUM_FIELD_ENTRIES, true);
+					if (model.getType() != null) {
+						ASTUtils.addImport(ast, cu, rewriter, model.getType());
+					}
+
+					//					JpaEnumFieldModel model = (JpaEnumFieldModel) action.getNamedObject();
+					//
+					//					EnumDeclaration enumDeclaration = getNewEnumDeclaration(ast, model.getFieldName());
+					//					// add import of interface
+					//					ASTUtils.addImport(ast, cu, rewriter, EnumGetValue.class);
+					//					listRewriter.insertLast(enumDeclaration, null);
 				}
 
 				// skip adding annotations
@@ -606,7 +631,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 		for (AbstractAction action : list) {
 			if ((PrivateMethods.isActionAvailableForField(action, rootName))
 					&& (action.getNamedObject() instanceof JpaFieldModel)) {
-				JpaFieldModel model = (JpaFieldModel)action.getNamedObject();
+				JpaFieldModel model = (JpaFieldModel) action.getNamedObject();
 				// check whether is an action for current field
 				if (model.getPreviousFieldName().equals(fieldName)) {
 					if (newField == null) {
@@ -642,7 +667,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 		for (AbstractAction action : list) {
 			if ((PrivateMethods.isActionAvailableForField(action, rootName))
 					&& (action.getNamedObject() instanceof JpaFieldModel)) {
-				JpaFieldModel model = (JpaFieldModel)action.getNamedObject();
+				JpaFieldModel model = (JpaFieldModel) action.getNamedObject();
 				// check whether is an action for current field
 				if (model.getFieldName().equals(fieldName)
 						&& ((action.getActionType().equals(ActionType.MODIFY) || (action.getActionType().equals(ActionType.REMOVE))))) {
@@ -669,7 +694,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 		for (AbstractAction action : list) {
 			if (PrivateMethods.isActionAvailableForField(action, rootName)) {
 				if (action.getNamedObject() instanceof JpaListFieldModel) {
-					JpaListFieldModel model = (JpaListFieldModel)action.getNamedObject();
+					JpaListFieldModel model = (JpaListFieldModel) action.getNamedObject();
 					// check whether is an action for current field
 					if (model.getPreviousFieldName().equals(fieldName)) {
 						if (newField == null) {
@@ -684,14 +709,14 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 						}
 					}
 				} else if (action.getNamedObject() instanceof JpaManyToOneFieldModel) {
-					JpaFieldModel model = (JpaFieldModel)action.getNamedObject();
+					JpaFieldModel model = (JpaFieldModel) action.getNamedObject();
 					// check whether is an action for current field
 					if (model.getPreviousFieldName().equals(fieldName)) {
 						if (newField == null) {
 							VariableDeclarationFragment fragment = ast.newVariableDeclarationFragment();
 							fragment.setName(ast.newSimpleName(fieldName));
 							newField = ast.newFieldDeclaration(fragment);
-							Class<?> javaType = ((JpaManyToOneFieldModel)action.getNamedObject()).getJavaType();
+							Class<?> javaType = ((JpaManyToOneFieldModel) action.getNamedObject()).getJavaType();
 							newField.setType(ast.newSimpleType(ast.newSimpleName(javaType.getSimpleName())));
 							ASTUtils.addImport(ast, cu, rewriter, javaType);
 							break;
@@ -736,11 +761,11 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 				if (pair == null) {
 					if (val instanceof List) {
 						MemberValuePair arrPair = JpaEntityASTUtils.INSTANCE.createArrayPair(ast, cu, rewriter, action.getKey(),
-								(List<ActionModel>)val);
+								(List<ActionModel>) val);
 						if (arrPair != null) {
 							pairs.add(arrPair);
 							// add imports
-							for (ActionModel model : (List<ActionModel>)val) {
+							for (ActionModel model : (List<ActionModel>) val) {
 								if (model.getAction() != null) {
 									ASTUtils.addImport(ast, cu, rewriter, model.getAction().getClass());
 								}
@@ -761,7 +786,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 							// Remark: In case with actions we cannot create array literal and replace existed in pair.
 							// This situation appears because CodeBasedRpcEntityDefinition returns actions names only
 							// (without instance of action)
-							PrivateMethods.manageExistingActions(ast, cu, rewriter, pair, (List<ActionModel>)val);
+							PrivateMethods.manageExistingActions(ast, cu, rewriter, pair, (List<ActionModel>) val);
 						}
 						break;
 					case REMOVE:
@@ -774,6 +799,46 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 		}
 		if ((newAnnotation != null) && (listRewriter != null)) {
 			listRewriter.replace(annotation, newAnnotation, null);
+		}
+	}
+
+	public void createNewEntityInnerDeclarations(AST ast, CompilationUnit cu, ASTRewrite rewriter, ListRewrite listRewriter,
+			List<AbstractAction> list) {
+
+		for (AbstractAction action : list) {
+			if (action.getActionType().equals(ActionType.ADD) && (action.getTarget() == ASTNode.ENUM_DECLARATION)
+					&& (action instanceof JpaEnumFieldAction)) {
+
+				JpaEnumFieldModel model = (JpaEnumFieldModel) action.getNamedObject();
+
+				EnumDeclaration enumDeclaration = getNewEnumDeclaration(ast, model.getFieldName());
+				// add import of interface
+				ASTUtils.addImport(ast, cu, rewriter, EnumGetValue.class);
+				listRewriter.insertLast(enumDeclaration, null);
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void removeEnumDeclaration(ListRewrite listRewriter, String rootName, List<AbstractAction> list) {
+		List<BodyDeclaration> nodeList = listRewriter.getOriginalList();
+
+		for (AbstractAction action : list) {
+			if (action.getActionType().equals(ActionType.REMOVE) && (action.getTarget() == ASTNode.ENUM_DECLARATION)) {
+				for (BodyDeclaration bd : nodeList) {
+					if (bd.getNodeType() == ASTNode.ENUM_DECLARATION) {
+						EnumDeclaration declaration = (EnumDeclaration) bd;
+						String fullyQualifiedName = declaration.getName().getFullyQualifiedName();
+						NamedObject namedObject = action.getNamedObject();
+						if (namedObject instanceof JpaEnumFieldModel) {
+							JpaEnumFieldModel model = (JpaEnumFieldModel) namedObject;
+							if (fullyQualifiedName.equals(model.getJavaTypeName())) {
+								listRewriter.remove(bd, null);
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 

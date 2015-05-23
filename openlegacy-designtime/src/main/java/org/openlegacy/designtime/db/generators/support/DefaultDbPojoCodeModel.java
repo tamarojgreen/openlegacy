@@ -321,6 +321,8 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		private DbManyToOneDefinition manyToOneDefinition;
 		private DbJoinColumnDefinition joinColumnDefinition;
 
+		private FieldTypeDefinition fieldTypeDefinition;
+
 		public ColumnField(String fieldName, String fieldType, String fieldTypeArgs) {
 			this.fieldName = fieldName;
 			this.fieldType = fieldType;
@@ -538,6 +540,14 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		public void setGeneratedValue(boolean generatedValue) {
 			this.generatedValue = generatedValue;
 		}
+
+		public FieldTypeDefinition getFieldTypeDefinition() {
+			return fieldTypeDefinition;
+		}
+
+		public void setFieldTypeDefinition(FieldTypeDefinition fieldTypeDefinition) {
+			this.fieldTypeDefinition = fieldTypeDefinition;
+		}
 	}
 
 	private String className;
@@ -571,6 +581,8 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 	private boolean window = false;
 	private boolean child = false;
 
+	private ClassOrInterfaceDeclaration entityDeclaration;
+
 	public DefaultDbPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
 		init(compilationUnit, type, className, parentClassName);
@@ -583,6 +595,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 	}
 
 	private void init(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className, String parentClassName) {
+		this.entityDeclaration = type;
 		mainType = type;
 		this.parentClassName = parentClassName;
 
@@ -638,7 +651,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		List<BodyDeclaration> members = mainType.getMembers();
 		for (BodyDeclaration bodyDeclaration : members) {
 			if (bodyDeclaration instanceof FieldDeclaration) {
-				FieldDeclaration fieldDeclaration = (FieldDeclaration)bodyDeclaration;
+				FieldDeclaration fieldDeclaration = (FieldDeclaration) bodyDeclaration;
 				List<VariableDeclarator> variables = fieldDeclaration.getVariables();
 				if (variables.size() > 0) {
 					List<AnnotationExpr> fieldAnnotations = fieldDeclaration.getAnnotations();
@@ -674,7 +687,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		List<BodyDeclaration> members = mainType.getMembers();
 		for (BodyDeclaration bodyDeclaration : members) {
 			if (bodyDeclaration instanceof FieldDeclaration) {
-				FieldDeclaration fieldDeclaration = (FieldDeclaration)bodyDeclaration;
+				FieldDeclaration fieldDeclaration = (FieldDeclaration) bodyDeclaration;
 				List<VariableDeclarator> variables = fieldDeclaration.getVariables();
 				if (variables.size() > 0) {
 					List<AnnotationExpr> fieldAnnotations = fieldDeclaration.getAnnotations();
@@ -683,9 +696,9 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 					String fieldTypeArgs = null;
 					Type type = fieldDeclaration.getType();
 					if (type instanceof ReferenceType) {
-						ReferenceType referenceType = (ReferenceType)type;
+						ReferenceType referenceType = (ReferenceType) type;
 						if (referenceType.getType() instanceof ClassOrInterfaceType) {
-							ClassOrInterfaceType type2 = (ClassOrInterfaceType)referenceType.getType();
+							ClassOrInterfaceType type2 = (ClassOrInterfaceType) referenceType.getType();
 							fieldType = type2.getName();
 							List<Type> typeArgs = type2.getTypeArgs();
 							if (typeArgs != null && !typeArgs.isEmpty()) {
@@ -698,6 +711,9 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 						fieldType = type.toString();
 					}
 					ColumnField columnField = new ColumnField(fieldName, fieldType, fieldTypeArgs);
+
+					columnField.setFieldTypeDefinition(AnnotationsParserUtils.loadEnumField(entityDeclaration, fieldDeclaration));
+
 					if (ModifierSet.hasModifier(fieldDeclaration.getModifiers(), ModifierSet.STATIC)) {
 						columnField.setStaticField(true);
 					}
@@ -744,7 +760,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		int numberOfProperties = 0;
 		for (BodyDeclaration bodyDeclaration : members) {
 			if (bodyDeclaration instanceof MethodDeclaration) {
-				MethodDeclaration methodDeclaration = (MethodDeclaration)bodyDeclaration;
+				MethodDeclaration methodDeclaration = (MethodDeclaration) bodyDeclaration;
 				String methodName = methodDeclaration.getName();
 
 				String propertyNameIfGetter = PropertyUtil.getPropertyNameIfGetter(methodName);
@@ -796,7 +812,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 
 		if (annotationExpr instanceof NormalAnnotationExpr
 				&& annotationExpr.getName().getName().equals(Entity.class.getSimpleName())) {
-			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
+			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr) annotationExpr;
 
 			nameFromAnnotation = findAnnotationAttribute(DbAnnotationConstants.NAME, normalAnnotationExpr.getPairs());
 
@@ -805,7 +821,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		}
 		if (annotationExpr instanceof NormalAnnotationExpr
 				&& annotationExpr.getName().getName().equals(DbEntity.class.getSimpleName())) {
-			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
+			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr) annotationExpr;
 
 			displayNameFromAnnotation = findAnnotationAttribute(DbAnnotationConstants.DISPLAY_NAME,
 					normalAnnotationExpr.getPairs());

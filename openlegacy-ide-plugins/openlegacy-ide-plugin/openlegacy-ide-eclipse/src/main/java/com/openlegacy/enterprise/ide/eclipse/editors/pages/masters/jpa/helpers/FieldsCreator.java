@@ -152,6 +152,10 @@ public class FieldsCreator {
 					if (((JpaFieldModel) model).isInitialized()) {
 						entity.addAction(new JpaFieldAction(model.getUUID(), model, ActionType.REMOVE, ASTNode.FIELD_DECLARATION,
 								Constants.FIELD_DECLARATION, null));
+						if (model instanceof JpaEnumFieldModel) {
+							entity.addAction(new JpaEnumFieldAction(model.getUUID(), model, ActionType.REMOVE,
+									ASTNode.ENUM_DECLARATION, Constants.ENUM_DECLARATION, null));
+						}
 					}
 				}
 
