@@ -3,6 +3,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa;
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEnumFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaJoinColumnModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
@@ -183,6 +184,23 @@ public class ControlsUpdater {
 			} else if (key.equals(DbAnnotationConstants.FETCH)) {
 				mapCombos.get(key).setText(model.getFetch().toString());
 			}
+		}
+	}
+
+	public static void updateJpaEnumFieldDetailsControls(JpaEnumFieldModel fieldModel, Map<String, Text> mapTexts,
+			TableViewer tableViewer) {
+		if (fieldModel == null) {
+			return;
+		}
+		// update Text controls
+		Set<String> mapKeys = mapTexts.keySet();
+		for (String key : mapKeys) {
+			if (key.equals(Constants.JAVA_TYPE)) {
+				mapTexts.get(key).setText(fieldModel.getPrevJavaTypeName().isEmpty() ? "" : fieldModel.getJavaTypeName());
+			}
+		}
+		if (tableViewer != null) {
+			tableViewer.setInput(fieldModel);
 		}
 	}
 

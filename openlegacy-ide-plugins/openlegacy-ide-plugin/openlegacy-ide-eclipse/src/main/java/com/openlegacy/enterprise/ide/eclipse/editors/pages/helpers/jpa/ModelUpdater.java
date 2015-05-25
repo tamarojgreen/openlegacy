@@ -5,6 +5,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaActionsModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEnumFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaJoinColumnModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
@@ -148,6 +149,20 @@ public class ModelUpdater {
 			}
 		}
 		JpaEntityUtils.ActionGenerator.generateJpaListFieldActions(entity, model);
+	}
+
+	public static void updateJpaEnumFieldModel(JpaEntity entity, JpaEnumFieldModel model, String key, String text,
+			String fullyQualifiedName) throws MalformedURLException, CoreException {
+		if (text != null) {
+			if (key.equals(Constants.JAVA_TYPE)) {
+				model.setJavaTypeName(text);
+				if (fullyQualifiedName != null) {
+					Class<?> clazz = Utils.getClazz(fullyQualifiedName);
+					model.setType(clazz);
+				}
+			}
+		}
+		JpaEntityUtils.ActionGenerator.generateJpaEnumFieldActions(entity, model);
 	}
 
 	public static void updateJpaNavigationModel(JpaEntity entity, JpaNavigationModel model, String key, String text) {

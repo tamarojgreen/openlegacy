@@ -6,6 +6,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaBooleanFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaByteFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDateFieldAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaEnumFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaIntegerFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaListFieldAction;
@@ -17,6 +18,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaByteFieldMode
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaDateFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEntityModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEnumFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaIntegerFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaListFieldModel;
@@ -50,7 +52,7 @@ public class FieldsCreator {
 			return;
 		}
 		NamedObject parent = getParentOfSelectedModel();
-		JpaEntity entity = (JpaEntity)callback.getAbstractEntity();
+		JpaEntity entity = (JpaEntity) callback.getAbstractEntity();
 		JpaFieldModel newModel = null;
 		// create new model
 		if (JpaBooleanFieldModel.class.isAssignableFrom(modelClass)) {
@@ -65,6 +67,8 @@ public class FieldsCreator {
 			newModel = new JpaListFieldModel(parent);
 		} else if (JpaManyToOneFieldModel.class.isAssignableFrom(modelClass)) {
 			newModel = new JpaManyToOneFieldModel(parent);
+		} else if (JpaEnumFieldModel.class.isAssignableFrom(modelClass)) {
+			newModel = new JpaEnumFieldModel(parent);
 		} else {
 			newModel = new JpaFieldModel(parent);
 		}
@@ -76,36 +80,44 @@ public class FieldsCreator {
 		fillNewModel(newModel);
 		// generate relevant actions
 		if (JpaBooleanFieldModel.class.isAssignableFrom(modelClass)) {
-			entity.addAction(new JpaBooleanFieldAction(newModel.getUUID(), (JpaBooleanFieldModel)newModel, ActionType.ADD,
+			entity.addAction(new JpaBooleanFieldAction(newModel.getUUID(), (JpaBooleanFieldModel) newModel, ActionType.ADD,
 					ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
 			JpaEntityUtils.ActionGenerator.generateJpaFieldActions(entity, newModel);
 		} else if (JpaByteFieldModel.class.isAssignableFrom(modelClass)) {
-			entity.addAction(new JpaByteFieldAction(newModel.getUUID(), (JpaByteFieldModel)newModel, ActionType.ADD,
+			entity.addAction(new JpaByteFieldAction(newModel.getUUID(), (JpaByteFieldModel) newModel, ActionType.ADD,
 					ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
 			JpaEntityUtils.ActionGenerator.generateJpaFieldActions(entity, newModel);
 		} else if (JpaIntegerFieldModel.class.isAssignableFrom(modelClass)) {
-			entity.addAction(new JpaIntegerFieldAction(newModel.getUUID(), (JpaIntegerFieldModel)newModel, ActionType.ADD,
+			entity.addAction(new JpaIntegerFieldAction(newModel.getUUID(), (JpaIntegerFieldModel) newModel, ActionType.ADD,
 					ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
 			JpaEntityUtils.ActionGenerator.generateJpaFieldActions(entity, newModel);
 		} else if (JpaDateFieldModel.class.isAssignableFrom(modelClass)) {
-			entity.addAction(new JpaDateFieldAction(newModel.getUUID(), (JpaDateFieldModel)newModel, ActionType.ADD,
+			entity.addAction(new JpaDateFieldAction(newModel.getUUID(), (JpaDateFieldModel) newModel, ActionType.ADD,
 					ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
 			JpaEntityUtils.ActionGenerator.generateJpaFieldActions(entity, newModel);
 		} else if (JpaListFieldModel.class.isAssignableFrom(modelClass)) {
-			entity.addAction(new JpaListFieldAction(newModel.getUUID(), (JpaListFieldModel)newModel, ActionType.ADD,
+			entity.addAction(new JpaListFieldAction(newModel.getUUID(), (JpaListFieldModel) newModel, ActionType.ADD,
 					ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
-			entity.addAction(new JpaListFieldAction(newModel.getUUID(), (JpaListFieldModel)newModel, ActionType.ADD,
+			entity.addAction(new JpaListFieldAction(newModel.getUUID(), (JpaListFieldModel) newModel, ActionType.ADD,
 					ASTNode.NORMAL_ANNOTATION, DbAnnotationConstants.DB_ONE_TO_MANY_ANNOTATION, null));
 			JpaEntityUtils.ActionGenerator.generateJpaFieldActions(entity, newModel);
-			JpaEntityUtils.ActionGenerator.generateJpaListFieldActions(entity, (JpaListFieldModel)newModel);
+			JpaEntityUtils.ActionGenerator.generateJpaListFieldActions(entity, (JpaListFieldModel) newModel);
 		} else if (JpaManyToOneFieldModel.class.isAssignableFrom(modelClass)) {
-			entity.addAction(new JpaManyToOneFieldAction(newModel.getUUID(), (JpaManyToOneFieldModel)newModel, ActionType.ADD,
+			entity.addAction(new JpaManyToOneFieldAction(newModel.getUUID(), (JpaManyToOneFieldModel) newModel, ActionType.ADD,
 					ASTNode.FIELD_DECLARATION, newModel.getFieldName(), null));
 			entity.addAction(new JpaManyToOneAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
 					DbAnnotationConstants.DB_MANY_TO_ONE_ANNOTATION, null));
 			JpaEntityUtils.ActionGenerator.generateJpaFieldActions(entity, newModel);
 			JpaEntityUtils.ActionGenerator.generateJpaManyToOneAction(entity, newModel.getManyToOneModel());
 			JpaEntityUtils.ActionGenerator.generateJpaJoinColumnAction(entity, newModel.getJoinColumnModel());
+		} else if (JpaEnumFieldModel.class.isAssignableFrom(modelClass)) {
+			entity.addAction(new JpaEnumFieldAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.FIELD_DECLARATION,
+					newModel.getFieldName(), null));
+			// add action that responsible for creating a new enum class
+			entity.addAction(new JpaEnumFieldAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.ENUM_DECLARATION,
+					Constants.ENUM_FIELD_NEW_TYPE_DECLARATION, null));
+			JpaEntityUtils.ActionGenerator.generateJpaFieldActions(entity, newModel);
+			JpaEntityUtils.ActionGenerator.generateJpaEnumFieldActions(entity, (JpaEnumFieldModel) newModel);
 		} else {
 			entity.addAction(new JpaFieldAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.FIELD_DECLARATION,
 					newModel.getFieldName(), null));
@@ -125,21 +137,25 @@ public class FieldsCreator {
 		while (iterator.hasNext()) {
 			NamedObject model = iterator.next();
 			if (model != null) {
-				JpaEntity entity = ((JpaEntity)callback.getAbstractEntity());
+				JpaEntity entity = ((JpaEntity) callback.getAbstractEntity());
 				if (model instanceof JpaFieldModel) {
 					// remove validation markers
 					callback.removeValidationMarkers(model.getUUID());
 
-					NamedObject parent = ((JpaFieldModel)model).getParent();
+					NamedObject parent = ((JpaFieldModel) model).getParent();
 					if (parent instanceof JpaEntityModel) {
-						entity.removeJpaFieldModel((JpaFieldModel)model);
+						entity.removeJpaFieldModel((JpaFieldModel) model);
 					}
 					// try to remove actions
 					entity.removeActionsSet(model.getUUID());
 
-					if (((JpaFieldModel)model).isInitialized()) {
+					if (((JpaFieldModel) model).isInitialized()) {
 						entity.addAction(new JpaFieldAction(model.getUUID(), model, ActionType.REMOVE, ASTNode.FIELD_DECLARATION,
 								Constants.FIELD_DECLARATION, null));
+						if (model instanceof JpaEnumFieldModel) {
+							entity.addAction(new JpaEnumFieldAction(model.getUUID(), model, ActionType.REMOVE,
+									ASTNode.ENUM_DECLARATION, Constants.ENUM_DECLARATION, null));
+						}
 					}
 				}
 
@@ -150,11 +166,11 @@ public class FieldsCreator {
 
 	private NamedObject getParentOfSelectedModel() {
 		IStructuredSelection selection = callback.getMasterBlockViewerSelection();
-		NamedObject parent = ((JpaEntity)callback.getAbstractEntity()).getEntityModel();
+		NamedObject parent = ((JpaEntity) callback.getAbstractEntity()).getEntityModel();
 		if (selection.size() == 1) {
-			NamedObject namedObject = (NamedObject)selection.getFirstElement();
+			NamedObject namedObject = (NamedObject) selection.getFirstElement();
 			if (namedObject instanceof JpaFieldModel) {
-				parent = ((JpaFieldModel)namedObject).getParent();
+				parent = ((JpaFieldModel) namedObject).getParent();
 			}
 		}
 		return parent;
@@ -164,7 +180,7 @@ public class FieldsCreator {
 		int seed = 0;
 		List<JpaFieldModel> sortedFields = null;
 		if (parent instanceof JpaEntityModel) {
-			sortedFields = ((JpaEntity)callback.getAbstractEntity()).getSortedFields();
+			sortedFields = ((JpaEntity) callback.getAbstractEntity()).getSortedFields();
 		}
 		if (sortedFields == null) {
 			return ++seed;

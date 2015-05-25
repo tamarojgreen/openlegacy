@@ -2,6 +2,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.utils.jpa;
 
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.AbstractAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.ActionType;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.enums.IEnumFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaActionsAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbColumnAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.jpa.JpaDbEntityAction;
@@ -21,6 +22,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
@@ -53,10 +55,10 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 	@Override
 	protected void doSave(AST ast, CompilationUnit cu, ASTRewrite rewriter, AbstractTypeDeclaration root, AbstractEntity entity) {
 		// process top level class annotations: @Entity, @Table, @DbEntity
-		processEntityTopLevelAnnotations(ast, cu, rewriter, root, (JpaEntity)entity);
+		processEntityTopLevelAnnotations(ast, cu, rewriter, root, (JpaEntity) entity);
 		// process annotations that located inside root:
 		// @Column, @OneToMany, @Id, @DbColumn, @ManyToOne, @JoinColumn
-		processEntityInnerAnnotations(ast, cu, rewriter, root, (JpaEntity)entity);
+		processEntityInnerAnnotations(ast, cu, rewriter, root, (JpaEntity) entity);
 
 		// add serialVersionUID
 		// processSerializableDeclaration(ast, cu, rewriter, root);
@@ -81,7 +83,7 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 		List<ASTNode> nodeList = listRewriter.getRewrittenList();
 		for (ASTNode node : nodeList) {
 			if (node.getNodeType() == ASTNode.NORMAL_ANNOTATION || node.getNodeType() == ASTNode.MARKER_ANNOTATION) {
-				Annotation annotation = (Annotation)node;
+				Annotation annotation = (Annotation) node;
 				String fullyQualifiedName = annotation.getTypeName().getFullyQualifiedName();
 				if (Entity.class.getSimpleName().equals(fullyQualifiedName)) {
 					// @Entity
@@ -102,7 +104,7 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 				} else if (DbActions.class.getSimpleName().equals(fullyQualifiedName)) {
 					// @DbActions
 					JpaEntityBuilder.INSTANCE.processJpaDbActionsAnnotation(ast, cu, rewriter, listRewriter,
-							(NormalAnnotation)annotation, JpaEntityUtils.getActionList(entity, JpaActionsAction.class));
+							(NormalAnnotation) annotation, JpaEntityUtils.getActionList(entity, JpaActionsAction.class));
 				}
 			}
 		}
@@ -110,6 +112,13 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 
 	private static void processEntityInnerAnnotations(AST ast, CompilationUnit cu, ASTRewrite rewriter,
 			AbstractTypeDeclaration root, JpaEntity entity) {
+
+		ListRewrite listRewriter = rewriter.getListRewrite(root, TypeDeclaration.BODY_DECLARATIONS_PROPERTY);
+
+		// before handling fields we should add enum declarations for enum field
+		JpaEntityBuilder.INSTANCE.createNewEntityInnerDeclarations(ast, cu, rewriter, listRewriter,
+				JpaEntityUtils.<AbstractAction> getActionList(entity, ASTNode.ENUM_DECLARATION,
+						new ActionType[] { ActionType.ADD }));
 
 		// process screen fields that relate to root
 		processJpaFields(ast, cu, rewriter, root, entity);
@@ -126,6 +135,10 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 		JpaEntityBuilder.INSTANCE.removeFields(listRewriter, root.getName().getFullyQualifiedName(),
 				JpaEntityUtils.<AbstractAction> getActionList(entity, ASTNode.FIELD_DECLARATION,
 						new ActionType[] { ActionType.REMOVE }));
+		// try to remove enum declaration
+		JpaEntityBuilder.INSTANCE.removeEnumDeclaration(listRewriter, root.getName().getFullyQualifiedName(),
+				JpaEntityUtils.<AbstractAction> getActionList(entity, ASTNode.ENUM_DECLARATION,
+						new ActionType[] { ActionType.REMOVE }));
 		// add new fields
 		JpaEntityBuilder.INSTANCE.createNewFields(ast, cu, rewriter, listRewriter, rootName,
 				JpaEntityUtils.<AbstractAction> getActionList(entity, ASTNode.FIELD_DECLARATION,
@@ -135,7 +148,7 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 		List<ASTNode> nodeList = listRewriter.getRewrittenList();
 		for (ASTNode node : nodeList) {
 			if (node.getNodeType() == ASTNode.FIELD_DECLARATION) {
-				FieldDeclaration field = (FieldDeclaration)node;
+				FieldDeclaration field = (FieldDeclaration) node;
 				// handle field parameterized type
 				JpaEntityBuilder.INSTANCE.processJpaFieldType(
 						ast,
@@ -156,7 +169,7 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 		nodeList = listRewriter.getRewrittenList();
 		for (ASTNode node : nodeList) {
 			if (node.getNodeType() == ASTNode.FIELD_DECLARATION) {
-				FieldDeclaration field = (FieldDeclaration)node;
+				FieldDeclaration field = (FieldDeclaration) node;
 				// handle field declarations (in our case it is fieldName)
 				JpaEntityBuilder.INSTANCE.processJpaFieldDeclaration(ast, cu, rewriter, listRewriter, field, rootName,
 						JpaEntityUtils.<JpaFieldAction> getActionList(entity, ASTNode.FIELD_DECLARATION,
@@ -168,7 +181,7 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 		nodeList = listRewriter.getRewrittenList();
 		for (ASTNode node : nodeList) {
 			if (node.getNodeType() == ASTNode.FIELD_DECLARATION) {
-				FieldDeclaration field = (FieldDeclaration)node;
+				FieldDeclaration field = (FieldDeclaration) node;
 				// add new annotations to field
 				JpaEntityBuilder.INSTANCE.addFieldAnnotations(ast, cu, rewriter, listRewriter, field,
 						JpaEntityUtils.<AbstractAction> getActionList(entity, ASTNode.NORMAL_ANNOTATION,
@@ -183,13 +196,13 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 		nodeList = listRewriter.getRewrittenList();
 		for (ASTNode node : nodeList) {
 			if (node.getNodeType() == ASTNode.FIELD_DECLARATION) {
-				FieldDeclaration field = (FieldDeclaration)node;
+				FieldDeclaration field = (FieldDeclaration) node;
 				// handle field annotations
 				ListRewrite fieldListRewrite = rewriter.getListRewrite(field, FieldDeclaration.MODIFIERS2_PROPERTY);
 				List<ASTNode> fieldNodeList = fieldListRewrite.getRewrittenList();
 				for (ASTNode astNode : fieldNodeList) {
 					if (astNode.getNodeType() == ASTNode.NORMAL_ANNOTATION) {
-						NormalAnnotation fieldAnnotation = (NormalAnnotation)astNode;
+						NormalAnnotation fieldAnnotation = (NormalAnnotation) astNode;
 						String fullyQualifiedName = fieldAnnotation.getTypeName().getFullyQualifiedName();
 						if (fullyQualifiedName.equals(Column.class.getSimpleName())) {
 							JpaEntityBuilder.INSTANCE.processJpaFieldAnnotation(ast, cu, rewriter, fieldListRewrite, field,
@@ -209,6 +222,10 @@ public class JpaEntitySaver extends AbstractEntitySaver {
 						}
 					}
 				}
+			} else if (node.getNodeType() == ASTNode.ENUM_DECLARATION) {
+				EnumDeclaration enumDeclaration = (EnumDeclaration) node;
+				JpaEntityBuilder.INSTANCE.processEnumDeclaration(ast, rewriter, enumDeclaration,
+						JpaEntityUtils.getActionList(entity, IEnumFieldAction.class));
 			}
 		}
 	}
