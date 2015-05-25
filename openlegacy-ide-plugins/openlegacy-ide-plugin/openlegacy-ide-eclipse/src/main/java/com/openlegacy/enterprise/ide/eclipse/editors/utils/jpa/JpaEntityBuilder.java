@@ -45,6 +45,7 @@ import org.eclipse.jdt.core.dom.Modifier.ModifierKeyword;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.ParameterizedType;
 import org.eclipse.jdt.core.dom.PrimitiveType;
+import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.StringLiteral;
 import org.eclipse.jdt.core.dom.Type;
@@ -67,6 +68,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -589,13 +592,17 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 					if (model.getType() != null) {
 						ASTUtils.addImport(ast, cu, rewriter, model.getType());
 					}
-
-					//					JpaEnumFieldModel model = (JpaEnumFieldModel) action.getNamedObject();
-					//
-					//					EnumDeclaration enumDeclaration = getNewEnumDeclaration(ast, model.getFieldName());
-					//					// add import of interface
-					//					ASTUtils.addImport(ast, cu, rewriter, EnumGetValue.class);
-					//					listRewriter.insertLast(enumDeclaration, null);
+					NormalAnnotation enumaratedAnnotation = ast.newNormalAnnotation();
+					enumaratedAnnotation.setTypeName(ast.newSimpleName(Enumerated.class.getSimpleName()));
+					ASTUtils.addImport(ast, cu, rewriter, Enumerated.class);
+					MemberValuePair valuePair = ast.newMemberValuePair();
+					valuePair.setName(ast.newSimpleName(Constants.ENUMERATED_VALUE));
+					QualifiedName qualifiedName = ast.newQualifiedName(ast.newSimpleName(EnumType.class.getSimpleName()),
+							ast.newSimpleName(EnumType.STRING.toString()));
+					ASTUtils.addImport(ast, cu, rewriter, EnumType.class);
+					valuePair.setValue(qualifiedName);
+					enumaratedAnnotation.values().add(valuePair);
+					field.modifiers().add(enumaratedAnnotation);
 				}
 
 				// skip adding annotations
@@ -611,6 +618,7 @@ public class JpaEntityBuilder extends AbstractEntityBuilder {
 				 */
 				// must be added as last
 				field.modifiers().add(ast.newModifier(ModifierKeyword.PRIVATE_KEYWORD));
+
 				listRewriter.insertLast(field, null);
 			}
 		}

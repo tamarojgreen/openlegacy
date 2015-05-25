@@ -125,6 +125,7 @@ public class DbCodeBasedDefinitionUtils {
 		for (Field field : fields) {
 			SimpleDbFieldDefinition fieldDefinition = new SimpleDbFieldDefinition(field.getName());
 			fieldDefinition.setKey(field.isKey());
+			fieldDefinition.setFieldTypeDefinition(field.getFieldTypeDefiniton());
 			fieldDefinitions.put(field.getName(), fieldDefinition);
 		}
 

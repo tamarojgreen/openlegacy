@@ -36,7 +36,7 @@ public class Constants {
 	public static final String DYNAMIC_END_ROW = "endRow.dynamic";
 	public static final String DYNAMIC_END_COLUMN = "endColumn.dynamic";
 	public static final String DYNAMIC_OFFSET = "fieldOffset";
-	
+
 	// .template
 	public static final String TEMPLATE_FILE = ".template";
 	// Preference constants
@@ -63,5 +63,8 @@ public class Constants {
 	public static final String JC_UPDATABLE = "jc_updatable";
 	public static final String JC_COLUMN_DEFINITION = "jc_columnDefinition";
 	public static final String JC_TABLE = "jc_table";
+
+	//@Enumerated
+	public static final String ENUMERATED_VALUE = "value";
 
 }
