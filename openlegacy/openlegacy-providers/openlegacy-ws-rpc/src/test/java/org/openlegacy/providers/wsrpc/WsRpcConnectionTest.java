@@ -14,6 +14,8 @@ import org.openlegacy.rpc.support.SimpleRpcInvokeAction;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.math.BigDecimal;
+
 import javax.inject.Inject;
 
 import junit.framework.Assert;
@@ -74,7 +76,7 @@ public class WsRpcConnectionTest {
 
 		rpcField = new SimpleRpcFlatField();
 		rpcField.setName("callBackResult");
-		// rpcField.setLength(); //I think it`s will unneed wit primitives
+		rpcField.setLength(String.valueOf(callBackValue).length());
 		rpcField.setType(int.class);
 		rpcField.setDirection(Direction.OUTPUT);
 		rpcInvokeAction.getFields().add(rpcField);
@@ -83,7 +85,7 @@ public class WsRpcConnectionTest {
 
 		RpcResult rpcResult = localInvoke(rpcConnection, rpcInvokeAction);
 
-		Assert.assertEquals(Integer.valueOf(callBackValue), ((RpcFlatField)rpcResult.getRpcFields().get(1)).getValue());
+		Assert.assertEquals(BigDecimal.valueOf(callBackValue), ((RpcFlatField)rpcResult.getRpcFields().get(1)).getValue());
 	}
 
 	public RpcResult localInvoke(RpcConnection rpcConnection, RpcInvokeAction rpcInvokeAction) {
