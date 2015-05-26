@@ -7,21 +7,19 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
 
-@WebService(name="SimpleWebService", targetNamespace="http://SimpleWebService/")
-@SOAPBinding(style=Style.RPC)
-public class SimpleWebService
-{
-    @WebMethod
-    @WebResult(partName="callBackResult")
-    public String callBackString(@WebParam(name="callBackValue") String callBackValue)
-    {
-        return callBackValue;
-    }
+@WebService(name = "SimpleWebService", targetNamespace = "http://SimpleWebService/")
+@SOAPBinding(style = Style.RPC)
+public class SimpleWebService {
 
-    @WebMethod
-    @WebResult(partName="callBackResult")
-    public int callBackInteger(@WebParam(name="callBackValue") int callBackValue)
-    {
-        return callBackValue;
-    }
+	@WebMethod
+	@WebResult(partName = "callBackResult")
+	public String callBackString(@WebParam(name = "callBackValue") String callBackValue) {
+		return callBackValue;
+	}
+
+	@WebMethod
+	@WebResult(partName = "callBackResult")
+	public int callBackInteger(@WebParam(name = "callBackValue") int callBackValue) {
+		return callBackValue;
+	}
 }

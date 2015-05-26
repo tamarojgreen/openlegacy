@@ -1,24 +1,17 @@
 package org.openlegacy.providers.wsrpc;
 
-import javax.inject.Inject;
-
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcConnectionFactory;
-import org.springframework.stereotype.Service;
 
+public class WsRpcConnectionFactory implements RpcConnectionFactory {
 
-public class WsRpcConnectionFactory implements RpcConnectionFactory{
-
-	@Inject 
-	WsRpcConnection rpcConnection;
-	
 	@Override
-	public RpcConnection getConnection(){
-		return rpcConnection;
+	public RpcConnection getConnection() {
+		return new WsRpcConnection();
 	}
 
 	@Override
-	public void disconnect(RpcConnection rpcConnection){
+	public void disconnect(RpcConnection rpcConnection) {
 		rpcConnection.disconnect();
 	}
 
