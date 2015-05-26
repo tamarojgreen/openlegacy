@@ -11,6 +11,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreato
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ControlsUpdater;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ModelUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.ComboValidator;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.validators.TextValidator;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.Utils;
 
@@ -29,9 +30,12 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
 import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -90,6 +94,11 @@ public class TablesTableActionDetailsPage extends AbstractScreenDetailsPage {
 				Messages.getString("TableAction.action"), "", AnnotationConstants.ACTION,//$NON-NLS-1$ //$NON-NLS-2$
 				new TerminalDrilldownActionViewerFilter(), JAVA_DOCUMENTATION_TYPE.SCREEN, "TableAction",//$NON-NLS-1$
 				AnnotationConstants.ACTION);
+		// create row for "additionalKey"
+		FormRowCreator.createComboBoxRow(toolkit, client, mapCombos, getDefaultModifyListener(), 
+				getDefaultComboBoxKeyListener(), Messages.getString("TableAction.additionalKey"), getAdditionalKeys(), 0,//$NON-NLS-1$
+				AnnotationConstants.ADDITIONAL_KEY, false, JAVA_DOCUMENTATION_TYPE.SCREEN, "TableAction",
+				AnnotationConstants.ADDITIONAL_KEY);//$NON-NLS-1$ //$NON-NLS-2$
 		// create row for "defaultAction"
 		FormRowCreator.createBooleanRow(toolkit, client, mapCheckBoxes, getDefaultSelectionListener(),
 				Messages.getString("TableAction.defaultAction"), false, AnnotationConstants.DEFAULT_ACTION,//$NON-NLS-1$
@@ -226,7 +235,7 @@ public class TablesTableActionDetailsPage extends AbstractScreenDetailsPage {
 
 	@Override
 	protected void updateControls() {
-		ControlsUpdater.updateTableActionDetailsPage(actionModel, mapTexts, mapCheckBoxes);
+		ControlsUpdater.updateTableActionDetailsPage(actionModel, mapTexts, mapCheckBoxes, mapCombos);
 		revalidate();
 	}
 
@@ -351,6 +360,15 @@ public class TablesTableActionDetailsPage extends AbstractScreenDetailsPage {
 			isValid = false;
 		}
 		return isValid;
+	}
+	
+	private static String[] getAdditionalKeys() {
+		List<String> items = new ArrayList<String>();
+		items.add(AdditionalKey.NONE.toString());
+		items.add(AdditionalKey.SHIFT.toString());
+		items.add(AdditionalKey.CTRL.toString());
+		items.add(AdditionalKey.ALT.toString());
+		return items.toArray(new String[] {});
 	}
 
 }

@@ -1045,6 +1045,11 @@ public class ScreenEntityUtils {
 			isDefault = model.getAction().equals(ENTER.class);
 			PrivateMethods.addRemoveTableActionAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.ACTION, model.getAction());
+			// @TableAction.additionalKey: default AdditionalKey.NONE;
+			isPrevious = entityModel.getAdditionalKey().equals(model.getAdditionalKey());
+			isDefault = model.getAdditionalKey().equals(AdditionalKey.NONE);
+			PrivateMethods.addRemoveTableActionAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.ADDITIONAL_KEY, model.getAdditionalKey());
 			// @TableAction.defaultAction: default false;
 			isPrevious = entityModel.isDefaultAction() == model.isDefaultAction();
 			isDefault = !model.isDefaultAction();

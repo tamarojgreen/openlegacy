@@ -32,6 +32,8 @@ import java.lang.annotation.Target;
 public @interface TableAction {
 
 	Class<? extends TerminalAction> action() default ENTER.class;
+	
+	AdditionalKey additionalKey() default AdditionalKey.NONE;
 
 	boolean defaultAction() default false;
 
@@ -65,6 +67,4 @@ public @interface TableAction {
 	 * @return
 	 */
 	String when() default ".*";
-
-	AdditionalKey additionalKey() default AdditionalKey.NONE;
 }

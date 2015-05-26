@@ -1,6 +1,6 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.models.screen;
 
-import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
+import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.annotations.screen.TableAction;
@@ -9,12 +9,13 @@ import org.openlegacy.designtime.terminal.generators.support.CodeBasedScreenEnti
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions.ENTER;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.modules.table.TerminalDrilldownActions.SimpleDrilldownAction;
 import org.openlegacy.terminal.table.TerminalDrilldownAction;
 
-import java.util.UUID;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.NamedObject;
 
 /**
  * @author Ivan Bort
@@ -25,10 +26,12 @@ public class TableActionModel extends ScreenNamedObject {
 	private static final int DEFAULT_INT = 0;
 	private static final String DEFAULT_WHEN = ".*";
 	private static final Class<? extends TerminalAction> DEFAULT_ACTION = ENTER.class;
+	private static final AdditionalKey DEFAULT_ADDITIONAL_KEY = AdditionalKey.NONE;
 	private static final Class<?> DEFAULT_TARGET_ENTITY = ScreenEntity.NONE.class;
 
 	// annotations attributes
 	private Class<? extends TerminalAction> action = DEFAULT_ACTION;
+	private AdditionalKey additionalKey = DEFAULT_ADDITIONAL_KEY;
 	private boolean defaultAction = false;
 	private String actionValue = "";
 	private String displayName = "";
@@ -38,10 +41,8 @@ public class TableActionModel extends ScreenNamedObject {
 	private int column = DEFAULT_INT;
 	private int length = DEFAULT_INT;
 	private String when = DEFAULT_WHEN;
-
 	private String targetEntityName = DEFAULT_TARGET_ENTITY.getSimpleName();
 	private String previousActionValue = "";
-
 	private boolean initialized = false;
 
 	public TableActionModel(NamedObject parent) {
@@ -89,6 +90,8 @@ public class TableActionModel extends ScreenNamedObject {
 			this.action = (Class<? extends TerminalAction>)actionDefinition.getAction().getClass();
 			this.actionValue = (String)((TerminalDrilldownAction)actionDefinition.getAction()).getActionValue();
 		}
+		
+		this.additionalKey = actionDefinition.getAdditionalKey();
 		this.defaultAction = actionDefinition.isDefaultAction();
 		this.displayName = actionDefinition.getDisplayName();
 		this.alias = actionDefinition.getAlias() != null ? actionDefinition.getAlias() : "";//$NON-NLS-1$
@@ -109,6 +112,7 @@ public class TableActionModel extends ScreenNamedObject {
 		TableActionModel model = new TableActionModel(this.uuid, this.parent);
 		model.setModelName(this.modelName);
 		model.setAction(this.action);
+		model.setAdditionalKey(this.additionalKey);
 		model.setDefaultAction(this.defaultAction);
 		model.setActionValue(this.actionValue);
 		model.setDisplayName(this.displayName);
@@ -242,6 +246,18 @@ public class TableActionModel extends ScreenNamedObject {
 
 	public Class<?> getDefaultTargetEntity() {
 		return DEFAULT_TARGET_ENTITY;
+	}
+	
+	public AdditionalKey getAdditionalKey() {
+		return additionalKey;
+	}
+	
+	public void setAdditionalKey(AdditionalKey additionalKey) {
+		this.additionalKey = additionalKey;
+	}
+	
+	public void setAdditionalKeyDefaultValue() {
+		additionalKey = AdditionalKey.NONE;
 	}
 
 }

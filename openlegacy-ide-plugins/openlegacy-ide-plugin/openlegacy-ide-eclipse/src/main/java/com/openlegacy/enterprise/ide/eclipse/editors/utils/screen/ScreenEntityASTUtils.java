@@ -1,5 +1,7 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.utils.screen;
 
+import japa.parser.ast.expr.MemberValuePair;
+
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.IdentifierModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.TableActionModel;
@@ -147,6 +149,8 @@ public class ScreenEntityASTUtils extends ASTUtils {
 		if (model.getActionValue() != null) {
 			annotation.values().add(createStringPair(ast, AnnotationConstants.ACTION_VALUE, model.getActionValue()));
 		}
+		
+		annotation.values().add(createEnumPair(ast, AnnotationConstants.ADDITIONAL_KEY, model.getAdditionalKey()));
 		annotation.values().add(createStringPair(ast, AnnotationConstants.DISPLAY_NAME, model.getDisplayName()));
 		annotation.values().add(createTypePair(ast, AnnotationConstants.TARGET_ENTITY, model.getTargetEntity()));
 		addImport(ast, cu, rewriter, model.getTargetEntity());

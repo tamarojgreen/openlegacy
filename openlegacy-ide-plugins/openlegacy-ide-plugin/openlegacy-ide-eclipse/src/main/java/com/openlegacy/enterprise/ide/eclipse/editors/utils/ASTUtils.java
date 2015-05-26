@@ -1,5 +1,7 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.utils;
 
+import java.util.List;
+
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
@@ -21,8 +23,6 @@ import org.eclipse.jdt.core.dom.TypeLiteral;
 import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
 import org.openlegacy.utils.StringUtil;
-
-import java.util.List;
 
 /**
  * @author Ivan Bort

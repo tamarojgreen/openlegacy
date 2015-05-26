@@ -636,6 +636,12 @@ public class ModelUpdater {
 					Class<?> clazz = Utils.getClazz(fullyQualifiedName);
 					model.setAction((Class<? extends TerminalAction>) clazz);
 				}
+			} else if(key.equals(AnnotationConstants.ADDITIONAL_KEY)) {
+				if (!StringUtils.isEmpty(text)) {
+					model.setAdditionalKey(AdditionalKey.valueOf(text.toUpperCase()));
+				} else {
+					model.setAdditionalKeyDefaultValue();
+				}
 			} else if (key.equals(AnnotationConstants.ACTION_VALUE)) {
 				model.setActionValue(text);
 			} else if (key.equals(AnnotationConstants.DISPLAY_NAME)) {

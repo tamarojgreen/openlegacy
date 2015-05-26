@@ -562,7 +562,7 @@ public class ControlsUpdater {
 	 * @param mapCheckBoxes
 	 */
 	public static void updateTableActionDetailsPage(TableActionModel actionModel, Map<String, Text> mapTexts,
-			Map<String, Button> mapCheckBoxes) {
+			Map<String, Button> mapCheckBoxes, Map<String, CCombo> mapCombos) {
 
 		if (actionModel == null) {
 			return;
@@ -591,11 +591,21 @@ public class ControlsUpdater {
 				text.setText(actionModel.getWhen());
 			}
 		}
+		
 		// update CheckBox controls
 		mapKeys = mapCheckBoxes.keySet();
 		for (String key : mapKeys) {
 			if (key.equals(AnnotationConstants.DEFAULT_ACTION)) {
 				mapCheckBoxes.get(key).setSelection(actionModel.isDefaultAction());
+			}
+		}
+		
+		// update CCombo controls
+		mapKeys = mapCombos.keySet();
+		for (String key : mapKeys) {
+			CCombo combo = mapCombos.get(key);
+			if (key.equals(ScreenAnnotationConstants.ADDITIONAL_KEY)) {
+				combo.setText(actionModel.getAdditionalKey().toString());
 			}
 		}
 	}
