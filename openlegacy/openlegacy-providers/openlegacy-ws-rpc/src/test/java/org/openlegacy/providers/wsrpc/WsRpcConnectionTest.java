@@ -1,17 +1,19 @@
 package org.openlegacy.providers.wsrpc;
 
-import javax.inject.Inject;
-
-import opr.openlegacy.rpc.wsrpc.WsRpcInvokeAction;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.annotations.rpc.Direction;
+import org.openlegacy.providers.wsrpc.WsRpcConnection.WsRpcConnectionRuntimeException;
+import org.openlegacy.providers.wsrpc.utils.WsRpcActionUtil;
 import org.openlegacy.rpc.RpcConnection;
+import org.openlegacy.rpc.RpcInvokeAction;
 import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.support.SimpleRpcFlatField;
+import org.openlegacy.rpc.support.SimpleRpcInvokeAction;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.inject.Inject;
 
 @ContextConfiguration("WsRpcConnectionTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -19,62 +21,70 @@ public class WsRpcConnectionTest {
 
 	@Inject
 	WsRpcConnectionFactory rpcConnectionFactory;
-	
+
 	@Test
-	public void stringTest(){
+	public void stringTest() {
+		String callBackValue = "Vlad Drake";
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
-		WsRpcInvokeAction rpcInvokeAction = new WsRpcInvokeAction();
-		
-		rpcInvokeAction.setAction("callBackString");
-		rpcInvokeAction.setNamespace("http://SimpleWebService/");
-		rpcInvokeAction.setServiceName("SimpleWebService");
-		
+		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction();
+
+		rpcInvokeAction.setAction(WsRpcActionUtil.buildWsRpcAction("http://SimpleWebService/", "SimpleWebService",
+				"callBackString"));
+
 		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
-		rpcField.setName("callBackValue");
-		rpcField.setValue("Vlad Drake");
-		rpcField.setLength(20);
-		rpcField.setDirection(Direction.INPUT);
+		rpcField.setName("callBackValue"); // param name
+		rpcField.setValue("Vlad Drake"); // param value
+		rpcField.setLength(callBackValue.length());
+		rpcField.setDirection(Direction.INPUT); // Also you can use one parameter which has INPUT_OTPUT direction (if input /
+												// outparam has same name)
 		rpcInvokeAction.getFields().add(rpcField);
 
-		rpcField = new SimpleRpcFlatField();		
-		rpcField.setName("callBackResult");
-		rpcField.setLength(20);
-		rpcField.setType(String.class);
+		rpcField = new SimpleRpcFlatField();
+		rpcField.setName("callBackResult"); // result param name
+		rpcField.setLength(callBackValue.length());
+		rpcField.setType(String.class); // result type
 		rpcField.setDirection(Direction.OUTPUT);
 		rpcInvokeAction.getFields().add(rpcField);
-		
+
 		rpcInvokeAction.setRpcPath("http://localhost:8181/SimpleWebService");
 
-		RpcResult rpcResult = rpcConnection.invoke(rpcInvokeAction);
+		RpcResult rpcResult = localInvoke(rpcConnection, rpcInvokeAction);
 	}
-	
+
 	@Test
-	public void intTest(){
+	public void intTest() {
+		int callBackValue = 100500;
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
-		WsRpcInvokeAction rpcInvokeAction = new WsRpcInvokeAction();
-		
-		rpcInvokeAction.setAction("callBackString");
-		rpcInvokeAction.setNamespace("http://SimpleWebService/");
-		rpcInvokeAction.setServiceName("SimpleWebService");
-		
+		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction();
+
+		rpcInvokeAction.setAction(WsRpcActionUtil.buildWsRpcAction("http://SimpleWebService/", "SimpleWebService",
+				"callBackInteger"));
+
 		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
 		rpcField.setName("callBackValue");
-		rpcField.setValue(100500);
-		rpcField.setLength(20);
+		rpcField.setValue(callBackValue);
+		rpcField.setLength(String.valueOf(callBackValue).length());
 		rpcField.setDirection(Direction.INPUT);
 		rpcInvokeAction.getFields().add(rpcField);
 
-		rpcField = new SimpleRpcFlatField();		
+		rpcField = new SimpleRpcFlatField();
 		rpcField.setName("callBackResult");
-		rpcField.setLength(20);
+		// rpcField.setLength(); //I think it`s will unneed wit primitives
 		rpcField.setType(int.class);
 		rpcField.setDirection(Direction.OUTPUT);
 		rpcInvokeAction.getFields().add(rpcField);
-		
+
 		rpcInvokeAction.setRpcPath("http://localhost:8181/SimpleWebService");
 
-		RpcResult rpcResult = rpcConnection.invoke(rpcInvokeAction);
+		RpcResult rpcResult = localInvoke(rpcConnection, rpcInvokeAction);
 	}
-	
-	
+
+	public RpcResult localInvoke(RpcConnection rpcConnection, RpcInvokeAction rpcInvokeAction) {
+		try {
+			return rpcConnection.invoke(rpcInvokeAction);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw (new WsRpcConnectionRuntimeException(e));
+		}
+	}
 }
