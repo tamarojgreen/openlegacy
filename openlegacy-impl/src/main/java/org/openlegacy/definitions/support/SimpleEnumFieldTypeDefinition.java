@@ -45,6 +45,10 @@ public class SimpleEnumFieldTypeDefinition implements EnumFieldTypeDefinition, S
 		return map;
 	}
 
+	public Object[] getEnumConstantValues() {
+		return enumClass.getEnumConstants();
+	}
+
 	/**
 	 * Comfort method for display purposes
 	 */

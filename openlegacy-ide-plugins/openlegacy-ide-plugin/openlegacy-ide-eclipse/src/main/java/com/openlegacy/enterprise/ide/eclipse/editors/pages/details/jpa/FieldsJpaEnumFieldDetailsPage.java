@@ -1,17 +1,27 @@
-package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.screen;
+/*******************************************************************************
+ * Copyright (c) 2015 OpenLegacy Inc.
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     OpenLegacy Inc. - initial API and implementation
+ *******************************************************************************/
+package com.openlegacy.enterprise.ide.eclipse.editors.pages.details.jpa;
 
 import com.openlegacy.enterprise.ide.eclipse.Constants;
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.enums.EnumEntryModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenEnumFieldModel;
-import com.openlegacy.enterprise.ide.eclipse.editors.models.screen.ScreenFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaEnumFieldModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.jpa.JpaFieldModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractMasterBlock;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.FormRowCreator.JAVA_DOCUMENTATION_TYPE;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ControlsUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.EnumFieldEntryTextCellEditingSupport;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.screen.ModelUpdater;
-import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.screen.ScreenEnumValuesTableContentProvider;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ControlsUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.EnumFieldEntryTextCellEditingSupport;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.helpers.jpa.ModelUpdater;
+import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.jpa.JpaEnumValuesTableContentProvider;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
@@ -37,7 +47,6 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.openlegacy.designtime.generators.AnnotationConstants;
-import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
 
 import java.net.MalformedURLException;
 import java.text.MessageFormat;
@@ -48,25 +57,35 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author Ivan Bort
+ * @author Aleksey Yeremeyev
  * 
  */
-public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetailsPage {
+public class FieldsJpaEnumFieldDetailsPage extends AbstractJpaFieldDetailsPage {
 
-	private ScreenEnumFieldModel fieldModel;
+	private JpaEnumFieldModel fieldModel;
 	private TableViewer tableViewer;
 
-	public FieldsScreenEnumFieldDetailsPage(AbstractMasterBlock master) {
+	/**
+	 * @param master
+	 */
+	public FieldsJpaEnumFieldDetailsPage(AbstractMasterBlock master) {
 		super(master);
 	}
 
 	@Override
-	public Class<?> getDetailsModel() {
-		return ScreenEnumFieldModel.class;
+	protected JpaFieldModel getFieldModel() {
+		return fieldModel;
 	}
 
 	@Override
-	protected void addContent(FormToolkit toolkit, Composite client) {
+	protected void addTopContent(FormToolkit toolkit, Composite client) {
+		// create row for displaying java type name
+		FormRowCreator.createLabelRow(toolkit, client, mapLabels, Messages.getString("jpa.field.java.type"), "",//$NON-NLS-1$ //$NON-NLS-2$
+				Constants.JAVA_TYPE_NAME, JAVA_DOCUMENTATION_TYPE.JAVA_BASICS, "datatypes", "");//$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	@Override
+	protected void addBottomContent(FormToolkit toolkit, Composite client) {
 		// create row for selecting Enum type
 		Text enumControl = FormRowCreator.createStringRowWithBrowseButton(toolkit, client, mapTexts, getDefaultModifyListener(),
 				Messages.getString("EnumField.enum"), "", Constants.JAVA_TYPE, null, IJavaSearchConstants.ENUM, false,//$NON-NLS-1$ //$NON-NLS-2$
@@ -74,12 +93,12 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 
 		enumControl.addModifyListener(getEnumModifyListener());
 
-		addScreenDecriptionFieldSection(toolkit, client);
-
 		createEnumValuesSection(toolkit, client);
+	}
 
-		addScreenDyamicFieldSection(toolkit, client);
-
+	@Override
+	public Class<?> getDetailsModel() {
+		return JpaEnumFieldModel.class;
 	}
 
 	@Override
@@ -92,47 +111,46 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 		if (fieldModel == null) {
 			return;
 		}
-		ControlsUpdater.updateScreenFieldDetailsControls(fieldModel, mapTexts, mapCombos, mapCheckBoxes, mapLabels);
-		ControlsUpdater.updateScreenEnumFieldDetailsControls(fieldModel, mapTexts, tableViewer);
-		ControlsUpdater.updateScreenDescriptionFieldDetailsControls(fieldModel.getDescriptionFieldModel(), mapTexts);
-		ControlsUpdater.updateScreenDynamicFieldDetailsControls(fieldModel.getDynamicFieldModel(), mapTexts);
+		ControlsUpdater.updateJpaFieldDetailsControls(fieldModel, mapTexts, mapCheckBoxes, mapLabels);
+		ControlsUpdater.updateJpaEnumFieldDetailsControls(fieldModel, mapTexts, tableViewer);
 		revalidate();
-	}
-
-	@Override
-	protected void selectionChanged(IStructuredSelection selection) {
-		if (selection.size() == 1) {
-			fieldModel = (ScreenEnumFieldModel) selection.getFirstElement();
-		} else {
-			fieldModel = null;
-		}
-
-		if (fieldModel != null) {
-			// try to draw rectangle of selected field in ScreenPreview
-			setScreenPreviewDrawingRectangle(fieldModel);
-		}
 	}
 
 	@Override
 	protected void doUpdateModel(String key) throws MalformedURLException, CoreException {
 		Map<String, Object> map = getValuesOfControlsForKey(key);
-		ModelUpdater.updateScreenFieldModel(getEntity(), fieldModel, key, (String) map.get(Constants.TEXT_VALUE),
-				(Boolean) map.get(Constants.BOOL_VALUE), (String) map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
-		ModelUpdater.updateScreenEnumFieldModel(getEntity(), fieldModel, key, (String) map.get(Constants.TEXT_VALUE),
+		ModelUpdater.updateJpaFieldModel(getEntity(), fieldModel, key, (String) map.get(Constants.TEXT_VALUE),
+				(Boolean) map.get(Constants.BOOL_VALUE));
+		ModelUpdater.updateJpaEnumFieldModel(getEntity(), fieldModel, key, (String) map.get(Constants.TEXT_VALUE),
 				(String) map.get(Constants.FULLY_QUALIFIED_NAME_VALUE));
-		ModelUpdater.updateScreenDescriptionFieldModel(getEntity(), fieldModel, key, (String) map.get(Constants.TEXT_VALUE));
-		ModelUpdater.updateScreenDynamicFieldModel(getEntity(), fieldModel, key, (String) map.get(Constants.TEXT_VALUE));
+
 	}
 
 	@Override
 	protected void afterDoUpdateModel() {
-		setScreenPreviewDrawingRectangle(fieldModel);
 		setDirty(getEntity().isDirty());
 	}
 
 	@Override
-	protected ScreenFieldModel getFieldModel() {
-		return fieldModel;
+	protected void selectionChanged(IStructuredSelection selection) {
+		if (selection.size() == 1) {
+			fieldModel = (JpaEnumFieldModel) selection.getFirstElement();
+		} else {
+			fieldModel = null;
+		}
+	}
+
+	private ModifyListener getEnumModifyListener() {
+		// try to remove action that responsible for creating a new enum class
+		return new ModifyListener() {
+
+			@Override
+			public void modifyText(ModifyEvent e) {
+				if (!updatingControls) {
+					getEntity().removeAction(fieldModel.getUUID(), Constants.ENUM_FIELD_NEW_TYPE_DECLARATION);
+				}
+			}
+		};
 	}
 
 	private void createEnumValuesSection(FormToolkit toolkit, Composite parent) {
@@ -149,7 +167,7 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 		// create table
 		Table t = createTable(toolkit, client);
 		tableViewer = new TableViewer(t);
-		tableViewer.setContentProvider(new ScreenEnumValuesTableContentProvider());
+		tableViewer.setContentProvider(new JpaEnumValuesTableContentProvider());
 		tableViewer.setInput(fieldModel);
 		tableViewer.setData(FormRowCreator.ID_KEY, Constants.ENUM_FIELD_ENTRIES);
 
@@ -248,7 +266,7 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 		tcol.setWidth(50);
 		tcol.setText(Messages.getString("EnumField.col.value"));//$NON-NLS-1$
 
-		vcol.setEditingSupport(new EnumFieldEntryTextCellEditingSupport(viewer, ScreenAnnotationConstants.VALUE));
+		vcol.setEditingSupport(new EnumFieldEntryTextCellEditingSupport(viewer, AnnotationConstants.VALUE));
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
@@ -275,19 +293,6 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 		});
 	}
 
-	private ModifyListener getEnumModifyListener() {
-		// try to remove action that responsible for creating a new enum class
-		return new ModifyListener() {
-
-			@Override
-			public void modifyText(ModifyEvent e) {
-				if (!updatingControls) {
-					getEntity().removeAction(fieldModel.getUUID(), Constants.ENUM_FIELD_NEW_TYPE_DECLARATION);
-				}
-			}
-		};
-	}
-
 	private int getSeedForNewEnumEntry() {
 		int seed = 1;
 		List<EnumEntryModel> entries = fieldModel.getEntries();
@@ -306,4 +311,5 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 		}
 		return ++seed;
 	}
+
 }
