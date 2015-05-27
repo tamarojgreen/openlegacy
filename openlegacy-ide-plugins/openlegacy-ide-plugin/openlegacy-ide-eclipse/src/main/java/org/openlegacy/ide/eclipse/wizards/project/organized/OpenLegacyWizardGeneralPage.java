@@ -464,7 +464,7 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 		}
 		String[] reservedNames = getReservedNames();
 		for (String reservedName : reservedNames) {
-			if (defaultPackage.replace('\\', '/').toLowerCase().indexOf(reservedName) >= 0) {
+			if (defaultPackage.toLowerCase().indexOf(reservedName) >= 0) {
 				updateStatus(Messages.getString("error_package_name_reserved"));
 				return false;
 			}
