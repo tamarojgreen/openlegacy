@@ -108,7 +108,7 @@ public class StoredProcRpcConnectionTest {
 			if (f instanceof RpcFlatField) {
 				RpcFlatField ff = (RpcFlatField) f;
 
-				if (ff.getName().equals("stringResult")) {
+				if (ff.getName().equals("result")) {
 					stringResultField = ff;
 				}
 			}
