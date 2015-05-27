@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.definitions;
 
+import java.util.Properties;
+
 import org.openlegacy.annotations.rpc.Action;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
