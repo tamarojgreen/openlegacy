@@ -34,6 +34,8 @@ import org.openlegacy.ide.eclipse.Messages;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Ivan Bort
@@ -443,13 +445,12 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 				return false;
 			}
 		}
-		String[] reservedNames = getReservedNames();
-		for (String reservedName : reservedNames) {
-			if (projectName.replace('\\', '/').toLowerCase().indexOf(reservedName) >= 0) {
-				updateStatus(Messages.getString("error_project_name_reserved"));
-				return false;
-			}
+		
+		if (isReservedName(projectName)) {
+			updateStatus(Messages.getString("error_project_name_reserved"));
+			return false;	
 		}
+		
 		return status.isOK();
 	}
 
@@ -462,13 +463,12 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 			getWizardModel().setDefaultPackageName(null);
 			updateStatus(status.getMessage());
 		}
-		String[] reservedNames = getReservedNames();
-		for (String reservedName : reservedNames) {
-			if (defaultPackage.toLowerCase().indexOf(reservedName) >= 0) {
-				updateStatus(Messages.getString("error_package_name_reserved"));
-				return false;
-			}
+		
+		if (isReservedName(defaultPackage)) {
+			updateStatus(Messages.getString("error_package_name_reserved"));
+			return false;	
 		}
+
 		return status.isOK();
 	}
 
@@ -516,5 +516,19 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 		names.add("package");
 		return names.toArray(new String[] {});
 	}
-
+	
+	private Boolean isReservedName(String name) {
+		String[] reservedNames = getReservedNames();
+		Pattern pattern; 
+		Matcher matcher; 
+		for (String reservedName : reservedNames) {
+			pattern = Pattern.compile("(\\.|^)" + reservedName + "(\\.|$)");
+			matcher = pattern.matcher(name.toLowerCase()); 
+			if (matcher.find()) {
+				return true;	
+			}
+		}
+		
+		return false;
+	}
 }
