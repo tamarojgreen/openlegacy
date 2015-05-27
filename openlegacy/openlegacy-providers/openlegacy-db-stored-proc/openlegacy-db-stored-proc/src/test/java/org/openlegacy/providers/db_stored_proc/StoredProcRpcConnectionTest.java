@@ -5,6 +5,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.providers.db_stored_proc.procs.DoStuffWithTwoNumbersStoredProc;
+import org.openlegacy.providers.db_stored_proc.procs.GetItemDetailsStoredProc;
+import org.openlegacy.providers.db_stored_proc.procs.GetItemDetailsStoredProc.Results;
 import org.openlegacy.providers.db_stored_proc.procs.SayHelloStoredProc;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFlatField;
@@ -12,11 +14,11 @@ import org.openlegacy.rpc.RpcInvokeAction;
 import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.support.SimpleRpcFlatField;
 import org.openlegacy.rpc.support.SimpleRpcInvokeAction;
+import org.openlegacy.rpc.support.SimpleRpcStructureField;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -113,6 +115,50 @@ public class StoredProcRpcConnectionTest {
 		}
 
 		Assert.assertTrue("Hello, World".equals(stringResultField.getValue()));
+	}
+
+	@Test
+	public void hierarchyDataTest() {
+
+		RpcInvokeAction action = new SimpleRpcInvokeAction();
+
+		List<RpcField> fields = action.getFields();
+
+		fields.add(makeField("className", new String(
+				GetItemDetailsStoredProc.class.getName())));
+
+		fields.add(makeField("itemId", 1));
+
+		SimpleRpcStructureField sf = new SimpleRpcStructureField();
+		RpcField itemNameField = makeField("name", "");
+		RpcField itemDescriptionField = makeField("description", "");
+		RpcField itemWeightField = makeField("weight", 0);
+
+		sf.setName("item");
+		sf.getChildrens().add(itemNameField);
+		sf.getChildrens().add(itemDescriptionField);
+		sf.getChildrens().add(itemWeightField);
+
+		fields.add(sf);
+
+		sf = new SimpleRpcStructureField();
+		RpcField shippingMethodField = makeField("method", "");
+		RpcField shippingDaysField = makeField("days", 0);
+
+		sf.setName("shipping");
+		sf.getChildrens().add(shippingMethodField);
+		sf.getChildrens().add(shippingDaysField);
+
+		fields.add(sf);
+
+		RpcResult result = factory.getConnection().invoke(action);
+
+		GetItemDetailsStoredProc sp = new GetItemDetailsStoredProc();
+		sp.fetchFields(result.getRpcFields());
+
+		GetItemDetailsStoredProc.Results rr = (Results) sp.unrollResult();
+
+		Assert.assertTrue(rr.item.name.equals("Kid Guitar"));
 	}
 
 }
