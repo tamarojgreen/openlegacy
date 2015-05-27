@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<host-types>
+	<ssl-configurations>
+		<ssl>SLv2</ssl>
+		<ssl>SSLv3</ssl>
+		<ssl>TLS</ssl>
+	</ssl-configurations>
+	<!-- Screens -->
+	<host-type>
+		<name>openlegacy-tn5250j</name>
+		<display-name>AS/400</display-name>
+		<description>Open source provider for AS/400 TN5250 protocol. http://tn5250j.sourceforge.net/</description>
+		<backend-solution>Screens</backend-solution>
+		<is-support-ssl>true</is-support-ssl>
+		<ssl-type>SLv2</ssl-type>
+	</host-type>
+	<host-type>
+		<name>openlegacy-h3270</name>
+		<display-name>MainFrame</display-name>
+		<description>Open source provider for M/F TN3270 protocol. http://h3270.sourceforge.net/</description>
+		<backend-solution>Screens</backend-solution>
+		<is-support-ssl>false</is-support-ssl>
+		<ssl-type>SLv2</ssl-type>
+	</host-type>
+	<!-- RPC -->
+	<host-type>
+		<name>openlegacy-jt400</name>
+		<display-name>AS/400</display-name>
+		<description>Open source provider for remote program calls for AS/400. http://jt400.sourceforge.net/</description>
+		<backend-solution>RPC</backend-solution>
+		<is-support-ssl>false</is-support-ssl>
+		<ssl-type>SLv2</ssl-type>
+	</host-type>
+</host-types>

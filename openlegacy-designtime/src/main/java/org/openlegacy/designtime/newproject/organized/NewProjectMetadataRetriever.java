@@ -22,6 +22,7 @@ import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.utils.XmlSerializationUtil;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -65,15 +66,21 @@ public class NewProjectMetadataRetriever {
 	}
 
 	public void retrieveMetadata() throws OpenLegacyException, JAXBException, IOException {
-		try {
-			fetchStoresOnline();
-			isRetrievedOnline = true;
-			templateFetcher = new OnlineTemplateFetcher(templatesUrl);
-		} catch (Exception e) {
-			logger.warn("Cannot retrieve metadata online", e);
-			fetchStores();
+		if (!templatesUrl.startsWith("http")) {
+			fetchLocalStores(templatesUrl);
 			isRetrievedOnline = false;
-			templateFetcher = new ResourceTemplateFetcher();
+			templateFetcher = new FileTemplateFetcher(templatesUrl);
+		} else {
+			try {
+				fetchStoresOnline();
+				isRetrievedOnline = true;
+				templateFetcher = new OnlineTemplateFetcher(templatesUrl);
+			} catch (Exception e) {
+				logger.warn("Cannot retrieve metadata online", e);
+				fetchStores();
+				isRetrievedOnline = false;
+				templateFetcher = new ResourceTemplateFetcher();
+			}
 		}
 	}
 
@@ -90,7 +97,7 @@ public class NewProjectMetadataRetriever {
 		}
 		return hostTypeStore.getHostTypes();
 	}
-	
+
 	public List<String> getSslConigurationss() {
 		if (hostTypeStore == null || hostTypeStore.getSslConigurations() == null) {
 			return new ArrayList<String>();
@@ -188,6 +195,32 @@ public class NewProjectMetadataRetriever {
 
 	private <P> P fetchStore(Class<P> rootClass, String filename) throws JAXBException, IOException {
 		InputStream in = getClass().getResourceAsStream(MessageFormat.format("{0}/{1}", RESOURCE_XML_PATH, filename));
+		P store = XmlSerializationUtil.deserialize(rootClass, in);
+		in.close();
+		return store;
+	}
+
+	private void fetchLocalStores(String dirPath) throws OpenLegacyException, NullPointerException, IOException, JAXBException {
+		projectTypeStore = fetchLocalStore(ProjectTypeStore.class, PreferencesConstants.PROJECT_TYPES_FILENAME, dirPath);
+		hostTypeStore = fetchLocalStore(HostTypesStore.class, PreferencesConstants.PROJECT_HOST_TYPES_FILENAME, dirPath);
+		projectThemeStore = fetchStore(ProjectThemeStore.class, PreferencesConstants.PROJECT_THEMES_FILENAME);
+		dbTypesStore = fetchStore(DbTypesStore.class, PreferencesConstants.PROJECT_DB_TYPES_FILENAME);
+
+		this.fetchThemeImages();
+
+		if (!projectTypeStore.isDataExist() || !hostTypeStore.isDataExist() || !projectThemeStore.isDataExist()
+				|| !dbTypesStore.isDataExist()) {
+			throw new OpenLegacyException("Cannot retrieve metadata online from " + templatesUrl);
+		}
+	}
+
+	private <P> P fetchLocalStore(Class<P> rootClass, String filename, String dirPath) throws JAXBException, IOException {
+		String filePath = MessageFormat.format("{0}/{1}", dirPath, filename);
+		filePath = filePath.replace("file://", "");
+		if (!filePath.startsWith("/")) {
+			filePath = "/" + filePath;
+		}
+		InputStream in = new FileInputStream(filePath);
 		P store = XmlSerializationUtil.deserialize(rootClass, in);
 		in.close();
 		return store;

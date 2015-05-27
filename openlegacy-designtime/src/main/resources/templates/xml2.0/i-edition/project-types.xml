@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-types>
+	<backend-solutions>
+		<solution>Screens</solution>
+		<solution>RPC</solution>
+		<solution>JDBC</solution>
+	</backend-solutions>
+	
+	<frontend-solutions>
+		<solution>Java</solution>
+		<solution>REST API</solution>
+		<solution>Mobile/Responsive</solution>
+		<solution>Integration</solution>
+	</frontend-solutions>
+
+	<!-- Java -->
+	<project-type>
+		<template-name>openlegacy-java-new</template-name>
+		<is-demo>false</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-java-new.zip</zip-file>
+		<backend-solution>Screens</backend-solution>
+		<frontend-solution>Java</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-java-rpc-new</template-name>
+		<is-demo>false</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-java-rpc-new.zip</zip-file>
+		<backend-solution>RPC</backend-solution>
+		<frontend-solution>Java</frontend-solution>
+	</project-type>
+	
+	<!-- REST API -->
+	<project-type>
+		<template-name>openlegacy-rest-new</template-name>
+		<is-demo>false</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-rest-new.zip</zip-file>
+		<backend-solution>Screens</backend-solution>
+		<frontend-solution>REST API</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-rest-rpc-new</template-name>
+		<is-demo>false</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-rest-rpc-new.zip</zip-file>
+		<backend-solution>RPC</backend-solution>
+		<frontend-solution>REST API</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-rest-sample</template-name>
+		<is-demo>true</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-rest-sample.zip</zip-file>
+		<backend-solution>Screens</backend-solution>
+		<frontend-solution>REST API</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-rest-rpc-sample</template-name>
+		<is-demo>true</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-rest-rpc-sample.zip</zip-file>
+		<backend-solution>RPC</backend-solution>
+		<frontend-solution>REST API</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-rest-db-new</template-name>
+		<is-demo>false</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-rest-db-new.zip</zip-file>
+		<backend-solution>JDBC</backend-solution>
+		<frontend-solution>REST API</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-rest-db-sample</template-name>
+		<is-demo>true</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-rest-db-sample.zip</zip-file>
+		<backend-solution>JDBC</backend-solution>
+		<frontend-solution>REST API</frontend-solution>
+	</project-type>
+
+	<!-- Mobile/Responsive -->
+	<project-type>
+		<template-name>openlegacy-rest-new</template-name>
+		<is-demo>false</is-demo>
+		<support-theme>true</support-theme>
+		<zip-file>openlegacy-rest-new.zip</zip-file>
+		<backend-solution>Screens</backend-solution>
+		<frontend-solution>Mobile/Responsive</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-rest-rpc-new</template-name>
+		<is-demo>false</is-demo>
+		<support-theme>true</support-theme>
+		<zip-file>openlegacy-rest-rpc-new.zip</zip-file>
+		<backend-solution>RPC</backend-solution>
+		<frontend-solution>Mobile/Responsive</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-rest-sample</template-name>
+		<is-demo>true</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-rest-sample.zip</zip-file>
+		<backend-solution>Screens</backend-solution>
+		<frontend-solution>Mobile/Responsive</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-rest-rpc-sample</template-name>
+		<is-demo>true</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-rest-rpc-sample.zip</zip-file>
+		<backend-solution>RPC</backend-solution>
+		<frontend-solution>Mobile/Responsive</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-rest-db-new</template-name>
+		<is-demo>false</is-demo>
+		<support-theme>true</support-theme>
+		<zip-file>openlegacy-rest-db-new.zip</zip-file>
+		<backend-solution>JDBC</backend-solution>
+		<frontend-solution>Mobile/Responsive</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-rest-db-sample</template-name>
+		<is-demo>true</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-rest-db-sample.zip</zip-file>
+		<backend-solution>JDBC</backend-solution>
+		<frontend-solution>Mobile/Responsive</frontend-solution>
+	</project-type>
+			
+	<!-- Integration -->
+	<project-type>
+		<template-name>openlegacy-ws-sample</template-name>
+		<is-demo>true</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-ws-sample.zip</zip-file>
+		<backend-solution>Screens</backend-solution>
+		<frontend-solution>Integration</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-ws-rpc-sample</template-name>
+		<is-demo>true</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-ws-rpc-sample.zip</zip-file>
+		<backend-solution>RPC</backend-solution>
+		<frontend-solution>Integration</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-ws-new</template-name>
+		<is-demo>false</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-ws-new.zip</zip-file>
+		<backend-solution>Screens</backend-solution>
+		<frontend-solution>Integration</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-ws-rpc-new</template-name>
+		<is-demo>false</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-ws-rpc-new.zip</zip-file>
+		<backend-solution>RPC</backend-solution>
+		<frontend-solution>Integration</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-ws-db-new</template-name>
+		<is-demo>false</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-ws-db-new.zip</zip-file>
+		<backend-solution>JDBC</backend-solution>
+		<frontend-solution>Integration</frontend-solution>
+	</project-type>
+	<project-type>
+		<template-name>openlegacy-ws-db-sample</template-name>
+		<is-demo>true</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-ws-db-sample.zip</zip-file>
+		<backend-solution>JDBC</backend-solution>
+		<frontend-solution>Integration</frontend-solution>
+	</project-type>
+	
+</project-types>

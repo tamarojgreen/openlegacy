@@ -19,8 +19,6 @@ import org.openlegacy.ide.eclipse.Activator;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.PluginConstants;
 
-import java.text.MessageFormat;
-
 /**
  * This class represents a preference page that is contributed to the Preferences dialog. By subclassing
  * <samp>FieldEditorPreferencePage</samp>, we can use the field support built into JFace that allows us to create a page that is
@@ -63,9 +61,6 @@ public class OpenLegacyPreferencePage extends FieldEditorPreferencePage implemen
 			this.urlEditor.setStringValue(PluginConstants.TEMPLATES_URL);
 		}
 		String url = this.urlEditor.getStringValue();
-		if (!url.startsWith("http")) {//$NON-NLS-1$
-			url = MessageFormat.format("http://{0}", url);//$NON-NLS-1$
-		}
 		// remove last "/"
 		while (url.lastIndexOf("/") == (url.length() - 1)) {
 			url = url.substring(0, url.length() - 1);
