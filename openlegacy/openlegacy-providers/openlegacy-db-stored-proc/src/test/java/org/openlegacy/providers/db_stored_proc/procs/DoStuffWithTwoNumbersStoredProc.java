@@ -5,8 +5,6 @@ import org.openlegacy.rpc.RpcFlatField;
 
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -25,24 +23,7 @@ public class DoStuffWithTwoNumbersStoredProc extends StoredProcEntity {
 	@Override
 	public void invokeStoredProc() {
 		try {
-			// The newInstance() call is a work around for some
-			// broken Java implementations
-
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-		} catch (Exception ex) {
-			// handle the error
-		}
-
-		String url = "jdbc:mysql://localhost:3306/rpc_test";
-		String user = "rpc_test";
-		String password = "password";
-
-		try {
-			Connection connection = DriverManager.getConnection(url, user,
-					password);
-
-			CallableStatement cs = connection
-					.prepareCall("{call doStuffWithTwoNumbers(?, ?)}");
+			CallableStatement cs = getConnection().prepareCall("{call doStuffWithTwoNumbers(?, ?)}");
 			cs.setInt(1, param1);
 			cs.setInt(2, param2);
 
