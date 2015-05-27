@@ -443,10 +443,17 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 				return false;
 			}
 		}
+		String[] reservedNames = getReservedNames();
+		for (String reservedName : reservedNames) {
+			if (projectName.replace('\\', '/').toLowerCase().indexOf(reservedName) >= 0) {
+				updateStatus(Messages.getString("error_project_name_reserved"));
+				return false;
+			}
+		}
 		return status.isOK();
 	}
 
-	private void validateDefaultPackage(String defaultPackage) {
+	private boolean validateDefaultPackage(String defaultPackage) {
 		IStatus status = JavaConventions.validatePackageName(defaultPackage, JavaCore.VERSION_1_5, JavaCore.VERSION_1_5);
 		if (status.isOK()) {
 			getWizardModel().setDefaultPackageName(defaultPackage);
@@ -455,6 +462,14 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 			getWizardModel().setDefaultPackageName(null);
 			updateStatus(status.getMessage());
 		}
+		String[] reservedNames = getReservedNames();
+		for (String reservedName : reservedNames) {
+			if (defaultPackage.replace('\\', '/').toLowerCase().indexOf(reservedName) >= 0) {
+				updateStatus(Messages.getString("error_package_name_reserved"));
+				return false;
+			}
+		}
+		return status.isOK();
 	}
 
 	private void validatePage() {
@@ -491,6 +506,15 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 	private void showHideServiceTypeArea() {
 		// display Service Type Area if frontend solution is Integration and project is new otherwise hide
 		serviceTypeArea.setVisible(StringUtils.equals(frontendCombo.getText(), "Integration") && newRadioButton.getSelection());
+	}
+	
+	private static String[] getReservedNames() {
+		List<String> names = new ArrayList<String>();
+		names.add("test");
+		names.add("target");
+		names.add("src");
+		names.add("package");
+		return names.toArray(new String[] {});
 	}
 
 }
