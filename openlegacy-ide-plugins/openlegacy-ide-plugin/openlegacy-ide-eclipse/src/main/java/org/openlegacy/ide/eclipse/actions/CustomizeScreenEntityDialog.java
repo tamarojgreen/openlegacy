@@ -53,6 +53,7 @@ import org.openlegacy.ide.eclipse.util.PopupUtil;
 import org.openlegacy.ide.eclipse.util.Utils;
 import org.openlegacy.modules.login.Login.LoginEntity;
 import org.openlegacy.modules.menu.Menu.MenuEntity;
+import org.openlegacy.modules.messages.Messages.IgnoreEntity;
 import org.openlegacy.modules.messages.Messages.MessagesEntity;
 import org.openlegacy.modules.table.LookupEntity;
 import org.openlegacy.modules.table.RecordSelectionEntity;
@@ -87,6 +88,7 @@ public class CustomizeScreenEntityDialog extends Dialog {
 			put(MenuEntity.class.getSimpleName(), MenuEntity.class);
 			put(MessagesEntity.class.getSimpleName(), MessagesEntity.class);
 			put(RecordSelectionEntity.class.getSimpleName(), RecordSelectionEntity.class);
+			put(IgnoreEntity.class.getSimpleName(), IgnoreEntity.class);
 		}
 	});
 
