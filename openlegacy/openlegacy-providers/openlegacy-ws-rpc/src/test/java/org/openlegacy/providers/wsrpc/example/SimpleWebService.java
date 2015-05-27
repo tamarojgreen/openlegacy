@@ -9,7 +9,7 @@ import javax.jws.soap.SOAPBinding.Style;
 
 @WebService(name = "SimpleWebService", targetNamespace = "http://SimpleWebService/")
 @SOAPBinding(style = Style.RPC)
-public class SimpleWebService {
+public class SimpleWebService<E> {
 
 	@WebMethod
 	@WebResult(partName = "callBackResult")
@@ -21,5 +21,18 @@ public class SimpleWebService {
 	@WebResult(partName = "callBackResult")
 	public int callBackInteger(@WebParam(name = "callBackValue") int callBackValue) {
 		return callBackValue;
+	}
+
+	@WebMethod
+	@WebResult(partName = "callBackResult")
+	public int[] callBackIntArray(@WebParam(name = "callBackValue") int callBackValue) {
+		return new int[] { callBackValue, callBackValue + 1, callBackValue + 2 };
+	}
+
+	@WebMethod
+	@WebResult(partName = "callBackResult")
+	public Structure[] callBackStructureArray() {
+		Structure struct = new Structure().setName("Vlad").setLastName("Drake");
+		return new Structure[] { struct };
 	}
 }
