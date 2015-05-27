@@ -1,5 +1,6 @@
 package org.openlegacy.providers.db_stored_proc;
 
+import org.openlegacy.providers.db_stored_proc.procs.StoredProcEntity;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFlatField;
@@ -14,6 +15,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.swing.text.StyledEditorKit.ForegroundAction;
 
 public class StoredProcRpcConnection implements RpcConnection {
 
@@ -61,84 +64,33 @@ public class StoredProcRpcConnection implements RpcConnection {
 
 	@Override
 	public RpcResult invoke(RpcInvokeAction rpcInvokeAction) {
-		String procName = "";
-		int intParam1 = 0;
-		int intParam2 = 0;
-		String stringParam = "";
-
-		RpcFlatField summResultField = null;
-		RpcFlatField subResultField = null;
-		RpcFlatField mulResultField = null;
-		RpcFlatField stringResultField = null;
+		String className = "";
 
 		for (RpcField f : rpcInvokeAction.getFields()) {
 			if (f instanceof RpcFlatField) {
 				RpcFlatField ff = (RpcFlatField) f;
-
-				if (ff.getName().equals("procName")) {
-					procName = (String) ff.getValue();
-				} else if (ff.getName().equals("intParam1")) {
-					intParam1 = ((BigDecimal) ff.getValue()).intValue();
-				} else if (ff.getName().equals("intParam2")) {
-					intParam2 = ((BigDecimal) ff.getValue()).intValue();
-				} else if (ff.getName().equals("stringParam")) {
-					stringParam = (String) ff.getValue();
-				} else if (ff.getName().equals("summResult")) {
-					summResultField = ff;
-				} else if (ff.getName().equals("subResult")) {
-					subResultField = ff;
-				} else if (ff.getName().equals("mulResult")) {
-					mulResultField = ff;
-				} else if (ff.getName().equals("stringResult")) {
-					stringResultField = ff;
+				if (ff.getName().equals("className")) {
+					className = (String) ff.getValue();
 				}
 			}
 		}
 
 		try {
-			// The newInstance() call is a work around for some
-			// broken Java implementations
+			StoredProcEntity storedProc = (StoredProcEntity) Class.forName(
+					className).newInstance();
 
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-		} catch (Exception ex) {
-			// handle the error
-		}
-
-		String url = "jdbc:mysql://localhost:3306/rpc_test";
-		String user = "rpc_test";
-		String password = "password";
-
-		try {
-			Connection connection = DriverManager.getConnection(url, user,
-					password);
-
-			if (procName.equals("doStuffWithTwoNumbers")) {
-				CallableStatement cs = connection
-						.prepareCall("{call doStuffWithTwoNumbers(?, ?)}");
-				cs.setInt(1, intParam1);
-				cs.setInt(2, intParam2);
-
-				ResultSet rs = cs.executeQuery();
-
-				if (rs.next()) {
-					summResultField.setValue(rs.getInt(1));
-					subResultField.setValue(rs.getInt(2));
-					mulResultField.setValue(rs.getInt(3));
-				}
-			} else if (procName.equals("sayHello")) {
-				CallableStatement cs = connection
-						.prepareCall("{call sayHello(?)}");
-				cs.setString(1, stringParam);
-
-				ResultSet rs = cs.executeQuery();
-
-				if (rs.next()) {
-					stringResultField.setValue(rs.getString(1));
-				}
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
+			storedProc.fetchFields(rpcInvokeAction.getFields());
+			storedProc.invokeStoredProc();
+			storedProc.updateFields(rpcInvokeAction.getFields());
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 
 		SimpleRpcResult rpcResult = new SimpleRpcResult();
