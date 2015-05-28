@@ -17,12 +17,7 @@ import org.openlegacy.SessionAction;
 import org.openlegacy.annotations.rpc.ActionProperty;
 import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.definitions.support.SimpleActionDefinition;
-import org.openlegacy.exceptions.OpenLegacyRuntimeException;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +29,7 @@ public class SimpleRpcActionDefinition extends SimpleActionDefinition implements
 	private static final long serialVersionUID = 1L;
 	private String programPath;
 	private Map<QName, String> properties = null;
+	private final static Log logger = LogFactory.getLog(SimpleRpcActionDefinition.class);
 	private final static Log logger = LogFactory.getLog(SimpleRpcActionDefinition.class);
 
 	public SimpleRpcActionDefinition(SessionAction<? extends Session> action, String displayName) {
