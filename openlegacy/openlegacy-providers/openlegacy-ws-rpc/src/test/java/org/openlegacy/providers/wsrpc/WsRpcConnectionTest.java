@@ -18,6 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
+import java.util.Properties;
 
 import javax.inject.Inject;
 
@@ -36,8 +37,13 @@ public class WsRpcConnectionTest {
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
 		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction();
 
-		rpcInvokeAction.setAction(WsRpcActionUtil.buildWsRpcAction("http://SimpleWebService/", "SimpleWebService",
-				"callBackString"));
+		rpcInvokeAction.setAction("callBackString");// At this moment this action name processing is inactive
+
+		Properties p = new Properties();
+		p.put(WsRpcActionUtil.TARGET_NAMESPACE, "http://SimpleWebService/");
+		p.put(WsRpcActionUtil.SERVICE_NAME, "SimpleWebService");
+		p.put(WsRpcActionUtil.METHOD_NAME, "callBackString");
+		rpcInvokeAction.setProperties(p);
 
 		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
 		rpcField.setName("callBackValue"); // param name
@@ -67,8 +73,13 @@ public class WsRpcConnectionTest {
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
 		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction();
 
-		rpcInvokeAction.setAction(WsRpcActionUtil.buildWsRpcAction("http://SimpleWebService/", "SimpleWebService",
-				"callBackInteger"));
+		rpcInvokeAction.setAction("callBackInteger");
+
+		Properties p = new Properties();
+		p.put(WsRpcActionUtil.TARGET_NAMESPACE, "http://SimpleWebService/");
+		p.put(WsRpcActionUtil.SERVICE_NAME, "SimpleWebService");
+		p.put(WsRpcActionUtil.METHOD_NAME, "callBackInteger");
+		rpcInvokeAction.setProperties(p);
 
 		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
 		rpcField.setName("callBackValue");
@@ -98,8 +109,13 @@ public class WsRpcConnectionTest {
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
 		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction();
 
-		rpcInvokeAction.setAction(WsRpcActionUtil.buildWsRpcAction("http://SimpleWebService/", "SimpleWebService",
-				"callBackIntArray"));
+		rpcInvokeAction.setAction("callBackIntArray");
+
+		Properties p = new Properties();
+		p.put(WsRpcActionUtil.TARGET_NAMESPACE, "http://SimpleWebService/");
+		p.put(WsRpcActionUtil.SERVICE_NAME, "SimpleWebService");
+		p.put(WsRpcActionUtil.METHOD_NAME, "callBackIntArray");
+		rpcInvokeAction.setProperties(p);
 
 		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
 		rpcField.setName("callBackValue");
@@ -139,8 +155,13 @@ public class WsRpcConnectionTest {
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
 		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction();
 
-		rpcInvokeAction.setAction(WsRpcActionUtil.buildWsRpcAction("http://SimpleWebService/", "SimpleWebService",
-				"callBackStructureArray"));
+		rpcInvokeAction.setAction("callBackStructureArray");
+
+		Properties p = new Properties();
+		p.put(WsRpcActionUtil.TARGET_NAMESPACE, "http://SimpleWebService/");
+		p.put(WsRpcActionUtil.SERVICE_NAME, "SimpleWebService");
+		p.put(WsRpcActionUtil.METHOD_NAME, "callBackStructureArray");
+		rpcInvokeAction.setProperties(p);
 
 		SimpleRpcFlatField rpcField;
 

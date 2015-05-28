@@ -1,13 +1,13 @@
 package org.openlegacy.providers.wsrpc.utils;
 
+import java.util.Properties;
+
 public class WsRpcActionUtil {
 
-	public static final char SEPARATOR = (char)30; // be careful of it, eclipse debugger doesn`t shows untyped symbol of string!
-													// But string contains it)
+	public static final String TARGET_NAMESPACE = "targetNameSpace";
+	public static final String SERVICE_NAME = "serviceName";
+	public static final String METHOD_NAME = "methodName";
 
-	public static final int TARGET_NAMESPACE = 0;
-	public static final int SERVICE_NAME = 1;
-	public static final int METHOD_NAME = 2;
 	public static final String ACTION_FORMAT = "%s%c%s%c%s";
 
 	public static class WsRpcActionData {
@@ -42,19 +42,10 @@ public class WsRpcActionUtil {
 		}
 	}
 
-	public static String buildWsRpcAction(String targetNamespace, String serviceName, String methodName) {
-		return String.format(ACTION_FORMAT, targetNamespace, SEPARATOR, serviceName, SEPARATOR, methodName);
-	}
+	public static WsRpcActionData getWsRpcActionData(Properties props) {
 
-	public static String buildWsRpcAction(WsRpcActionData data) {
-		return String.format(ACTION_FORMAT, data.getTargetNamespace(), SEPARATOR, data.getServiceName(), SEPARATOR,
-				data.getMethodName());
-	}
-
-	public static WsRpcActionData getWsRpcActionData(String action) {
-		String[] temp = action.split(String.valueOf(SEPARATOR));
-		return new WsRpcActionData().setTargetNamespace(temp[TARGET_NAMESPACE]).setServiceName(temp[SERVICE_NAME]).setMethodName(
-				temp[METHOD_NAME]);
+		return new WsRpcActionData().setMethodName(props.getProperty(METHOD_NAME)).setServiceName(props.getProperty(SERVICE_NAME)).setTargetNamespace(
+				props.getProperty(TARGET_NAMESPACE));
 	}
 
 }

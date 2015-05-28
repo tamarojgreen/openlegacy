@@ -14,6 +14,7 @@ import org.openlegacy.rpc.RpcFlatField;
 import org.openlegacy.rpc.RpcInvokeAction;
 import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.RpcSnapshot;
+import org.openlegacy.rpc.support.SimpleRpcInvokeAction;
 import org.openlegacy.rpc.support.SimpleRpcResult;
 import org.openlegacy.rpc.support.SimpleRpcStructureField;
 import org.openlegacy.rpc.support.SimpleRpcStructureListField;
@@ -119,7 +120,7 @@ public class WsRpcConnection implements RpcConnection {
 
 		SOAPMessage message = messageFactory.createMessage();
 
-		WsRpcActionData data = WsRpcActionUtil.getWsRpcActionData(action.getAction());
+		WsRpcActionData data = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction)action).getProperties());
 		SOAPElement actionElement = message.getSOAPBody().addChildElement(data.getMethodName(), ACTION_PREFIX,
 				data.getTargetNamespace());
 
@@ -141,7 +142,7 @@ public class WsRpcConnection implements RpcConnection {
 
 		checkForFailureReponse(responseBody);
 
-		WsRpcActionData dataAction = WsRpcActionUtil.getWsRpcActionData(action.getAction());
+		WsRpcActionData dataAction = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction)action).getProperties());
 		QName responseQName = new QName(dataAction.getTargetNamespace(), dataAction.getMethodName() + RESPONSE);
 
 		getFields(action.getFields(), responseBody.getChildElements(responseQName));
