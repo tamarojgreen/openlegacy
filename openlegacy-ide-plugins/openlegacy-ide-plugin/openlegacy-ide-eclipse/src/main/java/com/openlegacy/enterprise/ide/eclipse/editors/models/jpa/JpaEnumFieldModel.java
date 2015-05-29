@@ -121,6 +121,7 @@ public class JpaEnumFieldModel extends JpaFieldModel implements IEnumFieldModel 
 		model.setPrecision(getPrecision());
 		model.setScale(getScale());
 		model.setKey(isKey());
+		model.setGeneratedValue(isGeneratedValue());
 
 		model.setDisplayName(getDisplayName());
 		model.setPassword(isPassword());

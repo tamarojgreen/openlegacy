@@ -39,6 +39,7 @@ public class JpaDateFieldModel extends JpaFieldModel {
 		model.setPrecision(getPrecision());
 		model.setScale(getScale());
 		model.setKey(isKey());
+		model.setGeneratedValue(isGeneratedValue());
 
 		model.setDisplayName(getDisplayName());
 		model.setPassword(isPassword());

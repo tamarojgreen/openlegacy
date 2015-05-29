@@ -47,7 +47,7 @@ public class JpaListFieldModel extends JpaFieldModel {
 	public void init(DbFieldDefinition dbFieldDefinition) {
 		super.init(dbFieldDefinition);
 		if (dbFieldDefinition instanceof SimpleDbColumnFieldDefinition) {
-			fieldTypeArgs = ((SimpleDbColumnFieldDefinition)dbFieldDefinition).getFieldTypeArgs();
+			fieldTypeArgs = ((SimpleDbColumnFieldDefinition) dbFieldDefinition).getFieldTypeArgs();
 		}
 		DbOneToManyDefinition oneToManyDefinition = dbFieldDefinition.getOneToManyDefinition();
 		if (oneToManyDefinition != null) {
@@ -87,6 +87,7 @@ public class JpaListFieldModel extends JpaFieldModel {
 		model.setPrecision(getPrecision());
 		model.setScale(getScale());
 		model.setKey(isKey());
+		model.setGeneratedValue(isGeneratedValue());
 
 		model.setDisplayName(getDisplayName());
 		model.setPassword(isPassword());
@@ -120,7 +121,7 @@ public class JpaListFieldModel extends JpaFieldModel {
 
 	public boolean equalsOneToManyAttrs(JpaFieldModel model) {
 		if (model instanceof JpaListFieldModel) {
-			JpaListFieldModel listModel = (JpaListFieldModel)model;
+			JpaListFieldModel listModel = (JpaListFieldModel) model;
 			boolean cascadeEqual = isCascadeEqual(listModel.getCascade());
 			return cascadeEqual && fetch.equals(listModel.getFetch()) && StringUtils.equals(mappedBy, listModel.getMappedBy())
 					&& orphanRemoval == listModel.isOrphanRemoval()

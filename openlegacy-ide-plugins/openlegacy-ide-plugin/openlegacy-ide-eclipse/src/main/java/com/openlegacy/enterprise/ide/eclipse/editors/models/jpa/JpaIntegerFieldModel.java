@@ -48,6 +48,7 @@ public class JpaIntegerFieldModel extends JpaFieldModel {
 		model.setRightToLeft(isRightToLeft());
 		model.setInternal(isInternal());
 		model.setMainDisplayFiled(isMainDisplayFiled());
+		model.setGeneratedValue(isGeneratedValue());
 
 		model.initialized = isInitialized();
 		return model;
