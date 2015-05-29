@@ -245,7 +245,8 @@
 			<#assign targetEntity = childColumn.oneToManyDefinition.targetEntityDefinition>
 		</#if>		
 		<#if isCREATEAction>
-			<#if targetEntity??><@generateTable entity=targetEntity showActionsToolbar=false propertyName=childColumn.name joinColumnName=childColumn.joinColumnName isCREATEAction=true/></#if>
+			<!--uncomment to add childrens during parent creation-->
+			<!--<#if targetEntity??><@generateTable entity=targetEntity showActionsToolbar=false propertyName=childColumn.name joinColumnName=childColumn.joinColumnName isCREATEAction=true/></#if>-->
 		<#else>
 			<#if targetEntity??><@generateTable entity=targetEntity showActionsToolbar=false propertyName=childColumn.name /></#if>
 		</#if>
