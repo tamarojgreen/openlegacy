@@ -14,6 +14,7 @@ import org.openlegacy.designtime.newproject.ITemplateFetcher;
 import org.openlegacy.designtime.newproject.model.ProjectTheme;
 
 import java.io.File;
+import java.net.URL;
 
 public class ProjectCreationRequest {
 
@@ -50,6 +51,8 @@ public class ProjectCreationRequest {
 	private byte[] trailContent;
 
 	private boolean restFulService;
+
+	private URL eclipseInstallLocation;
 
 	public String getTemplateName() {
 		return templateName;
@@ -261,6 +264,14 @@ public class ProjectCreationRequest {
 
 	public void setSupportSsl(boolean isSupportSsl) {
 		this.isSupportSsl = isSupportSsl;
+	}
+
+	public URL getEclipseInstallLocation() {
+		return eclipseInstallLocation;
+	}
+
+	public void setEclipseInstallLocation(URL eclipseInstallLocation) {
+		this.eclipseInstallLocation = eclipseInstallLocation;
 	}
 
 }
