@@ -104,6 +104,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -177,6 +179,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				projectCreationRequest.getProjectName(), projectCreationRequest.getBaseDir());
 
 		if (projectCreationRequest.isDemo()) {
+			updateLaunchers(projectCreationRequest.getProjectName(), projectCreationRequest.getEclipseInstallLocation(),
+					targetPath);
 			templateFetcher.deleteZip();
 			return;
 		}
@@ -205,6 +209,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		// eclipse files
 		renameProject(projectCreationRequest.getProjectName(), targetPath);
 		renameLaunchers(projectCreationRequest.getProjectName(), targetPath);
+		updateLaunchers(projectCreationRequest.getProjectName(), projectCreationRequest.getEclipseInstallLocation(), targetPath);
 
 		updatePropertiesFile(projectCreationRequest, targetPath);
 
@@ -487,6 +492,46 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		launchFileContent = launchFileContent.replaceAll("workspace_loc:.*}", ("workspace_loc:" + projectName + "}"));
 		FileUtils.write(launchFileContent, launcherFile);
 
+	}
+
+	private static void updateLaunchers(final String projectName, final URL eclipseInstallLocation, final File targetPath) {
+		targetPath.listFiles(new FileFilter() {
+
+			@Override
+			public boolean accept(File pathname) {
+				if (pathname.getName().endsWith(".launch")) {
+					try {
+						updateLauncher(projectName, eclipseInstallLocation, targetPath, pathname.getName());
+					} catch (IOException e) {
+						throw (new RuntimeException(e));
+					} catch (URISyntaxException e) {
+						throw (new RuntimeException(e));
+					}
+				}
+				return false;
+			}
+		});
+	}
+
+	private static void updateLauncher(String projectName, URL eclipseInstallLocation, File targetPath, String fileName)
+			throws FileNotFoundException, IOException, URISyntaxException {
+		File launcherFile = new File(targetPath, fileName);
+
+		if (!launcherFile.exists()) {
+			logger.warn(MessageFormat.format("Unable to find launcher {0} within {1}", fileName, projectName));
+			return;
+		}
+
+		String launchFileContent = IOUtils.toString(new FileInputStream(launcherFile));
+		URI uri = eclipseInstallLocation.toURI();
+		File installLocation = new File(uri);
+		String replacement = MessageFormat.format(
+				"<listAttribute key=\"M2_PROPERTIES\">\n<listEntry value=\"org.openlegacy.configuration.path={0}\"/>",
+				installLocation.getAbsolutePath());
+		// for windows
+		replacement = replacement.replace("\\", "\\\\");
+		launchFileContent = launchFileContent.replace("<listAttribute key=\"M2_PROPERTIES\">", replacement);
+		FileUtils.write(launchFileContent, launcherFile);
 	}
 
 	private static void updateSpringContextWithDefaultPackage(String defaultPackageName, File targetPath) throws IOException,

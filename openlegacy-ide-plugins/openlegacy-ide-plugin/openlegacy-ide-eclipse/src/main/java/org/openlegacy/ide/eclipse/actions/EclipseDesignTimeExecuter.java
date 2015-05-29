@@ -20,6 +20,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -70,6 +71,7 @@ public class EclipseDesignTimeExecuter {
 
 	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException {
 
+		projectCreationRequest.setEclipseInstallLocation(Platform.getInstallLocation().getURL());
 		designTimeExecuter.createProject(projectCreationRequest);
 
 		Display.getDefault().asyncExec(new Runnable() {
