@@ -17,6 +17,7 @@ public class FieldsPage extends AbstractPage {
 	private final static String PAGE_ID = "org.openlegacy.enterprise.ide.eclipse.jpa.pages.fieldspage"; //$NON-NLS-1$
 
 	private FieldsMasterBlock block;
+	private boolean needRefreshWhenActivate = false;
 
 	public FieldsPage(AbstractEditor editor) {
 		super(editor, PAGE_ID, Messages.getString("jpa.fields.page.title"));
@@ -46,6 +47,20 @@ public class FieldsPage extends AbstractPage {
 	public void refresh() {
 		if (isActive()) {
 			block.refresh();
+		} else {
+			needRefreshWhenActivate = true;
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.forms.editor.FormPage#setActive(boolean)
+	 */
+	@Override
+	public void setActive(boolean active) {
+		super.setActive(active);
+		if (needRefreshWhenActivate) {
+			block.refresh();
+			needRefreshWhenActivate = false;
 		}
 	}
 
