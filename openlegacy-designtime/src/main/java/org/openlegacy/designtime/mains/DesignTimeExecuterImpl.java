@@ -268,8 +268,14 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	private static void handleTrailFilePath(File targetPath, ProjectCreationRequest projectCreationRequest)
 			throws FileNotFoundException, IOException {
 		String projectName = projectCreationRequest.getProjectName();
-		String trailFilePath = projectCreationRequest.getBaseDir().getAbsolutePath() + "/" + projectName
-				+ "/src/main/resources/trails/" + projectName + ".trail";
+		String dir = projectCreationRequest.getBaseDir().getAbsolutePath() + "/" + projectName + "/src/main/resources/trails/";
+		
+		File theDir = new File(dir);
+		if(!theDir.exists())
+		{
+			 theDir.mkdir();
+		}
+		String trailFilePath = dir + projectName + ".trail";
 		copyTrailFilePath(projectCreationRequest.getTrailContent(), trailFilePath);
 
 		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);

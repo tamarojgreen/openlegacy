@@ -24,20 +24,6 @@
 	    </property>
     </bean>
 
-<!--
- 	<bean id="rpcSession" parent="abstractRpcSession" scope="session">
-		<property name="connection" ref="rpcConnection" />
-	    <aop:scoped-proxy/>
-	</bean>
- -->			
-	<!-- Use this definition to replay a mock-up session application
-	End use this definition to replay a mock-up session application -->
-	<bean id="rpcConnectionFactory"
-		class="org.openlegacy.rpc.mock.MockRpcConnectionFactory">
-		<property name="root" value="/trails" />
-		<property name="trailName" value="demo_session.trail" />
-	</bean>
-
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 
 </beans>

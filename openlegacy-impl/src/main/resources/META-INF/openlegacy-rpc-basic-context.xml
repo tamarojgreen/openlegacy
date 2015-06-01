@@ -42,6 +42,9 @@
 	<bean id="imageRenderer" class="org.openlegacy.rpc.render.DefaultRpcImageRenderer" />
 	
 	<bean id="abstractRpcSession" class="org.openlegacy.rpc.support.DefaultRpcSession" abstract="true">
+	    <property name="connection">
+	    	<bean class="org.openlegacy.rpc.support.RpcConnectionDelegator" /> 
+	    </property>
 		<property name="sessionModules">
 			<bean class="org.openlegacy.support.SessionModules">
 				<property name="modules">
@@ -78,6 +81,10 @@
 	<bean class="org.openlegacy.rpc.convector.VirtualRpcConverter" />
 	
 	<bean id="rpcRecognizer" class="org.openlegacy.rpc.recognizers.DefaultRpcRecognizer" />
+	
+	<bean id="mockRpcConnectionFactory"
+		class="org.openlegacy.rpc.mock.MockRpcConnectionFactoryImp"
+		p:verifySend="true"  />
 	
 	<!-- Providers may override the default beans -->
 	<import resource="classpath*:/META-INF/*-openlegacy-rpc-provider.xml" /> 

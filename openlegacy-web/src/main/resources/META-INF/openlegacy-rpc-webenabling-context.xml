@@ -12,7 +12,9 @@
 	
 	<bean id="tableWriter" class="org.openlegacy.web.DefaultHtmlTableWriter" />
 	<bean id="rpcSession" parent="abstractRpcSession" scope="session">
-		<property name="connection" ref="rpcConnection" />
+		<property name="connection" >
+			<bean class="org.openlegacy.rpc.support.RpcConnectionDelegator" />
+		</property>
 		<property name="sessionModules">
 			<bean class="org.openlegacy.support.SessionModules">
 				<property name="modules">

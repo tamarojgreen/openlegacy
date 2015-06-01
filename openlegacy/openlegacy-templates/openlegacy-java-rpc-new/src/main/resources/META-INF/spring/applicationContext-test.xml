@@ -20,20 +20,5 @@
 	    </property>
     </bean>
 	
-
-<!-- Use this definition to replay a mock-up session application
- 	<bean id="rpcConnectionFactory"
-		class="org.openlegacy.rpc.mock.MockRpcConnectionFactory">
-		<property name="root" value="/trails" />
-		<property name="trailName" value="demo_session.trail" />
-	</bean>
-End use this definition to replay a mock-up session application -->
-
-<!-- Delete this definition to replay a mock-up session application -->
-	<bean id="rpcSession" parent="abstractRpcSession">
-		<property name="connection" ref="rpcConnection" />
-	</bean>
-<!-- End delete this definition to replay a mock-up session application -->
-
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 </beans>
