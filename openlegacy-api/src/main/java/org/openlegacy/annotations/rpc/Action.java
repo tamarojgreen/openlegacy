@@ -63,4 +63,7 @@ public @interface Action {
 	String alias() default "";
 
 	Class<?> targetEntity() default RpcEntity.NONE.class;
+
+	ActionProperty[] actionProperties() default {};
+
 }

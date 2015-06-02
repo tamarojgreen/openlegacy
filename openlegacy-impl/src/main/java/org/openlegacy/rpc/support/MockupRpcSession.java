@@ -97,6 +97,7 @@ public class MockupRpcSession extends DefaultRpcSession {
 		RpcActionDefinition actionDefinition = (RpcActionDefinition)rpcDefinition.getAction(action.getClass());
 		if (actionDefinition != null) {
 			rpcAction.setRpcPath(actionDefinition.getProgramPath());
+			rpcAction.setProperties(actionDefinition.getProperties());
 		}
 		populateRpcFields(rpcEntity, rpcDefinition, rpcAction);
 		converToLegacyFields(rpcAction);

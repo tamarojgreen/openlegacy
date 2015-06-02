@@ -10,17 +10,26 @@
  *******************************************************************************/
 package org.openlegacy.rpc.definitions;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
+import org.openlegacy.annotations.rpc.ActionProperty;
 import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.definitions.support.SimpleActionDefinition;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.xml.namespace.QName;
 
 public class SimpleRpcActionDefinition extends SimpleActionDefinition implements RpcActionDefinition, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String programPath;
+	private Map<QName, String> properties = null;
+	private final static Log logger = LogFactory.getLog(SimpleRpcActionDefinition.class);
 
 	public SimpleRpcActionDefinition(SessionAction<? extends Session> action, String displayName) {
 		super(action, displayName);
@@ -39,4 +48,26 @@ public class SimpleRpcActionDefinition extends SimpleActionDefinition implements
 		this.programPath = programPath;
 	}
 
+	public Map<QName, String> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(Map<QName, String> properties) {
+		this.properties = properties;
+	}
+
+	public void loadProperties(ActionProperty[] actionProperties) {
+
+		properties = new HashMap<QName, String>();
+
+		for (ActionProperty actionProperty : actionProperties) {
+			properties.put(new QName(actionProperty.name()), actionProperty.value());
+		}
+
+		// if (logger.isDebugEnabled() && properties.size() > 0) {
+		// logger.debug(MessageFormat.format("Action properties from file {0} where added to {1} - \"{2}\" ",
+		// actionProperties.toString(), getActionName(), getDisplayName()));
+		// }
+
+	}
 }
