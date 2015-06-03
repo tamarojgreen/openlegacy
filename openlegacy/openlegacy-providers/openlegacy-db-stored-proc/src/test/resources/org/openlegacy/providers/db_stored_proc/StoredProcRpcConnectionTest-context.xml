@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<context:property-placeholder location="classpath*:/stored-proc.properties" />
 
-	<bean id="rpcConnection"
-		class="org.openlegacy.providers.db_stored_proc.StoredProcRpcConnection"
-		factory-bean="rpcConnectionFactory" factory-method="getConnection" />
-
-	<bean id="rpcConnectionFactory"
-		class="org.openlegacy.providers.db_stored_proc.StoredProcRpcConnectionFactory" />
-
-	<bean id="storedProcDbSession" scope="prototype"
-		class="org.openlegacy.providers.db_stored_proc.StoredProcDbSession">
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driverClassName}" />
 		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
 	</bean>
+
+	<bean id="rpcConnection"
+		class="org.openlegacy.providers.db_stored_proc.StoredProcRpcConnection"
+		factory-bean="rpcConnectionFactory" factory-method="getConnection">
+<!-- 		<property name="dataSource" ref="dataSource" /> -->
+	</bean>
+	<bean id="rpcConnectionFactory"
+		class="org.openlegacy.providers.db_stored_proc.StoredProcRpcConnectionFactory" />
 
 </beans>

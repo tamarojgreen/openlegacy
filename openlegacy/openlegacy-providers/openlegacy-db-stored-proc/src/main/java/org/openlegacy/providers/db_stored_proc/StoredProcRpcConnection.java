@@ -8,18 +8,18 @@ import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.RpcSnapshot;
 import org.openlegacy.rpc.support.SimpleRpcResult;
 
-import java.sql.Connection;
 import java.sql.SQLException;
+
+import javax.sql.DataSource;
 
 public class StoredProcRpcConnection implements RpcConnection {
 
 	private Integer sequence = 0;
 
-	private StoredProcDbSession session;
-	private Connection connection;
+	private DataSource dataSource;
 
-	public StoredProcRpcConnection(StoredProcDbSession session) {
-		this.session = session;
+	public StoredProcRpcConnection(DataSource dataSource) {
+		this.dataSource = dataSource;
 	}
 
 	@Override
@@ -46,16 +46,14 @@ public class StoredProcRpcConnection implements RpcConnection {
 
 	@Override
 	public Object getDelegate() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean isConnected() {
 		try {
-			return (connection != null) && connection.isValid(10000);
+			return dataSource.getConnection().isValid(10000);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -63,15 +61,6 @@ public class StoredProcRpcConnection implements RpcConnection {
 
 	@Override
 	public void disconnect() {
-		if (connection != null) {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-			connection = null;
-		}
 	}
 
 	@Override
@@ -92,7 +81,7 @@ public class StoredProcRpcConnection implements RpcConnection {
 					className).newInstance();
 
 			storedProc.fetchFields(rpcInvokeAction.getFields());
-			storedProc.invokeStoredProc(connection);
+			storedProc.invokeStoredProc(dataSource.getConnection());
 			storedProc.updateFields(rpcInvokeAction.getFields());
 		} catch (InstantiationException e1) {
 			// TODO Auto-generated catch block
@@ -103,6 +92,9 @@ public class StoredProcRpcConnection implements RpcConnection {
 		} catch (ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		SimpleRpcResult rpcResult = new SimpleRpcResult();
@@ -114,8 +106,6 @@ public class StoredProcRpcConnection implements RpcConnection {
 
 	@Override
 	public void login(String user, String password) {
-		connection = session.getConnection(user, password);
-
 	}
 
 }
