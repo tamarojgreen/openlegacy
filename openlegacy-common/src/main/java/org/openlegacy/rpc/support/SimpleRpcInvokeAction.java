@@ -16,14 +16,17 @@ import org.openlegacy.rpc.RpcInvokeAction;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyAttribute;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.namespace.QName;
 
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -42,6 +45,9 @@ public class SimpleRpcInvokeAction implements RpcInvokeAction, Serializable {
 
 	@XmlAttribute
 	private String rpcPath;
+
+	@XmlAnyAttribute
+	private Map<QName, String> properties;
 
 	public SimpleRpcInvokeAction() {
 		// for serialization
@@ -74,4 +80,13 @@ public class SimpleRpcInvokeAction implements RpcInvokeAction, Serializable {
 		this.action = action;
 
 	}
+
+	public Map<QName, String> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(Map<QName, String> properties) {
+		this.properties = properties;
+	}
+
 }

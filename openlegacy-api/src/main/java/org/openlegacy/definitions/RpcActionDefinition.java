@@ -14,6 +14,10 @@ import org.openlegacy.annotations.rpc.Action;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 
+import java.util.Map;
+
+import javax.xml.namespace.QName;
+
 /**
  * A session action definition. Translated from {@link Action} and store within a {@link RpcEntityDefinition} into
  * {@link RpcEntitiesRegistry}
@@ -24,4 +28,6 @@ import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 public interface RpcActionDefinition extends ActionDefinition {
 
 	String getProgramPath();
+
+	Map<QName, String> getProperties();
 }

@@ -142,6 +142,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 		SimpleRpcInvokeAction rpcAction = new SimpleRpcInvokeAction();
 		rpcAction.setRpcPath(actionDefinition.getProgramPath());
+		rpcAction.setProperties(actionDefinition.getProperties());
 		populateRpcFields(rpcEntity, rpcDefinition, rpcAction);
 		converToLegacyFields(rpcAction);
 
