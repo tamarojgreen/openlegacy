@@ -188,8 +188,12 @@
 						return function() {
 							var entity = $.extend($scope.model.entity, $scope.nestedModels);							
 							$olHttp.post('${entityDefinition.entityName}?action=', entity, function(data) {
-								alert("Entity was created successfully!");
-								$state.go('${entityDefinition.entityName}');
+								alert("Entity was created successfully!");								
+								if (parent != null) {
+									$state.go(parent.entityName + "Details", {id: parent.id});
+								} else {								
+									$state.go('${entityDefinition.entityName}');
+								}
 							});												
 						} 
 					}
@@ -441,8 +445,12 @@
 										return function() {
 											var entity = $.extend($scope.model.entity, $scope.nestedModels);							
 											$olHttp.post('${entityName}?action=', entity, function(data) {
-												alert("Entity was created successfully!");
-												$state.go('${entityName}');
+												alert("Entity was created successfully!");								
+												if (parent != null) {
+													$state.go(parent.entityName + "Details", {id: parent.id});
+												} else {								
+													$state.go('${entityName}');
+												}												
 											});												
 										} 
 									}

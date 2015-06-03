@@ -8,6 +8,10 @@ import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.utils.StringUtil;
 
+import java.util.Map;
+
+import javax.xml.namespace.QName;
+
 /**
  * @author Ivan Bort
  * 
@@ -188,6 +192,15 @@ public class ActionModel extends RpcNamedObject implements RpcActionDefinition {
 	@Override
 	public String getWhen() {
 		return ".*";
+	}
+
+	/* (non-Javadoc)
+	 * @see org.openlegacy.definitions.RpcActionDefinition#getProperties()
+	 */
+	@Override
+	public Map<QName, String> getProperties() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
