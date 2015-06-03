@@ -28,6 +28,7 @@ import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPConnection;
 import javax.xml.soap.SOAPConnectionFactory;
 import javax.xml.soap.SOAPElement;
+import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
 public class WsRpcConnection implements RpcConnection {
@@ -124,13 +125,7 @@ public class WsRpcConnection implements RpcConnection {
 		SOAPElement actionElement = message.getSOAPBody().addChildElement(data.getMethodName(), ACTION_PREFIX,
 				data.getTargetNamespace());
 
-		for (RpcField field : action.getFields()) {
-			if (field.getDirection() == Direction.INPUT || field.getDirection() == Direction.INPUT_OUTPUT) {
-				if (FieldUtil.isPrimitive(field)) {
-					FieldUtil.writePrimitiveField((RpcFlatField)field, actionElement.addChildElement(field.getName()));
-				}
-			}
-		}
+		setFields(action.getFields(), actionElement);
 
 		logMessage("Request message:", message);
 		return message;
@@ -149,8 +144,42 @@ public class WsRpcConnection implements RpcConnection {
 		result.setRpcFields(action.getFields());
 	}
 
+	private boolean needToBreakGroup(RpcField field) {
+		return field.getVirtualGroup().equals(WsRpcActionUtil.INPUT) || field.getVirtualGroup().equals(WsRpcActionUtil.OUTPUT);
+	}
+
+	private void setFields(List<RpcField> fields, SOAPElement actionElement) throws SOAPException {
+		for (RpcField field : fields) {
+			if (field instanceof SimpleRpcStructureField) {
+				if (field.getVirtualGroup().equals(WsRpcActionUtil.INPUT)) {
+					setFields(((SimpleRpcStructureField)field).getChildrens(), actionElement);
+				}
+
+				if (needToBreakGroup(field)) {
+					continue;
+				}
+			}
+
+			if (field.getDirection() == Direction.INPUT || field.getDirection() == Direction.INPUT_OUTPUT) {
+				if (FieldUtil.isPrimitive(field)) {
+					FieldUtil.writePrimitiveField((RpcFlatField)field, actionElement.addChildElement(field.getName()));
+				}
+			}
+		}
+	}
+
 	private void getFields(List<RpcField> fields, Iterator<?> parent) throws Exception {
 		for (RpcField field : fields) {
+			if (field instanceof SimpleRpcStructureField) {
+				if (field.getVirtualGroup().equals(WsRpcActionUtil.OUTPUT)) {
+					getFields(((SimpleRpcStructureField)field).getChildrens(), parent);
+				}
+
+				if (needToBreakGroup(field)) {
+					continue;
+				}
+			}
+
 			if (field.getDirection() == Direction.OUTPUT || field.getDirection() == Direction.INPUT_OUTPUT) {
 				SOAPElement data = findSOAPElement(parent, field.getName());
 
