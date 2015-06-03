@@ -3,7 +3,7 @@ package org.openlegacy.providers.wsrpc;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.annotations.rpc.Direction;
-import org.openlegacy.providers.wsrpc.WsRpcConnection.WsRpcConnectionRuntimeException;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.providers.wsrpc.utils.WsRpcActionUtil;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcFlatField;
@@ -18,9 +18,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
+import javax.xml.namespace.QName;
 
 import junit.framework.Assert;
 
@@ -31,6 +33,13 @@ public class WsRpcConnectionTest {
 	@Inject
 	WsRpcConnectionFactory rpcConnectionFactory;
 
+	public static Map<QName, String> getProps() {
+		Map<QName, String> p = new HashMap<QName, String>();
+		p.put(new QName(WsRpcActionUtil.TARGET_NAMESPACE), "http://SimpleWebService/");
+		p.put(new QName(WsRpcActionUtil.SERVICE_NAME), "SimpleWebService");
+		return p;
+	}
+
 	@Test
 	public void stringTest() {
 		String callBackValue = "Vlad Drake";
@@ -39,10 +48,9 @@ public class WsRpcConnectionTest {
 
 		rpcInvokeAction.setAction("callBackString");// At this moment this action name processing is inactive
 
-		Properties p = new Properties();
-		p.put(WsRpcActionUtil.TARGET_NAMESPACE, "http://SimpleWebService/");
-		p.put(WsRpcActionUtil.SERVICE_NAME, "SimpleWebService");
-		p.put(WsRpcActionUtil.METHOD_NAME, "callBackString");
+		// Properties p = new Properties();
+		Map<QName, String> p = getProps();
+		p.put(new QName(WsRpcActionUtil.METHOD_NAME), "callBackString");
 		rpcInvokeAction.setProperties(p);
 
 		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
@@ -60,7 +68,7 @@ public class WsRpcConnectionTest {
 		rpcField.setDirection(Direction.OUTPUT);
 
 		rpcInvokeAction.getFields().add(rpcField);
-		rpcInvokeAction.setRpcPath("http://localhost:8181/SimpleWebService");
+		rpcInvokeAction.setRpcPath("http://dev.openlegacy.org/WsRpcConnectorExampleService/");
 
 		RpcResult rpcResult = localInvoke(rpcConnection, rpcInvokeAction);
 
@@ -75,10 +83,9 @@ public class WsRpcConnectionTest {
 
 		rpcInvokeAction.setAction("callBackInteger");
 
-		Properties p = new Properties();
-		p.put(WsRpcActionUtil.TARGET_NAMESPACE, "http://SimpleWebService/");
-		p.put(WsRpcActionUtil.SERVICE_NAME, "SimpleWebService");
-		p.put(WsRpcActionUtil.METHOD_NAME, "callBackInteger");
+		Map<QName, String> p = getProps();
+
+		p.put(new QName(WsRpcActionUtil.METHOD_NAME), "callBackInteger");
 		rpcInvokeAction.setProperties(p);
 
 		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
@@ -95,7 +102,7 @@ public class WsRpcConnectionTest {
 		rpcField.setDirection(Direction.OUTPUT);
 		rpcInvokeAction.getFields().add(rpcField);
 
-		rpcInvokeAction.setRpcPath("http://localhost:8181/SimpleWebService");
+		rpcInvokeAction.setRpcPath("http://dev.openlegacy.org/WsRpcConnectorExampleService/");
 
 		RpcResult rpcResult = localInvoke(rpcConnection, rpcInvokeAction);
 
@@ -111,10 +118,8 @@ public class WsRpcConnectionTest {
 
 		rpcInvokeAction.setAction("callBackIntArray");
 
-		Properties p = new Properties();
-		p.put(WsRpcActionUtil.TARGET_NAMESPACE, "http://SimpleWebService/");
-		p.put(WsRpcActionUtil.SERVICE_NAME, "SimpleWebService");
-		p.put(WsRpcActionUtil.METHOD_NAME, "callBackIntArray");
+		Map<QName, String> p = getProps();
+		p.put(new QName(WsRpcActionUtil.METHOD_NAME), "callBackIntArray");
 		rpcInvokeAction.setProperties(p);
 
 		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
@@ -138,7 +143,7 @@ public class WsRpcConnectionTest {
 
 		rpcArrayField.getChildrens().add(fields);
 		rpcInvokeAction.getFields().add(rpcArrayField);
-		rpcInvokeAction.setRpcPath("http://localhost:8181/SimpleWebService");
+		rpcInvokeAction.setRpcPath("http://dev.openlegacy.org/WsRpcConnectorExampleService/");
 
 		RpcResult rpcResult = localInvoke(rpcConnection, rpcInvokeAction);
 
@@ -157,10 +162,8 @@ public class WsRpcConnectionTest {
 
 		rpcInvokeAction.setAction("callBackStructureArray");
 
-		Properties p = new Properties();
-		p.put(WsRpcActionUtil.TARGET_NAMESPACE, "http://SimpleWebService/");
-		p.put(WsRpcActionUtil.SERVICE_NAME, "SimpleWebService");
-		p.put(WsRpcActionUtil.METHOD_NAME, "callBackStructureArray");
+		Map<QName, String> p = getProps();
+		p.put(new QName(WsRpcActionUtil.METHOD_NAME), "callBackStructureArray");
 		rpcInvokeAction.setProperties(p);
 
 		SimpleRpcFlatField rpcField;
@@ -184,7 +187,7 @@ public class WsRpcConnectionTest {
 		fields.add(field);
 		rpcArrayField.getChildrens().add(fields);
 		rpcInvokeAction.getFields().add(rpcArrayField);
-		rpcInvokeAction.setRpcPath("http://localhost:8181/SimpleWebService");
+		rpcInvokeAction.setRpcPath("http://dev.openlegacy.org/WsRpcConnectorExampleService/");
 
 		RpcResult rpcResult = localInvoke(rpcConnection, rpcInvokeAction);
 		field = (SimpleRpcStructureField)((SimpleRpcFields)((SimpleRpcStructureListField)rpcResult.getRpcFields().get(0)).getChildrens().get(
@@ -199,7 +202,7 @@ public class WsRpcConnectionTest {
 			return rpcConnection.invoke(rpcInvokeAction);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw (new WsRpcConnectionRuntimeException(e));
+			throw (new OpenLegacyRuntimeException(e));
 		}
 	}
 }

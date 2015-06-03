@@ -1,6 +1,8 @@
 package org.openlegacy.providers.wsrpc.utils;
 
-import java.util.Properties;
+import java.util.Map;
+
+import javax.xml.namespace.QName;
 
 public class WsRpcActionUtil {
 
@@ -42,10 +44,10 @@ public class WsRpcActionUtil {
 		}
 	}
 
-	public static WsRpcActionData getWsRpcActionData(Properties props) {
+	public static WsRpcActionData getWsRpcActionData(Map<QName, String> props) {
 
-		return new WsRpcActionData().setMethodName(props.getProperty(METHOD_NAME)).setServiceName(props.getProperty(SERVICE_NAME)).setTargetNamespace(
-				props.getProperty(TARGET_NAMESPACE));
+		return new WsRpcActionData().setMethodName(props.get(new QName(METHOD_NAME))).setServiceName(
+				props.get(new QName(SERVICE_NAME))).setTargetNamespace(props.get(new QName(TARGET_NAMESPACE)));
 	}
 
 }
