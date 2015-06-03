@@ -1,9 +1,11 @@
 package org.openlegacy.providers.db_stored_proc.procs;
 
+import org.openlegacy.providers.db_stored_proc.StoredProcEntity;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFlatField;
 
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -17,9 +19,9 @@ public class SayHelloStoredProc extends StoredProcEntity {
 	}
 
 	@Override
-	public void invokeStoredProc() {
+	public void invokeStoredProc(Connection connection) {
 		try {
-			CallableStatement cs = getConnection().prepareCall("{call sayHello(?)}");
+			CallableStatement cs = connection.prepareCall("{call sayHello(?)}");
 			cs.setString(1, param);
 
 			ResultSet rs = cs.executeQuery();

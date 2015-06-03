@@ -1,10 +1,12 @@
 package org.openlegacy.providers.db_stored_proc.procs;
 
+import org.openlegacy.providers.db_stored_proc.StoredProcEntity;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFlatField;
 
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -21,9 +23,9 @@ public class DoStuffWithTwoNumbersStoredProc extends StoredProcEntity {
 	}
 
 	@Override
-	public void invokeStoredProc() {
+	public void invokeStoredProc(Connection connection) {
 		try {
-			CallableStatement cs = getConnection().prepareCall("{call doStuffWithTwoNumbers(?, ?)}");
+			CallableStatement cs = connection.prepareCall("{call doStuffWithTwoNumbers(?, ?)}");
 			cs.setInt(1, param1);
 			cs.setInt(2, param2);
 

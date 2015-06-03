@@ -1,6 +1,5 @@
 package org.openlegacy.providers.db_stored_proc;
 
-import org.openlegacy.providers.db_stored_proc.procs.StoredProcEntity;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFlatField;
@@ -9,18 +8,19 @@ import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.RpcSnapshot;
 import org.openlegacy.rpc.support.SimpleRpcResult;
 
-import java.math.BigDecimal;
-import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.swing.text.StyledEditorKit.ForegroundAction;
 
 public class StoredProcRpcConnection implements RpcConnection {
 
 	private Integer sequence = 0;
+
+	private StoredProcDbSession session;
+	private Connection connection;
+
+	public StoredProcRpcConnection(StoredProcDbSession session) {
+		this.session = session;
+	}
 
 	@Override
 	public RpcSnapshot getSnapshot() {
@@ -52,14 +52,26 @@ public class StoredProcRpcConnection implements RpcConnection {
 
 	@Override
 	public boolean isConnected() {
-		// TODO Auto-generated method stub
+		try {
+			return (connection != null) && connection.isValid(10000);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
 	public void disconnect() {
-		// TODO Auto-generated method stub
+		if (connection != null) {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 
+			connection = null;
+		}
 	}
 
 	@Override
@@ -80,7 +92,7 @@ public class StoredProcRpcConnection implements RpcConnection {
 					className).newInstance();
 
 			storedProc.fetchFields(rpcInvokeAction.getFields());
-			storedProc.invokeStoredProc();
+			storedProc.invokeStoredProc(connection);
 			storedProc.updateFields(rpcInvokeAction.getFields());
 		} catch (InstantiationException e1) {
 			// TODO Auto-generated catch block
@@ -102,7 +114,7 @@ public class StoredProcRpcConnection implements RpcConnection {
 
 	@Override
 	public void login(String user, String password) {
-		// TODO Auto-generated method stub
+		connection = session.getConnection(user, password);
 
 	}
 
