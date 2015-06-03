@@ -12,6 +12,9 @@ public class WsRpcActionUtil {
 
 	public static final String ACTION_FORMAT = "%s%c%s%c%s";
 
+	public static final String INPUT = "INPUT_PARAMS_GROUP";
+	public static final String OUTPUT = "OUTPUT_PARAMS_GROUP";
+
 	public static class WsRpcActionData {
 
 		String targetNamespace, serviceName, methodName;
