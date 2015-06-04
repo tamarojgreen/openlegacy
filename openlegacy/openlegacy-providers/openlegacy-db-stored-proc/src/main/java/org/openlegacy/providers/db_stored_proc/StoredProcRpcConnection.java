@@ -1,25 +1,28 @@
 package org.openlegacy.providers.db_stored_proc;
 
 import org.openlegacy.rpc.RpcConnection;
-import org.openlegacy.rpc.RpcField;
-import org.openlegacy.rpc.RpcFlatField;
 import org.openlegacy.rpc.RpcInvokeAction;
 import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.RpcSnapshot;
 import org.openlegacy.rpc.support.SimpleRpcResult;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.inject.Inject;
 import javax.sql.DataSource;
 
 public class StoredProcRpcConnection implements RpcConnection {
 
 	private Integer sequence = 0;
 
+	@Inject
 	private DataSource dataSource;
 
-	public StoredProcRpcConnection(DataSource dataSource) {
-		this.dataSource = dataSource;
+	private Map<String, StoredProcEntity> knownProcedures = new HashMap<String, StoredProcEntity>();
+
+	public StoredProcRpcConnection() {
 	}
 
 	@Override
@@ -65,35 +68,15 @@ public class StoredProcRpcConnection implements RpcConnection {
 
 	@Override
 	public RpcResult invoke(RpcInvokeAction rpcInvokeAction) {
-		String className = "";
-
-		for (RpcField f : rpcInvokeAction.getFields()) {
-			if (f instanceof RpcFlatField) {
-				RpcFlatField ff = (RpcFlatField) f;
-				if (ff.getName().equals("className")) {
-					className = (String) ff.getValue();
-				}
-			}
-		}
+		String procName = rpcInvokeAction.getRpcPath();
 
 		try {
-			StoredProcEntity storedProc = (StoredProcEntity) Class.forName(
-					className).newInstance();
+			StoredProcEntity storedProc = knownProcedures.get(procName);
 
 			storedProc.fetchFields(rpcInvokeAction.getFields());
 			storedProc.invokeStoredProc(dataSource.getConnection());
 			storedProc.updateFields(rpcInvokeAction.getFields());
-		} catch (InstantiationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IllegalAccessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -108,4 +91,7 @@ public class StoredProcRpcConnection implements RpcConnection {
 	public void login(String user, String password) {
 	}
 
+	public void setKnownProcedures(Map<String, StoredProcEntity> knownProcedures) {
+		this.knownProcedures = knownProcedures;
+	}
 }

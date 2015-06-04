@@ -3,13 +3,10 @@ package org.openlegacy.providers.db_stored_proc;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openlegacy.providers.db_stored_proc.procs.DoStuffWithTwoNumbersStoredProc;
 import org.openlegacy.providers.db_stored_proc.procs.GetAllItemsStoredProc;
 import org.openlegacy.providers.db_stored_proc.procs.GetItemDetailsStoredProc;
-import org.openlegacy.providers.db_stored_proc.procs.SayHelloStoredProc;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFlatField;
-import org.openlegacy.rpc.RpcInvokeAction;
 import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.support.SimpleRpcFields;
 import org.openlegacy.rpc.support.SimpleRpcInvokeAction;
@@ -28,16 +25,14 @@ import javax.inject.Inject;
 public class StoredProcRpcConnectionTest {
 
 	@Inject
-	StoredProcRpcConnectionFactory factory;
+	StoredProcRpcConnection connection;
 
 	@Test
 	public void intParamsTest() {
-		RpcInvokeAction action = new SimpleRpcInvokeAction();
+		SimpleRpcInvokeAction action = new SimpleRpcInvokeAction();
+		action.setRpcPath("doStuffWithTwoNumbers");
 
 		List<RpcField> fields = action.getFields();
-
-		fields.add(FieldsUtils.makeField("className", new String(
-				DoStuffWithTwoNumbersStoredProc.class.getName())));
 		fields.add(FieldsUtils.makeField("param1", new Integer(10)));
 		fields.add(FieldsUtils.makeField("param2", new Integer(20)));
 
@@ -49,7 +44,7 @@ public class StoredProcRpcConnectionTest {
 		fields.add(subResultField);
 		fields.add(mulResultField);
 
-		RpcResult result = factory.getConnection().invoke(action);
+		RpcResult result = connection.invoke(action);
 
 		for (RpcField f : result.getRpcFields()) {
 			if (f instanceof RpcFlatField) {
@@ -75,19 +70,17 @@ public class StoredProcRpcConnectionTest {
 
 	@Test
 	public void stringParamsTest() {
-		RpcInvokeAction action = new SimpleRpcInvokeAction();
+		SimpleRpcInvokeAction action = new SimpleRpcInvokeAction();
+		action.setRpcPath("sayHello");
 
 		List<RpcField> fields = action.getFields();
-
-		fields.add(FieldsUtils.makeField("className", new String(
-				SayHelloStoredProc.class.getName())));
 		fields.add(FieldsUtils.makeField("param", new String("World")));
 
 		RpcFlatField stringResultField = FieldsUtils.makeField("result", 0);
 
 		fields.add(stringResultField);
 
-		RpcResult result = factory.getConnection().invoke(action);
+		RpcResult result = connection.invoke(action);
 
 		for (RpcField f : result.getRpcFields()) {
 			if (f instanceof RpcFlatField) {
@@ -104,14 +97,10 @@ public class StoredProcRpcConnectionTest {
 
 	@Test
 	public void hierarchyDataTest() {
-
-		RpcInvokeAction action = new SimpleRpcInvokeAction();
+		SimpleRpcInvokeAction action = new SimpleRpcInvokeAction();
+		action.setRpcPath("getItemDetails");
 
 		List<RpcField> fields = action.getFields();
-
-		fields.add(FieldsUtils.makeField("className", new String(
-				GetItemDetailsStoredProc.class.getName())));
-
 		fields.add(FieldsUtils.makeField("itemId", 1));
 
 		SimpleRpcStructureField sf = new SimpleRpcStructureField();
@@ -137,24 +126,23 @@ public class StoredProcRpcConnectionTest {
 
 		fields.add(sf);
 
-		RpcResult result = factory.getConnection().invoke(action);
+		RpcResult result = connection.invoke(action);
 
 		GetItemDetailsStoredProc sp = new GetItemDetailsStoredProc();
 		sp.fetchFields(result.getRpcFields());
 
-		GetItemDetailsStoredProc.Results rr = (GetItemDetailsStoredProc.Results) sp.unrollResult();
+		GetItemDetailsStoredProc.Results rr = (GetItemDetailsStoredProc.Results) sp
+				.unrollResult();
 
 		Assert.assertTrue(rr.item.name.equals("Kid Guitar"));
 	}
 
 	@Test
 	public void arraysTest() {
-		RpcInvokeAction action = new SimpleRpcInvokeAction();
+		SimpleRpcInvokeAction action = new SimpleRpcInvokeAction();
+		action.setRpcPath("getAllItems");
 
 		List<RpcField> fields = action.getFields();
-
-		fields.add(FieldsUtils.makeField("className", new String(
-				GetAllItemsStoredProc.class.getName())));
 
 		SimpleRpcStructureListField lf = new SimpleRpcStructureListField();
 		lf.setName("items");
@@ -162,7 +150,7 @@ public class StoredProcRpcConnectionTest {
 
 		fields.add(lf);
 
-		RpcResult result = factory.getConnection().invoke(action);
+		RpcResult result = connection.invoke(action);
 
 		GetAllItemsStoredProc sp = new GetAllItemsStoredProc();
 		sp.fetchFields(result.getRpcFields());
