@@ -17,6 +17,7 @@ import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalPositionContainer;
+import org.openlegacy.terminal.actions.TerminalAction;
 
 /**
  * Defines a mapping between a screenEntity java field name and it's screen position and length. Typically loaded into
@@ -118,4 +119,6 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 	String getExpression();
 
 	boolean isEnableLookup();
+	
+	TerminalAction getLookupAction();
 }

@@ -18,6 +18,7 @@ import org.openlegacy.definitions.support.AbstractFieldDefinition;
 import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.support.SnapshotUtils;
 
 import java.io.Serializable;
@@ -57,6 +58,8 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	private boolean forceUpdate;
 
 	private boolean enableLookup;
+
+	private TerminalAction lookupAction;
 
 	public SimpleScreenFieldDefinition() {
 		super();
@@ -265,6 +268,14 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	 */
 	public void setDynamicFieldDefinition(DynamicFieldDefinition dynamicFieldDefinition) {
 		this.dynamicFieldDefinition = dynamicFieldDefinition;
+	}
+
+	public TerminalAction getLookupAction() {
+		return lookupAction;
+	}
+	
+	public void setLookupAction(TerminalAction lookupAction) {
+		this.lookupAction = lookupAction;
 	}
 
 }
