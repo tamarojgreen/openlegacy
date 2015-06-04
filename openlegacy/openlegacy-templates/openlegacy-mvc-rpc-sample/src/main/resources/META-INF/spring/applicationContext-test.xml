@@ -22,5 +22,18 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="rpcConnectionFactory" class="org.openlegacy.rpc.mock.MockRpcConnectionFactory">
+		<property name="root" value="/trails" />
+		<property name="trailName" value="demo_session.trail" />
+	</bean>
+
+	<bean id="rpcConnection" factory-bean="rpcConnectionFactory" factory-method="getConnection" />
+
+	<bean id="rpcSession" parent="abstractRpcSession" scope="prototype" class="org.openlegacy.rpc.support.MockupRpcSession">
+		<property name="connection" ref="rpcConnection" />
+		<aop:scoped-proxy />
+	</bean>
+
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true" />
 </beans>
