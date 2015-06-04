@@ -16,7 +16,7 @@ import org.openlegacy.utils.XmlSerializationUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.xml.bind.JAXBException;
@@ -166,9 +166,9 @@ public class RpcTrailSerializeTest {
 
 		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction("test");
 		rpcInvokeAction.setAction("READ");
-		Map<QName, String> properties = new HashMap<QName, String>();
-		properties.put(new QName("p1"), "v1");
+		Map<QName, String> properties = new LinkedHashMap<QName, String>();
 		properties.put(new QName("p2"), "v2");
+		properties.put(new QName("p1"), "v1");
 
 		rpcInvokeAction.setProperties(properties);
 		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
