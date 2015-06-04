@@ -3,6 +3,8 @@ package org.openlegacy.providers.db_stored_proc;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openlegacy.providers.db_stored_proc.entities.ItemDetailsEntity;
+import org.openlegacy.providers.db_stored_proc.entities.ItemsEntity;
 import org.openlegacy.providers.db_stored_proc.procs.GetAllItemsStoredProc;
 import org.openlegacy.providers.db_stored_proc.procs.GetItemDetailsStoredProc;
 import org.openlegacy.rpc.RpcField;
@@ -131,10 +133,8 @@ public class StoredProcRpcConnectionTest {
 		GetItemDetailsStoredProc sp = new GetItemDetailsStoredProc();
 		sp.fetchFields(result.getRpcFields());
 
-		GetItemDetailsStoredProc.Results rr = (GetItemDetailsStoredProc.Results) sp
-				.unrollResult();
-
-		Assert.assertTrue(rr.item.name.equals("Kid Guitar"));
+		ItemDetailsEntity e = sp.getEntity();
+		Assert.assertTrue(e.item.name.equals("Kid Guitar"));
 	}
 
 	@Test
@@ -155,10 +155,8 @@ public class StoredProcRpcConnectionTest {
 		GetAllItemsStoredProc sp = new GetAllItemsStoredProc();
 		sp.fetchFields(result.getRpcFields());
 
-		GetAllItemsStoredProc.Results rr = (GetAllItemsStoredProc.Results) sp
-				.unrollResult();
-
-		Assert.assertTrue(rr.items.size() == 5);
+		ItemsEntity e = sp.getEntity();
+		Assert.assertTrue(e.items.size() == 5);
 
 	}
 

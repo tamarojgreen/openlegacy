@@ -1,8 +1,8 @@
 package org.openlegacy.providers.db_stored_proc.procs;
 
+import org.openlegacy.providers.db_stored_proc.AbstractDatabaseStoredProcedure;
 import org.openlegacy.providers.db_stored_proc.FieldsUtils;
-import org.openlegacy.providers.db_stored_proc.StoredProcEntity;
-import org.openlegacy.providers.db_stored_proc.procs.GetAllItemsStoredProc.Results.Item;
+import org.openlegacy.providers.db_stored_proc.entities.ItemsEntity;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFlatField;
 import org.openlegacy.rpc.RpcStructureField;
@@ -19,39 +19,28 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetAllItemsStoredProc extends StoredProcEntity {
+public class GetAllItemsStoredProc extends AbstractDatabaseStoredProcedure {
 
-	public static class Results extends StoredProcResultSet {
-		public static class Item {
-			public Integer id;
-			public String name;
-			public String description;
-		}
-
-		public List<Item> items;
-	}
+	ItemsEntity entity = new ItemsEntity();
 
 	@Override
-	public void invokeStoredProc(Connection connection) {
+	public void invoke(Connection connection) {
 
 		try {
 			CallableStatement cs = connection.prepareCall("{call getAllItems}");
 
 			ResultSet rs = cs.executeQuery();
 
-			Results rr = new Results();
-			rr.items = new ArrayList<GetAllItemsStoredProc.Results.Item>();
+			entity.items = new ArrayList<ItemsEntity.Item>();
 
 			while (rs.next()) {
-				Item item = new Item();
+				ItemsEntity.Item item = new ItemsEntity.Item();
 				item.id = rs.getInt(1);
 				item.name = rs.getString(2);
 				item.description = rs.getString(3);
 
-				rr.items.add(item);
+				entity.items.add(item);
 			}
-
-			results = rr;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -64,12 +53,7 @@ public class GetAllItemsStoredProc extends StoredProcEntity {
 		for (RpcField f : fields) {
 			if (f instanceof RpcStructureListField) {
 				if (f.getName().equals("items")) {
-					if (results == null) {
-						results = new Results();
-					}
-
-					Results rr = (Results) results;
-					rr.items = new ArrayList<GetAllItemsStoredProc.Results.Item>();
+					entity.items = new ArrayList<ItemsEntity.Item>();
 
 					SimpleRpcStructureListField lf = (SimpleRpcStructureListField) f;
 
@@ -77,7 +61,7 @@ public class GetAllItemsStoredProc extends StoredProcEntity {
 						if (field instanceof RpcStructureField && field.getName().equals("item")) {
 							RpcStructureField sf = (RpcStructureField) field;
 
-							Item item = new Item();
+							ItemsEntity.Item item = new ItemsEntity.Item();
 
 							for (RpcField itemField : sf.getChildrens()) {
 								if (itemField instanceof RpcFlatField) {
@@ -93,7 +77,7 @@ public class GetAllItemsStoredProc extends StoredProcEntity {
 								}
 							}
 
-							rr.items.add(item);
+							entity.items.add(item);
 						}
 					}
 				}
@@ -103,8 +87,6 @@ public class GetAllItemsStoredProc extends StoredProcEntity {
 
 	@Override
 	public void updateFields(List<RpcField> fields) {
-		Results rr = (Results) results;
-
 		for (RpcField f : fields) {
 			if (f instanceof RpcStructureListField) {
 				SimpleRpcStructureListField lf = (SimpleRpcStructureListField) f;
@@ -112,7 +94,7 @@ public class GetAllItemsStoredProc extends StoredProcEntity {
 
 				SimpleRpcFields ffs = new SimpleRpcFields();
 
-				for (Item item : rr.items) {
+				for (ItemsEntity.Item item : entity.items) {
 					SimpleRpcStructureField sf = new SimpleRpcStructureField();
 
 					sf.setName("item");
@@ -126,6 +108,10 @@ public class GetAllItemsStoredProc extends StoredProcEntity {
 				lf.getChildrens().set(0, ffs);
 			}
 		}
+	}
+
+	public ItemsEntity getEntity() {
+		return entity;
 	}
 
 }

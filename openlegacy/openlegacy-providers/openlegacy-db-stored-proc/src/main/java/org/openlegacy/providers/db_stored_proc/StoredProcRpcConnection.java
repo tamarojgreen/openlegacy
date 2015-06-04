@@ -20,7 +20,7 @@ public class StoredProcRpcConnection implements RpcConnection {
 	@Inject
 	private DataSource dataSource;
 
-	private Map<String, StoredProcEntity> knownProcedures = new HashMap<String, StoredProcEntity>();
+	private Map<String, AbstractDatabaseStoredProcedure> knownProcedures = new HashMap<String, AbstractDatabaseStoredProcedure>();
 
 	public StoredProcRpcConnection() {
 	}
@@ -71,11 +71,11 @@ public class StoredProcRpcConnection implements RpcConnection {
 		String procName = rpcInvokeAction.getRpcPath();
 
 		try {
-			StoredProcEntity storedProc = knownProcedures.get(procName);
+			AbstractDatabaseStoredProcedure sp = knownProcedures.get(procName);
 
-			storedProc.fetchFields(rpcInvokeAction.getFields());
-			storedProc.invokeStoredProc(dataSource.getConnection());
-			storedProc.updateFields(rpcInvokeAction.getFields());
+			sp.fetchFields(rpcInvokeAction.getFields());
+			sp.invoke(dataSource.getConnection());
+			sp.updateFields(rpcInvokeAction.getFields());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -91,7 +91,7 @@ public class StoredProcRpcConnection implements RpcConnection {
 	public void login(String user, String password) {
 	}
 
-	public void setKnownProcedures(Map<String, StoredProcEntity> knownProcedures) {
+	public void setKnownProcedures(Map<String, AbstractDatabaseStoredProcedure> knownProcedures) {
 		this.knownProcedures = knownProcedures;
 	}
 }

@@ -1,6 +1,7 @@
 package org.openlegacy.providers.db_stored_proc.procs;
 
-import org.openlegacy.providers.db_stored_proc.StoredProcEntity;
+import org.openlegacy.providers.db_stored_proc.AbstractDatabaseStoredProcedure;
+import org.openlegacy.providers.db_stored_proc.entities.DoStuffWithTwoNumbersEntity;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFlatField;
 
@@ -11,34 +12,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class DoStuffWithTwoNumbersStoredProc extends StoredProcEntity {
+public class DoStuffWithTwoNumbersStoredProc extends AbstractDatabaseStoredProcedure {
 
-	int param1;
-	int param2;
-
-	public static class Results extends StoredProcResultSet {
-		public int sum;
-		public int sub;
-		public int mul;
-	}
+	DoStuffWithTwoNumbersEntity entity = new DoStuffWithTwoNumbersEntity();
 
 	@Override
-	public void invokeStoredProc(Connection connection) {
+	public void invoke(Connection connection) {
 		try {
 			CallableStatement cs = connection.prepareCall("{call doStuffWithTwoNumbers(?, ?)}");
-			cs.setInt(1, param1);
-			cs.setInt(2, param2);
+			cs.setInt(1, entity.param1);
+			cs.setInt(2, entity.param2);
 
 			ResultSet rs = cs.executeQuery();
 
 			if (rs.next()) {
-				Results rr = new Results();
-
-				rr.sum = rs.getInt(1);
-				rr.sub = rs.getInt(2);
-				rr.mul = rs.getInt(3);
-
-				results = rr;
+				entity.sum = rs.getInt(1);
+				entity.sub = rs.getInt(2);
+				entity.mul = rs.getInt(3);
 			}
 
 		} catch (SQLException e) {
@@ -52,9 +42,9 @@ public class DoStuffWithTwoNumbersStoredProc extends StoredProcEntity {
 			if (f instanceof RpcFlatField) {
 				RpcFlatField ff = (RpcFlatField) f;
 				if (ff.getName().equals("param1")) {
-					param1 = ((BigDecimal) ff.getValue()).intValue();
+					entity.param1 = ((BigDecimal) ff.getValue()).intValue();
 				} else if (ff.getName().equals("param2")) {
-					param2 = ((BigDecimal) ff.getValue()).intValue();
+					entity.param2 = ((BigDecimal) ff.getValue()).intValue();
 				}
 			}
 		}
@@ -62,36 +52,17 @@ public class DoStuffWithTwoNumbersStoredProc extends StoredProcEntity {
 
 	@Override
 	public void updateFields(List<RpcField> fields) {
-		Results rr = (Results) results;
-
 		for (RpcField f : fields) {
 			if (f instanceof RpcFlatField) {
 				RpcFlatField ff = (RpcFlatField) f;
 				if (ff.getName().equals("sum")) {
-					ff.setValue(rr.sum);
+					ff.setValue(entity.sum);
 				} else if (ff.getName().equals("sub")) {
-					ff.setValue(rr.sub);
+					ff.setValue(entity.sub);
 				} else if (ff.getName().equals("mul")) {
-					ff.setValue(rr.mul);
+					ff.setValue(entity.mul);
 				}
 			}
 		}
 	}
-
-	public int getParam1() {
-		return param1;
-	}
-
-	public void setParam1(int param1) {
-		this.param1 = param1;
-	}
-
-	public int getParam2() {
-		return param2;
-	}
-
-	public void setParam2(int param2) {
-		this.param2 = param2;
-	}
-
 }
