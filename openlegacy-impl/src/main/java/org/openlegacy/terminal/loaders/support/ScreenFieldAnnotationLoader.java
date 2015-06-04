@@ -24,11 +24,13 @@ import org.openlegacy.definitions.support.SimpleTextFieldTypeDefinition;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.loaders.support.AbstractFieldAnnotationLoader;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -161,6 +163,9 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 			screenFieldDefinition.setUnlessFilter(fieldAnnotation.unless());
 		}
 		screenFieldDefinition.setEnableLookup(fieldAnnotation.enableLookup());
+		if (screenFieldDefinition.isEnableLookup() && fieldAnnotation.lookupAction() != TerminalActions.NONE.class){
+			screenFieldDefinition.setLookupAction(ReflectionUtil.newInstance(fieldAnnotation.lookupAction()));
+		}
 
 		setupFieldType(field, screenFieldDefinition);
 
