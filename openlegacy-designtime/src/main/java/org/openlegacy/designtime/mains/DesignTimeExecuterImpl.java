@@ -104,7 +104,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.MessageFormat;
@@ -529,13 +528,17 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 
 		String launchFileContent = IOUtils.toString(new FileInputStream(launcherFile));
-		URI uri = eclipseInstallLocation.toURI();
-		File installLocation = new File(uri);
+
+		String path = eclipseInstallLocation.getPath();
+		File installLocation = null;
+		if (path.contains("%20")) {
+			installLocation = new File(eclipseInstallLocation.toURI());
+		} else {
+			installLocation = new File(path);
+		}
 		String replacement = MessageFormat.format(
 				"<listAttribute key=\"M2_PROPERTIES\">\n<listEntry value=\"org.openlegacy.configuration.path={0}\"/>",
 				installLocation.getAbsolutePath());
-		// for windows
-		replacement = replacement.replace("\\", "\\\\");
 		launchFileContent = launchFileContent.replace("<listAttribute key=\"M2_PROPERTIES\">", replacement);
 		FileUtils.write(launchFileContent, launcherFile);
 	}

@@ -69,7 +69,7 @@ public class NewProjectMetadataRetriever {
 			if (!templatesUrl.startsWith("http")) {
 				fetchLocalStores(templatesUrl);
 				isRetrievedOnline = false;
-				templateFetcher = new FileTemplateFetcher(templatesUrl);
+				templateFetcher = new ResourceTemplateFetcher();
 			} else {
 				fetchStoresOnline();
 				isRetrievedOnline = true;
