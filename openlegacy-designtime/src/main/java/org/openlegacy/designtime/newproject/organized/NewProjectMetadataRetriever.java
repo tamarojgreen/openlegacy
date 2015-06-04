@@ -13,7 +13,6 @@ package org.openlegacy.designtime.newproject.organized;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.PreferencesConstants;
-import org.openlegacy.designtime.newproject.ITemplateFetcher;
 import org.openlegacy.designtime.newproject.model.ProjectTheme;
 import org.openlegacy.designtime.newproject.organized.model.DbType;
 import org.openlegacy.designtime.newproject.organized.model.HostType;
@@ -66,21 +65,21 @@ public class NewProjectMetadataRetriever {
 	}
 
 	public void retrieveMetadata() throws OpenLegacyException, JAXBException, IOException {
-		if (!templatesUrl.startsWith("http")) {
-			fetchLocalStores(templatesUrl);
-			isRetrievedOnline = false;
-			templateFetcher = new FileTemplateFetcher(templatesUrl);
-		} else {
-			try {
+		try {
+			if (!templatesUrl.startsWith("http")) {
+				fetchLocalStores(templatesUrl);
+				isRetrievedOnline = false;
+				templateFetcher = new FileTemplateFetcher(templatesUrl);
+			} else {
 				fetchStoresOnline();
 				isRetrievedOnline = true;
 				templateFetcher = new OnlineTemplateFetcher(templatesUrl);
-			} catch (Exception e) {
-				logger.warn("Cannot retrieve metadata online", e);
-				fetchStores();
-				isRetrievedOnline = false;
-				templateFetcher = new ResourceTemplateFetcher();
 			}
+		} catch (Exception e) {
+			logger.warn("Cannot retrieve metadata.", e);
+			fetchStores();
+			isRetrievedOnline = false;
+			templateFetcher = new ResourceTemplateFetcher();
 		}
 	}
 

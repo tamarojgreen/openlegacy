@@ -8,7 +8,7 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.designtime.newproject;
+package org.openlegacy.designtime.newproject.organized;
 
 import java.io.File;
 import java.io.IOException;

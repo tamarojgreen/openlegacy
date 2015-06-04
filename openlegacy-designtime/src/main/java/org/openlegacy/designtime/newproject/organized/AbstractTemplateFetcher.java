@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.designtime.newproject.organized;
 
-import org.openlegacy.designtime.newproject.ITemplateFetcher;
 import org.openlegacy.utils.ZipUtil;
 
 import java.io.File;

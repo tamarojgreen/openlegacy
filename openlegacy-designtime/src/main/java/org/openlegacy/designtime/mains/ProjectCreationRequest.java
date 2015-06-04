@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.designtime.mains;
 
-import org.openlegacy.designtime.newproject.ITemplateFetcher;
 import org.openlegacy.designtime.newproject.model.ProjectTheme;
+import org.openlegacy.designtime.newproject.organized.ITemplateFetcher;
 
 import java.io.File;
 import java.net.URL;

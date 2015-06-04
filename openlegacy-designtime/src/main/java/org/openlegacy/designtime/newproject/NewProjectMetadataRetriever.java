@@ -16,6 +16,7 @@ import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.newproject.model.ProjectProvider;
 import org.openlegacy.designtime.newproject.model.ProjectTheme;
 import org.openlegacy.designtime.newproject.model.ProjectType;
+import org.openlegacy.designtime.newproject.organized.ITemplateFetcher;
 import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.utils.XmlSerializationUtil;
 
