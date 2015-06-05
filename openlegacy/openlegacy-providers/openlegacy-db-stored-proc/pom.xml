@@ -8,6 +8,12 @@
 	</parent>
 	<artifactId>openlegacy-db-stored-proc</artifactId>
 
+	<properties>
+		<mysql.dbname>rpc_test</mysql.dbname>
+		<mysql.user>rpc_test</mysql.user>
+		<mysql.password>password</mysql.password>
+	</properties>
+
 	<dependencies>
 		<!-- MySQL Connector -->
 		<dependency>
@@ -46,4 +52,231 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.9.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>reserve-network-port</goal>
+						</goals>
+						<configuration>
+							<portNames>
+								<portName>mysql.port</portName>
+							</portNames>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.10</version>
+				<executions>
+					<execution>
+						<id>unpack-mysql</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.jcabi</groupId>
+									<artifactId>mysql-dist</artifactId>
+									<version>5.6.14</version>
+									<classifier>${mysql.classifier}</classifier>
+									<type>zip</type>
+									<overWrite>false</overWrite>
+									<outputDirectory>${project.build.directory}/mysql-dist</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.jcabi</groupId>
+				<artifactId>jcabi-mysql-maven-plugin</artifactId>
+				<version>0.9</version>
+
+				<dependencies>
+					<dependency>
+						<groupId>com.jcabi</groupId>
+						<artifactId>jcabi-log</artifactId>
+						<version>0.16</version>
+					</dependency>
+				</dependencies>
+
+				<executions>
+					<execution>
+						<id>classify-mysql</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>classify</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>start-mysql</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+						<configuration>
+							<port>${mysql.port}</port>
+							<data>${project.build.directory}/mysql-data</data>
+<!-- 							<socket>/tmp/openlegacy-mysql.sock</socket> -->
+							<dbname>${mysql.dbname}</dbname>
+							<user>${mysql.user}</user>
+							<password>${mysql.password}</password>
+						</configuration>
+					</execution>
+					<execution>
+						<id>stop-mysql</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sql-maven-plugin</artifactId>
+				<version>1.5</version>
+
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.1.35</version>
+					</dependency>
+
+					<dependency>
+						<groupId>org.apache.commons</groupId>
+						<artifactId>commons-dbcp2</artifactId>
+						<version>2.1</version>
+					</dependency>
+				</dependencies>
+
+				<configuration>
+					<driver>com.mysql.jdbc.Driver</driver>
+					<url>jdbc:mysql://localhost:${mysql.port}</url>
+					<username>${mysql.user}</username>
+					<password>${mysql.password}</password>
+
+					<delimiter>//</delimiter>
+				</configuration>
+
+				<executions>
+					<execution>
+						<id>create-integration-test-data</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<srcFiles>
+								<srcFile>src/test/resources/sample/db.sql</srcFile>
+							</srcFiles>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.18.1</version>
+				<configuration>
+					<systemPropertyVariables>
+						<mysql.port>${mysql.port}</mysql.port>
+					</systemPropertyVariables>
+					<encoding>utf-8</encoding>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>com.jcabi</groupId>
+										<artifactId>
+											jcabi-mysql-maven-plugin
+										</artifactId>
+										<versionRange>
+											[0.9,)
+										</versionRange>
+										<goals>
+											<goal>classify</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.mojo
+										</groupId>
+										<artifactId>
+											build-helper-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.9.1,)
+										</versionRange>
+										<goals>
+											<goal>
+												reserve-network-port
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[2.10,)</versionRange>
+										<goals>
+											<goal>unpack</goal>
+											<goal>copy</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 </project>

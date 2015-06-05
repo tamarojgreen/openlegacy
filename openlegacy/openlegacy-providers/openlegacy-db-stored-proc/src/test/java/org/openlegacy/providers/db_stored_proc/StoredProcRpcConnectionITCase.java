@@ -24,7 +24,7 @@ import javax.inject.Inject;
 
 @ContextConfiguration("StoredProcRpcConnectionTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class StoredProcRpcConnectionTest {
+public class StoredProcRpcConnectionITCase {
 
 	@Inject
 	StoredProcRpcConnection connection;
