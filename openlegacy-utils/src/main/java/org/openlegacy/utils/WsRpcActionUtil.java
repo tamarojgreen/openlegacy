@@ -1,4 +1,4 @@
-package org.openlegacy.providers.wsrpc.utils;
+package org.openlegacy.utils;
 
 import java.util.Map;
 
@@ -10,10 +10,8 @@ public class WsRpcActionUtil {
 	public static final String SERVICE_NAME = "serviceName";
 	public static final String METHOD_NAME = "methodName";
 
-	public static final String ACTION_FORMAT = "%s%c%s%c%s";
-
-	public static final String INPUT = "INPUT_PARAMS_GROUP";
-	public static final String OUTPUT = "OUTPUT_PARAMS_GROUP";
+	public static final String INPUT = "Operation_Input_Params";
+	public static final String OUTPUT = "Operation_Output_Params";
 
 	public static class WsRpcActionData {
 
