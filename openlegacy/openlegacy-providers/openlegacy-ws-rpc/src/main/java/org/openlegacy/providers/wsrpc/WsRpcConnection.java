@@ -5,8 +5,6 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.providers.wsrpc.utils.FieldUtil;
-import org.openlegacy.providers.wsrpc.utils.WsRpcActionUtil;
-import org.openlegacy.providers.wsrpc.utils.WsRpcActionUtil.WsRpcActionData;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFields;
@@ -18,6 +16,8 @@ import org.openlegacy.rpc.support.SimpleRpcInvokeAction;
 import org.openlegacy.rpc.support.SimpleRpcResult;
 import org.openlegacy.rpc.support.SimpleRpcStructureField;
 import org.openlegacy.rpc.support.SimpleRpcStructureListField;
+import org.openlegacy.utils.WsRpcActionUtil;
+import org.openlegacy.utils.WsRpcActionUtil.WsRpcActionData;
 
 import java.util.Iterator;
 import java.util.List;

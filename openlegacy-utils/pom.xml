@@ -82,6 +82,5 @@
 			<scope>provided</scope>
 			<classifier />
 		</dependency>
-
 	</dependencies>
 </project>
