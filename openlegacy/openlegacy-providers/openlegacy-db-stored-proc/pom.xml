@@ -130,7 +130,7 @@
 						<configuration>
 							<port>${mysql.port}</port>
 							<data>${project.build.directory}/mysql-data</data>
-<!-- 							<socket>/tmp/openlegacy-mysql.sock</socket> -->
+							<!-- <socket>/tmp/openlegacy-mysql.sock</socket> -->
 							<dbname>${mysql.dbname}</dbname>
 							<user>${mysql.user}</user>
 							<password>${mysql.password}</password>
@@ -208,6 +208,7 @@
 					</execution>
 				</executions>
 			</plugin>
+
 		</plugins>
 		<pluginManagement>
 			<plugins>

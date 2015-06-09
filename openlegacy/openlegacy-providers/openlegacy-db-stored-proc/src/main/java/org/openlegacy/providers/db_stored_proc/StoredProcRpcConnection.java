@@ -1,14 +1,25 @@
 package org.openlegacy.providers.db_stored_proc;
 
+import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.rpc.RpcConnection;
+import org.openlegacy.rpc.RpcField;
+import org.openlegacy.rpc.RpcFlatField;
 import org.openlegacy.rpc.RpcInvokeAction;
 import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.RpcSnapshot;
+import org.openlegacy.rpc.RpcStructureListField;
+import org.openlegacy.rpc.support.SimpleRpcFields;
 import org.openlegacy.rpc.support.SimpleRpcResult;
+import org.openlegacy.rpc.support.SimpleRpcStructureField;
+import org.openlegacy.rpc.support.SimpleRpcStructureListField;
 
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.sql.DataSource;
@@ -20,10 +31,7 @@ public class StoredProcRpcConnection implements RpcConnection {
 	@Inject
 	private DataSource dataSource;
 
-	private Map<String, AbstractDatabaseStoredProcedure> knownProcedures = new HashMap<String, AbstractDatabaseStoredProcedure>();
-
-	public StoredProcRpcConnection() {
-	}
+	public StoredProcRpcConnection() {}
 
 	@Override
 	public RpcSnapshot getSnapshot() {
@@ -63,19 +71,137 @@ public class StoredProcRpcConnection implements RpcConnection {
 	}
 
 	@Override
-	public void disconnect() {
+	public void disconnect() {}
+
+	int java2SqlType(Class<?> jt) {
+		int sqlType = Types.OTHER;
+		if (jt.isAssignableFrom(String.class)) {
+			sqlType = Types.VARCHAR;
+		} else if (jt.isAssignableFrom(java.math.BigDecimal.class)) {
+			sqlType = Types.NUMERIC;
+		} else if (jt.isAssignableFrom(boolean.class)) {
+			sqlType = Types.BIT;
+			// } else if (jt.isAssignableFrom(boolean.class)) {
+			// sqlType = Types.BOOLEAN;
+		} else if (jt.isAssignableFrom(byte.class)) {
+			sqlType = Types.TINYINT;
+		} else if (jt.isAssignableFrom(short.class)) {
+			sqlType = Types.SMALLINT;
+		} else if (jt.isAssignableFrom(int.class)) {
+			sqlType = Types.INTEGER;
+		} else if (jt.isAssignableFrom(long.class)) {
+			sqlType = Types.BIGINT;
+		} else if (jt.isAssignableFrom(float.class)) {
+			sqlType = Types.REAL;
+			// } else if (jt.isAssignableFrom(double.class)) {
+			// sqlType = Types.FLOAT;
+		} else if (jt.isAssignableFrom(double.class)) {
+			sqlType = Types.DOUBLE;
+			// } else if (jt.isAssignableFrom(byte[].class)) {
+			// sqlType = Types.BINARY;
+		} else if (jt.isAssignableFrom(byte[].class)) {
+			sqlType = Types.VARBINARY;
+			// } else if (jt.isAssignableFrom(byte[].class)) {
+			// sqlType = Types.LONGVARBINARY;
+		} else if (jt.isAssignableFrom(java.sql.Date.class)) {
+			sqlType = Types.DATE;
+		} else if (jt.isAssignableFrom(java.sql.Time.class)) {
+			sqlType = Types.TIME;
+		} else if (jt.isAssignableFrom(java.sql.Timestamp.class)) {
+			sqlType = Types.TIMESTAMP;
+		}
+
+		return sqlType;
+
 	}
 
 	@Override
 	public RpcResult invoke(RpcInvokeAction rpcInvokeAction) {
 		String procName = rpcInvokeAction.getRpcPath();
 
-		try {
-			AbstractDatabaseStoredProcedure sp = knownProcedures.get(procName);
+		List<RpcField> inputFields = new ArrayList<RpcField>();
+		List<RpcField> outputFields = new ArrayList<RpcField>();
 
-			sp.fetchFields(rpcInvokeAction.getFields());
-			sp.invoke(dataSource.getConnection());
-			sp.updateFields(rpcInvokeAction.getFields());
+		RpcField resultsField = null;
+
+		for (RpcField f : rpcInvokeAction.getFields()) {
+			if (f instanceof RpcFlatField) {
+				if (f.getDirection() != Direction.NONE) {
+					inputFields.add(f);
+				}
+
+				if (f.getDirection() == Direction.INPUT_OUTPUT || f.getDirection() == Direction.OUTPUT) {
+					outputFields.add(f);
+				}
+			}
+		}
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("{call ").append(procName).append("(");
+
+		if (inputFields.size() > 0) {
+			sb.append("?");
+
+			for (int i = 1; i < inputFields.size(); ++i) {
+				sb.append(", ?");
+			}
+		}
+
+		sb.append(")}");
+
+		try {
+
+			CallableStatement cs = dataSource.getConnection().prepareCall(sb.toString());
+
+			for (int i = 0; i < inputFields.size(); ++i) {
+				RpcFlatField field = (RpcFlatField)inputFields.get(i);
+				if (field.getDirection() == Direction.INPUT || field.getDirection() == Direction.INPUT_OUTPUT) {
+					cs.setObject(i + 1, field.getValue());
+				}
+
+				if (field.getDirection() == Direction.INPUT_OUTPUT || field.getDirection() == Direction.OUTPUT) {
+					cs.registerOutParameter(i + 1, java2SqlType(field.getValue().getClass()));
+				}
+			}
+
+			ResultSet rs = cs.executeQuery();
+
+			// fetch values for output params
+
+			for (RpcField f : outputFields) {
+				((RpcFlatField)f).setValue(cs.getObject(f.getName()));
+			}
+
+			// fetch result set
+
+			for (RpcField f : rpcInvokeAction.getFields()) {
+				if (f instanceof RpcStructureListField && f.getName().equalsIgnoreCase("results")) {
+					SimpleRpcStructureListField lf = (SimpleRpcStructureListField)f;
+
+					SimpleRpcFields ffs = new SimpleRpcFields();
+
+					while (rs.next()) {
+						SimpleRpcStructureField sf = new SimpleRpcStructureField();
+
+						sf.setName("item");
+
+						ResultSetMetaData md = rs.getMetaData();
+						for (int i = 1; i <= md.getColumnCount(); ++i) {
+
+							sf.getChildrens().add(FieldsUtils.makeField(md.getColumnLabel(i), rs.getObject(i)));
+						}
+
+						ffs.add(sf);
+					}
+
+					if (lf.getChildrens().isEmpty()) {
+						lf.getChildrens().add(ffs);
+					} else {
+						lf.getChildrens().set(0, ffs);
+					}
+
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -88,10 +214,6 @@ public class StoredProcRpcConnection implements RpcConnection {
 	}
 
 	@Override
-	public void login(String user, String password) {
-	}
+	public void login(String user, String password) {}
 
-	public void setKnownProcedures(Map<String, AbstractDatabaseStoredProcedure> knownProcedures) {
-		this.knownProcedures = knownProcedures;
-	}
 }

@@ -48,6 +48,11 @@ begin
     select CONCAT('Hello, ', param);
 end //
 
+create procedure sayHelloIntoParam(in param varchar(20), out result varchar(30))
+begin
+    select CONCAT('Hello, ', param) into result;
+end //
+
 create procedure getAllItems()
 begin
     select `id`, `name`, `description`, `weight` from `items`;
@@ -55,7 +60,7 @@ end //
 
 create procedure getItemDetails(in itemId int)
 begin
-    select i.name, i.description, i.weight, s.name, s.days
+    select i.name, i.description, i.weight, s.name as shipping_method_name, s.days
     from `items` i join `shipping_method` s on i.shipping_method_id = s.id
     where i.id = itemId;
 end //

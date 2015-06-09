@@ -1,18 +1,16 @@
 package org.openlegacy.providers.db_stored_proc;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openlegacy.providers.db_stored_proc.entities.ItemDetailsEntity;
-import org.openlegacy.providers.db_stored_proc.entities.ItemsEntity;
-import org.openlegacy.providers.db_stored_proc.procs.GetAllItemsStoredProc;
-import org.openlegacy.providers.db_stored_proc.procs.GetItemDetailsStoredProc;
+import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFlatField;
 import org.openlegacy.rpc.RpcResult;
-import org.openlegacy.rpc.support.SimpleRpcFields;
+import org.openlegacy.rpc.RpcStructureField;
+import org.openlegacy.rpc.RpcStructureListField;
 import org.openlegacy.rpc.support.SimpleRpcInvokeAction;
-import org.openlegacy.rpc.support.SimpleRpcStructureField;
 import org.openlegacy.rpc.support.SimpleRpcStructureListField;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -29,45 +27,67 @@ public class StoredProcRpcConnectionITCase {
 	@Inject
 	StoredProcRpcConnection connection;
 
+	@BeforeClass
+	public static void beforeClass() {
+		if (System.getProperty("mysql.port") == null) {
+			System.setProperty("mysql.port", "3306");
+		}
+
+		System.out.println(System.getProperty("mysql.port"));
+	}
+
 	@Test
 	public void intParamsTest() {
 		SimpleRpcInvokeAction action = new SimpleRpcInvokeAction();
 		action.setRpcPath("doStuffWithTwoNumbers");
 
 		List<RpcField> fields = action.getFields();
-		fields.add(FieldsUtils.makeField("param1", new Integer(10)));
-		fields.add(FieldsUtils.makeField("param2", new Integer(20)));
+		fields.add(FieldsUtils.makeField("param1", new Integer(10), Direction.INPUT));
+		fields.add(FieldsUtils.makeField("param2", new Integer(20), Direction.INPUT));
 
-		RpcFlatField summResultField = FieldsUtils.makeField("sum", 0);
+		SimpleRpcStructureListField resultsField = new SimpleRpcStructureListField();
+		resultsField.setName("results");
+		fields.add(resultsField);
+
+		RpcFlatField sumResultField = FieldsUtils.makeField("sum", 0);
 		RpcFlatField subResultField = FieldsUtils.makeField("sub", 0);
 		RpcFlatField mulResultField = FieldsUtils.makeField("mul", 0);
 
-		fields.add(summResultField);
-		fields.add(subResultField);
-		fields.add(mulResultField);
+		RpcResult rpcResult = connection.invoke(action);
 
-		RpcResult result = connection.invoke(action);
+		// parse result
 
-		for (RpcField f : result.getRpcFields()) {
-			if (f instanceof RpcFlatField) {
-				RpcFlatField ff = (RpcFlatField) f;
+		for (RpcField f : rpcResult.getRpcFields()) {
+			if (f instanceof RpcStructureListField) {
+				if (f.getName().equals("results")) {
+					SimpleRpcStructureListField lf = (SimpleRpcStructureListField)f;
 
-				if (ff.getName().equals("sum")) {
-					summResultField = ff;
-				} else if (ff.getName().equals("sub")) {
-					subResultField = ff;
-				} else if (ff.getName().equals("mul")) {
-					mulResultField = ff;
+					for (RpcField field : lf.getChildren(0)) {
+						if (field instanceof RpcStructureField /* && field.getName().equals("item") */) {
+							RpcStructureField sf = (RpcStructureField)field;
+
+							for (RpcField itemField : sf.getChildrens()) {
+								if (itemField instanceof RpcFlatField) {
+									RpcFlatField ff = (RpcFlatField)itemField;
+
+									if (ff.getName().equals("sum")) {
+										sumResultField = ff;
+									} else if (ff.getName().equals("sub")) {
+										subResultField = ff;
+									} else if (ff.getName().equals("mul")) {
+										mulResultField = ff;
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 		}
 
-		Assert.assertEquals(30,
-				((BigDecimal) summResultField.getValue()).intValue());
-		Assert.assertEquals(-10,
-				((BigDecimal) subResultField.getValue()).intValue());
-		Assert.assertEquals(200,
-				((BigDecimal) mulResultField.getValue()).intValue());
+		Assert.assertEquals(30, ((BigDecimal)sumResultField.getValue()).intValue());
+		Assert.assertEquals(-10, ((BigDecimal)subResultField.getValue()).intValue());
+		Assert.assertEquals(200, ((BigDecimal)mulResultField.getValue()).intValue());
 	}
 
 	@Test
@@ -76,23 +96,57 @@ public class StoredProcRpcConnectionITCase {
 		action.setRpcPath("sayHello");
 
 		List<RpcField> fields = action.getFields();
-		fields.add(FieldsUtils.makeField("param", new String("World")));
+		fields.add(FieldsUtils.makeField("param", new String("World"), Direction.INPUT));
+
+		SimpleRpcStructureListField resultsField = new SimpleRpcStructureListField();
+		resultsField.setName("results");
+		fields.add(resultsField);
 
 		RpcFlatField stringResultField = FieldsUtils.makeField("result", 0);
 
-		fields.add(stringResultField);
+		RpcResult rpcResult = connection.invoke(action);
 
-		RpcResult result = connection.invoke(action);
+		// parse result
 
-		for (RpcField f : result.getRpcFields()) {
-			if (f instanceof RpcFlatField) {
-				RpcFlatField ff = (RpcFlatField) f;
+		for (RpcField f : rpcResult.getRpcFields()) {
+			if (f instanceof RpcStructureListField) {
+				if (f.getName().equals("results")) {
+					SimpleRpcStructureListField lf = (SimpleRpcStructureListField)f;
 
-				if (ff.getName().equals("result")) {
-					stringResultField = ff;
+					for (RpcField field : lf.getChildren(0)) {
+						if (field instanceof RpcStructureField /* && field.getName().equals("item") */) {
+							RpcStructureField sf = (RpcStructureField)field;
+
+							for (RpcField itemField : sf.getChildrens()) {
+								if (itemField instanceof RpcFlatField) {
+									RpcFlatField ff = (RpcFlatField)itemField;
+
+									// if (ff.getName().equals("result")) {
+									stringResultField = ff;
+									// }
+								}
+							}
+						}
+					}
 				}
 			}
 		}
+
+		Assert.assertTrue("Hello, World".equals(stringResultField.getValue()));
+	}
+
+	@Test
+	public void stringOutputParamTest() {
+		SimpleRpcInvokeAction action = new SimpleRpcInvokeAction();
+		action.setRpcPath("sayHelloIntoParam");
+
+		List<RpcField> fields = action.getFields();
+		fields.add(FieldsUtils.makeField("param", new String("World"), Direction.INPUT));
+
+		RpcFlatField stringResultField = FieldsUtils.makeField("result", new String(""), Direction.OUTPUT);
+		fields.add(stringResultField);
+
+		RpcResult rpcResult = connection.invoke(action);
 
 		Assert.assertTrue("Hello, World".equals(stringResultField.getValue()));
 	}
@@ -103,38 +157,40 @@ public class StoredProcRpcConnectionITCase {
 		action.setRpcPath("getItemDetails");
 
 		List<RpcField> fields = action.getFields();
-		fields.add(FieldsUtils.makeField("itemId", 1));
+		fields.add(FieldsUtils.makeField("itemId", 1, Direction.INPUT));
 
-		SimpleRpcStructureField sf = new SimpleRpcStructureField();
-		RpcField itemNameField = FieldsUtils.makeField("name", "");
-		RpcField itemDescriptionField = FieldsUtils
-				.makeField("description", "");
-		RpcField itemWeightField = FieldsUtils.makeField("weight", 0);
+		SimpleRpcStructureListField resultsField = new SimpleRpcStructureListField();
+		resultsField.setName("results");
+		fields.add(resultsField);
 
-		sf.setName("item");
-		sf.getChildrens().add(itemNameField);
-		sf.getChildrens().add(itemDescriptionField);
-		sf.getChildrens().add(itemWeightField);
+		RpcResult rpcResult = connection.invoke(action);
 
-		fields.add(sf);
+		RpcFlatField itemNameField = null;
 
-		sf = new SimpleRpcStructureField();
-		RpcField shippingMethodField = FieldsUtils.makeField("method", "");
-		RpcField shippingDaysField = FieldsUtils.makeField("days", 0);
+		for (RpcField f : rpcResult.getRpcFields()) {
+			if (f instanceof RpcStructureListField) {
+				if (f.getName().equals("results")) {
+					SimpleRpcStructureListField lf = (SimpleRpcStructureListField)f;
 
-		sf.setName("shipping");
-		sf.getChildrens().add(shippingMethodField);
-		sf.getChildrens().add(shippingDaysField);
+					for (RpcField field : lf.getChildren(0)) {
+						if (field instanceof RpcStructureField /* && field.getName().equals("item") */) {
+							RpcStructureField sf = (RpcStructureField)field;
+							for (RpcField itemField : sf.getChildrens()) {
+								if (itemField instanceof RpcFlatField) {
+									RpcFlatField ff = (RpcFlatField)itemField;
 
-		fields.add(sf);
+									if (ff.getName().equals("name")) {
+										itemNameField = ff;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 
-		RpcResult result = connection.invoke(action);
-
-		GetItemDetailsStoredProc sp = new GetItemDetailsStoredProc();
-		sp.fetchFields(result.getRpcFields());
-
-		ItemDetailsEntity e = sp.getEntity();
-		Assert.assertTrue(e.item.name.equals("Kid Guitar"));
+		Assert.assertTrue(itemNameField.getValue().equals("Kid Guitar"));
 	}
 
 	@Test
@@ -144,20 +200,31 @@ public class StoredProcRpcConnectionITCase {
 
 		List<RpcField> fields = action.getFields();
 
-		SimpleRpcStructureListField lf = new SimpleRpcStructureListField();
-		lf.setName("items");
-		lf.getChildrens().add(new SimpleRpcFields());
+		SimpleRpcStructureListField resultsField = new SimpleRpcStructureListField();
+		resultsField.setName("results");
+		fields.add(resultsField);
 
-		fields.add(lf);
+		RpcResult rpcResult = connection.invoke(action);
 
-		RpcResult result = connection.invoke(action);
+		// parse result
 
-		GetAllItemsStoredProc sp = new GetAllItemsStoredProc();
-		sp.fetchFields(result.getRpcFields());
+		int resultsCount = 0;
 
-		ItemsEntity e = sp.getEntity();
-		Assert.assertTrue(e.items.size() == 5);
+		for (RpcField f : rpcResult.getRpcFields()) {
+			if (f instanceof RpcStructureListField) {
+				if (f.getName().equals("results")) {
+					SimpleRpcStructureListField lf = (SimpleRpcStructureListField)f;
 
+					for (RpcField field : lf.getChildren(0)) {
+						if (field instanceof RpcStructureField /* && field.getName().equals("item") */) {
+							resultsCount++;
+						}
+					}
+				}
+			}
+		}
+
+		Assert.assertEquals(resultsCount, 5);
 	}
 
 }

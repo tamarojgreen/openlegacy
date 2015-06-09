@@ -19,26 +19,6 @@
 	<bean id="rpcConnection"
 		class="org.openlegacy.providers.db_stored_proc.StoredProcRpcConnection"
 		factory-bean="rpcConnectionFactory" factory-method="getConnection">
-		<property name="knownProcedures">
-			<map>
-				<entry key="doStuffWithTwoNumbers">
-					<bean
-						class="org.openlegacy.providers.db_stored_proc.procs.DoStuffWithTwoNumbersStoredProc" />
-				</entry>
-				<entry key="sayHello">
-					<bean
-						class="org.openlegacy.providers.db_stored_proc.procs.SayHelloStoredProc" />
-				</entry>
-				<entry key="getAllItems">
-					<bean
-						class="org.openlegacy.providers.db_stored_proc.procs.GetAllItemsStoredProc" />
-				</entry>
-				<entry key="getItemDetails">
-					<bean
-						class="org.openlegacy.providers.db_stored_proc.procs.GetItemDetailsStoredProc" />
-				</entry>
-			</map>
-		</property>
 	</bean>
 	<bean id="rpcConnectionFactory"
 		class="org.openlegacy.providers.db_stored_proc.StoredProcRpcConnectionFactory" />
