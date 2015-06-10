@@ -122,6 +122,7 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 			}
 			if (fieldDefinition != null && fieldDefinition.getLookupAction() != null){
 				sessionAction = fieldDefinition.getLookupAction();
+				matchedActionDefinition = new SimpleTerminalActionDefinition(sessionAction, AdditionalKey.NONE, "", null);
 			}
 			
 			if (sessionAction == null) {
@@ -130,7 +131,7 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 			}
 		}
 
-		if (matchedActionDefinition.getFocusField() != null && focusField == null) {
+		if (matchedActionDefinition != null && matchedActionDefinition.getFocusField() != null && focusField == null) {
 			focusField = matchedActionDefinition.getFocusField();
 		}
 		if (matchedActionDefinition != null && focusField != null) {
