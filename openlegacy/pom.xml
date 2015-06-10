@@ -17,68 +17,18 @@
 		</license>
 	</licenses>
 
-	<profiles>
-		<profile>
-			<id>all</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<modules>
-				<module>../openlegacy-api</module>
-				<module>../openlegacy-common</module>
-				<module>../openlegacy-utils</module>
-				<module>../openlegacy-test-apps</module>
-				<module>../openlegacy-impl</module>
-				<module>../openlegacy-web</module>
-				<module>openlegacy-providers</module>
-				<module>openlegacy-tools</module>
-				<module>../openlegacy-as400-entities</module>
-				<module>openlegacy-templates</module>
-				<module>../openlegacy-designtime</module>
-				<module>openlegacy-plugins</module>
-				<module>../openlegacy-ide-plugins</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>test</id>
-			<modules>
-				<module>../openlegacy-api</module>
-				<module>../openlegacy-common</module>
-				<module>../openlegacy-utils</module>
-				<module>../openlegacy-test-apps</module>
-				<module>../openlegacy-impl</module>
-				<module>../openlegacy-web</module>
-				<module>openlegacy-providers</module>
-				<module>openlegacy-tools</module>
-				<module>openlegacy-templates</module>
-				<module>../openlegacy-designtime</module>
-				<module>openlegacy-plugins</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>infrastructure</id>
-			<modules>
-				<module>../openlegacy-api</module>
-				<module>../openlegacy-common</module>
-				<module>../openlegacy-utils</module>
-				<module>../openlegacy-test-apps</module>
-				<module>../openlegacy-impl</module>
-				<module>../openlegacy-web</module>
-				<module>openlegacy-providers</module>
-				<module>openlegacy-tools</module>
-				<module>../openlegacy-designtime</module>
-				<module>openlegacy-plugins</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>templates-and-ide</id>
-			<modules>
-				<module>openlegacy-templates</module>
-				<module>../openlegacy-designtime</module>
-				<module>../openlegacy-ide-plugins</module>
-			</modules>
-		</profile>
-	</profiles>
+	<modules>
+		<module>../openlegacy-api</module>
+		<module>../openlegacy-common</module>
+		<module>../openlegacy-utils</module>
+		<module>../openlegacy-test-apps</module>
+		<module>../openlegacy-impl</module>
+		<module>../openlegacy-web</module>
+		<module>../openlegacy-as400-entities</module>
+		<module>openlegacy-providers</module>
+		<module>openlegacy-tools</module>
+		<module>openlegacy-plugins</module>
+	</modules>
 
 	<properties>
 		<java-version>1.6</java-version>
@@ -96,6 +46,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	
 	<repositories>
 		<repository>
 			<id>java.net</id>
@@ -121,7 +72,7 @@
 		</repository>
 	</distributionManagement>
 
-	<url>http://openlegacy.org</url>
+	<url>http://openlegacy.com</url>
 	<issueManagement>
 		<system>Github</system>
 		<url>https://github.com/openlegacy/openlegacy/issues</url>
@@ -131,7 +82,7 @@
 	</scm>
 	<organization>
 		<name>OpenLegacy</name>
-		<url>http://openlegacy.org</url>
+		<url>http://openlegacy.com</url>
 	</organization>
 	<build>
 		<extensions>
@@ -187,7 +138,7 @@
 		</plugins>
 	</build>
 	<ciManagement>
-		<system>Hudson</system>
-		<url>http://build.openlegacy.org/hudson</url>
+		<system>Jenkins</system>
+		<url>http://build.openlegacy.org/jenkins</url>
 	</ciManagement>
 </project>

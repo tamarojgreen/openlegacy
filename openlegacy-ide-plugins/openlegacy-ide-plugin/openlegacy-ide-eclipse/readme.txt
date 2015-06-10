@@ -1,1 +1,0 @@
-In order to execute the plug-in, it is required to run the launcher openlegacy-eclipse-dependencies before.

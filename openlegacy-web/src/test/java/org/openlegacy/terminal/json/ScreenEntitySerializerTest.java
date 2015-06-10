@@ -1,13 +1,11 @@
 package org.openlegacy.terminal.json;
 
 import apps.inventory.screens.ItemsList;
+import flexjson.JSONSerializer;
 
 import org.apache.commons.io.IOUtils;
-import org.codehaus.jackson.JsonEncoding;
-import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +16,6 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.test.utils.AssertUtils;
-import org.openlegacy.utils.StringUtil;
 import org.springframework.oxm.castor.CastorMarshaller;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -42,14 +39,18 @@ public class ScreenEntitySerializerTest extends AbstractTest {
 		TerminalSession terminalSession = newTerminalSession();
 		ItemsList itemList = terminalSession.getEntity(ItemsList.class);
 		ScreenEntityDefinition definitions = screenEntitiesRegistry.get(ItemsList.class);
-		Object result = EntitySerializationUtils.createSerializationContainer((ScreenEntity) itemList, terminalSession, definitions);
-		ObjectMapper mapper = new ObjectMapper();
+		Object result = EntitySerializationUtils.createSerializationContainer((ScreenEntity) itemList, terminalSession,
+				definitions);
 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		JsonGenerator generator = mapper.getJsonFactory().createJsonGenerator(baos, JsonEncoding.UTF8);
-		mapper.writeValue(generator, result);
+		String resultContent = new JSONSerializer().exclude("*.class").deepSerialize(result);
 
-		String resultContent = StringUtil.toString(baos);
+		//		ObjectMapper mapper = new ObjectMapper();
+		//
+		//		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		//		JsonGenerator generator = mapper.getJsonFactory().createJsonGenerator(baos, JsonEncoding.UTF8);
+		//		mapper.writeValue(generator, result);
+		//
+		//		String resultContent = StringUtil.toString(baos);
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ItemsList.json.expected"));
 		AssertUtils.assertContent(expectedBytes, resultContent.getBytes());
 	}
@@ -66,7 +67,8 @@ public class ScreenEntitySerializerTest extends AbstractTest {
 		TerminalSession terminalSession = newTerminalSession();
 		ItemsList itemList = terminalSession.getEntity(ItemsList.class);
 		ScreenEntityDefinition definitions = screenEntitiesRegistry.get(ItemsList.class);
-		Object wrapper = EntitySerializationUtils.createSerializationContainer((ScreenEntity) itemList, terminalSession, definitions);
+		Object wrapper = EntitySerializationUtils.createSerializationContainer((ScreenEntity) itemList, terminalSession,
+				definitions);
 
 		ByteArrayOutputStream bos = new ByteArrayOutputStream(2048);
 		CastorMarshaller marshaller = new CastorMarshaller();
