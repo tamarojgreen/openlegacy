@@ -83,6 +83,8 @@ public class RpcActionsAnnotationLoader extends AbstractClassAnnotationLoader {
 				actionDefinition.setProgramPath(action.path());
 				actionDefinition.setGlobal(action.global());
 
+				actionDefinition.loadProperties(action.actionProperties());
+
 				if (action.targetEntity() != RpcEntity.NONE.class) {
 					actionDefinition.setTargetEntity(action.targetEntity());
 				}

@@ -16,8 +16,11 @@ import org.openlegacy.utils.XmlSerializationUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.namespace.QName;
 
 public class RpcTrailSerializeTest {
 
@@ -154,5 +157,34 @@ public class RpcTrailSerializeTest {
 		XmlSerializationUtil.serialize(RpcPersistedTrail.class, rpcTrail, baos);
 		byte[] expected = IOUtils.toByteArray(getClass().getResource(expectedFile));
 		AssertUtils.assertContent(expected, baos.toByteArray());
+	}
+
+	@Test
+	public void testActionTrail() throws JAXBException, IOException {
+		RpcPersistedTrail rpcTrail = new RpcPersistedTrail();
+		RpcPersistedSnapshot rpcSnapshot = new RpcPersistedSnapshot();
+
+		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction("test");
+		rpcInvokeAction.setAction("READ");
+		Map<QName, String> properties = new LinkedHashMap<QName, String>();
+		properties.put(new QName("p2"), "v2");
+		properties.put(new QName("p1"), "v1");
+
+		rpcInvokeAction.setProperties(properties);
+		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
+		rpcField.setLength(10);
+		rpcField.setValue("hello");
+		rpcField.setDirection(Direction.INPUT);
+		rpcInvokeAction.getFields().add(rpcField);
+
+		rpcField = new SimpleRpcFlatField();
+		rpcField.setLength(5);
+		rpcField.setValue(1234);
+		rpcField.setOrder(1);
+		rpcField.setDirection(Direction.OUTPUT);
+		rpcInvokeAction.getFields().add(rpcField);
+
+		compareResult(rpcTrail, rpcSnapshot, rpcInvokeAction, "RpcActionTrail.expected");
+
 	}
 }

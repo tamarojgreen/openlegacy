@@ -1,6 +1,0 @@
-#
-#Tue Nov 11 14:53:40 EET 2014
-GENERATE_TEST=1
-USE_AJ=1
-API_SOURCE_FOLDER=src/main/java
-API_PACKAGE=com.test1

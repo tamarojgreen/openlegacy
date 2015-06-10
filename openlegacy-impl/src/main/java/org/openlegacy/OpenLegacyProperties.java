@@ -28,6 +28,8 @@ public interface OpenLegacyProperties {
 	boolean isUppercaseInput();
 
 	boolean isLiveSession();
-	
+
 	String getTrailFilePath();
+
+	String getUserPropertiesFolderName();
 }

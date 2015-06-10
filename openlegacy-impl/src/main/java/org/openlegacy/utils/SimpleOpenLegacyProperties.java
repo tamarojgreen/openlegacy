@@ -18,6 +18,7 @@ public class SimpleOpenLegacyProperties implements OpenLegacyProperties {
 	private boolean uppercaseInput;
 	private boolean liveSession = false;
 	private String trailFilePath;
+	private String userPropertiesFolderName;
 
 	@Override
 	public String getProperty(String propertyName) {
@@ -78,4 +79,14 @@ public class SimpleOpenLegacyProperties implements OpenLegacyProperties {
 	public String getTrailFilePath() {
 		return this.trailFilePath;
 	}
+
+	@Override
+	public String getUserPropertiesFolderName() {
+		return userPropertiesFolderName;
+	}
+
+	public void setUserPropertiesFolderName(String userPropertiesFolderName) {
+		this.userPropertiesFolderName = userPropertiesFolderName;
+	}
+
 }

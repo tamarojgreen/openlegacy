@@ -29,11 +29,15 @@ public class RequestBasedSessionPropertiesFiller implements SessionPropertiesFil
 	public void fillProperties(SessionProperties sessionProperties) {
 		// Get an UserAgentStringParser and analyze the requesting client
 		UserAgentStringParser parser = UADetectorServiceFactory.getResourceModuleParser();
-		UserAgent agent = parser.parse(request.getHeader("User-Agent"));
-
+		String header = request.getHeader("User-Agent");
 		sessionProperties.setProperty("IP", request.getRemoteAddr());
-		sessionProperties.setProperty("OS", agent.getOperatingSystem().getName());
-		sessionProperties.setProperty("browser", agent.getName());
-		sessionProperties.setProperty("version", agent.getVersionNumber().getMajor() + "-" + agent.getVersionNumber().getMinor());
+		if (header != null) {
+			UserAgent agent = parser.parse(header);
+			sessionProperties.setProperty("OS", agent.getOperatingSystem().getName());
+			sessionProperties.setProperty("browser", agent.getName());
+			sessionProperties.setProperty("version", agent.getVersionNumber().getMajor() + "-"
+					+ agent.getVersionNumber().getMinor());
+		}
+
 	}
 }

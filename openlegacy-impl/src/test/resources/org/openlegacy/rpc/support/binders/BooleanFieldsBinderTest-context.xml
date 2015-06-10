@@ -16,7 +16,7 @@
     </bean>
 	
 	<bean id="rpcConnectionFactory"
-		class="org.openlegacy.rpc.mock.MockRpcConnectionFactory" >
+		class="org.openlegacy.rpc.mock.MockRpcConnectionFactoryImp" >
 		<property name="root" value="/org/openlegacy/rpc/support/mock" />
 		<property name="trailName" value="BooleanRpc.trail"/>
 		<property name="verifySend" value="true"/>

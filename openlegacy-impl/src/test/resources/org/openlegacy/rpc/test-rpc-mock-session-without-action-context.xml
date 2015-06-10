@@ -8,7 +8,7 @@
 
 	
 	<bean id="rpcConnectionFactory"
-		class="org.openlegacy.rpc.mock.MockRpcConnectionFactory">
+		class="org.openlegacy.rpc.mock.MockRpcConnectionFactoryImp">
 		<property name="root" value="/org/openlegacy/rpc/mock" />
 		<property name="trailName" value="noAction.xml" />
 	</bean>

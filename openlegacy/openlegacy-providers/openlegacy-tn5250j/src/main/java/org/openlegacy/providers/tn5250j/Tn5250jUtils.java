@@ -53,7 +53,7 @@ public class Tn5250jUtils {
 				break;
 			case 41:
 			case 43:
-				backColor = Color.WHITE;
+				backColor = Color.RED;
 				break;
 			case 44:
 			case 46:

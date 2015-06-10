@@ -14,6 +14,7 @@ import org.openlegacy.EntityDefinition;
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.modules.table.TerminalDrilldownActions.SimpleDrilldownAction;
 import org.openlegacy.utils.StringUtil;
 
@@ -25,6 +26,7 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 
 	private String displayName;
 	private transient SessionAction<? extends Session> action;
+	private AdditionalKey additionalKey;
 	private String alias;
 	private String actionName;
 
@@ -187,6 +189,14 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 
 	public void setWhen(String when) {
 		this.when = when;
+	}
+	
+	public AdditionalKey getAdditionalKey() {
+		return additionalKey;
+	}
+	
+	public void setAdditionalKey(AdditionalKey additionalKey) {
+		this.additionalKey = additionalKey;
 	}
 
 }
