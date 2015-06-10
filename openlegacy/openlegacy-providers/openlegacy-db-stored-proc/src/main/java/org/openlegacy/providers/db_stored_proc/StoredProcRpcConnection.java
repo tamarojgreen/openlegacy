@@ -134,6 +134,12 @@ public class StoredProcRpcConnection implements RpcConnection {
 					outputFields.add(f);
 				}
 			}
+
+			if (f instanceof RpcStructureListField) {
+				if (f.getName().equals("results")) {
+					resultsField = f;
+				}
+			}
 		}
 
 		StringBuilder sb = new StringBuilder();
@@ -150,17 +156,16 @@ public class StoredProcRpcConnection implements RpcConnection {
 		sb.append(")}");
 
 		try {
-
 			CallableStatement cs = dataSource.getConnection().prepareCall(sb.toString());
 
 			for (int i = 0; i < inputFields.size(); ++i) {
-				RpcFlatField field = (RpcFlatField)inputFields.get(i);
+				RpcFlatField field = (RpcFlatField) inputFields.get(i);
 				if (field.getDirection() == Direction.INPUT || field.getDirection() == Direction.INPUT_OUTPUT) {
-					cs.setObject(i + 1, field.getValue());
+					cs.setObject(field.getOrder(), field.getValue());
 				}
 
 				if (field.getDirection() == Direction.INPUT_OUTPUT || field.getDirection() == Direction.OUTPUT) {
-					cs.registerOutParameter(i + 1, java2SqlType(field.getValue().getClass()));
+					cs.registerOutParameter(field.getOrder(), java2SqlType(field.getValue().getClass()));
 				}
 			}
 
@@ -169,39 +174,36 @@ public class StoredProcRpcConnection implements RpcConnection {
 			// fetch values for output params
 
 			for (RpcField f : outputFields) {
-				((RpcFlatField)f).setValue(cs.getObject(f.getName()));
+				((RpcFlatField) f).setValue(cs.getObject(f.getOrder()));
 			}
 
 			// fetch result set
 
-			for (RpcField f : rpcInvokeAction.getFields()) {
-				if (f instanceof RpcStructureListField && f.getName().equalsIgnoreCase("results")) {
-					SimpleRpcStructureListField lf = (SimpleRpcStructureListField)f;
+			if (resultsField != null) {
+				SimpleRpcStructureListField lf = (SimpleRpcStructureListField) resultsField;
 
-					SimpleRpcFields ffs = new SimpleRpcFields();
+				SimpleRpcFields ffs = new SimpleRpcFields();
 
-					while (rs.next()) {
-						SimpleRpcStructureField sf = new SimpleRpcStructureField();
+				while (rs.next()) {
+					SimpleRpcStructureField sf = new SimpleRpcStructureField();
 
-						sf.setName("item");
+					sf.setName("item");
 
-						ResultSetMetaData md = rs.getMetaData();
-						for (int i = 1; i <= md.getColumnCount(); ++i) {
-
-							sf.getChildrens().add(FieldsUtils.makeField(md.getColumnLabel(i), rs.getObject(i)));
-						}
-
-						ffs.add(sf);
+					ResultSetMetaData md = rs.getMetaData();
+					for (int i = 1; i <= md.getColumnCount(); ++i) {
+						sf.getChildrens().add(FieldsUtils.makeField(md.getColumnLabel(i), rs.getObject(i)));
 					}
 
-					if (lf.getChildrens().isEmpty()) {
-						lf.getChildrens().add(ffs);
-					} else {
-						lf.getChildrens().set(0, ffs);
-					}
+					ffs.add(sf);
+				}
 
+				if (lf.getChildrens().isEmpty()) {
+					lf.getChildrens().add(ffs);
+				} else {
+					lf.getChildrens().set(0, ffs);
 				}
 			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

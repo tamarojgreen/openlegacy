@@ -42,8 +42,8 @@ public class StoredProcRpcConnectionITCase {
 		action.setRpcPath("doStuffWithTwoNumbers");
 
 		List<RpcField> fields = action.getFields();
-		fields.add(FieldsUtils.makeField("param1", new Integer(10), Direction.INPUT));
-		fields.add(FieldsUtils.makeField("param2", new Integer(20), Direction.INPUT));
+		fields.add(FieldsUtils.makeField("param1", new Integer(10), Direction.INPUT, 1));
+		fields.add(FieldsUtils.makeField("param2", new Integer(20), Direction.INPUT, 2));
 
 		SimpleRpcStructureListField resultsField = new SimpleRpcStructureListField();
 		resultsField.setName("results");
@@ -91,12 +91,38 @@ public class StoredProcRpcConnectionITCase {
 	}
 
 	@Test
+	public void intParamsWithOutParamsTest() {
+		SimpleRpcInvokeAction action = new SimpleRpcInvokeAction();
+		action.setRpcPath("doStuffWithTwoNumbersIntoParams");
+
+		List<RpcField> fields = action.getFields();
+		fields.add(FieldsUtils.makeField("param1", new Integer(10), Direction.INPUT, 1));
+		fields.add(FieldsUtils.makeField("param2", new Integer(20), Direction.INPUT, 2));
+
+		RpcFlatField sumResultField = FieldsUtils.makeField("sum", new Integer(0), Direction.OUTPUT, 3);
+		RpcFlatField subResultField = FieldsUtils.makeField("sub", new Integer(0), Direction.OUTPUT, 4);
+		RpcFlatField mulResultField = FieldsUtils.makeField("mul", new Integer(0), Direction.OUTPUT, 5);
+
+		fields.add(sumResultField);
+		fields.add(subResultField);
+		fields.add(mulResultField);
+
+		RpcResult rpcResult = connection.invoke(action);
+
+		// parse result
+
+		Assert.assertEquals(30, ((BigDecimal)sumResultField.getValue()).intValue());
+		Assert.assertEquals(-10, ((BigDecimal)subResultField.getValue()).intValue());
+		Assert.assertEquals(200, ((BigDecimal)mulResultField.getValue()).intValue());
+	}
+
+	@Test
 	public void stringParamsTest() {
 		SimpleRpcInvokeAction action = new SimpleRpcInvokeAction();
 		action.setRpcPath("sayHello");
 
 		List<RpcField> fields = action.getFields();
-		fields.add(FieldsUtils.makeField("param", new String("World"), Direction.INPUT));
+		fields.add(FieldsUtils.makeField("param", new String("World"), Direction.INPUT, 1));
 
 		SimpleRpcStructureListField resultsField = new SimpleRpcStructureListField();
 		resultsField.setName("results");
@@ -141,14 +167,14 @@ public class StoredProcRpcConnectionITCase {
 		action.setRpcPath("sayHelloIntoParam");
 
 		List<RpcField> fields = action.getFields();
-		fields.add(FieldsUtils.makeField("param", new String("World"), Direction.INPUT));
+		fields.add(FieldsUtils.makeField("param", new String("World"), Direction.INPUT, 1));
 
-		RpcFlatField stringResultField = FieldsUtils.makeField("result", new String(""), Direction.OUTPUT);
+		RpcFlatField stringResultField = FieldsUtils.makeField("result", new String(""), Direction.OUTPUT, 2);
 		fields.add(stringResultField);
 
 		RpcResult rpcResult = connection.invoke(action);
 
-		Assert.assertTrue("Hello, World".equals(stringResultField.getValue()));
+		Assert.assertEquals("Hello, World", stringResultField.getValue());
 	}
 
 	@Test
@@ -157,7 +183,7 @@ public class StoredProcRpcConnectionITCase {
 		action.setRpcPath("getItemDetails");
 
 		List<RpcField> fields = action.getFields();
-		fields.add(FieldsUtils.makeField("itemId", 1, Direction.INPUT));
+		fields.add(FieldsUtils.makeField("itemId", 1, Direction.INPUT, 1));
 
 		SimpleRpcStructureListField resultsField = new SimpleRpcStructureListField();
 		resultsField.setName("results");

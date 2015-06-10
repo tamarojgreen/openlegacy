@@ -43,6 +43,13 @@ begin
     select param1 + param2 as `sum`, param1 - param2 as `sub`, param1 * param2 as 'mul';
 end //
 
+create procedure doStuffWithTwoNumbersIntoParams(in param1 int, in param2 int, out `sum` int, out `sub` int, out `mul` int)
+begin
+    select param1 + param2 into `sum`;
+    select param1 - param2 into `sub`;
+    select param1 * param2 into `mul`;
+end //
+
 create procedure sayHello(in param varchar(20))
 begin
     select CONCAT('Hello, ', param);
