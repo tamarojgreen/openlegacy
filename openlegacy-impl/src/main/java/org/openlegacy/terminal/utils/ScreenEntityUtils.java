@@ -17,6 +17,7 @@ import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
@@ -85,11 +86,14 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 		TerminalActionDefinition matchedActionDefinition = null;
 		String focusField = null;
 
+		ScreenFieldDefinition fieldDefinition = null;
+		
 		// action may be combined of <action>-<focus field>
 		if (actionAlias != null && actionAlias.contains("-")) {
 			String[] actionParts = actionAlias.split("-");
 			actionAlias = actionParts[0];
 			focusField = actionParts[1];
+			fieldDefinition = entityDefinitions.getFieldsDefinitions().get(focusField);
 		}
 		if (actionAlias != null && actionAlias.equals(TerminalAction.NONE)) {
 			sessionAction = TerminalActions.NONE();
@@ -116,13 +120,18 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 					}
 				}
 			}
+			if (fieldDefinition != null && fieldDefinition.getLookupAction() != null){
+				sessionAction = fieldDefinition.getLookupAction();
+				matchedActionDefinition = new SimpleTerminalActionDefinition(sessionAction, AdditionalKey.NONE, "", null);
+			}
+			
 			if (sessionAction == null) {
 				sessionAction = defaultActionAliasToAction.get(actionAlias);
 				matchedActionDefinition = new SimpleTerminalActionDefinition(sessionAction, AdditionalKey.NONE, "", null);
 			}
 		}
 
-		if (matchedActionDefinition.getFocusField() != null && focusField == null) {
+		if (matchedActionDefinition != null && matchedActionDefinition.getFocusField() != null && focusField == null) {
 			focusField = matchedActionDefinition.getFocusField();
 		}
 		if (matchedActionDefinition != null && focusField != null) {
