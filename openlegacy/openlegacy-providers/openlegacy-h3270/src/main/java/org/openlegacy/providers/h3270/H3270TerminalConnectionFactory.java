@@ -132,12 +132,17 @@ public class H3270TerminalConnectionFactory implements LiveTerminalConnectionFac
 
 	private void initResource(String resourceName, boolean isUnix) throws IOException {
 		File targetFile = new File(initWorkingDir(), resourceName);
-		if (isUnix) {
-			targetFile.setExecutable(true);
-		}
 		targetFile.getParentFile().mkdirs();
 		if (!targetFile.exists()) {
-			IOUtils.copy(getClass().getResourceAsStream(resourceName), new FileOutputStream(targetFile));
+			FileOutputStream fos = new FileOutputStream(targetFile);
+			IOUtils.copy(getClass().getResourceAsStream(resourceName), fos);
+			fos.flush();
+			fos.close();
+		}
+		if (isUnix) {
+			targetFile.setExecutable(true, false);
+			targetFile.setReadable(true, false);
+			targetFile.setWritable(true, false);
 		}
 	}
 
