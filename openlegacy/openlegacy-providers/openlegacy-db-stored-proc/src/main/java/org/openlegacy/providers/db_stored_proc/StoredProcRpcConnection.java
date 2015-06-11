@@ -1,6 +1,7 @@
 package org.openlegacy.providers.db_stored_proc;
 
 import org.openlegacy.annotations.rpc.Direction;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFlatField;
@@ -66,8 +67,8 @@ public class StoredProcRpcConnection implements RpcConnection {
 			return dataSource.getConnection().isValid(10000);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new OpenLegacyRuntimeException(e);
 		}
-		return false;
 	}
 
 	@Override
@@ -206,6 +207,7 @@ public class StoredProcRpcConnection implements RpcConnection {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new OpenLegacyRuntimeException(e);
 		}
 
 		SimpleRpcResult rpcResult = new SimpleRpcResult();
