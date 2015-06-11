@@ -140,7 +140,7 @@
 						        			break;
 						        		}
 						        	}
-						        	$scope.doAction('${entityDefinition.entityName}', alias);
+						        	$scope.doAction('${entityName}', alias);
 						    }
 						});
 					}
