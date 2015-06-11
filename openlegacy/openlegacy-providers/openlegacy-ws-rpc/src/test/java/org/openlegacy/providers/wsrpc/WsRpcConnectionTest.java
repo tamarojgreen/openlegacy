@@ -36,6 +36,8 @@ public class WsRpcConnectionTest {
 	public static Map<QName, String> getProps() {
 		Map<QName, String> p = new HashMap<QName, String>();
 		p.put(new QName(WsRpcActionUtil.TARGET_NAMESPACE), "http://SimpleWebService/");
+		p.put(new QName(WsRpcActionUtil.METHOD_INPUT_NAMESPACE), "http://SimpleWebService/");
+		p.put(new QName(WsRpcActionUtil.METHOD_OUTPUT_NAMESPACE), "http://SimpleWebService/");
 		p.put(new QName(WsRpcActionUtil.SERVICE_NAME), "SimpleWebService");
 		return p;
 	}
@@ -50,7 +52,8 @@ public class WsRpcConnectionTest {
 
 		// Properties p = new Properties();
 		Map<QName, String> p = getProps();
-		p.put(new QName(WsRpcActionUtil.METHOD_NAME), "callBackString");
+		p.put(new QName(WsRpcActionUtil.METHOD_INPUT_NAME), "callBackString");
+		p.put(new QName(WsRpcActionUtil.METHOD_OUTPUT_NAME), "callBackStringResponse");
 		rpcInvokeAction.setProperties(p);
 
 		SimpleRpcStructureField inputValues = new SimpleRpcStructureField();
@@ -95,8 +98,8 @@ public class WsRpcConnectionTest {
 		rpcInvokeAction.setAction("callBackInteger");
 
 		Map<QName, String> p = getProps();
-
-		p.put(new QName(WsRpcActionUtil.METHOD_NAME), "callBackInteger");
+		p.put(new QName(WsRpcActionUtil.METHOD_INPUT_NAME), "callBackInteger");
+		p.put(new QName(WsRpcActionUtil.METHOD_OUTPUT_NAME), "callBackIntegerResponse");
 		rpcInvokeAction.setProperties(p);
 
 		SimpleRpcStructureField inputValues = new SimpleRpcStructureField();
@@ -141,7 +144,8 @@ public class WsRpcConnectionTest {
 		rpcInvokeAction.setAction("callBackIntArray");
 
 		Map<QName, String> p = getProps();
-		p.put(new QName(WsRpcActionUtil.METHOD_NAME), "callBackIntArray");
+		p.put(new QName(WsRpcActionUtil.METHOD_INPUT_NAME), "callBackIntArray");
+		p.put(new QName(WsRpcActionUtil.METHOD_OUTPUT_NAME), "callBackIntArrayResponse");
 		rpcInvokeAction.setProperties(p);
 
 		SimpleRpcStructureField inputValues = new SimpleRpcStructureField();
@@ -198,7 +202,8 @@ public class WsRpcConnectionTest {
 		rpcInvokeAction.setAction("callBackStructureArray");
 
 		Map<QName, String> p = getProps();
-		p.put(new QName(WsRpcActionUtil.METHOD_NAME), "callBackStructureArray");
+		p.put(new QName(WsRpcActionUtil.METHOD_INPUT_NAME), "callBackStructureArray");
+		p.put(new QName(WsRpcActionUtil.METHOD_OUTPUT_NAME), "callBackStructureArrayResponse");
 		rpcInvokeAction.setProperties(p);
 
 		SimpleRpcFlatField rpcField;
