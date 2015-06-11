@@ -68,7 +68,7 @@ public class StoredProcRpcConnection implements RpcConnection {
 		try {
 			return dbConnection.isValid(10000);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 			throw new OpenLegacyRuntimeException(e);
 		}
 	}
@@ -78,7 +78,7 @@ public class StoredProcRpcConnection implements RpcConnection {
 		try {
 			dbConnection.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 		dbConnection = null;
 	}
@@ -169,7 +169,7 @@ public class StoredProcRpcConnection implements RpcConnection {
 			CallableStatement cs = dbConnection.prepareCall(sb.toString());
 
 			for (int i = 0; i < inputFields.size(); ++i) {
-				RpcFlatField field = (RpcFlatField) inputFields.get(i);
+				RpcFlatField field = (RpcFlatField)inputFields.get(i);
 				if (field.getDirection() == Direction.INPUT || field.getDirection() == Direction.INPUT_OUTPUT) {
 					cs.setObject(field.getOrder(), field.getValue());
 				}
@@ -184,13 +184,13 @@ public class StoredProcRpcConnection implements RpcConnection {
 			// fetch values for output params
 
 			for (RpcField f : outputFields) {
-				((RpcFlatField) f).setValue(cs.getObject(f.getOrder()));
+				((RpcFlatField)f).setValue(cs.getObject(f.getOrder()));
 			}
 
 			// fetch result set
 
 			if (resultsField != null) {
-				SimpleRpcStructureListField lf = (SimpleRpcStructureListField) resultsField;
+				SimpleRpcStructureListField lf = (SimpleRpcStructureListField)resultsField;
 
 				SimpleRpcFields ffs = new SimpleRpcFields();
 
@@ -213,7 +213,7 @@ public class StoredProcRpcConnection implements RpcConnection {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 			throw new OpenLegacyRuntimeException(e);
 		}
 
@@ -229,7 +229,7 @@ public class StoredProcRpcConnection implements RpcConnection {
 		try {
 			dbConnection = DriverManager.getConnection(dbUrl, user, password);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 			throw new OpenLegacyRuntimeException(e);
 		}
 
