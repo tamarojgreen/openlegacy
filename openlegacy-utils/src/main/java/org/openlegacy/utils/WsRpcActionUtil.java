@@ -9,6 +9,11 @@ public class WsRpcActionUtil {
 	public static final String TARGET_NAMESPACE = "targetNameSpace";
 	public static final String SERVICE_NAME = "serviceName";
 	public static final String METHOD_NAME = "methodName";
+	public static final String METHOD_INPUT_NAME = "methodInputName";
+	public static final String METHOD_OUTPUT_NAME = "methodOutputName";
+
+	public static final String METHOD_INPUT_NAMESPACE = "methodInputNamespace";
+	public static final String METHOD_OUTPUT_NAMESPACE = "methodOutputNamespace";
 
 	public static final String INPUT = "Operation_Input_Params";
 	public static final String OUTPUT = "Operation_Output_Params";
