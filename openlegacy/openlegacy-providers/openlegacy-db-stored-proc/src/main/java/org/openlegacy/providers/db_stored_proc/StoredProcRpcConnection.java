@@ -15,6 +15,8 @@ import org.openlegacy.rpc.support.SimpleRpcStructureField;
 import org.openlegacy.rpc.support.SimpleRpcStructureListField;
 
 import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -22,17 +24,17 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.sql.DataSource;
-
 public class StoredProcRpcConnection implements RpcConnection {
 
 	private Integer sequence = 0;
 
-	@Inject
-	private DataSource dataSource;
+	Connection dbConnection = null;
 
-	public StoredProcRpcConnection() {}
+	private String dbUrl = null;
+
+	public StoredProcRpcConnection(String dbUrl) {
+		this.dbUrl = dbUrl;
+	}
 
 	@Override
 	public RpcSnapshot getSnapshot() {
@@ -64,7 +66,7 @@ public class StoredProcRpcConnection implements RpcConnection {
 	@Override
 	public boolean isConnected() {
 		try {
-			return dataSource.getConnection().isValid(10000);
+			return dbConnection.isValid(10000);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new OpenLegacyRuntimeException(e);
@@ -72,7 +74,14 @@ public class StoredProcRpcConnection implements RpcConnection {
 	}
 
 	@Override
-	public void disconnect() {}
+	public void disconnect() {
+		try {
+			dbConnection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		dbConnection = null;
+	}
 
 	int java2SqlType(Class<?> jt) {
 		int sqlType = Types.OTHER;
@@ -157,7 +166,7 @@ public class StoredProcRpcConnection implements RpcConnection {
 		sb.append(")}");
 
 		try {
-			CallableStatement cs = dataSource.getConnection().prepareCall(sb.toString());
+			CallableStatement cs = dbConnection.prepareCall(sb.toString());
 
 			for (int i = 0; i < inputFields.size(); ++i) {
 				RpcFlatField field = (RpcFlatField) inputFields.get(i);
@@ -188,8 +197,6 @@ public class StoredProcRpcConnection implements RpcConnection {
 				while (rs.next()) {
 					SimpleRpcStructureField sf = new SimpleRpcStructureField();
 
-					sf.setName("item");
-
 					ResultSetMetaData md = rs.getMetaData();
 					for (int i = 1; i <= md.getColumnCount(); ++i) {
 						sf.getChildrens().add(FieldsUtils.makeField(md.getColumnLabel(i), rs.getObject(i)));
@@ -218,6 +225,14 @@ public class StoredProcRpcConnection implements RpcConnection {
 	}
 
 	@Override
-	public void login(String user, String password) {}
+	public void login(String user, String password) {
+		try {
+			dbConnection = DriverManager.getConnection(dbUrl, user, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new OpenLegacyRuntimeException(e);
+		}
+
+	}
 
 }

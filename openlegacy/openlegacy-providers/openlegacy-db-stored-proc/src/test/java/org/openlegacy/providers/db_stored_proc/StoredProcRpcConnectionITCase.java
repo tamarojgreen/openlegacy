@@ -1,10 +1,13 @@
 package org.openlegacy.providers.db_stored_proc;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.annotations.rpc.Direction;
+import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFlatField;
 import org.openlegacy.rpc.RpcResult;
@@ -25,7 +28,9 @@ import javax.inject.Inject;
 public class StoredProcRpcConnectionITCase {
 
 	@Inject
-	StoredProcRpcConnection connection;
+	StoredProcRpcConnectionFactory factory;
+
+	RpcConnection connection;
 
 	@BeforeClass
 	public static void beforeClass() {
@@ -34,6 +39,18 @@ public class StoredProcRpcConnectionITCase {
 		}
 
 		System.out.println(System.getProperty("mysql.port"));
+	}
+
+	@Before
+	public void before() {
+		connection = factory.getConnection();
+
+		connection.login("rpc_test", "password");
+	}
+
+	@After
+	public void after() {
+		connection.disconnect();
 	}
 
 	@Test
