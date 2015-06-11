@@ -122,8 +122,8 @@ public class WsRpcConnection implements RpcConnection {
 		SOAPMessage message = messageFactory.createMessage();
 
 		WsRpcActionData data = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction)action).getProperties());
-		SOAPElement actionElement = message.getSOAPBody().addChildElement(data.getMethodName(), ACTION_PREFIX,
-				data.getTargetNamespace());
+		SOAPElement actionElement = message.getSOAPBody().addChildElement(data.getMethodInputName(), ACTION_PREFIX,
+				data.getMethodInputNameSpace());
 
 		setFields(action.getFields(), actionElement);
 
@@ -138,7 +138,8 @@ public class WsRpcConnection implements RpcConnection {
 		checkForFailureReponse(responseBody);
 
 		WsRpcActionData dataAction = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction)action).getProperties());
-		QName responseQName = new QName(dataAction.getTargetNamespace(), dataAction.getMethodName() + RESPONSE);
+
+		QName responseQName = new QName(dataAction.getMethodOutputNameSpace(), dataAction.getMethodOutputName());
 
 		getFields(action.getFields(), responseBody.getChildElements(responseQName));
 		result.setRpcFields(action.getFields());

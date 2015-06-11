@@ -8,7 +8,6 @@ public class WsRpcActionUtil {
 
 	public static final String TARGET_NAMESPACE = "targetNameSpace";
 	public static final String SERVICE_NAME = "serviceName";
-	public static final String METHOD_NAME = "methodName";
 	public static final String METHOD_INPUT_NAME = "methodInputName";
 	public static final String METHOD_OUTPUT_NAME = "methodOutputName";
 
@@ -20,7 +19,7 @@ public class WsRpcActionUtil {
 
 	public static class WsRpcActionData {
 
-		String targetNamespace, serviceName, methodName;
+		String targetNamespace, serviceName, methodInputName, methodOutputName, methodInputNameSpace, methodOutputNameSpace;
 
 		public String getTargetNamespace() {
 			return targetNamespace;
@@ -40,20 +39,49 @@ public class WsRpcActionUtil {
 			return this;
 		}
 
-		public String getMethodName() {
-			return methodName;
+		public String getMethodInputName() {
+			return methodInputName;
 		}
 
-		public WsRpcActionData setMethodName(String methodName) {
-			this.methodName = methodName;
+		public WsRpcActionData setMethodInputName(String methodInputName) {
+			this.methodInputName = methodInputName;
+			return this;
+		}
+
+		public String getMethodOutputName() {
+			return methodOutputName;
+		}
+
+		public WsRpcActionData setMethodOutputName(String methodOutputName) {
+			this.methodOutputName = methodOutputName;
+			return this;
+		}
+
+		public String getMethodInputNameSpace() {
+			return methodInputNameSpace;
+		}
+
+		public WsRpcActionData setMethodInputNameSpace(String methodInputNameSpace) {
+			this.methodInputNameSpace = methodInputNameSpace;
+			return this;
+		}
+
+		public String getMethodOutputNameSpace() {
+			return methodOutputNameSpace;
+		}
+
+		public WsRpcActionData setMethodOutputNameSpace(String methodOutputNameSpace) {
+			this.methodOutputNameSpace = methodOutputNameSpace;
 			return this;
 		}
 	}
 
 	public static WsRpcActionData getWsRpcActionData(Map<QName, String> props) {
 
-		return new WsRpcActionData().setMethodName(props.get(new QName(METHOD_NAME))).setServiceName(
-				props.get(new QName(SERVICE_NAME))).setTargetNamespace(props.get(new QName(TARGET_NAMESPACE)));
+		return new WsRpcActionData().setServiceName(props.get(new QName(SERVICE_NAME))).setTargetNamespace(
+				props.get(new QName(TARGET_NAMESPACE))).setMethodInputName(props.get(new QName(METHOD_INPUT_NAME))).setMethodOutputName(
+				props.get(new QName(METHOD_OUTPUT_NAME))).setMethodInputNameSpace(props.get(new QName(METHOD_INPUT_NAMESPACE))).setMethodOutputNameSpace(
+				props.get(new QName(METHOD_INPUT_NAMESPACE)));
 	}
 
 }
