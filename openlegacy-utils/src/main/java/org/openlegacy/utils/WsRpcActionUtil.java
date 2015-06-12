@@ -14,8 +14,12 @@ public class WsRpcActionUtil {
 	public static final String METHOD_INPUT_NAMESPACE = "methodInputNamespace";
 	public static final String METHOD_OUTPUT_NAMESPACE = "methodOutputNamespace";
 
-	public static final String INPUT = "Operation_Input_Params";
-	public static final String OUTPUT = "Operation_Output_Params";
+	public static final String INPUT = "OperationInputParams";
+	public static final String OUTPUT = "OperationOutputParams";
+
+	// cause toDisplayName used instad of toClassName in RpcEntityDefinitionBuilderImpl
+	public static final String INPUT_DESIGNTIME = "Operation_Input_Params";
+	public static final String OUTPUT_DESIGNTIME = "Operation_Output_Params";
 
 	public static class WsRpcActionData {
 
