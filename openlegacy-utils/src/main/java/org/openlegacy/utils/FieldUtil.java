@@ -59,31 +59,31 @@ public class FieldUtil {
 	}
 
 	public static Class<?> getPrimitiveClass(String clazz) {
-		for (Class<?> primitive : primitiveTypes) {
-			if (primitive.getSimpleName().toLowerCase().equals(clazz.toLowerCase())) {
-				return getPrimitiveClass(primitive);
+		if (clazz != null) {
+			for (Class<?> primitive : primitiveTypes) {
+				if (primitive.getSimpleName().toLowerCase().equals(clazz.toLowerCase())) {
+					return getPrimitiveClass(primitive);
+				}
 			}
 		}
 		return null;
 	}
 
 	public static MinMax getMinMax(Class<?> clazz) {
-		if (clazz == null)
-			throw (new OpenLegacyRuntimeException(new Exception("Unknown class")));
-
 		MinMax minMax = new MinMax();
-
-		if (clazz == String.class) {
-			minMax.setMin(0);
-			minMax.setMax(255);
-		} else {
-			try {
-				minMax.setMin(Double.valueOf(String.valueOf(clazz.getField("MIN_VALUE").get(null))));
-				minMax.setMax(Double.valueOf(String.valueOf(clazz.getField("MAX_VALUE").get(null))));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		if (clazz != null){
+			if (clazz == String.class) {
+				minMax.setMin(0);
+				minMax.setMax(255);
+			} else {
+				try {
+					minMax.setMin(Double.valueOf(String.valueOf(clazz.getField("MIN_VALUE").get(null))));
+					minMax.setMax(Double.valueOf(String.valueOf(clazz.getField("MAX_VALUE").get(null))));
+				} catch (Exception e) {
+				}
+			}	
+	}
+		
 		return minMax;
 	}
 
@@ -97,10 +97,10 @@ public class FieldUtil {
 
 	public static int getSize(Class<?> clazz) {
 		try {
-			return (Integer)clazz.getField("BYTES").get(null);
+			return clazz != String.class ? (Integer)clazz.getField("BYTES").get(null) : 255;
 		} catch (Exception e) {
-		}
-		return 0;
+			return 0;
+		}		
 	}
 
 	public static int getMantissa(String clazz) {
