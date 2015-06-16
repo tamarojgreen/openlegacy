@@ -3,6 +3,7 @@ package org.openlegacy.rpc.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.exceptions.SessionInitException;
 import org.openlegacy.rpc.RpcSession;
 import org.openlegacy.rpc.RpcSessionFactory;
 import org.openlegacy.rpc.actions.RpcAction;
@@ -85,7 +86,12 @@ public class SimpleRpcSessionPoolFactory extends AbstractSessionPoolFactory<RpcS
 
 	@Override
 	protected void initSession() {
-		super.initSession();
+		try {
+			super.initSession();
+		} catch (SessionInitException e) {
+			logger.debug(e.getMessage());
+			return;
+		}
 		RpcSession rpcSession = applicationContext.getBean(RpcSession.class);
 		logger.debug(MessageFormat.format("New session {0} created for pool", rpcSession));
 		if (initAction != null) {
