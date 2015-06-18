@@ -1,18 +1,17 @@
 package org.openlegacy.utils;
 
-import org.openlegacy.exceptions.OpenLegacyRuntimeException;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Date;
 
 public class FieldUtil {
 
 	protected static final Class<?>[] primitiveTypes = { Byte.class, byte.class, Short.class, short.class, Integer.class,
 			int.class, Long.class, long.class, Float.class, float.class, Double.class, double.class, Character.class, char.class,
 			Boolean.class, boolean.class, // duplicates must be here
-			BigDecimal.class, BigInteger.class, String.class };
+			BigDecimal.class, BigInteger.class, String.class, Date.class };
 
-	protected static final int primitiveTypesEndOffset = 3;
+	protected static final int primitiveTypesEndOffset = 4;
 	protected static final String VALUE_OF = "valueOf";
 
 	public static class MinMax {
@@ -71,7 +70,7 @@ public class FieldUtil {
 
 	public static MinMax getMinMax(Class<?> clazz) {
 		MinMax minMax = new MinMax();
-		if (clazz != null){
+		if (clazz != null) {
 			if (clazz == String.class) {
 				minMax.setMin(0);
 				minMax.setMax(255);
@@ -81,9 +80,9 @@ public class FieldUtil {
 					minMax.setMax(Double.valueOf(String.valueOf(clazz.getField("MAX_VALUE").get(null))));
 				} catch (Exception e) {
 				}
-			}	
-	}
-		
+			}
+		}
+
 		return minMax;
 	}
 
@@ -100,7 +99,7 @@ public class FieldUtil {
 			return clazz != String.class ? (Integer)clazz.getField("BYTES").get(null) : 255;
 		} catch (Exception e) {
 			return 0;
-		}		
+		}
 	}
 
 	public static int getMantissa(String clazz) {

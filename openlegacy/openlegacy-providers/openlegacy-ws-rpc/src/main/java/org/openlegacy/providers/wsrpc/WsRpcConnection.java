@@ -53,6 +53,7 @@ public class WsRpcConnection implements RpcConnection {
 
 	private SOAPConnectionFactory connectionFactory;
 	private MessageFactory messageFactory;
+	private WsRpcActionData actionData;
 
 	public WsRpcConnection() {
 		try {
@@ -137,22 +138,22 @@ public class WsRpcConnection implements RpcConnection {
 
 		checkForFailureReponse(responseBody);
 
-		WsRpcActionData dataAction = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction)action).getProperties());
+		actionData = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction)action).getProperties());
 
-		QName responseQName = new QName(dataAction.getMethodOutputNameSpace(), dataAction.getMethodOutputName());
+		QName responseQName = new QName(actionData.getMethodOutputNameSpace(), actionData.getMethodOutputName());
 
 		getFields(action.getFields(), responseBody.getChildElements(responseQName));
 		result.setRpcFields(action.getFields());
 	}
 
 	private boolean needToBreakGroup(RpcField field) {
-		return field.getVirtualGroup().equals(WsRpcActionUtil.INPUT) || field.getVirtualGroup().equals(WsRpcActionUtil.OUTPUT);
+		return field.getName().contains(WsRpcActionUtil.INPUT) || field.getName().contains(WsRpcActionUtil.OUTPUT);
 	}
 
 	private void setFields(List<RpcField> fields, SOAPElement actionElement) throws SOAPException {
 		for (RpcField field : fields) {
 			if (field instanceof SimpleRpcStructureField) {
-				if (field.getVirtualGroup().equals(WsRpcActionUtil.INPUT)) {
+				if (field.getName().contains(WsRpcActionUtil.INPUT)) {
 					setFields(((SimpleRpcStructureField)field).getChildrens(), actionElement);
 				}
 
@@ -172,7 +173,7 @@ public class WsRpcConnection implements RpcConnection {
 	private void getFields(List<RpcField> fields, Iterator<?> parent) throws Exception {
 		for (RpcField field : fields) {
 			if (field instanceof SimpleRpcStructureField) {
-				if (field.getVirtualGroup().equals(WsRpcActionUtil.OUTPUT)) {
+				if (field.getName().contains(WsRpcActionUtil.OUTPUT)) {
 					getFields(((SimpleRpcStructureField)field).getChildrens(), parent);
 				}
 
@@ -182,24 +183,30 @@ public class WsRpcConnection implements RpcConnection {
 			}
 
 			if (field.getDirection() == Direction.OUTPUT || field.getDirection() == Direction.INPUT_OUTPUT) {
-				SOAPElement data = findSOAPElement(parent, field.getName());
+				if (field.getDirection() == Direction.OUTPUT || field.getDirection() == Direction.INPUT_OUTPUT) {
+					String elementName = field.getLegacyContainerName() != null ? field.getLegacyContainerName()
+							: field.getName();
+					SOAPElement data = findSOAPElement(parent, elementName);
 
-				if (data == null) {
-					throw new Exception(String.format("SOAPElement with name \" %s \" is unfound", field.getName()));
-				}
+					if (data == null) {
+						throw new Exception(String.format("SOAPElement with name \" %s \" is unfound", field.getName()));
+					}
 
-				if (FieldUtil.isPrimitive(field)) {
-					FieldUtil.readPrimitiveField((RpcFlatField)field, data);
-				} else if (field instanceof SimpleRpcStructureField) {
-					getFields(((SimpleRpcStructureField)field).getChildrens(), data.getChildElements());
-				} else if (field instanceof SimpleRpcStructureListField) {
-					List<RpcFields> children = ((SimpleRpcStructureListField)field).getChildrens();
-					for (int i = 0; i < children.size(); i++) {
-						getFields(children.get(i).getFields(), data.getChildElements());
+					if (FieldUtil.isPrimitive(field)) {
+						FieldUtil.readPrimitiveField((RpcFlatField)field, data);
+					} else if (field instanceof SimpleRpcStructureField) {
+						getFields(((SimpleRpcStructureField)field).getChildrens(), data.getChildElements());
+					} else if (field instanceof SimpleRpcStructureListField) {
+						List<RpcFields> children = ((SimpleRpcStructureListField)field).getChildrens();
+						for (int i = 0; i < children.size(); i++) {
+							getFields(children.get(i).getFields(), data.getChildElements());
+							data = findSOAPElement(parent, elementName);
+						}
 					}
 				}
 			}
 		}
+
 	}
 
 	private void logMessage(String header, SOAPMessage message) {
