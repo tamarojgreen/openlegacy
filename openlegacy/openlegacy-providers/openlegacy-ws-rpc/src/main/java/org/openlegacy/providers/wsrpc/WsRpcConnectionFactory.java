@@ -1,9 +1,9 @@
 package org.openlegacy.providers.wsrpc;
 
+import org.openlegacy.rpc.LiveRpcConnectionFactory;
 import org.openlegacy.rpc.RpcConnection;
-import org.openlegacy.rpc.RpcConnectionFactory;
 
-public class WsRpcConnectionFactory implements RpcConnectionFactory {
+public class WsRpcConnectionFactory implements LiveRpcConnectionFactory {
 
 	@Override
 	public RpcConnection getConnection() {
