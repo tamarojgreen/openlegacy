@@ -12,12 +12,13 @@
 package org.openlegacy.loaders.listeners;
 
 import org.openlegacy.EntitiesRegistry;
+import org.springframework.beans.factory.BeanFactory;
 
 /**
  * @author Ivan Bort
  */
 public interface RegistryLoaderListener {
 
-	public void registryLoaded(EntitiesRegistry<?, ?, ?> entitiesRegistry);
+	public void registryLoaded(EntitiesRegistry<?, ?, ?> entitiesRegistry, BeanFactory beanFactory);
 
 }
