@@ -130,7 +130,7 @@
 						<configuration>
 							<port>${mysql.port}</port>
 							<data>${project.build.directory}/mysql-data</data>
-							<!-- <socket>/tmp/openlegacy-mysql.sock</socket> -->
+							<socket>/tmp/openlegacy-mysql.sock</socket>
 							<dbname>${mysql.dbname}</dbname>
 							<user>${mysql.user}</user>
 							<password>${mysql.password}</password>
@@ -195,7 +195,10 @@
 				<version>2.18.1</version>
 				<configuration>
 					<systemPropertyVariables>
+				        <mysql.dbname>${mysql.dbname}</mysql.dbname>
 						<mysql.port>${mysql.port}</mysql.port>
+						<mysql.user>${mysql.user}</mysql.user>
+						<mysql.password>${mysql.password}</mysql.password>
 					</systemPropertyVariables>
 					<encoding>utf-8</encoding>
 				</configuration>

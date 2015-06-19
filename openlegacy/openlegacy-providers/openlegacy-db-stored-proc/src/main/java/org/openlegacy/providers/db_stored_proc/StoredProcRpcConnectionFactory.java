@@ -1,9 +1,10 @@
 package org.openlegacy.providers.db_stored_proc;
 
+import org.openlegacy.rpc.LiveRpcConnectionFactory;
 import org.openlegacy.rpc.RpcConnection;
-import org.openlegacy.rpc.RpcConnectionFactory;
+import org.springframework.beans.factory.InitializingBean;
 
-public class StoredProcRpcConnectionFactory implements RpcConnectionFactory {
+public class StoredProcRpcConnectionFactory implements LiveRpcConnectionFactory, InitializingBean {
 
 	private String dbUrl;
 
@@ -23,6 +24,11 @@ public class StoredProcRpcConnectionFactory implements RpcConnectionFactory {
 
 	public void setDbUrl(String dbUrl) {
 		this.dbUrl = dbUrl;
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+
 	}
 
 }

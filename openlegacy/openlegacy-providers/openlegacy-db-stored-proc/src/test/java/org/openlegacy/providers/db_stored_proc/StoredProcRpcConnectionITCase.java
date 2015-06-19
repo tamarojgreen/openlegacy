@@ -9,11 +9,12 @@ import org.junit.runner.RunWith;
 import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcField;
+import org.openlegacy.rpc.RpcFields;
 import org.openlegacy.rpc.RpcFlatField;
 import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.RpcStructureField;
-import org.openlegacy.rpc.RpcStructureListField;
 import org.openlegacy.rpc.support.SimpleRpcInvokeAction;
+import org.openlegacy.rpc.support.SimpleRpcStructureField;
 import org.openlegacy.rpc.support.SimpleRpcStructureListField;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -38,6 +39,18 @@ public class StoredProcRpcConnectionITCase {
 			System.setProperty("mysql.port", "3306");
 		}
 
+		if (System.getProperty("mysql.dbname") == null) {
+			System.setProperty("mysql.dbname", "rpc_test");
+		}
+
+		if (System.getProperty("mysql.user") == null) {
+			System.setProperty("mysql.user", "rpc_test");
+		}
+
+		if (System.getProperty("mysql.password") == null) {
+			System.setProperty("mysql.password", "password");
+		}
+
 		System.out.println(System.getProperty("mysql.port"));
 	}
 
@@ -58,13 +71,11 @@ public class StoredProcRpcConnectionITCase {
 		SimpleRpcInvokeAction action = new SimpleRpcInvokeAction();
 		action.setRpcPath("doStuffWithTwoNumbers");
 
-		List<RpcField> fields = action.getFields();
-		fields.add(FieldsUtils.makeField("param1", new Integer(10), Direction.INPUT, 1));
-		fields.add(FieldsUtils.makeField("param2", new Integer(20), Direction.INPUT, 2));
+		List<RpcField> actionFields = action.getFields();
+		actionFields.add(FieldsUtils.makeField("param1", new Integer(10), Direction.INPUT, 1));
+		actionFields.add(FieldsUtils.makeField("param2", new Integer(20), Direction.INPUT, 2));
 
-		SimpleRpcStructureListField resultsField = new SimpleRpcStructureListField();
-		resultsField.setName("results");
-		fields.add(resultsField);
+		actionFields.add(makeResultsField());
 
 		RpcFlatField sumResultField = FieldsUtils.makeField("sum", 0);
 		RpcFlatField subResultField = FieldsUtils.makeField("sub", 0);
@@ -75,25 +86,22 @@ public class StoredProcRpcConnectionITCase {
 		// parse result
 
 		for (RpcField f : rpcResult.getRpcFields()) {
-			if (f instanceof RpcStructureListField) {
-				if (f.getName().equals("results")) {
-					SimpleRpcStructureListField lf = (SimpleRpcStructureListField)f;
+			if (f instanceof RpcStructureField) {
+				if (f.getName().equals("results") || f.getDirection() == Direction.OUTPUT) {
+					SimpleRpcStructureListField lf =
+							(SimpleRpcStructureListField) ((RpcStructureField) f).getChildrens().get(0);
 
-					for (RpcField field : lf.getChildren(0)) {
-						if (field instanceof RpcStructureField /* && field.getName().equals("item") */) {
-							RpcStructureField sf = (RpcStructureField)field;
+					for (RpcFields fields : lf.getChildrens()) {
+						for (RpcField itemField : fields.getFields()) {
+							if (itemField instanceof RpcFlatField) {
+								RpcFlatField ff = (RpcFlatField) itemField;
 
-							for (RpcField itemField : sf.getChildrens()) {
-								if (itemField instanceof RpcFlatField) {
-									RpcFlatField ff = (RpcFlatField)itemField;
-
-									if (ff.getName().equals("sum")) {
-										sumResultField = ff;
-									} else if (ff.getName().equals("sub")) {
-										subResultField = ff;
-									} else if (ff.getName().equals("mul")) {
-										mulResultField = ff;
-									}
+								if (ff.getName().equals("sum")) {
+									sumResultField = ff;
+								} else if (ff.getName().equals("sub")) {
+									subResultField = ff;
+								} else if (ff.getName().equals("mul")) {
+									mulResultField = ff;
 								}
 							}
 						}
@@ -102,9 +110,16 @@ public class StoredProcRpcConnectionITCase {
 			}
 		}
 
-		Assert.assertEquals(30, ((BigDecimal)sumResultField.getValue()).intValue());
-		Assert.assertEquals(-10, ((BigDecimal)subResultField.getValue()).intValue());
-		Assert.assertEquals(200, ((BigDecimal)mulResultField.getValue()).intValue());
+		Assert.assertEquals(30, ((BigDecimal) sumResultField.getValue()).intValue());
+		Assert.assertEquals(-10, ((BigDecimal) subResultField.getValue()).intValue());
+		Assert.assertEquals(200, ((BigDecimal) mulResultField.getValue()).intValue());
+	}
+
+	private static SimpleRpcStructureField makeResultsField() {
+		SimpleRpcStructureField resultsField = new SimpleRpcStructureField();
+		resultsField.setName("results");
+		resultsField.getChildrens().add(new SimpleRpcStructureListField());
+		return resultsField;
 	}
 
 	@Test
@@ -128,9 +143,9 @@ public class StoredProcRpcConnectionITCase {
 
 		// parse result
 
-		Assert.assertEquals(30, ((BigDecimal)sumResultField.getValue()).intValue());
-		Assert.assertEquals(-10, ((BigDecimal)subResultField.getValue()).intValue());
-		Assert.assertEquals(200, ((BigDecimal)mulResultField.getValue()).intValue());
+		Assert.assertEquals(30, ((BigDecimal) sumResultField.getValue()).intValue());
+		Assert.assertEquals(-10, ((BigDecimal) subResultField.getValue()).intValue());
+		Assert.assertEquals(200, ((BigDecimal) mulResultField.getValue()).intValue());
 	}
 
 	@Test
@@ -138,35 +153,29 @@ public class StoredProcRpcConnectionITCase {
 		SimpleRpcInvokeAction action = new SimpleRpcInvokeAction();
 		action.setRpcPath("sayHello");
 
-		List<RpcField> fields = action.getFields();
-		fields.add(FieldsUtils.makeField("param", new String("World"), Direction.INPUT, 1));
-
-		SimpleRpcStructureListField resultsField = new SimpleRpcStructureListField();
-		resultsField.setName("results");
-		fields.add(resultsField);
-
-		RpcFlatField stringResultField = FieldsUtils.makeField("result", 0);
+		List<RpcField> actionFields = action.getFields();
+		actionFields.add(FieldsUtils.makeField("param", new String("World"), Direction.INPUT, 1));
+		actionFields.add(makeResultsField());
 
 		RpcResult rpcResult = connection.invoke(action);
 
 		// parse result
 
+		RpcFlatField stringResultField = null;
+
 		for (RpcField f : rpcResult.getRpcFields()) {
-			if (f instanceof RpcStructureListField) {
-				if (f.getName().equals("results")) {
-					SimpleRpcStructureListField lf = (SimpleRpcStructureListField)f;
+			if (f instanceof RpcStructureField) {
+				if (f.getName().equals("results") || f.getDirection() == Direction.OUTPUT) {
+					SimpleRpcStructureListField lf =
+							(SimpleRpcStructureListField) ((RpcStructureField) f).getChildrens().get(0);
 
-					for (RpcField field : lf.getChildren(0)) {
-						if (field instanceof RpcStructureField /* && field.getName().equals("item") */) {
-							RpcStructureField sf = (RpcStructureField)field;
+					for (RpcFields fields : lf.getChildrens()) {
+						for (RpcField itemField : fields.getFields()) {
+							if (itemField instanceof RpcFlatField) {
+								RpcFlatField ff = (RpcFlatField) itemField;
 
-							for (RpcField itemField : sf.getChildrens()) {
-								if (itemField instanceof RpcFlatField) {
-									RpcFlatField ff = (RpcFlatField)itemField;
-
-									// if (ff.getName().equals("result")) {
+								if (ff.getName().equals("result")) {
 									stringResultField = ff;
-									// }
 								}
 							}
 						}
@@ -199,41 +208,26 @@ public class StoredProcRpcConnectionITCase {
 		SimpleRpcInvokeAction action = new SimpleRpcInvokeAction();
 		action.setRpcPath("getItemDetails");
 
-		List<RpcField> fields = action.getFields();
-		fields.add(FieldsUtils.makeField("itemId", 1, Direction.INPUT, 1));
+		List<RpcField> actiodFields = action.getFields();
+		actiodFields.add(FieldsUtils.makeField("itemId", 1, Direction.INPUT, 1));
 
-		SimpleRpcStructureListField resultsField = new SimpleRpcStructureListField();
-		resultsField.setName("results");
-		fields.add(resultsField);
+		SimpleRpcStructureField itemRecordField = new SimpleRpcStructureField();
+		itemRecordField.setName("results");
+		itemRecordField.getChildrens().add(FieldsUtils.makeField("name", "", Direction.OUTPUT, 0));
+		itemRecordField.getChildrens().add(FieldsUtils.makeField("description", "", Direction.OUTPUT, 0));
+		itemRecordField.getChildrens().add(FieldsUtils.makeField("weight", 10, Direction.OUTPUT, 0));
+		actiodFields.add(itemRecordField);
+
+		SimpleRpcStructureField shipmentMethodField = new SimpleRpcStructureField();
+		shipmentMethodField.setName("results");
+		shipmentMethodField.getChildrens().add(FieldsUtils.makeField("shipping_method_name", "", Direction.OUTPUT, 0));
+		shipmentMethodField.getChildrens().add(FieldsUtils.makeField("days", 10, Direction.OUTPUT, 0));
+		actiodFields.add(shipmentMethodField);
 
 		RpcResult rpcResult = connection.invoke(action);
 
-		RpcFlatField itemNameField = null;
-
-		for (RpcField f : rpcResult.getRpcFields()) {
-			if (f instanceof RpcStructureListField) {
-				if (f.getName().equals("results")) {
-					SimpleRpcStructureListField lf = (SimpleRpcStructureListField)f;
-
-					for (RpcField field : lf.getChildren(0)) {
-						if (field instanceof RpcStructureField /* && field.getName().equals("item") */) {
-							RpcStructureField sf = (RpcStructureField)field;
-							for (RpcField itemField : sf.getChildrens()) {
-								if (itemField instanceof RpcFlatField) {
-									RpcFlatField ff = (RpcFlatField)itemField;
-
-									if (ff.getName().equals("name")) {
-										itemNameField = ff;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-
-		Assert.assertTrue(itemNameField.getValue().equals("Kid Guitar"));
+		Assert.assertEquals("Kid Guitar", ((RpcFlatField) itemRecordField.getChildrens().get(0)).getValue());
+		Assert.assertEquals("Air Mail", ((RpcFlatField) shipmentMethodField.getChildrens().get(0)).getValue());
 	}
 
 	@Test
@@ -241,11 +235,9 @@ public class StoredProcRpcConnectionITCase {
 		SimpleRpcInvokeAction action = new SimpleRpcInvokeAction();
 		action.setRpcPath("getAllItems");
 
-		List<RpcField> fields = action.getFields();
+		List<RpcField> actionFields = action.getFields();
 
-		SimpleRpcStructureListField resultsField = new SimpleRpcStructureListField();
-		resultsField.setName("results");
-		fields.add(resultsField);
+		actionFields.add(makeResultsField());
 
 		RpcResult rpcResult = connection.invoke(action);
 
@@ -254,20 +246,19 @@ public class StoredProcRpcConnectionITCase {
 		int resultsCount = 0;
 
 		for (RpcField f : rpcResult.getRpcFields()) {
-			if (f instanceof RpcStructureListField) {
-				if (f.getName().equals("results")) {
-					SimpleRpcStructureListField lf = (SimpleRpcStructureListField)f;
+			if (f instanceof RpcStructureField) {
+				if (f.getName().equals("results") || f.getDirection() == Direction.OUTPUT) {
+					SimpleRpcStructureListField lf =
+							(SimpleRpcStructureListField) ((RpcStructureField) f).getChildrens().get(0);
 
-					for (RpcField field : lf.getChildren(0)) {
-						if (field instanceof RpcStructureField /* && field.getName().equals("item") */) {
-							resultsCount++;
-						}
+					for (RpcFields fields : lf.getChildrens()) {
+						resultsCount++;
 					}
 				}
 			}
 		}
 
-		Assert.assertEquals(resultsCount, 5);
+		Assert.assertEquals(5, resultsCount);
 	}
 
 }

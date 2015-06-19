@@ -20,7 +20,7 @@ public class FieldsUtils {
 		f.setType(type);
 		f.setLength(4);
 		f.setDirection(direction);
-		f.setOrder(order);
+		f.setOrder(order - 1);
 
 		return f;
 	}

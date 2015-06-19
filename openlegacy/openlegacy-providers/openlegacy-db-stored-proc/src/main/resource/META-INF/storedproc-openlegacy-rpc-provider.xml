@@ -8,7 +8,13 @@
 
     <context:property-placeholder location="classpath*:/stored-proc.properties"/>
 
-	<bean id="rpcConnection" class="org.openlegacy.providers.db_stored_proc.StoredProcRpcConnection" factory-bean="rpcConnectionFactory" factory-method="getConnection" />
-	<bean id="rpcConnectionFactory" class="org.openlegacy.providers.db_stored_proc.StoredProcRpcConnectionFactory" />
+	<bean id="rpcConnection"
+        class="org.openlegacy.providers.db_stored_proc.StoredProcRpcConnection"
+        factory-bean="rpcConnectionFactory" factory-method="getConnection">
+    </bean>
+    <bean id="rpcConnectionFactory"
+        class="org.openlegacy.providers.db_stored_proc.StoredProcRpcConnectionFactory">
+        <property name="dbUrl" value="${jdbc.url}" />
+    </bean>
 	
 </beans>

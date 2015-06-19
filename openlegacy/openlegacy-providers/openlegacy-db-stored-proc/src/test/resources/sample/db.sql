@@ -52,7 +52,7 @@ end //
 
 create procedure sayHello(in param varchar(20))
 begin
-    select CONCAT('Hello, ', param);
+    select CONCAT('Hello, ', param) as `result`;
 end //
 
 create procedure sayHelloIntoParam(in param varchar(20), out result varchar(30))
