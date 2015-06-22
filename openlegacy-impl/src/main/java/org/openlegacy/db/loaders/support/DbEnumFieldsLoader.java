@@ -35,6 +35,9 @@ public class DbEnumFieldsLoader extends EnumFieldsLoader {
 		}
 		SimpleDbColumnFieldDefinition fieldDefinition = (SimpleDbColumnFieldDefinition) entityDefintion.getColumnFieldsDefinitions().get(
 				field.getName());
+		if (fieldDefinition == null) {
+			return;
+		}
 		fieldDefinition.setFieldTypeDefinition(new SimpleEnumFieldTypeDefinition());
 		loadFieldDefinition(fieldDefinition, field);
 	}
