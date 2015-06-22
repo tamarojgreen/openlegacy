@@ -18,6 +18,7 @@
 		<!-- Uncomment applinx provider as can't publish it's JAR's in a public maven - need provider approval (depends on license file) -->
 		<!-- <module>openlegacy-applinx</module> -->
 		<module>openlegacy-jt400</module>
+		<module>openlegacy-db-stored-proc</module>
 	</modules>
 	
 	 <build>
