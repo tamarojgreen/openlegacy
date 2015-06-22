@@ -57,7 +57,7 @@ public class WsRpcConnectionTest {
 		rpcInvokeAction.setProperties(p);
 
 		SimpleRpcStructureField inputValues = new SimpleRpcStructureField();
-		inputValues.setVirtualGroup(WsRpcActionUtil.INPUT);
+		inputValues.setName(WsRpcActionUtil.INPUT);
 
 		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
 		rpcField.setName("callBackValue"); // param name
@@ -69,7 +69,7 @@ public class WsRpcConnectionTest {
 		rpcInvokeAction.getFields().add(inputValues);
 
 		SimpleRpcStructureField outputValues = new SimpleRpcStructureField();
-		outputValues.setVirtualGroup(WsRpcActionUtil.OUTPUT);
+		outputValues.setName(WsRpcActionUtil.OUTPUT);
 
 		rpcField = new SimpleRpcFlatField();
 		rpcField.setName("callBackResult"); // result param name
@@ -103,7 +103,7 @@ public class WsRpcConnectionTest {
 		rpcInvokeAction.setProperties(p);
 
 		SimpleRpcStructureField inputValues = new SimpleRpcStructureField();
-		inputValues.setVirtualGroup(WsRpcActionUtil.INPUT);
+		inputValues.setName(WsRpcActionUtil.INPUT);
 
 		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
 		rpcField.setName("callBackValue");
@@ -115,7 +115,7 @@ public class WsRpcConnectionTest {
 		rpcInvokeAction.getFields().add(inputValues);
 
 		SimpleRpcStructureField outputValues = new SimpleRpcStructureField();
-		outputValues.setVirtualGroup(WsRpcActionUtil.OUTPUT);
+		outputValues.setName(WsRpcActionUtil.OUTPUT);
 
 		rpcField = new SimpleRpcFlatField();
 		rpcField.setName("callBackResult");
@@ -149,7 +149,7 @@ public class WsRpcConnectionTest {
 		rpcInvokeAction.setProperties(p);
 
 		SimpleRpcStructureField inputValues = new SimpleRpcStructureField();
-		inputValues.setVirtualGroup(WsRpcActionUtil.INPUT);
+		inputValues.setName(WsRpcActionUtil.INPUT);
 
 		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
 		rpcField.setName("callBackValue");
@@ -161,7 +161,7 @@ public class WsRpcConnectionTest {
 		rpcInvokeAction.getFields().add(inputValues);
 
 		SimpleRpcStructureField outputValues = new SimpleRpcStructureField();
-		outputValues.setVirtualGroup(WsRpcActionUtil.OUTPUT);
+		outputValues.setName(WsRpcActionUtil.OUTPUT);
 
 		SimpleRpcStructureListField rpcArrayField = new SimpleRpcStructureListField();
 		rpcArrayField.setName("callBackResult");
@@ -209,7 +209,7 @@ public class WsRpcConnectionTest {
 		SimpleRpcFlatField rpcField;
 
 		SimpleRpcStructureField outputValues = new SimpleRpcStructureField();
-		outputValues.setVirtualGroup(WsRpcActionUtil.OUTPUT);
+		outputValues.setName(WsRpcActionUtil.OUTPUT);
 
 		SimpleRpcStructureListField rpcArrayField = new SimpleRpcStructureListField();
 		rpcArrayField.setName("callBackResult");
