@@ -58,7 +58,7 @@ public class StoredProcRpcConnectionITCase {
 	public void before() {
 		connection = factory.getConnection();
 
-		connection.login("root", "bsd036");
+		connection.login("rpc_test", "password");
 	}
 
 	@After
@@ -88,13 +88,12 @@ public class StoredProcRpcConnectionITCase {
 		for (RpcField f : rpcResult.getRpcFields()) {
 			if (f instanceof RpcStructureField) {
 				if (f.getName().equals("results") || f.getDirection() == Direction.OUTPUT) {
-					SimpleRpcStructureListField lf =
-							(SimpleRpcStructureListField) ((RpcStructureField) f).getChildrens().get(0);
+					SimpleRpcStructureListField lf = (SimpleRpcStructureListField)((RpcStructureField)f).getChildrens().get(0);
 
 					for (RpcFields fields : lf.getChildrens()) {
 						for (RpcField itemField : fields.getFields()) {
 							if (itemField instanceof RpcFlatField) {
-								RpcFlatField ff = (RpcFlatField) itemField;
+								RpcFlatField ff = (RpcFlatField)itemField;
 
 								if (ff.getName().equals("sum")) {
 									sumResultField = ff;
@@ -110,9 +109,9 @@ public class StoredProcRpcConnectionITCase {
 			}
 		}
 
-		Assert.assertEquals(30, ((BigDecimal) sumResultField.getValue()).intValue());
-		Assert.assertEquals(-10, ((BigDecimal) subResultField.getValue()).intValue());
-		Assert.assertEquals(200, ((BigDecimal) mulResultField.getValue()).intValue());
+		Assert.assertEquals(30, ((BigDecimal)sumResultField.getValue()).intValue());
+		Assert.assertEquals(-10, ((BigDecimal)subResultField.getValue()).intValue());
+		Assert.assertEquals(200, ((BigDecimal)mulResultField.getValue()).intValue());
 	}
 
 	private static SimpleRpcStructureField makeResultsField() {
@@ -143,9 +142,9 @@ public class StoredProcRpcConnectionITCase {
 
 		// parse result
 
-		Assert.assertEquals(30, ((BigDecimal) sumResultField.getValue()).intValue());
-		Assert.assertEquals(-10, ((BigDecimal) subResultField.getValue()).intValue());
-		Assert.assertEquals(200, ((BigDecimal) mulResultField.getValue()).intValue());
+		Assert.assertEquals(30, ((BigDecimal)sumResultField.getValue()).intValue());
+		Assert.assertEquals(-10, ((BigDecimal)subResultField.getValue()).intValue());
+		Assert.assertEquals(200, ((BigDecimal)mulResultField.getValue()).intValue());
 	}
 
 	@Test
@@ -166,13 +165,12 @@ public class StoredProcRpcConnectionITCase {
 		for (RpcField f : rpcResult.getRpcFields()) {
 			if (f instanceof RpcStructureField) {
 				if (f.getName().equals("results") || f.getDirection() == Direction.OUTPUT) {
-					SimpleRpcStructureListField lf =
-							(SimpleRpcStructureListField) ((RpcStructureField) f).getChildrens().get(0);
+					SimpleRpcStructureListField lf = (SimpleRpcStructureListField)((RpcStructureField)f).getChildrens().get(0);
 
 					for (RpcFields fields : lf.getChildrens()) {
 						for (RpcField itemField : fields.getFields()) {
 							if (itemField instanceof RpcFlatField) {
-								RpcFlatField ff = (RpcFlatField) itemField;
+								RpcFlatField ff = (RpcFlatField)itemField;
 
 								if (ff.getName().equals("result")) {
 									stringResultField = ff;
@@ -226,8 +224,8 @@ public class StoredProcRpcConnectionITCase {
 
 		RpcResult rpcResult = connection.invoke(action);
 
-		Assert.assertEquals("Kid Guitar", ((RpcFlatField) itemRecordField.getChildrens().get(0)).getValue());
-		Assert.assertEquals("Air Mail", ((RpcFlatField) shipmentMethodField.getChildrens().get(0)).getValue());
+		Assert.assertEquals("Kid Guitar", ((RpcFlatField)itemRecordField.getChildrens().get(0)).getValue());
+		Assert.assertEquals("Air Mail", ((RpcFlatField)shipmentMethodField.getChildrens().get(0)).getValue());
 	}
 
 	@Test
@@ -248,8 +246,7 @@ public class StoredProcRpcConnectionITCase {
 		for (RpcField f : rpcResult.getRpcFields()) {
 			if (f instanceof RpcStructureField) {
 				if (f.getName().equals("results") || f.getDirection() == Direction.OUTPUT) {
-					SimpleRpcStructureListField lf =
-							(SimpleRpcStructureListField) ((RpcStructureField) f).getChildrens().get(0);
+					SimpleRpcStructureListField lf = (SimpleRpcStructureListField)((RpcStructureField)f).getChildrens().get(0);
 
 					for (RpcFields fields : lf.getChildrens()) {
 						resultsCount++;
