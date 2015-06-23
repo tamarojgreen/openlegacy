@@ -33,31 +33,12 @@ public class StoredProcRpcConnectionITCase {
 
 	RpcConnection connection;
 
-	@BeforeClass
-	public static void beforeClass() {
-		if (System.getProperty("mysql.port") == null) {
-			System.setProperty("mysql.port", "3306");
-		}
-
-		if (System.getProperty("mysql.dbname") == null) {
-			System.setProperty("mysql.dbname", "rpc_test");
-		}
-
-		if (System.getProperty("mysql.user") == null) {
-			System.setProperty("mysql.user", "rpc_test");
-		}
-
-		if (System.getProperty("mysql.password") == null) {
-			System.setProperty("mysql.password", "password");
-		}
-
-		System.out.println(System.getProperty("mysql.port"));
-	}
-
 	@Before
 	public void before() {
 		connection = factory.getConnection();
 
+//		connection.login(System.getProperty("jdbc.username"),
+//				System.getProperty("jdbc.password"));
 		connection.login("rpc_test", "password");
 	}
 
@@ -72,8 +53,10 @@ public class StoredProcRpcConnectionITCase {
 		action.setRpcPath("doStuffWithTwoNumbers");
 
 		List<RpcField> actionFields = action.getFields();
-		actionFields.add(FieldsUtils.makeField("param1", new Integer(10), Direction.INPUT, 1));
-		actionFields.add(FieldsUtils.makeField("param2", new Integer(20), Direction.INPUT, 2));
+		actionFields.add(FieldsUtils.makeField("param1", new Integer(10),
+				Direction.INPUT, 1));
+		actionFields.add(FieldsUtils.makeField("param2", new Integer(20),
+				Direction.INPUT, 2));
 
 		actionFields.add(makeResultsField());
 
@@ -87,9 +70,10 @@ public class StoredProcRpcConnectionITCase {
 
 		for (RpcField f : rpcResult.getRpcFields()) {
 			if (f instanceof RpcStructureField) {
-				if (f.getName().equals("results") || f.getDirection() == Direction.OUTPUT) {
-					SimpleRpcStructureListField lf =
-							(SimpleRpcStructureListField) ((RpcStructureField) f).getChildrens().get(0);
+				if (f.getName().equals("results")
+						|| f.getDirection() == Direction.OUTPUT) {
+					SimpleRpcStructureListField lf = (SimpleRpcStructureListField) ((RpcStructureField) f)
+							.getChildrens().get(0);
 
 					for (RpcFields fields : lf.getChildrens()) {
 						for (RpcField itemField : fields.getFields()) {
@@ -110,9 +94,12 @@ public class StoredProcRpcConnectionITCase {
 			}
 		}
 
-		Assert.assertEquals(30, ((BigDecimal) sumResultField.getValue()).intValue());
-		Assert.assertEquals(-10, ((BigDecimal) subResultField.getValue()).intValue());
-		Assert.assertEquals(200, ((BigDecimal) mulResultField.getValue()).intValue());
+		Assert.assertEquals(30,
+				((BigDecimal) sumResultField.getValue()).intValue());
+		Assert.assertEquals(-10,
+				((BigDecimal) subResultField.getValue()).intValue());
+		Assert.assertEquals(200,
+				((BigDecimal) mulResultField.getValue()).intValue());
 	}
 
 	private static SimpleRpcStructureField makeResultsField() {
@@ -128,12 +115,17 @@ public class StoredProcRpcConnectionITCase {
 		action.setRpcPath("doStuffWithTwoNumbersIntoParams");
 
 		List<RpcField> fields = action.getFields();
-		fields.add(FieldsUtils.makeField("param1", new Integer(10), Direction.INPUT, 1));
-		fields.add(FieldsUtils.makeField("param2", new Integer(20), Direction.INPUT, 2));
+		fields.add(FieldsUtils.makeField("param1", new Integer(10),
+				Direction.INPUT, 1));
+		fields.add(FieldsUtils.makeField("param2", new Integer(20),
+				Direction.INPUT, 2));
 
-		RpcFlatField sumResultField = FieldsUtils.makeField("sum", new Integer(0), Direction.OUTPUT, 3);
-		RpcFlatField subResultField = FieldsUtils.makeField("sub", new Integer(0), Direction.OUTPUT, 4);
-		RpcFlatField mulResultField = FieldsUtils.makeField("mul", new Integer(0), Direction.OUTPUT, 5);
+		RpcFlatField sumResultField = FieldsUtils.makeField("sum", new Integer(
+				0), Direction.OUTPUT, 3);
+		RpcFlatField subResultField = FieldsUtils.makeField("sub", new Integer(
+				0), Direction.OUTPUT, 4);
+		RpcFlatField mulResultField = FieldsUtils.makeField("mul", new Integer(
+				0), Direction.OUTPUT, 5);
 
 		fields.add(sumResultField);
 		fields.add(subResultField);
@@ -143,9 +135,12 @@ public class StoredProcRpcConnectionITCase {
 
 		// parse result
 
-		Assert.assertEquals(30, ((BigDecimal) sumResultField.getValue()).intValue());
-		Assert.assertEquals(-10, ((BigDecimal) subResultField.getValue()).intValue());
-		Assert.assertEquals(200, ((BigDecimal) mulResultField.getValue()).intValue());
+		Assert.assertEquals(30,
+				((BigDecimal) sumResultField.getValue()).intValue());
+		Assert.assertEquals(-10,
+				((BigDecimal) subResultField.getValue()).intValue());
+		Assert.assertEquals(200,
+				((BigDecimal) mulResultField.getValue()).intValue());
 	}
 
 	@Test
@@ -154,7 +149,8 @@ public class StoredProcRpcConnectionITCase {
 		action.setRpcPath("sayHello");
 
 		List<RpcField> actionFields = action.getFields();
-		actionFields.add(FieldsUtils.makeField("param", new String("World"), Direction.INPUT, 1));
+		actionFields.add(FieldsUtils.makeField("param", new String("World"),
+				Direction.INPUT, 1));
 		actionFields.add(makeResultsField());
 
 		RpcResult rpcResult = connection.invoke(action);
@@ -165,9 +161,10 @@ public class StoredProcRpcConnectionITCase {
 
 		for (RpcField f : rpcResult.getRpcFields()) {
 			if (f instanceof RpcStructureField) {
-				if (f.getName().equals("results") || f.getDirection() == Direction.OUTPUT) {
-					SimpleRpcStructureListField lf =
-							(SimpleRpcStructureListField) ((RpcStructureField) f).getChildrens().get(0);
+				if (f.getName().equals("results")
+						|| f.getDirection() == Direction.OUTPUT) {
+					SimpleRpcStructureListField lf = (SimpleRpcStructureListField) ((RpcStructureField) f)
+							.getChildrens().get(0);
 
 					for (RpcFields fields : lf.getChildrens()) {
 						for (RpcField itemField : fields.getFields()) {
@@ -193,9 +190,11 @@ public class StoredProcRpcConnectionITCase {
 		action.setRpcPath("sayHelloIntoParam");
 
 		List<RpcField> fields = action.getFields();
-		fields.add(FieldsUtils.makeField("param", new String("World"), Direction.INPUT, 1));
+		fields.add(FieldsUtils.makeField("param", new String("World"),
+				Direction.INPUT, 1));
 
-		RpcFlatField stringResultField = FieldsUtils.makeField("result", new String(""), Direction.OUTPUT, 2);
+		RpcFlatField stringResultField = FieldsUtils.makeField("result",
+				new String(""), Direction.OUTPUT, 2);
 		fields.add(stringResultField);
 
 		RpcResult rpcResult = connection.invoke(action);
@@ -209,25 +208,34 @@ public class StoredProcRpcConnectionITCase {
 		action.setRpcPath("getItemDetails");
 
 		List<RpcField> actiodFields = action.getFields();
-		actiodFields.add(FieldsUtils.makeField("itemId", 1, Direction.INPUT, 1));
+		actiodFields
+				.add(FieldsUtils.makeField("itemId", 1, Direction.INPUT, 1));
 
 		SimpleRpcStructureField itemRecordField = new SimpleRpcStructureField();
 		itemRecordField.setName("results");
-		itemRecordField.getChildrens().add(FieldsUtils.makeField("name", "", Direction.OUTPUT, 0));
-		itemRecordField.getChildrens().add(FieldsUtils.makeField("description", "", Direction.OUTPUT, 0));
-		itemRecordField.getChildrens().add(FieldsUtils.makeField("weight", 10, Direction.OUTPUT, 0));
+		itemRecordField.getChildrens().add(
+				FieldsUtils.makeField("name", "", Direction.OUTPUT, 0));
+		itemRecordField.getChildrens().add(
+				FieldsUtils.makeField("description", "", Direction.OUTPUT, 0));
+		itemRecordField.getChildrens().add(
+				FieldsUtils.makeField("weight", 10, Direction.OUTPUT, 0));
 		actiodFields.add(itemRecordField);
 
 		SimpleRpcStructureField shipmentMethodField = new SimpleRpcStructureField();
 		shipmentMethodField.setName("results");
-		shipmentMethodField.getChildrens().add(FieldsUtils.makeField("shipping_method_name", "", Direction.OUTPUT, 0));
-		shipmentMethodField.getChildrens().add(FieldsUtils.makeField("days", 10, Direction.OUTPUT, 0));
+		shipmentMethodField.getChildrens().add(
+				FieldsUtils.makeField("shipping_method_name", "",
+						Direction.OUTPUT, 0));
+		shipmentMethodField.getChildrens().add(
+				FieldsUtils.makeField("days", 10, Direction.OUTPUT, 0));
 		actiodFields.add(shipmentMethodField);
 
 		RpcResult rpcResult = connection.invoke(action);
 
-		Assert.assertEquals("Kid Guitar", ((RpcFlatField) itemRecordField.getChildrens().get(0)).getValue());
-		Assert.assertEquals("Air Mail", ((RpcFlatField) shipmentMethodField.getChildrens().get(0)).getValue());
+		Assert.assertEquals("Kid Guitar", ((RpcFlatField) itemRecordField
+				.getChildrens().get(0)).getValue());
+		Assert.assertEquals("Air Mail", ((RpcFlatField) shipmentMethodField
+				.getChildrens().get(0)).getValue());
 	}
 
 	@Test
@@ -247,9 +255,10 @@ public class StoredProcRpcConnectionITCase {
 
 		for (RpcField f : rpcResult.getRpcFields()) {
 			if (f instanceof RpcStructureField) {
-				if (f.getName().equals("results") || f.getDirection() == Direction.OUTPUT) {
-					SimpleRpcStructureListField lf =
-							(SimpleRpcStructureListField) ((RpcStructureField) f).getChildrens().get(0);
+				if (f.getName().equals("results")
+						|| f.getDirection() == Direction.OUTPUT) {
+					SimpleRpcStructureListField lf = (SimpleRpcStructureListField) ((RpcStructureField) f)
+							.getChildrens().get(0);
 
 					for (RpcFields fields : lf.getChildrens()) {
 						resultsCount++;
