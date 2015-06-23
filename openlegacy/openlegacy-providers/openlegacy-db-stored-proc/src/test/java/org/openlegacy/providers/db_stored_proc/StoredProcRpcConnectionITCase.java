@@ -3,7 +3,6 @@ package org.openlegacy.providers.db_stored_proc;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.annotations.rpc.Direction;
@@ -33,31 +32,12 @@ public class StoredProcRpcConnectionITCase {
 
 	RpcConnection connection;
 
-	@BeforeClass
-	public static void beforeClass() {
-		if (System.getProperty("mysql.port") == null) {
-			System.setProperty("mysql.port", "3306");
-		}
-
-		if (System.getProperty("mysql.dbname") == null) {
-			System.setProperty("mysql.dbname", "rpc_test");
-		}
-
-		if (System.getProperty("mysql.user") == null) {
-			System.setProperty("mysql.user", "rpc_test");
-		}
-
-		if (System.getProperty("mysql.password") == null) {
-			System.setProperty("mysql.password", "password");
-		}
-
-		System.out.println(System.getProperty("mysql.port"));
-	}
-
 	@Before
 	public void before() {
 		connection = factory.getConnection();
 
+		// connection.login(System.getProperty("jdbc.username"),
+		// System.getProperty("jdbc.password"));
 		connection.login("rpc_test", "password");
 	}
 
