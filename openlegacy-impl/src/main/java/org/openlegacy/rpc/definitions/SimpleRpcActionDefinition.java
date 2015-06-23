@@ -29,6 +29,7 @@ public class SimpleRpcActionDefinition extends SimpleActionDefinition implements
 	private static final long serialVersionUID = 1L;
 	private String programPath;
 	private Map<QName, String> properties = null;
+
 	private final static Log logger = LogFactory.getLog(SimpleRpcActionDefinition.class);
 
 	public SimpleRpcActionDefinition(SessionAction<? extends Session> action, String displayName) {
