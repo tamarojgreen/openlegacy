@@ -27,9 +27,9 @@ import javax.inject.Inject;
  */
 public class AbstractRpcRestController extends AbstractRestController {
 
-	protected static final String JSON = "application/json";
-	protected static final String XML = "application/xml";
-	protected static final String MODEL = "model";
+	public static final String JSON = "application/json";
+	public static final String XML = "application/xml";
+	public static final String MODEL = "model";
 
 	@Inject
 	private RpcSession rpcSession;
