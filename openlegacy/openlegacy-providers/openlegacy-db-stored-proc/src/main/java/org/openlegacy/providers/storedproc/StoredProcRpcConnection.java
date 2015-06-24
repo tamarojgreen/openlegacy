@@ -1,4 +1,4 @@
-package org.openlegacy.providers.db_stored_proc;
+package org.openlegacy.providers.storedproc;
 
 import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;

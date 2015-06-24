@@ -1,4 +1,4 @@
-package org.openlegacy.providers.db_stored_proc;
+package org.openlegacy.providers.storedproc;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.annotations.rpc.Direction;
+import org.openlegacy.providers.storedproc.FieldsUtils;
+import org.openlegacy.providers.storedproc.StoredProcRpcConnectionFactory;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFields;
