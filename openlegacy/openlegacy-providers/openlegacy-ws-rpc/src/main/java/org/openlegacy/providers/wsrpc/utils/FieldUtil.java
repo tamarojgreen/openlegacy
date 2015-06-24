@@ -5,15 +5,18 @@ import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFlatField;
 
 import java.lang.reflect.Method;
+import java.util.Date;
 
 import javax.xml.soap.SOAPElement;
 
 public class FieldUtil extends org.openlegacy.utils.FieldUtil {
 
-	public static void readPrimitiveField(RpcFlatField field, SOAPElement value) throws OpenLegacyException {
+	public static void readPrimitiveField(RpcFlatField field, SOAPElement value, Object... values) throws OpenLegacyException {
 		Class<?> clazz = getPrimitiveClass(field.getType());// finds conformity between int and Integer, etc...
 		try {
-			if (clazz != String.class) {
+			if (clazz == Date.class) {
+				field.setValue(value.getValue());
+			} else if (clazz != String.class) {
 				Method valueOf = clazz.getMethod(VALUE_OF, String.class);
 				field.setValue(valueOf.invoke(null, value.getValue()));
 			} else {

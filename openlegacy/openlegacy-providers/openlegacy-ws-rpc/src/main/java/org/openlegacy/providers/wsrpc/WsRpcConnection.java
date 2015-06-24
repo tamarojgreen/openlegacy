@@ -147,13 +147,14 @@ public class WsRpcConnection implements RpcConnection {
 	}
 
 	private boolean needToBreakGroup(RpcField field) {
-		return field.getName().contains(WsRpcActionUtil.INPUT) || field.getName().contains(WsRpcActionUtil.OUTPUT);
+		return field.getName().contains(WsRpcActionUtil.INPUT) || field.getName().contains(WsRpcActionUtil.OUTPUT)
+				|| field.getName().contains(WsRpcActionUtil.INPUT_OUTPUT);
 	}
 
 	private void setFields(List<RpcField> fields, SOAPElement actionElement) throws SOAPException {
 		for (RpcField field : fields) {
 			if (field instanceof SimpleRpcStructureField) {
-				if (field.getName().contains(WsRpcActionUtil.INPUT)) {
+				if (field.getName().contains(WsRpcActionUtil.INPUT) || field.getName().contains(WsRpcActionUtil.INPUT_OUTPUT)) {
 					setFields(((SimpleRpcStructureField)field).getChildrens(), actionElement);
 				}
 
@@ -165,6 +166,8 @@ public class WsRpcConnection implements RpcConnection {
 			if (field.getDirection() == Direction.INPUT || field.getDirection() == Direction.INPUT_OUTPUT) {
 				if (FieldUtil.isPrimitive(field)) {
 					FieldUtil.writePrimitiveField((RpcFlatField)field, actionElement.addChildElement(field.getName()));
+				} else if (field instanceof SimpleRpcStructureField) {
+					setFields(((SimpleRpcStructureField)field).getChildrens(), actionElement);
 				}
 			}
 		}
@@ -173,7 +176,7 @@ public class WsRpcConnection implements RpcConnection {
 	private void getFields(List<RpcField> fields, Iterator<?> parent) throws Exception {
 		for (RpcField field : fields) {
 			if (field instanceof SimpleRpcStructureField) {
-				if (field.getName().contains(WsRpcActionUtil.OUTPUT)) {
+				if (field.getName().contains(WsRpcActionUtil.OUTPUT) || field.getName().contains(WsRpcActionUtil.INPUT_OUTPUT)) {
 					getFields(((SimpleRpcStructureField)field).getChildrens(), parent);
 				}
 

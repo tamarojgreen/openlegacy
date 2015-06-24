@@ -2,6 +2,7 @@ package org.openlegacy.utils;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class FieldUtil {
@@ -13,6 +14,7 @@ public class FieldUtil {
 
 	protected static final int primitiveTypesEndOffset = 4;
 	protected static final String VALUE_OF = "valueOf";
+	protected static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
 	public static class MinMax {
 
@@ -96,7 +98,10 @@ public class FieldUtil {
 
 	public static int getSize(Class<?> clazz) {
 		try {
-			return clazz != String.class ? (Integer)clazz.getField("BYTES").get(null) : 255;
+			if (clazz == Boolean.class)
+				return 1;
+			else
+				return clazz != String.class ? (Integer)clazz.getField("BYTES").get(null) : 255;
 		} catch (Exception e) {
 			return 0;
 		}

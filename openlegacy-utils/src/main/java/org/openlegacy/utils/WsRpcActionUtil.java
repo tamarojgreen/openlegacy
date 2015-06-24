@@ -16,6 +16,7 @@ public class WsRpcActionUtil {
 
 	public static final String INPUT = "OperationInputParams";
 	public static final String OUTPUT = "OperationOutputParams";
+	public static final String INPUT_OUTPUT = "OperationInputOutputParams";
 
 	// cause toDisplayName used instad of toClassName in RpcEntityDefinitionBuilderImpl
 	public static final String INPUT_DESIGNTIME = "Operation_Input_Params";
