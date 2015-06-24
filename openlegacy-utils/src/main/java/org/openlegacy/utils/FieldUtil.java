@@ -98,10 +98,12 @@ public class FieldUtil {
 
 	public static int getSize(Class<?> clazz) {
 		try {
-			if (clazz == Boolean.class)
+			if (clazz == Boolean.class) {
 				return 1;
-			else
-				return clazz != String.class ? (Integer)clazz.getField("BYTES").get(null) : 255;
+			} else {
+				// return clazz != String.class ? (Integer)clazz.getField("BYTES").get(null) : 255;
+				return clazz != String.class ? (Integer)clazz.getField("SIZE").get(null) / 8 : 255;
+			}
 		} catch (Exception e) {
 			return 0;
 		}
