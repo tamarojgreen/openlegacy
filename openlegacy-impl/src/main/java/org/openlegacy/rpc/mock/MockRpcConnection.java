@@ -10,8 +10,10 @@
  *******************************************************************************/
 package org.openlegacy.rpc.mock;
 
+import org.apache.commons.lang.StringUtils;
 import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.rpc.RpcConnection;
+import org.openlegacy.rpc.RpcFlatField;
 import org.openlegacy.rpc.RpcInvokeAction;
 import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.RpcSnapshot;
@@ -61,7 +63,8 @@ public class MockRpcConnection implements RpcConnection {
 		if (lastSnapshpot == null || lastSnapshpot.getSequence() > snapshots.size()) {
 			lastSnapshpot = snapshots.get(0);
 		} else {
-			lastSnapshpot = snapshots.get(lastSnapshpot.getSequence() - 1);
+			moveToRequiredSnapshot(rpcInvokeAction);
+			//			lastSnapshpot = snapshots.get(lastSnapshpot.getSequence() - 1);
 		}
 		currentIndex = lastSnapshpot.getSequence();
 		if (verifySend == true) {
@@ -113,6 +116,26 @@ public class MockRpcConnection implements RpcConnection {
 		}
 
 		lastSnapshpot = snapshots.get(currentIndex);
+	}
+
+	private void moveToRequiredSnapshot(RpcInvokeAction invokeAction) {
+		for (RpcSnapshot rpcSnapshot : snapshots) {
+			if (rpcSnapshot.getRpcInvokeAction().getFields().isEmpty() || invokeAction.getFields().isEmpty()) {
+				continue;
+			}
+			if (StringUtils.equals(rpcSnapshot.getRpcInvokeAction().getRpcPath(), invokeAction.getRpcPath())) {
+				try {
+					RpcFlatField rpcField = (RpcFlatField) rpcSnapshot.getRpcInvokeAction().getFields().get(0);
+					RpcFlatField field = (RpcFlatField) invokeAction.getFields().get(0);
+					if (rpcField.getValue().equals(field.getValue())) {
+						lastSnapshpot = rpcSnapshot;
+					}
+				} catch (Exception e) {
+					lastSnapshpot = rpcSnapshot;
+				}
+			}
+
+		}
 	}
 
 }

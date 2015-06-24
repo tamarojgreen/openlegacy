@@ -18,6 +18,8 @@ import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalActions;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -199,4 +201,7 @@ public @interface ScreenField {
 	String expression() default "";
 
 	boolean enableLookup() default false;
+	
+	Class<? extends TerminalAction> lookupAction() default TerminalActions.NONE.class;
+	
 }

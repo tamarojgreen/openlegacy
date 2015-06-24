@@ -19,11 +19,8 @@ import org.exolab.castor.xml.ValidationException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
-import org.openlegacy.db.DbSession;
 import org.openlegacy.db.definitions.DbEntityDefinition;
-import org.openlegacy.db.services.DbEntitiesRegistry;
 import org.openlegacy.db.services.DbService;
 import org.openlegacy.db.services.DbService.TableDbObject;
 import org.openlegacy.definitions.ActionDefinition;
@@ -34,7 +31,6 @@ import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuItem;
-import org.openlegacy.mvc.AbstractRestController;
 import org.openlegacy.support.SimpleEntityWrapper;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Controller;
@@ -66,7 +62,7 @@ import javax.persistence.IdClass;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-public class DefaultDbRestController extends AbstractRestController {
+public class DefaultDbRestController extends AbstractDbRestController {
 
 	public static final String USER = "user";
 	public static final String PASSWORD = "password";
@@ -75,13 +71,7 @@ public class DefaultDbRestController extends AbstractRestController {
 	private DbService dbService;
 
 	@Inject
-	private DbSession dbSession;
-
-	@Inject
 	private Login dbLoginModule;
-
-	@Inject
-	private DbEntitiesRegistry dbEntitiesRegistry;
 
 	private Integer pageSize = 20;
 
@@ -222,7 +212,7 @@ public class DefaultDbRestController extends AbstractRestController {
 
 	@Override
 	protected ModelAndView getEntityDefinitions(String entityName, HttpServletResponse response) throws IOException {
-		EntityDefinition<?> entityDefinitions = dbEntitiesRegistry.get(entityName);
+		EntityDefinition<?> entityDefinitions = getEntitiesRegistry().get(entityName);
 		return new ModelAndView("definitions", "definitions", entityDefinitions);
 
 	}
@@ -232,7 +222,7 @@ public class DefaultDbRestController extends AbstractRestController {
 		if (!authenticate(response)) {
 			return null;
 		}
-		Class<?> entityClass = dbEntitiesRegistry.get(entityName).getEntityClass();
+		Class<?> entityClass = getEntitiesRegistry().get(entityName).getEntityClass();
 		try {
 			Object entity = getApiEntity(entityClass, queryConditions, key);
 			return getEntityInner(entity, children);
@@ -245,12 +235,12 @@ public class DefaultDbRestController extends AbstractRestController {
 
 	protected void deleteEntityRequest(String entityName, String key, String parentId, String parentEntityName,
 			HttpServletResponse response) throws EntityNotFoundException, Exception {
-		Class<?> entityClass = dbEntitiesRegistry.get(entityName).getEntityClass();
+		Class<?> entityClass = getEntitiesRegistry().get(entityName).getEntityClass();
 		if (parentId == null || parentEntityName == null) {
 			dbService.deleteEntityById(entityClass, toObject(getFirstIdJavaType(entityClass), key.split("\\+")[0]));
 		} else {
 			Object convertedParentId = null;
-			Class<?> parentClass = dbEntitiesRegistry.get(parentEntityName).getEntityClass();
+			Class<?> parentClass = getEntitiesRegistry().get(parentEntityName).getEntityClass();
 			if (StringUtils.isNumeric(parentId)) {
 				convertedParentId = Integer.valueOf(parentId);
 			} else {
@@ -422,7 +412,8 @@ public class DefaultDbRestController extends AbstractRestController {
 			jsonObject = (JSONObject) jsonParser.parse(json);
 			if (jsonObject.get("parent") != null) {
 				JSONObject jsonParent = (JSONObject) jsonObject.get("parent");
-				DbEntityDefinition dbEntityDefinition = dbEntitiesRegistry.get((String) jsonParent.get("entityName"));
+				DbEntityDefinition dbEntityDefinition = (DbEntityDefinition) getEntitiesRegistry().get(
+						(String) jsonParent.get("entityName"));
 				if (dbEntityDefinition != null) {
 					Class<?> parentClass = dbEntityDefinition.getEntityClass();
 					String parentId = (String) jsonParent.get("id");
@@ -581,7 +572,7 @@ public class DefaultDbRestController extends AbstractRestController {
 	 */
 	@Override
 	protected Class<?> findAndHandleNotFound(String entityName, HttpServletResponse response) throws IOException {
-		Class<?> entityClass = dbEntitiesRegistry.getEntityClass(entityName);
+		Class<?> entityClass = getEntitiesRegistry().getEntityClass(entityName);
 		if (entityClass == null) {
 			String message = MessageFormat.format("Entity {0} not found", entityName);
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, message);
@@ -641,11 +632,6 @@ public class DefaultDbRestController extends AbstractRestController {
 		response.flushBuffer();
 	}
 
-	@Override
-	public DbSession getSession() {
-		return dbSession;
-	}
-
 	private Object getMenu() {
 		Menu menuModule = getSession().getModule(Menu.class);
 		if (menuModule == null) {
@@ -653,11 +639,6 @@ public class DefaultDbRestController extends AbstractRestController {
 		}
 		MenuItem menus = menuModule.getMenuTree();
 		return menus;
-	}
-
-	@Override
-	protected EntitiesRegistry<?, ?, ?> getEntitiesRegistry() {
-		return dbEntitiesRegistry;
 	}
 
 }

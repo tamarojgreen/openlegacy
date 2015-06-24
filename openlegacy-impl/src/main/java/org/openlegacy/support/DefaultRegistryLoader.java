@@ -99,7 +99,7 @@ public class DefaultRegistryLoader implements RegistryLoader {
 		fillEntitiesReferences(entitiesRegistry);
 
 		for (RegistryLoaderListener listener : registryLoaderListeners) {
-			listener.registryLoaded(entitiesRegistry);
+			listener.registryLoaded(entitiesRegistry, beanFactory);
 		}
 	}
 

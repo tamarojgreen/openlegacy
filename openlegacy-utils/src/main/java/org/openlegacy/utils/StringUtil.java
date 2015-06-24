@@ -28,12 +28,12 @@ public class StringUtil {
 	 * this array contains forbidden words from java,c#,vb,javaScript
 	 */
 	private static final String[] RESERVED_WORDS = new String[] { "abstract", "do", "if", "package", "synchronized",
-		"implements", "private", "this", "break", "else", "import", "protected", "throw", "byte", "extends", "instanceof",
-		"public", "throws", "case", "false", "return", "transient", "catch", "final", "interface", "short", "int", "float",
-		"double", "boolean", "true", "char", "long", "static", "try", "class", "native", "strictfp", "void", "const", "for",
-		"new", "super", "volatile", "continue", "goto", "null", "switch", "while", "default", "assert", "exception", "java",
-		"menu", "jsp", "context", /** java-script **/
-	"action" };
+			"implements", "private", "this", "break", "else", "import", "protected", "throw", "byte", "extends", "instanceof",
+			"public", "throws", "case", "false", "return", "transient", "catch", "final", "interface", "short", "int", "float",
+			"double", "boolean", "true", "char", "long", "static", "try", "class", "native", "strictfp", "void", "const", "for",
+			"new", "super", "volatile", "continue", "goto", "null", "switch", "while", "default", "assert", "exception", "java",
+			"menu", "jsp", "context", /** java-script **/
+			"action" };
 
 	private static Map<String, String> RESERVERD_WORDS_DICTIONARY = new HashMap<String, String>();
 
@@ -60,7 +60,16 @@ public class StringUtil {
 	}
 
 	public static String toJavaFieldName(String text) {
-		return toVariableName(text, false);
+		String name = toVariableName(text, false);
+		// uncap the second char in name
+		if (name.length() > 1 && Character.isUpperCase(name.charAt(1))) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(name.charAt(0));
+			sb.append(Character.toLowerCase(name.charAt(1)));
+			sb.append(name.substring(2));
+			return sb.toString();
+		}
+		return name;
 	}
 
 	public static String toEnumValue(String enumWithClass) {
@@ -430,7 +439,7 @@ public class StringUtil {
 				// Arabic Presentation
 				// Forms-A Block
 				|| (isArabicCharFormB(inputChar)) // FE70-FEFC Unicode Characters in the Arabic Presentation Forms-B Block
-				) {
+		) {
 			return true;
 		} else {
 			return false;

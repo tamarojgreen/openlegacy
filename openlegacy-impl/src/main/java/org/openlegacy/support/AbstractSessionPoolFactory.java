@@ -7,6 +7,7 @@ import org.openlegacy.SessionAction;
 import org.openlegacy.SessionFactory;
 import org.openlegacy.SessionPoolListner;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.exceptions.SessionInitException;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -18,7 +19,8 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-public abstract class AbstractSessionPoolFactory<S extends Session, A extends SessionAction<S>> implements SessionFactory<S, A>, InitializingBean, DisposableBean {
+public abstract class AbstractSessionPoolFactory<S extends Session, A extends SessionAction<S>> implements SessionFactory<S, A>,
+		InitializingBean, DisposableBean {
 
 	private static final Log logger = LogFactory.getLog(AbstractSessionPoolFactory.class);
 
@@ -49,7 +51,7 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 	@Autowired(required = false)
 	private List<SessionPoolListner> listeners;
 
-	protected void initSession() {
+	protected void initSession() throws SessionInitException {
 		if (listeners != null) {
 			for (SessionPoolListner listener : listeners) {
 				listener.newSession();
@@ -63,7 +65,12 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 	public S getSession() {
 		logger.debug("New session requested");
 		if (blockingQueue.size() == 0 && actives.size() < maxConnections) {
-			initSession();
+			try {
+				initSession();
+			} catch (SessionInitException e) {
+				logger.debug(e.getMessage());
+				return null;
+			}
 		}
 		return waitForSession();
 	}

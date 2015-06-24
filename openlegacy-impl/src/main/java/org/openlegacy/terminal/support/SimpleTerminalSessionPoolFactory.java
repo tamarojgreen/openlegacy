@@ -13,6 +13,7 @@ package org.openlegacy.terminal.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.exceptions.SessionInitException;
 import org.openlegacy.support.AbstractSessionPoolFactory;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSessionFactory;
@@ -95,7 +96,12 @@ public class SimpleTerminalSessionPoolFactory extends AbstractSessionPoolFactory
 
 	@Override
 	protected void initSession() {
-		super.initSession();
+		try {
+			super.initSession();
+		} catch (SessionInitException e) {
+			logger.debug(e.getMessage());
+			return;
+		}
 		TerminalSession terminalSession = applicationContext.getBean(TerminalSession.class);
 		logger.debug(MessageFormat.format("New session {0} created for pool", terminalSession));
 		if (initAction != null) {
