@@ -14,6 +14,7 @@
 	    		<prop key="host.name">${host.name}</prop>
 	    		<prop key="host.port">${host.port}</prop>
 	    		<prop key="host.codePage">${host.codePage}</prop>
+	    		<prop key="host.model">${s3270.charset}</prop>
 	    		<prop key="s3270.additional">${host.additional_params}</prop>
 			</props>
 	    </property>
