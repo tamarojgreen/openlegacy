@@ -1,4 +1,4 @@
-package org.openlegacy.providers.db_stored_proc;
+package org.openlegacy.providers.storedproc;
 
 import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
@@ -67,7 +67,7 @@ public class StoredProcRpcConnection implements RpcConnection {
 	@Override
 	public boolean isConnected() {
 		try {
-			return dbConnection.isValid(10000);
+			return dbConnection != null && dbConnection.isValid(10000);
 		} catch (SQLException e) {
 			// e.printStackTrace();
 			throw new OpenLegacyRuntimeException(e);
@@ -77,7 +77,9 @@ public class StoredProcRpcConnection implements RpcConnection {
 	@Override
 	public void disconnect() {
 		try {
-			dbConnection.close();
+			if (dbConnection != null) {
+				dbConnection.close();
+			}
 		} catch (SQLException e) {
 			// e.printStackTrace();
 		}

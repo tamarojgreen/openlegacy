@@ -19,7 +19,7 @@
 		<!-- <module>openlegacy-applinx</module> -->
 		<module>openlegacy-ws-rpc</module>
 		<module>openlegacy-jt400</module>
-<!-- 		<module>openlegacy-db-stored-proc</module> -->
+		<module>openlegacy-db-stored-proc</module>
 	</modules>
 	
 	 <build>
