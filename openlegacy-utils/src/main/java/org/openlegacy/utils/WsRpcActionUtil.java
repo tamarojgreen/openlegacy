@@ -18,22 +18,13 @@ public class WsRpcActionUtil {
 	public static final String OUTPUT = "OperationOutputParams";
 	public static final String INPUT_OUTPUT = "OperationInputOutputParams";
 
-	// cause toDisplayName used instad of toClassName in RpcEntityDefinitionBuilderImpl
-	public static final String INPUT_DESIGNTIME = "Operation_Input_Params";
-	public static final String OUTPUT_DESIGNTIME = "Operation_Output_Params";
+	public static final String RPC_PART_INPUT = "rpcPartInput";
+	public static final String RPC_PART_OUTPUT = "rpcPartOutput";
 
 	public static class WsRpcActionData {
 
-		String targetNamespace, serviceName, methodInputName, methodOutputName, methodInputNameSpace, methodOutputNameSpace;
-
-		public String getTargetNamespace() {
-			return targetNamespace;
-		}
-
-		public WsRpcActionData setTargetNamespace(String targetNamespace) {
-			this.targetNamespace = targetNamespace;
-			return this;
-		}
+		String serviceName, methodInputName, methodOutputName, methodInputNameSpace, methodOutputNameSpace, rpcPartInput,
+				rpcPartOutput;
 
 		public String getServiceName() {
 			return serviceName;
@@ -79,14 +70,35 @@ public class WsRpcActionUtil {
 			this.methodOutputNameSpace = methodOutputNameSpace;
 			return this;
 		}
+
+		public String getRpcPartInput() {
+			return rpcPartInput;
+		}
+
+		public WsRpcActionData setRpcPartInput(String rpcPartInput) {
+			this.rpcPartInput = rpcPartInput;
+			return this;
+		}
+
+		public String getRpcPartOutput() {
+			return rpcPartOutput;
+		}
+
+		public WsRpcActionData setRpcPartOutput(String rpcPartOutput) {
+			this.rpcPartOutput = rpcPartOutput;
+			return this;
+		}
+
 	}
 
 	public static WsRpcActionData getWsRpcActionData(Map<QName, String> props) {
 
-		return new WsRpcActionData().setServiceName(props.get(new QName(SERVICE_NAME))).setTargetNamespace(
-				props.get(new QName(TARGET_NAMESPACE))).setMethodInputName(props.get(new QName(METHOD_INPUT_NAME))).setMethodOutputName(
-				props.get(new QName(METHOD_OUTPUT_NAME))).setMethodInputNameSpace(props.get(new QName(METHOD_INPUT_NAMESPACE))).setMethodOutputNameSpace(
-				props.get(new QName(METHOD_INPUT_NAMESPACE)));
+		return new WsRpcActionData().setServiceName(props.get(new QName(SERVICE_NAME))).setMethodInputName(
+				props.get(new QName(METHOD_INPUT_NAME))).setMethodOutputName(props.get(new QName(METHOD_OUTPUT_NAME))).setMethodInputNameSpace(
+				props.get(new QName(METHOD_INPUT_NAMESPACE))).setMethodOutputNameSpace(
+				props.get(new QName(METHOD_INPUT_NAMESPACE))).setRpcPartInput(
+				props.getOrDefault(new QName(RPC_PART_INPUT), "|none|")).setRpcPartOutput(
+				props.getOrDefault(new QName(RPC_PART_OUTPUT), "|none|"));
 	}
 
 }

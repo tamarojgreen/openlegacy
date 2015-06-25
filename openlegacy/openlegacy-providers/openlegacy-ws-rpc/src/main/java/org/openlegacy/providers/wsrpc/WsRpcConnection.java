@@ -16,6 +16,7 @@ import org.openlegacy.rpc.support.SimpleRpcInvokeAction;
 import org.openlegacy.rpc.support.SimpleRpcResult;
 import org.openlegacy.rpc.support.SimpleRpcStructureField;
 import org.openlegacy.rpc.support.SimpleRpcStructureListField;
+import org.openlegacy.utils.StringUtil;
 import org.openlegacy.utils.WsRpcActionUtil;
 import org.openlegacy.utils.WsRpcActionUtil.WsRpcActionData;
 
@@ -122,9 +123,9 @@ public class WsRpcConnection implements RpcConnection {
 
 		SOAPMessage message = messageFactory.createMessage();
 
-		WsRpcActionData data = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction)action).getProperties());
-		SOAPElement actionElement = message.getSOAPBody().addChildElement(data.getMethodInputName(), ACTION_PREFIX,
-				data.getMethodInputNameSpace());
+		actionData = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction)action).getProperties());
+		SOAPElement actionElement = message.getSOAPBody().addChildElement(actionData.getMethodInputName(), ACTION_PREFIX,
+				actionData.getMethodInputNameSpace());
 
 		setFields(action.getFields(), actionElement);
 
@@ -147,27 +148,28 @@ public class WsRpcConnection implements RpcConnection {
 	}
 
 	private boolean needToBreakGroup(RpcField field) {
-		return field.getName().contains(WsRpcActionUtil.INPUT) || field.getName().contains(WsRpcActionUtil.OUTPUT)
-				|| field.getName().contains(WsRpcActionUtil.INPUT_OUTPUT);
+		return field.getName().contains(StringUtil.toJavaFieldName(actionData.getRpcPartInput()))
+				|| field.getName().contains(StringUtil.toJavaFieldName(actionData.getRpcPartOutput()));
 	}
 
 	private void setFields(List<RpcField> fields, SOAPElement actionElement) throws SOAPException {
 		for (RpcField field : fields) {
 			if (field instanceof SimpleRpcStructureField) {
-				if (field.getName().contains(WsRpcActionUtil.INPUT) || field.getName().contains(WsRpcActionUtil.INPUT_OUTPUT)) {
-					setFields(((SimpleRpcStructureField)field).getChildrens(), actionElement);
-				}
-
-				if (needToBreakGroup(field)) {
-					continue;
+				if (field.getName().contains(StringUtil.toJavaFieldName(actionData.getRpcPartInput()))) {
+					setInnerFields(((SimpleRpcStructureField)field).getChildrens(), actionElement);
 				}
 			}
+		}
+	}
 
+	private void setInnerFields(List<RpcField> fields, SOAPElement actionElement) throws SOAPException {
+		for (RpcField field : fields) {
 			if (field.getDirection() == Direction.INPUT || field.getDirection() == Direction.INPUT_OUTPUT) {
 				if (FieldUtil.isPrimitive(field)) {
 					FieldUtil.writePrimitiveField((RpcFlatField)field, actionElement.addChildElement(field.getName()));
 				} else if (field instanceof SimpleRpcStructureField) {
-					setFields(((SimpleRpcStructureField)field).getChildrens(), actionElement);
+					SOAPElement element = actionElement.addChildElement(new QName(field.getName()));
+					setInnerFields(((SimpleRpcStructureField)field).getChildrens(), element);
 				}
 			}
 		}
@@ -176,7 +178,7 @@ public class WsRpcConnection implements RpcConnection {
 	private void getFields(List<RpcField> fields, Iterator<?> parent) throws Exception {
 		for (RpcField field : fields) {
 			if (field instanceof SimpleRpcStructureField) {
-				if (field.getName().contains(WsRpcActionUtil.OUTPUT) || field.getName().contains(WsRpcActionUtil.INPUT_OUTPUT)) {
+				if (field.getName().contains(StringUtil.toJavaFieldName(actionData.getRpcPartOutput()))) {
 					getFields(((SimpleRpcStructureField)field).getChildrens(), parent);
 				}
 
@@ -186,28 +188,26 @@ public class WsRpcConnection implements RpcConnection {
 			}
 
 			if (field.getDirection() == Direction.OUTPUT || field.getDirection() == Direction.INPUT_OUTPUT) {
-				if (field.getDirection() == Direction.OUTPUT || field.getDirection() == Direction.INPUT_OUTPUT) {
-					String elementName = field.getLegacyContainerName() != null ? field.getLegacyContainerName()
-							: field.getName();
-					SOAPElement data = findSOAPElement(parent, elementName);
+				String elementName = field.getLegacyContainerName() != null ? field.getLegacyContainerName() : field.getName();
+				SOAPElement data = findSOAPElement(parent, elementName);
 
-					if (data == null) {
-						throw new Exception(String.format("SOAPElement with name \" %s \" is unfound", field.getName()));
-					}
+				if (data == null) {
+					throw new Exception(String.format("SOAPElement with name \" %s \" is unfound", field.getName()));
+				}
 
-					if (FieldUtil.isPrimitive(field)) {
-						FieldUtil.readPrimitiveField((RpcFlatField)field, data);
-					} else if (field instanceof SimpleRpcStructureField) {
-						getFields(((SimpleRpcStructureField)field).getChildrens(), data.getChildElements());
-					} else if (field instanceof SimpleRpcStructureListField) {
-						List<RpcFields> children = ((SimpleRpcStructureListField)field).getChildrens();
-						for (int i = 0; i < children.size(); i++) {
-							getFields(children.get(i).getFields(), data.getChildElements());
-							data = findSOAPElement(parent, elementName);
-						}
+				if (FieldUtil.isPrimitive(field)) {
+					FieldUtil.readPrimitiveField((RpcFlatField)field, data);
+				} else if (field instanceof SimpleRpcStructureField) {
+					getFields(((SimpleRpcStructureField)field).getChildrens(), data.getChildElements());
+				} else if (field instanceof SimpleRpcStructureListField) {
+					List<RpcFields> children = ((SimpleRpcStructureListField)field).getChildrens();
+					for (int i = 0; i < children.size(); i++) {
+						getFields(children.get(i).getFields(), data.getChildElements());
+						data = findSOAPElement(parent, elementName);
 					}
 				}
 			}
+
 		}
 
 	}
