@@ -32,9 +32,11 @@ public class StoredProcRpcConnection implements RpcConnection {
 	Connection dbConnection = null;
 
 	private String dbUrl = null;
+	private String dbDriverClassName = null;
 
-	public StoredProcRpcConnection(String dbUrl) {
+	public StoredProcRpcConnection(String dbUrl, String dbDriverClassName) {
 		this.dbUrl = dbUrl;
+		this.dbDriverClassName = dbDriverClassName;
 	}
 
 	@Override
@@ -254,8 +256,12 @@ public class StoredProcRpcConnection implements RpcConnection {
 	@Override
 	public void login(String user, String password) {
 		try {
+			Class.forName(dbDriverClassName);
 			dbConnection = DriverManager.getConnection(dbUrl, user, password);
 		} catch (SQLException e) {
+			// e.printStackTrace();
+			throw new OpenLegacyRuntimeException(e);
+		} catch (ClassNotFoundException e) {
 			// e.printStackTrace();
 			throw new OpenLegacyRuntimeException(e);
 		}

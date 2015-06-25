@@ -7,10 +7,11 @@ import org.springframework.beans.factory.InitializingBean;
 public class StoredProcRpcConnectionFactory implements LiveRpcConnectionFactory, InitializingBean {
 
 	private String dbUrl;
+	private String dbDriverClassName;
 
 	@Override
 	public RpcConnection getConnection() {
-		return new StoredProcRpcConnection(getDbUrl());
+		return new StoredProcRpcConnection(getDbUrl(), getDbDriverClassName());
 	}
 
 	@Override
@@ -24,6 +25,14 @@ public class StoredProcRpcConnectionFactory implements LiveRpcConnectionFactory,
 
 	public void setDbUrl(String dbUrl) {
 		this.dbUrl = dbUrl;
+	}
+
+	public String getDbDriverClassName() {
+		return dbDriverClassName;
+	}
+
+	public void setDbDriverClassName(String dbDriverClassName) {
+		this.dbDriverClassName = dbDriverClassName;
 	}
 
 	@Override
