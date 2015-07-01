@@ -6,8 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.annotations.rpc.Direction;
-import org.openlegacy.providers.storedproc.FieldsUtils;
-import org.openlegacy.providers.storedproc.StoredProcRpcConnectionFactory;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFields;
@@ -37,9 +35,6 @@ public class StoredProcRpcConnectionITCase {
 	@Before
 	public void before() {
 		connection = factory.getConnection();
-
-		// connection.login(System.getProperty("jdbc.username"),
-		// System.getProperty("jdbc.password"));
 		connection.login("rpc_test", "password");
 	}
 
