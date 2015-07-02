@@ -65,7 +65,7 @@ public class DefaultSnapshotSimilarityChecker implements SnapshotsSimilarityChec
 		List<TerminalField> fields1 = row1.getFields();
 		double rowSpaceMatch = rowLength;
 		if (fields1.size() == 0 && row2.getFields().size() > 0) {
-			 return 0;
+//			 return 0;
 		}
 		for (TerminalField field : fields1) {
 			TerminalField secondField = row2.getField(field.getPosition().getColumn());
