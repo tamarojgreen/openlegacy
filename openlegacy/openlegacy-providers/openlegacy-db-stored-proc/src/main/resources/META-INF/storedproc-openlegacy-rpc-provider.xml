@@ -6,7 +6,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-    <context:property-placeholder location="classpath*:/stored-proc.properties"/>
+    <context:property-placeholder location="classpath*:/database.properties"/>
 
 	<bean id="rpcConnection"
         class="org.openlegacy.providers.storedproc.StoredProcRpcConnection"
@@ -14,8 +14,8 @@
     </bean>
     <bean id="rpcConnectionFactory"
         class="org.openlegacy.providers.storedproc.StoredProcRpcConnectionFactory">
-        <property name="dbUrl" value="${jdbc.url}" />
-        <property name="dbDriverClassName" value="${jdbc.driverClassName}" />
+        <property name="dbUrl" value="${database.url}" />
+        <property name="dbDriverClassName" value="${database.driverClassName}" />
     </bean>
 	
 </beans>

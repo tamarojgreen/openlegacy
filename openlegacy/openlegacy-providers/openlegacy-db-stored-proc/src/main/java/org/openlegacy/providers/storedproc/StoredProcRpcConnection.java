@@ -201,22 +201,20 @@ public class StoredProcRpcConnection implements RpcConnection {
 
 			// fetch result set
 
-			boolean hasData = false;
-			try {
-				hasData = rs.isBeforeFirst();
-			} catch (Exception e) {
+			for (RpcField resultField : resultsFields) {
+				if (resultField instanceof RpcStructureListField) {
+					SimpleRpcStructureListField lf = (SimpleRpcStructureListField) resultField;
+					lf.getChildrens().clear();
+				}
 			}
 
-			if (hasData) {
-				for (RpcField resultField : resultsFields) {
-					rs.beforeFirst();
+			boolean firstRecord = true;
+			try {
+				while (rs.next()) {
+					for (RpcField resultField : resultsFields) {
+						if (resultField instanceof RpcStructureListField) {
+							SimpleRpcStructureListField lf = (SimpleRpcStructureListField) resultField;
 
-					if (resultField instanceof RpcStructureListField) {
-						SimpleRpcStructureListField lf = (SimpleRpcStructureListField) resultField;
-
-						lf.getChildrens().clear();
-
-						while (rs.next()) {
 							SimpleRpcFields ffs = new SimpleRpcFields();
 
 							ResultSetMetaData md = rs.getMetaData();
@@ -225,20 +223,24 @@ public class StoredProcRpcConnection implements RpcConnection {
 							}
 
 							lf.getChildrens().add(ffs);
-						}
-					} else if (resultField instanceof RpcStructureField) {
-						rs.first();
-						ResultSetMetaData md = rs.getMetaData();
+						} else if (firstRecord && (resultField instanceof RpcStructureField)) {
+							ResultSetMetaData md = rs.getMetaData();
 
-						for (RpcField f : ((RpcStructureField) resultField).getChildrens()) {
-							for (int i = 1; i <= md.getColumnCount(); ++i) {
-								if (md.getColumnLabel(i).equals(f.getName())) {
-									((SimpleRpcFlatField) f).setValue(rs.getObject(i));
+							for (RpcField f : ((RpcStructureField) resultField).getChildrens()) {
+								for (int i = 1; i <= md.getColumnCount(); ++i) {
+									if (md.getColumnLabel(i).equalsIgnoreCase(f.getName())) {
+										((SimpleRpcFlatField) f).setValue(rs.getObject(i));
+									}
 								}
 							}
+
 						}
 					}
+
+					firstRecord = false;
 				}
+			} catch (SQLException e) {
+				// TODO: handle exception
 			}
 
 		} catch (SQLException e) {
