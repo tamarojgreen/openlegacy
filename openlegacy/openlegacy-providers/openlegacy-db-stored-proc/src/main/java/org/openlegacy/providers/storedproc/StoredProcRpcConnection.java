@@ -191,7 +191,7 @@ public class StoredProcRpcConnection implements RpcConnection {
 				}
 			}
 
-			ResultSet rs = cs.executeQuery();
+			cs.execute();
 
 			// fetch values for output params
 
@@ -208,39 +208,44 @@ public class StoredProcRpcConnection implements RpcConnection {
 				}
 			}
 
-			boolean firstRecord = true;
-			try {
-				while (rs.next()) {
-					for (RpcField resultField : resultsFields) {
-						if (resultField instanceof RpcStructureListField) {
-							SimpleRpcStructureListField lf = (SimpleRpcStructureListField) resultField;
+			ResultSet rs = cs.getResultSet();
 
-							SimpleRpcFields ffs = new SimpleRpcFields();
+			if (rs != null) {
+				boolean firstRecord = true;
+				try {
+					while (rs.next()) {
+						for (RpcField resultField : resultsFields) {
+							if (resultField instanceof RpcStructureListField) {
+								SimpleRpcStructureListField lf = (SimpleRpcStructureListField) resultField;
 
-							ResultSetMetaData md = rs.getMetaData();
-							for (int i = 1; i <= md.getColumnCount(); ++i) {
-								ffs.add(FieldsUtils.makeField(md.getColumnLabel(i), rs.getObject(i)));
-							}
+								SimpleRpcFields ffs = new SimpleRpcFields();
 
-							lf.getChildrens().add(ffs);
-						} else if (firstRecord && (resultField instanceof RpcStructureField)) {
-							ResultSetMetaData md = rs.getMetaData();
-
-							for (RpcField f : ((RpcStructureField) resultField).getChildrens()) {
+								ResultSetMetaData md = rs.getMetaData();
 								for (int i = 1; i <= md.getColumnCount(); ++i) {
-									if (md.getColumnLabel(i).equalsIgnoreCase(f.getName())) {
-										((SimpleRpcFlatField) f).setValue(rs.getObject(i));
+									ffs.add(FieldsUtils.makeField(md.getColumnLabel(i), rs.getObject(i)));
+								}
+
+								lf.getChildrens().add(ffs);
+							} else if (firstRecord && (resultField instanceof RpcStructureField)) {
+								ResultSetMetaData md = rs.getMetaData();
+
+								for (RpcField f : ((RpcStructureField) resultField).getChildrens()) {
+									for (int i = 1; i <= md.getColumnCount(); ++i) {
+										if (md.getColumnLabel(i).equalsIgnoreCase(f.getName())) {
+											((SimpleRpcFlatField) f).setValue(rs.getObject(i));
+										}
 									}
 								}
+
 							}
-
 						}
-					}
 
-					firstRecord = false;
+						firstRecord = false;
+					}
+				} catch (SQLException e) {
+					// TODO: handle exception
 				}
-			} catch (SQLException e) {
-				// TODO: handle exception
+
 			}
 
 		} catch (SQLException e) {
