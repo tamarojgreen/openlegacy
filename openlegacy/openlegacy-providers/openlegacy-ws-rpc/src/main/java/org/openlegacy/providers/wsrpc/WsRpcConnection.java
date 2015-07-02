@@ -54,6 +54,7 @@ public class WsRpcConnection implements RpcConnection {
 	private SOAPConnectionFactory connectionFactory;
 	private MessageFactory messageFactory;
 	private WsRpcActionData actionData;
+	private String baseURL;
 
 	public WsRpcConnection() {
 		try {
@@ -104,7 +105,8 @@ public class WsRpcConnection implements RpcConnection {
 		SimpleRpcResult result = new SimpleRpcResult();
 		try {
 			SOAPConnection connection = connectionFactory.createConnection();
-			soapToRpcResult(connection.call(actionToSoap(rpcInvokeAction), rpcInvokeAction.getRpcPath()), rpcInvokeAction, result);
+			soapToRpcResult(connection.call(actionToSoap(rpcInvokeAction), getServiceURL(rpcInvokeAction.getRpcPath())),
+					rpcInvokeAction, result);
 			connection.close();
 		} catch (Exception e) {
 			throw (new WsRpcConnectionRuntimeException(e));
@@ -122,9 +124,9 @@ public class WsRpcConnection implements RpcConnection {
 
 		SOAPMessage message = messageFactory.createMessage();
 
-		WsRpcActionData data = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction)action).getProperties());
-		SOAPElement actionElement = message.getSOAPBody().addChildElement(data.getMethodInputName(), ACTION_PREFIX,
-				data.getMethodInputNameSpace());
+		actionData = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction)action).getProperties());
+		SOAPElement actionElement = message.getSOAPBody().addChildElement(actionData.getMethodInputName(), ACTION_PREFIX,
+				actionData.getMethodInputNameSpace());
 
 		setFields(action.getFields(), actionElement);
 
@@ -260,5 +262,13 @@ public class WsRpcConnection implements RpcConnection {
 		faultString = findSOAPElement(faultElement.getChildElements(), ELEMENT_FAULT_STRING);
 
 		throw new Exception(String.format("%s>> %s", faultCode.getValue(), faultString.getValue()));
+	}
+
+	public void setBaseUrl(String baseURL) {
+		this.baseURL = baseURL.endsWith("/") ? baseURL.substring(0, baseURL.length() - 1) : baseURL;
+	}
+
+	private String getServiceURL(String rpcPath) {
+		return baseURL + rpcPath;
 	}
 }

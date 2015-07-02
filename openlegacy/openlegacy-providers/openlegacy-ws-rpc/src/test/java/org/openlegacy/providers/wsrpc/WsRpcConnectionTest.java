@@ -80,7 +80,7 @@ public class WsRpcConnectionTest {
 		outputValues.getChildrens().add(rpcField);
 		rpcInvokeAction.getFields().add(outputValues);
 
-		rpcInvokeAction.setRpcPath("http://dev.openlegacy.org/WsRpcConnectorExampleService/");
+		rpcInvokeAction.setRpcPath("/WsRpcConnectorExampleService/");
 
 		RpcResult rpcResult = localInvoke(rpcConnection, rpcInvokeAction);
 
@@ -126,7 +126,7 @@ public class WsRpcConnectionTest {
 		outputValues.getChildrens().add(rpcField);
 		rpcInvokeAction.getFields().add(outputValues);
 
-		rpcInvokeAction.setRpcPath("http://dev.openlegacy.org/WsRpcConnectorExampleService/");
+		rpcInvokeAction.setRpcPath("/WsRpcConnectorExampleService/");
 
 		RpcResult rpcResult = localInvoke(rpcConnection, rpcInvokeAction);
 
@@ -179,7 +179,7 @@ public class WsRpcConnectionTest {
 		outputValues.getChildrens().add(rpcArrayField);
 		rpcInvokeAction.getFields().add(outputValues);
 
-		rpcInvokeAction.setRpcPath("http://dev.openlegacy.org/WsRpcConnectorExampleService/");
+		rpcInvokeAction.setRpcPath("/WsRpcConnectorExampleService/");
 
 		RpcResult rpcResult = localInvoke(rpcConnection, rpcInvokeAction);
 
@@ -232,7 +232,7 @@ public class WsRpcConnectionTest {
 		outputValues.getChildrens().add(rpcArrayField);
 		rpcInvokeAction.getFields().add(outputValues);
 
-		rpcInvokeAction.setRpcPath("http://dev.openlegacy.org/WsRpcConnectorExampleService/");
+		rpcInvokeAction.setRpcPath("/WsRpcConnectorExampleService/");
 
 		RpcResult rpcResult = localInvoke(rpcConnection, rpcInvokeAction);
 		outputValues = (SimpleRpcStructureField)rpcResult.getRpcFields().get(0);

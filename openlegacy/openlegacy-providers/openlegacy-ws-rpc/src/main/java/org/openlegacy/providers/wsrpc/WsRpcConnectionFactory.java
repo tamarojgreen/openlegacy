@@ -5,9 +5,21 @@ import org.openlegacy.rpc.RpcConnection;
 
 public class WsRpcConnectionFactory implements LiveRpcConnectionFactory {
 
+	private String baseURL;
+
+	public WsRpcConnectionFactory() {
+		this("");
+	}
+
+	public WsRpcConnectionFactory(String baseURL) {
+		this.baseURL = baseURL;
+	}
+
 	@Override
 	public RpcConnection getConnection() {
-		return new WsRpcConnection();
+		WsRpcConnection connection = new WsRpcConnection();
+		connection.setBaseUrl(baseURL);
+		return connection;
 	}
 
 	@Override
