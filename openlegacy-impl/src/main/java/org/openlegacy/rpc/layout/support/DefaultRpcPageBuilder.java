@@ -12,11 +12,13 @@ import org.openlegacy.layout.PagePartRowDefinition;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcFieldDefinition;
 import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
+import org.openlegacy.rpc.definitions.SimpleRpcFieldDefinition;
 import org.openlegacy.rpc.definitions.SimpleRpcTableDefinition;
 import org.openlegacy.rpc.definitions.SimpleRpcTableDefinition.SimpleRpcColumnDefinition;
 import org.openlegacy.rpc.layout.RpcPageBuilder;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.support.TerminalPositionContainerComparator;
+import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -64,7 +66,8 @@ public class DefaultRpcPageBuilder implements RpcPageBuilder {
 			Collection<RpcFieldDefinition> fields = rpcPartEntityDefinition.getFieldsDefinitions().values();
 			List<RpcFieldDefinition> sortedFields = new ArrayList<RpcFieldDefinition>(fields);
 
-			SimplePagePartDefinition pagePart = (SimplePagePartDefinition)buildPagePart(sortedFields, entityDefinition);
+			SimplePagePartDefinition pagePart = (SimplePagePartDefinition)buildPagePart(sortedFields, entityDefinition,
+					parentEntityName);
 			pagePart.setDisplayName(rpcPartEntityDefinition.getDisplayName());
 
 			List<PagePartDefinition> pageParts = new ArrayList<PagePartDefinition>();
@@ -104,7 +107,8 @@ public class DefaultRpcPageBuilder implements RpcPageBuilder {
 		return pagePart;
 	}
 
-	private static PagePartDefinition buildPagePart(List<RpcFieldDefinition> fields, RpcEntityDefinition entityDefinition) {
+	private static PagePartDefinition buildPagePart(List<RpcFieldDefinition> fields, RpcEntityDefinition entityDefinition,
+			String parentName) {
 		SimplePagePartDefinition pagePart = new SimplePagePartDefinition();
 
 		PagePartRowDefinition currentPagePartRow = null;
@@ -117,6 +121,10 @@ public class DefaultRpcPageBuilder implements RpcPageBuilder {
 		// iterate through all the neighbor fields, and build row part rows upon row change, and find the end column
 		for (RpcFieldDefinition rpcFieldDefinition : fields) {
 			currentPagePartRow = new SimplePagePartRowDefinition();
+			if (rpcFieldDefinition.getClass().isAssignableFrom(SimpleRpcFieldDefinition.class)) { // QUICK FIX
+				SimpleRpcFieldDefinition test = (SimpleRpcFieldDefinition)rpcFieldDefinition;
+				test.setShortName(String.format("%s.%s", parentName, StringUtil.toJavaFieldName(test.getDisplayName())));
+			}
 			currentPagePartRow.getFields().add(rpcFieldDefinition);
 			pagePart.getPartRows().add(currentPagePartRow);
 		}
