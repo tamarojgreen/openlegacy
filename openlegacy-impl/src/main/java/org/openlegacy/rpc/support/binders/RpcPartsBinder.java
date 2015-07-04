@@ -128,7 +128,6 @@ public class RpcPartsBinder implements RpcEntityBinder {
 						nullObjects.add(i);
 						continue;
 					}
-
 					innerFieldAccessor.setPropertyValue(name, bindFieldToApi(fieldDefinition, value));
 				}
 				Map<String, RpcPartEntityDefinition> innerPartDefinition = rpcPartEntityDefinition.getInnerPartsDefinitions();
@@ -280,5 +279,4 @@ public class RpcPartsBinder implements RpcEntityBinder {
 	public Object toLegacy(RpcFieldDefinition rpcFieldDefinition, Object apiFieldValue, RpcFlatField booleanField) {
 		throw (new IllegalStateException("Should not arrive"));
 	}
-
 }

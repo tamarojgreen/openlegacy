@@ -13,12 +13,18 @@ package org.openlegacy.rpc.mock;
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.rpc.RpcConnection;
+import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFlatField;
 import org.openlegacy.rpc.RpcInvokeAction;
 import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.RpcSnapshot;
+import org.openlegacy.rpc.support.SimpleRpcInvokeAction;
+import org.openlegacy.rpc.support.SimpleRpcStructureField;
 
+import java.util.Iterator;
 import java.util.List;
+
+import javax.xml.namespace.QName;
 
 public class MockRpcConnection implements RpcConnection {
 
@@ -60,12 +66,13 @@ public class MockRpcConnection implements RpcConnection {
 
 	@Override
 	public RpcResult invoke(RpcInvokeAction rpcInvokeAction) {
-		if (lastSnapshpot == null || lastSnapshpot.getSequence() > snapshots.size()) {
-			lastSnapshpot = snapshots.get(0);
-		} else {
-			moveToRequiredSnapshot(rpcInvokeAction);
-			//			lastSnapshpot = snapshots.get(lastSnapshpot.getSequence() - 1);
-		}
+		// if (lastSnapshpot == null || lastSnapshpot.getSequence() > snapshots.size()) {WTF???
+		// lastSnapshpot = snapshots.get(0);
+		// } else {
+		// moveToRequiredSnapshot(rpcInvokeAction);
+		// // lastSnapshpot = snapshots.get(lastSnapshpot.getSequence() - 1);
+		// }
+		moveToRequiredSnapshot(rpcInvokeAction);
 		currentIndex = lastSnapshpot.getSequence();
 		if (verifySend == true) {
 			MockRpcSendValidationUtils.validateInvokeAction(lastSnapshpot.getRpcInvokeAction(), rpcInvokeAction);
@@ -123,12 +130,31 @@ public class MockRpcConnection implements RpcConnection {
 			if (rpcSnapshot.getRpcInvokeAction().getFields().isEmpty() || invokeAction.getFields().isEmpty()) {
 				continue;
 			}
-			if (StringUtils.equals(rpcSnapshot.getRpcInvokeAction().getRpcPath(), invokeAction.getRpcPath())) {
+			if (StringUtils.equals(rpcSnapshot.getRpcInvokeAction().getRpcPath(), invokeAction.getRpcPath())
+					&& additionalCheck(rpcSnapshot.getRpcInvokeAction(), invokeAction)) {
 				try {
-					RpcFlatField rpcField = (RpcFlatField) rpcSnapshot.getRpcInvokeAction().getFields().get(0);
-					RpcFlatField field = (RpcFlatField) invokeAction.getFields().get(0);
-					if (rpcField.getValue().equals(field.getValue())) {
-						lastSnapshpot = rpcSnapshot;
+					if (invokeAction instanceof SimpleRpcInvokeAction
+							&& ((SimpleRpcInvokeAction)invokeAction).getProperties().size() > 0) {
+						String key = ((SimpleRpcInvokeAction)rpcSnapshot.getRpcInvokeAction()).getProperties().get(
+								new QName("key"));
+						if (key == null) {
+							lastSnapshpot = rpcSnapshot;
+							break;
+						} else {
+							Object snaphotKey = getKey(rpcSnapshot.getRpcInvokeAction().getFields(), key);
+							Object invokeKey = getKey(invokeAction.getFields(), key);
+							if (snaphotKey.getClass().isAssignableFrom(invokeKey.getClass()) && snaphotKey.equals(invokeKey)) {
+								lastSnapshpot = rpcSnapshot;
+								break;
+							}
+						}
+					} else {// what about another entity structure xD?
+						RpcFlatField rpcField = (RpcFlatField)rpcSnapshot.getRpcInvokeAction().getFields().get(0);
+						RpcFlatField field = (RpcFlatField)invokeAction.getFields().get(0);
+						if (rpcField.getValue().equals(field.getValue())) {
+							lastSnapshpot = rpcSnapshot;
+							break;
+						}
 					}
 				} catch (Exception e) {
 					lastSnapshpot = rpcSnapshot;
@@ -136,6 +162,47 @@ public class MockRpcConnection implements RpcConnection {
 			}
 
 		}
+	}
+
+	private boolean additionalCheck(RpcInvokeAction snapShotAction, RpcInvokeAction processingAction) {
+		if (snapShotAction instanceof SimpleRpcInvokeAction && processingAction instanceof SimpleRpcInvokeAction) {
+			SimpleRpcInvokeAction snapshot = (SimpleRpcInvokeAction)snapShotAction;
+			SimpleRpcInvokeAction process = (SimpleRpcInvokeAction)processingAction;
+			Iterator<QName> iter = snapshot.getProperties().keySet().iterator();
+			while (iter.hasNext()) {
+				QName key = iter.next();
+
+				if (!process.getProperties().containsKey(key)) {
+					return false;
+				} else {
+					String snapValue = snapshot.getProperties().get(key);
+					String processValue = process.getProperties().get(key);
+					if (!snapValue.equals(processValue)) {
+						return false;
+					} else {
+						return true;
+					}
+				}
+			}
+			return true;
+		}
+		return true;
+	}
+
+	private Object getKey(List<RpcField> fields, String key) {
+		for (RpcField field : fields) {
+			if (field instanceof RpcFlatField) {
+				if (field.getName().equals(key)) {
+					return ((RpcFlatField)field).getValue();
+				}
+			} else if (field instanceof SimpleRpcStructureField) {
+				Object obj = getKey(((SimpleRpcStructureField)field).getChildrens(), key);
+				if (obj != null) {
+					return obj;
+				}
+			}
+		}
+		return null;
 	}
 
 }

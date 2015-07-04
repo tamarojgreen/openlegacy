@@ -78,7 +78,6 @@ public class SimpleRpcInvokeAction implements RpcInvokeAction, Serializable {
 
 	public void setAction(String action) {
 		this.action = action;
-
 	}
 
 	public Map<QName, String> getProperties() {
