@@ -168,19 +168,21 @@ public class MockRpcConnection implements RpcConnection {
 		if (snapShotAction instanceof SimpleRpcInvokeAction && processingAction instanceof SimpleRpcInvokeAction) {
 			SimpleRpcInvokeAction snapshot = (SimpleRpcInvokeAction)snapShotAction;
 			SimpleRpcInvokeAction process = (SimpleRpcInvokeAction)processingAction;
-			Iterator<QName> iter = snapshot.getProperties().keySet().iterator();
-			while (iter.hasNext()) {
-				QName key = iter.next();
+			if (snapshot.getProperties() != null) {
+				Iterator<QName> iter = snapshot.getProperties().keySet().iterator();
+				while (iter.hasNext()) {
+					QName key = iter.next();
 
-				if (!process.getProperties().containsKey(key)) {
-					return false;
-				} else {
-					String snapValue = snapshot.getProperties().get(key);
-					String processValue = process.getProperties().get(key);
-					if (!snapValue.equals(processValue)) {
+					if (!process.getProperties().containsKey(key)) {
 						return false;
 					} else {
-						return true;
+						String snapValue = snapshot.getProperties().get(key);
+						String processValue = process.getProperties().get(key);
+						if (!snapValue.equals(processValue)) {
+							return false;
+						} else {
+							return true;
+						}
 					}
 				}
 			}
