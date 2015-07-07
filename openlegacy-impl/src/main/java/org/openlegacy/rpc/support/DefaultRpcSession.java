@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Copyright (c) 2014 OpenLegacy Inc.
- * All rights reserved. This program and the accompanying materials 
+ * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
@@ -15,7 +15,6 @@ import org.apache.commons.lang.StringUtils;
 import org.openlegacy.ApplicationConnection;
 import org.openlegacy.ApplicationConnectionListener;
 import org.openlegacy.annotations.rpc.Direction;
-import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
@@ -32,6 +31,7 @@ import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.RpcSession;
 import org.openlegacy.rpc.actions.RpcAction;
 import org.openlegacy.rpc.actions.RpcActions;
+import org.openlegacy.rpc.actions.RpcActions.RpcActionAdapter;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.openlegacy.rpc.support.binders.RpcFieldsExpressionBinder;
@@ -79,11 +79,16 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		T entity = ReflectionUtil.newInstance(entityClass);
 
 		RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(entityClass);
-		ActionDefinition action = rpcDefinition.getAction(RpcActions.READ.class);
 
-		if (action == null) {
+		RpcActionAdapter actionAdapter = null;
+
+		if (rpcDefinition.getAction(RpcActions.READ.class) != null) {
+			actionAdapter = RpcActions.READ();
+		} else if (rpcDefinition.getAction(RpcActions.EXECUTE.class) != null) {
+			actionAdapter = RpcActions.EXECUTE();
+		} else {
 			throw (new RpcActionNotMappedException(
-					"No READ action is defined. Define @RpcActions(actions = { @Action(action = READ.class, path = ...) })"));
+					"No READ or EXEUCTE action is defined. Define @RpcActions(actions = { @Action(action = <action>.class, path = ...) })"));
 		}
 
 		List<? extends FieldDefinition> keysDefinitions = rpcDefinition.getKeys();
@@ -100,7 +105,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 			index++;
 		}
 
-		return (T)doAction(RpcActions.READ(), (RpcEntity)entity);
+		return (T)doAction(actionAdapter, (RpcEntity)entity);
 	}
 
 	@Override
