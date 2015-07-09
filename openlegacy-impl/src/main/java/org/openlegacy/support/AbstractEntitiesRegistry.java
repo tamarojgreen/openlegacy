@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Copyright (c) 2014 OpenLegacy Inc.
- * All rights reserved. This program and the accompanying materials 
+ * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
@@ -31,7 +31,7 @@ import java.util.Set;
 
 /**
  * An abstract implementation of entities registry
- * 
+ *
  */
 public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D extends FieldDefinition, P extends PartEntityDefinition<D>> implements EntitiesRegistry<E, D, P>, Serializable {
 
@@ -53,6 +53,8 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 	private Map<Class<? extends EntityType>, Set<Class<?>>> entitiesByTypes = new HashMap<Class<? extends EntityType>, Set<Class<?>>>();
 
 	private boolean dirty = false;
+
+	private String errorMessage;
 
 	private void add(String entityName, Class<?> entity) {
 		entities.put(entityName, entity);
@@ -190,5 +192,15 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 			allFieldsOfType.put(javaType, allFields);
 		}
 		return allFields;
+	}
+
+	@Override
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+
+	@Override
+	public String getErrorMessage() {
+		return this.errorMessage;
 	}
 }

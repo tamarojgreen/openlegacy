@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Copyright (c) 2014 OpenLegacy Inc.
- * All rights reserved. This program and the accompanying materials 
+ * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
@@ -20,8 +20,10 @@ import org.openlegacy.db.exceptions.DbActionNotMappedException;
 import org.openlegacy.db.services.DbEntitiesRegistry;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.support.AbstractSession;
 import org.openlegacy.utils.ReflectionUtil;
+import org.openlegacy.utils.StringUtil;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -45,6 +47,10 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T getEntity(Class<T> entityClass, Object... keys) throws EntityNotFoundException {
+		if (!StringUtil.isEmpty(dbEntitiesRegistry.getErrorMessage())) {
+			throw new OpenLegacyRuntimeException(dbEntitiesRegistry.getErrorMessage());
+		}
+
 		T entity = ReflectionUtil.newInstance(entityClass);
 
 		DbEntityDefinition dbEntityDefinition = dbEntitiesRegistry.get(entityClass);

@@ -18,6 +18,7 @@ import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.modules.SessionModule;
 import org.openlegacy.rpc.RpcActionNotMappedException;
 import org.openlegacy.rpc.RpcConnection;
@@ -76,6 +77,10 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T getEntity(Class<T> entityClass, Object... keys) throws EntityNotFoundException {
+		if (!StringUtil.isEmpty(rpcEntitiesRegistry.getErrorMessage())) {
+			throw new OpenLegacyRuntimeException(rpcEntitiesRegistry.getErrorMessage());
+		}
+
 		T entity = ReflectionUtil.newInstance(entityClass);
 
 		RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(entityClass);

@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Copyright (c) 2014 OpenLegacy Inc.
- * All rights reserved. This program and the accompanying materials 
+ * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
@@ -51,6 +51,7 @@ import org.openlegacy.terminal.wait_conditions.WaitCondition;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.SpringUtil;
+import org.openlegacy.utils.StringUtil;
 import org.springframework.context.ApplicationContext;
 
 import java.io.Serializable;
@@ -63,8 +64,8 @@ import javax.inject.Inject;
 
 /**
  * A default session class exposes screenEntity building and sending
- * 
- * 
+ *
+ *
  */
 public class DefaultTerminalSession extends AbstractSession implements TerminalSession, Serializable, ConnectionPropertiesProvider {
 
@@ -123,6 +124,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	@Override
 	@SuppressWarnings("unchecked")
 	public synchronized <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
+		if (!StringUtil.isEmpty(screenEntitiesRegistry.getErrorMessage())) {
+			throw new OpenLegacyRuntimeException(screenEntitiesRegistry.getErrorMessage());
+		}
 
 		authorize(screenEntityClass);
 
