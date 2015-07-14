@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.rpc.support;
 
+import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.ApplicationConnection;
@@ -39,6 +40,7 @@ import org.openlegacy.rpc.support.binders.RpcFieldsExpressionBinder;
 import org.openlegacy.rpc.utils.HierarchyRpcPojoFieldAccessor;
 import org.openlegacy.rpc.utils.SimpleHierarchyRpcPojoFieldAccessor;
 import org.openlegacy.support.AbstractSession;
+import org.openlegacy.types.BinaryArray;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.util.Assert;
@@ -97,16 +99,25 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		}
 
 		List<? extends FieldDefinition> keysDefinitions = rpcDefinition.getKeys();
-		Assert.isTrue(
-				keysDefinitions.size() == keys.length,
-				MessageFormat.format("Provided keys {0} doesnt match entity {1} keys", StringUtils.join(keys, "-"),
-						rpcDefinition.getEntityName()));
+		Assert.isTrue(keysDefinitions.size() == keys.length, MessageFormat.format(
+				"Provided keys {0} doesnt match entity {1} keys", StringUtils.join(keys, "-"), rpcDefinition.getEntityName()));
 		HierarchyRpcPojoFieldAccessor fieldAccesor = new SimpleHierarchyRpcPojoFieldAccessor(entity);
 		int index = 0;
 		for (FieldDefinition fieldDefinition : keysDefinitions) {
 
 			RpcPojoFieldAccessor directFieldAccessor = fieldAccesor.getPartAccessor(fieldDefinition.getName());
-			directFieldAccessor.setFieldValue(StringUtil.removeNamespace(fieldDefinition.getName()), keys[index]);
+			if (ClassUtils.getAllSuperclasses(fieldDefinition.getJavaType()).contains(BinaryArray.class)) {
+				BinaryArray array = null;
+				try {
+					array = (BinaryArray)fieldDefinition.getJavaType().newInstance();
+				} catch (Exception e) {
+					throw (new OpenLegacyRuntimeException(e));
+				}
+				array.setValue((String)keys[index]);
+				directFieldAccessor.setFieldValue(StringUtil.removeNamespace(fieldDefinition.getName()), array);
+			} else {
+				directFieldAccessor.setFieldValue(StringUtil.removeNamespace(fieldDefinition.getName()), keys[index]);
+			}
 			index++;
 		}
 
@@ -216,7 +227,8 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	}
 
-	final protected void populateRpcFields(RpcEntity rpcEntity, RpcEntityDefinition rpcEntityDefinition, RpcInvokeAction rpcAction) {
+	final protected void populateRpcFields(RpcEntity rpcEntity, RpcEntityDefinition rpcEntityDefinition,
+			RpcInvokeAction rpcAction) {
 		for (RpcEntityBinder rpcEntityBinder : rpcEntityBinders) {
 			rpcEntityBinder.populateAction(rpcAction, rpcEntity);
 		}

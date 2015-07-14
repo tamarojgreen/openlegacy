@@ -1,5 +1,8 @@
 package org.openlegacy.utils;
 
+import org.openlegacy.types.Base64Array;
+import org.openlegacy.types.HexArray;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
@@ -10,9 +13,9 @@ public class FieldUtil {
 	protected static final Class<?>[] primitiveTypes = { Byte.class, byte.class, Short.class, short.class, Integer.class,
 			int.class, Long.class, long.class, Float.class, float.class, Double.class, double.class, Character.class, char.class,
 			Boolean.class, boolean.class, // duplicates must be here
-			BigDecimal.class, BigInteger.class, String.class, Date.class };
+			BigDecimal.class, BigInteger.class, String.class, Date.class, Base64Array.class, HexArray.class, Object.class };
 
-	protected static final int primitiveTypesEndOffset = 4;
+	protected static final int primitiveTypesEndOffset = 7;
 	protected static final String VALUE_OF = "valueOf";
 	protected static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 

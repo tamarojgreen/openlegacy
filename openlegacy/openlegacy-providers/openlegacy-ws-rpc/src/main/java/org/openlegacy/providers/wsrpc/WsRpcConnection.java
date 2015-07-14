@@ -149,14 +149,14 @@ public class WsRpcConnection implements RpcConnection {
 	}
 
 	private boolean needToBreakGroup(RpcField field) {
-		return field.getName().contains(WsRpcActionUtil.INPUT) || field.getName().contains(WsRpcActionUtil.OUTPUT)
-				|| field.getName().contains(WsRpcActionUtil.INPUT_OUTPUT);
+		return field.getName().endsWith(WsRpcActionUtil.INPUT) || field.getName().endsWith(WsRpcActionUtil.OUTPUT)
+				|| field.getName().endsWith(WsRpcActionUtil.INPUT_OUTPUT);
 	}
 
 	private void setFields(List<RpcField> fields, SOAPElement actionElement) throws SOAPException {
 		for (RpcField field : fields) {
 			if (field instanceof SimpleRpcStructureField) {
-				if (field.getName().contains(WsRpcActionUtil.INPUT) || field.getName().contains(WsRpcActionUtil.INPUT_OUTPUT)) {
+				if (field.getName().endsWith(WsRpcActionUtil.INPUT) || field.getName().endsWith(WsRpcActionUtil.INPUT_OUTPUT)) {
 					setFields(((SimpleRpcStructureField)field).getChildrens(), actionElement);
 				}
 
@@ -170,6 +170,11 @@ public class WsRpcConnection implements RpcConnection {
 					FieldUtil.writePrimitiveField((RpcFlatField)field, actionElement.addChildElement(field.getName()));
 				} else if (field instanceof SimpleRpcStructureField) {
 					setFields(((SimpleRpcStructureField)field).getChildrens(), actionElement);
+				} else if (field instanceof SimpleRpcStructureListField) {
+					List<RpcFields> children = ((SimpleRpcStructureListField)field).getChildrens();
+					for (int i = 0; i < children.size(); i++) {
+						setFields(children.get(i).getFields(), actionElement);
+					}
 				}
 			}
 		}
@@ -178,7 +183,7 @@ public class WsRpcConnection implements RpcConnection {
 	private void getFields(List<RpcField> fields, Iterator<?> parent) throws Exception {
 		for (RpcField field : fields) {
 			if (field instanceof SimpleRpcStructureField) {
-				if (field.getName().contains(WsRpcActionUtil.OUTPUT) || field.getName().contains(WsRpcActionUtil.INPUT_OUTPUT)) {
+				if (field.getName().endsWith(WsRpcActionUtil.OUTPUT) || field.getName().endsWith(WsRpcActionUtil.INPUT_OUTPUT)) {
 					getFields(((SimpleRpcStructureField)field).getChildrens(), parent);
 				}
 

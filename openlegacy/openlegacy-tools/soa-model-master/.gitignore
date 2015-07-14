@@ -1,0 +1,10 @@
+./metadata
+temp
+*/bin
+*/report
+*/target
+*/.settings
+*/.classpath
+*/.project
+*/.groovy
+

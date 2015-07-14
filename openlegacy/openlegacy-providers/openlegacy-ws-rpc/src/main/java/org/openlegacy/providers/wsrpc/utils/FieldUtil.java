@@ -1,8 +1,10 @@
 package org.openlegacy.providers.wsrpc.utils;
 
+import org.apache.commons.lang.ClassUtils;
 import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFlatField;
+import org.openlegacy.types.BinaryArray;
 
 import java.lang.reflect.Method;
 import java.util.Date;
@@ -16,6 +18,10 @@ public class FieldUtil extends org.openlegacy.utils.FieldUtil {
 		try {
 			if (clazz == Date.class) {
 				field.setValue(value.getValue());
+			} else if (ClassUtils.getAllSuperclasses(field.getType()).contains(BinaryArray.class)) {
+				BinaryArray arr = (BinaryArray)field.getType().newInstance();
+				arr.setValue(value.getValue());
+				field.setValue(arr);
 			} else if (clazz != String.class) {
 				Method valueOf = clazz.getMethod(VALUE_OF, String.class);
 				field.setValue(valueOf.invoke(null, value.getValue()));
@@ -29,7 +35,11 @@ public class FieldUtil extends org.openlegacy.utils.FieldUtil {
 	}
 
 	public static void writePrimitiveField(RpcFlatField field, SOAPElement out) {
-		out.setValue(String.valueOf(field.getValue()));
+		if (ClassUtils.getAllSuperclasses(field.getValue().getClass()).contains(BinaryArray.class)) {
+			out.setValue(((BinaryArray)field.getValue()).getValue());
+		} else {
+			out.setValue(String.valueOf(field.getValue()));
+		}
 	}
 
 	public static boolean isPrimitive(RpcField field) {
