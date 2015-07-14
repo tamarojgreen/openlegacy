@@ -52,7 +52,7 @@
 				<executions>
 					<execution>
 						<id>install-soa-model-core</id>
-						<phase>clean</phase>
+						<phase>prepare-package</phase>
 						<goals>
 							<goal>install-file</goal>
 						</goals>
@@ -66,7 +66,7 @@
 					</execution>
 					<execution>
 						<id>install-soa-model-distribution</id>
-						<phase>clean</phase>
+						<phase>prepare-package</phase>
 						<goals>
 							<goal>install-file</goal>
 						</goals>
