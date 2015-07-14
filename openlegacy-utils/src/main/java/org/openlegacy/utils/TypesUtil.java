@@ -41,6 +41,9 @@ public class TypesUtil {
 		if (typeName.equals("Date")) {
 			return true;
 		}
+		if (typeName.equals("Double")) {
+			return true;
+		}
 		return false;
 	}
 
