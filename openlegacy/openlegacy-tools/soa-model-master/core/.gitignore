@@ -1,6 +1,0 @@
-.idea
-*.iml
-todo.txt
-src/test/groovy/com/predic8/wsdl/TemporaryTest.groovy
-src/test/resources/wadl/yahoo.xml
-

@@ -43,6 +43,44 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>2.3.1</version>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<id>install-soa-model-core</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+						<configuration>
+							<file>${basedir}/lib/soa-model-core-1.5.3.jar</file>
+							<groupId>org.openlegacy.tools</groupId>
+							<artifactId>soa-model-core</artifactId>
+							<version>1.5.3</version>
+							<packaging>jar</packaging>
+						</configuration>
+					</execution>
+					<execution>
+						<id>install-soa-model-distribution</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+						<configuration>
+							<file>${basedir}/lib/soa-model-distribution-1.5.3.jar</file>
+							<groupId>org.openlegacy.tools</groupId>
+							<artifactId>soa-model-distribution</artifactId>
+							<version>1.5.3</version>
+							<packaging>jar</packaging>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -83,7 +121,6 @@
   
 	<modules>
 		<module>openlegacy-maven-plugin</module>
-		<module>soa-model-master</module>
 		<!--  Skipping due to problem with jberel Maven artifacts  -->
 <!-- 		<module>openlegacy-jrebel</module> -->
 	</modules>
