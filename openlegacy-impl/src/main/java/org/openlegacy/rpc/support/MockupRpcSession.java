@@ -26,7 +26,7 @@ import org.openlegacy.utils.StringUtil;
 import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,7 +41,7 @@ public class MockupRpcSession extends DefaultRpcSession {
 
 	private final static Log logger = LogFactory.getLog(MockupRpcSession.class);
 
-	private Map<Class<?>, SnapshotsList<RpcSnapshot>> snapshotsMap = new HashMap<Class<?>, SnapshotsList<RpcSnapshot>>();
+	private Map<Class<?>, SnapshotsList<RpcSnapshot>> snapshotsMap = new LinkedHashMap<Class<?>, SnapshotsList<RpcSnapshot>>();
 
 	@Inject
 	private RpcRecognizer rpcRecognizer;

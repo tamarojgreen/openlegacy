@@ -66,13 +66,21 @@ public class MockRpcConnection implements RpcConnection {
 
 	@Override
 	public RpcResult invoke(RpcInvokeAction rpcInvokeAction) {
-		// if (lastSnapshpot == null || lastSnapshpot.getSequence() > snapshots.size()) {WTF???
-		// lastSnapshpot = snapshots.get(0);
-		// } else {
-		// moveToRequiredSnapshot(rpcInvokeAction);
-		// // lastSnapshpot = snapshots.get(lastSnapshpot.getSequence() - 1);
-		// }
-		moveToRequiredSnapshot(rpcInvokeAction);
+		boolean old = true;
+		if (rpcInvokeAction instanceof SimpleRpcInvokeAction) {
+			old = ((SimpleRpcInvokeAction)rpcInvokeAction).getProperties() == null
+					|| ((SimpleRpcInvokeAction)rpcInvokeAction).getProperties().size() == 0;
+		}
+		if (old) {
+			if (lastSnapshpot == null || lastSnapshpot.getSequence() > snapshots.size()) {
+				lastSnapshpot = snapshots.get(0);
+			} else {
+				moveToRequiredSnapshot(rpcInvokeAction);
+			}
+		} else {
+			moveToRequiredSnapshot(rpcInvokeAction);
+		}
+
 		currentIndex = lastSnapshpot.getSequence();
 		if (verifySend == true) {
 			MockRpcSendValidationUtils.validateInvokeAction(lastSnapshpot.getRpcInvokeAction(), rpcInvokeAction);
@@ -134,6 +142,7 @@ public class MockRpcConnection implements RpcConnection {
 					&& additionalCheck(rpcSnapshot.getRpcInvokeAction(), invokeAction)) {
 				try {
 					if (invokeAction instanceof SimpleRpcInvokeAction
+							&& ((SimpleRpcInvokeAction)invokeAction).getProperties() != null
 							&& ((SimpleRpcInvokeAction)invokeAction).getProperties().size() > 0) {
 						String key = ((SimpleRpcInvokeAction)rpcSnapshot.getRpcInvokeAction()).getProperties().get(
 								new QName("key"));

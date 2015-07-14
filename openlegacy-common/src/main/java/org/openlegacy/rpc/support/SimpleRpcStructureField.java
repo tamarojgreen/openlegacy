@@ -133,7 +133,7 @@ public class SimpleRpcStructureField extends AbstractRpcStructure implements Rpc
 
 	@Override
 	public boolean isContainer() {
-		return isContainer;
+		return isContainer == null ? false : isContainer;
 	}
 
 	public void setIsContainer(Boolean isContainer) {

@@ -85,7 +85,7 @@ public class RpcMockDemoSessionTest {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		trailWriter.write(rpcSession.getModule(Trail.class).getSessionTrail(), baos);
-		String result = StringUtil.toString(baos);
+		String result = StringUtil.toString(baos).trim();
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("itemDetailsTrail.expected"));
 		AssertUtils.assertContent(expectedBytes, result.getBytes());
