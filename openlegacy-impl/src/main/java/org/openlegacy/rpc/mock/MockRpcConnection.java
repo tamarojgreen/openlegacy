@@ -66,19 +66,26 @@ public class MockRpcConnection implements RpcConnection {
 
 	@Override
 	public RpcResult invoke(RpcInvokeAction rpcInvokeAction) {
-		boolean old = true;
-		if (rpcInvokeAction instanceof SimpleRpcInvokeAction) {
-			old = ((SimpleRpcInvokeAction)rpcInvokeAction).getProperties() == null
-					|| ((SimpleRpcInvokeAction)rpcInvokeAction).getProperties().size() == 0;
-		}
-		if (old) {
-			if (lastSnapshpot == null || lastSnapshpot.getSequence() > snapshots.size()) {
+		// boolean old = true;
+		// if (rpcInvokeAction instanceof SimpleRpcInvokeAction) {
+		// old = ((SimpleRpcInvokeAction)rpcInvokeAction).getProperties() == null
+		// || ((SimpleRpcInvokeAction)rpcInvokeAction).getProperties().size() == 0;
+		// }
+		// if (old) {
+		// if (lastSnapshpot == null || lastSnapshpot.getSequence() > snapshots.size()) {
+		// lastSnapshpot = snapshots.get(0);
+		// } else {
+		// moveToRequiredSnapshot(rpcInvokeAction);
+		// }
+		// } else {
+		// moveToRequiredSnapshot(rpcInvokeAction);
+		// }
+
+		moveToRequiredSnapshot(rpcInvokeAction);
+		if (lastSnapshpot == null) {
+			if (snapshots.size() > 0) { // for test actions without fields!
 				lastSnapshpot = snapshots.get(0);
-			} else {
-				moveToRequiredSnapshot(rpcInvokeAction);
 			}
-		} else {
-			moveToRequiredSnapshot(rpcInvokeAction);
 		}
 
 		currentIndex = lastSnapshpot.getSequence();
