@@ -18,5 +18,6 @@ public enum Languages {
 	PL1,
 	FORTRAN,
 	C,
-	SQL
+	SQL,
+	WSDL
 }
