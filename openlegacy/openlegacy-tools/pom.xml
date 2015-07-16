@@ -58,7 +58,7 @@
 						</goals>
 						<configuration>
 							<file>${basedir}/lib/soa-model-core-1.5.3.jar</file>
-							<groupId>org.openlegacy.tools</groupId>
+							<groupId>com.predic8</groupId>
 							<artifactId>soa-model-core</artifactId>
 							<version>1.5.3</version>
 							<packaging>jar</packaging>
@@ -72,7 +72,7 @@
 						</goals>
 						<configuration>
 							<file>${basedir}/lib/soa-model-distribution-1.5.3.jar</file>
-							<groupId>org.openlegacy.tools</groupId>
+							<groupId>com.predic8</groupId>
 							<artifactId>soa-model-distribution</artifactId>
 							<version>1.5.3</version>
 							<packaging>jar</packaging>
