@@ -39,6 +39,9 @@ public class WsRpcConnectionTest {
 		p.put(new QName(WsRpcActionUtil.METHOD_INPUT_NAMESPACE), "http://SimpleWebService/");
 		p.put(new QName(WsRpcActionUtil.METHOD_OUTPUT_NAMESPACE), "http://SimpleWebService/");
 		p.put(new QName(WsRpcActionUtil.SERVICE_NAME), "SimpleWebService");
+		p.put(new QName(WsRpcActionUtil.ELEMENT_FORM_DEFAULT_USE), "false");
+		p.put(new QName(WsRpcActionUtil.STYLE), "rpc");
+		p.put(new QName(WsRpcActionUtil.SOAP_ACTION), "");
 		return p;
 	}
 

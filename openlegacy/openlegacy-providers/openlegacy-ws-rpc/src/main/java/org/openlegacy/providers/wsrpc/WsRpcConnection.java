@@ -28,6 +28,7 @@ import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPConnection;
 import javax.xml.soap.SOAPConnectionFactory;
 import javax.xml.soap.SOAPElement;
+import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
@@ -123,14 +124,25 @@ public class WsRpcConnection implements RpcConnection {
 	private SOAPMessage actionToSoap(RpcInvokeAction action) throws Exception {
 
 		SOAPMessage message = messageFactory.createMessage();
-
 		actionData = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction)action).getProperties());
-		SOAPElement actionElement = message.getSOAPBody().addChildElement(actionData.getMethodInputName(), ACTION_PREFIX,
-				actionData.getMethodInputNameSpace());
+
+		SOAPEnvelope env = message.getSOAPPart().getEnvelope();
+		env.addNamespaceDeclaration(ACTION_PREFIX, actionData.getMethodInputNameSpace());
+		SOAPElement actionElement;
+		if (actionData.getStyle().equals("rpc")) {
+			actionElement = env.getBody().addChildElement(actionData.getMethodInputName(), ACTION_PREFIX);
+		} else {
+			actionElement = env.getBody();
+		}
 
 		setFields(action.getFields(), actionElement);
 
+		if (actionData.getSoapAction().length() > 0) {
+			message.getMimeHeaders().addHeader("SOAPAction", actionData.getSoapAction());
+		}
+
 		logMessage("Request message:", message);
+
 		return message;
 	}
 
@@ -142,9 +154,13 @@ public class WsRpcConnection implements RpcConnection {
 
 		actionData = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction)action).getProperties());
 
-		QName responseQName = new QName(actionData.getMethodOutputNameSpace(), actionData.getMethodOutputName());
+		if (actionData.getStyle().contains("rpc")) {
+			QName responseQName = new QName(actionData.getMethodOutputNameSpace(), actionData.getMethodOutputName());
+			getFields(action.getFields(), responseBody.getChildElements(responseQName));
+		} else {
+			getFields(action.getFields(), responseBody.getChildElements());
+		}
 
-		getFields(action.getFields(), responseBody.getChildElements(responseQName));
 		result.setRpcFields(action.getFields());
 	}
 
@@ -167,9 +183,23 @@ public class WsRpcConnection implements RpcConnection {
 
 			if (field.getDirection() == Direction.INPUT || field.getDirection() == Direction.INPUT_OUTPUT) {
 				if (FieldUtil.isPrimitive(field)) {
-					FieldUtil.writePrimitiveField((RpcFlatField)field, actionElement.addChildElement(field.getName()));
+					if (actionData.getElementFormDefaultUse().equals("true")) {
+						FieldUtil.writePrimitiveField((RpcFlatField)field,
+								actionElement.addChildElement(field.getName(), ACTION_PREFIX));
+					} else {
+						FieldUtil.writePrimitiveField((RpcFlatField)field, actionElement.addChildElement(field.getName()));
+					}
 				} else if (field instanceof SimpleRpcStructureField) {
-					setFields(((SimpleRpcStructureField)field).getChildrens(), actionElement);
+					if (actionData.getElementFormDefaultUse().equals("true")) {
+						setFields(((SimpleRpcStructureField)field).getChildrens(),
+								actionElement.addChildElement(field.getLegacyContainerName()));
+					} else {
+						setFields(((SimpleRpcStructureField)field).getChildrens(),
+								actionElement.addChildElement(field.getLegacyContainerName(), ACTION_PREFIX));
+					}
+					setFields(((SimpleRpcStructureField)field).getChildrens(), actionElement.addChildElement(
+							field.getLegacyContainerName(), actionData.getElementFormDefaultUse().equals("true") ? ACTION_PREFIX
+									: ""));
 				} else if (field instanceof SimpleRpcStructureListField) {
 					List<RpcFields> children = ((SimpleRpcStructureListField)field).getChildrens();
 					for (int i = 0; i < children.size(); i++) {
