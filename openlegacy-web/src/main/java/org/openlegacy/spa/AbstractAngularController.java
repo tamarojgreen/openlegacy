@@ -50,7 +50,8 @@ public abstract class AbstractAngularController {
 
 	@RequestMapping(value = "app/views/{entityName}.html", method = RequestMethod.GET)
 	public void getView(@PathVariable("entityName") String entityName, HttpServletResponse response) throws IOException,
-	TemplateException {
+			TemplateException {
+
 		URL resource = servletContext.getResource(MessageFormat.format(HTML_VIEW_PATH, entityName));
 		if (resource != null) {
 			String content = IOUtils.toString(resource, CharEncoding.UTF_8);
