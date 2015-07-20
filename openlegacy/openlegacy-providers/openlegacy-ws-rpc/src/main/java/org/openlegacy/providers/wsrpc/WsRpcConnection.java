@@ -169,6 +169,20 @@ public class WsRpcConnection implements RpcConnection {
 				|| field.getName().endsWith(WsRpcActionUtil.INPUT_OUTPUT);
 	}
 
+	// Some test WS has empty rpcPart declarations but used in document style
+	private boolean checkForUnDirectedFieldProcessing(RpcField field) {
+		if (field.getDirection() == null) {
+			if (actionData.getStyle().equals("rpc")) {
+				return false;
+			} else {
+				if (!(field instanceof RpcFlatField)) {
+					return true;
+				}
+			}
+		}
+		return true;
+	}
+
 	private void setFields(List<RpcField> fields, SOAPElement actionElement) throws SOAPException {
 		for (RpcField field : fields) {
 			if (field instanceof SimpleRpcStructureField) {
@@ -181,7 +195,8 @@ public class WsRpcConnection implements RpcConnection {
 				}
 			}
 
-			if (field.getDirection() == Direction.INPUT || field.getDirection() == Direction.INPUT_OUTPUT) {
+			if (field.getDirection() == Direction.INPUT || field.getDirection() == Direction.INPUT_OUTPUT
+					|| checkForUnDirectedFieldProcessing(field)) {
 				if (FieldUtil.isPrimitive(field)) {
 					if (actionData.getElementFormDefaultUse().equals("true")) {
 						FieldUtil.writePrimitiveField((RpcFlatField)field,
@@ -197,9 +212,6 @@ public class WsRpcConnection implements RpcConnection {
 						setFields(((SimpleRpcStructureField)field).getChildrens(),
 								actionElement.addChildElement(field.getLegacyContainerName(), ACTION_PREFIX));
 					}
-					setFields(((SimpleRpcStructureField)field).getChildrens(), actionElement.addChildElement(
-							field.getLegacyContainerName(), actionData.getElementFormDefaultUse().equals("true") ? ACTION_PREFIX
-									: ""));
 				} else if (field instanceof SimpleRpcStructureListField) {
 					List<RpcFields> children = ((SimpleRpcStructureListField)field).getChildrens();
 					for (int i = 0; i < children.size(); i++) {
@@ -229,7 +241,9 @@ public class WsRpcConnection implements RpcConnection {
 					SOAPElement data = findSOAPElement(parent, elementName);
 
 					if (data == null) {
-						throw new Exception(String.format("SOAPElement with name \" %s \" is unfound", field.getName()));
+						// throw new Exception(String.format("SOAPElement with name \" %s \" is unfound", field.getName()));
+						logger.error(String.format("SOAPElement with name \" %s \" is unfound", field.getName()));
+						continue;// continuing request parsing. Maybe all will good)
 					}
 
 					if (FieldUtil.isPrimitive(field)) {
