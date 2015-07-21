@@ -56,7 +56,7 @@ public class WsRpcConnection implements RpcConnection {
 	private SOAPConnectionFactory connectionFactory;
 	private MessageFactory messageFactory;
 	private WsRpcActionData actionData;
-	private String baseURL;
+	private UrlProps props;
 
 	public WsRpcConnection() {
 		try {
@@ -65,6 +65,11 @@ public class WsRpcConnection implements RpcConnection {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public WsRpcConnection(UrlProps props) {
+		this();
+		this.props = props;
 	}
 
 	@Override
@@ -330,11 +335,7 @@ public class WsRpcConnection implements RpcConnection {
 		throw new Exception(String.format("%s>> %s", faultCode.getValue(), faultString.getValue()));
 	}
 
-	public void setBaseUrl(String baseURL) {
-		this.baseURL = baseURL.endsWith("/") ? baseURL.substring(0, baseURL.length() - 1) : baseURL;
-	}
-
 	private String getServiceURL(String rpcPath) {
-		return baseURL + rpcPath;
+		return props.getBaseUrl() + rpcPath;
 	}
 }

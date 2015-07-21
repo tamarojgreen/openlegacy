@@ -5,6 +5,7 @@ import org.openlegacy.rpc.RpcConnection;
 
 public class WsRpcConnectionFactory implements LiveRpcConnectionFactory {
 
+	private UrlProps props = new UrlProps();
 	private String baseURL;
 
 	public WsRpcConnectionFactory() {
@@ -12,13 +13,16 @@ public class WsRpcConnectionFactory implements LiveRpcConnectionFactory {
 	}
 
 	public WsRpcConnectionFactory(String baseURL) {
-		this.baseURL = baseURL;
+		this.props.setBaseUrl(baseURL);
+	}
+
+	public WsRpcConnectionFactory(UrlProps props) {
+		this.props = props;
 	}
 
 	@Override
 	public RpcConnection getConnection() {
-		WsRpcConnection connection = new WsRpcConnection();
-		connection.setBaseUrl(baseURL);
+		WsRpcConnection connection = new WsRpcConnection(props);
 		return connection;
 	}
 
