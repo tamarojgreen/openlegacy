@@ -1,5 +1,6 @@
 package org.openlegacy.providers.wsrpc;
 
+import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.annotations.rpc.Direction;
@@ -198,6 +199,11 @@ public class WsRpcConnection implements RpcConnection {
 			if (field.getDirection() == Direction.INPUT || field.getDirection() == Direction.INPUT_OUTPUT
 					|| checkForUnDirectedFieldProcessing(field)) {
 				if (FieldUtil.isPrimitive(field)) {
+					// Avoid for force added fields processing
+					if (field.getName().equals(WsRpcActionUtil.FORCED_CHILD)) {
+						continue;
+					}
+
 					if (actionData.getElementFormDefaultUse().equals("true")) {
 						FieldUtil.writePrimitiveField((RpcFlatField)field,
 								actionElement.addChildElement(field.getName(), ACTION_PREFIX));
@@ -223,6 +229,7 @@ public class WsRpcConnection implements RpcConnection {
 	}
 
 	private void getFields(List<RpcField> fields, Iterator<?> parent) throws Exception {
+		Object[] convertedIterator = null;
 		for (RpcField field : fields) {
 			if (field instanceof SimpleRpcStructureField) {
 				if (field.getName().endsWith(WsRpcActionUtil.OUTPUT) || field.getName().endsWith(WsRpcActionUtil.INPUT_OUTPUT)) {
@@ -234,33 +241,39 @@ public class WsRpcConnection implements RpcConnection {
 				}
 			}
 
+			if (convertedIterator == null) {
+				convertedIterator = IteratorUtils.toArray(parent);
+			}
+
 			if (field.getDirection() == Direction.OUTPUT || field.getDirection() == Direction.INPUT_OUTPUT) {
-				if (field.getDirection() == Direction.OUTPUT || field.getDirection() == Direction.INPUT_OUTPUT) {
-					String elementName = field.getLegacyContainerName() != null ? field.getLegacyContainerName()
-							: field.getName();
-					SOAPElement data = findSOAPElement(parent, elementName);
-
-					if (data == null) {
-						// throw new Exception(String.format("SOAPElement with name \" %s \" is unfound", field.getName()));
-						logger.error(String.format("SOAPElement with name \" %s \" is unfound", field.getName()));
-						continue;// continuing request parsing. Maybe all will good)
+				String elementName = field.getLegacyContainerName() != null ? field.getLegacyContainerName() : field.getName();
+				if (FieldUtil.isPrimitive(field)) {
+					// Avoid for force added fields processing
+					if (elementName.toLowerCase().equals(WsRpcActionUtil.FORCED_CHILD.toLowerCase())) {
+						continue;
 					}
+				}
 
-					if (FieldUtil.isPrimitive(field)) {
-						FieldUtil.readPrimitiveField((RpcFlatField)field, data);
-					} else if (field instanceof SimpleRpcStructureField) {
-						getFields(((SimpleRpcStructureField)field).getChildrens(), data.getChildElements());
-					} else if (field instanceof SimpleRpcStructureListField) {
-						List<RpcFields> children = ((SimpleRpcStructureListField)field).getChildrens();
-						for (int i = 0; i < children.size(); i++) {
-							getFields(children.get(i).getFields(), data.getChildElements());
-							data = findSOAPElement(parent, elementName);
-						}
+				SOAPElement data = findSOAPElement(convertedIterator, elementName);
+				if (data == null) {
+					// throw new Exception(String.format("SOAPElement with name \" %s \" is unfound", field.getName()));
+					logger.error(String.format("SOAPElement with name \"%s\"(original=\"%s\") is unfound", field.getName(),
+							elementName));
+					continue;// continuing request parsing. Maybe all will good)
+				}
+				if (FieldUtil.isPrimitive(field)) {
+					FieldUtil.readPrimitiveField((RpcFlatField)field, data);
+				} else if (field instanceof SimpleRpcStructureField) {
+					getFields(((SimpleRpcStructureField)field).getChildrens(), data.getChildElements());
+				} else if (field instanceof SimpleRpcStructureListField) {
+					List<RpcFields> children = ((SimpleRpcStructureListField)field).getChildrens();
+					for (int i = 0; i < children.size(); i++) {
+						data = (SOAPElement)convertedIterator[i];
+						getFields(children.get(i).getFields(), data.getChildElements());
 					}
 				}
 			}
 		}
-
 	}
 
 	private void logMessage(String header, SOAPMessage message) {
@@ -289,6 +302,25 @@ public class WsRpcConnection implements RpcConnection {
 				child = element;
 			} else {
 				child = findSOAPElement(element.getChildElements(), name);
+			}
+
+			if (child != null) { // without it only first cycle iteration will proceed
+				return child;
+			}
+		}
+		return null;
+	}
+
+	private SOAPElement findSOAPElement(Object[] parentData, String name) {
+		for (Object obj : parentData) {
+			if (!(obj instanceof SOAPElement)) {
+				continue;
+			}
+			SOAPElement child, element = (SOAPElement)obj;
+			if (element.getElementName().getLocalName().equals(name)) {
+				child = element;
+			} else {
+				child = findSOAPElement(IteratorUtils.toArray(element.getChildElements()), name);
 			}
 
 			if (child != null) { // without it only first cycle iteration will proceed

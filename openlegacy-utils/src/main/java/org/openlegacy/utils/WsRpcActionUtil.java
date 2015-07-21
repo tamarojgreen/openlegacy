@@ -24,6 +24,7 @@ public class WsRpcActionUtil {
 	public static final String ELEMENT_FORM_DEFAULT_USE = "elementFormDefaultUse";
 	public static final String STYLE = "style";
 	public static final String SOAP_ACTION = "soapAction";
+	public static final String FORCED_CHILD = "forcedChild";
 
 	public static class WsRpcActionData {
 
