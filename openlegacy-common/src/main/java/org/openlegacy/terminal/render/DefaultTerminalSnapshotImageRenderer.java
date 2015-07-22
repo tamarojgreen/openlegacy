@@ -82,7 +82,7 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 		drawText(terminalSnapshot, graphics);
 
 		try {
-			ImageIO.write(buffer, "jpg", output);
+			ImageIO.write(buffer, "png", output);
 		} catch (IOException e) {
 			throw (new OpenLegacyRuntimeException(e));
 		}
@@ -182,7 +182,7 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 
 	@Override
 	public String getFileFormat() {
-		return "jpg";
+		return "png";
 	}
 
 	public void setImageHeight(int imageHeight) {
