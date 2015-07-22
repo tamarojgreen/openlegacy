@@ -57,6 +57,7 @@ public class WsRpcConnection implements RpcConnection {
 	private MessageFactory messageFactory;
 	private WsRpcActionData actionData;
 	private UrlProps props;
+	private boolean changeToLastSearch = false;
 
 	public WsRpcConnection() {
 		try {
@@ -167,6 +168,7 @@ public class WsRpcConnection implements RpcConnection {
 			getFields(action.getFields(), responseBody.getChildElements());
 		}
 
+		// getFields(action.getFields(), responseBody.getChildElements());
 		result.setRpcFields(action.getFields());
 	}
 
@@ -219,7 +221,7 @@ public class WsRpcConnection implements RpcConnection {
 	}
 
 	private void getFields(List<RpcField> fields, Iterator<?> parent) throws Exception {
-		Object[] convertedIterator = null;
+		List convertedIterator = null;
 		for (RpcField field : fields) {
 			if (field instanceof SimpleRpcStructureField) {
 				if (field.getName().endsWith(WsRpcActionUtil.OUTPUT) || field.getName().endsWith(WsRpcActionUtil.INPUT_OUTPUT)) {
@@ -232,7 +234,7 @@ public class WsRpcConnection implements RpcConnection {
 			}
 
 			if (convertedIterator == null) {
-				convertedIterator = IteratorUtils.toArray(parent);
+				convertedIterator = IteratorUtils.toList(parent);
 			}
 
 			if (field.getDirection() == Direction.OUTPUT || field.getDirection() == Direction.INPUT_OUTPUT) {
@@ -251,6 +253,9 @@ public class WsRpcConnection implements RpcConnection {
 							elementName));
 					continue;// continuing request parsing. Maybe all will good)
 				}
+
+				convertedIterator.remove(data);
+
 				if (FieldUtil.isPrimitive(field)) {
 					FieldUtil.readPrimitiveField((RpcFlatField)field, data);
 				} else if (field instanceof SimpleRpcStructureField) {
@@ -258,8 +263,11 @@ public class WsRpcConnection implements RpcConnection {
 				} else if (field instanceof SimpleRpcStructureListField) {
 					List<RpcFields> children = ((SimpleRpcStructureListField)field).getChildrens();
 					for (int i = 0; i < children.size(); i++) {
-						data = (SOAPElement)convertedIterator[i];
 						getFields(children.get(i).getFields(), data.getChildElements());
+						try {
+							data = (SOAPElement)convertedIterator.iterator().next();
+						} catch (Exception e) {
+						}
 					}
 				}
 			}
@@ -301,7 +309,8 @@ public class WsRpcConnection implements RpcConnection {
 		return null;
 	}
 
-	private SOAPElement findSOAPElement(Object[] parentData, String name) {
+	private SOAPElement findSOAPElement(List<?> parentData, String name) {
+		boolean inner = false;
 		for (Object obj : parentData) {
 			if (!(obj instanceof SOAPElement)) {
 				continue;
@@ -310,10 +319,12 @@ public class WsRpcConnection implements RpcConnection {
 			if (element.getElementName().getLocalName().equals(name)) {
 				child = element;
 			} else {
-				child = findSOAPElement(IteratorUtils.toArray(element.getChildElements()), name);
+				child = findSOAPElement(IteratorUtils.toList(element.getChildElements()), name);
+				inner = true;
 			}
 
 			if (child != null) { // without it only first cycle iteration will proceed
+				changeToLastSearch = inner;
 				return child;
 			}
 		}

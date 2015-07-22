@@ -6,7 +6,6 @@ import org.openlegacy.rpc.RpcConnection;
 public class WsRpcConnectionFactory implements LiveRpcConnectionFactory {
 
 	private UrlProps props = new UrlProps();
-	private String baseURL;
 
 	public WsRpcConnectionFactory() {
 		this("");
