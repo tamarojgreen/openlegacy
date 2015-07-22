@@ -35,8 +35,8 @@ public class RpcPartEntityAnnotationLoader extends AbstractClassAnnotationLoader
 	@SuppressWarnings("rawtypes")
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 
-		RpcPart rpcPartAnnotation = (RpcPart)annotation;
-		RpcEntitiesRegistry rpcEntitiesRegistry = (RpcEntitiesRegistry)entitiesRegistry;
+		RpcPart rpcPartAnnotation = (RpcPart) annotation;
+		RpcEntitiesRegistry rpcEntitiesRegistry = (RpcEntitiesRegistry) entitiesRegistry;
 
 		SimpleRpcPartEntityDefinition rpcPartEntityDefinition = new SimpleRpcPartEntityDefinition(containingClass);
 		String name = StringUtil.toJavaFieldName(containingClass.getSimpleName());
@@ -61,6 +61,7 @@ public class RpcPartEntityAnnotationLoader extends AbstractClassAnnotationLoader
 		String partClassName = rpcPartEntityDefinition.getPartClass().toString();
 
 		rpcPartEntityDefinition.setPartFullName(partClassName.substring(partClassName.indexOf("$") + 1).replace('$', '.'));
+		rpcPartEntityDefinition.setExpandedElements(rpcPartAnnotation.expandedElements());
 		rpcEntitiesRegistry.addPart(rpcPartEntityDefinition);
 	}
 }

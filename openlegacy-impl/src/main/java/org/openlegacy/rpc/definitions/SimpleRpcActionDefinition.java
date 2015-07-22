@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.rpc.definitions;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
 import org.openlegacy.annotations.rpc.ActionProperty;
@@ -29,8 +27,6 @@ public class SimpleRpcActionDefinition extends SimpleActionDefinition implements
 	private static final long serialVersionUID = 1L;
 	private String programPath;
 	private Map<QName, String> properties = null;
-
-	private final static Log logger = LogFactory.getLog(SimpleRpcActionDefinition.class);
 
 	public SimpleRpcActionDefinition(SessionAction<? extends Session> action, String displayName) {
 		super(action, displayName);

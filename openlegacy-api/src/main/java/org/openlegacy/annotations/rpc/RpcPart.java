@@ -31,4 +31,8 @@ public @interface RpcPart {
 
 	boolean virtual() default false;
 
+	/**
+	 * Stores ordered list of WSDL elements' names
+	 */
+	String[] expandedElements() default {};
 }
