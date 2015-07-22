@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Copyright (c) 2014 OpenLegacy Inc.
- * All rights reserved. This program and the accompanying materials 
+ * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
@@ -60,11 +60,9 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 
 		BufferedImage buffer;
 
-		int width = 885;
-		int height = 450;
-		if (terminalSnapshot.getSize().getColumns() == 132) {
-			width = 1460;
-		}
+		int width = (2 + terminalSnapshot.getSize().getColumns()) * widthProportion;
+		int height = (terminalSnapshot.getSize().getRows() + 1) * heightProportion;
+
 		imageWidth = width;
 		imageHeight = height;
 
