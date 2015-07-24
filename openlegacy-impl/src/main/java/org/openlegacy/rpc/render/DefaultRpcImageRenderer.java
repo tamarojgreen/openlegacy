@@ -1,15 +1,16 @@
 /*******************************************************************************
  * Copyright (c) 2014 OpenLegacy Inc.
- * All rights reserved. This program and the accompanying materials 
+ * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 package org.openlegacy.rpc.render;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
@@ -46,8 +47,17 @@ public class DefaultRpcImageRenderer implements RpcImageRenderer {
 
 		BufferedImage buffer;
 
-		int width = 885;
-		int height = 550;
+		String[] lines = source.replaceAll("\r", "").split("\n");
+
+		int rowCount = lines.length;
+		int colCount = 0;
+
+		for (String line : lines) {
+			colCount = Math.max(colCount, StringUtils.stripEnd(line.replaceAll("\t", "  "), " ").length() + 1);
+		}
+
+		int width = ((int) Math.log10(rowCount) + 1 + colCount) * widthProportion;
+		int height = (rowCount + 1) * heightProportion;
 
 		buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
@@ -63,7 +73,7 @@ public class DefaultRpcImageRenderer implements RpcImageRenderer {
 		drawText(source, graphics);
 
 		try {
-			ImageIO.write(buffer, "jpg", output);
+			ImageIO.write(buffer, "png", output);
 		} catch (IOException e) {
 			throw (new OpenLegacyRuntimeException(e));
 		}
@@ -83,8 +93,8 @@ public class DefaultRpcImageRenderer implements RpcImageRenderer {
 				graphics.drawString(String.valueOf(String.format("%2d", rowNumber)), 0, startY);
 			}
 
-			line = line.replaceAll("\t", "  ");
-			graphics.drawString(line, 100, startY);
+			line = StringUtils.stripEnd(line.replaceAll("\t", "  "), " ");
+			graphics.drawString(line, 3 * widthProportion, startY);
 			rowNumber++;
 		}
 	}
@@ -102,7 +112,7 @@ public class DefaultRpcImageRenderer implements RpcImageRenderer {
 	}
 
 	public String getFileFormat() {
-		return "jpg";
+		return "png";
 	}
 
 	public void setFontFamily(String fontFamily) {
