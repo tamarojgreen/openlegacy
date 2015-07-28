@@ -48,6 +48,7 @@ public class RpcPartListAnnotationLoader extends AbstractFieldAnnotationLoader {
 		if (rpcEntityDefinition != null) {
 			SimpleRpcFieldDefinition fieldDefinition = new SimpleRpcFieldDefinition(fieldName, RpcFieldTypes.General.class);
 			fieldDefinition.setCount(fieldAnnotation.count());
+			fieldDefinition.setListElementName(fieldAnnotation.listElementName());
 			rpcEntityDefinition.getFieldsDefinitions().put(fieldName, fieldDefinition);
 		} else {
 			// look in rpc entities parts
@@ -56,6 +57,7 @@ public class RpcPartListAnnotationLoader extends AbstractFieldAnnotationLoader {
 				fieldName = MessageFormat.format("{0}.{1}", rpcPart.getPartName(), fieldName);
 				SimpleRpcFieldDefinition fieldDefinition = new SimpleRpcFieldDefinition(fieldName, RpcFieldTypes.General.class);
 				fieldDefinition.setCount(fieldAnnotation.count());
+				fieldDefinition.setListElementName(fieldAnnotation.listElementName());
 				rpcPart.getFieldsDefinitions().put(fieldName, fieldDefinition);
 
 			}

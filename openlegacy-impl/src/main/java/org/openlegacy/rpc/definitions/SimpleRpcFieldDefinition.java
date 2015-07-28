@@ -29,6 +29,7 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 	private String runtimeName;
 	private String nullValue;
 	private String shortName;
+	private String listElementName = "";
 
 	private int count = 1;
 
@@ -154,4 +155,11 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 		super.setEditable(editable);
 	}
 
+	public String getListElementName() {
+		return listElementName;
+	}
+
+	public void setListElementName(String listElementName) {
+		this.listElementName = listElementName;
+	}
 }

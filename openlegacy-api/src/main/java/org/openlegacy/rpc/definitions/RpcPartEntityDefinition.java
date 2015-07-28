@@ -39,4 +39,6 @@ public interface RpcPartEntityDefinition extends PartEntityDefinition<RpcFieldDe
 	public String getPartFullName();
 
 	String[] getExpandedElements();
+
+	String getListElementName();
 }

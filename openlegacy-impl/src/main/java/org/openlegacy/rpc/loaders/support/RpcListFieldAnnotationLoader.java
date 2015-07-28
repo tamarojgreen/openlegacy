@@ -97,6 +97,7 @@ public class RpcListFieldAnnotationLoader extends AbstractFieldAnnotationLoader 
 			fieldDefinition.setFieldTypeDefinition(new SimpleRpcListFieldTypeDefinition(fieldDefinition.getLength(),
 					fieldAnnotation.count(), new SimpleRpcNumericFieldTypeDefinition(), itemClass));
 		}
+		fieldDefinition.setListElementName(fieldAnnotation.listElementName());
 	}
 
 }

@@ -16,6 +16,8 @@ public class WsRpcActionUtil {
 
 	public static final String INPUT = "InputParams";
 	public static final String OUTPUT = "OutputParams";
+	public static final String IN = "In";
+	public static final String OUT = "Out";
 	public static final String INPUT_OUTPUT = "InputOutputParams";
 
 	public static final String OPERATION_PROTOCOL = "operationProtocol";

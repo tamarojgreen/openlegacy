@@ -256,4 +256,5 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 	public void setStaticField(boolean staticField) {
 		this.staticField = staticField;
 	}
+
 }
