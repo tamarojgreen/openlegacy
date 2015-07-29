@@ -183,6 +183,10 @@ public class RpcPartsBinder implements RpcEntityBinder {
 			SimpleRpcStructureField rpcStructureField = new SimpleRpcStructureField();
 			rpcStructureField.setName(rpcPartEntityDefinition.getPartName());
 			rpcStructureField.setVirtual(rpcPartEntityDefinition.isVirtual());
+
+			rpcStructureField.setSoapElementName(rpcPartEntityDefinition.getSoapElementName());
+			rpcStructureField.setExpandedElements(rpcPartEntityDefinition.getExpandedElements());
+
 			Object curentObject = fieldAccesor.getPartFieldValue(fullName, rpcPartEntityDefinition.getPartName());
 			if (curentObject == null) {
 				curentObject = ReflectionUtil.newInstance(rpcPartEntityDefinition.getPartClass());
@@ -195,6 +199,10 @@ public class RpcPartsBinder implements RpcEntityBinder {
 		} else {
 			SimpleRpcStructureListField rpcStructureListField = new SimpleRpcStructureListField();
 			rpcStructureListField.setName(rpcPartEntityDefinition.getPartName());
+
+			rpcStructureListField.setListElementName(rpcPartEntityDefinition.getListElementName());
+			rpcStructureListField.setSoapElementName(rpcPartEntityDefinition.getSoapElementName());
+			rpcStructureListField.setExpandedElements(rpcPartEntityDefinition.getExpandedElements());
 
 			result = rpcStructureListField;
 			Object currentObject = fieldAccesor.getPartFieldValue(fullName, rpcPartEntityDefinition.getPartName());

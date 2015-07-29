@@ -67,6 +67,7 @@ public class RpcPartFieldsLoader implements FieldLoader {
 				RpcFieldDefinition rpcFieldDefinition = rpcFieldDefinitions.get(fieldName);
 				if (rpcFieldDefinition != null) {
 					partDefinition.setCount(((SimpleRpcFieldDefinition)rpcFieldDefinition).getCount());
+					partDefinition.setListElementName(((SimpleRpcFieldDefinition)rpcFieldDefinition).getListElementName());
 					rpcFieldDefinitions.remove(fieldName);
 				}
 				rpcEntitiesRegistry.get(containingClass).getPartsDefinitions().put(field.getName(), partDefinition);
@@ -77,6 +78,7 @@ public class RpcPartFieldsLoader implements FieldLoader {
 				RpcFieldDefinition rpcFieldDefinition = containgPartDefinion.getFieldsDefinitions().get(fieldName);
 				if (rpcFieldDefinition != null) {
 					partDefinition.setCount(((SimpleRpcFieldDefinition)rpcFieldDefinition).getCount());
+					partDefinition.setListElementName(((SimpleRpcFieldDefinition)rpcFieldDefinition).getListElementName());
 					containgPartDefinion.getFieldsDefinitions().remove(fieldName);
 				}
 				containgPartDefinion.getInnerPartsDefinitions().put(field.getName(), partDefinition);

@@ -35,6 +35,10 @@ public abstract class AbstractRpcStructure implements Serializable {
 	@XmlAttribute
 	private String legacyContainerName;
 
+	private String soapElementName;
+	private String listElementName;
+	private String[] expandedElements;
+
 	public int getOrder() {
 		return order;
 	}
@@ -69,6 +73,30 @@ public abstract class AbstractRpcStructure implements Serializable {
 
 	public Object getDelegate() {
 		return null;
+	}
+
+	public String getSoapElementName() {
+		return soapElementName;
+	}
+
+	public void setSoapElementName(String soapElement) {
+		this.soapElementName = soapElement;
+	}
+
+	public String getListElementName() {
+		return listElementName;
+	}
+
+	public void setListElementName(String listElementName) {
+		this.listElementName = listElementName;
+	}
+
+	public String[] getExpandedElements() {
+		return expandedElements;
+	}
+
+	public void setExpandedElements(String[] expandedElements) {
+		this.expandedElements = expandedElements;
 	}
 
 }

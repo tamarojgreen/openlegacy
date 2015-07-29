@@ -40,6 +40,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 	private Boolean keyFirstTime = true;
 	private String runtimeName;
 	private String listElementName;
+	private String soapElementName;
 
 	private final Map<String, RpcPartEntityDefinition> innerPartsDefinitions = new LinkedHashMap<String, RpcPartEntityDefinition>();
 	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
@@ -198,4 +199,11 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 		this.listElementName = listElementName;
 	}
 
+	public String getSoapElementName() {
+		return soapElementName;
+	}
+
+	public void setSoapElementName(String soapElement) {
+		this.soapElementName = soapElement;
+	}
 }

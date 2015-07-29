@@ -87,4 +87,6 @@ public interface RpcFlatField extends RpcField {
 
 	public Object getDefaultValue();
 
+	public String getOriginalName();
+
 }

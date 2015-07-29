@@ -85,6 +85,8 @@ public class SimpleRpcFlatField implements RpcFlatField {
 	@XmlAttribute
 	private int order;
 
+	private String originalName;
+
 	@Override
 	public Object getValue() {
 		if (value == null) {
@@ -348,4 +350,12 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		this.virtualGroup = virtualGroup;
 	}
 
+	@Override
+	public String getOriginalName() {
+		return originalName;
+	}
+
+	public void setOriginalName(String originalName) {
+		this.originalName = originalName;
+	}
 }

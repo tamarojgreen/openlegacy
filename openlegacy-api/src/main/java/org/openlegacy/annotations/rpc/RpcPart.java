@@ -35,4 +35,6 @@ public @interface RpcPart {
 	 * Stores ordered list of WSDL elements' names
 	 */
 	String[] expandedElements() default {};
+
+	String soapElementName() default "";
 }
