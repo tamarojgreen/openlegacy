@@ -24,6 +24,7 @@ import org.openlegacy.utils.WsRpcActionUtil.WsRpcActionData;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.namespace.QName;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPConnection;
@@ -31,6 +32,7 @@ import javax.xml.soap.SOAPConnectionFactory;
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPHeaderElement;
 import javax.xml.soap.SOAPMessage;
 
 public class WsRpcConnection implements RpcConnection {
@@ -147,6 +149,18 @@ public class WsRpcConnection implements RpcConnection {
 
 		if (actionData.getSoapAction().length() > 0) {
 			message.getMimeHeaders().addHeader("SOAPAction", actionData.getSoapAction());
+		}
+
+		// Base auth headers from http://www.whitemesa.com/soapauth.html#S322
+		/*
+		 * all auth standarts: http://www.soapui.org/testing-dojo/best-practices/authentication.html
+		 */
+		if (props.getPassword() != null && props.getUserName() != null) {
+			SOAPHeaderElement auth = message.getSOAPHeader().addHeaderElement(
+					new QName("http://soap-authentication.org/basic/2001/10/", "BasicAuth", "h"));
+			auth.setMustUnderstand(true);
+			auth.addChildElement("Name").setValue(props.getUserName());
+			auth.addChildElement("Password").setValue(props.getPassword());
 		}
 
 		logMessage("Request message:", message);
