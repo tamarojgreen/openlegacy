@@ -29,6 +29,7 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 	private String runtimeName;
 	private String nullValue;
 	private String shortName;
+	private String legacyType;
 
 	private int count = 1;
 
@@ -152,6 +153,14 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 	@Override
 	public void setEditable(boolean editable) {
 		super.setEditable(editable);
+	}
+
+	public String getLegacyType() {
+		return legacyType;
+	}
+
+	public void setLegacyType(String legacyType) {
+		this.legacyType = legacyType;
 	}
 
 }

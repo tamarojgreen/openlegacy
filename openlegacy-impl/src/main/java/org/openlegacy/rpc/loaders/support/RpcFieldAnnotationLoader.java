@@ -62,6 +62,11 @@ public class RpcFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		} else {
 			rpcFieldDefinition.setOrder(fieldAnnotation.order());
 		}
+
+		if (fieldAnnotation.legacyType().length() > 0) {
+			rpcFieldDefinition.setLegacyType(fieldAnnotation.legacyType());
+		}
+
 		if (fieldAnnotation.displayName().equals(AnnotationConstants.NULL)) {
 			rpcFieldDefinition.setDisplayName(StringUtil.toDisplayName(fieldName));
 		} else {

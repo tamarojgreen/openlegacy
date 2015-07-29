@@ -65,4 +65,6 @@ public @interface RpcField {
 	 * @return the Spring expression or regular expression used for generating the value of the field
 	 */
 	String expression() default "";
+
+	String legacyType() default "";
 }
