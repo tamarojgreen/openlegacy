@@ -111,7 +111,7 @@ public class SnapshotComposite extends ImageComposite {
 	private TerminalSnapshot terminalSnapshotCopy;
 
 	private int compositeWidth = 850;
-	private int compositeHeight = 450;
+	private int compositeHeight = 100;
 
 	private int canvasWidthDistinction = 25;
 	private int canvasHeightDistinction = 50;
@@ -305,6 +305,8 @@ public class SnapshotComposite extends ImageComposite {
 		}
 		Rectangle imageBounds = image.getBounds();
 		Rectangle drawingBounds = getDrawingBounds(image.getBounds(), true);
+		
+		canvas.setBackground(new Color(Display.getCurrent(), 0,0,0));
 
 		gc.drawImage(image, 0, 0, imageBounds.width, imageBounds.height, drawingBounds.x, drawingBounds.y, drawingBounds.width,
 				drawingBounds.height);
@@ -644,7 +646,7 @@ public class SnapshotComposite extends ImageComposite {
 	}
 
 	private void initialize() {
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL, GridData.FILL_VERTICAL, true, true);
+		GridData gd = new GridData(GridData.FILL, GridData.FILL, true, true);
 		gd.widthHint = compositeWidth;
 		gd.heightHint = compositeHeight;
 		this.setLayoutData(gd);
@@ -653,12 +655,11 @@ public class SnapshotComposite extends ImageComposite {
 		gridLayout.numColumns = 1;
 		this.setLayout(gridLayout);
 
-		gd = new GridData(GridData.FILL_HORIZONTAL, GridData.FILL_VERTICAL, true, true);
+		gd = new GridData(GridData.FILL, GridData.FILL, true, true);
 		gd.widthHint = compositeWidth - canvasWidthDistinction;
 		gd.heightHint = compositeHeight - canvasHeightDistinction;
 
-		this.canvas = new Canvas(this, SWT.NONE);
-		this.canvas.setBackground(new Color(Display.getCurrent(), new RGB(0x00, 0x00, 0x00)));
+		this.canvas = new Canvas(this, SWT.NONE);		
 		this.canvas.setLayoutData(gd);
 		this.canvas.addPaintListener(this.getTerminalPaintListener());
 
