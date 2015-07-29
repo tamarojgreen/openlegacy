@@ -18,17 +18,22 @@ import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.definitions.RpcNumericFieldTypeDefinition;
 import org.openlegacy.definitions.support.AbstractFieldDefinition;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDefinition> implements RpcFieldDefinition {
 
 	private static final long serialVersionUID = 1L;
 	private Integer length;
 	private Direction direction;
+
 	private String originalName;
 	private int order;
 	private String defaultValue;
 	private String runtimeName;
 	private String nullValue;
 	private String shortName;
+
+	@XmlTransient
 	private String listElementName = "";
 
 	private int count = 1;

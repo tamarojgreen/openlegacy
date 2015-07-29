@@ -35,8 +35,13 @@ public abstract class AbstractRpcStructure implements Serializable {
 	@XmlAttribute
 	private String legacyContainerName;
 
-	private String soapElementName;
+	@XmlTransient
+	protected String soapElementName;
+
+	@XmlTransient
 	private String listElementName;
+
+	@XmlTransient
 	private String[] expandedElements;
 
 	public int getOrder() {

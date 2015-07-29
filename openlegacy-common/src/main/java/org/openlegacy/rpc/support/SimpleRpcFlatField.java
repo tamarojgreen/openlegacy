@@ -85,6 +85,7 @@ public class SimpleRpcFlatField implements RpcFlatField {
 	@XmlAttribute
 	private int order;
 
+	@XmlTransient
 	private String originalName;
 
 	@Override
