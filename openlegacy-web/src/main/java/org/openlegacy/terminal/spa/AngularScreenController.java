@@ -25,6 +25,11 @@ public class AngularScreenController extends AbstractAngularController {
 
 	@RequestMapping(value = "app/views/emulation.html", method = RequestMethod.GET)
 	public void getEmulation(HttpServletResponse response) throws IOException, TemplateException {
+
+		response.addHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+		response.addHeader("Pragma", "no-cache");
+		response.addHeader("Expires", "0");
+
 		htmlRenderer.setIncludeTemplate(false);
 		htmlRenderer.setRenderActionButtons(true);
 		htmlRenderer.setOnclickProperty("ng-click");
