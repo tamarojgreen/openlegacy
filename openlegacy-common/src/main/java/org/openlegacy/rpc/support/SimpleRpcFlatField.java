@@ -359,14 +359,16 @@ public class SimpleRpcFlatField implements RpcFlatField {
 	}
 
 	public void setOriginalName(String originalName) {
+		this.legacyType = legacyType;
+	}
+
 	public String getLegacyType() {
 		return legacyType;
 	}
 
 	public void setLegacyType(String legacyType) {
-		this.legacyType = legacyType;
+
 		this.originalName = originalName;
-	}
 	}
 
 }

@@ -26,7 +26,7 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 	private Integer length;
 	private Direction direction;
 
-	//	private String originalName;
+	// private String originalName;
 	private int order;
 	private String defaultValue;
 	private String runtimeName;
@@ -35,10 +35,10 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 	private String legacyType;
 
 	@XmlTransient
-	private String originalName = "";
+	private String originalName;
 
 	@XmlTransient
-	private String originalNameForList = "";
+	private String originalNameForList;
 
 	private int count = 1;
 
@@ -109,7 +109,7 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 		Integer result = new Integer(0);
 		FieldTypeDefinition fieldTypeDefinition = getFieldTypeDefinition();
 		if (fieldTypeDefinition instanceof RpcNumericFieldTypeDefinition) {
-			result = ((RpcNumericFieldTypeDefinition) fieldTypeDefinition).getDecimalPlaces();
+			result = ((RpcNumericFieldTypeDefinition)fieldTypeDefinition).getDecimalPlaces();
 		}
 		return result;
 	}
