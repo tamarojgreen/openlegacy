@@ -45,8 +45,8 @@ public class RpcListFieldAnnotationLoader extends AbstractFieldAnnotationLoader 
 	public void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass,
 			int fieldOrder) {
 
-		RpcEntitiesRegistry rpcEntitiesRegistry = (RpcEntitiesRegistry)entitiesRegistry;
-		RpcListField fieldAnnotation = (RpcListField)annotation;
+		RpcEntitiesRegistry rpcEntitiesRegistry = (RpcEntitiesRegistry) entitiesRegistry;
+		RpcListField fieldAnnotation = (RpcListField) annotation;
 
 		RpcEntityDefinition rpcEntityDefinition = rpcEntitiesRegistry.get(containingClass);
 
@@ -54,8 +54,8 @@ public class RpcListFieldAnnotationLoader extends AbstractFieldAnnotationLoader 
 		Class<?> itemClass = null;
 		try {
 			// Field item = containingClass.getDeclaredField(fieldName);
-			ParameterizedType itemType = (ParameterizedType)field.getGenericType();
-			itemClass = (Class<?>)itemType.getActualTypeArguments()[0];
+			ParameterizedType itemType = (ParameterizedType) field.getGenericType();
+			itemClass = (Class<?>) itemType.getActualTypeArguments()[0];
 
 		} catch (SecurityException e) {
 			throw (new RegistryException("SecurityException"));
@@ -63,7 +63,7 @@ public class RpcListFieldAnnotationLoader extends AbstractFieldAnnotationLoader 
 
 		// look in rpc entities
 		if (rpcEntityDefinition != null) {
-			SimpleRpcFieldDefinition fieldDefinition = (SimpleRpcFieldDefinition)rpcEntityDefinition.getFieldsDefinitions().get(
+			SimpleRpcFieldDefinition fieldDefinition = (SimpleRpcFieldDefinition) rpcEntityDefinition.getFieldsDefinitions().get(
 					fieldName);
 			fillTypeDefinition(fieldAnnotation, fieldDefinition, fieldName, itemClass);
 		} else {
@@ -71,7 +71,8 @@ public class RpcListFieldAnnotationLoader extends AbstractFieldAnnotationLoader 
 			RpcPartEntityDefinition rpcPart = rpcEntitiesRegistry.getPart(containingClass);
 			if (rpcPart != null) {
 				fieldName = MessageFormat.format("{0}.{1}", rpcPart.getPartName(), fieldName);
-				SimpleRpcFieldDefinition fieldDefinition = (SimpleRpcFieldDefinition)rpcPart.getFieldsDefinitions().get(fieldName);
+				SimpleRpcFieldDefinition fieldDefinition = (SimpleRpcFieldDefinition) rpcPart.getFieldsDefinitions().get(
+						fieldName);
 				fillTypeDefinition(fieldAnnotation, fieldDefinition, fieldName, itemClass);
 			}
 
@@ -97,7 +98,7 @@ public class RpcListFieldAnnotationLoader extends AbstractFieldAnnotationLoader 
 			fieldDefinition.setFieldTypeDefinition(new SimpleRpcListFieldTypeDefinition(fieldDefinition.getLength(),
 					fieldAnnotation.count(), new SimpleRpcNumericFieldTypeDefinition(), itemClass));
 		}
-		fieldDefinition.setListElementName(fieldAnnotation.listElementName());
+		fieldDefinition.setOriginalName(fieldAnnotation.originalName());
 	}
 
 }

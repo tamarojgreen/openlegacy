@@ -49,7 +49,6 @@ public class WsRpcConnection implements RpcConnection {
 	private static final Log logger = LogFactory.getLog(WsRpcConnection.class);
 
 	private static final String ACTION_PREFIX = "prefix";
-	private static final String RESPONSE = "Response";
 
 	private static final String ELEMENT_FAULT = "Fault";
 	private static final String ELEMENT_FAULT_CODE = "faultcode";
@@ -140,7 +139,7 @@ public class WsRpcConnection implements RpcConnection {
 		useFirstElementPrefix = true;
 
 		SOAPMessage message = messageFactory.createMessage();
-		actionData = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction)action).getProperties());
+		actionData = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction) action).getProperties());
 
 		SOAPEnvelope env = message.getSOAPPart().getEnvelope();
 		env.addNamespaceDeclaration(ACTION_PREFIX, actionData.getMethodInputNameSpace());
@@ -172,7 +171,7 @@ public class WsRpcConnection implements RpcConnection {
 		logMessage("Response message:", response);
 		SOAPBody responseBody = response.getSOAPBody();
 		checkForFailureReponse(responseBody);
-		actionData = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction)action).getProperties());
+		actionData = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction) action).getProperties());
 		getFields(action.getFields(), responseBody.getChildElements());
 		result.setRpcFields(action.getFields());
 	}
@@ -192,14 +191,14 @@ public class WsRpcConnection implements RpcConnection {
 			SOAPElement element;
 			switch (getFieldType(field)) {
 				case simple:
-					RpcFlatField flatField = (RpcFlatField)field;
+					RpcFlatField flatField = (RpcFlatField) field;
 					element = elementFormDefault ? actionElement.addChildElement(flatField.getOriginalName(), ACTION_PREFIX)
 							: actionElement.addChildElement(flatField.getOriginalName());
-					FieldUtil.writePrimitiveField((RpcFlatField)field, element);
+					FieldUtil.writePrimitiveField((RpcFlatField) field, element);
 					break;
 				case structure:
-					SimpleRpcStructureField structureField = (SimpleRpcStructureField)field;
-					String soapElement = structureField.getSoapElementName();
+					SimpleRpcStructureField structureField = (SimpleRpcStructureField) field;
+					String soapElement = structureField.getOriginalName();
 
 					element = (elementFormDefault || useFirstElementPrefix) ? actionElement.addChildElement(soapElement,
 							ACTION_PREFIX) : actionElement.addChildElement(soapElement);
@@ -272,7 +271,7 @@ public class WsRpcConnection implements RpcConnection {
 
 			switch (getFieldType(field)) {
 				case simple:
-					RpcFlatField flatField = (RpcFlatField)field;
+					RpcFlatField flatField = (RpcFlatField) field;
 					element = findSOAPElement(convertedIterator, flatField.getOriginalName());
 					logAndRemoveElementFromList(element, flatField.getOriginalName(), convertedIterator);
 
@@ -283,9 +282,9 @@ public class WsRpcConnection implements RpcConnection {
 					FieldUtil.readPrimitiveField(flatField, element);
 					break;
 				case structure:
-					SimpleRpcStructureField structureField = (SimpleRpcStructureField)field;
-					element = findSOAPElement(convertedIterator, structureField.getSoapElementName());
-					logAndRemoveElementFromList(element, structureField.getSoapElementName(), convertedIterator);
+					SimpleRpcStructureField structureField = (SimpleRpcStructureField) field;
+					element = findSOAPElement(convertedIterator, structureField.getOriginalName());
+					logAndRemoveElementFromList(element, structureField.getOriginalName(), convertedIterator);
 
 					if (element == null) {
 						continue;
@@ -309,11 +308,11 @@ public class WsRpcConnection implements RpcConnection {
 					getFields(structureField.getChildrens(), element.getChildElements());
 					break;
 				case list:
-					SimpleRpcStructureListField listField = (SimpleRpcStructureListField)field;
-					if (listField.getListElementName() != null) {
-						if (!listField.getListElementName().equals("")) {
-							element = findSOAPElement(convertedIterator, listField.getListElementName());
-							logAndRemoveElementFromList(element, listField.getListElementName(), convertedIterator);
+					SimpleRpcStructureListField listField = (SimpleRpcStructureListField) field;
+					if (listField.getOriginalName() != null) {
+						if (!listField.getOriginalName().equals("")) {
+							element = findSOAPElement(convertedIterator, listField.getOriginalNameForList());
+							logAndRemoveElementFromList(element, listField.getOriginalNameForList(), convertedIterator);
 							if (element != null) {
 								convertedIterator = IteratorUtils.toList(element.getChildElements());
 							}
@@ -323,8 +322,8 @@ public class WsRpcConnection implements RpcConnection {
 					List<RpcFields> childrens = listField.getChildrens();
 
 					for (int i = 0; i < childrens.size(); i++) {
-						element = findSOAPElement(convertedIterator, listField.getSoapElementName());
-						logAndRemoveElementFromList(element, listField.getSoapElementName(), convertedIterator);
+						element = findSOAPElement(convertedIterator, listField.getOriginalName());
+						logAndRemoveElementFromList(element, listField.getOriginalName(), convertedIterator);
 						if (element == null) {
 							continue;
 						}
@@ -355,7 +354,7 @@ public class WsRpcConnection implements RpcConnection {
 				continue;
 			}
 
-			element = (SOAPElement)test;
+			element = (SOAPElement) test;
 
 			if (element.getElementName().getLocalName().equals(name)) {
 				child = element;
@@ -371,17 +370,15 @@ public class WsRpcConnection implements RpcConnection {
 	}
 
 	private SOAPElement findSOAPElement(List<?> parentData, String name) {
-		boolean inner = false;
 		for (Object obj : parentData) {
 			if (!(obj instanceof SOAPElement)) {
 				continue;
 			}
-			SOAPElement child, element = (SOAPElement)obj;
+			SOAPElement child, element = (SOAPElement) obj;
 			if (element.getElementName().getLocalName().equals(name)) {
 				child = element;
 			} else {
 				child = findSOAPElement(IteratorUtils.toList(element.getChildElements()), name);
-				inner = true;
 			}
 
 			if (child != null) { // without it only first cycle iteration will proceed

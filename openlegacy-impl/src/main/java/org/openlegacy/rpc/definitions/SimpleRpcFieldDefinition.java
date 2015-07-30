@@ -26,7 +26,7 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 	private Integer length;
 	private Direction direction;
 
-	private String originalName;
+	//	private String originalName;
 	private int order;
 	private String defaultValue;
 	private String runtimeName;
@@ -34,7 +34,10 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 	private String shortName;
 
 	@XmlTransient
-	private String listElementName = "";
+	private String originalName = "";
+
+	@XmlTransient
+	private String originalNameForList = "";
 
 	private int count = 1;
 
@@ -105,7 +108,7 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 		Integer result = new Integer(0);
 		FieldTypeDefinition fieldTypeDefinition = getFieldTypeDefinition();
 		if (fieldTypeDefinition instanceof RpcNumericFieldTypeDefinition) {
-			result = ((RpcNumericFieldTypeDefinition)fieldTypeDefinition).getDecimalPlaces();
+			result = ((RpcNumericFieldTypeDefinition) fieldTypeDefinition).getDecimalPlaces();
 		}
 		return result;
 	}
@@ -160,11 +163,12 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 		super.setEditable(editable);
 	}
 
-	public String getListElementName() {
-		return listElementName;
+	public String getOriginalNameForList() {
+		return originalNameForList;
 	}
 
-	public void setListElementName(String listElementName) {
-		this.listElementName = listElementName;
+	public void setOriginalNameForList(String originalNameForList) {
+		this.originalNameForList = originalNameForList;
 	}
+
 }

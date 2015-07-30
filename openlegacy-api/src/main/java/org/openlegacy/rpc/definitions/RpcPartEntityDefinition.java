@@ -40,7 +40,8 @@ public interface RpcPartEntityDefinition extends PartEntityDefinition<RpcFieldDe
 
 	String[] getExpandedElements();
 
-	String getListElementName();
+	String getOriginalName();
 
-	String getSoapElementName();
+	String getOriginalNameForList();
+
 }

@@ -25,5 +25,5 @@ public @interface RpcPartList {
 
 	String runtimeName() default "";
 
-	String listElementName() default "";
+	String originalName() default "";
 }

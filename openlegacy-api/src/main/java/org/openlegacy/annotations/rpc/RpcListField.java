@@ -23,5 +23,5 @@ public @interface RpcListField {
 
 	int count();
 
-	String listElementName() default "";
+	String originalName() default "";
 }

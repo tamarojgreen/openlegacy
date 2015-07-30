@@ -36,5 +36,5 @@ public @interface RpcPart {
 	 */
 	String[] expandedElements() default {};
 
-	String soapElementName() default "";
+	String originalName() default "";
 }

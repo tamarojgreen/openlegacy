@@ -36,10 +36,10 @@ public abstract class AbstractRpcStructure implements Serializable {
 	private String legacyContainerName;
 
 	@XmlTransient
-	protected String soapElementName;
+	protected String originalName;
 
 	@XmlTransient
-	private String listElementName;
+	protected String originalNameForList;
 
 	@XmlTransient
 	private String[] expandedElements;
@@ -80,20 +80,20 @@ public abstract class AbstractRpcStructure implements Serializable {
 		return null;
 	}
 
-	public String getSoapElementName() {
-		return soapElementName;
+	public String getOriginalName() {
+		return originalName;
 	}
 
-	public void setSoapElementName(String soapElement) {
-		this.soapElementName = soapElement;
+	public void setOriginalName(String originalName) {
+		this.originalName = originalName;
 	}
 
-	public String getListElementName() {
-		return listElementName;
+	public String getOriginalNameForList() {
+		return originalNameForList;
 	}
 
-	public void setListElementName(String listElementName) {
-		this.listElementName = listElementName;
+	public void setOriginalNameForList(String originalNameForList) {
+		this.originalNameForList = originalNameForList;
 	}
 
 	public String[] getExpandedElements() {

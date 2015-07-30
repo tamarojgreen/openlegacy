@@ -149,9 +149,9 @@ public class MockRpcConnection implements RpcConnection {
 					&& additionalCheck(rpcSnapshot.getRpcInvokeAction(), invokeAction)) {
 				try {
 					if (invokeAction instanceof SimpleRpcInvokeAction
-							&& ((SimpleRpcInvokeAction)invokeAction).getProperties() != null
-							&& ((SimpleRpcInvokeAction)invokeAction).getProperties().size() > 0) {
-						String key = ((SimpleRpcInvokeAction)rpcSnapshot.getRpcInvokeAction()).getProperties().get(
+							&& ((SimpleRpcInvokeAction) invokeAction).getProperties() != null
+							&& ((SimpleRpcInvokeAction) invokeAction).getProperties().size() > 0) {
+						String key = ((SimpleRpcInvokeAction) rpcSnapshot.getRpcInvokeAction()).getProperties().get(
 								new QName("key"));
 						if (key == null) {
 							lastSnapshpot = rpcSnapshot;
@@ -165,8 +165,8 @@ public class MockRpcConnection implements RpcConnection {
 							}
 						}
 					} else {// what about another entity structure xD?
-						RpcFlatField rpcField = (RpcFlatField)rpcSnapshot.getRpcInvokeAction().getFields().get(0);
-						RpcFlatField field = (RpcFlatField)invokeAction.getFields().get(0);
+						RpcFlatField rpcField = (RpcFlatField) rpcSnapshot.getRpcInvokeAction().getFields().get(0);
+						RpcFlatField field = (RpcFlatField) invokeAction.getFields().get(0);
 						if (rpcField.getValue().equals(field.getValue())) {
 							lastSnapshpot = rpcSnapshot;
 							break;
@@ -182,14 +182,14 @@ public class MockRpcConnection implements RpcConnection {
 
 	private boolean additionalCheck(RpcInvokeAction snapShotAction, RpcInvokeAction processingAction) {
 		if (snapShotAction instanceof SimpleRpcInvokeAction && processingAction instanceof SimpleRpcInvokeAction) {
-			SimpleRpcInvokeAction snapshot = (SimpleRpcInvokeAction)snapShotAction;
-			SimpleRpcInvokeAction process = (SimpleRpcInvokeAction)processingAction;
+			SimpleRpcInvokeAction snapshot = (SimpleRpcInvokeAction) snapShotAction;
+			SimpleRpcInvokeAction process = (SimpleRpcInvokeAction) processingAction;
 			if (snapshot.getProperties() != null) {
 				try {
 					Iterator<QName> iter = snapshot.getProperties().keySet().iterator();
 					while (iter.hasNext()) {
 						QName key = iter.next();
-						if (!((SimpleRpcStructureField)process.getFields().get(0)).getSoapElementName().equals(
+						if (!((SimpleRpcStructureField) process.getFields().get(0)).getOriginalName().equals(
 								snapshot.getProperties().get(key))) {
 							return false;
 						} else {
@@ -209,10 +209,10 @@ public class MockRpcConnection implements RpcConnection {
 		for (RpcField field : fields) {
 			if (field instanceof RpcFlatField) {
 				if (field.getName().equals(key)) {
-					return ((RpcFlatField)field).getValue();
+					return ((RpcFlatField) field).getValue();
 				}
 			} else if (field instanceof SimpleRpcStructureField) {
-				Object obj = getKey(((SimpleRpcStructureField)field).getChildrens(), key);
+				Object obj = getKey(((SimpleRpcStructureField) field).getChildrens(), key);
 				if (obj != null) {
 					return obj;
 				}

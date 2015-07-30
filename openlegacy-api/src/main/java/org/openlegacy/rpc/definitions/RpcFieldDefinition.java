@@ -33,4 +33,6 @@ public interface RpcFieldDefinition extends FieldDefinition, OrderedField {
 	String getNullValue();
 
 	String getShortName();
+
+	String getOriginalNameForList();
 }

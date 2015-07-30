@@ -24,7 +24,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<RpcFieldDefinition> implements RpcPartEntityDefinition, Serializable, OrderedField {
+public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<RpcFieldDefinition> implements
+		RpcPartEntityDefinition, Serializable, OrderedField {
 
 	private static final long serialVersionUID = 1L;
 	private String originalName;
@@ -39,12 +40,12 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 	private Boolean isVirtual = false;
 	private Boolean keyFirstTime = true;
 	private String runtimeName;
-	private String listElementName;
-	private String soapElementName;
 
 	private final Map<String, RpcPartEntityDefinition> innerPartsDefinitions = new LinkedHashMap<String, RpcPartEntityDefinition>();
 	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
 	private List<RpcFieldDefinition> keys = new ArrayList<RpcFieldDefinition>();
+
+	private String originalNameForList;
 
 	public SimpleRpcPartEntityDefinition(Class<?> partClass) {
 		super(partClass);
@@ -114,8 +115,8 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 
 		if (keyFirstTime.equals(true)) {
 			for (PartEntityDefinition<RpcFieldDefinition> part : innerPartsDefinitions.values()) {
-				if (((RpcPartEntityDefinition)part).getCount() == 1) {
-					keys.addAll(((RpcPartEntityDefinition)part).getKeys());
+				if (((RpcPartEntityDefinition) part).getCount() == 1) {
+					keys.addAll(((RpcPartEntityDefinition) part).getKeys());
 				}
 			}
 			keyFirstTime = false;
@@ -131,7 +132,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 		Collection<RpcPartEntityDefinition> parts = innerPartsDefinitions.values();
 
 		for (PartEntityDefinition<RpcFieldDefinition> p : parts) {
-			result.add((SimpleRpcPartEntityDefinition)p);
+			result.add((SimpleRpcPartEntityDefinition) p);
 		}
 
 		Collections.sort(result, new Comparator<OrderedField>() {
@@ -191,19 +192,12 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 		this.expandedElements = expandedElements;
 	}
 
-	public String getListElementName() {
-		return listElementName;
+	public String getOriginalNameForList() {
+		return originalNameForList;
 	}
 
-	public void setListElementName(String listElementName) {
-		this.listElementName = listElementName;
+	public void setOriginalNameForList(String originalNameForList) {
+		this.originalNameForList = originalNameForList;
 	}
 
-	public String getSoapElementName() {
-		return soapElementName;
-	}
-
-	public void setSoapElementName(String soapElement) {
-		this.soapElementName = soapElement;
-	}
 }
