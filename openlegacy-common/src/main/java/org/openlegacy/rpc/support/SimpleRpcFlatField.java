@@ -359,7 +359,7 @@ public class SimpleRpcFlatField implements RpcFlatField {
 	}
 
 	public void setOriginalName(String originalName) {
-		this.legacyType = legacyType;
+		this.originalName = originalName;
 	}
 
 	public String getLegacyType() {
@@ -367,8 +367,7 @@ public class SimpleRpcFlatField implements RpcFlatField {
 	}
 
 	public void setLegacyType(String legacyType) {
-
-		this.originalName = originalName;
+		this.legacyType = legacyType;
 	}
 
 }
