@@ -109,7 +109,7 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 		Integer result = new Integer(0);
 		FieldTypeDefinition fieldTypeDefinition = getFieldTypeDefinition();
 		if (fieldTypeDefinition instanceof RpcNumericFieldTypeDefinition) {
-			result = ((RpcNumericFieldTypeDefinition)fieldTypeDefinition).getDecimalPlaces();
+			result = ((RpcNumericFieldTypeDefinition) fieldTypeDefinition).getDecimalPlaces();
 		}
 		return result;
 	}

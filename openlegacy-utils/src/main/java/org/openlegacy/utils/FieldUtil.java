@@ -18,6 +18,8 @@ public class FieldUtil {
 	protected static final int primitiveTypesEndOffset = 7;
 	protected static final String VALUE_OF = "valueOf";
 	protected static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+	private static final int MAX_ENTRY_VALUE = 999999999;
+	private static final int MIN_ENTRY_VALUE = -999999998;
 
 	public static class MinMax {
 
@@ -28,7 +30,7 @@ public class FieldUtil {
 		}
 
 		public void setMin(double min) {
-			this.min = min;
+			this.min = min < MIN_ENTRY_VALUE ? MIN_ENTRY_VALUE : min;
 		}
 
 		public double getMax() {
@@ -36,7 +38,7 @@ public class FieldUtil {
 		}
 
 		public void setMax(double max) {
-			this.max = max;
+			this.max = max > MAX_ENTRY_VALUE ? MAX_ENTRY_VALUE : max;
 		}
 	}
 
@@ -81,8 +83,12 @@ public class FieldUtil {
 				minMax.setMax(255);
 			} else {
 				try {
-					minMax.setMin(Double.valueOf(String.valueOf(clazz.getField("MIN_VALUE").get(null))));
 					minMax.setMax(Double.valueOf(String.valueOf(clazz.getField("MAX_VALUE").get(null))));
+					if (clazz == Double.class || clazz == Float.class) {
+						minMax.setMin(MIN_ENTRY_VALUE);
+					} else {
+						minMax.setMin(Double.valueOf(String.valueOf(clazz.getField("MIN_VALUE").get(null))));
+					}
 				} catch (Exception e) {
 				}
 			}
