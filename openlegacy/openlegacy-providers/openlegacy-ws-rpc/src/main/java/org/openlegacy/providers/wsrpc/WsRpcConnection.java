@@ -139,7 +139,7 @@ public class WsRpcConnection implements RpcConnection {
 		useFirstElementPrefix = true;
 
 		SOAPMessage message = messageFactory.createMessage();
-		actionData = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction) action).getProperties());
+		actionData = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction)action).getProperties());
 
 		SOAPEnvelope env = message.getSOAPPart().getEnvelope();
 		env.addNamespaceDeclaration(ACTION_PREFIX, actionData.getMethodInputNameSpace());
@@ -171,7 +171,7 @@ public class WsRpcConnection implements RpcConnection {
 		logMessage("Response message:", response);
 		SOAPBody responseBody = response.getSOAPBody();
 		checkForFailureReponse(responseBody);
-		actionData = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction) action).getProperties());
+		actionData = WsRpcActionUtil.getWsRpcActionData(((SimpleRpcInvokeAction)action).getProperties());
 		getFields(action.getFields(), responseBody.getChildElements());
 		result.setRpcFields(action.getFields());
 	}
@@ -191,13 +191,13 @@ public class WsRpcConnection implements RpcConnection {
 			SOAPElement element;
 			switch (getFieldType(field)) {
 				case simple:
-					RpcFlatField flatField = (RpcFlatField) field;
+					RpcFlatField flatField = (RpcFlatField)field;
 					element = elementFormDefault ? actionElement.addChildElement(flatField.getOriginalName(), ACTION_PREFIX)
 							: actionElement.addChildElement(flatField.getOriginalName());
-					FieldUtil.writePrimitiveField((RpcFlatField) field, element);
+					FieldUtil.writePrimitiveField((RpcFlatField)field, element);
 					break;
 				case structure:
-					SimpleRpcStructureField structureField = (SimpleRpcStructureField) field;
+					SimpleRpcStructureField structureField = (SimpleRpcStructureField)field;
 					String soapElement = structureField.getOriginalName();
 
 					element = (elementFormDefault || useFirstElementPrefix) ? actionElement.addChildElement(soapElement,
@@ -212,31 +212,21 @@ public class WsRpcConnection implements RpcConnection {
 					setFields(structureField.getChildrens(), element);
 					break;
 				case list:
-					// SimpleRpcStructureListField listField = (SimpleRpcStructureListField)field;
-					// if (listField.getListElementName() != null) {
-					// if (!listField.getListElementName().equals("")) {
-					// String listElement = listField.getListElementName();
-					// element = (elementFormDefault || useFirstElementPrefix) ? actionElement.addChildElement(listElement,
-					// ACTION_PREFIX) : actionElement.addChildElement(listElement);
-					//
-					// element = findSOAPElement(convertedIterator, listField.getListElementName());
-					// logAndRemoveElementFromList(element, listField.getLegacyContainerName(), convertedIterator);
-					// if (element != null) {
-					// convertedIterator = IteratorUtils.toList(element.getChildElements());
-					// }
-					// }
-					// }
-					//
-					// List<RpcFields> childrens = listField.getChildrens();
-					//
-					// for (int i = 0; i < childrens.size(); i++) {
-					// element = findSOAPElement(convertedIterator, listField.getSoapElementName());
-					// logAndRemoveElementFromList(element, listField.getSoapElementName(), convertedIterator);
-					// if (element == null) {
-					// continue;
-					// }
-					// getFields(childrens.get(i).getFields(), element.getChildElements());
-					// }
+					SimpleRpcStructureListField listField = (SimpleRpcStructureListField)field;
+					if (listField.getOriginalName() != null) {
+						if (!listField.getOriginalName().equals("")) {
+							String listOriginalName = listField.getOriginalNameForList();
+							actionElement = (elementFormDefault || useFirstElementPrefix) ? actionElement.addChildElement(
+									listOriginalName, ACTION_PREFIX) : actionElement.addChildElement(listOriginalName);
+						}
+					}
+					List<RpcFields> childrens = listField.getChildrens();
+					for (int i = 0; i < childrens.size(); i++) {
+						element = (elementFormDefault || useFirstElementPrefix) ? actionElement.addChildElement(
+								listField.getOriginalName(), ACTION_PREFIX)
+								: actionElement.addChildElement(listField.getOriginalName());
+						setFields(childrens.get(i).getFields(), element);
+					}
 					break;
 			}
 		}
@@ -271,7 +261,7 @@ public class WsRpcConnection implements RpcConnection {
 
 			switch (getFieldType(field)) {
 				case simple:
-					RpcFlatField flatField = (RpcFlatField) field;
+					RpcFlatField flatField = (RpcFlatField)field;
 					element = findSOAPElement(convertedIterator, flatField.getOriginalName());
 					logAndRemoveElementFromList(element, flatField.getOriginalName(), convertedIterator);
 
@@ -282,7 +272,7 @@ public class WsRpcConnection implements RpcConnection {
 					FieldUtil.readPrimitiveField(flatField, element);
 					break;
 				case structure:
-					SimpleRpcStructureField structureField = (SimpleRpcStructureField) field;
+					SimpleRpcStructureField structureField = (SimpleRpcStructureField)field;
 					element = findSOAPElement(convertedIterator, structureField.getOriginalName());
 					logAndRemoveElementFromList(element, structureField.getOriginalName(), convertedIterator);
 
@@ -308,7 +298,7 @@ public class WsRpcConnection implements RpcConnection {
 					getFields(structureField.getChildrens(), element.getChildElements());
 					break;
 				case list:
-					SimpleRpcStructureListField listField = (SimpleRpcStructureListField) field;
+					SimpleRpcStructureListField listField = (SimpleRpcStructureListField)field;
 					if (listField.getOriginalName() != null) {
 						if (!listField.getOriginalName().equals("")) {
 							element = findSOAPElement(convertedIterator, listField.getOriginalNameForList());
@@ -354,7 +344,7 @@ public class WsRpcConnection implements RpcConnection {
 				continue;
 			}
 
-			element = (SOAPElement) test;
+			element = (SOAPElement)test;
 
 			if (element.getElementName().getLocalName().equals(name)) {
 				child = element;
@@ -374,7 +364,7 @@ public class WsRpcConnection implements RpcConnection {
 			if (!(obj instanceof SOAPElement)) {
 				continue;
 			}
-			SOAPElement child, element = (SOAPElement) obj;
+			SOAPElement child, element = (SOAPElement)obj;
 			if (element.getElementName().getLocalName().equals(name)) {
 				child = element;
 			} else {
