@@ -139,7 +139,7 @@ public class S3270 implements Terminal {
 	private String buildCommandLine(String logicalUnit, String hostname, Properties properties) {
 		String execPath = getProperty(properties, "execPath", "/usr/local/bin");
 		String charset = "cp" + properties.getProperty("host.codePage");
-		String model = getProperty(properties, "charset", "3");
+		String model = properties.getProperty("host.model");
 		String additional = getProperty(properties, "additional", null);
 		File s3270_binary = new File(execPath, "s3270");
 		StringBuffer cmd = new StringBuffer(s3270_binary.toString());
@@ -253,12 +253,12 @@ public class S3270 implements Terminal {
 	}
 
 	private static final Pattern unknownHostPattern = Pattern.compile(
-	// This message is hard-coded in s3270 as of version 3.3.5,
-	// so we can rely on it not being localized.
-	"Unknown host: (.*)");
+			// This message is hard-coded in s3270 as of version 3.3.5,
+			// so we can rely on it not being localized.
+			"Unknown host: (.*)");
 	private static final Pattern unreachablePattern = Pattern.compile(
-	// This is the hard-coded part of the error message in s3270 version 3.3.5.
-	"Connect to ([^,]+), port ([0-9]+): (.*)");
+			// This is the hard-coded part of the error message in s3270 version 3.3.5.
+			"Connect to ([^,]+), port ([0-9]+): (.*)");
 
 	/**
 	 * Checks whether the s3270 process is still running, and if it isn't, tries to determine the cause why it failed. This method

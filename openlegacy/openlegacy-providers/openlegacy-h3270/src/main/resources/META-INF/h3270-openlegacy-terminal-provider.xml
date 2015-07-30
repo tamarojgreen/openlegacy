@@ -14,6 +14,10 @@
 	    		<prop key="host.name">${host.name}</prop>
 	    		<prop key="host.port">${host.port}</prop>
 	    		<prop key="host.codePage">${host.codePage}</prop>
+<<<<<<< BRANCH-2.1.1-RELEASE
+=======
+	    		<prop key="host.model">${host.model}</prop>
+>>>>>>> 2e117f2 refs #1164 - fixes setting host.model properly
 	    		<prop key="s3270.additional">${host.additional_params}</prop>
 			</props>
 	    </property>
