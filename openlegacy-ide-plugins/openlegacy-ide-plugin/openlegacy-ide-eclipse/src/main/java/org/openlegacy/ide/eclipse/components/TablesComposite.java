@@ -95,10 +95,14 @@ public class TablesComposite extends Composite {
 		gl.makeColumnsEqualWidth = true;
 		setLayout(gl);
 
-		GridData gd = new GridData(SWT.FILL | SWT.BORDER);
-		gd.grabExcessHorizontalSpace = true;
-		gd.verticalIndent = 0;
-		setLayoutData(gd);
+ 		GridData gd = new GridData(SWT.FILL | SWT.BORDER);
+		gd.heightHint = 50;
+ 		gd.grabExcessHorizontalSpace = true;
+		gd.grabExcessVerticalSpace = true;
+ 		gd.verticalIndent = 0;
+		gd.horizontalAlignment = SWT.FILL;
+		gd.verticalAlignment = SWT.FILL;
+ 		setLayoutData(gd);
 
 		createFieldsColumn(this);
 		createIdentifiersColumn(this);
@@ -112,6 +116,8 @@ public class TablesComposite extends Composite {
 		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gd.heightHint = TABLE_HEIGHT;
 		gd.widthHint = TABLE_WIDTH;
+		gd.grabExcessHorizontalSpace = true;
+		gd.grabExcessVerticalSpace = true;
 		table.setLayoutData(gd);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -269,8 +275,7 @@ public class TablesComposite extends Composite {
 		gl.marginLeft = 0;
 		gl.marginRight = 0;
 		composite.setLayout(gl);
-		GridData gd = new GridData(SWT.FILL);
-		gd.grabExcessHorizontalSpace = true;
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gd.verticalIndent = 0;
 		composite.setLayoutData(gd);
 		return composite;
@@ -281,7 +286,7 @@ public class TablesComposite extends Composite {
 		TableViewerColumn vcol = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tcol = vcol.getColumn();
 		tcol.setText(Messages.getString("label_col_fields"));
-		tcol.setResizable(false);
+		tcol.setResizable(true);
 		tcol.setWidth(115);
 		vcol.setEditingSupport(new TextEditingSupport(tableViewer, ScreenAnnotationConstants.FIELD, screenSize));
 		vcol.setLabelProvider(new CellLabelProvider() {
@@ -296,7 +301,7 @@ public class TablesComposite extends Composite {
 		vcol = new TableViewerColumn(tableViewer, SWT.NONE);
 		tcol = vcol.getColumn();
 		tcol.setText(Messages.getString("label_col_row"));
-		tcol.setResizable(false);
+		tcol.setResizable(true);
 		tcol.setWidth(38);
 		vcol.setEditingSupport(new TextEditingSupport(tableViewer, ScreenAnnotationConstants.ROW, screenSize));
 		vcol.setLabelProvider(new CellLabelProvider() {
@@ -311,7 +316,7 @@ public class TablesComposite extends Composite {
 		vcol = new TableViewerColumn(tableViewer, SWT.NONE);
 		tcol = vcol.getColumn();
 		tcol.setText(Messages.getString("label_col_column"));
-		tcol.setResizable(false);
+		tcol.setResizable(true);
 		tcol.setWidth(40);
 		vcol.setEditingSupport(new TextEditingSupport(tableViewer, ScreenAnnotationConstants.COLUMN, screenSize));
 		vcol.setLabelProvider(new CellLabelProvider() {
@@ -326,7 +331,7 @@ public class TablesComposite extends Composite {
 		vcol = new TableViewerColumn(tableViewer, SWT.NONE);
 		tcol = vcol.getColumn();
 		tcol.setText(Messages.getString("label_col_java_type"));
-		tcol.setResizable(false);
+		tcol.setResizable(true);
 		tcol.setWidth(88);
 		vcol.setEditingSupport(new ComboBoxEditingSupport(tableViewer, getJavaTypeItems()));
 		vcol.setLabelProvider(new CellLabelProvider() {
@@ -341,7 +346,7 @@ public class TablesComposite extends Composite {
 		vcol = new TableViewerColumn(tableViewer, SWT.NONE);
 		tcol = vcol.getColumn();
 		tcol.setText(Messages.getString("label_col_field_type"));
-		tcol.setResizable(false);
+		tcol.setResizable(true);
 		tcol.setWidth(88);
 		vcol.setEditingSupport(new DialogEditingSupport(tableViewer));
 		vcol.setLabelProvider(new CellLabelProvider() {
@@ -359,7 +364,7 @@ public class TablesComposite extends Composite {
 		TableViewerColumn vcol = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tcol = vcol.getColumn();
 		tcol.setText(Messages.getString("label_col_identifiers"));
-		tcol.setResizable(false);
+		tcol.setResizable(true);
 		tcol.setWidth(240);
 		vcol.setEditingSupport(new TextEditingSupport(tableViewer, ScreenAnnotationConstants.IDENTIFIERS, screenSize));
 		vcol.setLabelProvider(new CellLabelProvider() {
@@ -374,7 +379,7 @@ public class TablesComposite extends Composite {
 		vcol = new TableViewerColumn(tableViewer, SWT.NONE);
 		tcol = vcol.getColumn();
 		tcol.setText(Messages.getString("label_col_row"));
-		tcol.setResizable(false);
+		tcol.setResizable(true);
 		tcol.setWidth(60);
 		vcol.setEditingSupport(new TextEditingSupport(tableViewer, ScreenAnnotationConstants.ROW, screenSize));
 		vcol.setLabelProvider(new CellLabelProvider() {
@@ -389,7 +394,7 @@ public class TablesComposite extends Composite {
 		vcol = new TableViewerColumn(tableViewer, SWT.NONE);
 		tcol = vcol.getColumn();
 		tcol.setText(Messages.getString("label_col_column"));
-		tcol.setResizable(false);
+		tcol.setResizable(true);
 		tcol.setWidth(60);
 		vcol.setEditingSupport(new TextEditingSupport(tableViewer, ScreenAnnotationConstants.COLUMN, screenSize));
 		vcol.setLabelProvider(new CellLabelProvider() {

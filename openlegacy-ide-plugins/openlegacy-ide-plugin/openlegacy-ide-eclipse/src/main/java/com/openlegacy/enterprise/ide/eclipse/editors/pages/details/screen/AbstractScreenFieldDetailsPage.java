@@ -82,6 +82,7 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 		list.add(FieldAttributeType.Value.toString());
 		list.add(FieldAttributeType.Editable.toString());
 		list.add(FieldAttributeType.Color.toString());
+		list.add(FieldAttributeType.BackColor.toString());
 		return list.toArray(new String[] {});
 	}
 
@@ -105,7 +106,7 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 	}
 
 	protected static void setScreenPreviewDrawingRectangle(ScreenFieldModel model) {
-		ScreenPreview screenPreview = (ScreenPreview)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(
+		ScreenPreview screenPreview = (ScreenPreview) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(
 				ScreenPreview.ID);
 		if (screenPreview != null) {
 			TerminalPosition endPosition = null;
@@ -693,7 +694,7 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 			@Override
 			public void modifyText(ModifyEvent e) {
 				getDefaultModifyListener().modifyText(e);
-				String text = ((CCombo)e.widget).getText();
+				String text = ((CCombo) e.widget).getText();
 				if (!StringUtils.isEmpty(text) && PasswordField.class.getSimpleName().equals(text) && !updatingControls) {
 					passwordButton.setSelection(true);
 					passwordButton.notifyListeners(SWT.Selection, new Event());

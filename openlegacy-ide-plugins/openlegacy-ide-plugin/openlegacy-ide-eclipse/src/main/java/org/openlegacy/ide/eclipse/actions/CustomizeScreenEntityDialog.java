@@ -22,6 +22,7 @@ import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -90,8 +91,8 @@ public class CustomizeScreenEntityDialog extends Dialog {
 
 	private static final String ID_FULLY_QUALIFIED_NAME = "id.fullyQualifiedName";//$NON-NLS-1$
 
-	private static final int DIALOG_WIDTH = 825;
-	private static final int DIALOG_HEIGHT = 660;
+	private static final int DIALOG_WIDTH = 900;
+	private static final int DIALOG_HEIGHT = 700;
 
 	private Text entityNameTxt;
 	private ScreenEntityDefinition screenEntityDefinition;
@@ -106,33 +107,49 @@ public class CustomizeScreenEntityDialog extends Dialog {
 	}
 
 	@Override
-	protected Control createDialogArea(Composite parent) {
-
-		parent = new Composite(parent, SWT.NONE);
-
-		parent.getShell().setText(
-				MessageFormat.format(Messages.getString("title_ol_generate_screens_api"), PluginConstants.TITLE));
-
-		GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 1;
-		GridData gd = new GridData();
-		gd.widthHint = DIALOG_WIDTH;
-		gd.heightHint = DIALOG_HEIGHT;
-		parent.setLayoutData(gd);
-		parent.setLayout(gridLayout);
+	protected Control createDialogArea(Composite parent) {		
+		parent.setLayout(new GridLayout());
+		GridData parentData = new GridData();
+		parentData.heightHint = DIALOG_HEIGHT;
+		parentData.widthHint = DIALOG_WIDTH;
+		parentData.grabExcessHorizontalSpace = true;
+		parentData.grabExcessVerticalSpace = true;
+		parentData.horizontalAlignment = SWT.FILL;
+		parentData.verticalAlignment = SWT.FILL;
+		parent.setLayoutData(parentData);
+		
+		
+		// Create the ScrolledComposite to scroll horizontally and vertically
+		ScrolledComposite sc = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);		
+		sc.getShell().setText(MessageFormat.format(Messages.getString("title_ol_generate_screens_api"), PluginConstants.TITLE));
+		sc.setExpandHorizontal(true);
+		sc.setExpandVertical(true);
+		
+		sc.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		
+		Composite composite = new Composite(sc, SWT.NONE);		
+		composite.setLayout(new GridLayout(1, false));
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		// entity panel
-		createEntityLevelControls(parent);
+		createEntityLevelControls(composite);
 
-		// fields/identifiers level
-		TablesComposite tablesComposite = new TablesComposite(parent, SWT.NONE, screenEntityDefinition);
+		// fields/identifiers level	
+		TablesComposite tablesComposite = new TablesComposite(composite, SWT.NONE, screenEntityDefinition);
+		
 		// image level
-		snapshotComposite = new SnapshotComposite(parent, screenEntityDefinition.getOriginalSnapshot(), projectPath);
-		snapshotComposite.setIsScalable(true);
+		snapshotComposite = new SnapshotComposite(composite, screenEntityDefinition.getOriginalSnapshot(), projectPath);
+		snapshotComposite.setIsScalable(true);		
 
 		tablesComposite.setPaintedControl(snapshotComposite);
-
-		return parent;
+		
+		sc.setContent(composite);
+		// Set the minimum size
+		sc.setMinSize(DIALOG_WIDTH - 10, DIALOG_HEIGHT - 80);
+		// Set the dialog position in the middle of the monitor
+		setDialogLocation();
+		
+		return sc;
 	}
 
 	@Override
@@ -145,15 +162,6 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		// should organize imports for newly created or deleted fields
 		organizeImports();
 		super.okPressed();
-	}
-
-	@Override
-	protected void createButtonsForButtonBar(Composite parent) {
-		super.createButtonsForButtonBar(parent);
-		// Set the size of the parent shell
-		parent.getShell().setSize(DIALOG_WIDTH + 5, DIALOG_HEIGHT + 75);
-		// Set the dialog position in the middle of the monitor
-		setDialogLocation();
 	}
 
 	/**
@@ -329,6 +337,16 @@ public class CustomizeScreenEntityDialog extends Dialog {
 				}
 			}
 		}
+	}
+	
+	@Override
+	protected boolean isResizable() {
+		return true;
+	}
+		
+	@Override
+	protected int getShellStyle() {	
+		return SWT.DIALOG_TRIM | SWT.MIN | SWT.MAX | SWT.RESIZE;
 	}
 
 }
