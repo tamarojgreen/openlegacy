@@ -34,8 +34,8 @@ public class RpcPartFieldsLoader implements FieldLoader {
 		Class<?> fieldType = field.getType();
 		if (fieldType == List.class) {
 			try {
-				ParameterizedType itemType = (ParameterizedType)field.getGenericType();
-				fieldType = (Class<?>)itemType.getActualTypeArguments()[0];
+				ParameterizedType itemType = (ParameterizedType) field.getGenericType();
+				fieldType = (Class<?>) itemType.getActualTypeArguments()[0];
 
 			} catch (SecurityException e) {
 				throw (new RegistryException("SecurityException"));
@@ -47,7 +47,7 @@ public class RpcPartFieldsLoader implements FieldLoader {
 	@Override
 	@SuppressWarnings("rawtypes")
 	public boolean match(EntitiesRegistry entitiesRegistry, Field field) {
-		RpcEntitiesRegistry rpcEntitiesRegistry = (RpcEntitiesRegistry)entitiesRegistry;
+		RpcEntitiesRegistry rpcEntitiesRegistry = (RpcEntitiesRegistry) entitiesRegistry;
 		Class<?> fieldJavaType = getType(field);
 		return (rpcEntitiesRegistry.getPart(fieldJavaType) != null);
 	}
@@ -55,10 +55,10 @@ public class RpcPartFieldsLoader implements FieldLoader {
 	@Override
 	@SuppressWarnings("rawtypes")
 	public void load(EntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass, int fieldOrder) {
-		RpcEntitiesRegistry rpcEntitiesRegistry = (RpcEntitiesRegistry)entitiesRegistry;
+		RpcEntitiesRegistry rpcEntitiesRegistry = (RpcEntitiesRegistry) entitiesRegistry;
 		String fieldName = field.getName();
 
-		SimpleRpcPartEntityDefinition partDefinition = (SimpleRpcPartEntityDefinition)rpcEntitiesRegistry.getPart(getType(field));
+		SimpleRpcPartEntityDefinition partDefinition = (SimpleRpcPartEntityDefinition) rpcEntitiesRegistry.getPart(getType(field));
 		partDefinition.setOrder(fieldOrder);
 		if (partDefinition != null) {
 
@@ -66,7 +66,12 @@ public class RpcPartFieldsLoader implements FieldLoader {
 				Map<String, RpcFieldDefinition> rpcFieldDefinitions = rpcEntitiesRegistry.get(containingClass).getFieldsDefinitions();
 				RpcFieldDefinition rpcFieldDefinition = rpcFieldDefinitions.get(fieldName);
 				if (rpcFieldDefinition != null) {
-					partDefinition.setCount(((SimpleRpcFieldDefinition)rpcFieldDefinition).getCount());
+					partDefinition.setCount(((SimpleRpcFieldDefinition) rpcFieldDefinition).getCount());
+					if (partDefinition.getCount() > 1) {
+						partDefinition.setOriginalNameForList(rpcFieldDefinition.getOriginalNameForList());
+					} else {
+						partDefinition.setOriginalName(rpcFieldDefinition.getOriginalName());
+					}
 					rpcFieldDefinitions.remove(fieldName);
 				}
 				rpcEntitiesRegistry.get(containingClass).getPartsDefinitions().put(field.getName(), partDefinition);
@@ -76,7 +81,12 @@ public class RpcPartFieldsLoader implements FieldLoader {
 
 				RpcFieldDefinition rpcFieldDefinition = containgPartDefinion.getFieldsDefinitions().get(fieldName);
 				if (rpcFieldDefinition != null) {
-					partDefinition.setCount(((SimpleRpcFieldDefinition)rpcFieldDefinition).getCount());
+					partDefinition.setCount(((SimpleRpcFieldDefinition) rpcFieldDefinition).getCount());
+					if (partDefinition.getCount() > 1) {
+						partDefinition.setOriginalNameForList(rpcFieldDefinition.getOriginalNameForList());
+					} else {
+						partDefinition.setOriginalName(rpcFieldDefinition.getOriginalName());
+					}
 					containgPartDefinion.getFieldsDefinitions().remove(fieldName);
 				}
 				containgPartDefinion.getInnerPartsDefinitions().put(field.getName(), partDefinition);

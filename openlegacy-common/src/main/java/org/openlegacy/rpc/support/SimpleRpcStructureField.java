@@ -177,5 +177,4 @@ public class SimpleRpcStructureField extends AbstractRpcStructure implements Rpc
 		}
 		return orderCorelator.get(order);
 	}
-
 }

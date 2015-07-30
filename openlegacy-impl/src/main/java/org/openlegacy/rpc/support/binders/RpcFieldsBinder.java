@@ -96,6 +96,7 @@ public class RpcFieldsBinder implements RpcEntityBinder {
 		rpcField.setDecimalPlaces(rpcFieldDefinition.getDecimalPlaces());
 		rpcField.setDirection(rpcFieldDefinition.getDirection());
 		rpcField.setOrder(rpcFieldDefinition.getOrder());
+		rpcField.setOriginalName(rpcFieldDefinition.getOriginalName());
 		return rpcField;
 	}
 

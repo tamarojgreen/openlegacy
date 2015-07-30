@@ -85,6 +85,9 @@ public class SimpleRpcFlatField implements RpcFlatField {
 	@XmlAttribute
 	private int order;
 
+	@XmlTransient
+	private String originalName;
+
 	private String legacyType = "";
 
 	@Override
@@ -350,12 +353,20 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		this.virtualGroup = virtualGroup;
 	}
 
+	@Override
+	public String getOriginalName() {
+		return originalName;
+	}
+
+	public void setOriginalName(String originalName) {
 	public String getLegacyType() {
 		return legacyType;
 	}
 
 	public void setLegacyType(String legacyType) {
 		this.legacyType = legacyType;
+		this.originalName = originalName;
+	}
 	}
 
 }

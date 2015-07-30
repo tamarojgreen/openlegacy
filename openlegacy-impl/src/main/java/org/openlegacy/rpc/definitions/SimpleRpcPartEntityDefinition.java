@@ -45,6 +45,8 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
 	private List<RpcFieldDefinition> keys = new ArrayList<RpcFieldDefinition>();
 
+	private String originalNameForList;
+
 	public SimpleRpcPartEntityDefinition(Class<?> partClass) {
 		super(partClass);
 	}
@@ -188,6 +190,14 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 
 	public void setExpandedElements(String[] expandedElements) {
 		this.expandedElements = expandedElements;
+	}
+
+	public String getOriginalNameForList() {
+		return originalNameForList;
+	}
+
+	public void setOriginalNameForList(String originalNameForList) {
+		this.originalNameForList = originalNameForList;
 	}
 
 }

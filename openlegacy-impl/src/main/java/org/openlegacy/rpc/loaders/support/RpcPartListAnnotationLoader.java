@@ -37,9 +37,9 @@ public class RpcPartListAnnotationLoader extends AbstractFieldAnnotationLoader {
 	public void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass,
 			int fieldOrder) {
 
-		RpcEntitiesRegistry rpcEntitiesRegistry = (RpcEntitiesRegistry)entitiesRegistry;
+		RpcEntitiesRegistry rpcEntitiesRegistry = (RpcEntitiesRegistry) entitiesRegistry;
 
-		RpcPartList fieldAnnotation = (RpcPartList)annotation;
+		RpcPartList fieldAnnotation = (RpcPartList) annotation;
 
 		RpcEntityDefinition rpcEntityDefinition = rpcEntitiesRegistry.get(containingClass);
 		String fieldName = field.getName();
@@ -48,6 +48,7 @@ public class RpcPartListAnnotationLoader extends AbstractFieldAnnotationLoader {
 		if (rpcEntityDefinition != null) {
 			SimpleRpcFieldDefinition fieldDefinition = new SimpleRpcFieldDefinition(fieldName, RpcFieldTypes.General.class);
 			fieldDefinition.setCount(fieldAnnotation.count());
+			fieldDefinition.setOriginalNameForList(fieldAnnotation.originalName());
 			rpcEntityDefinition.getFieldsDefinitions().put(fieldName, fieldDefinition);
 		} else {
 			// look in rpc entities parts
@@ -56,6 +57,7 @@ public class RpcPartListAnnotationLoader extends AbstractFieldAnnotationLoader {
 				fieldName = MessageFormat.format("{0}.{1}", rpcPart.getPartName(), fieldName);
 				SimpleRpcFieldDefinition fieldDefinition = new SimpleRpcFieldDefinition(fieldName, RpcFieldTypes.General.class);
 				fieldDefinition.setCount(fieldAnnotation.count());
+				fieldDefinition.setOriginalNameForList(fieldAnnotation.originalName());
 				rpcPart.getFieldsDefinitions().put(fieldName, fieldDefinition);
 
 			}

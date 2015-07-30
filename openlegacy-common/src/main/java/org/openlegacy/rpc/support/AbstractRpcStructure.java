@@ -35,6 +35,15 @@ public abstract class AbstractRpcStructure implements Serializable {
 	@XmlAttribute
 	private String legacyContainerName;
 
+	@XmlTransient
+	protected String originalName;
+
+	@XmlTransient
+	protected String originalNameForList;
+
+	@XmlTransient
+	private String[] expandedElements;
+
 	public int getOrder() {
 		return order;
 	}
@@ -69,6 +78,30 @@ public abstract class AbstractRpcStructure implements Serializable {
 
 	public Object getDelegate() {
 		return null;
+	}
+
+	public String getOriginalName() {
+		return originalName;
+	}
+
+	public void setOriginalName(String originalName) {
+		this.originalName = originalName;
+	}
+
+	public String getOriginalNameForList() {
+		return originalNameForList;
+	}
+
+	public void setOriginalNameForList(String originalNameForList) {
+		this.originalNameForList = originalNameForList;
+	}
+
+	public String[] getExpandedElements() {
+		return expandedElements;
+	}
+
+	public void setExpandedElements(String[] expandedElements) {
+		this.expandedElements = expandedElements;
 	}
 
 }

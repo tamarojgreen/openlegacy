@@ -60,7 +60,7 @@ public class RpcPartsBinder implements RpcEntityBinder {
 		Collection<PartEntityDefinition<RpcFieldDefinition>> partsDefinitions = rpcEntityDefinition.getPartsDefinitions().values();
 
 		for (PartEntityDefinition<RpcFieldDefinition> rpcPartDefinition : partsDefinitions) {
-			populateEntityDeep(rpcPartDefinition.getPartName(), (RpcPartEntityDefinition)rpcPartDefinition, fieldAccesor,
+			populateEntityDeep(rpcPartDefinition.getPartName(), (RpcPartEntityDefinition) rpcPartDefinition, fieldAccesor,
 					rpcFields);
 
 		}
@@ -80,13 +80,13 @@ public class RpcPartsBinder implements RpcEntityBinder {
 						ReflectionUtil.newInstance(rpcPartEntityDefinition.getPartClass()));
 				partAccesor = fieldAccesor.getPartAccessor(namespace);
 			}
-			RpcStructureField structureField = (RpcStructureField)rpcFields.get(order);
+			RpcStructureField structureField = (RpcStructureField) rpcFields.get(order);
 			List<RpcField> rpcInnerFields = structureField.getChildrens();
 			for (RpcFieldDefinition fieldDefinition : fieldsDefinitions.values()) {
 				int inerOrder = structureField.getFieldRelativeOrder(fieldDefinition.getOrder());
 
 				String name = StringUtil.removeNamespace(fieldDefinition.getName());
-				Object value = ((RpcFlatField)rpcInnerFields.get(inerOrder)).getValue();
+				Object value = ((RpcFlatField) rpcInnerFields.get(inerOrder)).getValue();
 				if (value != null) {
 					Object apiValue = bindFieldToApi(fieldDefinition, value);
 					partAccesor.setPropertyValue(name, apiValue);
@@ -100,20 +100,20 @@ public class RpcPartsBinder implements RpcEntityBinder {
 			}
 		} else {
 			if (partAccesor == null) {
-				fieldAccesor.setPartFieldValue(namespace, rpcPartEntityDefinition.getPartName(),
-						ReflectionUtil.newListInstance(rpcPartEntityDefinition.getPartClass(), count));
+				fieldAccesor.setPartFieldValue(namespace, rpcPartEntityDefinition.getPartName(), ReflectionUtil.newListInstance(
+						rpcPartEntityDefinition.getPartClass(), count));
 				partAccesor = fieldAccesor.getPartAccessor(namespace);
 			}
-			RpcStructureListField structureListField = (RpcStructureListField)rpcFields.get(order);
+			RpcStructureListField structureListField = (RpcStructureListField) rpcFields.get(order);
 
 			List<RpcFields> rpcInnerFields = structureListField.getChildrens();
 
 			Object[] objects;
 			Object currentObject = fieldAccesor.getPartFieldValue(namespace, rpcPartEntityDefinition.getPartName());
 			if (currentObject.getClass().isArray()) {
-				objects = (Object[])currentObject;
+				objects = (Object[]) currentObject;
 			} else {
-				objects = ((List<?>)currentObject).toArray();
+				objects = ((List<?>) currentObject).toArray();
 			}
 
 			List<Integer> nullObjects = new ArrayList<Integer>();
@@ -123,7 +123,7 @@ public class RpcPartsBinder implements RpcEntityBinder {
 				for (RpcFieldDefinition fieldDefinition : fieldsDefinitions.values()) {
 					int inerOrder = fieldDefinition.getOrder();
 					String name = StringUtil.removeNamespace(fieldDefinition.getName());
-					Object value = ((RpcFlatField)rpcCurrentFields.get(inerOrder)).getValue();
+					Object value = ((RpcFlatField) rpcCurrentFields.get(inerOrder)).getValue();
 					if (fieldDefinition.isKey() && fieldDefinition.getNullValue().equals(value)) {
 						nullObjects.add(i);
 						continue;
@@ -168,7 +168,7 @@ public class RpcPartsBinder implements RpcEntityBinder {
 		Collection<PartEntityDefinition<RpcFieldDefinition>> partsDefinitions = rpcEntityDefinition.getPartsDefinitions().values();
 		for (PartEntityDefinition<RpcFieldDefinition> rpcPartDefinition : partsDefinitions) {
 
-			RpcField field = populateActionDeep(rpcPartDefinition.getPartName(), (RpcPartEntityDefinition)rpcPartDefinition,
+			RpcField field = populateActionDeep(rpcPartDefinition.getPartName(), (RpcPartEntityDefinition) rpcPartDefinition,
 					fieldAccesor);
 
 			sendAction.getFields().add(field);
@@ -183,6 +183,10 @@ public class RpcPartsBinder implements RpcEntityBinder {
 			SimpleRpcStructureField rpcStructureField = new SimpleRpcStructureField();
 			rpcStructureField.setName(rpcPartEntityDefinition.getPartName());
 			rpcStructureField.setVirtual(rpcPartEntityDefinition.isVirtual());
+
+			rpcStructureField.setOriginalName(rpcPartEntityDefinition.getOriginalName());
+			rpcStructureField.setExpandedElements(rpcPartEntityDefinition.getExpandedElements());
+
 			Object curentObject = fieldAccesor.getPartFieldValue(fullName, rpcPartEntityDefinition.getPartName());
 			if (curentObject == null) {
 				curentObject = ReflectionUtil.newInstance(rpcPartEntityDefinition.getPartClass());
@@ -196,6 +200,10 @@ public class RpcPartsBinder implements RpcEntityBinder {
 			SimpleRpcStructureListField rpcStructureListField = new SimpleRpcStructureListField();
 			rpcStructureListField.setName(rpcPartEntityDefinition.getPartName());
 
+			rpcStructureListField.setOriginalNameForList(rpcPartEntityDefinition.getOriginalNameForList());
+			rpcStructureListField.setOriginalName(rpcPartEntityDefinition.getOriginalName());
+			rpcStructureListField.setExpandedElements(rpcPartEntityDefinition.getExpandedElements());
+
 			result = rpcStructureListField;
 			Object currentObject = fieldAccesor.getPartFieldValue(fullName, rpcPartEntityDefinition.getPartName());
 			if (currentObject == null) {
@@ -204,9 +212,9 @@ public class RpcPartsBinder implements RpcEntityBinder {
 			}
 			Object[] objects;
 			if (currentObject.getClass().isArray()) {
-				objects = (Object[])currentObject;
+				objects = (Object[]) currentObject;
 			} else {
-				objects = ((List<?>)currentObject).toArray();
+				objects = ((List<?>) currentObject).toArray();
 			}
 
 			for (int i = 0; i < count; i++) {
@@ -220,7 +228,7 @@ public class RpcPartsBinder implements RpcEntityBinder {
 		result.setOrder(rpcPartEntityDefinition.getOrder());
 		result.setLegacyContainerName(rpcPartEntityDefinition.getLegacyContainerName());
 
-		return (RpcField)result;
+		return (RpcField) result;
 	}
 
 	private RpcFields populateFields(String fullName, RpcPartEntityDefinition rpcPartEntityDefinition,

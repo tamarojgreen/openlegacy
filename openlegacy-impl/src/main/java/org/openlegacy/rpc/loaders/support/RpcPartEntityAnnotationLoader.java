@@ -62,6 +62,7 @@ public class RpcPartEntityAnnotationLoader extends AbstractClassAnnotationLoader
 
 		rpcPartEntityDefinition.setPartFullName(partClassName.substring(partClassName.indexOf("$") + 1).replace('$', '.'));
 		rpcPartEntityDefinition.setExpandedElements(rpcPartAnnotation.expandedElements());
+		rpcPartEntityDefinition.setOriginalName(rpcPartAnnotation.originalName());
 		rpcEntitiesRegistry.addPart(rpcPartEntityDefinition);
 	}
 }

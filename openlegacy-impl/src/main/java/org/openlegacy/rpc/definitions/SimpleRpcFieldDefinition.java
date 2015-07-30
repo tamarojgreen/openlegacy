@@ -18,18 +18,27 @@ import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.definitions.RpcNumericFieldTypeDefinition;
 import org.openlegacy.definitions.support.AbstractFieldDefinition;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDefinition> implements RpcFieldDefinition {
 
 	private static final long serialVersionUID = 1L;
 	private Integer length;
 	private Direction direction;
-	private String originalName;
+
+	//	private String originalName;
 	private int order;
 	private String defaultValue;
 	private String runtimeName;
 	private String nullValue;
 	private String shortName;
 	private String legacyType;
+
+	@XmlTransient
+	private String originalName = "";
+
+	@XmlTransient
+	private String originalNameForList = "";
 
 	private int count = 1;
 
@@ -100,7 +109,7 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 		Integer result = new Integer(0);
 		FieldTypeDefinition fieldTypeDefinition = getFieldTypeDefinition();
 		if (fieldTypeDefinition instanceof RpcNumericFieldTypeDefinition) {
-			result = ((RpcNumericFieldTypeDefinition)fieldTypeDefinition).getDecimalPlaces();
+			result = ((RpcNumericFieldTypeDefinition) fieldTypeDefinition).getDecimalPlaces();
 		}
 		return result;
 	}
@@ -153,6 +162,14 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 	@Override
 	public void setEditable(boolean editable) {
 		super.setEditable(editable);
+	}
+
+	public String getOriginalNameForList() {
+		return originalNameForList;
+	}
+
+	public void setOriginalNameForList(String originalNameForList) {
+		this.originalNameForList = originalNameForList;
 	}
 
 	public String getLegacyType() {
