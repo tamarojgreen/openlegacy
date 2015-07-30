@@ -218,6 +218,7 @@ public class WsRpcConnection implements RpcConnection {
 							String listOriginalName = listField.getOriginalNameForList();
 							actionElement = (elementFormDefault || useFirstElementPrefix) ? actionElement.addChildElement(
 									listOriginalName, ACTION_PREFIX) : actionElement.addChildElement(listOriginalName);
+							useFirstElementPrefix = false;
 						}
 					}
 					List<RpcFields> childrens = listField.getChildrens();
@@ -225,6 +226,7 @@ public class WsRpcConnection implements RpcConnection {
 						element = (elementFormDefault || useFirstElementPrefix) ? actionElement.addChildElement(
 								listField.getOriginalName(), ACTION_PREFIX)
 								: actionElement.addChildElement(listField.getOriginalName());
+						useFirstElementPrefix = false;
 						setFields(childrens.get(i).getFields(), element);
 					}
 					break;
