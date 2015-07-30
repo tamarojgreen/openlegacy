@@ -112,13 +112,12 @@ public class TrailJunitGenerator {
 						generatedApi.getApiCalls().add(
 								MessageFormat.format("{0} {1} = terminalSession.doAction(TerminalActions.{2}(),{3},{0}.class);",
 										nextEntityName, StringUtil.toJavaFieldName(nextEntityName), action, variableName));
+						variableName = StringUtil.toJavaFieldName(nextEntityName);
 					} else {
 						logger.info("No action mapping defined for:" + outgoingSnapshot.getCommand());
+						return generatedApi;
 					}
 				}
-
-				entityName = nextEntityName;
-				variableName = StringUtil.toJavaFieldName(entityName);
 			}
 		}
 		return generatedApi;

@@ -183,6 +183,7 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 		container.setLayout(gridLayout);
 		GridData gridData = new GridData(SWT.FILL);
 		gridData.widthHint = 616;
+		gridData.heightHint = 750;
 		gridData.grabExcessHorizontalSpace = true;
 		container.setLayoutData(gridData);
 
@@ -241,10 +242,6 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 		layout.makeColumnsEqualWidth = false;
 
 		super.createButtonsForButtonBar(parent);
-		// Set the size of the parent shell
-		if (!serviceType.equals(BackendSolution.JDBC)) {
-			parent.getShell().setSize(616, 750);
-		}
 		// Set the dialog position in the middle of the monitor
 		setDialogLocation();
 	}
@@ -383,10 +380,15 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 		createSecondColOfSecondRow(container);
 	}
 
-	private void createThirdRow(Composite parent) {
+	private void createThirdRow(Composite parent) {	
+		Composite container = new Composite(parent, SWT.NONE);
+		container.setLayout(new GridLayout());
+		GridData gd = new GridData(SWT.LEFT, SWT.FILL, false, true);
+		gd.widthHint = 615;
+		container.setLayoutData(gd);
 		if (BackendSolution.SCREEN.equals(serviceType)) {
-			mSnapshotComposite = new SnapshotComposite(parent, PathsUtil.toOsLocation(project));
-			mSnapshotComposite.setIsScalable(true);
+			mSnapshotComposite = new SnapshotComposite(container, PathsUtil.toOsLocation(project));
+			mSnapshotComposite.setIsScalable(true);			
 		} else if (BackendSolution.RPC.equals(serviceType)) {
 			mRpcComposite = new RpcComposite(parent, null);
 			mRpcComposite.setIsScalable(true);
