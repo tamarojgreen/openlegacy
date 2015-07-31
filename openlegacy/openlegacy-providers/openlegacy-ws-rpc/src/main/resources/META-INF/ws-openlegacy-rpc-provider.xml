@@ -7,8 +7,14 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 		
 	<bean id="rpcConnectionFactory" class ="org.openlegacy.providers.wsrpc.WsRpcConnectionFactory">
-		<constructor-arg value="${url.baseURL}"/>
+		<constructor-arg ref="urlProps"/>
 	</bean>
-	<bean id="rpcConnection" class ="org.openlegacy.providers.wsrpc.WsRpcConnection" factory-bean="rpcConnectionFactory" factory-method="getConnection"/>		
+	<bean id="rpcConnection" class ="org.openlegacy.providers.wsrpc.WsRpcConnection" factory-bean="rpcConnectionFactory" factory-method="getConnection"/>
+	
+	<bean id="urlProps" class="org.openlegacy.providers.wsrpc.UrlProps">
+		<property name="baseUrl" value="${url.baseURL}"/>
+		<property name="userName" value="${url.userName}"/>
+		<property name="password" value="${url.password}"/>
+	</bean>		
 
 </beans>

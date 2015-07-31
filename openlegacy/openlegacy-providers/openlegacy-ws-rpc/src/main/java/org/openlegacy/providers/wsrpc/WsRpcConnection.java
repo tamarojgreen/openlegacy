@@ -154,7 +154,7 @@ public class WsRpcConnection implements RpcConnection {
 		/*
 		 * all auth standarts: http://www.soapui.org/testing-dojo/best-practices/authentication.html
 		 */
-		if (props.getPassword() != null && props.getUserName() != null) {
+		if (props.getPassword() != null && props.getUserName() != null && !props.getUserName().trim().equals("")) {
 			SOAPHeaderElement auth = message.getSOAPHeader().addHeaderElement(
 					new QName("http://soap-authentication.org/basic/2001/10/", "BasicAuth", "h"));
 			auth.setMustUnderstand(true);

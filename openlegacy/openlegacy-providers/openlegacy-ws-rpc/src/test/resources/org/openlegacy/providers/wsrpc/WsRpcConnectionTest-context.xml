@@ -8,9 +8,14 @@
 	<context:property-placeholder location="classpath*:/url.properties" />
 	
 	<bean id="rpcConnectionFactory" class ="org.openlegacy.providers.wsrpc.WsRpcConnectionFactory">
-		<constructor-arg value="${url.baseURL}"/>
+		<constructor-arg ref="urlProps"/>
 	</bean>
 	
-	<bean id="rpcConnection" class ="org.openlegacy.providers.wsrpc.WsRpcConnection"/>		
-
+	<bean id="rpcConnection" class="org.openlegacy.providers.wsrpc.WsRpcConnection"/>		
+	
+	<bean id="urlProps" class="org.openlegacy.providers.wsrpc.UrlProps">
+		<property name="baseUrl" value="${url.baseURL}"/>
+		<property name="userName" value="${url.userName}"/>
+		<property name="password" value="${url.password}"/>
+	</bean>
 </beans>

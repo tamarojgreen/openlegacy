@@ -15,7 +15,9 @@ import org.apache.commons.lang.StringUtils;
 
 public class UrlProps {
 
-	private String baseUrl, userName, password, authType, wssPassType;
+	private String baseUrl, userName, password;
+
+	// , authType, wssPassType;
 
 	public String getBaseUrl() {
 		return baseUrl;
@@ -41,20 +43,20 @@ public class UrlProps {
 		this.password = password;
 	}
 
-	public String getAuthType() {
-		return authType;
-	}
-
-	public void setAuthType(String authType) {
-		this.authType = authType;
-	}
-
-	public String getWssPassType() {
-		return wssPassType;
-	}
-
-	public void setWssPassType(String wssPassType) {
-		this.wssPassType = wssPassType;
-	}
+	// public String getAuthType() {
+	// return authType;
+	// }
+	//
+	// public void setAuthType(String authType) {
+	// this.authType = authType;
+	// }
+	//
+	// public String getWssPassType() {
+	// return wssPassType;
+	// }
+	//
+	// public void setWssPassType(String wssPassType) {
+	// this.wssPassType = wssPassType;
+	// }
 
 }
