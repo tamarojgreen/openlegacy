@@ -9,8 +9,8 @@
 	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath*:/*.properties</value>
-				<value>file:${user.home}/.openlegacy/#{@appProperties['openLegacyProperties.userPropertiesFolderName']}/host.properties</value>
+				<value>classpath*:/host.properties</value>
+				<value>file:${user.home}/.openlegacy/#{getObject('appProperties') == null?'':@appProperties.getProperty('openLegacyProperties.userPropertiesFolderName')}/host.properties</value>
 			</list>
 		</property>
 		<property name="ignoreUnresolvablePlaceholders" value="true"/>

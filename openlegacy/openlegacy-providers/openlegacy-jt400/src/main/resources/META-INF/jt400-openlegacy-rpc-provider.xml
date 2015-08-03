@@ -6,7 +6,17 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-    <context:property-placeholder location="classpath*:/jt400.properties"/>
+	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:/jt400.properties</value>
+				<value>file:${user.home}/.openlegacy/#{getObject('appProperties') == null?'':@appProperties.getProperty('openLegacyProperties.userPropertiesFolderName')}/jt400.properties</value>
+			</list>
+		</property>
+		<property name="ignoreUnresolvablePlaceholders" value="true"/>
+		<property name="ignoreResourceNotFound" value="true"/>
+	</bean>
+<!--     <context:property-placeholder location="classpath*:/jt400.properties"/> -->
 
 	<bean id="rpcConnection" class="org.openlegacy.providers.jt400.Jt400RpcConnection" factory-bean="rpcConnectionFactory" factory-method="getConnection" />
 	<bean id="rpcConnectionFactory" class="org.openlegacy.providers.jt400.Jt400RpcConnectionFactory" />
