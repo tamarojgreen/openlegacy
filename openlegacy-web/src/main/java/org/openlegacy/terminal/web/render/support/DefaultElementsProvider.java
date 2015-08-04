@@ -168,7 +168,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 	}
 
 	public String toStyleColors(TerminalField field) {
-		if (field.isEditable()) {
+		if (field.isEditable() && field.getColor() == Color.GREEN && field.getBackColor() == Color.BLACK) {
 			return "";
 		}
 
