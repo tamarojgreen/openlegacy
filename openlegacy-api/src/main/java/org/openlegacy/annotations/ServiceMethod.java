@@ -22,5 +22,5 @@ public @interface ServiceMethod {
 
 	String name();
 
-	long duration() default 0;
+	long cacheDuration() default 0;
 }
