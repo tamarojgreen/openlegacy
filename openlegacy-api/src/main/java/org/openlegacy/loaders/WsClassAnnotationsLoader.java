@@ -9,11 +9,16 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy.ws.definitions;
+package org.openlegacy.loaders;
 
-public interface WebServiceParamDefinition {
+import org.openlegacy.WebServicesRegistry;
 
-	WebServiceParamType getWebServiceParamType();
+import java.lang.annotation.Annotation;
 
-	WebServiceParamDetailsDefinition getParamDetails();
+public interface WsClassAnnotationsLoader extends Comparable<WsClassAnnotationsLoader> {
+
+	boolean match(Annotation annotation);
+
+	@SuppressWarnings("rawtypes")
+	void load(WebServicesRegistry registry, Annotation annotation, Class<?> containingClass);
 }

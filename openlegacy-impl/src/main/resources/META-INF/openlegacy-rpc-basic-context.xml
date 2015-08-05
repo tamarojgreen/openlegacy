@@ -15,6 +15,17 @@
             </list>
 	    </property>
  	</bean>
+ 	
+ 	<bean class="org.openlegacy.support.WebServiceAnnotationProcessor">
+	    <property name="loadersPackages">
+	        <list>
+	            <value>org.openlegacy.ws.loaders.support</value>
+            </list>
+	    </property>
+ 	</bean>
+ 	
+ 	<bean id="wsRegistryLoader" class="org.openlegacy.support.DefaultWebServicesRegistryLoader"/>
+ 	<bean id="wsRegisrty" class="org.openlegacy.support.SimpleWebServicesRegistry"/>
 
 	<bean id="trailWriter" class="org.openlegacy.rpc.modules.trail.RpcTrailXmlWriter" />
 	<bean id="trailUtil" class="org.openlegacy.modules.trail.TrailUtil" />

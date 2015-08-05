@@ -16,14 +16,17 @@ public class SimpleWebServiceMethodDefinition implements WebServiceMethodDefinit
 	private String name;
 	private WebServiceParamDefinition inputParam, outputParam;
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public WebServiceParamDefinition getInputParam() {
 		return inputParam;
 	}
 
+	@Override
 	public WebServiceParamDefinition getOutputParam() {
 		return outputParam;
 	}

@@ -18,6 +18,17 @@
  	
  	<bean id="registryLoader" class="org.openlegacy.terminal.support.DefaultScreensRegistryLoader"/>
  	
+ 	<bean class="org.openlegacy.support.WebServiceAnnotationProcessor">
+	    <property name="loadersPackages">
+	        <list>
+	            <value>org.openlegacy.ws.loaders.support</value>
+            </list>
+	    </property>
+ 	</bean>
+ 	
+ 	<bean id="wsRegistryLoader" class="org.openlegacy.support.DefaultWebServicesRegistryLoader"/> 	
+ 	<bean id="wsRegisrty" class="org.openlegacy.support.SimpleWebServicesRegistry"/>	
+	 	
 	<context:component-scan base-package="org.openlegacy"
 		use-default-filters="false">
 		<context:include-filter expression="org.springframework.stereotype.Component"

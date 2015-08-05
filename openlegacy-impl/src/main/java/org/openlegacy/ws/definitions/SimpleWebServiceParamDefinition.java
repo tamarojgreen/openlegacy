@@ -16,16 +16,14 @@ public class SimpleWebServiceParamDefinition implements WebServiceParamDefinitio
 	private WebServiceParamType webServiceParamType;
 	private WebServiceParamDetailsDefinition paramDetails;
 
-	public WebServiceParamType getWwebServiceParamType() {
-		return webServiceParamType;
-	}
-
-	public WebServiceParamDetailsDefinition getParamDetails() {
-		return paramDetails;
-	}
-
+	@Override
 	public WebServiceParamType getWebServiceParamType() {
 		return webServiceParamType;
+	}
+
+	@Override
+	public WebServiceParamDetailsDefinition getParamDetails() {
+		return paramDetails;
 	}
 
 	public void setWebServiceParamType(WebServiceParamType webServiceParamType) {
