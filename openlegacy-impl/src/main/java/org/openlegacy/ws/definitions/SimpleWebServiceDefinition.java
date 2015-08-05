@@ -16,17 +16,21 @@ import java.util.List;
 
 public class SimpleWebServiceDefinition implements WebServiceDefinition {
 
-	private String name;
+	private String name, stdMethodName;
+	private boolean isRest;
 	private List<WebServiceMethodDefinition> methods = new ArrayList<WebServiceMethodDefinition>();
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public List<WebServiceMethodDefinition> getMethods() {
 		return methods;
 	}
 
+	@Override
 	public WebServiceMethodDefinition getMethodByName(String name) {
 		if (methods != null) {
 			for (WebServiceMethodDefinition def : methods) {
@@ -40,10 +44,23 @@ public class SimpleWebServiceDefinition implements WebServiceDefinition {
 
 	public void setName(String name) {
 		this.name = name;
+		this.stdMethodName = String.format("%s%s", "get", this.name.replace("ImplService", ""));
 	}
 
 	public void setMethods(List<WebServiceMethodDefinition> methods) {
 		this.methods = methods;
+	}
+
+	public WebServiceMethodDefinition getStdMethod(String name) {
+		return getMethodByName(stdMethodName);
+	}
+
+	public boolean isRest() {
+		return isRest;
+	}
+
+	public void setRest(boolean isRest) {
+		this.isRest = isRest;
 	}
 
 }

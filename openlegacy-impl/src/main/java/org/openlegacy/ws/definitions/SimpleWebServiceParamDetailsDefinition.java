@@ -20,15 +20,31 @@ public class SimpleWebServiceParamDetailsDefinition implements WebServiceParamDe
 	private Class<?> fieldClass;
 	private List<WebServiceParamDetailsDefinition> fields = new ArrayList<WebServiceParamDetailsDefinition>();
 
+	@Override
 	public String getFieldName() {
 		return fieldName;
 	}
 
+	@Override
 	public Class<?> getFieldClass() {
 		return fieldClass;
 	}
 
+	@Override
 	public List<WebServiceParamDetailsDefinition> getFields() {
 		return fields;
 	}
+
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
+	}
+
+	public void setFieldClass(Class<?> fieldClass) {
+		this.fieldClass = fieldClass;
+	}
+
+	public void setFields(List<WebServiceParamDetailsDefinition> fields) {
+		this.fields = fields;
+	}
+
 }

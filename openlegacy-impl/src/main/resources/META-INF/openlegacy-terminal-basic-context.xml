@@ -24,6 +24,27 @@
  
  	<bean id="registryLoader" class="org.openlegacy.terminal.support.DefaultScreensRegistryLoader"/>
  	
+ 	<bean id="registryLoader" class="org.openlegacy.terminal.support.DefaultScreensRegistryLoader"/>
+ 	
+ 	<bean class="org.openlegacy.support.WebServiceAnnotationProcessor">
+	    <property name="loadersPackages">
+	        <list>
+	            <value>org.openlegacy.ws.loaders.support</value>
+            </list>
+	    </property>
+ 	</bean>
+ 	
+ 	<bean id="wsRegistryLoader" class="org.openlegacy.support.DefaultWebServicesRegistryLoader"/> 	
+ 	<bean id="wsRegisrty" class="org.openlegacy.support.SimpleWebServicesRegistry"/>	
+	 	
+	<context:component-scan base-package="org.openlegacy"
+		use-default-filters="false">
+		<context:include-filter expression="org.springframework.stereotype.Component"
+			type="annotation" />
+		<context:exclude-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
+	
 	<!-- Open legacy default beans -->
 
 	<bean class="org.openlegacy.modules.trail.TrailUtil" />

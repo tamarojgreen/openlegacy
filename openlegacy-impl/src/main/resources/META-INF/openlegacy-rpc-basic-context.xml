@@ -12,6 +12,17 @@
 	
 	<!-- cache -->
     <import resource="classpath:/META-INF/openlegacy-basic-cacheable-context.xml" />
+ 	
+ 	<bean class="org.openlegacy.support.WebServiceAnnotationProcessor">
+	    <property name="loadersPackages">
+	        <list>
+	            <value>org.openlegacy.ws.loaders.support</value>
+            </list>
+	    </property>
+ 	</bean>
+ 	
+ 	<bean id="wsRegistryLoader" class="org.openlegacy.support.DefaultWebServicesRegistryLoader"/>
+ 	<bean id="wsRegisrty" class="org.openlegacy.support.SimpleWebServicesRegistry"/>
 
 	<bean class="org.openlegacy.rpc.support.RpcAnnotationProccesor">
 		<property name="loadersPackages">
