@@ -9,16 +9,15 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy.annotations;
+package org.openlegacy.ws.definitions;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.util.List;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Service {
+public interface WebServiceParamDetailsDefinition {
 
-	String name();
+	String getFieldName();
+
+	Class<?> getFieldClass();
+
+	List<WebServiceParamDetailsDefinition> getFields();
 }

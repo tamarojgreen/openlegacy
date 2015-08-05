@@ -9,18 +9,11 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy.annotations;
+package org.openlegacy.ws.definitions;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public interface WebServiceParamDefinition {
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface ServiceMethod {
+	WebServiceParamType getWwebServiceParamType();
 
-	String name();
-
-	long cacheDuration() default 0;
+	WebServiceParamDetailsDefinition getParamDetails();
 }
