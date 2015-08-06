@@ -17,6 +17,7 @@ import org.openlegacy.WebServicesRegistry;
 import org.openlegacy.loaders.WebServicesRegistryLoader;
 import org.openlegacy.loaders.WsClassAnnotationsLoader;
 import org.openlegacy.loaders.WsMethodAnnotationsLoader;
+import org.openlegacy.loaders.WsMethodParamLoader;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -33,15 +34,18 @@ public class WebServiceAnnotationProcessor implements BeanFactoryPostProcessor {
 		Collection<WsClassAnnotationsLoader> classAnnotationsLoaders = beanFactory.getBeansOfType(WsClassAnnotationsLoader.class).values();
 		Collection<WsMethodAnnotationsLoader> methodAnnotationsLoaders = beanFactory.getBeansOfType(
 				WsMethodAnnotationsLoader.class).values();
+		Collection<WsMethodParamLoader> methodParamloaders = beanFactory.getBeansOfType(WsMethodParamLoader.class).values();
 
 		SimpleWebServicesRegistry registry = (SimpleWebServicesRegistry)beanFactory.getBean(WebServicesRegistry.class);
 
 		filterByPackage(classAnnotationsLoaders);
 		filterByPackage(methodAnnotationsLoaders);
+		filterByPackage(methodParamloaders);
 
 		DefaultWebServicesRegistryLoader registryLoader = (DefaultWebServicesRegistryLoader)beanFactory.getBean(WebServicesRegistryLoader.class);
 		registryLoader.setClassAnnotationsLoaders(classAnnotationsLoaders);
 		registryLoader.setMethodAnnotationsLoaders(methodAnnotationsLoaders);
+		registryLoader.setMethodParamLoaders(methodParamloaders);
 		registryLoader.load(registry);
 	}
 

@@ -13,21 +13,11 @@ package org.openlegacy.ws.definitions;
 
 public class SimpleWebServiceParamDefinition implements WebServiceParamDefinition {
 
-	private WebServiceParamType webServiceParamType;
 	private WebServiceParamDetailsDefinition paramDetails;
-
-	@Override
-	public WebServiceParamType getWebServiceParamType() {
-		return webServiceParamType;
-	}
 
 	@Override
 	public WebServiceParamDetailsDefinition getParamDetails() {
 		return paramDetails;
-	}
-
-	public void setWebServiceParamType(WebServiceParamType webServiceParamType) {
-		this.webServiceParamType = webServiceParamType;
 	}
 
 	public void setParamDetails(WebServiceParamDetailsDefinition paramDetails) {

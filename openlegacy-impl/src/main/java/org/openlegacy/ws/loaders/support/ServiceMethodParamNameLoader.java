@@ -9,19 +9,22 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy;
+package org.openlegacy.ws.loaders.support;
 
-import org.openlegacy.ws.definitions.WebServiceDefinition;
+import org.openlegacy.loaders.support.AbstractWsMethodParamLoader;
+import org.openlegacy.ws.definitions.WebServiceMethodDefinition;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.lang.reflect.Method;
 
-public interface WebServicesRegistry {
+@Component
+@Order(2)
+public class ServiceMethodParamNameLoader extends AbstractWsMethodParamLoader {
 
-	List<WebServiceDefinition> getWebServices();
+	@Override
+	public void load(WebServiceMethodDefinition definition, Method method) {
 
-	WebServiceDefinition getWebServiceByName(String name);
+	}
 
-	List<String> getPackages();
-
-	WebServiceDefinition getWebServiceByClass(Class<?> clazz);
 }

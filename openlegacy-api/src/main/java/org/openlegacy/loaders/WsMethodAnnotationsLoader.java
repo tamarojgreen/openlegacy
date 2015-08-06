@@ -11,15 +11,16 @@
 
 package org.openlegacy.loaders;
 
-import org.openlegacy.WebServicesRegistry;
+import org.openlegacy.ws.definitions.WebServiceMethodDefinition;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 
 public interface WsMethodAnnotationsLoader extends Comparable<WsMethodAnnotationsLoader> {
 
 	boolean match(Annotation annotation);
 
 	@SuppressWarnings("rawtypes")
-	void load(WebServicesRegistry registry, Method method, Annotation annotation, Class<?> containingClass);
+	void load(WebServiceMethodDefinition definition, Annotation annotation);
+
+	Class<? extends Annotation> getAnnotation();
 }

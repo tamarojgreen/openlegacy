@@ -13,7 +13,5 @@ package org.openlegacy.ws.definitions;
 
 public interface WebServiceParamDefinition {
 
-	WebServiceParamType getWebServiceParamType();
-
 	WebServiceParamDetailsDefinition getParamDetails();
 }

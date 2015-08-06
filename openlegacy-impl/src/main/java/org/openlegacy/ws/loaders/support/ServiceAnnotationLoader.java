@@ -11,8 +11,10 @@
 
 package org.openlegacy.ws.loaders.support;
 
-import org.openlegacy.WebServicesRegistry;
+import org.openlegacy.annotations.ws.Service;
 import org.openlegacy.loaders.support.AbstractWsClassAnnotationsLoader;
+import org.openlegacy.ws.definitions.SimpleWebServiceDefinition;
+import org.openlegacy.ws.definitions.WebServiceDefinition;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -24,12 +26,21 @@ public class ServiceAnnotationLoader extends AbstractWsClassAnnotationsLoader {
 
 	@Override
 	public boolean match(Annotation annotation) {
-		return false;
+		return annotation.annotationType() == getAnnotation();
 	}
 
 	@Override
-	public void load(WebServicesRegistry registry, Annotation annotation, Class<?> containingClass) {
-
+	public void load(WebServiceDefinition definition, Annotation annotation) {
+		Service ann = (Service)annotation;
+		if (!(definition instanceof SimpleWebServiceDefinition)) {
+			return;
+		}
+		SimpleWebServiceDefinition simpleDefinition = (SimpleWebServiceDefinition)definition;
+		simpleDefinition.setName(ann.name());
 	}
 
+	@Override
+	public Class<? extends Annotation> getAnnotation() {
+		return Service.class;
+	}
 }

@@ -15,6 +15,8 @@ public interface WebServiceMethodDefinition {
 
 	String getName();
 
+	long getCacheDuration();
+
 	WebServiceParamDefinition getInputParam();
 
 	WebServiceParamDefinition getOutputParam();

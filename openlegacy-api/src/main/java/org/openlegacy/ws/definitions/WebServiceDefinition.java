@@ -23,6 +23,8 @@ public interface WebServiceDefinition {
 
 	WebServiceMethodDefinition getStdMethod(String name);
 
+	Class<?> getWebServiceClass();
+
 	boolean isRest();
 
 }
