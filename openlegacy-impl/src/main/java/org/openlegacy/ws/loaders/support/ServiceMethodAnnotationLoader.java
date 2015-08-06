@@ -11,13 +11,14 @@
 
 package org.openlegacy.ws.loaders.support;
 
-import org.openlegacy.WebServicesRegistry;
+import org.openlegacy.annotations.ws.ServiceMethod;
 import org.openlegacy.loaders.support.AbstractWsMethodAnnotationsLoader;
+import org.openlegacy.ws.definitions.SimpleWebServiceMethodDefinition;
+import org.openlegacy.ws.definitions.WebServiceMethodDefinition;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 
 @Component
 @Order(2)
@@ -25,12 +26,23 @@ public class ServiceMethodAnnotationLoader extends AbstractWsMethodAnnotationsLo
 
 	@Override
 	public boolean match(Annotation annotation) {
-		return false;
+		return annotation.annotationType() == getAnnotation();
 	}
 
 	@Override
-	public void load(WebServicesRegistry registry, Method method, Annotation annotation, Class<?> containingClass) {
+	public void load(WebServiceMethodDefinition definition, Annotation annotation) {
+		ServiceMethod ann = (ServiceMethod)annotation;
+		if (!(definition instanceof SimpleWebServiceMethodDefinition)) {
+			return;
+		}
+		SimpleWebServiceMethodDefinition simpleDefinition = (SimpleWebServiceMethodDefinition)definition;
+		simpleDefinition.setName(ann.name());
+		simpleDefinition.setCacheDuration(ann.cacheDuration());
+	}
 
+	@Override
+	public Class<? extends Annotation> getAnnotation() {
+		return ServiceMethod.class;
 	}
 
 }

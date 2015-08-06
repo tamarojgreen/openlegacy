@@ -19,6 +19,7 @@ public class SimpleWebServiceDefinition implements WebServiceDefinition {
 	private String name, stdMethodName;
 	private boolean isRest;
 	private List<WebServiceMethodDefinition> methods = new ArrayList<WebServiceMethodDefinition>();
+	private Class<?> webServiceClass;
 
 	@Override
 	public String getName() {
@@ -61,6 +62,15 @@ public class SimpleWebServiceDefinition implements WebServiceDefinition {
 
 	public void setRest(boolean isRest) {
 		this.isRest = isRest;
+	}
+
+	@Override
+	public Class<?> getWebServiceClass() {
+		return webServiceClass;
+	}
+
+	public void setWebServiceClass(Class<?> webServiceClass) {
+		this.webServiceClass = webServiceClass;
 	}
 
 }

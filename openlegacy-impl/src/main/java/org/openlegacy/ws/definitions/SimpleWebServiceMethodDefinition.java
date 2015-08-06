@@ -15,6 +15,7 @@ public class SimpleWebServiceMethodDefinition implements WebServiceMethodDefinit
 
 	private String name;
 	private WebServiceParamDefinition inputParam, outputParam;
+	private long cacheDuration;
 
 	@Override
 	public String getName() {
@@ -41,6 +42,15 @@ public class SimpleWebServiceMethodDefinition implements WebServiceMethodDefinit
 
 	public void setOutputParam(WebServiceParamDefinition outputParam) {
 		this.outputParam = outputParam;
+	}
+
+	@Override
+	public long getCacheDuration() {
+		return cacheDuration;
+	}
+
+	public void setCacheDuration(long cacheDuration) {
+		this.cacheDuration = cacheDuration;
 	}
 
 }

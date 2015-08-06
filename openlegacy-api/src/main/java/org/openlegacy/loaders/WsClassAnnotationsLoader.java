@@ -11,7 +11,7 @@
 
 package org.openlegacy.loaders;
 
-import org.openlegacy.WebServicesRegistry;
+import org.openlegacy.ws.definitions.WebServiceDefinition;
 
 import java.lang.annotation.Annotation;
 
@@ -20,5 +20,7 @@ public interface WsClassAnnotationsLoader extends Comparable<WsClassAnnotationsL
 	boolean match(Annotation annotation);
 
 	@SuppressWarnings("rawtypes")
-	void load(WebServicesRegistry registry, Annotation annotation, Class<?> containingClass);
+	void load(WebServiceDefinition definition, Annotation annotation);
+
+	Class<? extends Annotation> getAnnotation();
 }

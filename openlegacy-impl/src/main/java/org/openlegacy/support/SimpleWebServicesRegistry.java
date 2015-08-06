@@ -51,4 +51,16 @@ public class SimpleWebServicesRegistry implements WebServicesRegistry {
 		this.webServices = webServices;
 	}
 
+	@Override
+	public WebServiceDefinition getWebServiceByClass(Class<?> clazz) {
+		if (webServices != null && clazz != null) {
+			for (WebServiceDefinition def : webServices) {
+				if (def.getWebServiceClass() == clazz) {
+					return def;
+				}
+			}
+		}
+		return null;
+	}
+
 }

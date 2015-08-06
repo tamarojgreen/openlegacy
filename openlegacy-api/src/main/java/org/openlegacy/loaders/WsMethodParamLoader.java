@@ -9,19 +9,15 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy;
+package org.openlegacy.loaders;
 
-import org.openlegacy.ws.definitions.WebServiceDefinition;
+import org.openlegacy.ws.definitions.WebServiceMethodDefinition;
 
-import java.util.List;
+import java.lang.reflect.Method;
 
-public interface WebServicesRegistry {
+public interface WsMethodParamLoader extends Comparable<WsMethodParamLoader> {
 
-	List<WebServiceDefinition> getWebServices();
+	@SuppressWarnings("rawtypes")
+	void load(WebServiceMethodDefinition definition, Method method);
 
-	WebServiceDefinition getWebServiceByName(String name);
-
-	List<String> getPackages();
-
-	WebServiceDefinition getWebServiceByClass(Class<?> clazz);
 }

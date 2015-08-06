@@ -16,4 +16,7 @@ import org.openlegacy.WebServicesRegistry;
 public interface WebServicesRegistryLoader {
 
 	public void load(WebServicesRegistry registry);
+
+	public void loadClass(WebServicesRegistry registry, Class<?> clazz);
+
 }
