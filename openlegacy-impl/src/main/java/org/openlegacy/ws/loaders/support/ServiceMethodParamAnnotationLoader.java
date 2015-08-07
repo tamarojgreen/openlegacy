@@ -12,8 +12,6 @@
 package org.openlegacy.ws.loaders.support;
 
 import org.openlegacy.loaders.support.AbstractWsMethodParamLoader;
-import org.openlegacy.utils.FieldUtil;
-import org.openlegacy.utils.StringUtil;
 import org.openlegacy.ws.definitions.SimpleWebServiceMethodDefinition;
 import org.openlegacy.ws.definitions.SimpleWebServiceParamDetailsDefinition;
 import org.openlegacy.ws.definitions.WebServiceMethodDefinition;
@@ -30,7 +28,7 @@ import javax.jws.WebParam;
 import javax.jws.WebResult;
 
 @Component
-@Order(2)
+@Order(3)
 public class ServiceMethodParamAnnotationLoader extends AbstractWsMethodParamLoader {
 
 	@Override
@@ -53,9 +51,7 @@ public class ServiceMethodParamAnnotationLoader extends AbstractWsMethodParamLoa
 		WebParam webParam = findMethodParamAnnotation(method.getDeclaringClass(), method, paramIndex, WebParam.class);
 
 		if (webParam == null || webParam.name().trim().equals("")) {
-			if (!FieldUtil.isPrimitive(paramDef.getFieldClass())) {
-				paramDef.setFieldName(StringUtil.toJavaFieldName(paramDef.getFieldClass().getSimpleName()));
-			}
+			return;
 		} else {
 			paramDef.setFieldName(webParam.name());
 		}
@@ -65,7 +61,7 @@ public class ServiceMethodParamAnnotationLoader extends AbstractWsMethodParamLoa
 		WebResult webResult = AnnotationUtils.findAnnotation(method, WebResult.class);
 
 		if (webResult == null || webResult.name().trim().equals("")) {
-			paramDef.setFieldName(StringUtil.toJavaFieldName(paramDef.getFieldClass().getSimpleName()));
+			return;
 		} else {
 			paramDef.setFieldName(webResult.name());
 		}
