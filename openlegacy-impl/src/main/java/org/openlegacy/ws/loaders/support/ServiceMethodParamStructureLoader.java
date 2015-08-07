@@ -22,6 +22,8 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 @Component
 @Order(1)
@@ -29,6 +31,7 @@ public class ServiceMethodParamStructureLoader extends AbstractWsMethodParamLoad
 
 	private static final String ARG = "arg";
 	private static final String RESULT = "result";
+	private static final String ITEM = "listItem";
 
 	@Override
 	public void load(WebServiceMethodDefinition definition, Method method) {
@@ -40,18 +43,18 @@ public class ServiceMethodParamStructureLoader extends AbstractWsMethodParamLoad
 		SimpleWebServiceParamDetailsDefinition paramDef;
 		for (Class<?> type : method.getParameterTypes()) {
 			String name = String.format("%s%d", ARG, i++);
-			paramDef = buildParamDefinition(type, true);
+			paramDef = buildParamDefinition(type);
 			paramDef.setFieldName(name);
 			definition.getInputParams().add(paramDef);
 		}
 
 		Class<?> type = method.getReturnType();
-		paramDef = buildParamDefinition(type, false);
+		paramDef = buildParamDefinition(type);
 		paramDef.setFieldName(RESULT);
 		definition.getOutputParams().add(paramDef);
 	}
 
-	private SimpleWebServiceParamDetailsDefinition buildParamDefinition(Class<?> paramClass, boolean isInputSection) {
+	private SimpleWebServiceParamDetailsDefinition buildParamDefinition(Class<?> paramClass) {
 		SimpleWebServiceParamDetailsDefinition def = new SimpleWebServiceParamDetailsDefinition();
 		def.setFieldClass(paramClass);
 
@@ -61,9 +64,16 @@ public class ServiceMethodParamStructureLoader extends AbstractWsMethodParamLoad
 					continue;
 				}
 
-				SimpleWebServiceParamDetailsDefinition childDef = buildParamDefinition(field.getType(), isInputSection);
+				SimpleWebServiceParamDetailsDefinition childDef = buildParamDefinition(field.getType());
 				childDef.setFieldName(field.getName());
 				def.getFields().add(childDef);
+
+				if (childDef.getFieldClass() == List.class) {
+					ParameterizedType type = (ParameterizedType)field.getGenericType();
+					SimpleWebServiceParamDetailsDefinition itemDef = buildParamDefinition((Class<?>)type.getActualTypeArguments()[0]);
+					itemDef.setFieldName(ITEM);
+					childDef.getFields().add(itemDef);
+				}
 			}
 		}
 		return def;

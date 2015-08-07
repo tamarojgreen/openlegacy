@@ -103,11 +103,19 @@ public class DefaultWebServicesRegistryLoader implements WebServicesRegistryLoad
 		if (AnnotationUtils.findAnnotation(clazz, Service.class) == null || !serviceContext.contains(clazz.getName())) {
 			return;
 		}
+
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("Processing %s service", clazz.getSimpleName()));
+		}
+
 		SimpleWebServiceDefinition wsDef = new SimpleWebServiceDefinition();
 
 		for (WsClassAnnotationsLoader classAnnotationLoader : classAnnotationsLoaders) {
 			Annotation annotation = AnnotationUtils.findAnnotation(clazz, classAnnotationLoader.getAnnotation());
 			if (annotation != null) {
+				if (logger.isDebugEnabled()) {
+					logger.debug(String.format("Running %s loader", classAnnotationLoader.getClass().getSimpleName()));
+				}
 				classAnnotationLoader.load(wsDef, annotation);
 			}
 		}
@@ -116,6 +124,9 @@ public class DefaultWebServicesRegistryLoader implements WebServicesRegistryLoad
 			if (AnnotationUtils.findAnnotation(method, ServiceMethod.class) == null) {
 				continue; // all ws operation must have this annotation!
 			}
+			if (logger.isDebugEnabled()) {
+				logger.debug(String.format("Processing %s method", method.getName()));
+			}
 			SimpleWebServiceMethodDefinition mDef = new SimpleWebServiceMethodDefinition();
 			// for method we can`t find all annotations
 			// so, attempts to find annotation by need class from loader
@@ -123,12 +134,18 @@ public class DefaultWebServicesRegistryLoader implements WebServicesRegistryLoad
 			for (WsMethodAnnotationsLoader methodAnnotationLoader : methodAnnotationsLoaders) {
 				Annotation annotation = AnnotationUtils.findAnnotation(method, methodAnnotationLoader.getAnnotation());
 				if (annotation != null) {
+					if (logger.isDebugEnabled()) {
+						logger.debug(String.format("Running %s loader", methodAnnotationLoader.getClass().getSimpleName()));
+					}
 					methodAnnotationLoader.load(mDef, annotation);
 				}
 			}
 
 			// process method params
 			for (WsMethodParamLoader methodParamLoader : methodParamLoaders) {
+				if (logger.isDebugEnabled()) {
+					logger.debug(String.format("Running %s loader", methodParamLoader.getClass().getSimpleName()));
+				}
 				methodParamLoader.load(mDef, method);
 			}
 
