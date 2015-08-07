@@ -11,10 +11,14 @@
 
 package org.openlegacy.ws.definitions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SimpleWebServiceMethodDefinition implements WebServiceMethodDefinition {
 
 	private String name;
-	private WebServiceParamDefinition inputParam, outputParam;
+	private List<WebServiceParamDetailsDefinition> inputParam = new ArrayList<WebServiceParamDetailsDefinition>(),
+			outputParam = new ArrayList<WebServiceParamDetailsDefinition>();
 	private long cacheDuration;
 
 	@Override
@@ -23,12 +27,12 @@ public class SimpleWebServiceMethodDefinition implements WebServiceMethodDefinit
 	}
 
 	@Override
-	public WebServiceParamDefinition getInputParam() {
+	public List<WebServiceParamDetailsDefinition> getInputParams() {
 		return inputParam;
 	}
 
 	@Override
-	public WebServiceParamDefinition getOutputParam() {
+	public List<WebServiceParamDetailsDefinition> getOutputParams() {
 		return outputParam;
 	}
 
@@ -36,11 +40,11 @@ public class SimpleWebServiceMethodDefinition implements WebServiceMethodDefinit
 		this.name = name;
 	}
 
-	public void setInputParam(WebServiceParamDefinition inputParam) {
+	public void setInputParams(List<WebServiceParamDetailsDefinition> inputParam) {
 		this.inputParam = inputParam;
 	}
 
-	public void setOutputParam(WebServiceParamDefinition outputParam) {
+	public void setOutputParams(List<WebServiceParamDetailsDefinition> outputParam) {
 		this.outputParam = outputParam;
 	}
 

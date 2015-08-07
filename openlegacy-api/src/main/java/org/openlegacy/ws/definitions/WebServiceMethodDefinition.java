@@ -11,13 +11,15 @@
 
 package org.openlegacy.ws.definitions;
 
+import java.util.List;
+
 public interface WebServiceMethodDefinition {
 
 	String getName();
 
 	long getCacheDuration();
 
-	WebServiceParamDefinition getInputParam();
+	List<WebServiceParamDetailsDefinition> getInputParams();
 
-	WebServiceParamDefinition getOutputParam();
+	List<WebServiceParamDetailsDefinition> getOutputParams();
 }

@@ -23,7 +23,6 @@ import org.openlegacy.loaders.WsMethodAnnotationsLoader;
 import org.openlegacy.loaders.WsMethodParamLoader;
 import org.openlegacy.ws.definitions.SimpleWebServiceDefinition;
 import org.openlegacy.ws.definitions.SimpleWebServiceMethodDefinition;
-import org.openlegacy.ws.definitions.SimpleWebServiceParamDefinition;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -32,16 +31,18 @@ import org.springframework.util.Assert;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class DefaultWebServicesRegistryLoader implements WebServicesRegistryLoader {
 
 	private final static Log logger = LogFactory.getLog(DefaultWebServicesRegistryLoader.class);
 
-	private Collection<WsClassAnnotationsLoader> classAnnotationsLoaders;
-	private Collection<WsMethodAnnotationsLoader> methodAnnotationsLoaders;
-	private Collection<WsMethodParamLoader> methodParamLoaders;
+	private List<WsClassAnnotationsLoader> classAnnotationsLoaders;
+	private List<WsMethodAnnotationsLoader> methodAnnotationsLoaders;
+	private List<WsMethodParamLoader> methodParamLoaders;
 
 	private String serviceContext = "";
 
@@ -83,15 +84,18 @@ public class DefaultWebServicesRegistryLoader implements WebServicesRegistryLoad
 	}
 
 	public void setClassAnnotationsLoaders(Collection<WsClassAnnotationsLoader> classAnnotationsLoaders) {
-		this.classAnnotationsLoaders = classAnnotationsLoaders;
+		this.classAnnotationsLoaders = new ArrayList<WsClassAnnotationsLoader>(classAnnotationsLoaders);
+		Collections.sort(this.classAnnotationsLoaders);
 	}
 
 	public void setMethodAnnotationsLoaders(Collection<WsMethodAnnotationsLoader> methodAnnotationsLoaders) {
-		this.methodAnnotationsLoaders = methodAnnotationsLoaders;
+		this.methodAnnotationsLoaders = new ArrayList<WsMethodAnnotationsLoader>(methodAnnotationsLoaders);
+		Collections.sort(this.methodAnnotationsLoaders);
 	}
 
 	public void setMethodParamLoaders(Collection<WsMethodParamLoader> methodParamLoaders) {
-		this.methodParamLoaders = methodParamLoaders;
+		this.methodParamLoaders = new ArrayList<WsMethodParamLoader>(methodParamLoaders);
+		Collections.sort(this.methodParamLoaders);
 	}
 
 	@Override
@@ -113,9 +117,6 @@ public class DefaultWebServicesRegistryLoader implements WebServicesRegistryLoad
 				continue; // all ws operation must have this annotation!
 			}
 			SimpleWebServiceMethodDefinition mDef = new SimpleWebServiceMethodDefinition();
-			mDef.setInputParam(new SimpleWebServiceParamDefinition());
-			mDef.setOutputParam(new SimpleWebServiceParamDefinition());
-
 			// for method we can`t find all annotations
 			// so, attempts to find annotation by need class from loader
 			// process method annotations
