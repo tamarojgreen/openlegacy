@@ -12,10 +12,9 @@
 package org.openlegacy.ws.loaders.support;
 
 import org.openlegacy.loaders.support.AbstractWsMethodParamLoader;
-import org.openlegacy.utils.ClassUtil;
+import org.openlegacy.utils.ClassUtils;
 import org.openlegacy.utils.FieldUtil;
 import org.openlegacy.ws.definitions.SimpleWebServiceMethodDefinition;
-import org.openlegacy.ws.definitions.SimpleWebServiceParamDefinition;
 import org.openlegacy.ws.definitions.SimpleWebServiceParamDetailsDefinition;
 import org.openlegacy.ws.definitions.WebServiceMethodDefinition;
 import org.springframework.core.annotation.Order;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 
 @Component
 @Order(1)
@@ -39,19 +37,18 @@ public class ServiceMethodParamStructureLoader extends AbstractWsMethodParamLoad
 		}
 
 		int i = 0;
+		SimpleWebServiceParamDetailsDefinition paramDef;
 		for (Class<?> type : method.getParameterTypes()) {
 			String name = String.format("%s%d", ARG, i++);
-			SimpleWebServiceParamDefinition simpleDef = (SimpleWebServiceParamDefinition)definition.getInputParam();
-			SimpleWebServiceParamDetailsDefinition paramDef = buildParamDefinition(type, true);
+			paramDef = buildParamDefinition(type, true);
 			paramDef.setFieldName(name);
-			simpleDef.setParamDetails(paramDef);
+			definition.getInputParams().add(paramDef);
 		}
 
 		Class<?> type = method.getReturnType();
-		SimpleWebServiceParamDefinition simpleDef = (SimpleWebServiceParamDefinition)definition.getInputParam();
-		SimpleWebServiceParamDetailsDefinition paramDef = buildParamDefinition(type, false);
+		paramDef = buildParamDefinition(type, false);
 		paramDef.setFieldName(RESULT);
-		simpleDef.setParamDetails(paramDef);
+		definition.getOutputParams().add(paramDef);
 	}
 
 	private SimpleWebServiceParamDetailsDefinition buildParamDefinition(Class<?> paramClass, boolean isInputSection) {
@@ -73,12 +70,8 @@ public class ServiceMethodParamStructureLoader extends AbstractWsMethodParamLoad
 	}
 
 	private boolean hasGetterOrSetter(Field field, Class<?> clazz) {
-		Method getter = ClassUtil.getReadMethod(field.getName(), clazz);
-		Method setter = ClassUtil.getWriteMethod(field.getName(), clazz, field.getType());
-		return (getter != null && hasPublicModifier(getter)) || (setter != null && hasPublicModifier(setter));
-	}
-
-	private boolean hasPublicModifier(Method m) {
-		return (m.getModifiers() & Modifier.PUBLIC) == Modifier.PUBLIC;
+		Method getter = ClassUtils.getReadMethod(field.getName(), clazz);
+		Method setter = ClassUtils.getWriteMethod(field.getName(), clazz, field.getType());
+		return (getter != null && ClassUtils.isAbstractMethod(getter)) || (setter != null && ClassUtils.isAbstractMethod(setter));
 	}
 }
