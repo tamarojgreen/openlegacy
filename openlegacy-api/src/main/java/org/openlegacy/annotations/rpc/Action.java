@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.annotations.rpc;
 
+import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.actions.RpcAction;
@@ -65,5 +66,9 @@ public @interface Action {
 	Class<?> targetEntity() default RpcEntity.NONE.class;
 
 	ActionProperty[] actionProperties() default {};
+
+	boolean rolesRequired() default false;
+
+	String[] roles() default AnnotationConstants.NULL;
 
 }

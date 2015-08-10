@@ -201,7 +201,9 @@ public @interface ScreenField {
 	String expression() default "";
 
 	boolean enableLookup() default false;
-	
+
 	Class<? extends TerminalAction> lookupAction() default TerminalActions.NONE.class;
-	
+
+	String[] roles() default AnnotationConstants.NULL;
+
 }

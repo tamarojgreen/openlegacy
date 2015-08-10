@@ -15,7 +15,8 @@ import org.openlegacy.EntityDefinition;
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
 import org.openlegacy.annotations.screen.Action;
-import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+
+import java.util.List;
 
 /**
  * A generic session action meta-data definition. Stored within {@link EntityDefinition} in {@link EntitiesRegistry}. <br/>
@@ -32,7 +33,7 @@ public interface ActionDefinition {
 	 * @return the session action to execute
 	 */
 	SessionAction<? extends Session> getAction();
-	
+
 	/**
 	 * the action name
 	 * 
@@ -75,4 +76,8 @@ public interface ActionDefinition {
 	int getLength();
 
 	String getWhen();
+
+	boolean isRolesRequired();
+
+	List<String> getRoles();
 }

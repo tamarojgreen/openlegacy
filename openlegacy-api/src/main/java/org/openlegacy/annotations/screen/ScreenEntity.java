@@ -121,7 +121,11 @@ public @interface ScreenEntity {
 
 	boolean rightToLeft() default false;
 
-	String[] roles() default AnnotationConstants.NULL;
-
 	boolean autoMapKeyboardActions() default false;
+
+	/**
+	 * Since version 2.3.0 attribute is deprecated. For adding entity into menu, add SHOW action to the entity
+	 */
+	@Deprecated
+	String[] roles() default AnnotationConstants.NULL;
 }

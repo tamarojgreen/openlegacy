@@ -19,6 +19,7 @@ import org.openlegacy.terminal.modules.table.TerminalDrilldownActions.SimpleDril
 import org.openlegacy.utils.StringUtil;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class SimpleActionDefinition implements ActionDefinition, Serializable {
 
@@ -43,6 +44,9 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 	private int length = 0;
 	private String when = ".*";
 
+	private boolean rolesRequired = false;
+	private List<String> roles;
+
 	// for design-time purposes
 	private EntityDefinition<?> targetEntityDefinition;
 
@@ -60,7 +64,7 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 	public SimpleActionDefinition(SessionAction<? extends Session> action, String displayName) {
 		this.action = action;
 		if (action instanceof SimpleDrilldownAction) {
-			this.actionName = ((SimpleDrilldownAction)action).getAction().getClass().getSimpleName();
+			this.actionName = ((SimpleDrilldownAction) action).getAction().getClass().getSimpleName();
 		} else {
 			this.actionName = action.getClass().getSimpleName();
 		}
@@ -190,13 +194,29 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 	public void setWhen(String when) {
 		this.when = when;
 	}
-	
+
 	public AdditionalKey getAdditionalKey() {
 		return additionalKey;
 	}
-	
+
 	public void setAdditionalKey(AdditionalKey additionalKey) {
 		this.additionalKey = additionalKey;
+	}
+
+	public boolean isRolesRequired() {
+		return rolesRequired;
+	}
+
+	public void setRolesRequired(boolean rolesRequired) {
+		this.rolesRequired = rolesRequired;
+	}
+
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
 	}
 
 }

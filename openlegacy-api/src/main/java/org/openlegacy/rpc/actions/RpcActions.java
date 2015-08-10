@@ -69,6 +69,9 @@ public class RpcActions {
 		return new EXECUTE();
 	}
 
+	public static class SHOW extends RpcActionAdapter {
+	}
+
 	public static RpcAction newAction(String actionName) {
 		Class<?>[] classes = RpcActions.class.getClasses();
 		RpcAction action = null;
@@ -78,7 +81,7 @@ public class RpcActions {
 				if (actionName.equals(clazz.getSimpleName())) {
 					ctor.setAccessible(true);
 					try {
-						action = (RpcAction)ctor.newInstance();
+						action = (RpcAction) ctor.newInstance();
 					} catch (Exception e) {
 						throw new RpcActionException(MessageFormat.format("Cannot instantiate an action with name {0}",
 								actionName));

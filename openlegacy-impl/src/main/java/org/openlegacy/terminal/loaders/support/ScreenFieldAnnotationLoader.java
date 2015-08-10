@@ -39,6 +39,7 @@ import org.springframework.stereotype.Component;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -63,9 +64,9 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 	@SuppressWarnings({ "rawtypes" })
 	public void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass,
 			int fieldOrder) {
-		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
+		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry) entitiesRegistry;
 
-		ScreenField fieldAnnotation = (ScreenField)annotation;
+		ScreenField fieldAnnotation = (ScreenField) annotation;
 
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(containingClass);
 
@@ -163,11 +164,15 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 			screenFieldDefinition.setUnlessFilter(fieldAnnotation.unless());
 		}
 		screenFieldDefinition.setEnableLookup(fieldAnnotation.enableLookup());
-		if (screenFieldDefinition.isEnableLookup() && fieldAnnotation.lookupAction() != TerminalActions.NONE.class){
+		if (screenFieldDefinition.isEnableLookup() && fieldAnnotation.lookupAction() != TerminalActions.NONE.class) {
 			screenFieldDefinition.setLookupAction(ReflectionUtil.newInstance(fieldAnnotation.lookupAction()));
 		}
 
 		setupFieldType(field, screenFieldDefinition);
+
+		if (!fieldAnnotation.roles()[0].equals(AnnotationConstants.NULL)) {
+			screenFieldDefinition.setRoles(Arrays.asList(fieldAnnotation.roles()));
+		}
 
 		// look in screen entities
 		if (screenEntityDefinition != null) {
