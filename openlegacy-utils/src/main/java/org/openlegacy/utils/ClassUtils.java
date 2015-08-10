@@ -21,6 +21,8 @@ public class ClassUtils {
 
 	private final static Log logger = LogFactory.getLog(ClassUtils.class);
 
+	private final static String ASPECT = "_Aspect";
+
 	public static String getImportDeclaration(Class<?> cls) {
 		return cls.getName().replace(org.apache.commons.lang.ClassUtils.INNER_CLASS_SEPARATOR_CHAR, '.');
 	}
@@ -64,5 +66,13 @@ public class ClassUtils {
 
 	public static boolean isAbstractMethod(Method m) {
 		return Modifier.isPublic(m.getModifiers());
+	}
+
+	public static Class<?> getAspectClass(Class<?> clazz) {
+		try {
+			return Class.forName(String.format("%s%s", clazz.getName(), ASPECT));
+		} catch (Exception e) {
+		}
+		return null;
 	}
 }
