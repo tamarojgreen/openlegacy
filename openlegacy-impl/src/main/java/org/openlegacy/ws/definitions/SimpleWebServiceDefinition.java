@@ -16,7 +16,7 @@ import java.util.List;
 
 public class SimpleWebServiceDefinition implements WebServiceDefinition {
 
-	private String name, stdMethodName;
+	private String name;
 	private boolean isRest;
 	private List<WebServiceMethodDefinition> methods = new ArrayList<WebServiceMethodDefinition>();
 	private Class<?> webServiceClass;
@@ -45,15 +45,10 @@ public class SimpleWebServiceDefinition implements WebServiceDefinition {
 
 	public void setName(String name) {
 		this.name = name;
-		this.stdMethodName = String.format("%s%s", "get", this.name.replace("ImplService", ""));
 	}
 
 	public void setMethods(List<WebServiceMethodDefinition> methods) {
 		this.methods = methods;
-	}
-
-	public WebServiceMethodDefinition getStdMethod(String name) {
-		return getMethodByName(stdMethodName);
 	}
 
 	public boolean isRest() {

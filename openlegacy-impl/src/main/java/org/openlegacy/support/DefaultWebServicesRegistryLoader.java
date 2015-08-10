@@ -29,7 +29,6 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.Assert;
 
-import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -63,6 +62,10 @@ public class DefaultWebServicesRegistryLoader implements WebServicesRegistryLoad
 		}
 	}
 
+	public void setServiceContext(String serviceContext) {
+		this.serviceContext = serviceContext;
+	}
+
 	@Override
 	public void load(WebServicesRegistry registry) {
 		Assert.notNull(classAnnotationsLoaders);
@@ -81,10 +84,6 @@ public class DefaultWebServicesRegistryLoader implements WebServicesRegistryLoad
 		for (String thePackage : packages) {
 			try {
 				String packagePath = org.openlegacy.utils.ClassUtils.packageToResourcePath(thePackage);
-
-				if (!new File(packagePath).exists()) {
-					continue;
-				}
 
 				resources = resourcePatternResolver.getResources("classpath*:" + packagePath + "/*.class");
 				for (Resource resource : resources) {
@@ -123,6 +122,7 @@ public class DefaultWebServicesRegistryLoader implements WebServicesRegistryLoad
 		}
 
 		SimpleWebServiceDefinition wsDef = new SimpleWebServiceDefinition();
+		wsDef.setWebServiceClass(clazz);
 		wsDef.setRest(isRest);
 
 		for (WsClassAnnotationsLoader classAnnotationLoader : classAnnotationsLoaders) {
