@@ -21,8 +21,6 @@ public interface WebServiceDefinition {
 
 	WebServiceMethodDefinition getMethodByName(String name);
 
-	WebServiceMethodDefinition getStdMethod(String name);
-
 	Class<?> getWebServiceClass();
 
 	boolean isRest();

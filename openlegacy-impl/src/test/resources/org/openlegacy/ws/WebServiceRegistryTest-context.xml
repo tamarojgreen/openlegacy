@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+		
+	<context:component-scan base-package="org.openlegacy.ws.loaders.support"></context:component-scan>
+	
+ 	<bean class="org.openlegacy.support.WebServiceAnnotationProcessor">
+	    <property name="loadersPackages">
+	        <list>
+	            <value>org.openlegacy.ws.loaders.support</value>
+            </list>
+        </property>
+ 	</bean>
+	        
+ 	
+ 	<bean id="wsRegistryLoader" class="org.openlegacy.support.DefaultWebServicesRegistryLoader">
+ 		<property name="serviceContext" value="org.openlegacy.ws.ItemDetailsServiceImpl"></property>
+ 	</bean>
+ 	
+ 	<bean id="wsRegisrty" class="org.openlegacy.support.SimpleWebServicesRegistry">
+ 		<property name="packages">
+ 			<list>
+ 				<value>org.openlegacy.ws</value>
+ 			</list>
+ 		</property>
+ 	</bean>
+ 	
+	<context:annotation-config />
+</beans>
