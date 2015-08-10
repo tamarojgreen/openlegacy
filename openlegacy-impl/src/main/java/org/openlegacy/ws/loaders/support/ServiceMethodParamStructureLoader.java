@@ -60,7 +60,8 @@ public class ServiceMethodParamStructureLoader extends AbstractWsMethodParamLoad
 
 		if (!FieldUtil.isPrimitive(paramClass)) {
 			for (Field field : paramClass.getDeclaredFields()) {
-				if (!hasGetterOrSetter(field, paramClass)) {
+
+				if (!hasGetterAndSetter(field, paramClass)) {
 					continue;
 				}
 
@@ -79,9 +80,9 @@ public class ServiceMethodParamStructureLoader extends AbstractWsMethodParamLoad
 		return def;
 	}
 
-	private boolean hasGetterOrSetter(Field field, Class<?> clazz) {
+	private boolean hasGetterAndSetter(Field field, Class<?> clazz) {
 		Method getter = ClassUtils.getReadMethod(field.getName(), clazz);
 		Method setter = ClassUtils.getWriteMethod(field.getName(), clazz, field.getType());
-		return (getter != null && ClassUtils.isAbstractMethod(getter)) || (setter != null && ClassUtils.isAbstractMethod(setter));
+		return (getter != null && ClassUtils.isAbstractMethod(getter)) && (setter != null && ClassUtils.isAbstractMethod(setter));
 	}
 }
