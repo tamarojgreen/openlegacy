@@ -115,4 +115,9 @@ public @interface Action {
 	Class<? extends SimpleTerminalMappedAction>keyboardKey() default TerminalActions.NONE.class;
 
 	boolean isSubmitForm() default false;
+
+	boolean rolesRequired() default false;
+
+	String[] roles() default AnnotationConstants.NULL;
+
 }

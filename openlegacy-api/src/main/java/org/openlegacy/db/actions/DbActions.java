@@ -48,7 +48,7 @@ public class DbActions {
 		@Override
 		public <T> T perform(EntityManager entityManager, T entity, Object... keys) {
 			if (entityManager != null) {
-				return (T)entityManager.find(entity.getClass(), keys[0]);
+				return (T) entityManager.find(entity.getClass(), keys[0]);
 			}
 			return null;
 		}
@@ -111,6 +111,9 @@ public class DbActions {
 		return new DELETE();
 	}
 
+	public static class SHOW extends DbActionAdapter {
+	}
+
 	public static DbAction newAction(String actionName) {
 		Class<?>[] classes = DbActions.class.getClasses();
 		DbAction action = null;
@@ -120,7 +123,7 @@ public class DbActions {
 				if (actionName.equals(clazz.getSimpleName())) {
 					ctor.setAccessible(true);
 					try {
-						action = (DbAction)ctor.newInstance();
+						action = (DbAction) ctor.newInstance();
 					} catch (Exception e) {
 						throw new DbActionException(
 								MessageFormat.format("Cannot instantiate an action with name {0}", actionName));

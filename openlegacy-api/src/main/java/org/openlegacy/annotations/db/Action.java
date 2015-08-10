@@ -11,6 +11,7 @@
 
 package org.openlegacy.annotations.db;
 
+import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.db.actions.DbAction;
 
 import java.lang.annotation.ElementType;
@@ -31,4 +32,8 @@ public @interface Action {
 	String alias() default "";
 
 	Class<?> targetEntity() default void.class;
+
+	boolean rolesRequired() default false;
+
+	String[] roles() default AnnotationConstants.NULL;
 }

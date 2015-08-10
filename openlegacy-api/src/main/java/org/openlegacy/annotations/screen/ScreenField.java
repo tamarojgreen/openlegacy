@@ -211,4 +211,6 @@ public @interface ScreenField {
 
 	String invalidMessage() default "";
 
+	String[] roles() default AnnotationConstants.NULL;
+
 }
