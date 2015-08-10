@@ -29,6 +29,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.Assert;
 
+import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -45,12 +46,20 @@ public class DefaultWebServicesRegistryLoader implements WebServicesRegistryLoad
 	private List<WsMethodParamLoader> methodParamLoaders;
 
 	private String serviceContext = "";
+	private boolean isRest = false;
 
 	public DefaultWebServicesRegistryLoader() {
+		// rest service hasn`t serviceContext.xml
 		try {
 			serviceContext = IOUtils.toString(getClass().getResourceAsStream("/META-INF/spring/serviceContext.xml"));
+			isRest = false;
 		} catch (Exception e) {
-			e.printStackTrace();
+			try {
+				serviceContext = IOUtils.toString(getClass().getResourceAsStream("/META-INF/spring/applicationContext.xml"));
+				isRest = true;
+			} catch (Exception e1) {
+
+			}
 		}
 	}
 
@@ -72,6 +81,11 @@ public class DefaultWebServicesRegistryLoader implements WebServicesRegistryLoad
 		for (String thePackage : packages) {
 			try {
 				String packagePath = org.openlegacy.utils.ClassUtils.packageToResourcePath(thePackage);
+
+				if (!new File(packagePath).exists()) {
+					continue;
+				}
+
 				resources = resourcePatternResolver.getResources("classpath*:" + packagePath + "/*.class");
 				for (Resource resource : resources) {
 					Class<?> beanClass = DefaultRegistryLoader.getClassFromResource(packagePath, resource);
@@ -109,6 +123,7 @@ public class DefaultWebServicesRegistryLoader implements WebServicesRegistryLoad
 		}
 
 		SimpleWebServiceDefinition wsDef = new SimpleWebServiceDefinition();
+		wsDef.setRest(isRest);
 
 		for (WsClassAnnotationsLoader classAnnotationLoader : classAnnotationsLoaders) {
 			Annotation annotation = AnnotationUtils.findAnnotation(clazz, classAnnotationLoader.getAnnotation());
