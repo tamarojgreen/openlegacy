@@ -12,6 +12,8 @@
 package org.openlegacy.ws.loaders.support;
 
 import org.openlegacy.loaders.support.AbstractWsMethodParamLoader;
+import org.openlegacy.utils.ClassUtils;
+import org.openlegacy.utils.ClassUtils.FindInClassProcessor;
 import org.openlegacy.ws.definitions.SimpleWebServiceMethodDefinition;
 import org.openlegacy.ws.definitions.SimpleWebServiceParamDetailsDefinition;
 import org.openlegacy.ws.definitions.WebServiceMethodDefinition;
@@ -67,39 +69,66 @@ public class ServiceMethodParamAnnotationLoader extends AbstractWsMethodParamLoa
 		}
 	}
 
-	private <A extends Annotation> A findMethodParamAnnotation(Class<?> methodClazz, Method method, int paramIndex,
+	@SuppressWarnings("unchecked")
+	private <A extends Annotation> A findMethodParamAnnotation(Class<?> methodClazz, final Method method, int paramIndex,
 			Class<A> annotationClazz) {
-		if (methodClazz == null || methodClazz == Object.class) {
-			return null;
-		}
+		return (A)ClassUtils.findInClass(methodClazz, new FindInClassProcessor() {
 
-		Method localMethod = null;
-		try {
-			localMethod = methodClazz.getMethod(method.getName(), method.getParameterTypes());
-		} catch (Exception e) {
-			return null;
-		}
-
-		A annotation = new MethodParameter(localMethod, paramIndex).getParameterAnnotation(annotationClazz);
-		if (annotation != null) {
-			return annotation;
-		}
-
-		annotation = findMethodParamAnnotation(methodClazz.getSuperclass(), localMethod, paramIndex, annotationClazz);
-
-		if (annotation != null) {
-			return annotation;
-		}
-
-		if (methodClazz.getInterfaces() != null) {
-			for (Class<?> inter : methodClazz.getInterfaces()) {
-				annotation = findMethodParamAnnotation(inter, localMethod, paramIndex, annotationClazz);
-				if (annotation != null) {
-					return annotation;
+			@Override
+			public Object process(Class<?> clazz, Object... args) {
+				if (clazz == Object.class) {
+					return null;
 				}
-			}
-		}
 
-		return null;
+				Method paramMethod = (Method)args[0];
+				int paramIndex = (Integer)args[1];
+				Class<A> annotationClazz = (Class<A>)args[2];
+
+				Method localMethod;
+				try {
+					localMethod = clazz.getMethod(paramMethod.getName(), paramMethod.getParameterTypes());
+				} catch (Exception e) {
+					return null;
+				}
+				A result = new MethodParameter(localMethod, paramIndex).getParameterAnnotation(annotationClazz);
+				if (result == null) {
+					args[0] = localMethod;
+				}
+				return result;
+			}
+		}, method, paramIndex, annotationClazz);
+
+		// if (methodClazz == null || methodClazz == Object.class) {
+		// return null;
+		// }
+
+		// Method localMethod = null;
+		// try {
+		// localMethod = methodClazz.getMethod(method.getName(), method.getParameterTypes());
+		// } catch (Exception e) {
+		// return null;
+		// }
+		//
+		// A annotation = new MethodParameter(localMethod, paramIndex).getParameterAnnotation(annotationClazz);
+		// if (annotation != null) {
+		// return annotation;
+		// }
+		//
+		// annotation = findMethodParamAnnotation(methodClazz.getSuperclass(), localMethod, paramIndex, annotationClazz);
+		//
+		// if (annotation != null) {
+		// return annotation;
+		// }
+		//
+		// if (methodClazz.getInterfaces() != null) {
+		// for (Class<?> inter : methodClazz.getInterfaces()) {
+		// annotation = findMethodParamAnnotation(inter, localMethod, paramIndex, annotationClazz);
+		// if (annotation != null) {
+		// return annotation;
+		// }
+		// }
+		// }
+		//
+		// return null;
 	}
 }

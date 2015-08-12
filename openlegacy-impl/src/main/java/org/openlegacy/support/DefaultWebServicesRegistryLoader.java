@@ -14,6 +14,7 @@ package org.openlegacy.support;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.SessionFactory;
 import org.openlegacy.WebServicesRegistry;
 import org.openlegacy.annotations.ws.Service;
 import org.openlegacy.annotations.ws.ServiceMethod;
@@ -21,8 +22,17 @@ import org.openlegacy.loaders.WebServicesRegistryLoader;
 import org.openlegacy.loaders.WsClassAnnotationsLoader;
 import org.openlegacy.loaders.WsMethodAnnotationsLoader;
 import org.openlegacy.loaders.WsMethodParamLoader;
+import org.openlegacy.utils.ClassUtils;
+import org.openlegacy.utils.ClassUtils.FindInClassProcessor;
+import org.openlegacy.utils.FieldUtil;
 import org.openlegacy.ws.definitions.SimpleWebServiceDefinition;
 import org.openlegacy.ws.definitions.SimpleWebServiceMethodDefinition;
+import org.openlegacy.ws.definitions.SimpleWebServicePoolDefinition;
+import org.openlegacy.ws.definitions.WebServicePoolDefinition;
+import org.springframework.beans.PropertyValue;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -30,6 +40,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.Assert;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -163,10 +174,94 @@ public class DefaultWebServicesRegistryLoader implements WebServicesRegistryLoad
 				}
 				methodParamLoader.load(mDef, method);
 			}
-
 			wsDef.getMethods().add(mDef);
 		}
 
+		String poolName = (String)ClassUtils.findInClass(clazz, new FindInClassProcessor() {
+
+			@Override
+			public Object process(Class<?> clazz, Object... args) {
+				for (Field field : clazz.getDeclaredFields()) {
+					if (org.apache.commons.lang.ClassUtils.getAllInterfaces(field.getType()).contains(SessionFactory.class)) {
+						for (Annotation fAnnotation : field.getAnnotations()) {
+							if (Qualifier.class.isInstance(fAnnotation)) {
+								return ((Qualifier)fAnnotation).value();
+							}
+						}
+					}
+
+				}
+				return null;
+			}
+		});
+		wsDef.setPool(getPoolDefinition(poolName));
 		registry.getWebServices().add(wsDef);
+	}
+
+	private WebServicePoolDefinition getPoolDefinition(String beanName) {
+		if (beanName == null || beanName.trim().length() == 0) {
+			return null;
+		}
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("Processing %s pool definition", beanName));
+		}
+
+		BeanDefinition beanDef = ((DefaultListableBeanFactory)WebServiceAnnotationProcessor.getBeanFactory()).getBeanDefinition(beanName);
+		if (beanDef == null) {
+			if (logger.isDebugEnabled()) {
+				logger.error(String.format("Can`t find %s bean", beanName));
+			}
+		}
+		Class<?> beanClass = null;
+		try {
+			beanClass = Class.forName(beanDef.getBeanClassName());
+		} catch (Exception e) {
+			return null;
+		}
+
+		SimpleWebServicePoolDefinition pDef = new SimpleWebServicePoolDefinition();
+		pDef.setName(beanName);
+		pDef.setPoolClass(beanClass);
+
+		List<Field> fields = ClassUtils.getDeclaredFields(beanClass);
+		for (Field field : fields) {
+			Method method = ClassUtils.getWriteMethod(field.getName(), pDef.getClass(), field.getType());
+			if (method == null || !ClassUtils.isPublicMethod(method)) {
+				continue;
+			}
+
+			PropertyValue prop = beanDef.getPropertyValues().getPropertyValue(field.getName());
+			if (prop == null) {
+				continue;
+			}
+
+			Object value = prop.getValue();
+
+			try {
+				if (FieldUtil.isPrimitive(field.getType())) {
+					value = FieldUtil.getPrimitiveClass(field.getType()).getMethod(FieldUtil.VALUE_OF, String.class).invoke(null,
+							value);
+				} else {
+					continue;
+				}
+			} catch (Exception e) {
+				value = null;
+			}
+
+			if (value != null) {
+				try {
+					method.invoke(pDef, value);
+				} catch (Exception e) {
+					if (logger.isDebugEnabled()) {
+						logger.error(String.format("Smt wrong with %s property of %s bean", field.getName(), beanName));
+					}
+				}
+			} else {
+				if (logger.isDebugEnabled()) {
+					logger.info(String.format("Null %s property", field.getName()));
+				}
+			}
+		}
+		return pDef;
 	}
 }

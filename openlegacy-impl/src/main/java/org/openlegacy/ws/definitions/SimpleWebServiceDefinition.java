@@ -20,6 +20,7 @@ public class SimpleWebServiceDefinition implements WebServiceDefinition {
 	private boolean isRest;
 	private List<WebServiceMethodDefinition> methods = new ArrayList<WebServiceMethodDefinition>();
 	private Class<?> webServiceClass;
+	private WebServicePoolDefinition pool;
 
 	@Override
 	public String getName() {
@@ -66,6 +67,15 @@ public class SimpleWebServiceDefinition implements WebServiceDefinition {
 
 	public void setWebServiceClass(Class<?> webServiceClass) {
 		this.webServiceClass = webServiceClass;
+	}
+
+	@Override
+	public WebServicePoolDefinition getPool() {
+		return pool;
+	}
+
+	public void setPool(WebServicePoolDefinition webServicePoolDefinition) {
+		this.pool = webServicePoolDefinition;
 	}
 
 }

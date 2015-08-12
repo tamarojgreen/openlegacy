@@ -13,8 +13,12 @@ package org.openlegacy.utils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 public class ClassUtils {
@@ -64,7 +68,7 @@ public class ClassUtils {
 		return s.substring(0, 1).toUpperCase(Locale.ENGLISH) + s.substring(1);
 	}
 
-	public static boolean isAbstractMethod(Method m) {
+	public static boolean isPublicMethod(Method m) {
 		return Modifier.isPublic(m.getModifiers());
 	}
 
@@ -74,5 +78,49 @@ public class ClassUtils {
 		} catch (Exception e) {
 		}
 		return null;
+	}
+
+	public static interface FindInClassProcessor {
+
+		public Object process(Class<?> clazz, Object... args);
+	}
+
+	public static Object findInClass(Class<?> clazz, FindInClassProcessor process, Object... args) {
+		if (clazz == null) {
+			return null;
+		}
+		Object result;
+		result = process.process(clazz, args);
+		if (result != null) {
+			return result;
+		} else {
+			for (Class<?> _interface : clazz.getInterfaces()) {
+				result = findInClass(_interface, process, args);
+				if (result != null) {
+					return result;
+				}
+			}
+			result = findInClass(clazz.getSuperclass(), process, args);
+		}
+
+		return result;
+	}
+
+	private static List<Field> collectDeclaredFields(Class<?> clazz, List<Field> fields) {
+		if (clazz == null) {
+			return fields;
+		}
+
+		fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
+
+		for (Class<?> _interface : clazz.getInterfaces()) {
+			collectDeclaredFields(_interface, fields);
+		}
+		collectDeclaredFields(clazz.getSuperclass(), fields);
+		return fields;
+	}
+
+	public static List<Field> getDeclaredFields(Class<?> clazz) {
+		return collectDeclaredFields(clazz, new ArrayList<Field>());
 	}
 }

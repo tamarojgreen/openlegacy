@@ -19,6 +19,7 @@ import org.openlegacy.loaders.WsClassAnnotationsLoader;
 import org.openlegacy.loaders.WsMethodAnnotationsLoader;
 import org.openlegacy.loaders.WsMethodParamLoader;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
@@ -27,10 +28,13 @@ import java.util.List;
 
 public class WebServiceAnnotationProcessor implements BeanFactoryPostProcessor {
 
+	private static BeanFactory beanFactory;
 	protected List<String> loadersPackages;
 
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+		WebServiceAnnotationProcessor.beanFactory = beanFactory;
+
 		Collection<WsClassAnnotationsLoader> classAnnotationsLoaders = beanFactory.getBeansOfType(WsClassAnnotationsLoader.class).values();
 		Collection<WsMethodAnnotationsLoader> methodAnnotationsLoaders = beanFactory.getBeansOfType(
 				WsMethodAnnotationsLoader.class).values();
@@ -61,6 +65,10 @@ public class WebServiceAnnotationProcessor implements BeanFactoryPostProcessor {
 
 	public void setLoadersPackages(List<String> loadersPackages) {
 		this.loadersPackages = loadersPackages;
+	}
+
+	public static BeanFactory getBeanFactory() {
+		return beanFactory;
 	}
 
 }

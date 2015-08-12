@@ -19,8 +19,7 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-public abstract class AbstractSessionPoolFactory<S extends Session, A extends SessionAction<S>> implements SessionFactory<S, A>,
-		InitializingBean, DisposableBean {
+public abstract class AbstractSessionPoolFactory<S extends Session, A extends SessionAction<S>> implements SessionFactory<S, A>, InitializingBean, DisposableBean {
 
 	private static final Log logger = LogFactory.getLog(AbstractSessionPoolFactory.class);
 
@@ -47,6 +46,10 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 	protected Thread returnSessionsThread;
 
 	protected boolean stopThreads = false;
+
+	public void setStopThreads(boolean stopThreads) {
+		this.stopThreads = stopThreads;
+	}
 
 	@Autowired(required = false)
 	private List<SessionPoolListner> listeners;
