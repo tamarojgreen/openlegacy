@@ -11,7 +11,6 @@
 
 package org.openlegacy.ws.definitions;
 
-import org.openlegacy.support.AbstractSessionPoolFactory;
 import org.openlegacy.utils.ClassUtils;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
@@ -25,6 +24,7 @@ public class SimpleWebServicePoolDefinition implements WebServicePoolDefinition 
 	int maxConnections;
 	long keepAliveInterval, returnSessionsInterval = 100/* def from class */;
 	boolean stopThreads = false/* def from class */;
+	WebServicePoolInitActionDefinition initActionDefinition;
 
 	@Override
 	public String getName() {
@@ -85,12 +85,12 @@ public class SimpleWebServicePoolDefinition implements WebServicePoolDefinition 
 	}
 
 	@Override
-	public void updatePoolInstance() {
+	public void updatePoolInstance() {// check for correct working
 		ApplicationContext applicationContext = SpringUtil.getApplicationContext();
 		if (applicationContext == null) {
 			return;
 		}
-		AbstractSessionPoolFactory instance = (AbstractSessionPoolFactory)applicationContext.getBean(getName());
+		Object instance = applicationContext.getBean(getName());
 		try {
 			for (Field field : getClass().getDeclaredFields()) {
 				ClassUtils.getWriteMethod(field.getName(), instance.getClass(), field.getType()).invoke(instance, field.get(this));
@@ -99,4 +99,14 @@ public class SimpleWebServicePoolDefinition implements WebServicePoolDefinition 
 
 		}
 	}
+
+	@Override
+	public WebServicePoolInitActionDefinition getInitActionDefinition() {
+		return initActionDefinition;
+	}
+
+	public void setInitActionDefinition(WebServicePoolInitActionDefinition initActionDefinition) {
+		this.initActionDefinition = initActionDefinition;
+	}
+
 }

@@ -14,7 +14,6 @@ package org.openlegacy.support;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.SessionFactory;
 import org.openlegacy.WebServicesRegistry;
 import org.openlegacy.annotations.ws.Service;
 import org.openlegacy.annotations.ws.ServiceMethod;
@@ -22,15 +21,14 @@ import org.openlegacy.loaders.WebServicesRegistryLoader;
 import org.openlegacy.loaders.WsClassAnnotationsLoader;
 import org.openlegacy.loaders.WsMethodAnnotationsLoader;
 import org.openlegacy.loaders.WsMethodParamLoader;
-import org.openlegacy.utils.ClassUtils;
-import org.openlegacy.utils.ClassUtils.FindInClassProcessor;
-import org.openlegacy.utils.FieldUtil;
+import org.openlegacy.utils.BeanUtils;
+import org.openlegacy.utils.StringUtil;
 import org.openlegacy.ws.definitions.SimpleWebServiceDefinition;
 import org.openlegacy.ws.definitions.SimpleWebServiceMethodDefinition;
 import org.openlegacy.ws.definitions.SimpleWebServicePoolDefinition;
+import org.openlegacy.ws.definitions.SimpleWebServicePoolInitActionDefinition;
 import org.openlegacy.ws.definitions.WebServicePoolDefinition;
-import org.springframework.beans.PropertyValue;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.openlegacy.ws.definitions.WebServicePoolInitActionDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -40,7 +38,6 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.Assert;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -177,24 +174,9 @@ public class DefaultWebServicesRegistryLoader implements WebServicesRegistryLoad
 			wsDef.getMethods().add(mDef);
 		}
 
-		String poolName = (String)ClassUtils.findInClass(clazz, new FindInClassProcessor() {
-
-			@Override
-			public Object process(Class<?> clazz, Object... args) {
-				for (Field field : clazz.getDeclaredFields()) {
-					if (org.apache.commons.lang.ClassUtils.getAllInterfaces(field.getType()).contains(SessionFactory.class)) {
-						for (Annotation fAnnotation : field.getAnnotations()) {
-							if (Qualifier.class.isInstance(fAnnotation)) {
-								return ((Qualifier)fAnnotation).value();
-							}
-						}
-					}
-
-				}
-				return null;
-			}
-		});
-		wsDef.setPool(getPoolDefinition(poolName));
+		wsDef.setPool(getPoolDefinition(StringUtil.toJavaFieldName(wsDef.getName()) + "Pool"));
+		((SimpleWebServicePoolDefinition)wsDef.getPool()).setInitActionDefinition(getInitActionDefinition(StringUtil.toJavaFieldName(wsDef.getName())
+				+ "InitAction"));
 		registry.getWebServices().add(wsDef);
 	}
 
@@ -224,46 +206,37 @@ public class DefaultWebServicesRegistryLoader implements WebServicesRegistryLoad
 		SimpleWebServicePoolDefinition pDef = new SimpleWebServicePoolDefinition();
 		pDef.setName(beanName);
 		pDef.setPoolClass(beanClass);
+		BeanUtils.fillFromBeanDef(beanDef, beanClass, pDef);
+		return pDef;
+	}
 
-		List<Field> fields = ClassUtils.getDeclaredFields(beanClass);
-		for (Field field : fields) {
-			Method method = ClassUtils.getWriteMethod(field.getName(), pDef.getClass(), field.getType());
-			if (method == null || !ClassUtils.isPublicMethod(method)) {
-				continue;
-			}
+	private WebServicePoolInitActionDefinition getInitActionDefinition(String beanName) {
+		if (beanName == null || beanName.trim().length() == 0) {
+			return null;
+		}
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("Processing %s init action definition", beanName));
+		}
 
-			PropertyValue prop = beanDef.getPropertyValues().getPropertyValue(field.getName());
-			if (prop == null) {
-				continue;
-			}
-
-			Object value = prop.getValue();
-
-			try {
-				if (FieldUtil.isPrimitive(field.getType())) {
-					value = FieldUtil.getPrimitiveClass(field.getType()).getMethod(FieldUtil.VALUE_OF, String.class).invoke(null,
-							value);
-				} else {
-					continue;
-				}
-			} catch (Exception e) {
-				value = null;
-			}
-
-			if (value != null) {
-				try {
-					method.invoke(pDef, value);
-				} catch (Exception e) {
-					if (logger.isDebugEnabled()) {
-						logger.error(String.format("Smt wrong with %s property of %s bean", field.getName(), beanName));
-					}
-				}
-			} else {
-				if (logger.isDebugEnabled()) {
-					logger.error(String.format("Null %s property", field.getName()));
-				}
+		BeanDefinition beanDef = null;
+		try {
+			beanDef = ((DefaultListableBeanFactory)WebServiceAnnotationProcessor.getBeanFactory()).getBeanDefinition(beanName);
+		} catch (Exception e) {
+			if (logger.isDebugEnabled()) {
+				logger.error(String.format("Can`t find %s bean", beanName));
 			}
 		}
-		return pDef;
+		Class<?> beanClass = null;
+		try {
+			beanClass = Class.forName(beanDef.getBeanClassName());
+		} catch (Exception e) {
+			return null;
+		}
+
+		SimpleWebServicePoolInitActionDefinition iaDef = new SimpleWebServicePoolInitActionDefinition();
+		iaDef.setName(beanName);
+		iaDef.setInitActionClass(beanClass);
+		BeanUtils.fillFromBeanDef(beanDef, beanClass, iaDef);
+		return iaDef;
 	}
 }
