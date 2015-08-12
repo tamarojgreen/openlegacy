@@ -11,21 +11,15 @@
 
 package org.openlegacy.ws.definitions;
 
-public interface WebServicePoolDefinition {
+public interface WebServicePoolInitActionDefinition {
 
 	String getName();
 
-	Class<?> getPoolClass();
+	Class<?> getInitActionClass();
 
-	int getMaxConnection();
+	String getUser();
 
-	long getKeepAliveInterval();
+	String getPassword();
 
-	long getReturnSessionsInterval();
-
-	boolean getStopThreads();
-
-	void updatePoolInstance();
-
-	WebServicePoolInitActionDefinition getInitActionDefinition();
+	void updateActionInstance();
 }
