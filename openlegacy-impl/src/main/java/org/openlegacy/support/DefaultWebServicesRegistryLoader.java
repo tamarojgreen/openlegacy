@@ -206,8 +206,10 @@ public class DefaultWebServicesRegistryLoader implements WebServicesRegistryLoad
 			logger.debug(String.format("Processing %s pool definition", beanName));
 		}
 
-		BeanDefinition beanDef = ((DefaultListableBeanFactory)WebServiceAnnotationProcessor.getBeanFactory()).getBeanDefinition(beanName);
-		if (beanDef == null) {
+		BeanDefinition beanDef = null;
+		try {
+			beanDef = ((DefaultListableBeanFactory)WebServiceAnnotationProcessor.getBeanFactory()).getBeanDefinition(beanName);
+		} catch (Exception e) {
 			if (logger.isDebugEnabled()) {
 				logger.error(String.format("Can`t find %s bean", beanName));
 			}
