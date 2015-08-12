@@ -260,7 +260,7 @@ public class DefaultWebServicesRegistryLoader implements WebServicesRegistryLoad
 				}
 			} else {
 				if (logger.isDebugEnabled()) {
-					logger.info(String.format("Null %s property", field.getName()));
+					logger.error(String.format("Null %s property", field.getName()));
 				}
 			}
 		}

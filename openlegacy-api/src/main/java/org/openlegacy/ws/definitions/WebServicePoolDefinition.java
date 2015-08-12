@@ -24,4 +24,6 @@ public interface WebServicePoolDefinition {
 	long getReturnSessionsInterval();
 
 	boolean getStopThreads();
+
+	void updatePoolInstance();
 }

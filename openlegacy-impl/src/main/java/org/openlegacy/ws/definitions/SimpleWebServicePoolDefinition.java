@@ -11,6 +11,13 @@
 
 package org.openlegacy.ws.definitions;
 
+import org.openlegacy.support.AbstractSessionPoolFactory;
+import org.openlegacy.utils.ClassUtils;
+import org.openlegacy.utils.SpringUtil;
+import org.springframework.context.ApplicationContext;
+
+import java.lang.reflect.Field;
+
 public class SimpleWebServicePoolDefinition implements WebServicePoolDefinition {
 
 	String name;
@@ -77,4 +84,19 @@ public class SimpleWebServicePoolDefinition implements WebServicePoolDefinition 
 		this.stopThreads = stopThreads;
 	}
 
+	@Override
+	public void updatePoolInstance() {
+		ApplicationContext applicationContext = SpringUtil.getApplicationContext();
+		if (applicationContext == null) {
+			return;
+		}
+		AbstractSessionPoolFactory instance = (AbstractSessionPoolFactory)applicationContext.getBean(getName());
+		try {
+			for (Field field : getClass().getDeclaredFields()) {
+				ClassUtils.getWriteMethod(field.getName(), instance.getClass(), field.getType()).invoke(instance, field.get(this));
+			}
+		} catch (Exception e) {
+
+		}
+	}
 }
