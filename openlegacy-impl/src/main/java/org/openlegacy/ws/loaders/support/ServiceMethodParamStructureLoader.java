@@ -83,6 +83,6 @@ public class ServiceMethodParamStructureLoader extends AbstractWsMethodParamLoad
 	private boolean hasGetterAndSetter(Field field, Class<?> clazz) {
 		Method getter = ClassUtils.getReadMethod(field.getName(), clazz);
 		Method setter = ClassUtils.getWriteMethod(field.getName(), clazz, field.getType());
-		return (getter != null && ClassUtils.isAbstractMethod(getter)) && (setter != null && ClassUtils.isAbstractMethod(setter));
+		return (getter != null && ClassUtils.isPublicMethod(getter)) && (setter != null && ClassUtils.isPublicMethod(setter));
 	}
 }

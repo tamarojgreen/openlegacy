@@ -11,20 +11,17 @@
 
 package org.openlegacy.ws.definitions;
 
-import java.util.List;
-
-public interface WebServiceDefinition {
+public interface WebServicePoolDefinition {
 
 	String getName();
 
-	List<WebServiceMethodDefinition> getMethods();
+	Class<?> getPoolClass();
 
-	WebServiceMethodDefinition getMethodByName(String name);
+	int getMaxConnection();
 
-	Class<?> getWebServiceClass();
+	long getKeepAliveInterval();
 
-	boolean isRest();
+	long getReturnSessionsInterval();
 
-	WebServicePoolDefinition getPool();
-
+	boolean getStopThreads();
 }

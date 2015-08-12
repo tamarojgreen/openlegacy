@@ -16,7 +16,7 @@ public class FieldUtil {
 			BigDecimal.class, BigInteger.class, String.class, Date.class, Base64Array.class, HexArray.class, Object.class };
 
 	protected static final int primitiveTypesEndOffset = 7;
-	protected static final String VALUE_OF = "valueOf";
+	public static final String VALUE_OF = "valueOf";
 	protected static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 	private static final int MAX_ENTRY_VALUE = 999999999;
 	private static final int MIN_ENTRY_VALUE = -999999998;
@@ -55,7 +55,7 @@ public class FieldUtil {
 		return clazz == null ? false : getPrimitiveClass(clazz) != null;
 	}
 
-	protected static Class<?> getPrimitiveClass(Class<?> clazz) {
+	public static Class<?> getPrimitiveClass(Class<?> clazz) {
 		for (int i = 1; i < primitiveTypes.length - primitiveTypesEndOffset; i += 2) {
 			if (clazz == primitiveTypes[i]) {
 				return primitiveTypes[i - 1];
