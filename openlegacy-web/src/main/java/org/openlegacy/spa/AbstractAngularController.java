@@ -29,15 +29,15 @@ import javax.servlet.http.HttpServletResponse;
 
 public abstract class AbstractAngularController {
 
-	protected static final String HTML_VIEW_PATH = "app/views/{0}.html";
+	protected static final String HTML_VIEW_PATH = "/app/views/{0}.html";
 
-	private static final String CONTROLLER_JS_PATH = "app/js/app/controllers.js";
+	private static final String CONTROLLER_JS_PATH = "/app/js/app/controllers.js";
 
-	private static final String ENTITY_CONTROLLER_JS_PATH = "app/js/app/{0}.js";
+	private static final String ENTITY_CONTROLLER_JS_PATH = "/app/js/app/{0}.js";
 
-	private static final String APP_JS_PATH = "app/js/app/app.js";
+	private static final String APP_JS_PATH = "/app/js/app/app.js";
 
-	private static final String GENERIC_HTML_TEMPLATE = "app/views/generic.html.template";
+	private static final String GENERIC_HTML_TEMPLATE = "/app/views/generic.html.template";
 
 	@Inject
 	private ServletContext servletContext;

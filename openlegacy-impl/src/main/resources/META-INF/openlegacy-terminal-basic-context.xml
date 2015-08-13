@@ -4,9 +4,9 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 
  	<bean class="org.openlegacy.terminal.support.ScreenAnnotationProccesor">
 	    <property name="loadersPackages">
@@ -141,9 +141,14 @@
 		class="org.openlegacy.terminal.mock.MockStateMachineTerminalConnectionFactory"
 		p:verifySend="true" p:exactCursor="false" p:exactFields="false" p:exactCommand="true" />
 	
+	<beans profile="default">
 		<!-- Providers may override the default beans -->
-	<import resource="classpath*:/META-INF/*-openlegacy-terminal-provider.xml" /> 
-
-	<context:annotation-config />
+		<import resource="classpath*:/META-INF/*-openlegacy-terminal-provider.xml" /> 
+		<context:annotation-config />
+	</beans>
+	
+	<beans profile="omitProvidersImport">
+		<context:annotation-config />
+	</beans>
 
 </beans>
