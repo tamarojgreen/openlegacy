@@ -58,12 +58,12 @@
 			<artifactId>jaxb-impl</artifactId>
 			<version>2.2.7</version>
 		</dependency>
-		<dependency>
-			<groupId>xstream</groupId>
-			<artifactId>xstream</artifactId>
-			<version>1.2.2</version>
-			<scope>provided</scope>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>xstream</groupId> -->
+<!-- 			<artifactId>xstream</artifactId> -->
+<!-- 			<version>1.2.2</version> -->
+<!-- 			<scope>provided</scope> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>com.ibm.icu</groupId>
 			<artifactId>icu4j</artifactId>
@@ -81,6 +81,12 @@
 			<version>4.3.8.Final</version>
 			<scope>provided</scope>
 			<classifier />
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.7</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

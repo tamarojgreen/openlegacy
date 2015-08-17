@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.openlegacy.utils;
 
+import com.thoughtworks.xstream.XStream;
+
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang.ObjectUtils;
 import org.springframework.beans.DirectFieldAccessor;
 
@@ -137,5 +140,27 @@ public class XmlSerializationUtil {
 			}
 			return true;
 		}
+	}
+
+	public static String xStreamSerialize(Object... objs) {
+		XStream xStream = new XStream();
+		if (objs.length > 1) {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			for (Object obj : objs) {
+				xStream.toXML(obj, baos);
+			}
+			String result = baos.toString();
+			try {
+				baos.close();
+			} catch (Exception e) {
+			}
+			return result;
+		} else {
+			return xStream.toXML(objs[0]);
+		}
+	}
+
+	public static Object xStreamDeserialize(String obj) {
+		return new XStream().fromXML(obj);
 	}
 }

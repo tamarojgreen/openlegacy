@@ -45,7 +45,7 @@ public class BeanUtils {
 			}
 			try {
 				if (FieldUtil.isPrimitive(field.getType())) {
-					if (!(value instanceof String)) {
+					if (!(field.getType() == String.class)) {
 						value = FieldUtil.getPrimitiveClass(field.getType()).getMethod(FieldUtil.VALUE_OF, String.class).invoke(
 								null, value);
 					}

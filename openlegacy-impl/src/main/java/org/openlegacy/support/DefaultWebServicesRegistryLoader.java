@@ -175,8 +175,11 @@ public class DefaultWebServicesRegistryLoader implements WebServicesRegistryLoad
 		}
 
 		wsDef.setPool(getPoolDefinition(StringUtil.toJavaFieldName(wsDef.getName()) + "Pool"));
-		((SimpleWebServicePoolDefinition)wsDef.getPool()).setInitActionDefinition(getInitActionDefinition(StringUtil.toJavaFieldName(wsDef.getName())
-				+ "InitAction"));
+		if (wsDef.getPool() != null) {
+			((SimpleWebServicePoolDefinition)wsDef.getPool()).setInitActionDefinition(getInitActionDefinition(StringUtil.toJavaFieldName(wsDef.getName())
+					+ "InitAction"));
+		}
+
 		registry.getWebServices().add(wsDef);
 	}
 

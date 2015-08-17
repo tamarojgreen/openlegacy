@@ -10,13 +10,18 @@
  *******************************************************************************/
 package org.openlegacy.utils;
 
+import org.apache.commons.io.output.ByteArrayOutputStream;
+
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Enumeration;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -59,5 +64,42 @@ public class ZipUtil {
 
 		in.close();
 		out.close();
+	}
+
+	public static byte[] compress(byte[] data) {
+		byte[] result = null;
+		if (data == null) {
+			return result;
+		}
+		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			GZIPOutputStream zip = new GZIPOutputStream(baos);
+			zip.write(data);
+			zip.close();
+			result = baos.toByteArray();
+			baos.close();
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public static byte[] decompress(byte[] data, int size) {
+		byte[] result = null;
+		if (data == null || size == 0) {
+			return null;
+		}
+		try {
+			ByteArrayInputStream bais = new ByteArrayInputStream(data);
+			GZIPInputStream zip = new GZIPInputStream(bais);
+			result = new byte[size];
+			zip.read(result);
+			bais.close();
+			zip.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }
