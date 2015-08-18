@@ -12,15 +12,20 @@
 package org.openlegacy.modules;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.openlegacy.ApplicationConnection;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.RemoteAction;
+import org.openlegacy.Session;
+import org.openlegacy.SessionAction;
 import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.login.User;
 import org.openlegacy.modules.roles.Roles;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
-import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.support.SessionModuleAdapter;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.beans.DirectFieldAccessor;
@@ -34,7 +39,9 @@ import javax.inject.Inject;
 /**
  * @author Ivan Bort
  */
-public class DefaultRolesModule implements Roles {
+public class DefaultRolesModule extends SessionModuleAdapter<Session> implements Roles {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private EntitiesRegistry<?, ?, ?> entitiesRegistry;
@@ -42,10 +49,37 @@ public class DefaultRolesModule implements Roles {
 	@Override
 	public void destroy() {}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	public boolean isActionPermitted(ScreenEntity entity) {
+	public void beforeAction(ApplicationConnection<?, ?> cconnection, RemoteAction action) {
 		// TODO Auto-generated method stub
-		return false;
+		super.beforeAction(cconnection, action);
+	}
+
+	@Override
+	public boolean isActionPermitted(SessionAction<?> action, Object entity, User loggedInUser) {
+		if (loggedInUser == null || entity == null) {
+			return true;
+		}
+		// find action definition
+		ActionDefinition actionDefinition = null;
+		EntityDefinition<?> entityDefinition = entitiesRegistry.get(entity.getClass());
+		List<ActionDefinition> actions = entityDefinition.getActions();
+		for (ActionDefinition actionDef : actions) {
+			if (action.equals(actionDef.getAction())) {
+				actionDefinition = actionDef;
+				break;
+			}
+		}
+		if (actionDefinition != null) {
+			if (actionDefinition.isRolesRequired()) {
+				List<String> actionRoles = actionDefinition.getRoles();
+				String userRole = (String) loggedInUser.getProperties().get(Login.USER_ROLE_PROPERTY);
+				String[] userRoles = userRole.split(",");
+				return CollectionUtils.containsAny(actionRoles, Arrays.asList(userRoles));
+			}
+		}
+		return true;
 	}
 
 	@Override
@@ -79,10 +113,6 @@ public class DefaultRolesModule implements Roles {
 						try {
 							DirectFieldAccessor directFieldAccessor = new DirectFieldAccessor(entity);
 							directFieldAccessor.setPropertyValue(StringUtil.removeNamespace(fieldName), null);
-							//							Field field = entity.getClass().getField(fieldName);
-							//							field.setAccessible(true);
-							//							Object instance = field.getType().newInstance();
-							//							field.set(entity, instance);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

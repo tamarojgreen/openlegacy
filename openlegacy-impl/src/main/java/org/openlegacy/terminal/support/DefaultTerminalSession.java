@@ -42,6 +42,7 @@ import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
+import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.openlegacy.terminal.modules.table.TerminalDrilldownActions.SimpleDrilldownAction;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.services.ScreensRecognizer;
@@ -269,6 +270,16 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		// verify screens are synch
 		if (screenEntity != null) {
 			getEntity(screenEntity.getClass());
+		}
+
+		Roles rolesModule = getModule(Roles.class);
+		if (rolesModule != null) {
+			Login loginModule = getModule(Login.class);
+			User loggedInUser = loginModule.getLoggedInUser();
+			if (!rolesModule.isActionPermitted(terminalAction, screenEntity, loggedInUser)) {
+				throw new TerminalActionException(MessageFormat.format("Logged in user {0} has no permission for action {1}",
+						loggedInUser.getUserName(), terminalAction.getClass().getSimpleName()));
+			}
 		}
 
 		if (terminalAction instanceof SimpleDrilldownAction) {
