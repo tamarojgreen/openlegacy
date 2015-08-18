@@ -16,19 +16,25 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.definitions.FieldDefinition;
+import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.roles.Roles;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.utils.StringUtil;
+import org.springframework.beans.DirectFieldAccessor;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import javax.inject.Inject;
 
 /**
  * @author Ivan Bort
  */
-public class RolesModule implements Roles {
+public class DefaultRolesModule implements Roles {
 
 	@Inject
 	private EntitiesRegistry<?, ?, ?> entitiesRegistry;
@@ -52,6 +58,39 @@ public class RolesModule implements Roles {
 	public boolean isEntityPermitted(String entityName, String[] userRoles) {
 		EntityDefinition<?> entityDefinition = entitiesRegistry.get(entityName);
 		return isEntityPermitted(entityDefinition, userRoles);
+	}
+
+	@Override
+	public void populateEntity(Object entity, Login loginModule) {
+		if (loginModule == null) {
+			return;
+		}
+		String userRole = (String) loginModule.getLoggedInUser().getProperties().get(Login.USER_ROLE_PROPERTY);
+		if (userRole != null) {
+			String[] userRoles = userRole.split(",");
+			EntityDefinition<?> entityDefinition = entitiesRegistry.get(entity.getClass());
+			Collection<?> fieldDefinitions = (Collection<?>) entityDefinition.getFieldsDefinitions().values();
+			for (Object definition : fieldDefinitions) {
+				FieldDefinition fieldDefinition = (FieldDefinition) definition;
+				List<String> fieldDefinitionRoles = fieldDefinition.getRoles();
+				if (fieldDefinitionRoles != null && !fieldDefinitionRoles.isEmpty()) {
+					if (!CollectionUtils.containsAny(fieldDefinitionRoles, Arrays.asList(userRoles))) {
+						String fieldName = fieldDefinition.getName();
+						try {
+							DirectFieldAccessor directFieldAccessor = new DirectFieldAccessor(entity);
+							directFieldAccessor.setPropertyValue(StringUtil.removeNamespace(fieldName), null);
+							//							Field field = entity.getClass().getField(fieldName);
+							//							field.setAccessible(true);
+							//							Object instance = field.getType().newInstance();
+							//							field.set(entity, instance);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}
+
+			}
+		}
 	}
 
 	private boolean isEntityPermitted(EntityDefinition<?> entityDefinition, String[] userRoles) {

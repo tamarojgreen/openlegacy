@@ -72,7 +72,7 @@ public class ScreenEntityFieldsBinder implements ScreenEntityBinder, Serializabl
 
 		Assert.isTrue(entity instanceof ScreenEntity, "screen entity must implement ScreenEntity interface");
 
-		ScreenEntity screenEntity = (ScreenEntity)entity;
+		ScreenEntity screenEntity = (ScreenEntity) entity;
 
 		Collection<ScreenFieldDefinition> fieldMappingsDefinitions = fieldMappingsProvider.getFieldsMappingDefinitions(
 				terminalSnapshot, screenEntity.getClass());

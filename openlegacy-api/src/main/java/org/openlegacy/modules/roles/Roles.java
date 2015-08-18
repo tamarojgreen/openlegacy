@@ -12,6 +12,7 @@
 package org.openlegacy.modules.roles;
 
 import org.openlegacy.modules.SessionModule;
+import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.ScreenEntity;
 
 /**
@@ -24,4 +25,6 @@ public interface Roles extends SessionModule {
 	public boolean isEntityPermitted(String entityName, String[] userRoles);
 
 	public boolean isActionPermitted(ScreenEntity entity);
+
+	public void populateEntity(Object entity, Login loginModule);
 }

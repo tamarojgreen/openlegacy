@@ -10,11 +10,8 @@ import org.springframework.util.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 public class DefaultAuthorizationService implements AuthorizationService {
 
-	@Inject
 	private Roles rolesModule;
 
 	private boolean allowNullUser = true;
@@ -113,6 +110,11 @@ public class DefaultAuthorizationService implements AuthorizationService {
 
 	public void setAllowNullUser(boolean allowNullUser) {
 		this.allowNullUser = allowNullUser;
+	}
+
+	/* Will be set by Spring configuration */
+	public void setRolesModule(Roles rolesModule) {
+		this.rolesModule = rolesModule;
 	}
 
 }

@@ -290,6 +290,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.invalidMessage = invalidMessage;
 	}
 
+	@Override
 	public List<String> getRoles() {
 		return roles;
 	}
