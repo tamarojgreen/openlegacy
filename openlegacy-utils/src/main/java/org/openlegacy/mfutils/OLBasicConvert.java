@@ -1,6 +1,5 @@
 package org.openlegacy.mfutils;
 
-import org.junit.Assert;
 
 public class OLBasicConvert {
 
@@ -28,7 +27,7 @@ public class OLBasicConvert {
 				result = "Char";
 				break;
 			default:
-				Assert.assertTrue(true);
+				// Assert.assertTrue(true);
 		}
 		return result;
 	}
