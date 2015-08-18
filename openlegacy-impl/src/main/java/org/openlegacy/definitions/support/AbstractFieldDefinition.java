@@ -260,6 +260,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.staticField = staticField;
 	}
 
+	@Override
 	public List<String> getRoles() {
 		return roles;
 	}

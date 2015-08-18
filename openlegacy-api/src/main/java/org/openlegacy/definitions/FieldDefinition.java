@@ -12,6 +12,8 @@ package org.openlegacy.definitions;
 
 import org.openlegacy.FieldType;
 
+import java.util.List;
+
 /**
  * Defines a mapping between a screenEntity java field name and it's screen position and length
  * 
@@ -74,4 +76,5 @@ public interface FieldDefinition extends Comparable<FieldDefinition> {
 
 	String getExpression();
 
+	List<String> getRoles();
 }
