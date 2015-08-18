@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.utils;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import java.io.BufferedOutputStream;
@@ -85,16 +86,15 @@ public class ZipUtil {
 		return result;
 	}
 
-	public static byte[] decompress(byte[] data, int size) {
+	public static byte[] decompress(byte[] data) {
 		byte[] result = null;
-		if (data == null || size == 0) {
+		if (data == null) {
 			return null;
 		}
 		try {
 			ByteArrayInputStream bais = new ByteArrayInputStream(data);
 			GZIPInputStream zip = new GZIPInputStream(bais);
-			result = new byte[size];
-			zip.read(result);
+			result = IOUtils.toByteArray(zip);
 			bais.close();
 			zip.close();
 		} catch (Exception e) {
