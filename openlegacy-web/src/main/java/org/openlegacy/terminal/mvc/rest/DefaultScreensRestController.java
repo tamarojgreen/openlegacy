@@ -14,11 +14,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
-import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.EntityType;
-import org.openlegacy.Session;
-import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.TableDefinition;
 import org.openlegacy.modules.globals.Globals;
 import org.openlegacy.modules.login.LoginException;
@@ -26,21 +23,15 @@ import org.openlegacy.modules.menu.Menu.MenuEntity;
 import org.openlegacy.modules.messages.Messages;
 import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.modules.table.TableWriter;
-import org.openlegacy.mvc.AbstractRestController;
 import org.openlegacy.support.SimpleEntityWrapper;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSendActionBuilder;
-import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
-import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
-import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.binders.MultyScreenTableBindUtil;
-import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,21 +62,12 @@ import javax.servlet.http.HttpServletResponse;
  * 
  */
 @Controller
-public class DefaultScreensRestController extends AbstractRestController {
+public class DefaultScreensRestController extends AbstractScreensRestController {
 
 	private static final String JSON = "application/json";
 	private static final String XML = "application/xml";
 
 	private final static Log logger = LogFactory.getLog(DefaultScreensRestController.class);
-
-	@Inject
-	private TerminalSession terminalSession;
-
-	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
-
-	@Inject
-	private ScreenEntityUtils screenEntityUtils;
 
 	@Inject
 	private MultyScreenTableBindUtil multyScreenTableBindUtil;
@@ -128,7 +110,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 			SimpleEntityWrapper wrapper = new SimpleEntityWrapper(null, null, null, false);
 			return new ModelAndView(MODEL, MODEL, wrapper);
 		}
-		return multyScreenTableBindUtil.bindCollectTable(terminalSession, entity);
+		return multyScreenTableBindUtil.bindCollectTable(getSession(), entity);
 	}
 
 	@Override
@@ -207,7 +189,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 			return super.postEntityJson(entityName, "next", children, json, response);
 		}
 		preSendJsonEntity(entityName, null, json, response);
-		ScreenEntity entity = terminalSession.getEntity();
+		ScreenEntity entity = getSession().getEntity();
 
 		Object resultEntity = sendEntity(entity, "next");
 
@@ -252,23 +234,23 @@ public class DefaultScreensRestController extends AbstractRestController {
 			return null;
 		}
 
-		ScreenEntity screenEntity = terminalSession.getEntity();
+		ScreenEntity screenEntity = getSession().getEntity();
 		return getEntityInner(screenEntity, false);
 
 	}
 
 	@RequestMapping(value = "/current", method = RequestMethod.GET, consumes = { JSON, XML })
 	public ModelAndView getCurrent(HttpServletResponse response) throws IOException {
-		if (terminalSession.getEntity() == null) {
+		if (getSession().getEntity() == null) {
 			return null;
 		}
-		return getEntityRequest(ProxyUtil.getTargetObject(terminalSession.getEntity()).getClass().getSimpleName(), null, false,
+		return getEntityRequest(ProxyUtil.getTargetObject(getSession().getEntity()).getClass().getSimpleName(), null, false,
 				response);
 	}
 
 	@RequestMapping(value = "/sequence", method = RequestMethod.GET, consumes = { JSON, XML })
 	public Object getSequence(HttpServletResponse response) throws IOException {
-		return terminalSession.getSequence();
+		return getSession().getSequence();
 	}
 
 	@Override
@@ -289,9 +271,9 @@ public class DefaultScreensRestController extends AbstractRestController {
 	public Object loginPostJson(@RequestBody String json, HttpServletResponse response) throws IOException {
 		super.loginPostJson(json, response);
 
-		ScreenEntity entity = terminalSession.getEntity();
+		ScreenEntity entity = getSession().getEntity();
 		if (entity != null) {
-			ScreenEntityDefinition entityDefinition = screenEntitiesRegistry.get(entity.getClass());
+			ScreenEntityDefinition entityDefinition = getEntitiesRegistry().get(entity.getClass());
 			Class<? extends EntityType> screenType = entityDefinition.getType();
 
 			if (!screenType.getSimpleName().equals(MenuEntity.class.getSimpleName())) {
@@ -320,10 +302,10 @@ public class DefaultScreensRestController extends AbstractRestController {
 			logger.warn("emulation for REST controller not enabled");
 			return null;
 		}
-		TerminalSendAction action = sendActionBuilder.buildSendAction(terminalSession.getSnapshot(), request);
+		TerminalSendAction action = sendActionBuilder.buildSendAction(getSession().getSnapshot(), request);
 
-		terminalSession.doAction(action);
-		ScreenEntity entity = terminalSession.getEntity();
+		getSession().doAction(action);
+		ScreenEntity entity = getSession().getEntity();
 		Navigation navigationModule = getSession().getModule(Navigation.class);
 		boolean isWindow = entity != null ? getEntitiesRegistry().get(entity.getClass()).isWindow() : false;
 
@@ -336,7 +318,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@RequestMapping(value = "/messages", consumes = { JSON, XML })
 	public ModelAndView messages() throws IOException {
 
-		Messages messagesModule = terminalSession.getModule(Messages.class);
+		Messages messagesModule = getSession().getModule(Messages.class);
 		List<String> messages = messagesModule.getMessages();
 		if (messages.size() > 0) {
 			ModelAndView modelAndView = new ModelAndView(MODEL, MODEL, new ArrayList<String>(messages));
@@ -350,7 +332,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@RequestMapping(value = "/globals", consumes = { JSON, XML })
 	public ModelAndView globals() throws IOException {
 
-		Globals globalsModule = terminalSession.getModule(Globals.class);
+		Globals globalsModule = getSession().getModule(Globals.class);
 		Map<String, Object> globals = globalsModule.getGlobals();
 		if (globals.size() > 0) {
 			ModelAndView modelAndView = new ModelAndView(MODEL, MODEL, globals);
@@ -387,28 +369,6 @@ public class DefaultScreensRestController extends AbstractRestController {
 	public void getImage(HttpServletResponse response, @RequestParam(value = "filename", required = true) String filename)
 			throws IOException {
 		super.getImage(response, filename);
-	}
-
-	@Override
-	protected Session getSession() {
-		return terminalSession;
-	}
-
-	@Override
-	protected EntitiesRegistry<?, ?, ?> getEntitiesRegistry() {
-		return screenEntitiesRegistry;
-	}
-
-	@Override
-	protected Object sendEntity(Object entity, String action) {
-		TerminalActionDefinition actionDefinition = screenEntityUtils.findAction((ScreenEntity) entity, action);
-		return terminalSession.doAction((TerminalAction) actionDefinition.getAction(), (ScreenEntity) entity);
-	}
-
-	@Override
-	protected List<ActionDefinition> getActions(Object entity) {
-		// actions for screen exists on the entity. No need to fetch from registry
-		return null;
 	}
 
 	public void setEnableEmulation(boolean enableEmulation) {
