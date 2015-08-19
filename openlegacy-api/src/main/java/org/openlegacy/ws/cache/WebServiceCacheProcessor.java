@@ -13,7 +13,7 @@ package org.openlegacy.ws.cache;
 
 import org.openlegacy.ws.definitions.WebServiceMethodDefinition;
 
-public interface WebServiceCache {
+public interface WebServiceCacheProcessor {
 
 	public void put(String key, Object obj, WebServiceMethodDefinition methodDefinition);
 
