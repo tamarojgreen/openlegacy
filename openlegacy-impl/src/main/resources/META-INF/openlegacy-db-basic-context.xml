@@ -10,10 +10,14 @@
 
 	<import resource="classpath:/META-INF/openlegacy-common-basic-context.xml" />
 
+	<!-- cache -->
+	<import resource="classpath:/META-INF/openlegacy-basic-cacheable-context.xml" />
+
 	<bean class="org.openlegacy.db.support.DbAnnotationProccesor">
 		<property name="loadersPackages">
 			<list>
 				<value>org.openlegacy.db.loaders.support</value>
+				<value>org.openlegacy.cache.loaders</value>
 			</list>
 		</property>
 	</bean>
@@ -29,6 +33,7 @@
 						<bean class="org.openlegacy.db.modules.menu.DefaultDbMenuModule" />
 						<bean class="org.openlegacy.db.modules.login.DefaultDbLoginModule" />
 						<bean class="org.openlegacy.modules.DefaultRolesModule"/>
+						<bean class="org.openlegacy.cache.modules.CacheModule" />
 					</list>
 				</property>
 			</bean>

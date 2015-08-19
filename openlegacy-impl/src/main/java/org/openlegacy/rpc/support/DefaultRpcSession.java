@@ -17,6 +17,8 @@ import org.openlegacy.ApplicationConnection;
 import org.openlegacy.ApplicationConnectionListener;
 import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.authorization.AuthorizationService;
+import org.openlegacy.cache.modules.CacheModule;
+import org.openlegacy.cache.modules.CacheModule.ObtainEntityCallback;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.exceptions.EntityNotAccessibleException;
@@ -169,9 +171,8 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		Assert.notNull(rpcConnection, "RPC connection bean has not been found");
 	}
 
-	@Override
 	@SuppressWarnings("unchecked")
-	public RpcEntity doAction(RpcAction action, RpcEntity rpcEntity) {
+	public RpcEntity doRpcAction(RpcAction action, RpcEntity rpcEntity) {
 
 		Roles rolesModule = getModule(Roles.class);
 		if (rolesModule != null) {
@@ -203,6 +204,40 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		}
 		return rpcEntity;
 
+	}
+
+	@Override
+	public RpcEntity doAction(final RpcAction action, final RpcEntity rpcEntity) {
+		CacheModule cacheModule = getModule(CacheModule.class);
+
+		if (cacheModule != null) {
+			return (RpcEntity) cacheModule.doStuff(action.getClass(), rpcEntity.getClass(), new ObtainEntityCallback() {
+
+				@Override
+				public Object obtainEntity() {
+					return doRpcAction(action, rpcEntity);
+				}
+
+				@Override
+				public List<Object> getEntityKeys() {
+
+					Class<? extends RpcEntity> entityClass = rpcEntity.getClass();
+
+					RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(entityClass);
+					List<? extends FieldDefinition> keysDefinitions = rpcDefinition.getKeys();
+
+					List<Object> entityKeys = new ArrayList<Object>();
+					HierarchyRpcPojoFieldAccessor fieldAccesor = new SimpleHierarchyRpcPojoFieldAccessor(rpcEntity);
+					for (FieldDefinition fieldDefinition : keysDefinitions) {
+						RpcPojoFieldAccessor f = fieldAccesor.getPartAccessor(fieldDefinition.getName());
+						entityKeys.add(f.getFieldValue(StringUtil.removeNamespace(fieldDefinition.getName())));
+					}
+					return entityKeys;
+				}
+			});
+		} else {
+			return doRpcAction(action, rpcEntity);
+		}
 	}
 
 	final protected RpcResult invoke(SimpleRpcInvokeAction rpcAction, String entityName) {
@@ -253,7 +288,8 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	}
 
-	final protected void populateRpcFields(RpcEntity rpcEntity, RpcEntityDefinition rpcEntityDefinition, RpcInvokeAction rpcAction) {
+	final protected void populateRpcFields(RpcEntity rpcEntity, RpcEntityDefinition rpcEntityDefinition,
+			RpcInvokeAction rpcAction) {
 		for (RpcEntityBinder rpcEntityBinder : rpcEntityBinders) {
 			rpcEntityBinder.populateAction(rpcAction, rpcEntity);
 		}

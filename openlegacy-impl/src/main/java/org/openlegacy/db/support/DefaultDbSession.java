@@ -14,6 +14,8 @@ package org.openlegacy.db.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.ApplicationConnection;
+import org.openlegacy.cache.modules.CacheModule;
+import org.openlegacy.cache.modules.CacheModule.ObtainEntityCallback;
 import org.openlegacy.SessionPropertiesProvider;
 import org.openlegacy.authorization.AuthorizationService;
 import org.openlegacy.db.DbSession;
@@ -36,6 +38,9 @@ import org.openlegacy.support.AbstractSession;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.StringUtil;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.text.MessageFormat;
 
 import javax.inject.Inject;
@@ -110,8 +115,7 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 		return entityManager;
 	}
 
-	@Override
-	public Object doAction(DbAction action, Object dbEntity, Object... keys) {
+	public Object doDbAction(DbAction action, Object dbEntity, Object... keys) {
 		Roles rolesModule = getModule(Roles.class);
 		if (rolesModule != null) {
 			Login loginModule = getModule(Login.class);
@@ -155,5 +159,28 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 					loggedInUser.getUserName(), entityClass.getName())));
 		}
 	}
+
+	@Override
+	public Object doAction(final DbAction action, final Object dbEntity, final Object... keys) {
+		CacheModule cacheModule = getModule(CacheModule.class);
+
+		if (cacheModule != null) {
+			return cacheModule.doStuff(action.getClass(), dbEntity.getClass(), new ObtainEntityCallback() {
+
+				@Override
+				public Object obtainEntity() {
+					return doDbAction(action, dbEntity, keys);
+				}
+
+				@Override
+				public List<Object> getEntityKeys() {
+					return new ArrayList<Object>(Arrays.asList(keys));
+				}
+			});
+		} else {
+			return doDbAction(action, dbEntity, keys);
+		}
+	}
+
 
 }

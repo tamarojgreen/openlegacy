@@ -9,11 +9,15 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
 	<import resource="classpath:/META-INF/openlegacy-common-basic-context.xml" />
+	
+	<!-- cache -->
+    <import resource="classpath:/META-INF/openlegacy-basic-cacheable-context.xml" />
 
 	<bean class="org.openlegacy.rpc.support.RpcAnnotationProccesor">
 		<property name="loadersPackages">
 			<list>
 				<value>org.openlegacy.rpc.loaders.support</value>
+				<value>org.openlegacy.cache.loaders</value>
 			</list>
 		</property>
 	</bean>
@@ -47,6 +51,7 @@
 						<bean class="org.openlegacy.rpc.modules.menu.DefaultRpcMenuModule" />
 						<bean class="org.openlegacy.rpc.modules.login.DefaultRpcLoginModule" />
 						<bean class="org.openlegacy.modules.DefaultRolesModule"/>
+						<bean class="org.openlegacy.cache.modules.CacheModule" />
 					</list>
 				</property>
 			</bean>

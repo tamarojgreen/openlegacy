@@ -15,7 +15,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.ApplicationConnectionListener;
 import org.openlegacy.OpenLegacyProperties;
+import org.openlegacy.SessionAction;
 import org.openlegacy.authorization.AuthorizationService;
+import org.openlegacy.cache.modules.CacheModule;
+import org.openlegacy.cache.modules.CacheModule.ObtainEntityCallback;
 import org.openlegacy.exceptions.EntityNotAccessibleException;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
@@ -38,6 +41,7 @@ import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSessionPropertiesConsts;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.actions.CombinedTerminalAction;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
@@ -58,6 +62,8 @@ import org.springframework.context.ApplicationContext;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -124,9 +130,23 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	private TerminalSnapshot snapshot;
 
-	@Override
+	Class<? extends SessionAction<?>> actionClass = null;
+
+	private static Class<? extends TerminalAction> getActionClassFromAction(TerminalAction terminalAction) {
+		Class<? extends TerminalAction> clazz = terminalAction.getClass();
+		if (terminalAction instanceof SimpleDrilldownAction) {
+			clazz = ((SimpleDrilldownAction) terminalAction).getAction().getClass();
+		} else if (terminalAction instanceof CombinedTerminalAction) {
+			clazz = ((CombinedTerminalAction) terminalAction).getTerminalAction();
+		}
+
+		logger.debug("getActionClassFromAction: " + terminalAction.getClass().getName() + " => " + clazz.getName());
+
+		return clazz;
+	}
+
 	@SuppressWarnings("unchecked")
-	public synchronized <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
+	public synchronized <S> S getTerminalEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
 		if (!StringUtil.isEmpty(screenEntitiesRegistry.getErrorMessage())) {
 			throw new OpenLegacyRuntimeException(screenEntitiesRegistry.getErrorMessage());
 		}
@@ -150,6 +170,35 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		}
 		sessionNavigator.navigate(this, screenEntityClass, keys);
 		return (S) getEntity();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public synchronized <S> S getEntity(final Class<S> screenEntityClass, final Object... keys)
+			throws EntityNotFoundException {
+		S entity = null;
+
+		CacheModule cacheModule = getModule(CacheModule.class);
+
+		if (cacheModule != null) {
+			entity = (S) cacheModule.doStuff(actionClass, screenEntityClass, new ObtainEntityCallback() {
+
+				@Override
+				public Object obtainEntity() {
+					return getTerminalEntity(screenEntityClass, keys);
+				}
+
+				@Override
+				public List<Object> getEntityKeys() {
+					return new ArrayList<Object>(Arrays.asList(keys));
+				}
+			}, true);
+		} else {
+			entity = getTerminalEntity(screenEntityClass, keys);
+		}
+		actionClass = null;
+
+		return entity;
 	}
 
 	private <S> void authorize(Class<S> screenEntityClass) {
@@ -246,12 +295,14 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	@Override
 	@SuppressWarnings("unchecked")
 	public synchronized <R extends ScreenEntity> R doAction(TerminalAction action, WaitCondition... waitConditions) {
+		actionClass = getActionClassFromAction(action);
 		return (R) doAction(action, null, waitConditions);
 	}
 
 	@Override
 	public synchronized <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction,
 			S screenEntity, Class<R> expectedEntity) {
+		actionClass = getActionClassFromAction(terminalAction);
 		try {
 			@SuppressWarnings("unchecked")
 			R object = (R) doAction(terminalAction, screenEntity);
@@ -266,6 +317,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	@SuppressWarnings("unchecked")
 	public synchronized <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction,
 			S screenEntity, WaitCondition... waitConditions) {
+		actionClass = getActionClassFromAction(terminalAction);
 
 		// verify screens are synch
 		if (screenEntity != null) {
