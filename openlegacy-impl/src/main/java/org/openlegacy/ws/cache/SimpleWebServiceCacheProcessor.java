@@ -33,9 +33,9 @@ import java.util.concurrent.Semaphore;
 import javax.inject.Inject;
 import javax.xml.bind.DatatypeConverter;
 
-public class SimpleWebServiceCache implements WebServiceCache, MethodInterceptor {
+public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor, MethodInterceptor {
 
-	private static final Log logger = LogFactory.getLog(SimpleWebServiceCache.class);
+	private static final Log logger = LogFactory.getLog(SimpleWebServiceCacheProcessor.class);
 
 	public static final int OPERATION_ADD = 1;
 	public static final int OPERATION_REMOVE = 2;
@@ -110,7 +110,7 @@ public class SimpleWebServiceCache implements WebServiceCache, MethodInterceptor
 		}
 	};
 
-	public SimpleWebServiceCache(boolean preProcessCacheObject) {
+	public SimpleWebServiceCacheProcessor(boolean preProcessCacheObject) {
 		this.preProcessCacheObject = preProcessCacheObject;
 		try {
 			messageDigest = MessageDigest.getInstance("MD5");

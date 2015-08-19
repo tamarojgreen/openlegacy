@@ -99,7 +99,7 @@
 		
 	<bean id = "wsCacheEngine" class = "org.openlegacy.ws.cache.engines.SimpleWebServiceCacheEngine"/>
 		
-	<bean id = "wsCache" class = "org.openlegacy.ws.cache.SimpleWebServiceCache" destroy-method="destroy">
+	<bean id = "wsCache" class = "org.openlegacy.ws.cache.SimpleWebServiceCacheProcessor" destroy-method="destroy">
 		<constructor-arg index="0" value="true"/>		
 		<property name="engine" ref="wsCacheEngine"/>
 	</bean>
