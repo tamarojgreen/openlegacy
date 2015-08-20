@@ -2,10 +2,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"	
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 		
-	<context:component-scan base-package="org.openlegacy.ws.loaders.support"></context:component-scan>
+	<context:component-scan base-package="org.openlegacy.ws.loaders.support"></context:component-scan>	
 	
  	<bean class="org.openlegacy.support.WebServiceAnnotationProcessor">
 	    <property name="loadersPackages">
@@ -17,7 +19,7 @@
 	        
  	
  	<bean id="wsRegistryLoader" class="org.openlegacy.support.DefaultWebServicesRegistryLoader">
- 		<property name="serviceContext" value="org.openlegacy.ws.ItemDetailsServiceImpl"></property>
+ 		<property name="serviceContext" value="org.openlegacy.ws.WebService"></property>
  	</bean>
  	
  	<bean id="wsRegisrty" class="org.openlegacy.support.SimpleWebServicesRegistry">
@@ -27,6 +29,38 @@
  			</list>
  		</property>
  	</bean>
+ 	
+ 	<bean id = "wsCacheEngine" class = "org.openlegacy.ws.cache.engines.SimpleWebServiceCacheEngine"/>
+		
+	<bean id = "wsCache" class = "org.openlegacy.ws.cache.SimpleWebServiceCacheProcessor" destroy-method="destroy">
+		<constructor-arg index="0" value="true"/>		
+		<property name="engine" ref="wsCacheEngine"/>
+	</bean>
+
+
+<!-- 	<jaxws:server id="server" address="https://localhost:9090/">		 -->
+<!-- 		<jaxws:serviceBean> -->
+<!-- 			<bean id="itemDetailsImpl" class="org.openlegacy.ws.ItemDetailsServiceImpl"/> -->
+<!-- 		</jaxws:serviceBean> -->
+<!-- 	</jaxws:server>	 -->	
+
+ 	<bean id="itemDetailsImpl" class="org.openlegacy.ws.WebService"/>
+ 		 
+<!-- 	<jaxws:endpoint id="itemDetails" implementor="#itemDetailsImpl" address="http://localhost:9090/service/" />	 -->
+		
+	<bean id="proxy"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">				
+		<property name="beanNames">
+			<list>
+				<value>*Impl</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>wsCache</value>
+			</list>
+		</property>
+	</bean>
  	
 	<context:annotation-config />
 </beans>

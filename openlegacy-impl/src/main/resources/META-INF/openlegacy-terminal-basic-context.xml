@@ -52,6 +52,20 @@
 		<property name="engine" ref="wsCacheEngine"/>
 	</bean>
 	
+	<bean
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list>
+				<value>*Impl</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>wsCache</value>
+			</list>
+		</property>
+	</bean>
+	
 	<!-- Open legacy default beans -->
 
 	<bean class="org.openlegacy.modules.trail.TrailUtil" />
