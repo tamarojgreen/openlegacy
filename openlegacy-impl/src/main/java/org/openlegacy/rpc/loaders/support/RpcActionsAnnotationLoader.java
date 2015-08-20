@@ -15,6 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.rpc.RpcActions;
+import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.loaders.support.AbstractClassAnnotationLoader;
 import org.openlegacy.rpc.RpcEntity;
@@ -29,6 +30,7 @@ import org.springframework.util.Assert;
 
 import java.lang.annotation.Annotation;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -45,12 +47,12 @@ public class RpcActionsAnnotationLoader extends AbstractClassAnnotationLoader {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 
-		RpcEntityDefinition rpcEntityDefinition = (RpcEntityDefinition)entitiesRegistry.get(containingClass);
+		RpcEntityDefinition rpcEntityDefinition = (RpcEntityDefinition) entitiesRegistry.get(containingClass);
 		List<ActionDefinition> actionsRef;
 		RpcPartEntityDefinition partEntityDefinition;
 		Class<?> holdingClass;
 		if (rpcEntityDefinition == null) {
-			partEntityDefinition = (RpcPartEntityDefinition)entitiesRegistry.getPart(containingClass);
+			partEntityDefinition = (RpcPartEntityDefinition) entitiesRegistry.getPart(containingClass);
 			Assert.notNull(
 					partEntityDefinition,
 					MessageFormat.format(
@@ -63,7 +65,7 @@ public class RpcActionsAnnotationLoader extends AbstractClassAnnotationLoader {
 			holdingClass = rpcEntityDefinition.getEntityClass();
 		}
 
-		RpcActions rpcActions = (RpcActions)annotation;
+		RpcActions rpcActions = (RpcActions) annotation;
 
 		org.openlegacy.annotations.rpc.Action[] actions = rpcActions.actions();
 		if (actions.length > 0) {
@@ -88,6 +90,12 @@ public class RpcActionsAnnotationLoader extends AbstractClassAnnotationLoader {
 				if (action.targetEntity() != RpcEntity.NONE.class) {
 					actionDefinition.setTargetEntity(action.targetEntity());
 				}
+
+				actionDefinition.setRolesRequired(action.rolesRequired());
+				if (!action.roles()[0].equals(AnnotationConstants.NULL)) {
+					actionDefinition.setRoles(Arrays.asList(action.roles()));
+				}
+
 				actionsRef.add(actionDefinition);
 				if (logger.isDebugEnabled()) {
 					logger.debug(MessageFormat.format("Action {0} - \"{1}\" was added to the registry for rpc entity {2}",

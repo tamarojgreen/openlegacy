@@ -33,6 +33,7 @@ import org.springframework.stereotype.Component;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 @Component
@@ -48,9 +49,9 @@ public class RpcFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 	@SuppressWarnings({ "rawtypes" })
 	public void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass,
 			int fieldOrder) {
-		RpcEntitiesRegistry rpcEntitiesRegistry = (RpcEntitiesRegistry)entitiesRegistry;
+		RpcEntitiesRegistry rpcEntitiesRegistry = (RpcEntitiesRegistry) entitiesRegistry;
 
-		RpcField fieldAnnotation = (RpcField)annotation;
+		RpcField fieldAnnotation = (RpcField) annotation;
 
 		RpcEntityDefinition rpcEntityDefinition = rpcEntitiesRegistry.get(containingClass);
 
@@ -113,6 +114,10 @@ public class RpcFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 
 		}
 		rpcFieldDefinition.setExpression(fieldAnnotation.expression());
+
+		if (!fieldAnnotation.roles()[0].equals(AnnotationConstants.NULL)) {
+			rpcFieldDefinition.setRoles(Arrays.asList(fieldAnnotation.roles()));
+		}
 	}
 
 	private static void setupFieldType(Field field, SimpleRpcFieldDefinition rpcFieldDefinition) {

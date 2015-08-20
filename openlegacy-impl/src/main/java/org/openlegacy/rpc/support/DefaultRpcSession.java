@@ -16,11 +16,17 @@ import org.apache.commons.lang.StringUtils;
 import org.openlegacy.ApplicationConnection;
 import org.openlegacy.ApplicationConnectionListener;
 import org.openlegacy.annotations.rpc.Direction;
+import org.openlegacy.authorization.AuthorizationService;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.RpcActionDefinition;
+import org.openlegacy.exceptions.EntityNotAccessibleException;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.modules.SessionModule;
+import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.login.Login.LoginEntity;
+import org.openlegacy.modules.login.User;
+import org.openlegacy.modules.roles.Roles;
 import org.openlegacy.rpc.RpcActionNotMappedException;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcEntity;
@@ -35,6 +41,7 @@ import org.openlegacy.rpc.actions.RpcAction;
 import org.openlegacy.rpc.actions.RpcActions;
 import org.openlegacy.rpc.actions.RpcActions.RpcActionAdapter;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
+import org.openlegacy.rpc.exceptions.RpcActionException;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.openlegacy.rpc.support.binders.RpcFieldsExpressionBinder;
 import org.openlegacy.rpc.utils.HierarchyRpcPojoFieldAccessor;
@@ -71,6 +78,11 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 	@Inject
 	private RpcFieldsExpressionBinder rpcExpressionBinder;
 
+	private boolean forceAuthorization = true;
+
+	@Inject
+	private AuthorizationService authorizationService;
+
 	@Override
 	public Object getDelegate() {
 		return rpcConnection;
@@ -82,6 +94,8 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		if (!StringUtil.isEmpty(rpcEntitiesRegistry.getErrorMessage())) {
 			throw new OpenLegacyRuntimeException(rpcEntitiesRegistry.getErrorMessage());
 		}
+
+		authorize(entityClass);
 
 		T entity = ReflectionUtil.newInstance(entityClass);
 
@@ -109,11 +123,11 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 			if (ClassUtils.getAllSuperclasses(fieldDefinition.getJavaType()).contains(BinaryArray.class)) {
 				BinaryArray array = null;
 				try {
-					array = (BinaryArray)fieldDefinition.getJavaType().newInstance();
+					array = (BinaryArray) fieldDefinition.getJavaType().newInstance();
 				} catch (Exception e) {
 					throw (new OpenLegacyRuntimeException(e));
 				}
-				array.setValue((String)keys[index]);
+				array.setValue((String) keys[index]);
 				directFieldAccessor.setFieldValue(StringUtil.removeNamespace(fieldDefinition.getName()), array);
 			} else {
 				directFieldAccessor.setFieldValue(StringUtil.removeNamespace(fieldDefinition.getName()), keys[index]);
@@ -121,7 +135,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 			index++;
 		}
 
-		return (T)doAction(actionAdapter, (RpcEntity)entity);
+		return (T) doAction(actionAdapter, (RpcEntity) entity);
 	}
 
 	@Override
@@ -158,8 +172,19 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 	@Override
 	@SuppressWarnings("unchecked")
 	public RpcEntity doAction(RpcAction action, RpcEntity rpcEntity) {
+
+		Roles rolesModule = getModule(Roles.class);
+		if (rolesModule != null) {
+			Login loginModule = getModule(Login.class);
+			User loggedInUser = loginModule.getLoggedInUser();
+			if (!rolesModule.isActionPermitted(action, rpcEntity, loggedInUser)) {
+				throw new RpcActionException(MessageFormat.format("Logged in user {0} has no permission for action {1}",
+						loggedInUser.getUserName(), action.getClass().getSimpleName()));
+			}
+		}
+
 		RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(rpcEntity.getClass());
-		RpcActionDefinition actionDefinition = (RpcActionDefinition)rpcDefinition.getAction(action.getClass());
+		RpcActionDefinition actionDefinition = (RpcActionDefinition) rpcDefinition.getAction(action.getClass());
 
 		SimpleRpcInvokeAction rpcAction = new SimpleRpcInvokeAction();
 		rpcAction.setRpcPath(actionDefinition.getProgramPath());
@@ -168,7 +193,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		converToLegacyFields(rpcAction);
 
 		if (actionDefinition.getTargetEntity() != null) {
-			return (RpcEntity)getEntity(actionDefinition.getTargetEntity());
+			return (RpcEntity) getEntity(actionDefinition.getTargetEntity());
 		} else {
 			RpcResult rpcResult = invoke(rpcAction, rpcEntity.getClass().getSimpleName());
 			RpcResult rpcResultCopy = rpcResult.clone();
@@ -181,7 +206,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	final protected RpcResult invoke(SimpleRpcInvokeAction rpcAction, String entityName) {
 		// clone to avoid modifications by connection of fields collection
-		SimpleRpcInvokeAction clonedRpcAction = (SimpleRpcInvokeAction)SerializationUtils.clone(rpcAction);
+		SimpleRpcInvokeAction clonedRpcAction = (SimpleRpcInvokeAction) SerializationUtils.clone(rpcAction);
 
 		// Determine if any fields need to be removed.
 		// Some calculated fields do not have a corresponding field on the actual RPC Call
@@ -202,7 +227,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		Collection<? extends SessionModule> modulesList = getSessionModules().getModules();
 		for (SessionModule sessionModule : modulesList) {
 			if (sessionModule instanceof ApplicationConnectionListener) {
-				((ApplicationConnectionListener)sessionModule).afterAction(getConnection(), rpcAction, rpcResult, entityName);
+				((ApplicationConnectionListener) sessionModule).afterAction(getConnection(), rpcAction, rpcResult, entityName);
 			}
 		}
 	}
@@ -227,8 +252,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	}
 
-	final protected void populateRpcFields(RpcEntity rpcEntity, RpcEntityDefinition rpcEntityDefinition,
-			RpcInvokeAction rpcAction) {
+	final protected void populateRpcFields(RpcEntity rpcEntity, RpcEntityDefinition rpcEntityDefinition, RpcInvokeAction rpcAction) {
 		for (RpcEntityBinder rpcEntityBinder : rpcEntityBinders) {
 			rpcEntityBinder.populateAction(rpcAction, rpcEntity);
 		}
@@ -240,6 +264,12 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 			rpcEntityBinder.populateEntity(rpcEntity, rpcResult);
 		}
 		rpcExpressionBinder.populateEntity(rpcEntity, rpcResult);
+
+		Roles rolesModule = getModule(Roles.class);
+		if (rolesModule != null) {
+			rolesModule.populateEntity(rpcEntity, getModule(Login.class));
+		}
+
 	}
 
 	@Override
@@ -247,6 +277,22 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		notifyModulesBeforeConnect();
 		rpcConnection.login(user, password);
 		notifyModulesAfterConnect();
+	}
+
+	public void setForceAuthorization(boolean forceAuthorization) {
+		this.forceAuthorization = forceAuthorization;
+	}
+
+	private <S> void authorize(Class<S> entityClass) {
+		if (!forceAuthorization) {
+			return;
+		}
+		RpcEntityDefinition definitions = rpcEntitiesRegistry.get(entityClass);
+		User loggedInUser = getModule(Login.class).getLoggedInUser();
+		if (definitions.getType() != LoginEntity.class && !authorizationService.isAuthorized(loggedInUser, entityClass)) {
+			throw (new EntityNotAccessibleException(MessageFormat.format("Logged in user {0} has no permission for entity {1}",
+					loggedInUser.getUserName(), entityClass.getName())));
+		}
 	}
 
 }

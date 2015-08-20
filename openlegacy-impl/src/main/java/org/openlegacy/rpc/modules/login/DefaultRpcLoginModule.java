@@ -26,13 +26,13 @@ public class DefaultRpcLoginModule extends RpcSessionModuleAdapter implements Lo
 			return;
 		}
 		try {
+			loggedInUser = new PersistedUser(user);
 			getSession().login(user, password);
+			logger.info(MessageFormat.format("User {0} successfully logged in", loggedInUser.getUserName()));
 		} catch (Exception e) {
+			loggedInUser = null;
 			throw (new LoginException(e.getMessage(), e));
 		}
-
-		loggedInUser = new PersistedUser(user);
-		logger.info(MessageFormat.format("User {0} successfully logged in", loggedInUser.getUserName()));
 
 	}
 

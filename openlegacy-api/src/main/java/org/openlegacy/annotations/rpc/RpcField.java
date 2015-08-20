@@ -67,4 +67,6 @@ public @interface RpcField {
 	String expression() default "";
 
 	String legacyType() default "";
+
+	String[] roles() default AnnotationConstants.NULL;
 }

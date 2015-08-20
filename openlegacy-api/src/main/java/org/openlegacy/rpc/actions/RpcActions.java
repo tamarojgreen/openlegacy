@@ -32,6 +32,10 @@ public class RpcActions {
 					getClass())));
 		}
 
+		@Override
+		public boolean equals(Object obj) {
+			return obj.getClass().equals(getClass());
+		}
 	}
 
 	public static class CREATE extends RpcActionAdapter {
