@@ -118,11 +118,6 @@
 	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder" />
 
 	<!-- Default. Should be overrides by web apps -->
-	<bean id="authorizationService" class="org.openlegacy.authorization.DefaultAuthorizationService">
-		<property name="rolesModule">
-			<bean class="org.openlegacy.modules.DefaultRolesModule"/>
-		</property>
-	</bean>
 
 	<bean class="org.openlegacy.terminal.support.DefaultTerminalSnapshotsOrganizer" />
 	<bean class="org.openlegacy.terminal.support.DefaultSnapshotSimilarityChecker" />

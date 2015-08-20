@@ -73,4 +73,7 @@ public @interface RpcField {
 	boolean required() default false;
 
 	String invalidMessage() default "";
+
+	String[] roles() default AnnotationConstants.NULL;
+
 }

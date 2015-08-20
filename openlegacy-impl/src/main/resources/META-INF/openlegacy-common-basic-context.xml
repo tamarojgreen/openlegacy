@@ -16,4 +16,10 @@
 	<bean id="sessionPropertiesProvider" class="org.openlegacy.support.SimpleSessionPropertiesProvider" />
 	<bean id="fieldFormatter" class="org.openlegacy.support.SimpleFieldFormatter" p:trim="true" />
 
+	<bean id="authorizationService" class="org.openlegacy.authorization.DefaultAuthorizationService">
+		<property name="rolesModule">
+			<bean class="org.openlegacy.modules.DefaultRolesModule"/>
+		</property>
+	</bean>
+
 </beans>

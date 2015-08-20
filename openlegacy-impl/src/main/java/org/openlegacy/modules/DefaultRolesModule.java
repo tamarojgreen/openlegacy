@@ -12,15 +12,14 @@
 package org.openlegacy.modules;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.openlegacy.ApplicationConnection;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
-import org.openlegacy.RemoteAction;
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
 import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
+import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.User;
 import org.openlegacy.modules.roles.Roles;
@@ -33,6 +32,7 @@ import org.springframework.beans.DirectFieldAccessor;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -48,13 +48,6 @@ public class DefaultRolesModule extends SessionModuleAdapter<Session> implements
 
 	@Override
 	public void destroy() {}
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	public void beforeAction(ApplicationConnection<?, ?> cconnection, RemoteAction action) {
-		// TODO Auto-generated method stub
-		super.beforeAction(cconnection, action);
-	}
 
 	@Override
 	public boolean isActionPermitted(SessionAction<?> action, Object entity, User loggedInUser) {
@@ -94,15 +87,17 @@ public class DefaultRolesModule extends SessionModuleAdapter<Session> implements
 		return isEntityPermitted(entityDefinition, userRoles);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void populateEntity(Object entity, Login loginModule) {
-		if (loginModule == null) {
+		if (loginModule == null || loginModule.getLoggedInUser() == null) {
 			return;
 		}
 		String userRole = (String) loginModule.getLoggedInUser().getProperties().get(Login.USER_ROLE_PROPERTY);
 		if (userRole != null) {
 			String[] userRoles = userRole.split(",");
 			EntityDefinition<?> entityDefinition = entitiesRegistry.get(entity.getClass());
+			// entity level fields
 			Collection<?> fieldDefinitions = (Collection<?>) entityDefinition.getFieldsDefinitions().values();
 			for (Object definition : fieldDefinitions) {
 				FieldDefinition fieldDefinition = (FieldDefinition) definition;
@@ -118,7 +113,30 @@ public class DefaultRolesModule extends SessionModuleAdapter<Session> implements
 						}
 					}
 				}
-
+			}
+			// part level fields
+			Map<String, ?> partsDefinitions = entityDefinition.getPartsDefinitions();
+			for (Object part : partsDefinitions.values()) {
+				PartEntityDefinition<FieldDefinition> partDefinition = (PartEntityDefinition<FieldDefinition>) part;
+				String partName = partDefinition.getPartName();
+				DirectFieldAccessor directFieldAccessor = new DirectFieldAccessor(entity);
+				Object partObject = directFieldAccessor.getPropertyValue(partName);
+				Map<String, FieldDefinition> definitions = partDefinition.getFieldsDefinitions();
+				for (Object definition : definitions.values()) {
+					FieldDefinition fieldDefinition = (FieldDefinition) definition;
+					List<String> fieldDefinitionRoles = fieldDefinition.getRoles();
+					if (fieldDefinitionRoles != null && !fieldDefinitionRoles.isEmpty()) {
+						if (!CollectionUtils.containsAny(fieldDefinitionRoles, Arrays.asList(userRoles))) {
+							String fieldName = fieldDefinition.getName();
+							try {
+								directFieldAccessor = new DirectFieldAccessor(partObject);
+								directFieldAccessor.setPropertyValue(StringUtil.removeNamespace(fieldName), null);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				}
 			}
 		}
 	}
