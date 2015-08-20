@@ -17,6 +17,7 @@
 	<bean id="rpcRegistry" class="org.openlegacy.rpc.support.DefaultRpcEntitiesRegistry">
 	    <property name="packages">
 	        <list>
+	        	<value>org.openlegacy.providers.mfrpc.mockup</value>
             </list>
 	    </property>
     </bean>

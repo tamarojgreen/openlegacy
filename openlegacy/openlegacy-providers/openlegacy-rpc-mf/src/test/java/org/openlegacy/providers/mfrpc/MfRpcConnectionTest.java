@@ -81,6 +81,7 @@ public class MfRpcConnectionTest {
 		field = (RpcFlatField)fields.get(2);
 		Assert.assertEquals(new BigDecimal(32), field.getValue());
 		field = (RpcFlatField)fields.get(3);
+		Assert.assertEquals(new BigDecimal(64000), field.getValue());
 	}
 
 	@Test

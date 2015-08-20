@@ -112,22 +112,23 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		this.type = type;
 		if (type == Integer.class) {
 			if (value.equals("")) {
-				this.value = new Integer(0);
+				this.value = BigDecimal.ZERO;
 			} else {
-				this.value = Integer.parseInt(value);
+				this.value = BigDecimal.valueOf(Integer.parseInt(value));
 			}
+
 		} else if (type == Long.class) {
 			if (value.equals("")) {
-				this.value = new Long(0);
+				this.value = BigDecimal.ZERO;
 			} else {
-				this.value = Long.parseLong(value);
+				this.value = BigDecimal.valueOf(Long.parseLong(value));
 			}
 
 		} else if (type == Float.class) {
 			if (value.equals("")) {
-				this.value = new Float(0);
+				this.value = BigDecimal.ZERO;
 			} else {
-				this.value = Float.parseFloat(value);
+				this.value = BigDecimal.valueOf(Float.parseFloat(value));
 			}
 		} else {
 			this.value = value;

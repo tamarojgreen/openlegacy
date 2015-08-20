@@ -13,6 +13,7 @@ package org.openlegacy.providers.mfrpc;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
@@ -109,6 +110,9 @@ public class MfRpcConnection implements RpcConnection {
 			System.arraycopy(payload, 0, buffer, 14, payload.length);
 			httpPost.setEntity(new ByteArrayEntity(buffer));
 			HttpResponse response = httpClient.execute(httpPost);
+			if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+				return null;
+			}
 
 			BufferedInputStream in = new BufferedInputStream(response.getEntity().getContent());
 
