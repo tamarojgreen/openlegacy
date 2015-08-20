@@ -86,7 +86,7 @@
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
 			<version>1.4.7</version>
-			<scope>provided</scope>
+<!-- 			<scope>provided</scope>			 -->
 		</dependency>
 	</dependencies>
 </project>

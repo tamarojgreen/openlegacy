@@ -110,6 +110,7 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 		}
 	};
 
+	// if you don`t need compressing and serializing - change bean constructor argument to false
 	public SimpleWebServiceCacheProcessor(boolean preProcessCacheObject) {
 		this.preProcessCacheObject = preProcessCacheObject;
 		try {
