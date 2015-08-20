@@ -48,10 +48,14 @@
  		 
 <!-- 	<jaxws:endpoint id="itemDetails" implementor="#itemDetailsImpl" address="http://localhost:9090/service/" />	 -->
 		
-	<bean id="proxy"
-		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">				
+	<bean id = "wsProxyChecker" class = "org.openlegacy.aop.ws.WebServiceProxyChecker"/>
+	<bean
+		class="org.openlegacy.aop.ws.WebServiceBeanNameAutoProxyCreator">
+		<property name="checker" ref="wsProxyChecker"/>
 		<property name="beanNames">
 			<list>
+				<value>*Service*</value>
+				<value>*Service</value>
 				<value>*Impl</value>
 			</list>
 		</property>

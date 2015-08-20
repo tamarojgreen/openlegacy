@@ -57,6 +57,8 @@
 		<property name="checker" ref="wsProxyChecker"/>
 		<property name="beanNames">
 			<list>
+				<value>*Service*</value>
+				<value>*Service</value>
 				<value>*Impl</value>
 			</list>
 		</property>

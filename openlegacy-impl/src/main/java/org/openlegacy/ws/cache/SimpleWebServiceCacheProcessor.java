@@ -233,8 +233,7 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 			return invocation.proceed();
 		}
 
-		String key = String.format("%s.%s.%s", proxiedMethod.getDeclaringClass().getSimpleName(), proxiedMethod.getName(),
-				generateKey(invocation.getArguments()));
+		String key = String.format("%s.%s.%s", wsDef.getName(), wsMDef.getName(), generateKey(invocation.getArguments()));
 
 		long accessTime = System.currentTimeMillis(); // pre semaphored time
 		lock(key);
