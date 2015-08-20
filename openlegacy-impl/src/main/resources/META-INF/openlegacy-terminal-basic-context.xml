@@ -52,8 +52,11 @@
 		<property name="engine" ref="wsCacheEngine"/>
 	</bean>
 	
+	<!-- 	Proxy only for web services -->
+	<bean id = "wsProxyChecker" class = "org.openlegacy.aop.ws.WebServiceProxyChecker"/>
 	<bean
-		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		class="org.openlegacy.aop.ws.WebServiceBeanNameAutoProxyCreator">
+		<property name="checker" ref="wsProxyChecker"/>
 		<property name="beanNames">
 			<list>
 				<value>*Impl</value>
