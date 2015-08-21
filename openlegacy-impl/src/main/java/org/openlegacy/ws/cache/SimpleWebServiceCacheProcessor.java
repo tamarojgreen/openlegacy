@@ -217,7 +217,7 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		Method proxiedMethod = invocation.getMethod();
-		if (disableCaching) {
+		if (invocation.getMethod().getReturnType() == void.class || disableCaching) {
 			return invocation.proceed();
 		}
 
@@ -232,7 +232,6 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 		if (wsMDef == null || wsMDef.getCacheDuration() == 0) {
 			return invocation.proceed();
 		}
-
 		String key = String.format("%s.%s.%s", wsDef.getName(), wsMDef.getName(), generateKey(invocation.getArguments()));
 
 		long accessTime = System.currentTimeMillis(); // pre semaphored time
