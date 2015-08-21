@@ -22,4 +22,6 @@ public interface WebServiceCacheEngine {
 	public void remove(String key);
 
 	public void destroy();
+
+	public int getSize();
 }
