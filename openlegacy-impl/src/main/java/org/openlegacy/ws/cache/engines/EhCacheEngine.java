@@ -56,4 +56,9 @@ public class EhCacheEngine implements WebServiceCacheEngine {
 	public void destroy() {
 		cacheManager.shutdown();
 	}
+
+	@Override
+	public int getSize() {
+		return cache.getSize();
+	}
 }

@@ -12,14 +12,12 @@
 package org.openlegacy.ws;
 
 import org.apache.commons.lang.ClassUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.support.SimpleWebServicesRegistry;
-import org.openlegacy.ws.cache.WebServiceCacheProcessor;
+import org.openlegacy.ws.cache.WebServiceCacheEngine;
 import org.openlegacy.ws.definitions.WebServiceDefinition;
 import org.openlegacy.ws.definitions.WebServiceMethodDefinition;
 import org.openlegacy.ws.definitions.WebServiceParamDetailsDefinition;
@@ -38,16 +36,11 @@ import javax.inject.Inject;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class WebServiceRegistryTest {
 
-	private final static String WS_ADDRESS = "http://127.0.0.1:9090/service/";
-
-	private final static long CacheDuration = 10000;
-
-	private static final Log logger = LogFactory.getLog(WebServiceRegistryTest.class);
 	@Inject
 	SimpleWebServicesRegistry registry;
 
 	@Inject
-	WebServiceCacheProcessor wsCache;
+	WebServiceCacheEngine cache;
 
 	@Inject
 	ApplicationContext applicationContext;
@@ -154,5 +147,6 @@ public class WebServiceRegistryTest {
 				exit = !thread.isAlive();
 			}
 		}
+		Assert.assertTrue(cache.getSize() > 0);
 	}
 }

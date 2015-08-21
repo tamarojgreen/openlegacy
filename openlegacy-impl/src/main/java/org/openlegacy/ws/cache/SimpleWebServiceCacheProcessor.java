@@ -247,6 +247,7 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 				result = invocation.proceed();
 				addQueueOperation(OPERATION_ADD, key, result, wsMDef);
 			} catch (Exception e) {
+				unlock(key);
 			}
 			return result;
 		}

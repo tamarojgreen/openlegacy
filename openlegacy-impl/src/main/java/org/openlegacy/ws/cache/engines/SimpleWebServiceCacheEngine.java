@@ -51,4 +51,9 @@ public class SimpleWebServiceCacheEngine implements WebServiceCacheEngine {
 		}
 	}
 
+	@Override
+	public int getSize() {
+		return cache.size();
+	}
+
 }
