@@ -13,6 +13,7 @@ package org.openlegacy.db.loaders.support;
 
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.db.DbColumn;
+import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.db.definitions.DbFieldDefinition;
 import org.openlegacy.db.definitions.SimpleDbColumnFieldDefinition;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 
 /**
  * @author Ivan Bort
@@ -39,16 +41,16 @@ public class DbColumnAnnotationLoader extends DbFieldsLoader {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void load(EntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass, int fieldOrder) {
-		DbEntityDefinition dbEntityDefinition = (DbEntityDefinition)entitiesRegistry.get(containingClass);
+		DbEntityDefinition dbEntityDefinition = (DbEntityDefinition) entitiesRegistry.get(containingClass);
 		if (dbEntityDefinition != null) {
 			DbFieldDefinition dbFieldDefinition = dbEntityDefinition.getColumnFieldsDefinitions().get(field.getName());
 			if (dbFieldDefinition == null) {
-				dbFieldDefinition = createFrom(field,
-						(SimpleDbFieldDefinition)dbEntityDefinition.getFieldsDefinitions().get(field.getName()));
+				dbFieldDefinition = createFrom(field, (SimpleDbFieldDefinition) dbEntityDefinition.getFieldsDefinitions().get(
+						field.getName()));
 			}
 			if (dbFieldDefinition instanceof SimpleDbColumnFieldDefinition) {
 				DbColumn column = field.getAnnotation(DbColumn.class);
-				SimpleDbColumnFieldDefinition columnFieldDefinition = (SimpleDbColumnFieldDefinition)dbFieldDefinition;
+				SimpleDbColumnFieldDefinition columnFieldDefinition = (SimpleDbColumnFieldDefinition) dbFieldDefinition;
 				columnFieldDefinition.setDisplayName(column.displayName());
 				columnFieldDefinition.setPassword(column.password());
 				columnFieldDefinition.setSampleValue(column.sampleValue());
@@ -60,16 +62,20 @@ public class DbColumnAnnotationLoader extends DbFieldsLoader {
 				Type genericFieldType = field.getGenericType();
 
 				if (genericFieldType instanceof ParameterizedType) {
-					ParameterizedType aType = (ParameterizedType)genericFieldType;
+					ParameterizedType aType = (ParameterizedType) genericFieldType;
 					Type[] fieldArgTypes = aType.getActualTypeArguments();
-					columnFieldDefinition.setJavaType((Class)fieldArgTypes[fieldArgTypes.length - 1]);
-					columnFieldDefinition.setJavaTypeName(((Class)fieldArgTypes[fieldArgTypes.length - 1]).getSimpleName());
+					columnFieldDefinition.setJavaType((Class) fieldArgTypes[fieldArgTypes.length - 1]);
+					columnFieldDefinition.setJavaTypeName(((Class) fieldArgTypes[fieldArgTypes.length - 1]).getSimpleName());
 				} else {
 					columnFieldDefinition.setJavaType(field.getType());
 					columnFieldDefinition.setJavaTypeName(field.getType().getSimpleName());
 				}
+				if (!column.roles()[0].equals(AnnotationConstants.NULL)) {
+					columnFieldDefinition.setRoles(Arrays.asList(column.roles()));
+				}
 
 			}
+
 			dbEntityDefinition.getColumnFieldsDefinitions().put(field.getName(), dbFieldDefinition);
 		}
 	}

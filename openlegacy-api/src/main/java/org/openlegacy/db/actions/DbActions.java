@@ -19,6 +19,8 @@ import java.lang.reflect.Constructor;
 import java.text.MessageFormat;
 
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Selection;
 
 public class DbActions {
 
@@ -40,6 +42,11 @@ public class DbActions {
 					getClass()));
 		}
 
+		@Override
+		public boolean equals(Object obj) {
+			return obj.getClass().equals(getClass());
+		}
+
 	}
 
 	public static class READ extends DbActionAdapter {
@@ -48,6 +55,11 @@ public class DbActions {
 		@Override
 		public <T> T perform(EntityManager entityManager, T entity, Object... keys) {
 			if (entityManager != null) {
+				if (keys.length == 0 || keys[0] == null) {
+					CriteriaQuery<T> query = (CriteriaQuery<T>) entityManager.getCriteriaBuilder().createQuery(entity.getClass());
+					query.select((Selection<? extends T>) query.from(entity.getClass()));
+					return (T) entityManager.createQuery(query).getResultList();
+				}
 				return (T) entityManager.find(entity.getClass(), keys[0]);
 			}
 			return null;

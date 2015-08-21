@@ -87,7 +87,6 @@ public class DefaultRolesModule extends SessionModuleAdapter<Session> implements
 		return isEntityPermitted(entityDefinition, userRoles);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void populateEntity(Object entity, Login loginModule) {
 		if (loginModule == null || loginModule.getLoggedInUser() == null) {
@@ -96,44 +95,99 @@ public class DefaultRolesModule extends SessionModuleAdapter<Session> implements
 		String userRole = (String) loginModule.getLoggedInUser().getProperties().get(Login.USER_ROLE_PROPERTY);
 		if (userRole != null) {
 			String[] userRoles = userRole.split(",");
-			EntityDefinition<?> entityDefinition = entitiesRegistry.get(entity.getClass());
-			// entity level fields
-			Collection<?> fieldDefinitions = (Collection<?>) entityDefinition.getFieldsDefinitions().values();
-			for (Object definition : fieldDefinitions) {
+			if (Collection.class.isAssignableFrom(entity.getClass())) {
+				Collection<?> collection = (Collection<?>) entity;
+				for (Object item : collection) {
+					populateEntity(item, userRoles);
+				}
+			} else if (Map.class.isAssignableFrom(entity.getClass())) {
+				Map<?, ?> map = (Map<?, ?>) entity;
+				for (Object item : map.values()) {
+					populateEntity(item, userRoles);
+				}
+			} else {
+				populateEntity(entity, userRoles);
+			}
+
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void populateEntity(Object entity, String[] userRoles) {
+		if (entity == null) {
+			return;
+		}
+		EntityDefinition<?> entityDefinition = entitiesRegistry.get(entity.getClass());
+		if (entityDefinition == null) {
+			return;
+		}
+
+		Collection<?> fieldDefinitions = (Collection<?>) entityDefinition.getFieldsDefinitions().values();
+
+		if (entityDefinition instanceof DbEntityDefinition) {
+			DbEntityDefinition dbEntityDefinition = (DbEntityDefinition) entityDefinition;
+			fieldDefinitions = dbEntityDefinition.getColumnFieldsDefinitions().values();
+		}
+		// entity level fields
+		for (Object definition : fieldDefinitions) {
+			FieldDefinition fieldDefinition = (FieldDefinition) definition;
+			List<String> fieldDefinitionRoles = fieldDefinition.getRoles();
+			if (fieldDefinitionRoles != null && !fieldDefinitionRoles.isEmpty()) {
+				if (!CollectionUtils.containsAny(fieldDefinitionRoles, Arrays.asList(userRoles))) {
+					String fieldName = fieldDefinition.getName();
+					try {
+						DirectFieldAccessor directFieldAccessor = new DirectFieldAccessor(entity);
+						directFieldAccessor.setPropertyValue(StringUtil.removeNamespace(fieldName), null);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+			// if field it is another entity (in DB for example)
+			Class<?> fieldJavaType = fieldDefinition.getJavaType();
+			if (!fieldJavaType.isPrimitive()) {
+				String fieldName = fieldDefinition.getName();
+				DirectFieldAccessor directFieldAccessor = new DirectFieldAccessor(entity);
+				Object value = directFieldAccessor.getPropertyValue(StringUtil.removeNamespace(fieldName));
+				if (value == null) {
+					continue;
+				}
+				if (Collection.class.isAssignableFrom(value.getClass())) {
+					Collection<?> collection = (Collection<?>) value;
+					for (Object item : collection) {
+						populateEntity(item, userRoles);
+					}
+				} else if (Map.class.isAssignableFrom(value.getClass())) {
+					Map<?, ?> map = (Map<?, ?>) value;
+					for (Object item : map.values()) {
+						populateEntity(item, userRoles);
+					}
+				} else {
+					populateEntity(value, userRoles);
+				}
+			}
+
+		}
+		// part level fields
+		Map<String, ?> partsDefinitions = entityDefinition.getPartsDefinitions();
+		for (Object part : partsDefinitions.values()) {
+			PartEntityDefinition<FieldDefinition> partDefinition = (PartEntityDefinition<FieldDefinition>) part;
+			String partName = partDefinition.getPartName();
+			DirectFieldAccessor directFieldAccessor = new DirectFieldAccessor(entity);
+			Object partObject = directFieldAccessor.getPropertyValue(partName);
+			Map<String, FieldDefinition> definitions = partDefinition.getFieldsDefinitions();
+			for (Object definition : definitions.values()) {
 				FieldDefinition fieldDefinition = (FieldDefinition) definition;
 				List<String> fieldDefinitionRoles = fieldDefinition.getRoles();
 				if (fieldDefinitionRoles != null && !fieldDefinitionRoles.isEmpty()) {
 					if (!CollectionUtils.containsAny(fieldDefinitionRoles, Arrays.asList(userRoles))) {
 						String fieldName = fieldDefinition.getName();
 						try {
-							DirectFieldAccessor directFieldAccessor = new DirectFieldAccessor(entity);
+							directFieldAccessor = new DirectFieldAccessor(partObject);
 							directFieldAccessor.setPropertyValue(StringUtil.removeNamespace(fieldName), null);
 						} catch (Exception e) {
 							e.printStackTrace();
-						}
-					}
-				}
-			}
-			// part level fields
-			Map<String, ?> partsDefinitions = entityDefinition.getPartsDefinitions();
-			for (Object part : partsDefinitions.values()) {
-				PartEntityDefinition<FieldDefinition> partDefinition = (PartEntityDefinition<FieldDefinition>) part;
-				String partName = partDefinition.getPartName();
-				DirectFieldAccessor directFieldAccessor = new DirectFieldAccessor(entity);
-				Object partObject = directFieldAccessor.getPropertyValue(partName);
-				Map<String, FieldDefinition> definitions = partDefinition.getFieldsDefinitions();
-				for (Object definition : definitions.values()) {
-					FieldDefinition fieldDefinition = (FieldDefinition) definition;
-					List<String> fieldDefinitionRoles = fieldDefinition.getRoles();
-					if (fieldDefinitionRoles != null && !fieldDefinitionRoles.isEmpty()) {
-						if (!CollectionUtils.containsAny(fieldDefinitionRoles, Arrays.asList(userRoles))) {
-							String fieldName = fieldDefinition.getName();
-							try {
-								directFieldAccessor = new DirectFieldAccessor(partObject);
-								directFieldAccessor.setPropertyValue(StringUtil.removeNamespace(fieldName), null);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
 						}
 					}
 				}
