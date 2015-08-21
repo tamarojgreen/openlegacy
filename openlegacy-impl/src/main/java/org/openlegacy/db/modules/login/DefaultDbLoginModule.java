@@ -1,6 +1,7 @@
 package org.openlegacy.db.modules.login;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.openlegacy.db.support.DbSessionModuleAdapter;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
@@ -12,7 +13,9 @@ import java.sql.SQLException;
 
 import javax.inject.Inject;
 
-public class LoginModule implements Login {
+public class DefaultDbLoginModule extends DbSessionModuleAdapter implements Login {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private BasicDataSource dataSource;
@@ -37,7 +40,7 @@ public class LoginModule implements Login {
 			throw (new LoginException(e.getMessage()));
 		}
 		loggedInUser = new PersistedUser(user);
-
+		getSession().login(user, password);
 	}
 
 	@Override

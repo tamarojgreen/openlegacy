@@ -15,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.db.Action;
 import org.openlegacy.annotations.db.DbActions;
+import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.db.actions.DbAction;
 import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.db.definitions.SimpleDbActionDefinition;
@@ -25,6 +26,7 @@ import org.openlegacy.utils.StringUtil;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,10 +45,10 @@ public class DbActionsAnnotationLoader extends AbstractClassAnnotationLoader {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 
-		DbEntityDefinition dbEntityDefinition = (DbEntityDefinition)entitiesRegistry.get(containingClass);
+		DbEntityDefinition dbEntityDefinition = (DbEntityDefinition) entitiesRegistry.get(containingClass);
 		List<ActionDefinition> actionsRef = dbEntityDefinition.getActions();
 
-		DbActions dbActions = (DbActions)annotation;
+		DbActions dbActions = (DbActions) annotation;
 		Action[] actions = dbActions.actions();
 		if (actions.length > 0) {
 			for (Action action : actions) {
@@ -67,6 +69,12 @@ public class DbActionsAnnotationLoader extends AbstractClassAnnotationLoader {
 				if (action.targetEntity() != void.class) {
 					actionDefinition.setTargetEntity(action.targetEntity());
 				}
+
+				actionDefinition.setRolesRequired(action.rolesRequired());
+				if (!action.roles()[0].equals(AnnotationConstants.NULL)) {
+					actionDefinition.setRoles(Arrays.asList(action.roles()));
+				}
+
 				actionsRef.add(actionDefinition);
 			}
 		}
