@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.xml.bind.DatatypeConverter;
@@ -63,6 +64,8 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 	ApplicationContext applicationContext;
 
 	private MessageDigest messageDigest;
+
+	private int semaphoreWaitTimeOut = 10;
 
 	private volatile BlockingQueue<QueueOperation> operationQueue = new LinkedBlockingDeque<QueueOperation>();
 	private volatile Semaphore lockQueue = new Semaphore(1, true), unlockQueue = new Semaphore(1, true);
@@ -135,7 +138,13 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 		data.setExpirationTime(System.currentTimeMillis() + methodDefinition.getCacheDuration());
 		cached = preProcessCacheObject ? ZipUtil.compress(XmlSerializationUtil.xStreamSerialize(data).getBytes()) : data;
 		cacheEngine.put(key, cached);
-		unlock(key);
+		try {
+			unlock(key);
+		} catch (Exception e) {
+			logger.error(String.format("Unable unlock semaphore for %s key", key));
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
@@ -184,22 +193,22 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 		this.cacheEngine.init();
 	}
 
-	private void lock(String key) {
-		lockQueue.acquireUninterruptibly(1);
+	private void lock(String key) throws InterruptedException {
+		lockQueue.tryAcquire(1, semaphoreWaitTimeOut, TimeUnit.SECONDS);
 		Semaphore semaphore = requestSemaphores.get(key);
 		if (semaphore == null) {
 			semaphore = new Semaphore(1);
 			requestSemaphores.put(key, semaphore);
 			lockQueue.release(1);
-			semaphore.acquireUninterruptibly(1);
+			semaphore.tryAcquire(1, semaphoreWaitTimeOut, TimeUnit.SECONDS);
 		} else {
 			lockQueue.release(1);
-			semaphore.acquireUninterruptibly(1);
+			semaphore.tryAcquire(1, semaphoreWaitTimeOut, TimeUnit.SECONDS);
 		}
 	}
 
-	private void unlock(String key) {
-		unlockQueue.acquireUninterruptibly(1);
+	private void unlock(String key) throws InterruptedException {
+		unlockQueue.tryAcquire(1, semaphoreWaitTimeOut, TimeUnit.SECONDS);
 		Semaphore semaphore = requestSemaphores.get(key);
 		if (semaphore != null) {
 			if (!semaphore.hasQueuedThreads()) {
@@ -235,7 +244,16 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 		String key = String.format("%s.%s.%s", wsDef.getName(), wsMDef.getName(), generateKey(invocation.getArguments()));
 
 		long accessTime = System.currentTimeMillis(); // pre semaphored time
-		lock(key);
+
+		try {
+			lock(key);
+		} catch (Exception e) {
+			logger.error(String.format(
+					"Unable to process semaphore for %s key. Original method call will proceed without caching", key));
+			e.printStackTrace();
+			return invocation.proceed();
+		}
+
 		Object cached = get(key, accessTime);
 		if (cached != null) {
 			return cached;
@@ -260,4 +278,9 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 	private void continueDestroy() {
 		cacheEngine.destroy();
 	}
+
+	public void setSemaphoreWaitTimeOut(int semaphoreWaitTimeOut) {
+		this.semaphoreWaitTimeOut = semaphoreWaitTimeOut;
+	}
+
 }
