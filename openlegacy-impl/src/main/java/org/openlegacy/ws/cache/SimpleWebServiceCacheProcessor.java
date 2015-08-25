@@ -194,13 +194,13 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 	}
 
 	private void lock(String key) throws InterruptedException {
-		lockQueue.tryAcquire(1, semaphoreWaitTimeOut, TimeUnit.SECONDS);
+		lockQueue.acquire(1);
 		Semaphore semaphore = requestSemaphores.get(key);
 		if (semaphore == null) {
 			semaphore = new Semaphore(1);
 			requestSemaphores.put(key, semaphore);
 			lockQueue.release(1);
-			semaphore.tryAcquire(1, semaphoreWaitTimeOut, TimeUnit.SECONDS);
+			semaphore.acquire(1);
 		} else {
 			lockQueue.release(1);
 			semaphore.tryAcquire(1, semaphoreWaitTimeOut, TimeUnit.SECONDS);
@@ -208,7 +208,7 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 	}
 
 	private void unlock(String key) throws InterruptedException {
-		unlockQueue.tryAcquire(1, semaphoreWaitTimeOut, TimeUnit.SECONDS);
+		unlockQueue.acquire(1);
 		Semaphore semaphore = requestSemaphores.get(key);
 		if (semaphore != null) {
 			if (!semaphore.hasQueuedThreads()) {
