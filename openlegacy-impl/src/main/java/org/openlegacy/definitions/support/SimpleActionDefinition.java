@@ -43,6 +43,8 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 	private int length = 0;
 	private String when = ".*";
 
+	boolean isSubmitForm;
+
 	// for design-time purposes
 	private EntityDefinition<?> targetEntityDefinition;
 
@@ -190,13 +192,21 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 	public void setWhen(String when) {
 		this.when = when;
 	}
-	
+
 	public AdditionalKey getAdditionalKey() {
 		return additionalKey;
 	}
-	
+
 	public void setAdditionalKey(AdditionalKey additionalKey) {
 		this.additionalKey = additionalKey;
 	}
 
+	@Override
+	public boolean isSubmitForm() {
+		return this.isSubmitForm;
+	}
+
+	public void setIsSubmitForm(boolean isSubmitForm) {
+		this.isSubmitForm = isSubmitForm;
+	}
 }

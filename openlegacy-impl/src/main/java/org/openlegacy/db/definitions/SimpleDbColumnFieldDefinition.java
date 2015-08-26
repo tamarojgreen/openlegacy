@@ -8,7 +8,7 @@ import org.openlegacy.definitions.support.AbstractFieldDefinition;
  * @author Ivan Bort
  * 
  */
-public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFieldDefinition> implements DbFieldDefinition {
+public class SimpleDbColumnFieldDefinition extends AbstractFieldDefinition<DbFieldDefinition>implements DbFieldDefinition {
 
 	private static final long serialVersionUID = 1L;
 

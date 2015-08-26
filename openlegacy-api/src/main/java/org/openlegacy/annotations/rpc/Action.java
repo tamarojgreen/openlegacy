@@ -47,7 +47,7 @@ public @interface Action {
 	 * 
 	 * @return rpc action
 	 */
-	Class<? extends RpcAction> action();
+	Class<? extends RpcAction>action();
 
 	String displayName() default "";
 
@@ -62,8 +62,15 @@ public @interface Action {
 
 	String alias() default "";
 
-	Class<?> targetEntity() default RpcEntity.NONE.class;
+	Class<?>targetEntity() default RpcEntity.NONE.class;
 
-	ActionProperty[] actionProperties() default {};
+	ActionProperty[]actionProperties() default {};
+
+	/**
+	 * Whether the action is used to submit the angular form
+	 * 
+	 * @return Whether the action is submit action
+	 */
+	boolean isSubmitForm() default false;
 
 }

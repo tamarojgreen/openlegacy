@@ -33,7 +33,7 @@ public @interface RpcField {
 
 	int length();
 
-	Class<? extends FieldType> fieldType() default RpcFieldTypes.General.class;
+	Class<? extends FieldType>fieldType() default RpcFieldTypes.General.class;
 
 	String displayName() default AnnotationConstants.NULL;
 
@@ -67,4 +67,10 @@ public @interface RpcField {
 	String expression() default "";
 
 	String legacyType() default "";
+
+	String regularExpression() default "";
+
+	boolean required() default false;
+
+	String invalidMessage() default "";
 }
