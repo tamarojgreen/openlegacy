@@ -65,6 +65,8 @@ public interface FieldDefinition extends Comparable<FieldDefinition> {
 	 */
 	boolean isGlobal();
 
+	String getExpression();
+
 	/**
 	 * Defines if the field content which should treated as null (e.g: "00", etc)
 	 * 
@@ -72,6 +74,9 @@ public interface FieldDefinition extends Comparable<FieldDefinition> {
 	 */
 	String getNullValue();
 
-	String getExpression();
+	String getRegularExpression();
 
+	boolean required();
+
+	String getInvalidMessage();
 }

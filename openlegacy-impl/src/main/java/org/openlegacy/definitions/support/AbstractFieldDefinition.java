@@ -59,6 +59,10 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	private boolean staticField = false;
 
+	private String regularExpression;
+	private boolean required = false;
+	private String invalidMessage = "";
+
 	public AbstractFieldDefinition(String name, Class<? extends FieldType> type) {
 		this.name = name;
 		this.type = type;
@@ -241,7 +245,6 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.keyIndex = keyIndex;
 	}
 
-	@Override
 	public String getExpression() {
 		return expression;
 	}
@@ -258,4 +261,30 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.staticField = staticField;
 	}
 
+	@Override
+	public String getRegularExpression() {
+		return regularExpression;
+	}
+
+	public void setRegularExpression(String regularExpression) {
+		this.regularExpression = regularExpression;
+	}
+
+	@Override
+	public boolean required() {
+		return required;
+	}
+
+	public void setRequired(boolean required) {
+		this.required = required;
+	}
+
+	@Override
+	public String getInvalidMessage() {
+		return this.invalidMessage;
+	}
+
+	public void setInvalidMessage(String invalidMessage) {
+		this.invalidMessage = invalidMessage;
+	}
 }

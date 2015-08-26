@@ -51,8 +51,7 @@ public class RpcActionsAnnotationLoader extends AbstractClassAnnotationLoader {
 		Class<?> holdingClass;
 		if (rpcEntityDefinition == null) {
 			partEntityDefinition = (RpcPartEntityDefinition)entitiesRegistry.getPart(containingClass);
-			Assert.notNull(
-					partEntityDefinition,
+			Assert.notNull(partEntityDefinition,
 					MessageFormat.format(
 							"RPC entity definition for class {0} not found. Verify @RpcActions is defined along @RpcEntity or @RpcPart annotation",
 							containingClass.getName()));
@@ -88,6 +87,9 @@ public class RpcActionsAnnotationLoader extends AbstractClassAnnotationLoader {
 				if (action.targetEntity() != RpcEntity.NONE.class) {
 					actionDefinition.setTargetEntity(action.targetEntity());
 				}
+
+				actionDefinition.setIsSubmitForm(action.isSubmitForm());
+
 				actionsRef.add(actionDefinition);
 				if (logger.isDebugEnabled()) {
 					logger.debug(MessageFormat.format("Action {0} - \"{1}\" was added to the registry for rpc entity {2}",
