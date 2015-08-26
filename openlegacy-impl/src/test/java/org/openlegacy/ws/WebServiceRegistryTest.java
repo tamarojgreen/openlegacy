@@ -80,7 +80,7 @@ public class WebServiceRegistryTest {
 		}
 	}
 
-	@Test(timeout = 31000)
+	@Test(timeout = 35000)
 	public void testCache() throws Exception {
 		Assert.assertTrue(ClassUtils.getAllSuperclasses(service.getClass()).contains(Proxy.class));
 		final int[] ids = new int[] { 1000, 1001, 1002, 1003, 1004 };
