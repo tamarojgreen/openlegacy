@@ -52,7 +52,7 @@
 	
 <!-- 	Proxy only for web services -->
 	<bean id = "wsProxyChecker" class = "org.openlegacy.aop.ws.WebServiceProxyChecker"/>
-	<bean
+	<bean id = "wsProxy"
 		class="org.openlegacy.aop.ws.WebServiceBeanNameAutoProxyCreator">
 		<property name="checker" ref="wsProxyChecker"/>
 		<property name="beanNames">
