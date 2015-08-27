@@ -76,6 +76,8 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 	private boolean preProcessCacheObject;
 	private WebServiceCacheEngine cacheEngine;
 
+	private volatile int lastError = WebServiceCacheErrorConverter.CACHE_PROCESSOR_INIT_ERROR;
+
 	private CallBack operationQueueRunnableCallBack = new CallBack() {
 
 		@Override
@@ -91,7 +93,11 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 			while (!destroying) {
 				QueueOperation q = null;
 				try {
-					if (operationQueue.isEmpty()) {
+					getEngineLastError();
+					if (hasErrors() || operationQueue.isEmpty()) {
+						if (!operationQueue.isEmpty()) {
+							operationQueue.clear();
+						}
 						Thread.sleep(1);
 						continue;
 					}
@@ -118,9 +124,9 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 		this.preProcessCacheObject = preProcessCacheObject;
 		try {
 			messageDigest = MessageDigest.getInstance("MD5");
+			lastError = WebServiceCacheErrorConverter.NULL_ENGINE;
 		} catch (Exception e) {
 			logger.error("Cannot get instance for MD5 digest. WS caching disabled.");
-			disableCaching = true;
 		}
 
 		if (!disableCaching) {
@@ -130,6 +136,10 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 
 	@Override
 	public void put(String key, Object obj, WebServiceMethodDefinition methodDefinition) {
+		getEngineLastError();
+		if (hasErrors()) {
+			return;
+		}
 		WebServiceCacheData data = new WebServiceCacheData();
 		// hex avoids xml in xml storage
 		Object cached = preProcessCacheObject ? DatatypeConverter.printHexBinary(XmlSerializationUtil.xStreamSerialize(obj).getBytes())
@@ -149,6 +159,10 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 
 	@Override
 	public Object get(String key, long accessTime) {
+		getEngineLastError();
+		if (hasErrors()) {
+			return null;
+		}
 		Object cached = cacheEngine.get(key, accessTime);
 		if (cached == null) {
 			return null;
@@ -174,6 +188,10 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 
 	@Override
 	public void remove(String key) {
+		getEngineLastError();
+		if (hasErrors()) {
+			return;
+		}
 		cacheEngine.remove(key);
 	}
 
@@ -190,7 +208,10 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 	@Override
 	public void setEngine(WebServiceCacheEngine cacheEngine) {
 		this.cacheEngine = cacheEngine;
-		this.cacheEngine.init();
+		lastError = WebServiceCacheErrorConverter.ENGINE_ERROR;
+		if (this.cacheEngine.init()) {
+			lastError = WebServiceCacheErrorConverter.ALL_OK;
+		}
 	}
 
 	private void lock(String key) throws InterruptedException {
@@ -226,7 +247,7 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		Method proxiedMethod = invocation.getMethod();
-		if (invocation.getMethod().getReturnType() == void.class || disableCaching) {
+		if (invocation.getMethod().getReturnType() == void.class || hasErrors()) {
 			return invocation.proceed();
 		}
 
@@ -281,6 +302,29 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 
 	public void setSemaphoreWaitTimeOut(int semaphoreWaitTimeOut) {
 		this.semaphoreWaitTimeOut = semaphoreWaitTimeOut;
+	}
+
+	@Override
+	public synchronized String getLastError() {
+		return WebServiceCacheErrorConverter.convertError(lastError);
+	}
+
+	@Override
+	public void tryToFixEngine() {
+		if (lastError == WebServiceCacheErrorConverter.ENGINE_ERROR) {
+			cacheEngine.fix();
+		}
+	}
+
+	private synchronized boolean hasErrors() {
+		return lastError != WebServiceCacheErrorConverter.ALL_OK;
+	}
+
+	private synchronized void getEngineLastError() {
+		if (lastError == WebServiceCacheErrorConverter.ALL_OK) {// avoid rewriting processor errors
+			lastError = cacheEngine.getLastError();
+		}
+
 	}
 
 }
