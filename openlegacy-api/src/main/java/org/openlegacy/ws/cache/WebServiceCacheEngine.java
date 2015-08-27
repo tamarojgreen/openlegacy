@@ -11,9 +11,13 @@
 
 package org.openlegacy.ws.cache;
 
+
 public interface WebServiceCacheEngine {
 
-	public void init();
+	/**
+	 * Implement need logic for engine initialization
+	 * */
+	public boolean init();
 
 	public void put(String key, Object obj);
 
@@ -24,4 +28,16 @@ public interface WebServiceCacheEngine {
 	public void destroy();
 
 	public int getSize();
+
+	/**
+	 * Implement need logic for receiving last error.
+	 * 
+	 * @see WebServiceCacheErrorConverter
+	 * */
+	public int getLastError();
+
+	/**
+	 * Implement need logic, that will fix engine errors
+	 */
+	public void fix();
 }

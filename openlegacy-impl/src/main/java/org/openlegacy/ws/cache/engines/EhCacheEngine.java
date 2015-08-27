@@ -16,6 +16,7 @@ import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 
 import org.openlegacy.ws.cache.WebServiceCacheEngine;
+import org.openlegacy.ws.cache.WebServiceCacheErrorConverter;
 import org.springframework.context.ApplicationContext;
 
 import javax.inject.Inject;
@@ -30,10 +31,11 @@ public class EhCacheEngine implements WebServiceCacheEngine {
 	private Cache cache;
 
 	@Override
-	public void init() {
+	public boolean init() {
 		cacheManager = CacheManager.getInstance();
 		cacheManager.addCache(applicationContext.getDisplayName());
 		cache = cacheManager.getCache(applicationContext.getDisplayName());
+		return true;
 	}
 
 	@Override
@@ -61,4 +63,12 @@ public class EhCacheEngine implements WebServiceCacheEngine {
 	public int getSize() {
 		return cache.getSize();
 	}
+
+	@Override
+	public int getLastError() {
+		return WebServiceCacheErrorConverter.ALL_OK;
+	}
+
+	@Override
+	public void fix() {}
 }

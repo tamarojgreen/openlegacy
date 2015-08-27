@@ -12,6 +12,7 @@
 package org.openlegacy.ws.cache.engines;
 
 import org.openlegacy.ws.cache.WebServiceCacheEngine;
+import org.openlegacy.ws.cache.WebServiceCacheErrorConverter;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -21,7 +22,9 @@ public class SimpleWebServiceCacheEngine implements WebServiceCacheEngine {
 	private volatile Map<String, Object> cache = new LinkedHashMap<String, Object>();
 
 	@Override
-	public void init() {}
+	public boolean init() {
+		return true;
+	}
 
 	@Override
 	public void put(String key, Object obj) {
@@ -56,4 +59,11 @@ public class SimpleWebServiceCacheEngine implements WebServiceCacheEngine {
 		return cache.size();
 	}
 
+	@Override
+	public int getLastError() {
+		return WebServiceCacheErrorConverter.ALL_OK;
+	}
+
+	@Override
+	public void fix() {}
 }
