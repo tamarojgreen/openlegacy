@@ -17,7 +17,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.support.SimpleWebServicesRegistry;
+import org.openlegacy.ws.cache.SimpleWebServiceCacheProcessor;
 import org.openlegacy.ws.cache.WebServiceCacheEngine;
+import org.openlegacy.ws.cache.WebServiceCacheError;
 import org.openlegacy.ws.definitions.WebServiceDefinition;
 import org.openlegacy.ws.definitions.WebServiceMethodDefinition;
 import org.openlegacy.ws.definitions.WebServiceParamDetailsDefinition;
@@ -47,6 +49,9 @@ public class WebServiceRegistryTest {
 
 	@Inject
 	IWebService service;
+
+	@Inject
+	SimpleWebServiceCacheProcessor cacheProcessor;
 
 	private volatile Throwable error = new Throwable();
 
@@ -80,7 +85,8 @@ public class WebServiceRegistryTest {
 		}
 	}
 
-	@Test(timeout = 35000)
+	@Test
+	// (timeout = 35000)
 	public void testCache() throws Exception {
 		Assert.assertTrue(ClassUtils.getAllSuperclasses(service.getClass()).contains(Proxy.class));
 		final int[] ids = new int[] { 1000, 1001, 1002, 1003, 1004 };
@@ -92,7 +98,7 @@ public class WebServiceRegistryTest {
 			processors = 5;
 		}
 
-		// processors = 1; //uncomment for test
+		// processors = 1; // uncomment for test
 		for (int i = 0; i < processors; i++) {
 			final int j = i;
 			Thread thread = new Thread(new Runnable() {
@@ -114,6 +120,7 @@ public class WebServiceRegistryTest {
 							synchronized (service) {
 								cacheObject = service.getItem(id);
 							}
+							Assert.assertTrue(cacheProcessor.getLastError() == WebServiceCacheError.ALL_OK);
 							long accessTime = System.currentTimeMillis();
 							Assert.assertNotNull(cacheObject); // null reference
 							Assert.assertEquals((Integer)cacheObject.getItemNum(), (Integer)id); // another instance
@@ -147,6 +154,11 @@ public class WebServiceRegistryTest {
 				exit = !thread.isAlive();
 			}
 		}
+		long newDuration = 20000;
 		Assert.assertTrue(cache.getSize() > 0);
+		cacheProcessor.updateCacheDuration("WebService", "getItem", newDuration);
+		Thread.sleep(2000);
+		Assert.assertTrue(cacheProcessor.getLastError() == WebServiceCacheError.ALL_OK);
+		Assert.assertEquals(newDuration, registry.getWebServiceByName("WebService").getMethodByName("getItem").getCacheDuration());
 	}
 }

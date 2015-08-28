@@ -11,15 +11,17 @@
 
 package org.openlegacy.ws.cache;
 
-public class WebServiceCacheErrorConverter {
+public class WebServiceCacheError {
 
-	public static final int ALL_OK = 0;
-	public static final int CACHE_PROCESSOR_INIT_ERROR = 1;
-	public static final int NULL_ENGINE = 2;
-	public static final int ENGINE_ERROR = 3;
+	public static final int NULL = 0;
+	public static final int ALL_OK = 1;
+	public static final int CACHE_INIT_ERROR = 2;
+	public static final int ENGINE_INIT_ERROR = 3;
+	public static final int ENGINE_ERROR = 4;
+	public static final int CACHE_ERROR = 5;
 
-	public static final String[] ERROR_STRINGS = { "All ok", "Cache processor was initialized with errors",
-			"Cache engine not assigned to cache processor, check bean definition", "Engine error" };
+	public static final String[] ERROR_STRINGS = { "Null", "All ok", "Cache was initialized with errors",
+			"Cache engine was initialized with errors", "Engine error, see log for details", "Cache error, see log for details" };
 
 	public static String convertError(int error) {
 		return ERROR_STRINGS[error];

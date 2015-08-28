@@ -21,13 +21,17 @@ public interface WebServiceCacheProcessor {
 
 	public void remove(String key);
 
+	public void update(String key, Object obj);
+
 	public String generateKey(Object... args);
 
 	public void setEngine(WebServiceCacheEngine cacheEngine);
 
 	public void destroy();
 
-	public String getLastError();
+	public int getLastError();
 
 	public void tryToFixEngine();
+
+	public void updateCacheDuration(String serviceName, String methodname, long newDuration);
 }
