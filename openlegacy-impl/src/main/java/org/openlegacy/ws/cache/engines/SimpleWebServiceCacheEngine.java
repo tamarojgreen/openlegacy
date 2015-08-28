@@ -12,9 +12,11 @@
 package org.openlegacy.ws.cache.engines;
 
 import org.openlegacy.ws.cache.WebServiceCacheEngine;
-import org.openlegacy.ws.cache.WebServiceCacheErrorConverter;
+import org.openlegacy.ws.cache.WebServiceCacheError;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SimpleWebServiceCacheEngine implements WebServiceCacheEngine {
@@ -56,14 +58,32 @@ public class SimpleWebServiceCacheEngine implements WebServiceCacheEngine {
 
 	@Override
 	public int getSize() {
-		return cache.size();
+		synchronized (cache) {
+			return cache.size();
+		}
 	}
 
 	@Override
 	public int getLastError() {
-		return WebServiceCacheErrorConverter.ALL_OK;
+		return WebServiceCacheError.ALL_OK;
 	}
 
 	@Override
 	public void fix() {}
+
+	@Override
+	public void update(String key, Object obj) {
+		put(key, obj);
+	}
+
+	@Override
+	public List<String> getKeys(String keyPart) {
+		List<String> keys = new ArrayList<String>();
+		for (String key : cache.keySet()) {
+			if (key.contains(keyPart)) {
+				keys.add(key);
+			}
+		}
+		return keys;
+	}
 }

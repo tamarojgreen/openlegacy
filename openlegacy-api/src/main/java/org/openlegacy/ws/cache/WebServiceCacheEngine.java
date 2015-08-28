@@ -11,6 +11,7 @@
 
 package org.openlegacy.ws.cache;
 
+import java.util.List;
 
 public interface WebServiceCacheEngine {
 
@@ -25,6 +26,8 @@ public interface WebServiceCacheEngine {
 
 	public void remove(String key);
 
+	public void update(String key, Object obj);
+
 	public void destroy();
 
 	public int getSize();
@@ -32,7 +35,7 @@ public interface WebServiceCacheEngine {
 	/**
 	 * Implement need logic for receiving last error.
 	 * 
-	 * @see WebServiceCacheErrorConverter
+	 * @see WebServiceCacheError
 	 * */
 	public int getLastError();
 
@@ -40,4 +43,6 @@ public interface WebServiceCacheEngine {
 	 * Implement need logic, that will fix engine errors
 	 */
 	public void fix();
+
+	public List<String> getKeys(String keyPart);
 }

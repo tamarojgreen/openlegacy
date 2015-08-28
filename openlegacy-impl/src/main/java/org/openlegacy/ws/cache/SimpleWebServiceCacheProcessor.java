@@ -13,18 +13,20 @@ package org.openlegacy.ws.cache;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.openlegacy.WebServicesRegistry;
+import org.openlegacy.utils.ThreadWorkSeparatorUtil;
+import org.openlegacy.utils.ThreadWorkSeparatorUtil.OnRun;
 import org.openlegacy.utils.XmlSerializationUtil;
 import org.openlegacy.utils.ZipUtil;
+import org.openlegacy.ws.definitions.SimpleWebServiceMethodDefinition;
 import org.openlegacy.ws.definitions.WebServiceDefinition;
 import org.openlegacy.ws.definitions.WebServiceMethodDefinition;
-import org.springframework.context.ApplicationContext;
 
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -36,130 +38,183 @@ import javax.xml.bind.DatatypeConverter;
 
 public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor, MethodInterceptor {
 
-	private static final Log logger = LogFactory.getLog(SimpleWebServiceCacheProcessor.class);
+	private static final int ADD = 0;
+	private static final int REMOVE = 1;
+	private static final int UPDATE = 2;
 
-	public static final int OPERATION_ADD = 1;
-	public static final int OPERATION_REMOVE = 2;
+	public static SimpleWebServiceCacheProcessor INSTANCE;
 
-	public static class QueueOperation {
+	@Inject
+	private WebServicesRegistry wsRegistry;
 
-		int code;
-		Object[] args;
+	private static class BackGroundOperation {
 
-		public QueueOperation(int code, Object... args) {
+		private int code;
+		private Object[] data;
+
+		public BackGroundOperation(int code, Object[] data) {
 			this.code = code;
-			this.args = args;
+			this.data = data;
 		}
 	}
 
-	public static interface CallBack {
+	private static class UpdateDuration {
 
-		public void callBack();
+		String key;
+		long oldDuration, newDuration;
+
+		public UpdateDuration(String key, long oldDuration, long newDuration) {
+			this.key = key;
+			this.oldDuration = oldDuration;
+			this.newDuration = newDuration;
+		}
 	}
 
-	@Inject
-	WebServicesRegistry wsRegistry;
+	public static class OnUpdateRun implements OnRun {
 
-	@Inject
-	ApplicationContext applicationContext;
-
-	private MessageDigest messageDigest;
-
-	private int semaphoreWaitTimeOut = 10;
-
-	private volatile BlockingQueue<QueueOperation> operationQueue = new LinkedBlockingDeque<QueueOperation>();
-	private volatile Semaphore lockQueue = new Semaphore(1, true), unlockQueue = new Semaphore(1, true);
-	private volatile Map<String, Semaphore> requestSemaphores = new LinkedHashMap<String, Semaphore>();
-	private volatile boolean destroying = false;
-
-	private boolean disableCaching = false;
-	private boolean preProcessCacheObject;
-	private WebServiceCacheEngine cacheEngine;
-
-	private volatile int lastError = WebServiceCacheErrorConverter.CACHE_PROCESSOR_INIT_ERROR;
-
-	private CallBack operationQueueRunnableCallBack = new CallBack() {
+		SimpleWebServiceCacheProcessor wsCacheProcessor = SimpleWebServiceCacheProcessor.INSTANCE;
 
 		@Override
-		public void callBack() {
-			continueDestroy();
+		public void onRun(Object obj) {
+			UpdateDuration ud = (UpdateDuration)obj;
+			WebServiceCacheEngine wsCacheEngine = wsCacheProcessor.getCacheEngine();
+			Object cached = wsCacheEngine.get(ud.key, -1);
+			if (cached == null) {
+				return;
+			}
+			WebServiceCacheData cacheData = (WebServiceCacheData)wsCacheProcessor.afterCache(cached, true);
+			cacheData.setExpirationTime(cacheData.getExpirationTime() - ud.oldDuration + ud.newDuration);
+			cached = wsCacheProcessor.beforeCache(cacheData, true);
+			wsCacheEngine.update(ud.key, cached);
 		}
-	};
+	}
 
-	private Runnable operationQueueRunnable = new Runnable() {
+	private volatile BlockingQueue<BackGroundOperation> backGroundWork = new LinkedBlockingDeque<BackGroundOperation>();
+	private volatile Semaphore lock = new Semaphore(1, true), unlock = new Semaphore(1, true);
+	private volatile Map<String, Semaphore> requests = new LinkedHashMap<String, Semaphore>();
+	private volatile boolean blockedLocally = false;
+	private volatile int lastError = WebServiceCacheError.NULL;
+
+	private boolean preProcessCacheObject;
+	private WebServiceCacheEngine cacheEngine;
+	private int semaphoreWaitTimeOut = 10;
+	private MessageDigest messageDigest;
+
+	Runnable backGroundWorker = new Runnable() {
 
 		@Override
 		public void run() {
-			while (!destroying) {
-				QueueOperation q = null;
+			while (!onDestroy) {
 				try {
-					getEngineLastError();
-					if (hasErrors() || operationQueue.isEmpty()) {
-						if (!operationQueue.isEmpty()) {
-							operationQueue.clear();
-						}
-						Thread.sleep(1);
-						continue;
-					}
-					q = operationQueue.take();
+					work();
 				} catch (Exception e) {
-				}
-
-				Object[] args = q.args;
-				switch (q.code) {
-					case OPERATION_ADD:
-						put((String)args[0], args[1], (WebServiceMethodDefinition)args[2]);
-						break;
-					case OPERATION_REMOVE:
-						remove((String)args[0]);
-						break;
+					e.printStackTrace();
 				}
 			}
-			operationQueueRunnableCallBack.callBack();
+		}
+
+		private void work() throws Exception {
+			if (hasErrors()) {
+				if (backGroundWork.isEmpty()) {
+					backGroundWork.clear();
+				}
+				return;
+			}
+			if (backGroundWork.isEmpty()) {
+				return;
+			}
+			BackGroundOperation work = backGroundWork.take();
+			Object[] data = work.data;
+
+			switch (work.code) {
+				case ADD:
+					put((String)data[0], data[1], (WebServiceMethodDefinition)data[2]);
+					break;
+				case REMOVE:
+					remove((String)data[0]);
+					break;
+				case UPDATE:
+					updateDuration((String)data[0], (WebServiceMethodDefinition)data[1], (Long)data[2]);
+					break;
+				default:
+					break;
+			}
 		}
 	};
+	private volatile boolean onDestroy = false;
 
-	// if you don`t need compressing and serializing - change bean constructor argument to false
 	public SimpleWebServiceCacheProcessor(boolean preProcessCacheObject) {
 		this.preProcessCacheObject = preProcessCacheObject;
+		SimpleWebServiceCacheProcessor.INSTANCE = this;
 		try {
 			messageDigest = MessageDigest.getInstance("MD5");
-			lastError = WebServiceCacheErrorConverter.NULL_ENGINE;
 		} catch (Exception e) {
-			logger.error("Cannot get instance for MD5 digest. WS caching disabled.");
+			lastError = WebServiceCacheError.CACHE_INIT_ERROR;
+		}
+		new Thread(backGroundWorker).start();
+	}
+
+	@Override
+	public Object invoke(MethodInvocation invocation) throws Throwable {
+		Method origin = invocation.getMethod();
+
+		if (blockedLocally || origin.getReturnType() == void.class) {
+			return invocation.proceed();
 		}
 
-		if (!disableCaching) {
-			new Thread(operationQueueRunnable).start();
+		WebServiceDefinition wsDef = wsRegistry.getWebServiceByClass(origin.getDeclaringClass());
+
+		if (wsDef == null) {
+			return invocation.proceed();
 		}
+
+		WebServiceMethodDefinition wsMDef = wsDef.getMethodByName(origin.getName());
+
+		if (wsMDef == null || wsMDef.getCacheDuration() == 0) {
+			return invocation.proceed();
+		}
+
+		String key = String.format("%s.%s.%s", wsDef.getName(), wsMDef.getName(), generateKey(invocation.getArguments()));
+
+		long accessTime = System.currentTimeMillis();
+
+		lock(key);
+
+		Object result = get(key, accessTime);
+		if (result != null) {
+			return result;
+		} else {
+			try {
+				result = invocation.proceed();
+				addBackGroundOperation(ADD, key, result, wsMDef);
+			} catch (Exception e) {
+				e.printStackTrace();
+				unlock(key);
+			}
+			return result;
+		}
+
 	}
 
 	@Override
 	public void put(String key, Object obj, WebServiceMethodDefinition methodDefinition) {
-		getEngineLastError();
 		if (hasErrors()) {
 			return;
 		}
-		WebServiceCacheData data = new WebServiceCacheData();
-		// hex avoids xml in xml storage
-		Object cached = preProcessCacheObject ? DatatypeConverter.printHexBinary(XmlSerializationUtil.xStreamSerialize(obj).getBytes())
-				: obj;
-		data.setData(cached);
-		data.setExpirationTime(System.currentTimeMillis() + methodDefinition.getCacheDuration());
-		cached = preProcessCacheObject ? ZipUtil.compress(XmlSerializationUtil.xStreamSerialize(data).getBytes()) : data;
-		cacheEngine.put(key, cached);
 		try {
+			WebServiceCacheData cacheData = new WebServiceCacheData();
+			cacheData.setData(beforeCache(obj, false));
+			cacheData.setExpirationTime(System.currentTimeMillis() + methodDefinition.getCacheDuration());
+			cacheEngine.put(key, beforeCache(cacheData, true));
 			unlock(key);
 		} catch (Exception e) {
-			logger.error(String.format("Unable unlock semaphore for %s key", key));
+			lastError = WebServiceCacheError.CACHE_ERROR;
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
 	public Object get(String key, long accessTime) {
-		getEngineLastError();
 		if (hasErrors()) {
 			return null;
 		}
@@ -168,31 +223,33 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 			return null;
 		}
 		try {
-			cached = preProcessCacheObject ? XmlSerializationUtil.xStreamDeserialize(new String(
-					ZipUtil.decompress((byte[])cached))) : cached;
-			WebServiceCacheData cacheData = (WebServiceCacheData)cached;
+			WebServiceCacheData cacheData = (WebServiceCacheData)afterCache(cached, true);
 			if (accessTime > cacheData.getExpirationTime()) {
-				addQueueOperation(OPERATION_REMOVE, key);
+				addBackGroundOperation(REMOVE, key);
 				return null;
 			}
-
-			cached = preProcessCacheObject ? XmlSerializationUtil.xStreamDeserialize(new String(
-					DatatypeConverter.parseHexBinary((String)cacheData.getData()))) : cacheData.getData();
+			cached = afterCache(cacheData.getData(), false);
 			unlock(key);
 			return cached;
 		} catch (Exception e) {
-			addQueueOperation(OPERATION_REMOVE, key);
+			e.printStackTrace();
+			unlock(key);
+			lastError = WebServiceCacheError.CACHE_ERROR;
 			return null;
 		}
 	}
 
 	@Override
 	public void remove(String key) {
-		getEngineLastError();
 		if (hasErrors()) {
 			return;
 		}
 		cacheEngine.remove(key);
+	}
+
+	@Override
+	public void update(String key, Object obj) {
+		cacheEngine.update(key, obj);
 	}
 
 	@Override
@@ -207,124 +264,133 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 
 	@Override
 	public void setEngine(WebServiceCacheEngine cacheEngine) {
-		this.cacheEngine = cacheEngine;
-		lastError = WebServiceCacheErrorConverter.ENGINE_ERROR;
-		if (this.cacheEngine.init()) {
-			lastError = WebServiceCacheErrorConverter.ALL_OK;
-		}
-	}
-
-	private void lock(String key) throws InterruptedException {
-		lockQueue.acquire(1);
-		Semaphore semaphore = requestSemaphores.get(key);
-		if (semaphore == null) {
-			semaphore = new Semaphore(1);
-			requestSemaphores.put(key, semaphore);
-			lockQueue.release(1);
-			semaphore.acquire(1);
-		} else {
-			lockQueue.release(1);
-			semaphore.tryAcquire(1, semaphoreWaitTimeOut, TimeUnit.SECONDS);
-		}
-	}
-
-	private void unlock(String key) throws InterruptedException {
-		unlockQueue.acquire(1);
-		Semaphore semaphore = requestSemaphores.get(key);
-		if (semaphore != null) {
-			if (!semaphore.hasQueuedThreads()) {
-				requestSemaphores.remove(key);
-			}
-			semaphore.release(1);
-		}
-		unlockQueue.release(1);
-	}
-
-	private void addQueueOperation(int code, Object... args) {
-		operationQueue.add(new QueueOperation(code, args));
-	}
-
-	@Override
-	public Object invoke(MethodInvocation invocation) throws Throwable {
-		Method proxiedMethod = invocation.getMethod();
-		if (invocation.getMethod().getReturnType() == void.class || hasErrors()) {
-			return invocation.proceed();
-		}
-
-		WebServiceDefinition wsDef = wsRegistry.getWebServiceByClass(invocation.getMethod().getDeclaringClass());
-
-		if (wsDef == null) {
-			return invocation.proceed();
-		}
-
-		WebServiceMethodDefinition wsMDef = wsDef.getMethodByName(proxiedMethod.getName());
-
-		if (wsMDef == null || wsMDef.getCacheDuration() == 0) {
-			return invocation.proceed();
-		}
-		String key = String.format("%s.%s.%s", wsDef.getName(), wsMDef.getName(), generateKey(invocation.getArguments()));
-
-		long accessTime = System.currentTimeMillis(); // pre semaphored time
-
 		try {
-			lock(key);
-		} catch (Exception e) {
-			logger.error(String.format(
-					"Unable to process semaphore for %s key. Original method call will proceed without caching", key));
-			e.printStackTrace();
-			return invocation.proceed();
-		}
-
-		Object cached = get(key, accessTime);
-		if (cached != null) {
-			return cached;
-		} else {
-			Object result = null;
-			logger.debug(String.format("Original call for non cached hash %s", key));
-			try {
-				result = invocation.proceed();
-				addQueueOperation(OPERATION_ADD, key, result, wsMDef);
-			} catch (Exception e) {
-				unlock(key);
+			this.cacheEngine = cacheEngine;
+			if (!cacheEngine.init()) {
+				lastError = WebServiceCacheError.ENGINE_INIT_ERROR;
+			} else {
+				lastError = WebServiceCacheError.ALL_OK;
 			}
-			return result;
+		} catch (Exception e) {
+			lastError = WebServiceCacheError.ENGINE_INIT_ERROR;
 		}
 	}
 
 	@Override
 	public void destroy() {
-		destroying = true;
-	}
-
-	private void continueDestroy() {
-		cacheEngine.destroy();
-	}
-
-	public void setSemaphoreWaitTimeOut(int semaphoreWaitTimeOut) {
-		this.semaphoreWaitTimeOut = semaphoreWaitTimeOut;
+		onDestroy = true;
 	}
 
 	@Override
-	public synchronized String getLastError() {
-		return WebServiceCacheErrorConverter.convertError(lastError);
+	public int getLastError() {
+		return lastError;
 	}
 
 	@Override
 	public void tryToFixEngine() {
-		if (lastError == WebServiceCacheErrorConverter.ENGINE_ERROR) {
-			cacheEngine.fix();
+		cacheEngine.fix();
+	}
+
+	public WebServiceCacheEngine getCacheEngine() {
+		return cacheEngine;
+	}
+
+	private void addBackGroundOperation(int code, Object... args) {
+		backGroundWork.add(new BackGroundOperation(code, args));
+	}
+
+	public synchronized Object beforeCache(Object obj, boolean isTopObject) {
+		if (isTopObject) {
+			return preProcessCacheObject ? ZipUtil.compress(XmlSerializationUtil.xStreamSerialize(obj).getBytes()) : obj;
+		} else {
+			return preProcessCacheObject ? DatatypeConverter.printHexBinary(XmlSerializationUtil.xStreamSerialize(obj).getBytes())
+					: obj;
 		}
+	}
+
+	public synchronized Object afterCache(Object obj, boolean isTopObject) {
+		if (isTopObject) {
+			return preProcessCacheObject ? XmlSerializationUtil.xStreamDeserialize(new String(ZipUtil.decompress((byte[])obj)))
+					: obj;
+		} else {
+			return preProcessCacheObject ? XmlSerializationUtil.xStreamDeserialize(new String(
+					DatatypeConverter.parseHexBinary((String)obj))) : obj;
+		}
+	}
+
+	private void lock(String key) {
+		try {
+			lock.acquire(1);
+			Semaphore semaphore = requests.get(key);
+			if (semaphore == null) {
+				semaphore = new Semaphore(1);
+				requests.put(key, semaphore);
+				lock.release(1);
+				semaphore.acquire(1);
+			} else {
+				lock.release(1);
+				semaphore.tryAcquire(1, semaphoreWaitTimeOut, TimeUnit.SECONDS);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void unlock(String key) {
+		try {
+			unlock.acquire(1);
+			Semaphore semaphore = requests.get(key);
+			if (semaphore != null) {
+				if (!semaphore.hasQueuedThreads()) {
+					requests.remove(key);
+				}
+				semaphore.release(1);
+			}
+			unlock.release(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void updateDuration(String keyPart, WebServiceMethodDefinition wsMDef, long newDuration) {
+		List<String> keys = cacheEngine.getKeys(keyPart);
+		List<UpdateDuration> updateDuration = new ArrayList<UpdateDuration>();
+		for (String key : keys) {
+			updateDuration.add(new UpdateDuration(key, wsMDef.getCacheDuration(), newDuration));
+		}
+		try {
+			ThreadWorkSeparatorUtil.newInstance().start(updateDuration, OnUpdateRun.class);
+			((SimpleWebServiceMethodDefinition)wsMDef).setCacheDuration(newDuration);
+		} catch (Exception e) {
+			lastError = WebServiceCacheError.CACHE_ERROR;
+		}
+
+		blockedLocally = false;
+	}
+
+	@Override
+	public void updateCacheDuration(String serviceName, String methodname, long newDuration) {
+		blockedLocally = true;
+
+		WebServiceMethodDefinition wsMDef = null;
+		try {
+			wsMDef = wsRegistry.getWebServiceByName(serviceName).getMethodByName(methodname);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		if (wsMDef == null) {
+			blockedLocally = false;
+			return;
+		}
+		addBackGroundOperation(UPDATE, String.format("%s.%s", serviceName, methodname), wsMDef, newDuration);
 	}
 
 	private synchronized boolean hasErrors() {
-		return lastError != WebServiceCacheErrorConverter.ALL_OK;
-	}
-
-	private synchronized void getEngineLastError() {
-		if (lastError == WebServiceCacheErrorConverter.ALL_OK) {// avoid rewriting processor errors
+		if (lastError == WebServiceCacheError.ALL_OK) {
 			lastError = cacheEngine.getLastError();
 		}
-
+		return lastError != WebServiceCacheError.ALL_OK;
 	}
 
 }

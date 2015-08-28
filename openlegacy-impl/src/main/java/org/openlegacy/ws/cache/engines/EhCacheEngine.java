@@ -16,8 +16,11 @@ import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 
 import org.openlegacy.ws.cache.WebServiceCacheEngine;
-import org.openlegacy.ws.cache.WebServiceCacheErrorConverter;
+import org.openlegacy.ws.cache.WebServiceCacheError;
 import org.springframework.context.ApplicationContext;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -66,9 +69,27 @@ public class EhCacheEngine implements WebServiceCacheEngine {
 
 	@Override
 	public int getLastError() {
-		return WebServiceCacheErrorConverter.ALL_OK;
+		return WebServiceCacheError.ALL_OK;
 	}
 
 	@Override
 	public void fix() {}
+
+	@Override
+	public void update(String key, Object obj) {
+		remove(key);
+		put(key, obj);
+	}
+
+	@Override
+	public List<String> getKeys(String keyPart) {
+		List<String> keys = new ArrayList<String>();
+		for (Object key : cache.getKeys()) {
+			String localkey = (String)key;
+			if (localkey.contains(keyPart)) {
+				keys.add(localkey);
+			}
+		}
+		return keys;
+	}
 }
