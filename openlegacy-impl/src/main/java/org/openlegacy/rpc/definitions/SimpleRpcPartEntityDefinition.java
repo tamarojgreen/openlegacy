@@ -24,8 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<RpcFieldDefinition> implements
-		RpcPartEntityDefinition, Serializable, OrderedField {
+public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<RpcFieldDefinition> implements RpcPartEntityDefinition, Serializable, OrderedField {
 
 	private static final long serialVersionUID = 1L;
 	private String originalName;
@@ -115,8 +114,8 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 
 		if (keyFirstTime.equals(true)) {
 			for (PartEntityDefinition<RpcFieldDefinition> part : innerPartsDefinitions.values()) {
-				if (((RpcPartEntityDefinition) part).getCount() == 1) {
-					keys.addAll(((RpcPartEntityDefinition) part).getKeys());
+				if (((RpcPartEntityDefinition)part).getCount() == 1) {
+					keys.addAll(((RpcPartEntityDefinition)part).getKeys());
 				}
 			}
 			keyFirstTime = false;
@@ -132,7 +131,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 		Collection<RpcPartEntityDefinition> parts = innerPartsDefinitions.values();
 
 		for (PartEntityDefinition<RpcFieldDefinition> p : parts) {
-			result.add((SimpleRpcPartEntityDefinition) p);
+			result.add((SimpleRpcPartEntityDefinition)p);
 		}
 
 		Collections.sort(result, new Comparator<OrderedField>() {
@@ -165,9 +164,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 	}
 
 	public String getExternalName() {
-		if (externalName == null) {
-			return getPartName();
-		}
+		
 		return externalName;
 	}
 
