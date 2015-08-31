@@ -33,5 +33,5 @@ public interface WebServiceCacheProcessor {
 
 	public void tryToFixEngine();
 
-	public void updateCacheDuration(String serviceName, String methodname, long newDuration);
+	public void updateCacheDuration(String serviceName, String methodName, long newDuration);
 }

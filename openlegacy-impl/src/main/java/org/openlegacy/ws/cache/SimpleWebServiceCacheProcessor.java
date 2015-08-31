@@ -369,12 +369,12 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 	}
 
 	@Override
-	public void updateCacheDuration(String serviceName, String methodname, long newDuration) {
+	public void updateCacheDuration(String serviceName, String methodName, long newDuration) {
 		blockedLocally = true;
 
 		WebServiceMethodDefinition wsMDef = null;
 		try {
-			wsMDef = wsRegistry.getWebServiceByName(serviceName).getMethodByName(methodname);
+			wsMDef = wsRegistry.getWebServiceByName(serviceName).getMethodByName(methodName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -383,7 +383,7 @@ public class SimpleWebServiceCacheProcessor implements WebServiceCacheProcessor,
 			blockedLocally = false;
 			return;
 		}
-		addBackGroundOperation(UPDATE, String.format("%s.%s", serviceName, methodname), wsMDef, newDuration);
+		addBackGroundOperation(UPDATE, String.format("%s.%s", serviceName, methodName), wsMDef, newDuration);
 	}
 
 	private synchronized boolean hasErrors() {
