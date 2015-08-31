@@ -72,6 +72,7 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 		this.focusField = focusField;
 	}
 
+	@Override
 	public void setAdditionalKey(AdditionalKey additionalKey) {
 		this.additionalKey = additionalKey;
 	}
@@ -128,4 +129,13 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 		this.keyboardKeyName = keyboardKeyName;
 	}
 
+	@Override
+	public boolean isSubmitForm() {
+		return super.isSubmitForm();
+	}
+
+	@Override
+	public void setIsSubmitForm(boolean isSubmitForm) {
+		super.setIsSubmitForm(isSubmitForm);
+	}
 }
