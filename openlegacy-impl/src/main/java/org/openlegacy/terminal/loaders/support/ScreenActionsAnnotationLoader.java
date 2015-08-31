@@ -50,8 +50,7 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 
 		ScreenEntityDefinition screenEntityDefinition = (ScreenEntityDefinition)entitiesRegistry.get(containingClass);
-		Assert.notNull(
-				screenEntityDefinition,
+		Assert.notNull(screenEntityDefinition,
 				MessageFormat.format(
 						"Screen entity definition for class {0} not found. Verify @ScreenActions is defined along @ScreenEntity annotation",
 						containingClass.getName()));
@@ -72,8 +71,9 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 						: StringUtil.toDisplayName(action.action().getSimpleName());
 
 				if (action.additionalKey() != AdditionalKey.NONE) {
-					actionDefinition = new SimpleTerminalActionDefinition(TerminalActions.combined(action.additionalKey(),
-							theAction), action.additionalKey(), displayName, position);
+					actionDefinition = new SimpleTerminalActionDefinition(
+							TerminalActions.combined(action.additionalKey(), theAction), action.additionalKey(), displayName,
+							position);
 				} else {
 					actionDefinition = new SimpleTerminalActionDefinition(ReflectionUtil.newInstance(theAction),
 							action.additionalKey(), displayName, position);
@@ -103,6 +103,7 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 						}
 					}
 				}
+				actionDefinition.setIsSubmitForm(action.isSubmitForm());
 
 				if (action.focusField().length() > 0) {
 					actionDefinition.setFocusField(action.focusField());

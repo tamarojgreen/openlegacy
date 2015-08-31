@@ -46,7 +46,7 @@ public @interface Action {
 	 * 
 	 * @return terminal action
 	 */
-	Class<? extends TerminalAction> action();
+	Class<? extends TerminalAction>action();
 
 	String displayName() default "";
 
@@ -100,7 +100,7 @@ public @interface Action {
 	 */
 	String when() default ".*";
 
-	Class<?> targetEntity() default ScreenEntity.NONE.class;
+	Class<?>targetEntity() default ScreenEntity.NONE.class;
 
 	/**
 	 * Time to wait in ms, after an action was performed
@@ -112,6 +112,7 @@ public @interface Action {
 	 * 
 	 * @return
 	 */
-	Class<? extends SimpleTerminalMappedAction> keyboardKey() default TerminalActions.NONE.class;
+	Class<? extends SimpleTerminalMappedAction>keyboardKey() default TerminalActions.NONE.class;
 
+	boolean isSubmitForm() default false;
 }
