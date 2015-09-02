@@ -166,19 +166,10 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		if (screenFieldDefinition.isEnableLookup() && fieldAnnotation.lookupAction() != TerminalActions.NONE.class) {
 			screenFieldDefinition.setLookupAction(ReflectionUtil.newInstance(fieldAnnotation.lookupAction()));
 		}
-		if (screenFieldDefinition.getRegularExpression() != null && !screenFieldDefinition.getRegularExpression().equals("")) {
-			screenFieldDefinition.setRegularExpression(fieldAnnotation.regularExpression());
-		} else {
-			screenFieldDefinition.setRegularExpression("");
-		}
-		if (screenFieldDefinition.required() != false) {
-			screenFieldDefinition.setRequired(fieldAnnotation.required());
-		}
-		if (screenFieldDefinition.getInvalidMessage() != null && !screenFieldDefinition.getInvalidMessage().equals("")) {
-			screenFieldDefinition.setInvalidMessage(fieldAnnotation.invalidMessage());
-		} else {
-			screenFieldDefinition.setInvalidMessage("");
-		}
+
+		screenFieldDefinition.setRegularExpression(fieldAnnotation.regularExpression());
+		screenFieldDefinition.setRequired(fieldAnnotation.required());
+		screenFieldDefinition.setInvalidMessage(fieldAnnotation.invalidMessage());
 
 		setupFieldType(field, screenFieldDefinition);
 
