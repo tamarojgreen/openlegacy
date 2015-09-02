@@ -27,47 +27,44 @@ public class MfRpcConnectionFactory implements LiveRpcConnectionFactory, Initial
 	@Inject
 	private ApplicationContext applicationContext;
 
-	private String cicsUrl;
+	private String baseUrl;
 
-	private String fontName;
+	public String getBaseUrl() {
+		return baseUrl;
+	}
 
-	@Override
+	public void setBaseUrl(String baseUrl) {
+		this.baseUrl = baseUrl;
+	}
+
+	public String getCodePage() {
+		return codePage;
+	}
+
+	public void setCodePage(String codePage) {
+		this.codePage = codePage;
+	}
+
+	private String codePage;
+
 	public RpcConnection getConnection() {
 		HttpClient httpClient = applicationContext.getBean(HttpClient.class);
 		MfRpcConnection rpcConnection = new MfRpcConnection();
 
 		rpcConnection.setHttpClient(httpClient);
-		rpcConnection.setFontName(fontName);
-		rpcConnection.setUri(cicsUrl);
+		rpcConnection.setCodePage(codePage);
+		rpcConnection.setUri(baseUrl);
 
 		return rpcConnection;
 	}
 
-	@Override
 	public void disconnect(RpcConnection rpcConnection) {
 		rpcConnection.disconnect();
 
 	}
 
-	@Override
 	public void afterPropertiesSet() throws Exception {
 
-	}
-
-	public String getCicsUrl() {
-		return cicsUrl;
-	}
-
-	public void setCicsUrl(String cicsUrl) {
-		this.cicsUrl = cicsUrl;
-	}
-
-	public String getFontName() {
-		return fontName;
-	}
-
-	public void setFontName(String fontName) {
-		this.fontName = fontName;
 	}
 
 }

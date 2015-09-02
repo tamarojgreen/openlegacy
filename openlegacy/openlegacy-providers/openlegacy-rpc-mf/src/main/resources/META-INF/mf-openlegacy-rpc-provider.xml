@@ -11,8 +11,8 @@
 		
 	
 	<bean id="rpcConnectionFactory" class="org.openlegacy.providers.mfrpc.MfRpcConnectionFactory" >
-		<property name="cicsUrl" value="${rpc.cicsUrl}:${rpc.cicsport}/${rpc.cicsUriMap}"/>
-		<property name="fontName" value="${rpc.font}"/>
+		<property name="baseUrl" value="${cics.baseURL}:${cics.port}/${cics.UriMap}"/>
+		<property name="codePage" value="${cics.codePage}"/>
 	</bean>
 	<bean id="httpClient" scope="prototype" class="org.apache.http.impl.client.DefaultHttpClient" />
 	
