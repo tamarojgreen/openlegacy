@@ -9,19 +9,17 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy;
+package org.openlegacy.aop.services;
 
-import org.openlegacy.services.definitions.ServiceDefinition;
+import org.openlegacy.annotations.services.Service;
+import org.openlegacy.aop.BeanProxyChecker;
+import org.springframework.core.annotation.AnnotationUtils;
 
-import java.util.List;
+public class ServiceProxyChecker implements BeanProxyChecker {
 
-public interface WebServicesRegistry {
+	@Override
+	public boolean needToProxy(Class<?> clazz) {
+		return AnnotationUtils.findAnnotation(clazz, Service.class) != null;
+	}
 
-	List<ServiceDefinition> getWebServices();
-
-	ServiceDefinition getWebServiceByName(String name);
-
-	List<String> getPackages();
-
-	ServiceDefinition getWebServiceByClass(Class<?> clazz);
 }

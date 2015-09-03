@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"	
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+		
+	<context:component-scan base-package="org.openlegacy.services.loaders.support"></context:component-scan>	
+	
+ 	<bean class="org.openlegacy.support.ServiceAnnotationProcessor">
+	    <property name="loadersPackages">
+	        <list>
+	            <value>org.openlegacy.services.loaders.support</value>
+            </list>
+        </property>
+ 	</bean>
+	        
+ 	
+ 	<bean id="serviceRegistryLoader" class="org.openlegacy.support.DefaultServicesRegistryLoader">
+ 		<property name="serviceContext" value="org.openlegacy.services.WebServiceImpl"></property>
+ 	</bean>
+ 	
+ 	<bean id="serviceRegisrty" class="org.openlegacy.support.SimpleServicesRegistry">
+ 		<property name="packages">
+ 			<list>
+ 				<value>org.openlegacy.services</value>
+ 			</list>
+ 		</property>
+ 	</bean>
+ 	
+ 	<bean id = "serviceCacheEngine" class = "org.openlegacy.services.cache.engines.SimpleServiceCacheEngine"/>
+		
+	<bean id = "serviceCache" class = "org.openlegacy.services.cache.SimpleServiceCacheProcessor" destroy-method="destroy">
+		<constructor-arg index="0" value="true"/>		
+		<property name="engine" ref="serviceCacheEngine"/>
+	</bean>
+
+		
+	<bean id = "serviceProxyChecker" class = "org.openlegacy.aop.services.ServiceProxyChecker"/>
+	<bean
+		class="org.openlegacy.aop.services.ServiceBeanNameAutoProxyCreator">
+		<property name="checker" ref="serviceProxyChecker"/>
+		<property name="beanNames">
+			<list>
+				<value>*Service*</value>
+				<value>*Service</value>
+				<value>*Impl</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>serviceCache</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean class = "org.openlegacy.services.WebServiceImpl"/>
+ 	
+	<context:annotation-config />
+</beans>

@@ -9,19 +9,23 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy;
+package org.openlegacy.services;
 
-import org.openlegacy.services.definitions.ServiceDefinition;
+import org.openlegacy.annotations.services.Service;
 
-import java.util.List;
+@Service(name = "WebService")
+public class WebServiceImpl implements WebService {
 
-public interface WebServicesRegistry {
+	ItemDetails[] details = new ItemDetails[] { new ItemDetails(1000), new ItemDetails(1001), new ItemDetails(1002),
+			new ItemDetails(1003), new ItemDetails(1004) };
 
-	List<ServiceDefinition> getWebServices();
+	@Override
+	public ItemDetails getItem(int id) {
+		try {
+			return details[id - 1000];
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
-	ServiceDefinition getWebServiceByName(String name);
-
-	List<String> getPackages();
-
-	ServiceDefinition getWebServiceByClass(Class<?> clazz);
 }
