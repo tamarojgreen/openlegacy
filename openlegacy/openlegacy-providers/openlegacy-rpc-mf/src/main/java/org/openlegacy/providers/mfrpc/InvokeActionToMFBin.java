@@ -6,7 +6,6 @@ import net.sf.JRecord.Types.Type;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.Assert;
 import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.rpc.RpcField;
@@ -150,7 +149,7 @@ public class InvokeActionToMFBin {
 
 					break;
 				default:
-					Assert.assertTrue(true);
+					// Assert.assertTrue(true);
 			}
 		} catch (RecordException e) {
 			throw new OpenLegacyProviderException(e);
