@@ -9,19 +9,23 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy;
+package org.openlegacy.services.definitions;
 
-import org.openlegacy.services.definitions.ServiceDefinition;
+public interface ServicePoolDefinition {
 
-import java.util.List;
+	String getName();
 
-public interface WebServicesRegistry {
+	Class<?> getPoolClass();
 
-	List<ServiceDefinition> getWebServices();
+	int getMaxConnection();
 
-	ServiceDefinition getWebServiceByName(String name);
+	long getKeepAliveInterval();
 
-	List<String> getPackages();
+	long getReturnSessionsInterval();
 
-	ServiceDefinition getWebServiceByClass(Class<?> clazz);
+	boolean getStopThreads();
+
+	void updatePoolInstance();
+
+	ServicePoolInitActionDefinition getInitActionDefinition();
 }

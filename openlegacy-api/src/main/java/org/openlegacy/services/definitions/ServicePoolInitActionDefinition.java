@@ -9,19 +9,17 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy;
+package org.openlegacy.services.definitions;
 
-import org.openlegacy.services.definitions.ServiceDefinition;
+public interface ServicePoolInitActionDefinition {
 
-import java.util.List;
+	String getName();
 
-public interface WebServicesRegistry {
+	Class<?> getInitActionClass();
 
-	List<ServiceDefinition> getWebServices();
+	String getUser();
 
-	ServiceDefinition getWebServiceByName(String name);
+	String getPassword();
 
-	List<String> getPackages();
-
-	ServiceDefinition getWebServiceByClass(Class<?> clazz);
+	void updateActionInstance();
 }

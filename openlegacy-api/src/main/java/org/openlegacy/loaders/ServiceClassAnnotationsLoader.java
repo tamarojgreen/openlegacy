@@ -9,19 +9,18 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy;
+package org.openlegacy.loaders;
 
 import org.openlegacy.services.definitions.ServiceDefinition;
 
-import java.util.List;
+import java.lang.annotation.Annotation;
 
-public interface WebServicesRegistry {
+public interface ServiceClassAnnotationsLoader extends Comparable<ServiceClassAnnotationsLoader> {
 
-	List<ServiceDefinition> getWebServices();
+	boolean match(Annotation annotation);
 
-	ServiceDefinition getWebServiceByName(String name);
+	@SuppressWarnings("rawtypes")
+	void load(ServiceDefinition definition, Annotation annotation);
 
-	List<String> getPackages();
-
-	ServiceDefinition getWebServiceByClass(Class<?> clazz);
+	Class<? extends Annotation> getAnnotation();
 }

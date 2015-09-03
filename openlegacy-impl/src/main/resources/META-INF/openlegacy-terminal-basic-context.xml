@@ -26,16 +26,16 @@
  	
  	<bean id="registryLoader" class="org.openlegacy.terminal.support.DefaultScreensRegistryLoader"/>
  	
- 	<bean class="org.openlegacy.support.WebServiceAnnotationProcessor">
+ 	<bean class="org.openlegacy.support.ServiceAnnotationProcessor">
 	    <property name="loadersPackages">
 	        <list>
-	            <value>org.openlegacy.ws.loaders.support</value>
+	            <value>org.openlegacy.services.loaders.support</value>
             </list>
 	    </property>
  	</bean>
  	
- 	<bean id="wsRegistryLoader" class="org.openlegacy.support.DefaultWebServicesRegistryLoader"/> 	
- 	<bean id="wsRegisrty" class="org.openlegacy.support.SimpleWebServicesRegistry"/>	
+ 	<bean id="serviceRegistryLoader" class="org.openlegacy.support.DefaultServicesRegistryLoader"/> 	
+ 	<bean id="serviceRegisrty" class="org.openlegacy.support.SimpleServicesRegistry"/>	
 	 	
 	<context:component-scan base-package="org.openlegacy"
 		use-default-filters="false">
@@ -45,18 +45,18 @@
 			type="annotation" />
 	</context:component-scan>
 	
-	<bean id = "wsCacheEngine" class = "org.openlegacy.ws.cache.engines.SimpleWebServiceCacheEngine"/>
+	<bean id = "serviceCacheEngine" class = "org.openlegacy.services.cache.engines.SimpleServiceCacheEngine"/>
 		
-	<bean id = "wsCache" class = "org.openlegacy.ws.cache.SimpleWebServiceCacheProcessor" destroy-method="destroy">
+	<bean id = "serviceCache" class = "org.openlegacy.services.cache.SimpleServiceCacheProcessor" destroy-method="destroy">
 		<constructor-arg index="0" value="true"/>		
-		<property name="engine" ref="wsCacheEngine"/>
+		<property name="engine" ref="serviceCacheEngine"/>
 	</bean>
 	
 	<!-- 	Proxy only for web services -->
-	<bean id = "wsProxyChecker" class = "org.openlegacy.aop.ws.WebServiceProxyChecker"/>
-	<bean id = "wsProxy"
-		class="org.openlegacy.aop.ws.WebServiceBeanNameAutoProxyCreator">
-		<property name="checker" ref="wsProxyChecker"/>
+	<bean id = "serviceProxyChecker" class = "org.openlegacy.aop.services.ServiceProxyChecker"/>
+	<bean id = "serviceProxy"
+		class="org.openlegacy.aop.services.ServiceBeanNameAutoProxyCreator">
+		<property name="checker" ref="serviceProxyChecker"/>
 		<property name="beanNames">
 			<list>
 				<value>*Service*</value>
@@ -66,7 +66,7 @@
 		</property>
 		<property name="interceptorNames">
 			<list>
-				<value>wsCache</value>
+				<value>serviceCache</value>
 			</list>
 		</property>
 	</bean>

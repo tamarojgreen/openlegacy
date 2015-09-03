@@ -9,19 +9,12 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy;
+package org.openlegacy.aop.services;
 
-import org.openlegacy.services.definitions.ServiceDefinition;
+import org.openlegacy.aop.OpenLegacyBeanNameAutoProxyCreator;
 
-import java.util.List;
+public class ServiceBeanNameAutoProxyCreator extends OpenLegacyBeanNameAutoProxyCreator {
 
-public interface WebServicesRegistry {
+	private static final long serialVersionUID = 1L;
 
-	List<ServiceDefinition> getWebServices();
-
-	ServiceDefinition getWebServiceByName(String name);
-
-	List<String> getPackages();
-
-	ServiceDefinition getWebServiceByClass(Class<?> clazz);
 }

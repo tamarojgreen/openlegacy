@@ -9,19 +9,18 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy;
+package org.openlegacy.annotations.services;
 
-import org.openlegacy.services.definitions.ServiceDefinition;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import java.util.List;
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface ServiceMethod {
 
-public interface WebServicesRegistry {
+	String name();
 
-	List<ServiceDefinition> getWebServices();
-
-	ServiceDefinition getWebServiceByName(String name);
-
-	List<String> getPackages();
-
-	ServiceDefinition getWebServiceByClass(Class<?> clazz);
+	long cacheDuration() default 0;
 }

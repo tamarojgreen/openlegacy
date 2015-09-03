@@ -9,19 +9,36 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy;
+package org.openlegacy.services.cache;
 
-import org.openlegacy.services.definitions.ServiceDefinition;
+public class ServiceCacheData {
 
-import java.util.List;
+	long expirationTime;
+	int dataSize;
+	Object data;
 
-public interface WebServicesRegistry {
+	public long getExpirationTime() {
+		return expirationTime;
+	}
 
-	List<ServiceDefinition> getWebServices();
+	public void setExpirationTime(long expirationTime) {
+		this.expirationTime = expirationTime;
+	}
 
-	ServiceDefinition getWebServiceByName(String name);
+	public int getDataSize() {
+		return dataSize;
+	}
 
-	List<String> getPackages();
+	public void setDataSize(int dataSize) {
+		this.dataSize = dataSize;
+	}
 
-	ServiceDefinition getWebServiceByClass(Class<?> clazz);
+	public Object getData() {
+		return data;
+	}
+
+	public void setData(Object data) {
+		this.data = data;
+	}
+
 }

@@ -9,19 +9,14 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy;
+package org.openlegacy.services;
 
-import org.openlegacy.services.definitions.ServiceDefinition;
+import org.openlegacy.annotations.services.ServiceMethod;
 
-import java.util.List;
+public interface WebService {
 
-public interface WebServicesRegistry {
+	public static final int DURATION = 10000;
 
-	List<ServiceDefinition> getWebServices();
-
-	ServiceDefinition getWebServiceByName(String name);
-
-	List<String> getPackages();
-
-	ServiceDefinition getWebServiceByClass(Class<?> clazz);
+	@ServiceMethod(name = "getItem", cacheDuration = DURATION)
+	public ItemDetails getItem(int id);
 }
