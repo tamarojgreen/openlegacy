@@ -11,7 +11,7 @@
 
 package org.openlegacy.support;
 
-import org.openlegacy.WebServicesRegistry;
+import org.openlegacy.ServicesRegistry;
 import org.openlegacy.services.definitions.ServiceDefinition;
 import org.openlegacy.utils.ClassUtils;
 import org.openlegacy.utils.ClassUtils.FindInClassProcessor;
@@ -19,7 +19,7 @@ import org.openlegacy.utils.ClassUtils.FindInClassProcessor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleServicesRegistry implements WebServicesRegistry {
+public class SimpleServicesRegistry implements ServicesRegistry {
 
 	private List<ServiceDefinition> webServices = new ArrayList<ServiceDefinition>();
 	private List<String> packages;
@@ -38,7 +38,7 @@ public class SimpleServicesRegistry implements WebServicesRegistry {
 	}
 
 	@Override
-	public ServiceDefinition getWebServiceByName(String name) {
+	public ServiceDefinition getServiceByName(String name) {
 		if (webServices != null) {
 			for (ServiceDefinition def : webServices) {
 				if (def.getName().equals(name)) {
@@ -62,7 +62,7 @@ public class SimpleServicesRegistry implements WebServicesRegistry {
 	}
 
 	@Override
-	public ServiceDefinition getWebServiceByClass(Class<?> clazz) {
+	public ServiceDefinition getServiceByClass(Class<?> clazz) {
 		if (webServices != null && clazz != null) {
 			for (ServiceDefinition def : webServices) {
 				if (def.getWebServiceClass() == clazz) {

@@ -14,7 +14,7 @@ package org.openlegacy.support;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.WebServicesRegistry;
+import org.openlegacy.ServicesRegistry;
 import org.openlegacy.annotations.services.Service;
 import org.openlegacy.annotations.services.ServiceMethod;
 import org.openlegacy.loaders.ServiceClassAnnotationsLoader;
@@ -75,7 +75,7 @@ public class DefaultServicesRegistryLoader implements ServicesRegistryLoader {
 	}
 
 	@Override
-	public void load(WebServicesRegistry registry) {
+	public void load(ServicesRegistry registry) {
 		Assert.notNull(classAnnotationsLoaders);
 		Assert.notNull(methodAnnotationsLoaders);
 		Assert.notNull(methodParamLoaders);
@@ -120,7 +120,7 @@ public class DefaultServicesRegistryLoader implements ServicesRegistryLoader {
 	}
 
 	@Override
-	public void loadClass(WebServicesRegistry registry, Class<?> clazz) {
+	public void loadClass(ServicesRegistry registry, Class<?> clazz) {
 		if (AnnotationUtils.findAnnotation(clazz, Service.class) == null || !serviceContext.contains(clazz.getName())) {
 			return;
 		}

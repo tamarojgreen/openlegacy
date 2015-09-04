@@ -30,7 +30,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -58,8 +57,8 @@ public class ServiceRegistryTest {
 	@Before
 	public void checkRegistry() {
 		Assert.assertEquals(1, registry.getWebServices().size());
-		ServiceDefinition wsDef = registry.getWebServiceByClass(WebServiceImpl.class);
-		Assert.assertEquals(wsDef, registry.getWebServiceByName("WebService"));
+		ServiceDefinition wsDef = registry.getServiceByClass(WebServiceImpl.class);
+		Assert.assertEquals(wsDef, registry.getServiceByName("WebService"));
 
 		Assert.assertEquals(1, wsDef.getMethods().size());
 		ServiceMethodDefinition wsMDef = wsDef.getMethodByName("getItem");
@@ -90,7 +89,6 @@ public class ServiceRegistryTest {
 	public void testCache() throws Exception {
 		Assert.assertTrue(ClassUtils.getAllSuperclasses(service.getClass()).contains(Proxy.class));
 		final int[] ids = new int[] { 1000, 1001, 1002, 1003, 1004 };
-		final Random rand = new Random();
 		List<Thread> threads = new ArrayList<Thread>();
 
 		int processors = Runtime.getRuntime().availableProcessors();// one thread - one processor
@@ -159,6 +157,6 @@ public class ServiceRegistryTest {
 		cacheProcessor.updateCacheDuration("WebService", "getItem", newDuration);
 		Thread.sleep(2000);
 		Assert.assertTrue(cacheProcessor.getLastError() == ServiceCacheError.ALL_OK);
-		Assert.assertEquals(newDuration, registry.getWebServiceByName("WebService").getMethodByName("getItem").getCacheDuration());
+		Assert.assertEquals(newDuration, registry.getServiceByName("WebService").getMethodByName("getItem").getCacheDuration());
 	}
 }

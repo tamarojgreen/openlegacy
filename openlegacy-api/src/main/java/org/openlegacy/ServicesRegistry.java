@@ -15,13 +15,13 @@ import org.openlegacy.services.definitions.ServiceDefinition;
 
 import java.util.List;
 
-public interface WebServicesRegistry {
+public interface ServicesRegistry {
 
 	List<ServiceDefinition> getWebServices();
 
-	ServiceDefinition getWebServiceByName(String name);
+	ServiceDefinition getServiceByName(String name);
 
 	List<String> getPackages();
 
-	ServiceDefinition getWebServiceByClass(Class<?> clazz);
+	ServiceDefinition getServiceByClass(Class<?> clazz);
 }

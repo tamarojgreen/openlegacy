@@ -13,7 +13,7 @@ package org.openlegacy.support;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
-import org.openlegacy.WebServicesRegistry;
+import org.openlegacy.ServicesRegistry;
 import org.openlegacy.loaders.ServiceClassAnnotationsLoader;
 import org.openlegacy.loaders.ServiceMethodAnnotationsLoader;
 import org.openlegacy.loaders.ServiceMethodParamLoader;
@@ -41,7 +41,7 @@ public class ServiceAnnotationProcessor implements BeanFactoryPostProcessor {
 				ServiceMethodAnnotationsLoader.class).values();
 		Collection<ServiceMethodParamLoader> methodParamloaders = beanFactory.getBeansOfType(ServiceMethodParamLoader.class).values();
 
-		SimpleServicesRegistry registry = (SimpleServicesRegistry)beanFactory.getBean(WebServicesRegistry.class);
+		SimpleServicesRegistry registry = (SimpleServicesRegistry)beanFactory.getBean(ServicesRegistry.class);
 
 		filterByPackage(classAnnotationsLoaders);
 		filterByPackage(methodAnnotationsLoaders);
