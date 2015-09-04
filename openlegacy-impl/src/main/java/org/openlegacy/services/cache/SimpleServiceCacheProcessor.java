@@ -13,10 +13,7 @@ package org.openlegacy.services.cache;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.openlegacy.WebServicesRegistry;
-import org.openlegacy.services.cache.ServiceCacheEngine;
-import org.openlegacy.services.cache.ServiceCacheError;
-import org.openlegacy.services.cache.ServiceCacheProcessor;
+import org.openlegacy.ServicesRegistry;
 import org.openlegacy.services.definitions.ServiceDefinition;
 import org.openlegacy.services.definitions.ServiceMethodDefinition;
 import org.openlegacy.services.definitions.SimpleServiceMethodDefinition;
@@ -48,7 +45,7 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 	public static SimpleServiceCacheProcessor INSTANCE;
 
 	@Inject
-	private WebServicesRegistry wsRegistry;
+	private ServicesRegistry wsRegistry;
 
 	private static class BackGroundOperation {
 
@@ -165,7 +162,7 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 			return invocation.proceed();
 		}
 
-		ServiceDefinition wsDef = wsRegistry.getWebServiceByClass(origin.getDeclaringClass());
+		ServiceDefinition wsDef = wsRegistry.getServiceByClass(origin.getDeclaringClass());
 
 		if (wsDef == null) {
 			return invocation.proceed();
@@ -377,7 +374,7 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 
 		ServiceMethodDefinition wsMDef = null;
 		try {
-			wsMDef = wsRegistry.getWebServiceByName(serviceName).getMethodByName(methodName);
+			wsMDef = wsRegistry.getServiceByName(serviceName).getMethodByName(methodName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

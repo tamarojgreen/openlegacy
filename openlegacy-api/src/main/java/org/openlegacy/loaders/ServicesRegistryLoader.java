@@ -11,12 +11,12 @@
 
 package org.openlegacy.loaders;
 
-import org.openlegacy.WebServicesRegistry;
+import org.openlegacy.ServicesRegistry;
 
 public interface ServicesRegistryLoader {
 
-	public void load(WebServicesRegistry registry);
+	public void load(ServicesRegistry registry);
 
-	public void loadClass(WebServicesRegistry registry, Class<?> clazz);
+	public void loadClass(ServicesRegistry registry, Class<?> clazz);
 
 }
