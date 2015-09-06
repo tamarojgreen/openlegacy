@@ -57,7 +57,7 @@ public class MfRpcConnection implements RpcConnection {
 		try {
 			httpPost.setURI(new URI(url));
 		} catch (URISyntaxException e) {
-
+			throw new OpenLegacyProviderException("Failed to set Uri");
 		}
 	}
 
