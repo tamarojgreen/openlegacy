@@ -21,7 +21,7 @@ public class CacheableAnnotationLoader extends AbstractClassAnnotationLoader {
 		Cacheable cacheable = (Cacheable) annotation;
 		int expiry = (cacheable.expiry() >= 0) ? cacheable.expiry() : CacheableEntitiesRegistry.DEFAULT_EXPIRY;
 		getCacheableEntitiesRegistry().addEntity(containingClass, expiry, cacheable.getActions(),
-				cacheable.putActions(), cacheable.removeActions());
+				new Class<?>[] {} /*cacheable.putActions()*/, cacheable.removeActions());
 	}
 
 	public CacheableEntitiesRegistry getCacheableEntitiesRegistry() {

@@ -15,7 +15,7 @@ public @interface Cacheable {
 
 	Class<? extends SessionAction<?>>[] getActions();
 
-	Class<? extends SessionAction<?>>[] putActions() default {};
+	// Class<? extends SessionAction<?>>[] putActions() default {};
 
 	Class<? extends SessionAction<?>>[] removeActions() default {};
 }
