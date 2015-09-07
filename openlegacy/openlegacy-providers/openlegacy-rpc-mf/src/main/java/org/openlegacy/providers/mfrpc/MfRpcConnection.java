@@ -42,7 +42,7 @@ public class MfRpcConnection implements RpcConnection {
 
 	private final static Log logger = LogFactory.getLog(MfRpcConnection.class);
 
-	private String fontName;
+	private String codePage;
 
 	// private static String url = "http://192.86.32.142:12345/openlegacy";
 
@@ -53,19 +53,11 @@ public class MfRpcConnection implements RpcConnection {
 
 	private static final byte SPACE = 0x40;
 
-	public String getFontName() {
-		return fontName;
-	}
-
-	public void setFontName(String fontName) {
-		this.fontName = fontName;
-	}
-
 	public void setUri(String url) {
 		try {
 			httpPost.setURI(new URI(url));
 		} catch (URISyntaxException e) {
-
+			throw new OpenLegacyProviderException("Failed to set Uri");
 		}
 	}
 
@@ -73,12 +65,10 @@ public class MfRpcConnection implements RpcConnection {
 		this.httpClient = httpClient;
 	}
 
-	@Override
 	public Object getDelegate() {
 		return httpClient;
 	}
 
-	@Override
 	public void disconnect() {
 		if (httpClient != null) {
 			isLogin = false;
@@ -86,16 +76,14 @@ public class MfRpcConnection implements RpcConnection {
 		}
 	}
 
-	@Override
 	public boolean isConnected() {
 		return httpClient != null && isLogin == true;
 	}
 
-	@Override
 	public RpcResult invoke(RpcInvokeAction rpcInvokeAction) {
 
 		try {
-			byte[] payload = invokeActionToMFBin.serilize(rpcInvokeAction, fontName);
+			byte[] payload = invokeActionToMFBin.serilize(rpcInvokeAction, codePage);
 			byte[] buffer = new byte[14 + payload.length];
 			Arrays.fill(buffer, SPACE);
 
@@ -104,7 +92,7 @@ public class MfRpcConnection implements RpcConnection {
 			buffer[2] = msgLevel; // message level
 			buffer[3] = function;
 
-			byte[] ebcdta = rpcInvokeAction.getRpcPath().getBytes(fontName);
+			byte[] ebcdta = rpcInvokeAction.getRpcPath().getBytes(codePage);
 			System.arraycopy(ebcdta, 0, buffer, 4, ebcdta.length);
 
 			System.arraycopy(payload, 0, buffer, 14, payload.length);
@@ -128,7 +116,7 @@ public class MfRpcConnection implements RpcConnection {
 				offset += bytesRead;
 			}
 			in.close();
-			invokeActionToMFBin.deserilize(rpcInvokeAction.getFields(), result, fontName, 0);
+			invokeActionToMFBin.deserilize(rpcInvokeAction.getFields(), result, codePage, 0);
 
 		} catch (IOException e) {
 			return null;
@@ -141,27 +129,22 @@ public class MfRpcConnection implements RpcConnection {
 
 	}
 
-	@Override
 	public RpcSnapshot getSnapshot() {
 		return null;
 	}
 
-	@Override
 	public RpcSnapshot fetchSnapshot() {
 		return null;
 	}
 
-	@Override
 	public void doAction(RpcInvokeAction invokeAction) {
 		invoke(invokeAction);
 	}
 
-	@Override
 	public Integer getSequence() {
 		return sequence;
 	}
 
-	@Override
 	public void login(String user, String password) {
 		try {
 			// request.setURI(new URI(loginpath));
@@ -172,6 +155,14 @@ public class MfRpcConnection implements RpcConnection {
 		} catch (Exception e) {
 			throw (new OpenLegacyProviderException(e));
 		}
+	}
+
+	public String getCodePage() {
+		return codePage;
+	}
+
+	public void setCodePage(String codePage) {
+		this.codePage = codePage;
 	}
 
 }

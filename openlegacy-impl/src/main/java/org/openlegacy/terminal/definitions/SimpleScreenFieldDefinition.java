@@ -27,7 +27,7 @@ import java.io.Serializable;
  * Defines a mapping between a screenEntity java field name and it's screen position and length
  * 
  */
-public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenFieldDefinition> implements ScreenFieldDefinition, Serializable {
+public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenFieldDefinition>implements ScreenFieldDefinition, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -48,7 +48,7 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	private ScreenFieldDefinition descriptionFieldDefinition;
 
 	private DynamicFieldDefinition dynamicFieldDefinition;
-	
+
 	private boolean internal;
 	private boolean global;
 	private String nullValue;
@@ -264,7 +264,8 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	}
 
 	/**
-	 * @param dynamicFieldDefinition the dynamicFieldDefinition to set
+	 * @param dynamicFieldDefinition
+	 *            the dynamicFieldDefinition to set
 	 */
 	public void setDynamicFieldDefinition(DynamicFieldDefinition dynamicFieldDefinition) {
 		this.dynamicFieldDefinition = dynamicFieldDefinition;
@@ -273,9 +274,39 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	public TerminalAction getLookupAction() {
 		return lookupAction;
 	}
-	
+
 	public void setLookupAction(TerminalAction lookupAction) {
 		this.lookupAction = lookupAction;
+	}
+
+	@Override
+	public String getRegularExpression() {
+		return super.getRegularExpression();
+	}
+
+	@Override
+	public void setRegularExpression(String regularExpression) {
+		super.setRegularExpression(regularExpression);
+	}
+
+	@Override
+	public boolean required() {
+		return super.required();
+	}
+
+	@Override
+	public void setRequired(boolean required) {
+		super.setRequired(required);
+	}
+
+	@Override
+	public String getInvalidMessage() {
+		return super.getInvalidMessage();
+	}
+
+	@Override
+	public void setInvalidMessage(String invalidMessage) {
+		super.setInvalidMessage(invalidMessage);
 	}
 
 }

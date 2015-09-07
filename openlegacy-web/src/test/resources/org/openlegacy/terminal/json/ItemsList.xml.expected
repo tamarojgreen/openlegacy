@@ -87,8 +87,9 @@
             <itemCategory>VEG</itemCategory>
         </itemsListRows>
         <positionTo></positionTo>
-        <itemsListRowsActions sleep="0" global="false" length="8"
-            column="0" defaultAction="false" row="0" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
+        <itemsListRowsActions sleep="0" global="false"
+            submitForm="false" length="8" column="0"
+            defaultAction="false" row="0" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
             <position column="4" row="5" xsi:type="java:org.openlegacy.terminal.support.SimpleTerminalPosition"/>
             <additionalKey>NONE</additionalKey>
             <action macro="false" xsi:type="java:org.openlegacy.terminal.modules.table.TerminalDrilldownActions$SimpleDrilldownAction">
@@ -98,20 +99,20 @@
                 <actionValue xsi:type="java:java.lang.String">2</actionValue>
             </action>
             <alias>revise</alias>
-            <when>2.*</when>
             <actionName>ENTER</actionName>
+            <when>2.*</when>
             <displayName>Revise</displayName>
         </itemsListRowsActions>
-        <actions sleep="0" global="true" length="0" column="0"
-            defaultAction="false" row="0" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
-            <additionalKey>SHIFT</additionalKey>
+        <actions sleep="0" global="true" submitForm="false" length="0"
+            column="0" defaultAction="false" row="0" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
             <type>GENERAL</type>
+            <additionalKey>SHIFT</additionalKey>
             <action macro="false" xsi:type="java:org.openlegacy.terminal.actions.CombinedTerminalAction">
                 <additionalKey>SHIFT</additionalKey>
             </action>
             <alias>numberSeq</alias>
-            <when>.*</when>
             <actionName>CombinedTerminalAction</actionName>
+            <when>.*</when>
             <displayName>Number Seq</displayName>
         </actions>
     </entity>

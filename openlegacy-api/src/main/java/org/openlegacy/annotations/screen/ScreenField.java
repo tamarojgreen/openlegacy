@@ -34,8 +34,9 @@ import java.lang.annotation.Target;
  * Example:<br/>
  * <br/>
  * 
- * <code>	@ScreenField(row = 6, column = 53, endColumn = 62, fieldType = Login.UserField.class, editable = true, labelColumn = 17)
-	<br/>private String user;<code>
+ * <code> @ScreenField(row = 6, column = 53, endColumn = 62, fieldType = Login.UserField.class, editable = true, labelColumn = 17)
+ * <br/>
+ * private String user;<code>
  * 
  * @author Roi Mor
  * 
@@ -103,7 +104,7 @@ public @interface ScreenField {
 	 * 
 	 * @return the field applicative type
 	 */
-	Class<? extends FieldType> fieldType() default FieldType.General.class;
+	Class<? extends FieldType>fieldType() default FieldType.General.class;
 
 	/**
 	 * Optional. The field display name. Default to friendly name conversion of the Java field name.
@@ -201,7 +202,13 @@ public @interface ScreenField {
 	String expression() default "";
 
 	boolean enableLookup() default false;
-	
-	Class<? extends TerminalAction> lookupAction() default TerminalActions.NONE.class;
-	
+
+	Class<? extends TerminalAction>lookupAction() default TerminalActions.NONE.class;
+
+	String regularExpression() default "";
+
+	boolean required() default false;
+
+	String invalidMessage() default "";
+
 }

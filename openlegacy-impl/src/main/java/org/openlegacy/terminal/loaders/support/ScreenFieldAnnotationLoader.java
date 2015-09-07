@@ -112,8 +112,8 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 						field.getName(), containingClass.getSimpleName())));
 			}
 
-			screenFieldDefinition.setEndPosition(SimpleTerminalPosition.newInstance(fieldAnnotation.endRow(),
-					fieldAnnotation.endColumn()));
+			screenFieldDefinition.setEndPosition(
+					SimpleTerminalPosition.newInstance(fieldAnnotation.endRow(), fieldAnnotation.endColumn()));
 
 			screenFieldDefinition.setRectangle(fieldAnnotation.rectangle());
 		}
@@ -163,9 +163,13 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 			screenFieldDefinition.setUnlessFilter(fieldAnnotation.unless());
 		}
 		screenFieldDefinition.setEnableLookup(fieldAnnotation.enableLookup());
-		if (screenFieldDefinition.isEnableLookup() && fieldAnnotation.lookupAction() != TerminalActions.NONE.class){
+		if (screenFieldDefinition.isEnableLookup() && fieldAnnotation.lookupAction() != TerminalActions.NONE.class) {
 			screenFieldDefinition.setLookupAction(ReflectionUtil.newInstance(fieldAnnotation.lookupAction()));
 		}
+
+		screenFieldDefinition.setRegularExpression(fieldAnnotation.regularExpression());
+		screenFieldDefinition.setRequired(fieldAnnotation.required());
+		screenFieldDefinition.setInvalidMessage(fieldAnnotation.invalidMessage());
 
 		setupFieldType(field, screenFieldDefinition);
 

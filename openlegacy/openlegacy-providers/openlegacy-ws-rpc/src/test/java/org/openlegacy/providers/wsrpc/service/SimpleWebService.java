@@ -1,4 +1,4 @@
-package org.openlegacy.providers.wsrpc.example;
+package org.openlegacy.providers.wsrpc.service;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -9,7 +9,7 @@ import javax.jws.soap.SOAPBinding.Style;
 
 @WebService(name = "SimpleWebService", targetNamespace = "http://SimpleWebService/")
 @SOAPBinding(style = Style.RPC)
-public class SimpleWebService<E> {
+public class SimpleWebService {
 
 	@WebMethod
 	@WebResult(partName = "callBackResult")
