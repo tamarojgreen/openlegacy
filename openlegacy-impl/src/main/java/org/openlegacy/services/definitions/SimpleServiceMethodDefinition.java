@@ -11,9 +11,6 @@
 
 package org.openlegacy.services.definitions;
 
-import org.openlegacy.services.definitions.ServiceMethodDefinition;
-import org.openlegacy.services.definitions.ServiceParamDetailsDefinition;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +19,7 @@ public class SimpleServiceMethodDefinition implements ServiceMethodDefinition {
 	private String name;
 	private List<ServiceParamDetailsDefinition> inputParam = new ArrayList<ServiceParamDetailsDefinition>(),
 			outputParam = new ArrayList<ServiceParamDetailsDefinition>();
-	private long cacheDuration;
+	private Long cacheDuration;
 
 	@Override
 	public String getName() {
@@ -52,11 +49,11 @@ public class SimpleServiceMethodDefinition implements ServiceMethodDefinition {
 	}
 
 	@Override
-	public long getCacheDuration() {
+	public Long getCacheDuration() {
 		return cacheDuration;
 	}
 
-	public void setCacheDuration(long cacheDuration) {
+	public void setCacheDuration(Long cacheDuration) {
 		this.cacheDuration = cacheDuration;
 	}
 
