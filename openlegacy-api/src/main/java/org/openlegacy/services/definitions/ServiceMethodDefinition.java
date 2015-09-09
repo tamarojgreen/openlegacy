@@ -17,7 +17,7 @@ public interface ServiceMethodDefinition {
 
 	String getName();
 
-	long getCacheDuration();
+	Long getCacheDuration();
 
 	List<ServiceParamDetailsDefinition> getInputParams();
 
