@@ -11,7 +11,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
 public class MemcachedCache<K, V> implements Cache<K, V> {
 
 	String cacheName;
@@ -111,6 +110,11 @@ public class MemcachedCache<K, V> implements Cache<K, V> {
 	@Override
 	public void setExpiry(int expiry) {
 		this.expiry = expiry;
+	}
+
+	@Override
+	public int getExpiry() {
+		return expiry;
 	}
 
 }

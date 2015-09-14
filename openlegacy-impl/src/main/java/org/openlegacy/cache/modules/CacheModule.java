@@ -61,7 +61,7 @@ public class CacheModule extends SessionModuleAdapter {
 	}
 
 	private String getCacheName(Class<?> entityClass) {
-		return Integer.toHexString(cacheManager.hashCode()) + ":" + entityClass.getSimpleName();
+		return cacheableEntitiesRegistry.getEntityCacheName(entityClass.getSimpleName());
 	}
 
 	private Cache<String, String> getCache(Class<?> entityClass) {

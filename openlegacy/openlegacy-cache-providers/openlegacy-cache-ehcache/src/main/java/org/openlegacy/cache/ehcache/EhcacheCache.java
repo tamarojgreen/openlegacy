@@ -24,7 +24,7 @@ public class EhcacheCache<K, V> implements Cache<K, V> {
 
 	@Override
 	public void put(K key, V value) {
-		cache.put(new Element(key, value));
+		put(key, value, getExpiry());
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class EhcacheCache<K, V> implements Cache<K, V> {
 	public CacheInfo getInfo() {
 		CacheInfo ci = new CacheInfo();
 		ci.setName(cache.getName());
-		ci.setDefaultExpiry(cache.getCacheConfiguration().getTimeToLiveSeconds());
+		ci.setCurrentExpiry(cache.getCacheConfiguration().getTimeToIdleSeconds());
 		ci.setElementsCount(cache.getSize());
 
 		return ci;
@@ -70,6 +70,11 @@ public class EhcacheCache<K, V> implements Cache<K, V> {
 	@Override
 	public void setExpiry(int expiry) {
 		cache.getCacheConfiguration().setTimeToIdleSeconds(expiry);
+	}
+
+	@Override
+	public int getExpiry() {
+		return (int) cache.getCacheConfiguration().getTimeToIdleSeconds();
 	}
 
 }

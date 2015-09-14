@@ -24,4 +24,6 @@ public interface Cache<K, V> {
 
 	void setExpiry(int expiry);
 
+	int getExpiry();
+
 }
