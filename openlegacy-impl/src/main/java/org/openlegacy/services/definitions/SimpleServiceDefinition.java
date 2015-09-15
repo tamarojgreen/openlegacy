@@ -48,9 +48,9 @@ public class SimpleServiceDefinition implements ServiceDefinition {
 	}
 
 	public void setName(String name) {
-		this.name = name;
 		PropertyChangedUtils.sendEvent(new PropertyChangedEvent().setBeanOrClassName("serviceRegistry").setEvent(
-				PropertyChangedUtils.getEvent(this, "name", name)));
+				PropertyChangedUtils.getEvent(this, "name", this.name, name)));
+		this.name = name;
 	}
 
 	public void setMethods(List<ServiceMethodDefinition> methods) {
