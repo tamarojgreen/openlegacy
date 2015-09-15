@@ -11,6 +11,7 @@
 
 package org.openlegacy.services.definitions;
 
+
 public interface ServicePoolDefinition {
 
 	String getName();
@@ -22,8 +23,6 @@ public interface ServicePoolDefinition {
 	long getKeepAliveInterval();
 
 	long getReturnSessionsInterval();
-
-	boolean getStopThreads();
 
 	void updatePoolInstance();
 

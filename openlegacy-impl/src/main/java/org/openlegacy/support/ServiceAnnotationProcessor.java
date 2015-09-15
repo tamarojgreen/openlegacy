@@ -28,8 +28,9 @@ import java.util.List;
 
 public class ServiceAnnotationProcessor implements BeanFactoryPostProcessor {
 
-	private static BeanFactory beanFactory;
+	private static ConfigurableListableBeanFactory beanFactory;
 	protected List<String> loadersPackages;
+	private SimpleServicesRegistry registry;
 
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
@@ -41,7 +42,7 @@ public class ServiceAnnotationProcessor implements BeanFactoryPostProcessor {
 				ServiceMethodAnnotationsLoader.class).values();
 		Collection<ServiceMethodParamLoader> methodParamloaders = beanFactory.getBeansOfType(ServiceMethodParamLoader.class).values();
 
-		SimpleServicesRegistry registry = (SimpleServicesRegistry)beanFactory.getBean(ServicesRegistry.class);
+		registry = (SimpleServicesRegistry)beanFactory.getBean(ServicesRegistry.class);
 
 		filterByPackage(classAnnotationsLoaders);
 		filterByPackage(methodAnnotationsLoaders);

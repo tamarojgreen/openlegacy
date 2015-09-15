@@ -25,7 +25,7 @@
  	</bean>
  	
  	<bean id="serviceRegistryLoader" class="org.openlegacy.support.DefaultServicesRegistryLoader"/>
- 	<bean id="serviceRegisrty" class="org.openlegacy.support.SimpleServicesRegistry"/>
+ 	<bean id="serviceRegistry" class="org.openlegacy.support.SimpleServicesRegistry"/>
 
 	<bean id="trailWriter" class="org.openlegacy.rpc.modules.trail.RpcTrailXmlWriter" />
 	<bean id="trailUtil" class="org.openlegacy.modules.trail.TrailUtil" />

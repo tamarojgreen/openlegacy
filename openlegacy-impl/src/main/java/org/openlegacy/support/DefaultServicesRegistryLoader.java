@@ -130,6 +130,7 @@ public class DefaultServicesRegistryLoader implements ServicesRegistryLoader {
 		}
 
 		SimpleServiceDefinition wsDef = new SimpleServiceDefinition();
+
 		wsDef.setWebServiceClass(clazz);
 		wsDef.setRest(isRest);
 
@@ -151,6 +152,7 @@ public class DefaultServicesRegistryLoader implements ServicesRegistryLoader {
 				logger.debug(String.format("Processing %s method", method.getName()));
 			}
 			SimpleServiceMethodDefinition mDef = new SimpleServiceMethodDefinition();
+
 			// for method we can`t find all annotations
 			// so, attempts to find annotation by need class from loader
 			// process method annotations
@@ -174,8 +176,10 @@ public class DefaultServicesRegistryLoader implements ServicesRegistryLoader {
 			wsDef.getMethods().add(mDef);
 		}
 
-		wsDef.setPool(getPoolDefinition(StringUtil.toJavaFieldName(wsDef.getName()) + "Pool"));
-		if (wsDef.getPool() != null) {
+		ServicePoolDefinition pDef = getPoolDefinition(StringUtil.toJavaFieldName(wsDef.getName()) + "Pool");
+		if (pDef != null) {
+
+			wsDef.setPool(pDef);
 			((SimpleServicePoolDefinition)wsDef.getPool()).setInitActionDefinition(getInitActionDefinition(StringUtil.toJavaFieldName(wsDef.getName())
 					+ "InitAction"));
 		}

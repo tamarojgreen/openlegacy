@@ -11,9 +11,9 @@
 
 package org.openlegacy.services.definitions;
 
-import org.openlegacy.services.definitions.ServicePoolDefinition;
-import org.openlegacy.services.definitions.ServicePoolInitActionDefinition;
 import org.openlegacy.utils.ClassUtils;
+import org.openlegacy.utils.PropertyChangedUtils;
+import org.openlegacy.utils.PropertyChangedUtils.PropertyChangedEvent;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
 
@@ -21,12 +21,11 @@ import java.lang.reflect.Field;
 
 public class SimpleServicePoolDefinition implements ServicePoolDefinition {
 
-	String name;
-	Class<?> poolClass;
-	int maxConnections;
-	long keepAliveInterval, returnSessionsInterval = 100/* def from class */;
-	boolean stopThreads = false/* def from class */;
-	ServicePoolInitActionDefinition initActionDefinition;
+	private String name;
+	private Class<?> poolClass;
+	private int maxConnections;
+	private long keepAliveInterval, returnSessionsInterval = 100/* def from class */;
+	private ServicePoolInitActionDefinition initActionDefinition;
 
 	@Override
 	public String getName() {
@@ -53,17 +52,14 @@ public class SimpleServicePoolDefinition implements ServicePoolDefinition {
 		return returnSessionsInterval;
 	}
 
-	@Override
-	public boolean getStopThreads() {
-		return stopThreads;
-	}
-
 	public int getMaxConnections() {
 		return maxConnections;
 	}
 
 	public void setMaxConnections(int maxConnections) {
 		this.maxConnections = maxConnections;
+		PropertyChangedUtils.sendEvent(new PropertyChangedEvent().setBeanOrClassName("serviceRegistry").setEvent(
+				PropertyChangedUtils.getEvent(this, "maxConnections", maxConnections)));
 	}
 
 	public void setName(String name) {
@@ -76,14 +72,14 @@ public class SimpleServicePoolDefinition implements ServicePoolDefinition {
 
 	public void setKeepAliveInterval(long keepAliveInterval) {
 		this.keepAliveInterval = keepAliveInterval;
+		PropertyChangedUtils.sendEvent(new PropertyChangedEvent().setBeanOrClassName("serviceRegistry").setEvent(
+				PropertyChangedUtils.getEvent(this, "keepAliveInterval", keepAliveInterval)));
 	}
 
 	public void setReturnSessionsInterval(long returnSessionsInterval) {
 		this.returnSessionsInterval = returnSessionsInterval;
-	}
-
-	public void setStopThreads(boolean stopThreads) {
-		this.stopThreads = stopThreads;
+		PropertyChangedUtils.sendEvent(new PropertyChangedEvent().setBeanOrClassName("serviceRegistry").setEvent(
+				PropertyChangedUtils.getEvent(this, "returnSessionsInterval", keepAliveInterval)));
 	}
 
 	@Override
@@ -110,5 +106,4 @@ public class SimpleServicePoolDefinition implements ServicePoolDefinition {
 	public void setInitActionDefinition(ServicePoolInitActionDefinition initActionDefinition) {
 		this.initActionDefinition = initActionDefinition;
 	}
-
 }
