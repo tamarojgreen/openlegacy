@@ -31,7 +31,7 @@ public interface ServiceCacheProcessor {
 
 	public int getLastError();
 
-	public void tryToFixEngine();
+	public void fixEngine();
 
 	public void updateCacheDuration(String serviceName, String methodName, long newDuration);
 }
