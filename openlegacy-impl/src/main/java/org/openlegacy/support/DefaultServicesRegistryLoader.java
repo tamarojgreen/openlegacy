@@ -162,7 +162,7 @@ public class DefaultServicesRegistryLoader implements ServicesRegistryLoader {
 					if (logger.isDebugEnabled()) {
 						logger.debug(String.format("Running %s loader", methodAnnotationLoader.getClass().getSimpleName()));
 					}
-					methodAnnotationLoader.load(mDef, annotation);
+					methodAnnotationLoader.load(mDef, method);
 				}
 			}
 
@@ -184,7 +184,7 @@ public class DefaultServicesRegistryLoader implements ServicesRegistryLoader {
 					+ "InitAction"));
 		}
 
-		registry.getWebServices().add(wsDef);
+		registry.getServices().add(wsDef);
 	}
 
 	private ServicePoolDefinition getPoolDefinition(String beanName) {

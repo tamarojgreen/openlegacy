@@ -39,7 +39,7 @@ public class SimpleServicesRegistry implements ServicesRegistry {
 	};
 
 	@Override
-	public List<ServiceDefinition> getWebServices() {
+	public List<ServiceDefinition> getServices() {
 		return webServices;
 	}
 

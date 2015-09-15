@@ -22,7 +22,7 @@ public interface ServicesRegistry extends PropertyChangeListener {
 	/**
 	 * return web service definitions list
 	 */
-	List<ServiceDefinition> getWebServices();
+	List<ServiceDefinition> getServices();
 
 	/**
 	 * return web service definition by name

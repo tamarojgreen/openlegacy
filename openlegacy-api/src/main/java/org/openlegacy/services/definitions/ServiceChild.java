@@ -11,19 +11,7 @@
 
 package org.openlegacy.services.definitions;
 
-public interface ServicePoolDefinition extends ServiceChild {
+public interface ServiceChild {
 
-	String getName();
-
-	Class<?> getPoolClass();
-
-	int getMaxConnection();
-
-	long getKeepAliveInterval();
-
-	long getReturnSessionsInterval();
-
-	void updatePoolInstance();
-
-	ServicePoolInitActionDefinition getInitActionDefinition();
+	String getServiceName();
 }

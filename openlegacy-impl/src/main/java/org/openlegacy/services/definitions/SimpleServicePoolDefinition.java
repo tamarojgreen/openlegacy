@@ -21,7 +21,7 @@ import java.lang.reflect.Field;
 
 public class SimpleServicePoolDefinition implements ServicePoolDefinition {
 
-	private String name;
+	private String name, serviceName;
 	private Class<?> poolClass;
 	private int maxConnections;
 	private long keepAliveInterval, returnSessionsInterval = 100/* def from class */;
@@ -105,5 +105,14 @@ public class SimpleServicePoolDefinition implements ServicePoolDefinition {
 
 	public void setInitActionDefinition(ServicePoolInitActionDefinition initActionDefinition) {
 		this.initActionDefinition = initActionDefinition;
+	}
+
+	@Override
+	public String getServiceName() {
+		return serviceName;
+	}
+
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
 	}
 }

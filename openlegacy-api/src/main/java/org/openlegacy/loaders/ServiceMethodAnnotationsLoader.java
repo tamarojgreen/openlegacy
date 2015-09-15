@@ -14,13 +14,14 @@ package org.openlegacy.loaders;
 import org.openlegacy.services.definitions.ServiceMethodDefinition;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 
 public interface ServiceMethodAnnotationsLoader extends Comparable<ServiceMethodAnnotationsLoader> {
 
 	boolean match(Annotation annotation);
 
 	@SuppressWarnings("rawtypes")
-	void load(ServiceMethodDefinition definition, Annotation annotation);
+	void load(ServiceMethodDefinition definition, Method method);
 
 	Class<? extends Annotation> getAnnotation();
 }

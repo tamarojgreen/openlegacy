@@ -19,7 +19,7 @@ import java.util.List;
 
 public class SimpleServiceMethodDefinition implements ServiceMethodDefinition {
 
-	private String name;
+	private String name, serviceName, methodName;
 	private List<ServiceParamDetailsDefinition> inputParam = new ArrayList<ServiceParamDetailsDefinition>(),
 			outputParam = new ArrayList<ServiceParamDetailsDefinition>();
 	private Long cacheDuration;
@@ -63,4 +63,23 @@ public class SimpleServiceMethodDefinition implements ServiceMethodDefinition {
 				PropertyChangedUtils.getEvent(this, "cacheDuration", this.cacheDuration, cacheDuration)));
 		this.cacheDuration = cacheDuration;
 	}
+
+	@Override
+	public String getServiceName() {
+		return serviceName;
+	}
+
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
+	}
+
+	@Override
+	public String getMethodName() {
+		return methodName;
+	}
+
+	public void setMethodName(String methodName) {
+		this.methodName = methodName;
+	}
+
 }

@@ -15,10 +15,12 @@ import org.openlegacy.annotations.services.ServiceMethod;
 import org.openlegacy.loaders.support.AbstractServiceMethodAnnotationsLoader;
 import org.openlegacy.services.definitions.ServiceMethodDefinition;
 import org.openlegacy.services.definitions.SimpleServiceMethodDefinition;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 
 @Component
 @Order(2)
@@ -30,14 +32,15 @@ public class ServiceMethodAnnotationLoader extends AbstractServiceMethodAnnotati
 	}
 
 	@Override
-	public void load(ServiceMethodDefinition definition, Annotation annotation) {
-		ServiceMethod ann = (ServiceMethod)annotation;
+	public void load(ServiceMethodDefinition definition, Method method) {
+		ServiceMethod ann = (ServiceMethod)AnnotationUtils.findAnnotation(method, getAnnotation());
 		if (!(definition instanceof SimpleServiceMethodDefinition)) {
 			return;
 		}
 		SimpleServiceMethodDefinition simpleDefinition = (SimpleServiceMethodDefinition)definition;
 		simpleDefinition.setName(ann.name());
 		simpleDefinition.setCacheDuration(ann.cacheDuration());
+		simpleDefinition.setMethodName(method.getName());
 	}
 
 	@Override
