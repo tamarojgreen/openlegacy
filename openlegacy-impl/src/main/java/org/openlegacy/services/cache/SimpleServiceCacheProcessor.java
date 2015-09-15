@@ -17,7 +17,6 @@ import org.openlegacy.ServicesRegistry;
 import org.openlegacy.services.definitions.ServiceDefinition;
 import org.openlegacy.services.definitions.ServiceMethodDefinition;
 import org.openlegacy.services.definitions.SimpleServiceMethodDefinition;
-import org.openlegacy.utils.ThreadWorkSeparatorUtil;
 import org.openlegacy.utils.ThreadWorkSeparatorUtil.OnRun;
 import org.openlegacy.utils.XmlSerializationUtil;
 import org.openlegacy.utils.ZipUtil;
@@ -92,13 +91,15 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 	private volatile BlockingQueue<BackGroundOperation> backGroundWork = new LinkedBlockingDeque<BackGroundOperation>();
 	private volatile Semaphore lock = new Semaphore(1, true), unlock = new Semaphore(1, true);
 	private volatile Map<String, Semaphore> requests = new LinkedHashMap<String, Semaphore>();
-	private volatile boolean blockedLocally = false;
+
 	private volatile int lastError = ServiceCacheError.NULL;
 
 	private boolean preProcessCacheObject;
 	private ServiceCacheEngine cacheEngine;
 	private int semaphoreWaitTimeOut = 10;
 	private MessageDigest messageDigest;
+
+	private List<String> blockedKeys = new ArrayList<String>();
 
 	Runnable backGroundWorker = new Runnable() {
 
@@ -115,7 +116,7 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 
 		private void work() throws Exception {
 			if (hasErrors()) {
-				if (backGroundWork.isEmpty()) {
+				if (!backGroundWork.isEmpty()) {
 					backGroundWork.clear();
 				}
 				return;
@@ -158,7 +159,7 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		Method origin = invocation.getMethod();
 
-		if (blockedLocally || origin.getReturnType() == void.class) {
+		if (origin.getReturnType() == void.class) {
 			return invocation.proceed();
 		}
 
@@ -179,6 +180,10 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 		long accessTime = System.currentTimeMillis();
 
 		lock(key);
+
+		if (isKeyBlocked(key)) {
+			return invocation.proceed();
+		}
 
 		Object result = get(key, accessTime);
 		if (result != null) {
@@ -245,6 +250,7 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 			return;
 		}
 		cacheEngine.remove(key);
+		blockedKeys.remove(key);
 	}
 
 	@Override
@@ -287,7 +293,7 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 	}
 
 	@Override
-	public void tryToFixEngine() {
+	public void fixEngine() {
 		cacheEngine.fix();
 	}
 
@@ -354,24 +360,31 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 
 	private void updateDuration(String keyPart, ServiceMethodDefinition wsMDef, long newDuration) {
 		List<String> keys = cacheEngine.getKeys(keyPart);
-		List<UpdateDuration> updateDuration = new ArrayList<UpdateDuration>();
 		for (String key : keys) {
-			updateDuration.add(new UpdateDuration(key, wsMDef.getCacheDuration(), newDuration));
+			blockedKeys.add(key);
+			addBackGroundOperation(REMOVE, key);
 		}
-		try {
-			ThreadWorkSeparatorUtil.newInstance().start(updateDuration, OnUpdateRun.class);
-			((SimpleServiceMethodDefinition)wsMDef).setCacheDuration(newDuration);
-		} catch (Exception e) {
-			lastError = ServiceCacheError.CACHE_ERROR;
-		}
+		/*
+		 * this code produced such logic 1. Get all "equal" keys from engine. 2. Separate records to each processor unit. 3.
+		 * Update cached record(decompress -> deserialize -> update -> serialize -> compress). 4. Update record in cache.
+		 * 
+		 * As far as on cache duration changing I must delete cached records - I comment this call, if need - uncomment it
+		 */
+		// List<UpdateDuration> updateDuration = new ArrayList<UpdateDuration>();
+		// for (String key : keys) {
+		// updateDuration.add(new UpdateDuration(key, wsMDef.getCacheDuration(), newDuration));
+		// }
+		// try {
+		// ThreadWorkSeparatorUtil.newInstance().start(updateDuration, OnUpdateRun.class);
+		// ((SimpleServiceMethodDefinition)wsMDef).setCacheDuration(newDuration);
+		// } catch (Exception e) {
+		// lastError = ServiceCacheError.CACHE_ERROR;
+		// }
 
-		blockedLocally = false;
 	}
 
 	@Override
 	public void updateCacheDuration(String serviceName, String methodName, long newDuration) {
-		blockedLocally = true;
-
 		ServiceMethodDefinition wsMDef = null;
 		try {
 			wsMDef = wsRegistry.getServiceByName(serviceName).getMethodByName(methodName);
@@ -380,8 +393,11 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 		}
 
 		if (wsMDef == null) {
-			blockedLocally = false;
 			return;
+		}
+		// if you will uncomment upper comment - comment this condition
+		if (wsMDef instanceof SimpleServiceMethodDefinition) {
+			((SimpleServiceMethodDefinition)wsMDef).setCacheDuration(newDuration);
 		}
 		addBackGroundOperation(UPDATE, String.format("%s.%s", serviceName, methodName), wsMDef, newDuration);
 	}
@@ -391,6 +407,10 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 			lastError = cacheEngine.getLastError();
 		}
 		return lastError != ServiceCacheError.ALL_OK;
+	}
+
+	private synchronized boolean isKeyBlocked(String key) {
+		return blockedKeys.contains(key);
 	}
 
 }
