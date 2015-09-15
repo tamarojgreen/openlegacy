@@ -11,17 +11,46 @@
 
 package org.openlegacy;
 
+import org.openlegacy.loaders.ServiceRegistryPostProcessor;
 import org.openlegacy.services.definitions.ServiceDefinition;
 
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
-public interface ServicesRegistry {
+public interface ServicesRegistry extends PropertyChangeListener {
 
+	/**
+	 * return web service definitions list
+	 */
 	List<ServiceDefinition> getWebServices();
 
+	/**
+	 * return web service definition by name
+	 */
 	ServiceDefinition getServiceByName(String name);
 
+	/**
+	 * package list that will processed by registry
+	 * */
 	List<String> getPackages();
 
+	/**
+	 * return web service by given implementor or interface
+	 */
 	ServiceDefinition getServiceByClass(Class<?> clazz);
+
+	/**
+	 * return list of post processors
+	 */
+	List<ServiceRegistryPostProcessor> getPostProcessors();
+
+	/**
+	 * set to true in onContextInitialized
+	 */
+	boolean isLoaded();
+
+	/**
+	 * implement need logic and set load flag to true if all success
+	 */
+	void onContextInitialized();
 }

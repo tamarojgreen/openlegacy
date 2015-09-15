@@ -12,17 +12,23 @@
 package org.openlegacy.support;
 
 import org.openlegacy.ServicesRegistry;
+import org.openlegacy.loaders.ServiceRegistryPostProcessor;
 import org.openlegacy.services.definitions.ServiceDefinition;
 import org.openlegacy.utils.ClassUtils;
 import org.openlegacy.utils.ClassUtils.FindInClassProcessor;
+import org.openlegacy.utils.SpringUtil;
 
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SimpleServicesRegistry implements ServicesRegistry {
 
 	private List<ServiceDefinition> webServices = new ArrayList<ServiceDefinition>();
 	private List<String> packages;
+	private List<ServiceRegistryPostProcessor> postProcessors = new ArrayList<ServiceRegistryPostProcessor>();
+	private boolean isLoaded;
 
 	private FindInClassProcessor process = new FindInClassProcessor() {
 
@@ -77,5 +83,41 @@ public class SimpleServicesRegistry implements ServicesRegistry {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public List<ServiceRegistryPostProcessor> getPostProcessors() {
+		return postProcessors;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		if (!isLoaded) {
+			return;
+		}
+
+		for (ServiceRegistryPostProcessor postProcess : postProcessors) {
+			postProcess.postProcess(event);
+		}
+	}
+
+	@Override
+	public boolean isLoaded() {
+		return isLoaded;
+	}
+
+	@Override
+	public void onContextInitialized() {
+		Map<String, ServiceRegistryPostProcessor> postProcessors = SpringUtil.getApplicationContext().getBeansOfType(
+				ServiceRegistryPostProcessor.class);
+		for (String key : postProcessors.keySet()) {
+			getPostProcessors().add(postProcessors.get(key));
+		}
+
+		for (ServiceRegistryPostProcessor postProcessor : getPostProcessors()) {
+			postProcessor.init();
+			postProcessor.postLoad();
+		}
+		isLoaded = true;
 	}
 }

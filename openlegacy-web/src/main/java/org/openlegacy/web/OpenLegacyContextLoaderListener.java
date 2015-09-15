@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.web;
 
+import org.openlegacy.ServicesRegistry;
 import org.openlegacy.plugins.PluginsRegistry;
 import org.openlegacy.plugins.support.DefaultPluginsLoader;
 import org.openlegacy.plugins.support.PluginProcessor;
@@ -46,6 +47,19 @@ public class OpenLegacyContextLoaderListener extends ContextLoaderListener {
 	public void contextInitialized(ServletContextEvent event) {
 		super.contextInitialized(event);
 		SpringUtil.setApplicationContext(WebApplicationContextUtils.getRequiredWebApplicationContext(event.getServletContext()));
+
+		ServicesRegistry registry = getRegistry();
+		if (registry != null) {
+			registry.onContextInitialized();
+
+		}
 	}
 
+	private ServicesRegistry getRegistry() {
+		try {
+			return (ServicesRegistry)SpringUtil.getApplicationContext().getBean("serviceRegistry");
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

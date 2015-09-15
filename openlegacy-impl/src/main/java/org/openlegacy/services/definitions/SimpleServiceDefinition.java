@@ -11,9 +11,8 @@
 
 package org.openlegacy.services.definitions;
 
-import org.openlegacy.services.definitions.ServiceDefinition;
-import org.openlegacy.services.definitions.ServiceMethodDefinition;
-import org.openlegacy.services.definitions.ServicePoolDefinition;
+import org.openlegacy.utils.PropertyChangedUtils;
+import org.openlegacy.utils.PropertyChangedUtils.PropertyChangedEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +49,8 @@ public class SimpleServiceDefinition implements ServiceDefinition {
 
 	public void setName(String name) {
 		this.name = name;
+		PropertyChangedUtils.sendEvent(new PropertyChangedEvent().setBeanOrClassName("serviceRegistry").setEvent(
+				PropertyChangedUtils.getEvent(this, "name", name)));
 	}
 
 	public void setMethods(List<ServiceMethodDefinition> methods) {

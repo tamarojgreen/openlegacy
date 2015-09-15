@@ -11,6 +11,9 @@
 
 package org.openlegacy.services.definitions;
 
+import org.openlegacy.utils.PropertyChangedUtils;
+import org.openlegacy.utils.PropertyChangedUtils.PropertyChangedEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +41,8 @@ public class SimpleServiceMethodDefinition implements ServiceMethodDefinition {
 
 	public void setName(String name) {
 		this.name = name;
+		PropertyChangedUtils.sendEvent(new PropertyChangedEvent().setBeanOrClassName("serviceRegistry").setEvent(
+				PropertyChangedUtils.getEvent(this, "name", name)));
 	}
 
 	public void setInputParams(List<ServiceParamDetailsDefinition> inputParam) {
@@ -55,6 +60,7 @@ public class SimpleServiceMethodDefinition implements ServiceMethodDefinition {
 
 	public void setCacheDuration(Long cacheDuration) {
 		this.cacheDuration = cacheDuration;
+		PropertyChangedUtils.sendEvent(new PropertyChangedEvent().setBeanOrClassName("serviceRegistry").setEvent(
+				PropertyChangedUtils.getEvent(this, "cacheDuration", cacheDuration)));
 	}
-
 }

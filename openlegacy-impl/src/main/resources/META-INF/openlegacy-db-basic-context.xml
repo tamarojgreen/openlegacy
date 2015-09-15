@@ -33,7 +33,7 @@
  	</bean>
  	
  	<bean id="serviceRegistryLoader" class="org.openlegacy.support.DefaultServicesRegistryLoader"/>
- 	<bean id="serviceRegisrty" class="org.openlegacy.support.SimpleServicesRegistry"/>
+ 	<bean id="serviceRegistry" class="org.openlegacy.support.SimpleServicesRegistry"/>
  	
 	<context:component-scan base-package="org.openlegacy"
 		use-default-filters="false">
