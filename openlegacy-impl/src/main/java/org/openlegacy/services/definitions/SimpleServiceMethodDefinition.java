@@ -40,9 +40,9 @@ public class SimpleServiceMethodDefinition implements ServiceMethodDefinition {
 	}
 
 	public void setName(String name) {
-		this.name = name;
 		PropertyChangedUtils.sendEvent(new PropertyChangedEvent().setBeanOrClassName("serviceRegistry").setEvent(
-				PropertyChangedUtils.getEvent(this, "name", name)));
+				PropertyChangedUtils.getEvent(this, "name", this.name, name)));
+		this.name = name;
 	}
 
 	public void setInputParams(List<ServiceParamDetailsDefinition> inputParam) {
@@ -59,8 +59,8 @@ public class SimpleServiceMethodDefinition implements ServiceMethodDefinition {
 	}
 
 	public void setCacheDuration(Long cacheDuration) {
-		this.cacheDuration = cacheDuration;
 		PropertyChangedUtils.sendEvent(new PropertyChangedEvent().setBeanOrClassName("serviceRegistry").setEvent(
-				PropertyChangedUtils.getEvent(this, "cacheDuration", cacheDuration)));
+				PropertyChangedUtils.getEvent(this, "cacheDuration", this.cacheDuration, cacheDuration)));
+		this.cacheDuration = cacheDuration;
 	}
 }

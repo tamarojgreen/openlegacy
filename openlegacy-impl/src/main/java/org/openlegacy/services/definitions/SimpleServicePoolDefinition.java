@@ -57,9 +57,9 @@ public class SimpleServicePoolDefinition implements ServicePoolDefinition {
 	}
 
 	public void setMaxConnections(int maxConnections) {
-		this.maxConnections = maxConnections;
 		PropertyChangedUtils.sendEvent(new PropertyChangedEvent().setBeanOrClassName("serviceRegistry").setEvent(
-				PropertyChangedUtils.getEvent(this, "maxConnections", maxConnections)));
+				PropertyChangedUtils.getEvent(this, "maxConnections", this.maxConnections, maxConnections)));
+		this.maxConnections = maxConnections;
 	}
 
 	public void setName(String name) {
@@ -71,15 +71,15 @@ public class SimpleServicePoolDefinition implements ServicePoolDefinition {
 	}
 
 	public void setKeepAliveInterval(long keepAliveInterval) {
-		this.keepAliveInterval = keepAliveInterval;
 		PropertyChangedUtils.sendEvent(new PropertyChangedEvent().setBeanOrClassName("serviceRegistry").setEvent(
-				PropertyChangedUtils.getEvent(this, "keepAliveInterval", keepAliveInterval)));
+				PropertyChangedUtils.getEvent(this, "keepAliveInterval", this.keepAliveInterval, keepAliveInterval)));
+		this.keepAliveInterval = keepAliveInterval;
 	}
 
 	public void setReturnSessionsInterval(long returnSessionsInterval) {
-		this.returnSessionsInterval = returnSessionsInterval;
 		PropertyChangedUtils.sendEvent(new PropertyChangedEvent().setBeanOrClassName("serviceRegistry").setEvent(
-				PropertyChangedUtils.getEvent(this, "returnSessionsInterval", keepAliveInterval)));
+				PropertyChangedUtils.getEvent(this, "returnSessionsInterval", this.returnSessionsInterval, keepAliveInterval)));
+		this.returnSessionsInterval = returnSessionsInterval;
 	}
 
 	@Override
