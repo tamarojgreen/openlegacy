@@ -13,9 +13,11 @@ package org.openlegacy.services.definitions;
 
 import java.util.List;
 
-public interface ServiceMethodDefinition {
+public interface ServiceMethodDefinition extends ServiceChild {
 
-	String getName();
+	String getName();// annotation
+
+	String getMethodName();// method
 
 	long getCacheDuration();
 

@@ -56,7 +56,7 @@ public class ServiceRegistryTest {
 
 	@Before
 	public void checkRegistry() {
-		Assert.assertEquals(1, registry.getWebServices().size());
+		Assert.assertEquals(1, registry.getServices().size());
 		ServiceDefinition wsDef = registry.getServiceByClass(WebServiceImpl.class);
 		Assert.assertEquals(wsDef, registry.getServiceByName("WebService"));
 

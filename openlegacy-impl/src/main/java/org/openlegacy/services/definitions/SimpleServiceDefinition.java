@@ -39,7 +39,7 @@ public class SimpleServiceDefinition implements ServiceDefinition {
 	public ServiceMethodDefinition getMethodByName(String name) {
 		if (methods != null) {
 			for (ServiceMethodDefinition def : methods) {
-				if (def.getName().equals(name)) {
+				if (def.getName().equals(name) || def.getMethodName().equals(name)) {
 					return def;
 				}
 			}
