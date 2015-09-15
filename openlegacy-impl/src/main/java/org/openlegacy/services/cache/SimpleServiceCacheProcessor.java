@@ -395,11 +395,11 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 		if (wsMDef == null) {
 			return;
 		}
+		addBackGroundOperation(UPDATE, String.format("%s.%s", serviceName, methodName), wsMDef, newDuration);
 		// if you will uncomment upper comment - comment this condition
 		if (wsMDef instanceof SimpleServiceMethodDefinition) {
 			((SimpleServiceMethodDefinition)wsMDef).setCacheDuration(newDuration);
 		}
-		addBackGroundOperation(UPDATE, String.format("%s.%s", serviceName, methodName), wsMDef, newDuration);
 	}
 
 	private synchronized boolean hasErrors() {

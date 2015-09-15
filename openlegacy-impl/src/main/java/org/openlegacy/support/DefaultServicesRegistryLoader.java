@@ -152,6 +152,7 @@ public class DefaultServicesRegistryLoader implements ServicesRegistryLoader {
 				logger.debug(String.format("Processing %s method", method.getName()));
 			}
 			SimpleServiceMethodDefinition mDef = new SimpleServiceMethodDefinition();
+			mDef.setServiceName(wsDef.getName());
 
 			// for method we can`t find all annotations
 			// so, attempts to find annotation by need class from loader
@@ -178,7 +179,6 @@ public class DefaultServicesRegistryLoader implements ServicesRegistryLoader {
 
 		ServicePoolDefinition pDef = getPoolDefinition(StringUtil.toJavaFieldName(wsDef.getName()) + "Pool");
 		if (pDef != null) {
-
 			wsDef.setPool(pDef);
 			((SimpleServicePoolDefinition)wsDef.getPool()).setInitActionDefinition(getInitActionDefinition(StringUtil.toJavaFieldName(wsDef.getName())
 					+ "InitAction"));
@@ -211,6 +211,7 @@ public class DefaultServicesRegistryLoader implements ServicesRegistryLoader {
 		}
 
 		SimpleServicePoolDefinition pDef = new SimpleServicePoolDefinition();
+		pDef.setServiceName(beanName);
 		pDef.setName(beanName);
 		pDef.setPoolClass(beanClass);
 		BeanUtils.fillFromBeanDef(beanDef, beanClass, pDef);
