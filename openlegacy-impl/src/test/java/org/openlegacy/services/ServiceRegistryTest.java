@@ -155,7 +155,9 @@ public class ServiceRegistryTest {
 		long newDuration = 20000;
 		Assert.assertTrue(cache.getSize() > 0);
 		cacheProcessor.updateCacheDuration("WebService", "getItem", newDuration);
-		Thread.sleep(2000);
+		Thread.sleep(4000);
+		Assert.assertTrue(cache.getSize() == 0);// if you`re using updating records in cache instead of removing(on cache duration
+												// changed) - comment this assert
 		Assert.assertTrue(cacheProcessor.getLastError() == ServiceCacheError.ALL_OK);
 		Assert.assertEquals(newDuration, registry.getServiceByName("WebService").getMethodByName("getItem").getCacheDuration());
 	}
