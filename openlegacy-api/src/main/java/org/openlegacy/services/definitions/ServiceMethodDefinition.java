@@ -19,7 +19,7 @@ public interface ServiceMethodDefinition extends ServiceChild {
 
 	String getMethodName();// method
 
-	long getCacheDuration();
+	Long getCacheDuration();
 
 	List<ServiceParamDetailsDefinition> getInputParams();
 

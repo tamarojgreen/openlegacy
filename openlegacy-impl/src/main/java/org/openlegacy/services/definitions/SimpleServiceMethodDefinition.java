@@ -22,7 +22,7 @@ public class SimpleServiceMethodDefinition implements ServiceMethodDefinition {
 	private String name, serviceName, methodName;
 	private List<ServiceParamDetailsDefinition> inputParam = new ArrayList<ServiceParamDetailsDefinition>(),
 			outputParam = new ArrayList<ServiceParamDetailsDefinition>();
-	private long cacheDuration;
+	private Long cacheDuration;
 
 	@Override
 	public String getName() {
@@ -54,11 +54,11 @@ public class SimpleServiceMethodDefinition implements ServiceMethodDefinition {
 	}
 
 	@Override
-	public long getCacheDuration() {
+	public Long getCacheDuration() {
 		return cacheDuration;
 	}
 
-	public void setCacheDuration(long cacheDuration) {
+	public void setCacheDuration(Long cacheDuration) {
 		PropertyChangedUtils.sendEvent(new PropertyChangedEvent().setBeanOrClassName("serviceRegistry").setEvent(
 				PropertyChangedUtils.getEvent(this, "cacheDuration", this.cacheDuration, cacheDuration)));
 		this.cacheDuration = cacheDuration;

@@ -152,7 +152,7 @@ public class ServiceRegistryTest {
 				exit = !thread.isAlive();
 			}
 		}
-		long newDuration = 20000;
+		Long newDuration = 20000L;
 		Assert.assertTrue(cache.getSize() > 0);
 		cacheProcessor.updateCacheDuration("WebService", "getItem", newDuration);
 		Thread.sleep(4000);
