@@ -1,5 +1,7 @@
 package org.openlegacy.loaders.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.loaders.RegistryLoader;
 import org.openlegacy.utils.FileUtils;
@@ -21,6 +23,8 @@ import java.util.Map;
  * 
  */
 public class RegistryReloader {
+
+	private final static Log logger = LogFactory.getLog(RegistryReloader.class);
 
 	private Map<File, Long> packageModified = new HashMap<File, Long>();
 	private String apiSourcesPath = "src/main/java";;
@@ -60,7 +64,7 @@ public class RegistryReloader {
 							registryLoader.loadSingleClass(registry, clazz, true);
 							fileLastModified = file.lastModified();
 						} catch (Exception e) {
-							e.printStackTrace();
+							logger.debug(e.getMessage(), e);
 						}
 					} else {
 						break;
@@ -88,7 +92,7 @@ public class RegistryReloader {
 				return file.getName().endsWith(".java");
 			}
 		});
-		if (files == null){
+		if (files == null) {
 			return new ArrayList<File>();
 		}
 		List<File> javaSources = Arrays.asList(files);

@@ -459,9 +459,9 @@ public class DefaultDbRestController extends AbstractDbRestController {
 										((List) listValue).add(entity);
 									}
 								} catch (IllegalArgumentException e) {
-									e.printStackTrace();
+									logger.error(e.getMessage(), e);
 								} catch (IllegalAccessException e) {
-									e.printStackTrace();
+									logger.error(e.getMessage(), e);
 								}
 							}
 						}
@@ -473,7 +473,7 @@ public class DefaultDbRestController extends AbstractDbRestController {
 				entity = preSendJsonEntity(entityName, key, json, response);
 			}
 		} catch (ParseException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 
 		Object resultEntity = sendEntity(entity, action);
@@ -610,9 +610,9 @@ public class DefaultDbRestController extends AbstractDbRestController {
 			try {
 				resultEntity = dbService.createOrUpdateEntity(entity);
 			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(), e);
 			} catch (SecurityException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(), e);
 			}
 
 		}

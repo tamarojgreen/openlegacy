@@ -57,7 +57,7 @@ public abstract class AbstractSession implements Session, InitializingBean, Disp
 		List<? extends SessionModule> modules = sessionModules.getModules();
 		for (SessionModule registeredModule : modules) {
 			if (module.isAssignableFrom(registeredModule.getClass())) {
-				return (M)registeredModule;
+				return (M) registeredModule;
 			}
 		}
 		logger.warn(MessageFormat.format("No module {0} defined for session", module));
@@ -82,7 +82,7 @@ public abstract class AbstractSession implements Session, InitializingBean, Disp
 		Collection<? extends SessionModule> modulesList = getSessionModules().getModules();
 		for (SessionModule sessionModule : modulesList) {
 			if (sessionModule instanceof ApplicationConnectionListener) {
-				((ApplicationConnectionListener)sessionModule).beforeConnect(getConnection());
+				((ApplicationConnectionListener) sessionModule).beforeConnect(getConnection());
 			}
 		}
 	}
@@ -91,7 +91,7 @@ public abstract class AbstractSession implements Session, InitializingBean, Disp
 		Collection<? extends SessionModule> modulesList = getSessionModules().getModules();
 		for (SessionModule sessionModule : modulesList) {
 			if (sessionModule instanceof ApplicationConnectionListener) {
-				((ApplicationConnectionListener)sessionModule).afterConnect(getConnection());
+				((ApplicationConnectionListener) sessionModule).afterConnect(getConnection());
 			}
 		}
 	}
@@ -102,7 +102,7 @@ public abstract class AbstractSession implements Session, InitializingBean, Disp
 			try {
 				sessionProperties = sessionPropertiesProvider.getSessionProperties();
 			} catch (OpenLegacyException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(), e);
 			}
 		}
 		return sessionProperties;
@@ -121,7 +121,7 @@ public abstract class AbstractSession implements Session, InitializingBean, Disp
 		List<? extends SessionModule> modules = sessionModules.getModules();
 		for (SessionModule sessionModule : modules) {
 			if (sessionModule instanceof SessionModuleAdapter) {
-				((SessionModuleAdapter)sessionModule).setSession(this);
+				((SessionModuleAdapter) sessionModule).setSession(this);
 			}
 		}
 	}
