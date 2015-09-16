@@ -12,6 +12,8 @@
 package org.openlegacy.services;
 
 import org.apache.commons.lang.ClassUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +38,8 @@ import javax.inject.Inject;
 @ContextConfiguration("ServiceRegistryTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ServiceRegistryTest {
+
+	private final static Log logger = LogFactory.getLog(ServiceRegistryTest.class);
 
 	@Inject
 	SimpleServicesRegistry registry;
@@ -85,8 +89,8 @@ public class ServiceRegistryTest {
 	}
 
 	@Test
-	// (timeout = 35000)
 	public void testCache() throws Exception {
+		logger.info("Service cache test will run ~35 seconds");
 		Assert.assertTrue(ClassUtils.getAllSuperclasses(service.getClass()).contains(Proxy.class));
 		final int[] ids = new int[] { 1000, 1001, 1002, 1003, 1004 };
 		List<Thread> threads = new ArrayList<Thread>();
