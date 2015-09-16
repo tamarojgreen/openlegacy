@@ -108,6 +108,9 @@ public class SimpleServicesRegistry implements ServicesRegistry {
 
 	@Override
 	public void onContextInitialized() {
+		if (isLoaded()) {
+			return;
+		}
 		Map<String, ServiceRegistryPostProcessor> postProcessors = SpringUtil.getApplicationContext().getBeansOfType(
 				ServiceRegistryPostProcessor.class);
 		for (String key : postProcessors.keySet()) {
