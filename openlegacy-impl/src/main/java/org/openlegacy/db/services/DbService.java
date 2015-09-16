@@ -1,5 +1,7 @@
 package org.openlegacy.db.services;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
@@ -19,6 +21,8 @@ import javax.persistence.criteria.CriteriaQuery;
 
 @Transactional
 public class DbService {
+
+	private final static Log logger = LogFactory.getLog(DbService.class);
 
 	@PersistenceContext(type = PersistenceContextType.EXTENDED)
 	transient EntityManager entityManager;
@@ -103,9 +107,9 @@ public class DbService {
 						entityManager.merge(parent);
 						entityManager.remove(entity);
 					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
+						logger.error(e.getMessage(), e);
 					} catch (IllegalAccessException e) {
-						e.printStackTrace();
+						logger.error(e.getMessage(), e);
 					}
 				}
 			}

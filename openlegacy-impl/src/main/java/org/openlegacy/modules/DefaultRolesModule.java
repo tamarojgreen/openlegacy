@@ -12,6 +12,8 @@
 package org.openlegacy.modules;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.Session;
@@ -42,6 +44,7 @@ import javax.inject.Inject;
 public class DefaultRolesModule extends SessionModuleAdapter<Session> implements Roles {
 
 	private static final long serialVersionUID = 1L;
+	private final static Log logger = LogFactory.getLog(DefaultRolesModule.class);
 
 	@Inject
 	private EntitiesRegistry<?, ?, ?> entitiesRegistry;
@@ -139,7 +142,7 @@ public class DefaultRolesModule extends SessionModuleAdapter<Session> implements
 						DirectFieldAccessor directFieldAccessor = new DirectFieldAccessor(entity);
 						directFieldAccessor.setPropertyValue(StringUtil.removeNamespace(fieldName), null);
 					} catch (Exception e) {
-						e.printStackTrace();
+						logger.error(e.getMessage(), e);
 					}
 				}
 			}
@@ -187,7 +190,7 @@ public class DefaultRolesModule extends SessionModuleAdapter<Session> implements
 							directFieldAccessor = new DirectFieldAccessor(partObject);
 							directFieldAccessor.setPropertyValue(StringUtil.removeNamespace(fieldName), null);
 						} catch (Exception e) {
-							e.printStackTrace();
+							logger.error(e.getMessage(), e);
 						}
 					}
 				}

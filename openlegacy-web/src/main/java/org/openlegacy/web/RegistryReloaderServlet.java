@@ -1,5 +1,7 @@
 package org.openlegacy.web;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.loaders.RegistryLoader;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 public class RegistryReloaderServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	private final static Log logger = LogFactory.getLog(RegistryReloaderServlet.class);
 
 	private boolean cont = true;
 
@@ -56,7 +59,7 @@ public class RegistryReloaderServlet extends HttpServlet {
 					try {
 						Thread.sleep(reloadAttemptInterval);
 					} catch (InterruptedException e) {
-						e.printStackTrace();
+						logger.error(e.getMessage(), e);
 					}
 				}
 			}

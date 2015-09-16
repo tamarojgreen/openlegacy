@@ -11,6 +11,8 @@
 
 package org.openlegacy.db.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.ApplicationConnection;
 import org.openlegacy.SessionPropertiesProvider;
 import org.openlegacy.authorization.AuthorizationService;
@@ -43,6 +45,7 @@ import javax.persistence.PersistenceContext;
 public class DefaultDbSession extends AbstractSession implements DbSession {
 
 	private static final long serialVersionUID = 1L;
+	private final static Log logger = LogFactory.getLog(DefaultDbSession.class);
 
 	@Inject
 	private DbEntitiesRegistry dbEntitiesRegistry;
@@ -128,7 +131,7 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 			User loggedInUser = getModule(Login.class).getLoggedInUser();
 			loggedInUser.getProperties().putAll(sessionPropertiesProvider.getSessionProperties().getProperties());
 		} catch (OpenLegacyException e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage(), e);
 		}
 	}
 
