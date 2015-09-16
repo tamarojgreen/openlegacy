@@ -78,7 +78,7 @@ public class SimpleServicePoolDefinition implements ServicePoolDefinition {
 
 	public void setReturnSessionsInterval(long returnSessionsInterval) {
 		PropertyChangedUtils.sendEvent(new PropertyChangedEvent().setBeanOrClassName("serviceRegistry").setEvent(
-				PropertyChangedUtils.getEvent(this, "returnSessionsInterval", this.returnSessionsInterval, keepAliveInterval)));
+				PropertyChangedUtils.getEvent(this, "returnSessionsInterval", this.returnSessionsInterval, returnSessionsInterval)));
 		this.returnSessionsInterval = returnSessionsInterval;
 	}
 
@@ -89,12 +89,12 @@ public class SimpleServicePoolDefinition implements ServicePoolDefinition {
 			return;
 		}
 		Object instance = applicationContext.getBean(getName());
-		try {
-			for (Field field : getClass().getDeclaredFields()) {
+		for (Field field : getClass().getDeclaredFields()) {
+			try {
 				ClassUtils.getWriteMethod(field.getName(), instance.getClass(), field.getType()).invoke(instance, field.get(this));
-			}
-		} catch (Exception e) {
+			} catch (Exception e) {
 
+			}
 		}
 	}
 

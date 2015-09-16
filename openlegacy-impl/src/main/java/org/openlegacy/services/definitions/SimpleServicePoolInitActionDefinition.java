@@ -11,7 +11,6 @@
 
 package org.openlegacy.services.definitions;
 
-import org.openlegacy.services.definitions.ServicePoolInitActionDefinition;
 import org.openlegacy.utils.ClassUtils;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
@@ -67,12 +66,13 @@ public class SimpleServicePoolInitActionDefinition implements ServicePoolInitAct
 			return;
 		}
 		Object instance = applicationContext.getBean(getName());
-		try {
-			for (Field field : getClass().getDeclaredFields()) {
-				ClassUtils.getWriteMethod(field.getName(), instance.getClass(), field.getType()).invoke(instance, field.get(this));
-			}
-		} catch (Exception e) {
 
+		for (Field field : getClass().getDeclaredFields()) {
+			try {
+				ClassUtils.getWriteMethod(field.getName(), instance.getClass(), field.getType()).invoke(instance, field.get(this));
+			} catch (Exception e) {
+
+			}
 		}
 	}
 
