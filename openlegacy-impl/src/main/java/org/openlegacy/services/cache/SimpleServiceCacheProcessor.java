@@ -13,6 +13,8 @@ package org.openlegacy.services.cache;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.ServicesRegistry;
 import org.openlegacy.services.definitions.ServiceDefinition;
 import org.openlegacy.services.definitions.ServiceMethodDefinition;
@@ -36,6 +38,8 @@ import javax.inject.Inject;
 import javax.xml.bind.DatatypeConverter;
 
 public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, MethodInterceptor {
+
+	private final static Log logger = LogFactory.getLog(SimpleServiceCacheProcessor.class);
 
 	private static final int ADD = 0;
 	private static final int REMOVE = 1;
@@ -182,6 +186,9 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 		lock(key);
 
 		if (isKeyBlocked(key)) {
+			if (logger.isDebugEnabled()) {
+				logger.debug(String.format("Key %s was locked", key));
+			}
 			return invocation.proceed();
 		}
 
@@ -212,6 +219,9 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 			cacheData.setExpirationTime(System.currentTimeMillis() + methodDefinition.getCacheDuration());
 			cacheEngine.put(key, beforeCache(cacheData, true));
 			unlock(key);
+			if (logger.isDebugEnabled()) {
+				logger.debug(String.format("Key %s put in cache", key));
+			}
 		} catch (Exception e) {
 			lastError = ServiceCacheError.CACHE_ERROR;
 			e.printStackTrace();
