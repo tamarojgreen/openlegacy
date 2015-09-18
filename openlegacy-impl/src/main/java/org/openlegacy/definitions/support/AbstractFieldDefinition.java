@@ -61,6 +61,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 	private String regularExpression;
 	private boolean required = false;
 	private String invalidMessage = "";
+	protected boolean isHidden;
 
 	public AbstractFieldDefinition(String name, Class<? extends FieldType> type) {
 		this.name = name;
@@ -285,5 +286,10 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	public void setInvalidMessage(String invalidMessage) {
 		this.invalidMessage = invalidMessage;
+	}
+
+	@Override
+	public boolean isHidden() {
+		return this.isHidden;
 	}
 }
