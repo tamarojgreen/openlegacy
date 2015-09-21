@@ -18,6 +18,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcInvokeAction;
 import org.openlegacy.rpc.RpcResult;
@@ -99,7 +100,7 @@ public class MfRpcConnection implements RpcConnection {
 			httpPost.setEntity(new ByteArrayEntity(buffer));
 			HttpResponse response = httpClient.execute(httpPost);
 			if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-				return null;
+				throw new OpenLegacyRuntimeException("Fail to execute on server " + response.getStatusLine().getReasonPhrase());
 			}
 
 			BufferedInputStream in = new BufferedInputStream(response.getEntity().getContent());

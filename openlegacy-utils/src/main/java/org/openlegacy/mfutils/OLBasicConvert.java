@@ -1,5 +1,6 @@
 package org.openlegacy.mfutils;
 
+import org.junit.Assert;
 
 public class OLBasicConvert {
 
@@ -10,11 +11,25 @@ public class OLBasicConvert {
 		String result = "";
 
 		switch (getTypeIdentifier(usage, picture, signed, signSeperate, signPosition)) {
-			case Type.ftPackedDecimal:
-				result = "Mainframe Packed Decimal (comp-3)";
+			case Type.ftChar:
+				result = "Char";
+				break;
+			case Type.ftNumRightJustified:
+				result = "Num (Right Justified space padded)";
+
 				break;
 			case Type.ftPositiveNumAnyDecimal:
 				result = "Postive Decimal";
+				break;
+			case Type.ftAssumedDecimalPositive:
+				result = "Num Assumed Decimal (+ve)";
+				break;
+			case Type.ftNumZeroPaddedPositive:
+				result = "Positive Zero Padded Number";
+				break;
+
+			case Type.ftPackedDecimal:
+				result = "Mainframe Packed Decimal (comp-3)";
 				break;
 
 			case Type.ftZonedNumeric:
@@ -23,11 +38,12 @@ public class OLBasicConvert {
 			case Type.ftBinaryBigEndian:
 				result = "Binary Integer";
 				break;
-			case Type.ftChar:
-				result = "Char";
+			case Type.ftBinaryBigEndianPositive:
+				result = "Binary Integer (only +ve)";
 				break;
+
 			default:
-				// Assert.assertTrue(true);
+				Assert.assertTrue(true);
 		}
 		return result;
 	}

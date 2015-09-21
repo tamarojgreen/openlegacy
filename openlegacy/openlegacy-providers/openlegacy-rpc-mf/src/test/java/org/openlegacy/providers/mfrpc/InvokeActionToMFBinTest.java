@@ -1,8 +1,5 @@
 package org.openlegacy.providers.mfrpc;
 
-import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.Common.RecordException;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.annotations.rpc.Direction;
@@ -17,6 +14,8 @@ import java.io.IOException;
 import java.math.BigInteger;
 
 import junit.framework.Assert;
+import net.sf.JRecord.Common.Conversion;
+import net.sf.JRecord.Common.RecordException;
 
 @ContextConfiguration("mfRpcSessionTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -26,7 +25,10 @@ public class InvokeActionToMFBinTest {
 	// public void testPicToType() {
 	// net.sf.JRecord.Numeric.Convert convert = ConversionManager.getInstance().getConverter(ICopybookDialects.FMT_MAINFRAME);
 	//
-	// int result = convert.getTypeIdentifier("computational-4", "S9(2)", false, false, "");
+	// // int result = convert.getTypeIdentifier("computational-4", "S9(2)", false, false, "");
+	// int result = convert.getTypeIdentifier("", "9(2)", false, false, "");
+	//
+	// result = convert.getTypeIdentifier("", "9.9", false, false, "");
 	// System.out.println(result);
 	// }
 

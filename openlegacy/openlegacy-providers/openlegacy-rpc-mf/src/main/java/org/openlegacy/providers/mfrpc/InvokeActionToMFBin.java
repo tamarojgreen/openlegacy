@@ -1,9 +1,5 @@
 package org.openlegacy.providers.mfrpc;
 
-import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.Common.RecordException;
-import net.sf.JRecord.Types.Type;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.annotations.rpc.Direction;
@@ -21,6 +17,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import net.sf.JRecord.Common.Conversion;
+import net.sf.JRecord.Common.RecordException;
+import net.sf.JRecord.Types.Type;
+
 public class InvokeActionToMFBin {
 
 	private final static Log logger = LogFactory.getLog(InvokeActionToMFBin.class);
@@ -30,11 +30,16 @@ public class InvokeActionToMFBin {
 	private static HashMap<String, Integer> convertor = new HashMap<String, Integer>() {
 
 		{
-			put("Mainframe Packed Decimal (comp-3)", Type.ftPackedDecimal);
+			put("Char", Type.ftChar);
+			put("Num (Right Justified space padded)", Type.ftNumRightJustified);
 			put("Postive Decimal", Type.ftPositiveNumAnyDecimal);
+			put("Num Assumed Decimal (+ve)", Type.ftAssumedDecimalPositive);
+			put("Positive Zero Padded Number", Type.ftNumZeroPaddedPositive);
+			put("Mainframe Packed Decimal (comp-3)", Type.ftPackedDecimal);
 			put("Signed Decimal", Type.ftZonedNumeric);
 			put("Binary Integer", Type.ftBinaryBigEndian);
-			put("Char", Type.ftChar);
+			put("Binary Integer (only +ve)", Type.ftBinaryBigEndianPositive);
+
 		}
 	};
 
@@ -68,20 +73,81 @@ public class InvokeActionToMFBin {
 
 	}
 
+	static String getEven(String buff) {
+		StringBuilder result = new StringBuilder();
+		for (int i = 1; i < buff.length(); i += 2) {
+			result.append(buff.charAt(i));
+		}
+		return result.toString();
+	}
+
 	private static void extractSimple(byte[] input, String fontName, int adress, RpcField field) {
 		SimpleRpcFlatField rpcFlatField = (SimpleRpcFlatField)field;
 		int mfType = convertor.get(rpcFlatField.getLegacyType());
-		if (mfType == Type.ftChar) {
-			((RpcFlatField)field).setValue(Conversion.getString(input, adress, adress + field.getLength(), fontName).trim());
-		} else if (mfType == Type.ftBinaryBigEndian) {
-			BigInteger res = Conversion.getBigInt(input, adress, field.getLength());
-			Class<?> fieldType = rpcFlatField.getType();
-			if (Integer.class.equals(fieldType)) {
+		Class<?> fieldType = rpcFlatField.getType();
 
-				((RpcFlatField)field).setValue(Integer.valueOf(res.toString()));
-			}
+		switch (mfType) {
+			case Type.ftChar:
+				((RpcFlatField)field).setValue(Conversion.getString(input, adress, adress + field.getLength(), fontName).trim());
+				break;
 
+			case Type.ftAssumedDecimalPositive:
+				String strNumumber = getEven(Conversion.getDecimal(input, adress, adress + field.getLength()));
+				if (Double.class.equals(fieldType)) {
+
+					((RpcFlatField)field).setValue(
+							Double.valueOf(addDecimalPoint(strNumumber, ((RpcFlatField)field).getDecimalPlaces())));
+
+				} else {
+					logger.debug("not supported");
+				}
+
+				break;
+
+			case Type.ftNumZeroPaddedPositive:
+				String strNum = getEven(Conversion.getDecimal(input, adress, adress + field.getLength()));
+				if (Integer.class.equals(fieldType)) {
+
+					((RpcFlatField)field).setValue(Integer.valueOf(strNum.toString()));
+				} else {
+					logger.debug("not supported");
+				}
+
+				break;
+			case Type.ftZonedNumeric:
+				String result = Conversion.getDecimal(input, adress, adress + field.getLength());
+				strNum = getEven(result);
+
+				int signChar = adress + field.getLength() - 2;
+				if (result.charAt(signChar) == 'd') {
+					strNum = "-" + strNum;
+				}
+				if (Integer.class.equals(fieldType)) {
+
+					((RpcFlatField)field).setValue(Integer.valueOf(strNum.toString()));
+				} else if (Double.class.equals(fieldType)) {
+
+					((RpcFlatField)field).setValue(
+							Double.valueOf(addDecimalPoint(strNum, ((RpcFlatField)field).getDecimalPlaces())));
+
+				} else {
+					logger.debug("not supported");
+				}
+
+				break;
+			case Type.ftBinaryBigEndian:
+				BigInteger res = Conversion.getBigInt(input, adress, field.getLength());
+
+				if (Integer.class.equals(fieldType)) {
+
+					((RpcFlatField)field).setValue(Integer.valueOf(res.toString()));
+
+				}
+				break;
+			default:
+				logger.debug("not supported");
 		}
+
 	}
 
 	private static void padWith(byte[] record, final int start, final int len, final String padCh, final String font) {
@@ -103,6 +169,27 @@ public class InvokeActionToMFBin {
 		} else {
 			padWith(record, pos, len - val.length(), pad, font);
 			System.arraycopy(Conversion.getBytes(val, font), 0, record, pos + len - val.length(), val.length());
+		}
+	}
+
+	private static String delDecimalPoint(String number, int decimalPlace) {
+		if (number == null || number.equals("")) {
+			return "0";
+		}
+		if (decimalPlace == 0) {
+			return number;
+		} else {
+			int cuttingLocation = number.length() - decimalPlace - 1;
+			return number.substring(0, cuttingLocation) + number.substring(cuttingLocation + 1);
+		}
+	}
+
+	private static String addDecimalPoint(String number, int decimalPlace) {
+		if (decimalPlace == 0) {
+			return number;
+		} else {
+			int cuttingLocation = number.length() - decimalPlace;
+			return number.substring(0, cuttingLocation) + "." + number.substring(cuttingLocation);
 		}
 	}
 
@@ -130,26 +217,27 @@ public class InvokeActionToMFBin {
 					break;
 
 				case Type.ftZonedNumeric:
+				case Type.ftAssumedDecimalPositive:
 				case Type.ftNumAnyDecimal:
-					number = (BigDecimal)rpcFlatField.getValue();
+					number = new BigDecimal(delDecimalPoint(rpcFlatField.getValue().toString(), rpcFlatField.getDecimalPlaces()));
 					if (number.compareTo(BigDecimal.ZERO) < 0) {
 						copyRightJust(data, number.toString().substring(1), startPosition, rpcFlatField.getLength(), "0",
 								fontName);
 						int lastByte = startPosition + rpcFlatField.getLength() - 1;
 						data[lastByte] = (byte)(data[lastByte] & ZONED_NEGATIVE_NYBLE_OR);
 					} else {
-						copyRightJust(data, rpcFlatField.getValue().toString(), startPosition, rpcFlatField.getLength(), " ",
-								fontName);
+						copyRightJust(data, number.toString(), startPosition, rpcFlatField.getLength(), " ", fontName);
 					}
 
 					break;
+				case Type.ftNumZeroPaddedPositive:
 				case Type.ftPositiveNumAnyDecimal:
 					copyRightJust(data, rpcFlatField.getValue().toString(), startPosition, rpcFlatField.getLength(), " ",
 							fontName);
 
 					break;
 				default:
-					// Assert.assertTrue(true);
+					logger.debug("not supported");
 			}
 		} catch (RecordException e) {
 			throw new OpenLegacyProviderException(e);
