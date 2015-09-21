@@ -4,7 +4,7 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.openlegacy</groupId>
+		<groupId>org.openlegacy.cache</groupId>
 		<artifactId>openlegacy-cache-providers</artifactId>
 		<version>2.3.0-SNAPSHOT</version>
 	</parent>
