@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rpc-trail>
+    <snapshot sequence="1">
+        <invoke rpcPath="getItemDetails">
+            <rpcFields>
+                <field value="0" length="8" modified="true" type="java.lang.Integer" direction="INPUT" name="itemId" order="0"/>
+                <structure order="1" name="itemRecord">
+                    <field length="16" direction="OUTPUT" name="name" order="0"/>
+                    <field length="28" direction="OUTPUT" name="description" order="1"/>
+                    <field length="4" type="java.lang.Integer" direction="OUTPUT" name="weight" order="2"/>
+                </structure>
+                <structure order="2" name="shipping">
+                    <field length="10" direction="OUTPUT" name="shipping_method_name" order="0"/>
+                    <field length="4" type="java.lang.Integer" direction="OUTPUT" name="days" order="1"/>
+                </structure>
+            </rpcFields>
+        </invoke>
+        <result>
+            <rpcFields>
+                <field value="1" length="8" modified="false" type="java.lang.Integer" direction="INPUT" name="itemId" order="0"/>
+                <structure order="1" name="itemRecord" direction="OUTPUT">
+                    <field value="Kid Guitar" length="16" modified="true" direction="OUTPUT" name="name" order="0"/>
+                    <field value="Kids Guitar - Musical Toys" length="28" modified="true" direction="OUTPUT" name="description" order="1"/>
+                    <field value="10" length="4" modified="true" type="java.lang.Integer" direction="OUTPUT" name="weight" order="2"/>                    
+                </structure>
+                <structure order="2" name="shipping" direction="OUTPUT">
+                    <field value="Air Mail" length="10" modified="true" direction="OUTPUT" name="shipping_method_name" order="0"/>
+                    <field value="3" length="4" modified="true" type="java.lang.Integer" direction="OUTPUT" name="days" order="1"/>
+                </structure>
+            </rpcFields>
+        </result>
+    </snapshot>
+    <snapshot sequence="2">
+        <invoke rpcPath="getItemDetails">
+            <rpcFields>
+                <field value="1" length="8" modified="true" type="java.lang.Integer" direction="INPUT" name="itemId" order="0"/>
+                <structure order="1" name="itemRecord">
+                    <field length="16" direction="OUTPUT" name="name" order="0"/>
+                    <field length="28" direction="OUTPUT" name="description" order="1"/>
+                    <field length="4" type="java.lang.Integer" direction="OUTPUT" name="weight" order="2"/>
+                </structure>
+                <structure order="2" name="shipping">
+                    <field length="10" direction="OUTPUT" name="shipping_method_name" order="0"/>
+                    <field length="4" type="java.lang.Integer" direction="OUTPUT" name="days" order="1"/>
+                </structure>
+            </rpcFields>
+        </invoke>
+        <result>
+            <rpcFields>
+                <field value="1" length="8" modified="false" type="java.lang.Integer" direction="INPUT" name="itemId" order="0"/>
+                <structure order="1" name="itemRecord" direction="OUTPUT">
+                    <field value="Kid Guitar" length="16" modified="true" direction="OUTPUT" name="name" order="0"/>
+                    <field value="Kids Guitar - Musical Toys" length="28" modified="true" direction="OUTPUT" name="description" order="1"/>
+                    <field value="10" length="4" modified="true" type="java.lang.Integer" direction="OUTPUT" name="weight" order="2"/>                    
+                </structure>
+                <structure order="2" name="shipping" direction="OUTPUT">
+                    <field value="Air Mail" length="10" modified="true" direction="OUTPUT" name="shipping_method_name" order="0"/>
+                    <field value="3" length="4" modified="true" type="java.lang.Integer" direction="OUTPUT" name="days" order="1"/>
+                </structure>
+            </rpcFields>
+        </result>
+    </snapshot>
+    <snapshot sequence="3">
+        <invoke rpcPath="getItemDetails">
+            <rpcFields>
+                <field value="2" length="8" modified="true" type="java.lang.Integer" direction="INPUT" name="itemId" order="0"/>
+                <structure order="1" name="itemRecord">
+                    <field length="16" direction="OUTPUT" name="name" order="0"/>
+                    <field length="28" direction="OUTPUT" name="description" order="1"/>
+                    <field length="4" type="java.lang.Integer" direction="OUTPUT" name="weight" order="2"/>
+                </structure>
+                <structure order="2" name="shipping">
+                    <field length="10" direction="OUTPUT" name="shipping_method_name" order="0"/>
+                    <field length="4" type="java.lang.Integer" direction="OUTPUT" name="days" order="1"/>
+                </structure>
+            </rpcFields>
+        </invoke>
+        <result>
+            <rpcFields>
+                <field value="2" length="8" modified="false" type="java.lang.Integer" direction="INPUT" name="itemId" order="0"/>
+                <structure order="1" name="itemRecord" direction="OUTPUT">
+                    <field value="Ball Pool" length="16" modified="true" direction="OUTPUT" name="name" order="0"/>
+                    <field value="Ball Pool - Novelty Toys" length="28" modified="true" direction="OUTPUT" name="description" order="1"/>
+                    <field value="20" length="4" modified="true" type="java.lang.Integer" direction="OUTPUT" name="weight" order="2"/>
+                </structure>
+                <structure order="2" name="shipping" direction="OUTPUT">
+                    <field value="Air Mail" length="10" modified="true" direction="OUTPUT" name="shipping_method_name" order="0"/>
+                    <field value="3" length="4" modified="true" type="java.lang.Integer" direction="OUTPUT" name="days" order="1"/>
+                </structure>
+            </rpcFields>
+        </result>
+    </snapshot>
+    <snapshot sequence="4">
+        <invoke rpcPath="getItemDetails">
+            <rpcFields>
+                <field value="3" length="8" modified="true" type="java.lang.Integer" direction="INPUT" name="itemId" order="0"/>
+                <structure order="1" name="itemRecord">
+                    <field length="16" direction="OUTPUT" name="name" order="0"/>
+                    <field length="28" direction="OUTPUT" name="description" order="1"/>
+                    <field length="4" type="java.lang.Integer" direction="OUTPUT" name="weight" order="2"/>
+                </structure>
+                <structure order="2" name="shipping">
+                    <field length="10" direction="OUTPUT" name="shipping_method_name" order="0"/>
+                    <field length="4" type="java.lang.Integer" direction="OUTPUT" name="days" order="1"/>
+                </structure>
+            </rpcFields>
+        </invoke>
+        <result>
+            <rpcFields>
+                <field value="3" length="8" modified="false" type="java.lang.Integer" direction="INPUT" name="itemId" order="0"/>
+                <structure order="1" name="itemRecord" direction="OUTPUT">
+                    <field value="Water Ball" length="16" modified="true" direction="OUTPUT" name="name" order="0"/>
+                    <field value="Water Ball - Balls" length="28" modified="true" direction="OUTPUT" name="description" order="1"/>
+                    <field value="30" length="4" modified="true" type="java.lang.Integer" direction="OUTPUT" name="weight" order="2"/>
+                </structure>
+                <structure order="2" name="shipping" direction="OUTPUT">
+                    <field value="Air Mail" length="10" modified="true" direction="OUTPUT" name="shipping_method_name" order="0"/>
+                    <field value="3" length="4" modified="true" type="java.lang.Integer" direction="OUTPUT" name="days" order="1"/>
+                </structure>
+            </rpcFields>
+        </result>
+    </snapshot>
+    <snapshot sequence="5">
+        <invoke rpcPath="getItemDetails">
+            <rpcFields>
+                <field value="4" length="8" modified="true" type="java.lang.Integer" direction="INPUT" name="itemId" order="0"/>
+                <structure order="1" name="itemRecord">
+                    <field length="16" direction="OUTPUT" name="name" order="0"/>
+                    <field length="28" direction="OUTPUT" name="description" order="1"/>
+                    <field length="4" type="java.lang.Integer" direction="OUTPUT" name="weight" order="2"/>
+                </structure>
+                <structure order="2" name="shipping">
+                    <field length="10" direction="OUTPUT" name="shipping_method_name" order="0"/>
+                    <field length="4" type="java.lang.Integer" direction="OUTPUT" name="days" order="1"/>
+                </structure>
+            </rpcFields>
+        </invoke>
+        <result>
+            <rpcFields>
+                <field value="4" length="8" modified="false" type="java.lang.Integer" direction="INPUT" name="itemId" order="0"/>
+                <structure order="1" name="itemRecord" direction="OUTPUT">
+                    <field value="Frisbee" length="16" modified="true" direction="OUTPUT" name="name" order="0"/>
+                    <field value="Dog Frisbee - Pet Toys" length="28" modified="true" direction="OUTPUT" name="description" order="1"/>
+                    <field value="1" length="4" modified="true" type="java.lang.Integer" direction="OUTPUT" name="weight" order="2"/>
+                </structure>
+                <structure order="2" name="shipping" direction="OUTPUT">
+                    <field value="Air Mail" length="10" modified="true" direction="OUTPUT" name="shipping_method_name" order="0"/>
+                    <field value="3" length="4" modified="true" type="java.lang.Integer" direction="OUTPUT" name="days" order="1"/>
+                </structure>
+            </rpcFields>
+        </result>
+    </snapshot>
+    <snapshot sequence="6">
+        <invoke rpcPath="getItemDetails">
+            <rpcFields>
+                <field value="5" length="8" modified="true" type="java.lang.Integer" direction="INPUT" name="itemId" order="0"/>
+                <structure order="1" name="itemRecord">
+                    <field length="16" direction="OUTPUT" name="name" order="0"/>
+                    <field length="28" direction="OUTPUT" name="description" order="1"/>
+                    <field length="4" type="java.lang.Integer" direction="OUTPUT" name="weight" order="2"/>
+                </structure>
+                <structure order="2" name="shipping">
+                    <field length="10" direction="OUTPUT" name="shipping_method_name" order="0"/>
+                    <field length="4" type="java.lang.Integer" direction="OUTPUT" name="days" order="1"/>
+                </structure>
+            </rpcFields>
+        </invoke>
+        <result>
+            <rpcFields>
+                <field value="5" length="8" modified="false" type="java.lang.Integer" direction="INPUT" name="itemId" order="0"/>
+                <structure order="1" name="itemRecord" direction="OUTPUT">
+                    <field value="Pig Bank" length="16" modified="true" direction="OUTPUT" name="name" order="0"/>
+                    <field value="Pig Saving Bank - Ceramics" length="28" modified="true" direction="OUTPUT" name="description" order="1"/>
+                    <field value="2" length="4" modified="true" type="java.lang.Integer" direction="OUTPUT" name="weight" order="2"/>
+                </structure>
+                <structure order="2" name="shipping" direction="OUTPUT">
+                    <field value="Air Mail" length="10" modified="true" direction="OUTPUT" name="shipping_method_name" order="0"/>
+                    <field value="3" length="4" modified="true" type="java.lang.Integer" direction="OUTPUT" name="days" order="1"/>
+                </structure>
+            </rpcFields>
+        </result>
+    </snapshot>
+</rpc-trail>
