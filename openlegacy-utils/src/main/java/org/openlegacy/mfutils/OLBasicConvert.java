@@ -1,7 +1,5 @@
 package org.openlegacy.mfutils;
 
-import org.junit.Assert;
-
 public class OLBasicConvert {
 
 	private int binId = ICopybookDialects.FMT_MAINFRAME;
@@ -42,8 +40,6 @@ public class OLBasicConvert {
 				result = "Binary Integer (only +ve)";
 				break;
 
-			default:
-				Assert.assertTrue(true);
 		}
 		return result;
 	}
