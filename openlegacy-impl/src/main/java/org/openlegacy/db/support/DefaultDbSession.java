@@ -121,7 +121,12 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 						loggedInUser.getUserName(), action.getClass().getSimpleName()));
 			}
 		}
-		return action.perform(getEntityManager(), dbEntity, keys);
+		Object object = action.perform(getEntityManager(), dbEntity, keys);
+		if (rolesModule != null) {
+			rolesModule.populateEntity(object, getModule(Login.class));
+		}
+
+		return object;
 	}
 
 	@Override

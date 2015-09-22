@@ -6,6 +6,9 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
+import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.login.User;
+import org.openlegacy.modules.roles.Roles;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcInvokeAction;
@@ -15,6 +18,7 @@ import org.openlegacy.rpc.RpcSnapshot;
 import org.openlegacy.rpc.actions.RpcAction;
 import org.openlegacy.rpc.actions.RpcActions;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
+import org.openlegacy.rpc.exceptions.RpcActionException;
 import org.openlegacy.rpc.mock.MockRpcConnection;
 import org.openlegacy.rpc.recognizers.RpcRecognizer;
 import org.openlegacy.rpc.utils.HierarchyRpcPojoFieldAccessor;
@@ -48,7 +52,7 @@ public class MockupRpcSession extends DefaultRpcSession {
 
 	@Override
 	public RpcConnection getConnection() {
-		return (RpcConnection)super.getConnection();
+		return (RpcConnection) super.getConnection();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -62,16 +66,14 @@ public class MockupRpcSession extends DefaultRpcSession {
 		}
 		SnapshotInfo<RpcSnapshot> snapshotInfo = snapshotsList.getCurrent();
 
-		((MockRpcConnection)getConnection()).setCurrentIndex(snapshotInfo.getIndexInSession());
+		((MockRpcConnection) getConnection()).setCurrentIndex(snapshotInfo.getIndexInSession());
 
 		T entity = ReflectionUtil.newInstance(rpcEntityClass);
 
 		RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(rpcEntityClass);
 		List<? extends FieldDefinition> keysDefinitions = rpcDefinition.getKeys();
-		Assert.isTrue(
-				keysDefinitions.size() == keys.length,
-				MessageFormat.format("Provided keys {0} doesnt match entity {1} keys", StringUtils.join(keys, "-"),
-						rpcDefinition.getEntityName()));
+		Assert.isTrue(keysDefinitions.size() == keys.length, MessageFormat.format(
+				"Provided keys {0} doesnt match entity {1} keys", StringUtils.join(keys, "-"), rpcDefinition.getEntityName()));
 		int index = 0;
 
 		HierarchyRpcPojoFieldAccessor fieldAccesor = new SimpleHierarchyRpcPojoFieldAccessor(entity);
@@ -85,16 +87,26 @@ public class MockupRpcSession extends DefaultRpcSession {
 		converToApiFields(rpcInvokeAction.getFields());
 
 		snapshotsList.next();
-		return (T)doAction(RpcActions.READ(), (RpcEntity)entity);
+		return (T) doAction(RpcActions.READ(), (RpcEntity) entity);
 
 	}
 
 	@Override
 	public RpcEntity doAction(RpcAction action, RpcEntity rpcEntity) {
+		Roles rolesModule = getModule(Roles.class);
+		if (rolesModule != null) {
+			Login loginModule = getModule(Login.class);
+			User loggedInUser = loginModule.getLoggedInUser();
+			if (!rolesModule.isActionPermitted(action, rpcEntity, loggedInUser)) {
+				throw new RpcActionException(MessageFormat.format("Logged in user {0} has no permission for action {1}",
+						loggedInUser.getUserName(), action.getClass().getSimpleName()));
+			}
+		}
+
 		RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(rpcEntity.getClass());
 
 		SimpleRpcInvokeAction rpcAction = new SimpleRpcInvokeAction();
-		RpcActionDefinition actionDefinition = (RpcActionDefinition)rpcDefinition.getAction(action.getClass());
+		RpcActionDefinition actionDefinition = (RpcActionDefinition) rpcDefinition.getAction(action.getClass());
 		if (actionDefinition != null) {
 			rpcAction.setRpcPath(actionDefinition.getProgramPath());
 			rpcAction.setProperties(actionDefinition.getProperties());
@@ -115,7 +127,7 @@ public class MockupRpcSession extends DefaultRpcSession {
 	public void setConnection(RpcConnection rpcConnection) {
 
 		super.setConnection(rpcConnection);
-		preserveSnapshots((MockRpcConnection)getConnection());
+		preserveSnapshots((MockRpcConnection) getConnection());
 	}
 
 	private void preserveSnapshots(MockRpcConnection rpcConnection) {

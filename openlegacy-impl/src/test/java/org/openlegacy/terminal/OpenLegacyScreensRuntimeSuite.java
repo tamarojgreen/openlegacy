@@ -12,6 +12,7 @@ import org.openlegacy.terminal.modules.login.DefaultLoginModuleTest;
 import org.openlegacy.terminal.modules.menu.DefaultTerminalMenuModuleTest;
 import org.openlegacy.terminal.modules.messages.DefaultTerminalMessagesModuleTest;
 import org.openlegacy.terminal.modules.navigation.DefaultNavigationModuleTest;
+import org.openlegacy.terminal.modules.roles.DefaultTerminalRolesModuleTest;
 import org.openlegacy.terminal.modules.table.DefaultTableDrilldownPerformerTest;
 import org.openlegacy.terminal.modules.table.TableMultiLineTest;
 import org.openlegacy.terminal.modules.trail.XmlTrailWriterTest;
@@ -42,13 +43,14 @@ import org.openlegacy.terminal.utils.TerminalEqualsHashcodeTest;
 		XmlTrailWriterTest.class, DefaultLoginModuleTest.class, DefaultLoginModuleFailedTest.class,
 		DefaultTerminalMessagesModuleTest.class, DefaultTerminalSessionTest.class, WindowTest.class,
 		DefaultSessionNavigatorTest.class, MockTerminalConnectionTest.class, MockTerminalSessionTest.class,
-	ScreenEntityTablesBinderTest.class, TableMultiLineTest.class, DateFieldsBinderTest.class, BooleanFieldsBinderTest.class,
-	DefaultNavigationModuleTest.class, DefaultTableDrilldownPerformerTest.class, DefaultTerminalMenuModuleTest.class,
-	MockStateMachineTerminalConnection2Test.class, DefaultScreenPageBuilderTest.class,
+		ScreenEntityTablesBinderTest.class, TableMultiLineTest.class, DateFieldsBinderTest.class, BooleanFieldsBinderTest.class,
+		DefaultNavigationModuleTest.class, DefaultTableDrilldownPerformerTest.class, DefaultTerminalMenuModuleTest.class,
+		MockStateMachineTerminalConnection2Test.class, DefaultScreenPageBuilderTest.class,
 		DefaultBidiScreenPageBuilderTest.class, DefaultScreenRecordsProviderTest.class, TerminalSnapshotImageRendererTest.class,
 		CustomBinderTest.class, MultyLineFieldTest.class, DefaultSessionsManagerTest.class, ListFieldTest.class,
 		ScreenEntityFieldAttributeTest.class, ConditionalFieldTest.class, ConditionalFieldTest.class,
-	SimpleTerminalSessionPoolTest.class, ScreenExpressionFieldsBinderTest.class, TrailObfuscatorTest.class })
+		SimpleTerminalSessionPoolTest.class, ScreenExpressionFieldsBinderTest.class, TrailObfuscatorTest.class,
+		DefaultTerminalRolesModuleTest.class })
 public class OpenLegacyScreensRuntimeSuite {
 
 }
