@@ -21,10 +21,10 @@ import org.openlegacy.terminal.actions.TerminalActions;
 public class ItemDetails1 {
 
 	@ScreenField(row = 6, column = 33, key = true)
-	@ScreenDynamicField(text = "Item Number" , fieldOffset = 1, row = 5, endRow =9, column =1 , endColumn = 70)
+	@ScreenDynamicField(text = "Item Number", fieldOffset = 1, row = 5, endRow = 9, column = 1, endColumn = 70)
 	private Integer itemNumber;
 
-	@ScreenField(row = 7, column = 33, endColumn = 72, editable = true)
+	@ScreenField(row = 7, column = 33, endColumn = 72, editable = true, roles = { "AGENT" })
 	private String itemDescription;
 
 	@ScreenField(row = 9, column = 33, editable = true)

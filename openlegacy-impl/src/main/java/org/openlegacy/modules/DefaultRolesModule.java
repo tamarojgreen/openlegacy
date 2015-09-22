@@ -179,6 +179,9 @@ public class DefaultRolesModule extends SessionModuleAdapter<Session> implements
 			String partName = partDefinition.getPartName();
 			DirectFieldAccessor directFieldAccessor = new DirectFieldAccessor(entity);
 			Object partObject = directFieldAccessor.getPropertyValue(partName);
+			if (partObject == null) {
+				continue;
+			}
 			Map<String, FieldDefinition> definitions = partDefinition.getFieldsDefinitions();
 			for (Object definition : definitions.values()) {
 				FieldDefinition fieldDefinition = (FieldDefinition) definition;
