@@ -87,8 +87,8 @@
             <itemCategory>VEG</itemCategory>
         </itemsListRows>
         <positionTo></positionTo>
-        <itemsListRowsActions sleep="0" global="false"
-            submitForm="false" rolesRequired="false" length="8" column="0"
+        <itemsListRowsActions sleep="0" submitForm="false"
+            global="false" rolesRequired="false" length="8" column="0"
             defaultAction="false" row="0" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
             <position column="4" row="5" xsi:type="java:org.openlegacy.terminal.support.SimpleTerminalPosition"/>
             <additionalKey>NONE</additionalKey>
@@ -103,8 +103,9 @@
             <when>2.*</when>
             <displayName>Revise</displayName>
         </itemsListRowsActions>
-        <actions sleep="0" global="true" submitForm="false" rolesRequired="false" length="0"
-            column="0" defaultAction="false" row="0" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
+        <actions sleep="0" submitForm="false" global="true"
+            rolesRequired="false" length="0" column="0"
+            defaultAction="false" row="0" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
             <type>GENERAL</type>
             <additionalKey>SHIFT</additionalKey>
             <action macro="false" xsi:type="java:org.openlegacy.terminal.actions.CombinedTerminalAction">
@@ -115,8 +116,9 @@
             <when>.*</when>
             <displayName>Number Seq</displayName>
         </actions>
-        <actions sleep="0" global="true" rolesRequired="true" length="0"
-            column="0" defaultAction="false" row="0" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
+        <actions sleep="0" submitForm="false" global="true"
+            rolesRequired="true" length="0" column="0"
+            defaultAction="false" row="0" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
             <type>GENERAL</type>
             <additionalKey>NONE</additionalKey>
             <action macro="false" xsi:type="java:org.openlegacy.terminal.actions.TerminalActions$SHOW">
