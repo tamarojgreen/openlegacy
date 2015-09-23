@@ -17,6 +17,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.ServicesRegistry;
 import org.openlegacy.cache.Cache;
+import org.openlegacy.cache.CacheInfo;
 import org.openlegacy.cache.CacheManager;
 import org.openlegacy.services.definitions.ServiceDefinition;
 import org.openlegacy.services.definitions.ServiceMethodDefinition;
@@ -28,6 +29,7 @@ import org.openlegacy.utils.ZipUtil;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +48,7 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 	private static final int ADD = 0;
 	private static final int REMOVE = 1;
 	private static final int UPDATE = 2;
+	private static final int CLEAR = 3;
 
 	public static SimpleServiceCacheProcessor INSTANCE;
 
@@ -71,6 +74,7 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 		String key;
 		long oldDuration, newDuration;
 
+		@SuppressWarnings("unused")
 		public UpdateDuration(String key, long oldDuration, long newDuration) {
 			this.key = key;
 			this.oldDuration = oldDuration;
@@ -146,6 +150,13 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 				case UPDATE:
 					updateDuration((String)data[0], (ServiceMethodDefinition)data[1], (Long)data[2]);
 					break;
+				case CLEAR:
+					if (data.length == 0) {
+						clearCache(null, false);
+					} else {
+						clearCache((String)data[0], (Boolean)data[1]);
+					}
+					break;
 				default:
 					break;
 			}
@@ -158,6 +169,7 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 		SimpleServiceCacheProcessor.INSTANCE = this;
 		try {
 			messageDigest = MessageDigest.getInstance("MD5");
+			lastError = ServiceCacheError.ALL_OK;
 		} catch (Exception e) {
 			lastError = ServiceCacheError.CACHE_INIT_ERROR;
 		}
@@ -222,7 +234,6 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 			ServiceCacheData cacheData = new ServiceCacheData();
 			cacheData.setData(beforeCache(obj, false));
 			cacheData.setExpirationTime(System.currentTimeMillis() + methodDefinition.getCacheDuration());
-			// cacheEngine.put(key, beforeCache(cacheData, true));
 			getCache(getCacheNameFromKey(key)).put(key, beforeCache(cacheData, true),
 					(int)(methodDefinition.getCacheDuration() / 1000));
 			unlock(key);
@@ -235,9 +246,10 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 		}
 	}
 
-	private Cache getCache(String name) {
-		Cache result = cacheManager.getCache(name);
-		return result == null ? cacheManager.createCache(name) : result;
+	@SuppressWarnings("unchecked")
+	private Cache<String, Object> getCache(String name) {
+		Cache<String, Object> result = cacheManager.getCache(name);
+		return (Cache<String, Object>)(result == null ? cacheManager.createCache(name) : result);
 	}
 
 	private String getCacheNameFromKey(String key) {
@@ -249,12 +261,12 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 		if (hasErrors()) {
 			return null;
 		}
-		// Object cached = cacheEngine.get(key, accessTime);
-		Object cached = getCache(getCacheNameFromKey(key)).get(key);
-		if (cached == null) {
-			return null;
-		}
 		try {
+			Object cached = getCache(getCacheNameFromKey(key)).get(key);
+			if (cached == null) {
+				return null;
+			}
+
 			ServiceCacheData cacheData = (ServiceCacheData)afterCache(cached, true);
 			if (accessTime > cacheData.getExpirationTime()) {
 				addBackGroundOperation(REMOVE, key);
@@ -276,15 +288,12 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 		if (hasErrors()) {
 			return;
 		}
-		// cacheEngine.remove(key);
 		getCache(getCacheNameFromKey(key)).remove(key);
 		blockedKeys.remove(key);
 	}
 
 	@Override
-	public void update(String key, Object obj) {
-		// cacheEngine.update(key, obj);
-	}
+	public void update(String key, Object obj) {}
 
 	@Override
 	public synchronized String generateKey(Object... args) {
@@ -294,20 +303,6 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 					args).getBytes())));
 		}
 		return md5;
-	}
-
-	@Override
-	public void setEngine(ServiceCacheEngine cacheEngine) {
-		try {
-			this.cacheEngine = cacheEngine;
-			if (!cacheEngine.init()) {
-				lastError = ServiceCacheError.ENGINE_INIT_ERROR;
-			} else {
-				lastError = ServiceCacheError.ALL_OK;
-			}
-		} catch (Exception e) {
-			lastError = ServiceCacheError.ENGINE_INIT_ERROR;
-		}
 	}
 
 	@Override
@@ -321,9 +316,7 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 	}
 
 	@Override
-	public void fixEngine() {
-		cacheEngine.fix();
-	}
+	public void fix() {}
 
 	public ServiceCacheEngine getCacheEngine() {
 		return cacheEngine;
@@ -392,23 +385,6 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 			blockedKeys.add(key);
 			addBackGroundOperation(REMOVE, key);
 		}
-		/*
-		 * this code produced such logic 1. Get all "equal" keys from engine. 2. Separate records to each processor unit. 3.
-		 * Update cached record(decompress -> deserialize -> update -> serialize -> compress). 4. Update record in cache.
-		 * 
-		 * As far as on cache duration changing I must delete cached records - I comment this call, if need - uncomment it
-		 */
-		// List<UpdateDuration> updateDuration = new ArrayList<UpdateDuration>();
-		// for (String key : keys) {
-		// updateDuration.add(new UpdateDuration(key, wsMDef.getCacheDuration(), newDuration));
-		// }
-		// try {
-		// ThreadWorkSeparatorUtil.newInstance().start(updateDuration, OnUpdateRun.class);
-		// ((SimpleServiceMethodDefinition)wsMDef).setCacheDuration(newDuration);
-		// } catch (Exception e) {
-		// lastError = ServiceCacheError.CACHE_ERROR;
-		// }
-
 	}
 
 	@Override
@@ -423,17 +399,13 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 		if (wsMDef == null) {
 			return;
 		}
-		addBackGroundOperation(UPDATE, String.format("%s.%s", serviceName, methodName), wsMDef, newDuration);
-		// if you will uncomment upper comment - comment this condition
+		addBackGroundOperation(CLEAR, String.format("%s.%s", serviceName, methodName), false);
 		if (wsMDef instanceof SimpleServiceMethodDefinition) {
 			((SimpleServiceMethodDefinition)wsMDef).setCacheDuration(newDuration);
 		}
 	}
 
 	private synchronized boolean hasErrors() {
-		if (lastError == ServiceCacheError.ALL_OK) {
-			lastError = cacheEngine.getLastError();
-		}
 		return lastError != ServiceCacheError.ALL_OK;
 	}
 
@@ -441,4 +413,47 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 		return blockedKeys.contains(key);
 	}
 
+	private List<String> getKeys(List<String> keys, String mask) {
+		List<String> result = new ArrayList<String>();
+		for (String value : keys) {
+			if (value.contains(mask)) {
+				result.add(value);
+			}
+		}
+		return result;
+	}
+
+	@SuppressWarnings({ "unused", "unchecked" })
+	private void clearCache(String keyMask, boolean clearCache) {
+		if (keyMask == null) {
+			for (CacheInfo<String> info : cacheManager.getCacheStats()) {
+				blockedKeys.addAll(info.getKeys());
+				cacheManager.getCache(info.getName()).clear();
+				blockedKeys.removeAll(info.getKeys());
+			}
+		} else {
+			CacheInfo<String> info = getCache(getCacheNameFromKey(keyMask)).getInfo();
+			if (clearCache) {
+				blockedKeys.addAll(info.getKeys());
+				cacheManager.getCache(info.getName()).clear();
+				blockedKeys.removeAll(info.getKeys());
+			} else {
+				List<String> removeList = getKeys(info.getKeys(), keyMask);
+				blockedKeys.addAll(removeList);
+				cacheManager.getCache(info.getName()).removeAll(new HashSet<String>(removeList));
+				blockedKeys.removeAll(removeList);
+			}
+		}
+	}
+
+	@Override
+	public void clear() {
+		addBackGroundOperation(CLEAR);
+
+	}
+
+	@Override
+	public void clear(String keyMask, boolean clearCache) {
+		addBackGroundOperation(CLEAR, keyMask, clearCache);
+	}
 }

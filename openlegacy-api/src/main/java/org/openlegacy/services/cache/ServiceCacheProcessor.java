@@ -25,13 +25,15 @@ public interface ServiceCacheProcessor {
 
 	public String generateKey(Object... args);
 
-	public void setEngine(ServiceCacheEngine cacheEngine);
-
 	public void destroy();
 
 	public int getLastError();
 
-	public void fixEngine();
+	public void fix();
 
 	public void updateCacheDuration(String serviceName, String methodName, long newDuration);
+
+	public void clear();
+
+	public void clear(String keyMask, boolean clearCache);
 }

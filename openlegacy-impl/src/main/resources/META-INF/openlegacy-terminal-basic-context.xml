@@ -45,11 +45,8 @@
 			type="annotation" />
 	</context:component-scan>
 	
-	<bean id = "serviceCacheEngine" class = "org.openlegacy.services.cache.engines.SimpleServiceCacheEngine"/>
-		
 	<bean id = "serviceCache" class = "org.openlegacy.services.cache.SimpleServiceCacheProcessor" destroy-method="destroy">
-		<constructor-arg index="0" value="true"/>		
-		<property name="engine" ref="serviceCacheEngine"/>
+		<constructor-arg index="0" value="true"/>
 	</bean>
 	
 	<!-- 	Proxy only for web services -->

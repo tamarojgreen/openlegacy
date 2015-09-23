@@ -7,7 +7,6 @@ import org.openlegacy.cache.CacheInfo;
 
 import java.util.Set;
 
-
 public class EhcacheCache<K, V> implements Cache<K, V> {
 
 	net.sf.ehcache.Cache cache;
@@ -19,7 +18,7 @@ public class EhcacheCache<K, V> implements Cache<K, V> {
 	@Override
 	public V get(K key) {
 		Element e = cache.get(key);
-		return (e != null) ? (V) e.getObjectValue() : null;
+		return (e != null) ? (V)e.getObjectValue() : null;
 	}
 
 	@Override
@@ -63,6 +62,7 @@ public class EhcacheCache<K, V> implements Cache<K, V> {
 		ci.setName(cache.getName());
 		ci.setCurrentExpiry(cache.getCacheConfiguration().getTimeToIdleSeconds());
 		ci.setElementsCount(cache.getSize());
+		ci.setKeys(cache.getKeys());
 
 		return ci;
 	}
@@ -74,7 +74,7 @@ public class EhcacheCache<K, V> implements Cache<K, V> {
 
 	@Override
 	public int getExpiry() {
-		return (int) cache.getCacheConfiguration().getTimeToIdleSeconds();
+		return (int)cache.getCacheConfiguration().getTimeToIdleSeconds();
 	}
 
 }

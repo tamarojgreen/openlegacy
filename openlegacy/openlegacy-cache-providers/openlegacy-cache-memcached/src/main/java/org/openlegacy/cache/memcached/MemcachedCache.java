@@ -6,6 +6,8 @@ import net.spy.memcached.internal.OperationFuture;
 import org.openlegacy.cache.Cache;
 import org.openlegacy.cache.CacheInfo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +17,7 @@ public class MemcachedCache<K, V> implements Cache<K, V> {
 
 	String cacheName;
 	MemcachedClient client;
+	List<K> knownKeys = new ArrayList<K>();
 	private int expiry = 3600;
 	private AtomicInteger elementsCount = new AtomicInteger(0);
 
@@ -37,9 +40,10 @@ public class MemcachedCache<K, V> implements Cache<K, V> {
 		V v = null;
 		Future<Object> f = client.asyncGet(makeKey(key));
 		try {
-			v = (V) f.get(1, TimeUnit.SECONDS);
+			v = (V)f.get(1, TimeUnit.SECONDS);
 		} catch (Exception e) {
 			f.cancel(true);
+			throw (new RuntimeException(e));
 		}
 		return v;
 	}
@@ -51,6 +55,7 @@ public class MemcachedCache<K, V> implements Cache<K, V> {
 
 	@Override
 	public void put(K key, V value, int expiry) {
+		knownKeys.add(key);
 		OperationFuture<Boolean> f = client.set(makeKey(key), expiry, value);
 		try {
 			f.get();
@@ -58,11 +63,13 @@ public class MemcachedCache<K, V> implements Cache<K, V> {
 		} catch (Exception e) {
 			e.printStackTrace();
 			f.cancel();
+			throw (new RuntimeException(e));
 		}
 	}
 
 	@Override
 	public void remove(K key) {
+		knownKeys.remove(key);
 		OperationFuture<Boolean> f = client.delete(makeKey(key));
 		try {
 			f.get();
@@ -70,6 +77,7 @@ public class MemcachedCache<K, V> implements Cache<K, V> {
 		} catch (Exception e) {
 			e.printStackTrace();
 			f.cancel();
+			throw (new RuntimeException(e));
 		}
 	}
 
@@ -103,6 +111,7 @@ public class MemcachedCache<K, V> implements Cache<K, V> {
 		ci.setName(cacheName);
 		ci.setDefaultExpiry(expiry);
 		ci.setElementsCount(elementsCount.intValue());
+		ci.setKeys(new ArrayList<K>(knownKeys));
 
 		return ci;
 	}

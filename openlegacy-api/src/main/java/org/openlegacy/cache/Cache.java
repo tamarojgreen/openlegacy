@@ -20,7 +20,7 @@ public interface Cache<K, V> {
 
 	String getName();
 
-	CacheInfo getInfo();
+	CacheInfo<K> getInfo();
 
 	void setExpiry(int expiry);
 

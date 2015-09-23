@@ -1,8 +1,9 @@
 package org.openlegacy.cache;
 
 import java.io.Serializable;
+import java.util.List;
 
-public class CacheInfo implements Serializable {
+public class CacheInfo<K> implements Serializable {
 
 	private static final long serialVersionUID = -3126078893255232404L;
 
@@ -11,6 +12,7 @@ public class CacheInfo implements Serializable {
 	long defaultExpiry;
 	private long currentExpiry;
 	int elementsCount;
+	List<K> keys;
 
 	public String getName() {
 		return name;
@@ -50,6 +52,14 @@ public class CacheInfo implements Serializable {
 
 	public void setElementsCount(int elementsCount) {
 		this.elementsCount = elementsCount;
+	}
+
+	public List<K> getKeys() {
+		return keys;
+	}
+
+	public void setKeys(List<K> keys) {
+		this.keys = keys;
 	}
 
 }
