@@ -18,6 +18,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openlegacy.cache.CacheManager;
 import org.openlegacy.services.cache.ServiceCacheError;
 import org.openlegacy.services.cache.SimpleServiceCacheProcessor;
 import org.openlegacy.services.definitions.ServiceDefinition;
@@ -51,6 +52,9 @@ public class ServiceRegistryTest {
 
 	@Inject
 	SimpleServiceCacheProcessor cacheProcessor;
+
+	@Inject
+	CacheManager cacheManager;
 
 	private volatile Throwable error = new Throwable();
 
@@ -86,7 +90,7 @@ public class ServiceRegistryTest {
 
 	@Test
 	public void testCache() throws Exception {
-		logger.info("Service cache test will run ~35 seconds");
+		logger.info("Service cache test will run ~40 seconds");
 		Assert.assertTrue(ClassUtils.getAllSuperclasses(service.getClass()).contains(Proxy.class));
 		final int[] ids = new int[] { 1000, 1001, 1002, 1003, 1004 };
 		List<Thread> threads = new ArrayList<Thread>();
@@ -153,12 +157,11 @@ public class ServiceRegistryTest {
 			}
 		}
 		Long newDuration = 20000L;
-		// Assert.assertTrue(cache.getSize() > 0);
+		Assert.assertTrue(cacheManager.getCacheStats().get(0).getElementsCount() > 0);
+		Thread.sleep(100);
 		cacheProcessor.updateCacheDuration("WebService", "getItem", newDuration);
-		Thread.sleep(4000);
-		// Assert.assertTrue(cache.getSize() == 0);// if you`re using updating records in cache instead of removing(on cache
-		// duration
-		// changed) - comment this assert
+		Thread.sleep(9000);
+		Assert.assertTrue(cacheManager.getCacheStats().get(0).getElementsCount() == 0);
 		Assert.assertTrue(cacheProcessor.getLastError() == ServiceCacheError.ALL_OK);
 		Assert.assertEquals(newDuration, registry.getServiceByName("WebService").getMethodByName("getItem").getCacheDuration());
 	}
