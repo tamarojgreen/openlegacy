@@ -87,18 +87,7 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 		SimpleServiceCacheProcessor wsCacheProcessor = SimpleServiceCacheProcessor.INSTANCE;
 
 		@Override
-		public void onRun(Object obj) {
-			UpdateDuration ud = (UpdateDuration)obj;
-			ServiceCacheEngine wsCacheEngine = wsCacheProcessor.getCacheEngine();
-			Object cached = wsCacheEngine.get(ud.key, -1);
-			if (cached == null) {
-				return;
-			}
-			ServiceCacheData cacheData = (ServiceCacheData)wsCacheProcessor.afterCache(cached, true);
-			cacheData.setExpirationTime(cacheData.getExpirationTime() - ud.oldDuration + ud.newDuration);
-			cached = wsCacheProcessor.beforeCache(cacheData, true);
-			wsCacheEngine.update(ud.key, cached);
-		}
+		public void onRun(Object obj) {}
 	}
 
 	private volatile BlockingQueue<BackGroundOperation> backGroundWork = new LinkedBlockingDeque<BackGroundOperation>();
@@ -108,7 +97,6 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 	private volatile int lastError = ServiceCacheError.NULL;
 
 	private boolean preProcessCacheObject;
-	private ServiceCacheEngine cacheEngine;
 	private int semaphoreWaitTimeOut = 10;
 	private MessageDigest messageDigest;
 
@@ -148,7 +136,6 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 					remove((String)data[0]);
 					break;
 				case UPDATE:
-					updateDuration((String)data[0], (ServiceMethodDefinition)data[1], (Long)data[2]);
 					break;
 				case CLEAR:
 					if (data.length == 0) {
@@ -318,10 +305,6 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 	@Override
 	public void fix() {}
 
-	public ServiceCacheEngine getCacheEngine() {
-		return cacheEngine;
-	}
-
 	private void addBackGroundOperation(int code, Object... args) {
 		backGroundWork.add(new BackGroundOperation(code, args));
 	}
@@ -376,14 +359,6 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 			unlock.release(1);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
-
-	private void updateDuration(String keyPart, ServiceMethodDefinition wsMDef, long newDuration) {
-		List<String> keys = cacheEngine.getKeys(keyPart);
-		for (String key : keys) {
-			blockedKeys.add(key);
-			addBackGroundOperation(REMOVE, key);
 		}
 	}
 

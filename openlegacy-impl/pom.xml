@@ -189,13 +189,21 @@
 					<artifactId>xml-apis</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>		
+		</dependency>	
+		
 		<!-- HSQL -->
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>2.3.2</version>
 			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.openlegacy.cache</groupId>
+			<artifactId>openlegacy-cache-ehcache</artifactId>
+			<version>${version}</version>
+			<scope>test</scope>			
 		</dependency>
 		
 	</dependencies>
