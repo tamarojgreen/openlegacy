@@ -16,6 +16,8 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.ServicesRegistry;
+import org.openlegacy.cache.Cache;
+import org.openlegacy.cache.CacheManager;
 import org.openlegacy.services.definitions.ServiceDefinition;
 import org.openlegacy.services.definitions.ServiceMethodDefinition;
 import org.openlegacy.services.definitions.SimpleServiceMethodDefinition;
@@ -46,6 +48,9 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 	private static final int UPDATE = 2;
 
 	public static SimpleServiceCacheProcessor INSTANCE;
+
+	@Inject
+	private CacheManager cacheManager;
 
 	@Inject
 	private ServicesRegistry wsRegistry;
@@ -217,7 +222,9 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 			ServiceCacheData cacheData = new ServiceCacheData();
 			cacheData.setData(beforeCache(obj, false));
 			cacheData.setExpirationTime(System.currentTimeMillis() + methodDefinition.getCacheDuration());
-			cacheEngine.put(key, beforeCache(cacheData, true));
+			// cacheEngine.put(key, beforeCache(cacheData, true));
+			getCache(getCacheNameFromKey(key)).put(key, beforeCache(cacheData, true),
+					(int)(methodDefinition.getCacheDuration() / 1000));
 			unlock(key);
 			if (logger.isDebugEnabled()) {
 				logger.debug(String.format("Key %s put in cache", key));
@@ -228,12 +235,22 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 		}
 	}
 
+	private Cache getCache(String name) {
+		Cache result = cacheManager.getCache(name);
+		return result == null ? cacheManager.createCache(name) : result;
+	}
+
+	private String getCacheNameFromKey(String key) {
+		return key.split("\\.")[0];
+	}
+
 	@Override
 	public Object get(String key, long accessTime) {
 		if (hasErrors()) {
 			return null;
 		}
-		Object cached = cacheEngine.get(key, accessTime);
+		// Object cached = cacheEngine.get(key, accessTime);
+		Object cached = getCache(getCacheNameFromKey(key)).get(key);
 		if (cached == null) {
 			return null;
 		}
@@ -259,13 +276,14 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 		if (hasErrors()) {
 			return;
 		}
-		cacheEngine.remove(key);
+		// cacheEngine.remove(key);
+		getCache(getCacheNameFromKey(key)).remove(key);
 		blockedKeys.remove(key);
 	}
 
 	@Override
 	public void update(String key, Object obj) {
-		cacheEngine.update(key, obj);
+		// cacheEngine.update(key, obj);
 	}
 
 	@Override
