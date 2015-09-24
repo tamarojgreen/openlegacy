@@ -314,7 +314,11 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 	}
 
 	@Override
-	public void fix() {}
+	public void fix() {
+		if (lastError == ServiceCacheError.ENGINE_INIT_ERROR && cacheManager != null) {
+			lastError = ServiceCacheError.ALL_OK;
+		}
+	}
 
 	private void addBackGroundOperation(int code, Object... args) {
 		backGroundWork.add(new BackGroundOperation(code, args));
