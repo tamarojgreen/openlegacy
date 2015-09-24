@@ -87,10 +87,6 @@
 	<bean id="rpcRecognizer" class="org.openlegacy.rpc.recognizers.DefaultRpcRecognizer" />
 
 	<bean id="mockRpcConnectionFactory" class="org.openlegacy.rpc.mock.MockRpcConnectionFactoryImp" p:verifySend="true" />
-	
-	<bean id="mockRpcConnectionFactory"
-		class="org.openlegacy.rpc.mock.MockRpcConnectionFactoryImp"
-		p:verifySend="true"  />
 		
 	<bean id = "serviceCache" class = "org.openlegacy.services.cache.SimpleServiceCacheProcessor" destroy-method="destroy">
 		<constructor-arg index="0" value="true"/>
