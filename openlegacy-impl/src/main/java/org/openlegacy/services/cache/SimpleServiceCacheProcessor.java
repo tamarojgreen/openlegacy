@@ -163,19 +163,32 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 		} catch (Exception e) {
 			lastError = ServiceCacheError.CACHE_INIT_ERROR;
 		}
+
+		lastError = ServiceCacheError.ENGINE_INIT_ERROR;
+
 		new Thread(backGroundWorker).start();
+	}
+
+	private void getCacheManager() {
+		try {
+			if (cacheManager == null) {
+				cacheManager = (CacheManager)applicationContext.getBean("cacheManager");
+				lastError = ServiceCacheError.ALL_OK;
+			}
+		} catch (Exception e) {
+		}
 	}
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		Method origin = invocation.getMethod();
 
-		if (cacheManager == null) {
-			cacheManager = (CacheManager)applicationContext.getBean("cacheManager");
-			if (cacheManager == null) {
-				lastError = ServiceCacheError.ENGINE_INIT_ERROR;
-				return invocation.proceed();
-			}
+		if (lastError == ServiceCacheError.ENGINE_INIT_ERROR) {
+			getCacheManager();
+		}
+
+		if (hasErrors()) {
+			return invocation.proceed();
 		}
 
 		if (origin.getReturnType() == void.class) {
@@ -315,8 +328,14 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 
 	@Override
 	public void fix() {
-		if (lastError == ServiceCacheError.ENGINE_INIT_ERROR && cacheManager != null) {
-			lastError = ServiceCacheError.ALL_OK;
+		if (lastError == ServiceCacheError.ENGINE_INIT_ERROR) {
+			try {
+				cacheManager = (CacheManager)applicationContext.getBean("cacheManager");
+				lastError = ServiceCacheError.ALL_OK;
+			} catch (Exception e) {
+				lastError = ServiceCacheError.ENGINE_INIT_ERROR;
+				return;
+			}
 		}
 	}
 

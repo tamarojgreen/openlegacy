@@ -92,6 +92,9 @@ public class ServiceRegistryTest {
 	public void testCache() throws Exception {
 		logger.info("Service cache test will run ~40 seconds");
 		Assert.assertTrue(ClassUtils.getAllSuperclasses(service.getClass()).contains(Proxy.class));
+		if (cacheProcessor.getLastError() != ServiceCacheError.ALL_OK) {
+			cacheProcessor.fix();
+		}
 		final int[] ids = new int[] { 1000, 1001, 1002, 1003, 1004 };
 		List<Thread> threads = new ArrayList<Thread>();
 
