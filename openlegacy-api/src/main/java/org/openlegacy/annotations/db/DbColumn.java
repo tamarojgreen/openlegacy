@@ -11,6 +11,8 @@
 
 package org.openlegacy.annotations.db;
 
+import org.openlegacy.annotations.screen.AnnotationConstants;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -39,5 +41,7 @@ public @interface DbColumn {
 	boolean internal() default false;
 
 	boolean mainDisplayField() default false;
+
+	String[] roles() default AnnotationConstants.NULL;
 
 }

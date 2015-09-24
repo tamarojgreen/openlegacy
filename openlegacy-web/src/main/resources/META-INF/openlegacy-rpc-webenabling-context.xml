@@ -30,6 +30,7 @@
 						<bean class="org.openlegacy.rpc.modules.menu.DefaultRpcMenuModule" />
 						<bean class="org.openlegacy.rpc.modules.login.DefaultRpcLoginModule"/>
 						<bean class="com.openlegacy.plugins.management.UserCountModule" />
+						<bean class="org.openlegacy.modules.DefaultRolesModule"/>
 					</list>
 				</property>
 			</bean>

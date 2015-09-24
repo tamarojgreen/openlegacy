@@ -71,7 +71,6 @@ public class StoredProcRpcConnection implements RpcConnection {
 		try {
 			return dbConnection != null && dbConnection.isValid(10000);
 		} catch (SQLException e) {
-			// e.printStackTrace();
 			throw new OpenLegacyRuntimeException(e);
 		}
 	}
@@ -83,7 +82,6 @@ public class StoredProcRpcConnection implements RpcConnection {
 				dbConnection.close();
 			}
 		} catch (SQLException e) {
-			// e.printStackTrace();
 		}
 		dbConnection = null;
 	}
@@ -249,7 +247,6 @@ public class StoredProcRpcConnection implements RpcConnection {
 			}
 
 		} catch (SQLException e) {
-			// e.printStackTrace();
 			throw new OpenLegacyRuntimeException(e);
 		}
 
@@ -266,10 +263,8 @@ public class StoredProcRpcConnection implements RpcConnection {
 			Class.forName(dbDriverClassName);
 			dbConnection = DriverManager.getConnection(dbUrl, user, password);
 		} catch (SQLException e) {
-			// e.printStackTrace();
 			throw new OpenLegacyRuntimeException(e);
 		} catch (ClassNotFoundException e) {
-			// e.printStackTrace();
 			throw new OpenLegacyRuntimeException(e);
 		}
 

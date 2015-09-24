@@ -16,14 +16,18 @@ import org.openlegacy.annotations.screen.TableAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.actions.TerminalActions.F3;
+import org.openlegacy.terminal.actions.TerminalActions.SHOW;
 
 import java.util.List;
 
 @ScreenEntity(displayName = "Items List")
 @ScreenIdentifiers(identifiers = { @Identifier(row = 2, column = 30, value = "Work with Item Master"),
 		@Identifier(row = 4, column = 2, value = "Type one or more action codes. Then Enter.") })
-@ScreenActions(actions = { @Action(action = TerminalActions.F6.class, additionalKey = AdditionalKey.SHIFT, displayName = "Number Seq", alias = "numberSeq") })
-@ScreenNavigation(accessedFrom = InventoryManagement.class, assignedFields = { @AssignedField(field = "selection", value = "1") }, exitAction = F3.class)
+@ScreenActions(actions = {
+		@Action(action = TerminalActions.F6.class, additionalKey = AdditionalKey.SHIFT, displayName = "Number Seq",
+				alias = "numberSeq"), @Action(action = SHOW.class, rolesRequired = true, roles = { "AGENT" }) })
+@ScreenNavigation(accessedFrom = InventoryManagement.class,
+		assignedFields = { @AssignedField(field = "selection", value = "1") }, exitAction = F3.class)
 public class ItemsList {
 
 	@ScreenField(row = 21, column = 19, editable = true)
@@ -36,7 +40,8 @@ public class ItemsList {
 
 	@ScreenTable(startRow = 8, endRow = 19, filterExpression = "alphaSearch matches '--+'")
 	@ScreenTableActions(actions = {
-			@TableAction(actionValue = "1", displayName = "View", targetEntity = ItemDetails1.class, row = 5, column = 10, length = 8, when = "2.*"),
+			@TableAction(actionValue = "1", displayName = "View", targetEntity = ItemDetails1.class, row = 5, column = 10,
+					length = 8, when = "2.*"),
 			@TableAction(actionValue = "2", displayName = "Revise", row = 5, column = 4, length = 8, when = "2.*") })
 	@ScreenTableDrilldown
 	public static class ItemsListRow {

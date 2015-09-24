@@ -19,6 +19,8 @@ import java.lang.reflect.Constructor;
 import java.text.MessageFormat;
 
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Selection;
 
 public class DbActions {
 
@@ -40,6 +42,11 @@ public class DbActions {
 					getClass()));
 		}
 
+		@Override
+		public boolean equals(Object obj) {
+			return obj.getClass().equals(getClass());
+		}
+
 	}
 
 	public static class READ extends DbActionAdapter {
@@ -48,7 +55,12 @@ public class DbActions {
 		@Override
 		public <T> T perform(EntityManager entityManager, T entity, Object... keys) {
 			if (entityManager != null) {
-				return (T)entityManager.find(entity.getClass(), keys[0]);
+				if (keys.length == 0 || keys[0] == null) {
+					CriteriaQuery<T> query = (CriteriaQuery<T>) entityManager.getCriteriaBuilder().createQuery(entity.getClass());
+					query.select((Selection<? extends T>) query.from(entity.getClass()));
+					return (T) entityManager.createQuery(query).getResultList();
+				}
+				return (T) entityManager.find(entity.getClass(), keys[0]);
 			}
 			return null;
 		}
@@ -111,6 +123,9 @@ public class DbActions {
 		return new DELETE();
 	}
 
+	public static class SHOW extends DbActionAdapter {
+	}
+
 	public static DbAction newAction(String actionName) {
 		Class<?>[] classes = DbActions.class.getClasses();
 		DbAction action = null;
@@ -120,7 +135,7 @@ public class DbActions {
 				if (actionName.equals(clazz.getSimpleName())) {
 					ctor.setAccessible(true);
 					try {
-						action = (DbAction)ctor.newInstance();
+						action = (DbAction) ctor.newInstance();
 					} catch (Exception e) {
 						throw new DbActionException(
 								MessageFormat.format("Cannot instantiate an action with name {0}", actionName));

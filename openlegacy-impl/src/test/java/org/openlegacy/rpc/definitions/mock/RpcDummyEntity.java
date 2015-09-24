@@ -8,9 +8,11 @@ import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcNavigation;
 import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.rpc.actions.RpcActions.READ;
+import org.openlegacy.rpc.actions.RpcActions.SHOW;
 
 @RpcEntity(displayName = "Dummy Entity")
-@RpcActions(actions = { @Action(action = READ.class, path = "/dir/program_name") })
+@RpcActions(actions = { @Action(action = READ.class, path = "/dir/program_name"),
+		@Action(action = SHOW.class, path = "", rolesRequired = true, roles = { "AGENT", "MANAGER" }) })
 @RpcNavigation(category = "Tree1")
 public class RpcDummyEntity implements org.openlegacy.rpc.RpcEntity {
 
@@ -23,7 +25,7 @@ public class RpcDummyEntity implements org.openlegacy.rpc.RpcEntity {
 	@RpcField(direction = Direction.INPUT, length = 4, key = true)
 	Integer age;
 
-	@RpcField(direction = Direction.OUTPUT, length = 100)
+	@RpcField(direction = Direction.OUTPUT, length = 100, roles = { "AGENT" })
 	String message;
 
 	DummyPart dummyPart;
@@ -60,8 +62,19 @@ public class RpcDummyEntity implements org.openlegacy.rpc.RpcEntity {
 		this.message = message;
 	}
 
+	public DummyPart getDummyPart() {
+		return dummyPart;
+	}
+
 	@RpcPart
 	public static class DummyPart {
+
+		@RpcField(direction = Direction.OUTPUT, length = 20, roles = { "AGENT" })
+		private String partName;
+
+		public String getPartName() {
+			return partName;
+		}
 
 	}
 }

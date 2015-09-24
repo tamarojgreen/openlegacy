@@ -1,64 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
+<beans xmlns="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:p="http://www.springframework.org/schema/p" 
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
- 	<bean class="org.openlegacy.rpc.support.RpcAnnotationProccesor">
-	    <property name="loadersPackages">
-	        <list>
-	            <value>org.openlegacy.rpc.loaders.support</value>
-            </list>
-	    </property>
- 	</bean>
+	<import resource="classpath:/META-INF/openlegacy-common-basic-context.xml" />
+
+	<bean class="org.openlegacy.rpc.support.RpcAnnotationProccesor">
+		<property name="loadersPackages">
+			<list>
+				<value>org.openlegacy.rpc.loaders.support</value>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="trailWriter" class="org.openlegacy.rpc.modules.trail.RpcTrailXmlWriter" />
 	<bean id="trailUtil" class="org.openlegacy.modules.trail.TrailUtil" />
- 	<bean id="registryLoader" class="org.openlegacy.support.DefaultRegistryLoader"/>
- 	<bean id="rpcEntityUtils" class="org.openlegacy.rpc.utils.RpcEntityUtils"/>
- 	
+	<bean id="registryLoader" class="org.openlegacy.support.DefaultRegistryLoader" />
+	<bean id="rpcEntityUtils" class="org.openlegacy.rpc.utils.RpcEntityUtils" />
+
 	<bean id="menuBuilder" class="org.openlegacy.rpc.modules.menu.DefaultMenuBuilder" />
  		
-	<context:component-scan base-package="org.openlegacy"
-		use-default-filters="false">
-		<context:include-filter expression="org.springframework.stereotype.Component"
-			type="annotation" />
-		<context:exclude-filter expression="org.springframework.stereotype.Controller"
-			type="annotation" />
-	</context:component-scan>
-	
 	<!-- Open legacy default beans -->
 
-
 	<bean id="pageBuilder" class="org.openlegacy.rpc.layout.support.DefaultRpcPageBuilder" />
-	<bean id="sessionsRegistry" class="org.openlegacy.support.SimpleSessionsRegistry" />
-	<bean id="openLegacyProperties" class="org.openlegacy.utils.SimpleOpenLegacyProperties" />
-	<bean id="sessionPropertiesProvider" class="org.openlegacy.support.SimpleSessionPropertiesProvider" />
-	<bean id="fieldFormatter" class="org.openlegacy.support.SimpleFieldFormatter" p:trim="true" />
 	<bean id="imageRenderer" class="org.openlegacy.rpc.render.DefaultRpcImageRenderer" />
-	
+
 	<bean id="abstractRpcSession" class="org.openlegacy.rpc.support.DefaultRpcSession" abstract="true">
-	    <property name="connection">
-	    	<bean class="org.openlegacy.rpc.support.RpcConnectionDelegator" /> 
-	    </property>
+		<property name="connection">
+			<bean class="org.openlegacy.rpc.support.RpcConnectionDelegator" />
+		</property>
 		<property name="sessionModules">
 			<bean class="org.openlegacy.support.SessionModules">
 				<property name="modules">
 					<list>
-						<bean
-							class="org.openlegacy.rpc.modules.trail.DefaultRpcTrailModule">
+						<bean class="org.openlegacy.rpc.modules.trail.DefaultRpcTrailModule">
 							<property name="sessionTrail">
-								<bean class="org.openlegacy.rpc.modules.trail.DefaultRpcSessionTrail"
-									p:historyCount="3" />
+								<bean class="org.openlegacy.rpc.modules.trail.DefaultRpcSessionTrail" p:historyCount="3" />
 							</property>
 						</bean>
 						<bean class="org.openlegacy.rpc.modules.registry.DefaultSessionRegistryModule" />
 						<bean class="org.openlegacy.rpc.modules.menu.DefaultRpcMenuModule" />
-						<bean class="org.openlegacy.rpc.modules.login.DefaultRpcLoginModule"/>
+						<bean class="org.openlegacy.rpc.modules.login.DefaultRpcLoginModule" />
+						<bean class="org.openlegacy.modules.DefaultRolesModule"/>
 					</list>
 				</property>
 			</bean>
@@ -70,24 +58,22 @@
 	<bean class="org.openlegacy.rpc.support.binders.RpcPartsBinder" />
 	<bean class="org.openlegacy.rpc.support.binders.RpcBooleanFieldsBinder" />
 	<bean class="org.openlegacy.rpc.support.binders.RpcDateFieldsPatternBinder" />
-    <bean class="org.openlegacy.rpc.support.binders.RpcEnumFieldsBinder" />
+	<bean class="org.openlegacy.rpc.support.binders.RpcEnumFieldsBinder" />
 	<bean class="org.openlegacy.rpc.support.binders.RpcFieldsExpressionBinder" />
 	
 	<!-- ExpressionContext for ScreenFieldsExpressionBinder -->
-	<bean class="org.springframework.expression.spel.standard.SpelExpressionParser"/>
+	<bean class="org.springframework.expression.spel.standard.SpelExpressionParser" />
 	
 	<!--RpcFieldConverters  -->
 	<bean class="org.openlegacy.rpc.convector.LegacyContainerRpcFieldConverter" />
 	<bean class="org.openlegacy.rpc.convector.VirtualRpcConverter" />
-	
+
 	<bean id="rpcRecognizer" class="org.openlegacy.rpc.recognizers.DefaultRpcRecognizer" />
-	
-	<bean id="mockRpcConnectionFactory"
-		class="org.openlegacy.rpc.mock.MockRpcConnectionFactoryImp"
-		p:verifySend="true"  />
+
+	<bean id="mockRpcConnectionFactory" class="org.openlegacy.rpc.mock.MockRpcConnectionFactoryImp" p:verifySend="true" />
 	
 	<!-- Providers may override the default beans -->
-	<import resource="classpath*:/META-INF/*-openlegacy-rpc-provider.xml" /> 
+	<import resource="classpath*:/META-INF/*-openlegacy-rpc-provider.xml" />
 
 	<context:annotation-config />
 

@@ -17,9 +17,10 @@ import org.junit.runners.Suite.SuiteClasses;
 import org.openlegacy.db.actions.DbActionsTest;
 import org.openlegacy.db.definitions.DbRegistryTest;
 import org.openlegacy.db.modules.menu.DefaultDbMenuModelTest;
+import org.openlegacy.db.modules.roles.DefaultDbRolesModuleTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ DbRegistryTest.class, DefaultDbMenuModelTest.class, DbActionsTest.class })
+@SuiteClasses({ DbRegistryTest.class, DefaultDbMenuModelTest.class, DbActionsTest.class, DefaultDbRolesModuleTest.class })
 public class OpenLegacyDbRuntimeSuite {
 
 }

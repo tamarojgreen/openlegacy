@@ -1,55 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
+<beans xmlns="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:p="http://www.springframework.org/schema/p" 
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
- 	<bean class="org.openlegacy.db.support.DbAnnotationProccesor">
-	    <property name="loadersPackages">
-	        <list>
-	            <value>org.openlegacy.db.loaders.support</value>
-            </list>
-	    </property>
- 	</bean>
+	<import resource="classpath:/META-INF/openlegacy-common-basic-context.xml" />
 
- 	<bean id="registryLoader" class="org.openlegacy.support.DefaultRegistryLoader"/>
+	<bean class="org.openlegacy.db.support.DbAnnotationProccesor">
+		<property name="loadersPackages">
+			<list>
+				<value>org.openlegacy.db.loaders.support</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="registryLoader" class="org.openlegacy.support.DefaultRegistryLoader" />
  	
-	<context:component-scan base-package="org.openlegacy"
-		use-default-filters="false">
-		<context:include-filter expression="org.springframework.stereotype.Component"
-			type="annotation" />
-		<context:exclude-filter expression="org.springframework.stereotype.Controller"
-			type="annotation" />
-	</context:component-scan>
-	
 	<!-- Open legacy default beans -->
-
-
-	<bean id="sessionsRegistry" class="org.openlegacy.support.SimpleSessionsRegistry" />
-	<bean id="openLegacyProperties" class="org.openlegacy.utils.SimpleOpenLegacyProperties" />
-	<bean id="sessionPropertiesProvider" class="org.openlegacy.support.SimpleSessionPropertiesProvider" />
-	<bean id="fieldFormatter" class="org.openlegacy.support.SimpleFieldFormatter" p:trim="true" />
-	
 	<bean id="abstractDbSession" class="org.openlegacy.db.support.DefaultDbSession" abstract="true">
 		<property name="sessionModules">
 			<bean class="org.openlegacy.support.SessionModules">
 				<property name="modules">
 					<list>
-						<bean class="org.openlegacy.db.modules.menu.DefaultDbMenuModule"/>
-						<bean class="org.openlegacy.db.modules.login.LoginModule"/>
+						<bean class="org.openlegacy.db.modules.menu.DefaultDbMenuModule" />
+						<bean class="org.openlegacy.db.modules.login.DefaultDbLoginModule" />
+						<bean class="org.openlegacy.modules.DefaultRolesModule"/>
 					</list>
 				</property>
 			</bean>
 		</property>
 	</bean>
-	
-	<bean id="menuBuilder" class="org.openlegacy.db.modules.menu.DefaultMenuBuilder"/>
+
+	<bean id="menuBuilder" class="org.openlegacy.db.modules.menu.DefaultMenuBuilder" />
 	<bean id="pageBuilder" class="org.openlegacy.db.layout.support.DefaultDbPageBuilder" />
-	
+
 	<context:annotation-config />
 
 </beans>

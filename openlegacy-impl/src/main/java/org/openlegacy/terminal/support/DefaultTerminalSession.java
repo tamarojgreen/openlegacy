@@ -24,6 +24,7 @@ import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.Login.LoginEntity;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.login.User;
+import org.openlegacy.modules.roles.Roles;
 import org.openlegacy.support.AbstractSession;
 import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.ConnectionPropertiesProvider;
@@ -41,6 +42,7 @@ import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
+import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.openlegacy.terminal.modules.table.TerminalDrilldownActions.SimpleDrilldownAction;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.services.ScreensRecognizer;
@@ -67,7 +69,8 @@ import javax.inject.Inject;
  *
  *
  */
-public class DefaultTerminalSession extends AbstractSession implements TerminalSession, Serializable, ConnectionPropertiesProvider {
+public class DefaultTerminalSession extends AbstractSession implements TerminalSession, Serializable,
+		ConnectionPropertiesProvider {
 
 	private static final long serialVersionUID = 1L;
 
@@ -146,7 +149,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 							screenEntityClass.getName())));
 		}
 		sessionNavigator.navigate(this, screenEntityClass, keys);
-		return (S)getEntity();
+		return (S) getEntity();
 	}
 
 	private <S> void authorize(Class<S> screenEntityClass) {
@@ -180,9 +183,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 		ScreenEntity screenEntity = null;
 		if (useProxyForEntities) {
-			screenEntity = (ScreenEntity)ProxyUtil.createPojoProxy(matchedScreenEntity, ScreenEntity.class, interceptor);
+			screenEntity = (ScreenEntity) ProxyUtil.createPojoProxy(matchedScreenEntity, ScreenEntity.class, interceptor);
 		} else {
-			screenEntity = (ScreenEntity)ReflectionUtil.newInstance(matchedScreenEntity);
+			screenEntity = (ScreenEntity) ReflectionUtil.newInstance(matchedScreenEntity);
 		}
 
 		ScreenEntityDefinition screenEntityDefinition = getScreenEntitiesRegistry().get(matchedScreenEntity);
@@ -203,6 +206,11 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			for (ScreenEntityBinder screenEntityBinder : binders) {
 				screenEntityBinder.populateEntity(screenEntity, terminalSnapshot);
 			}
+		}
+
+		Roles rolesModule = getModule(Roles.class);
+		if (rolesModule != null) {
+			rolesModule.populateEntity(screenEntity, getModule(Login.class));
 		}
 
 		return screenEntity;
@@ -232,13 +240,13 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		if (entity != null && entity instanceof ScreenEntity.NONE) {
 			return null;
 		}
-		return (R)entity;
+		return (R) entity;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public synchronized <R extends ScreenEntity> R doAction(TerminalAction action, WaitCondition... waitConditions) {
-		return (R)doAction(action, null, waitConditions);
+		return (R) doAction(action, null, waitConditions);
 	}
 
 	@Override
@@ -246,7 +254,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			S screenEntity, Class<R> expectedEntity) {
 		try {
 			@SuppressWarnings("unchecked")
-			R object = (R)doAction(terminalAction, screenEntity);
+			R object = (R) doAction(terminalAction, screenEntity);
 			return object;
 		} catch (ClassCastException e) {
 			throw (new ScreenEntityNotAccessibleException(e, expectedEntity.getSimpleName()));
@@ -264,8 +272,18 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			getEntity(screenEntity.getClass());
 		}
 
+		Roles rolesModule = getModule(Roles.class);
+		if (rolesModule != null) {
+			Login loginModule = getModule(Login.class);
+			User loggedInUser = loginModule.getLoggedInUser();
+			if (!rolesModule.isActionPermitted(terminalAction, screenEntity, loggedInUser)) {
+				throw new TerminalActionException(MessageFormat.format("Logged in user {0} has no permission for action {1}",
+						loggedInUser.getUserName(), terminalAction.getClass().getSimpleName()));
+			}
+		}
+
 		if (terminalAction instanceof SimpleDrilldownAction) {
-			terminalAction = ((SimpleDrilldownAction)terminalAction).getAction();
+			terminalAction = ((SimpleDrilldownAction) terminalAction).getAction();
 		}
 
 		Object command = terminalActionMapper.getCommand(terminalAction);
@@ -297,14 +315,14 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			doAction(sendAction, waitConditions);
 		}
 
-		return (R)getEntity();
+		return (R) getEntity();
 	}
 
 	protected void notifyModulesBeforeSend(TerminalSendAction terminalSendAction) {
 		Collection<? extends SessionModule> modulesList = getSessionModules().getModules();
 		for (SessionModule sessionModule : modulesList) {
 			if (sessionModule instanceof ApplicationConnectionListener) {
-				((ApplicationConnectionListener)sessionModule).beforeAction(terminalConnection, terminalSendAction);
+				((ApplicationConnectionListener) sessionModule).beforeAction(terminalConnection, terminalSendAction);
 			}
 		}
 	}
@@ -313,7 +331,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		Collection<? extends SessionModule> modulesList = getSessionModules().getModules();
 		for (SessionModule sessionModule : modulesList) {
 			if (sessionModule instanceof ApplicationConnectionListener) {
-				((ApplicationConnectionListener)sessionModule).afterAction(terminalConnection, sendAction, getSnapshot());
+				((ApplicationConnectionListener) sessionModule).afterAction(terminalConnection, sendAction, getSnapshot());
 			}
 		}
 	}
@@ -529,7 +547,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 				@Override
 				public String getDeviceName() {
-					String device = (String)getProperties().getProperty(TerminalSessionPropertiesConsts.DEVICE_NAME);
+					String device = (String) getProperties().getProperty(TerminalSessionPropertiesConsts.DEVICE_NAME);
 					// treat the result property device as pool name
 					device = deviceAllocator.allocate(device, getProperties());
 					if (device != null) {
@@ -540,7 +558,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 				@Override
 				public String getCodePage() {
-					String codePage = (String)getProperties().getProperty(TerminalSessionPropertiesConsts.CODE_PAGE);
+					String codePage = (String) getProperties().getProperty(TerminalSessionPropertiesConsts.CODE_PAGE);
 					return codePage;
 				}
 

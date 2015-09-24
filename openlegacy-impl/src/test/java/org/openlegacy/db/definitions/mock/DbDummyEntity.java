@@ -8,6 +8,7 @@ import org.openlegacy.annotations.db.DbNavigation;
 import org.openlegacy.db.actions.DbActions.CREATE;
 import org.openlegacy.db.actions.DbActions.DELETE;
 import org.openlegacy.db.actions.DbActions.READ;
+import org.openlegacy.db.actions.DbActions.SHOW;
 import org.openlegacy.db.actions.DbActions.UPDATE;
 
 import javax.persistence.Column;
@@ -19,15 +20,19 @@ import javax.persistence.Id;
 @DbNavigation(category = "dummyCategory")
 @DbActions(actions = { @Action(action = READ.class, displayName = "READ"),
 		@Action(action = CREATE.class, displayName = "CREATE"), @Action(action = UPDATE.class, displayName = "UPDATE"),
-		@Action(action = DELETE.class, displayName = "DELETE") })
+		@Action(action = DELETE.class, displayName = "DELETE"),
+		@Action(action = SHOW.class, rolesRequired = true, roles = { "AGENT", "MANAGER" }) })
 public class DbDummyEntity implements org.openlegacy.db.DbEntity {
 
 	@Id
 	Integer id;
 
 	// insertable = true for CREATE action
-	@Column(name = "description", unique = true, nullable = false, insertable = true, updatable = false, columnDefinition = "VARCHAR(15)", length = 15, precision = 1, scale = 1)
-	@DbColumn(displayName = "Dummy db column name", password = true, sampleValue = "Sample value", defaultValue = "Default value", helpText = "Help text", rightToLeft = true, internal = true, mainDisplayField = true)
+	@Column(name = "description", unique = true, nullable = false, insertable = true, updatable = false,
+			columnDefinition = "VARCHAR(15)", length = 15, precision = 1, scale = 1)
+	@DbColumn(displayName = "Dummy db column name", password = true, sampleValue = "Sample value",
+			defaultValue = "Default value", helpText = "Help text", rightToLeft = true, internal = true, mainDisplayField = true,
+			roles = { "AGENT" })
 	String description;
 
 	public DbDummyEntity() {}

@@ -7,7 +7,9 @@
     	        <field value="Doe" length="20" direction="INPUT" order="1" name="lastName"/>
     	        <field value="40" length="4" direction="INPUT" type="java.lang.Integer" order="2" name="age"/>
     	        <field value="" length="100" direction="OUTPUT"  order="3" name="message"/>
-    	        <structure order="4" name="dummyPart"/>
+    	        <structure order="4" name="dummyPart">
+    	        	<field value="" direction="INPUT_OUTPUT" length="20" order="0" name="partName"/>
+    	        </structure>
    	        </rpcFields>
         </invoke>
         <result>
@@ -16,7 +18,9 @@
     	        <field value="Doe" direction="INPUT" length="20" order="1" name="lastName"/>
     	        <field value="40" direction="INPUT" length="4"  type="java.lang.Integer" order="2" name="age"/>
     	        <field value="My name is John Doe" direction="OUTPUT" length="100" order="3" name="message"/>
-    	        <structure order="4" name="dummyPart"/>
+    	        <structure order="4" name="dummyPart">
+    	        	<field value="Dummy Part" length="20" order="0" name="partName"/>
+    	        </structure>
    	        </rpcFields>
         </result>
     </snapshot>

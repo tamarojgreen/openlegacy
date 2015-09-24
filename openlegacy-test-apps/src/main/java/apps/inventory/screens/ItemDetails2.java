@@ -25,7 +25,7 @@ public class ItemDetails2 {
 	@ScreenPart(supportTerminalData = true)
 	public static class AuditDetails {
 
-		@ScreenField(row = 19, column = 69)
+		@ScreenField(row = 19, column = 69, roles = { "AGENT" })
 		private String createdDate;
 
 		@ScreenField(row = 20, column = 69)

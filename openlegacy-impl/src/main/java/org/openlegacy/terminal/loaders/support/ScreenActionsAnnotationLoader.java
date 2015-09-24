@@ -15,6 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.Action;
+import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.loaders.support.AbstractClassAnnotationLoader;
 import org.openlegacy.terminal.ScreenEntity.NONE;
@@ -34,6 +35,7 @@ import org.springframework.util.Assert;
 
 import java.lang.annotation.Annotation;
 import java.text.MessageFormat;
+import java.util.Arrays;
 
 @Component
 public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader {
@@ -49,13 +51,13 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 
-		ScreenEntityDefinition screenEntityDefinition = (ScreenEntityDefinition)entitiesRegistry.get(containingClass);
+		ScreenEntityDefinition screenEntityDefinition = (ScreenEntityDefinition) entitiesRegistry.get(containingClass);
 		Assert.notNull(screenEntityDefinition,
 				MessageFormat.format(
 						"Screen entity definition for class {0} not found. Verify @ScreenActions is defined along @ScreenEntity annotation",
 						containingClass.getName()));
 
-		ScreenActions screenActions = (ScreenActions)annotation;
+		ScreenActions screenActions = (ScreenActions) annotation;
 
 		Action[] actions = screenActions.actions();
 		if (actions.length > 0) {
@@ -99,7 +101,7 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 				} else {
 					if (screenEntityDefinition.isAutoMapKeyboardActions()) {
 						if (TerminalMappedAction.class.isAssignableFrom(action.action())) {
-							actionDefinition.setKeyboardKey((Class<? extends SimpleTerminalMappedAction>)action.action());
+							actionDefinition.setKeyboardKey((Class<? extends SimpleTerminalMappedAction>) action.action());
 						}
 					}
 				}
@@ -107,6 +109,11 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 
 				if (action.focusField().length() > 0) {
 					actionDefinition.setFocusField(action.focusField());
+				}
+
+				actionDefinition.setRolesRequired(action.rolesRequired());
+				if (!action.roles()[0].equals(AnnotationConstants.NULL)) {
+					actionDefinition.setRoles(Arrays.asList(action.roles()));
 				}
 
 				screenEntityDefinition.getActions().add(actionDefinition);

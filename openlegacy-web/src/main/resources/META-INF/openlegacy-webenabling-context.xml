@@ -47,6 +47,7 @@
 							</property>
 						</bean>
 						<bean class="com.openlegacy.plugins.management.UserCountModule" />
+						<bean class="org.openlegacy.modules.DefaultRolesModule"/>
 					</list>
 				</property>
 			</bean>

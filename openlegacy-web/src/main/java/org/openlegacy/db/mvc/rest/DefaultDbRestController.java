@@ -31,6 +31,7 @@ import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuItem;
+import org.openlegacy.modules.roles.Roles;
 import org.openlegacy.support.SimpleEntityWrapper;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Controller;
@@ -70,8 +71,8 @@ public class DefaultDbRestController extends AbstractDbRestController {
 	@Inject
 	private DbService dbService;
 
-	@Inject
-	private Login dbLoginModule;
+	//	@Inject
+	//	private Login dbLoginModule;
 
 	private Integer pageSize = 20;
 
@@ -96,8 +97,9 @@ public class DefaultDbRestController extends AbstractDbRestController {
 	public Object login(@RequestParam(USER) String user, @RequestParam(PASSWORD) String password, HttpServletResponse response)
 			throws IOException {
 		try {
-			if (dbLoginModule != null) {
-				dbLoginModule.login(user, password);
+			Login loginModule = getSession().getModule(Login.class);
+			if (loginModule != null) {
+				loginModule.login(user, password);
 			} else {
 				logger.warn("No login module defined. Skipping login");
 			}
@@ -116,8 +118,9 @@ public class DefaultDbRestController extends AbstractDbRestController {
 		Object obj = parser.parse(json);
 		JSONObject jsonObj = (JSONObject) obj;
 		try {
-			if (dbLoginModule != null) {
-				dbLoginModule.login(jsonObj.get("user").toString(), jsonObj.get("password").toString());
+			Login loginModule = getSession().getModule(Login.class);
+			if (loginModule != null) {
+				loginModule.login(jsonObj.get("user").toString(), jsonObj.get("password").toString());
 			} else {
 				logger.warn("No login module defined. Skipping login");
 			}
@@ -133,8 +136,9 @@ public class DefaultDbRestController extends AbstractDbRestController {
 	@RequestMapping(value = "/logoff", consumes = { JSON, XML })
 	public Object logoff(HttpServletResponse response) throws IOException {
 		try {
-			if (dbLoginModule != null) {
-				dbLoginModule.logoff();
+			Login loginModule = getSession().getModule(Login.class);
+			if (loginModule != null) {
+				loginModule.logoff();
 			} else {
 				logger.warn("No login module defined. Skipping login");
 			}
@@ -257,6 +261,7 @@ public class DefaultDbRestController extends AbstractDbRestController {
 	}
 
 	protected Object getApiEntity(Class<?> entityClass, Map<String, String> queryConditions, String key) {
+
 		Object[] keys = new Object[0];
 		if (key != null) {
 			keys = key.split("\\+");
@@ -271,8 +276,12 @@ public class DefaultDbRestController extends AbstractDbRestController {
 			} else {
 				primaryKey = toObject(getFirstIdJavaType(entityClass), (String) keys[0]);
 			}
+			// apply roles verification
+			getSession().getEntity(entityClass, primaryKey);
 			return dbService.getEntityById(entityClass, primaryKey);
 		} else {
+			// apply roles verification
+			getSession().getEntity(entityClass, key);
 			if (queryConditions != null && queryConditions.size() != 0) {
 				return dbService.getEntitiesWithConditions(entityClass, queryConditions);
 			} else {
@@ -361,6 +370,10 @@ public class DefaultDbRestController extends AbstractDbRestController {
 		} else {
 			entity = ProxyUtil.getTargetJpaObject(entity, children);
 		}
+		Roles rolesModule = getSession().getModule(Roles.class);
+		if (rolesModule != null) {
+			rolesModule.populateEntity(entity, getSession().getModule(Login.class));
+		}
 		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(entity, null, getActions(entity), pageCount);
 		return new ModelAndView(MODEL, MODEL, wrapper);
 	}
@@ -446,9 +459,9 @@ public class DefaultDbRestController extends AbstractDbRestController {
 										((List) listValue).add(entity);
 									}
 								} catch (IllegalArgumentException e) {
-									e.printStackTrace();
+									logger.error(e.getMessage(), e);
 								} catch (IllegalAccessException e) {
-									e.printStackTrace();
+									logger.error(e.getMessage(), e);
 								}
 							}
 						}
@@ -460,7 +473,7 @@ public class DefaultDbRestController extends AbstractDbRestController {
 				entity = preSendJsonEntity(entityName, key, json, response);
 			}
 		} catch (ParseException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 
 		Object resultEntity = sendEntity(entity, action);
@@ -597,9 +610,9 @@ public class DefaultDbRestController extends AbstractDbRestController {
 			try {
 				resultEntity = dbService.createOrUpdateEntity(entity);
 			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(), e);
 			} catch (SecurityException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(), e);
 			}
 
 		}
@@ -612,7 +625,8 @@ public class DefaultDbRestController extends AbstractDbRestController {
 			return true;
 		}
 
-		if (!dbLoginModule.isLoggedIn()) {
+		Login loginModule = getSession().getModule(Login.class);
+		if (loginModule != null && !loginModule.isLoggedIn()) {
 			sendError(HttpServletResponse.SC_UNAUTHORIZED, "User unauthorized!", response);
 		}
 

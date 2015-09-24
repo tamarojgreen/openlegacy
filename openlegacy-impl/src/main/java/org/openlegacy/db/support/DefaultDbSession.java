@@ -11,19 +11,32 @@
 
 package org.openlegacy.db.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.ApplicationConnection;
+import org.openlegacy.SessionPropertiesProvider;
+import org.openlegacy.authorization.AuthorizationService;
 import org.openlegacy.db.DbSession;
 import org.openlegacy.db.actions.DbAction;
 import org.openlegacy.db.actions.DbActions;
 import org.openlegacy.db.definitions.DbEntityDefinition;
+import org.openlegacy.db.exceptions.DbActionException;
 import org.openlegacy.db.exceptions.DbActionNotMappedException;
 import org.openlegacy.db.services.DbEntitiesRegistry;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.exceptions.EntityNotAccessibleException;
 import org.openlegacy.exceptions.EntityNotFoundException;
+import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.login.Login.LoginEntity;
+import org.openlegacy.modules.login.User;
+import org.openlegacy.modules.roles.Roles;
 import org.openlegacy.support.AbstractSession;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.StringUtil;
+
+import java.text.MessageFormat;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -32,12 +45,21 @@ import javax.persistence.PersistenceContext;
 public class DefaultDbSession extends AbstractSession implements DbSession {
 
 	private static final long serialVersionUID = 1L;
+	private final static Log logger = LogFactory.getLog(DefaultDbSession.class);
 
 	@Inject
 	private DbEntitiesRegistry dbEntitiesRegistry;
 
 	@PersistenceContext
 	transient EntityManager entityManager;
+
+	private boolean forceAuthorization = true;
+
+	@Inject
+	private AuthorizationService authorizationService;
+
+	@Inject
+	private SessionPropertiesProvider sessionPropertiesProvider;
 
 	@Override
 	public Object getDelegate() {
@@ -51,6 +73,8 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 			throw new OpenLegacyRuntimeException(dbEntitiesRegistry.getErrorMessage());
 		}
 
+		authorize(entityClass);
+
 		T entity = ReflectionUtil.newInstance(entityClass);
 
 		DbEntityDefinition dbEntityDefinition = dbEntitiesRegistry.get(entityClass);
@@ -60,7 +84,7 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 			throw new DbActionNotMappedException(
 					"No READ action is defined. Define @DbActions(actions = { @Action(action = READ.class, ...) })");
 		}
-		return (T)doAction(DbActions.READ(), entity, keys);
+		return (T) doAction(DbActions.READ(), entity, keys);
 	}
 
 	@Override
@@ -88,7 +112,48 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 
 	@Override
 	public Object doAction(DbAction action, Object dbEntity, Object... keys) {
-		return action.perform(getEntityManager(), dbEntity, keys);
+		Roles rolesModule = getModule(Roles.class);
+		if (rolesModule != null) {
+			Login loginModule = getModule(Login.class);
+			User loggedInUser = loginModule.getLoggedInUser();
+			if (!rolesModule.isActionPermitted(action, dbEntity, loggedInUser)) {
+				throw new DbActionException(MessageFormat.format("Logged in user {0} has no permission for action {1}",
+						loggedInUser.getUserName(), action.getClass().getSimpleName()));
+			}
+		}
+		Object object = action.perform(getEntityManager(), dbEntity, keys);
+		if (rolesModule != null) {
+			rolesModule.populateEntity(object, getModule(Login.class));
+		}
+
+		return object;
+	}
+
+	@Override
+	public void login(String user, String password) {
+		//required to fill properties (such as roles etc.)
+		try {
+			User loggedInUser = getModule(Login.class).getLoggedInUser();
+			loggedInUser.getProperties().putAll(sessionPropertiesProvider.getSessionProperties().getProperties());
+		} catch (OpenLegacyException e) {
+			logger.debug(e.getMessage(), e);
+		}
+	}
+
+	public void setForceAuthorization(boolean forceAuthorization) {
+		this.forceAuthorization = forceAuthorization;
+	}
+
+	private <S> void authorize(Class<S> entityClass) {
+		if (!forceAuthorization) {
+			return;
+		}
+		DbEntityDefinition definitions = dbEntitiesRegistry.get(entityClass);
+		User loggedInUser = getModule(Login.class).getLoggedInUser();
+		if (definitions.getType() != LoginEntity.class && !authorizationService.isAuthorized(loggedInUser, entityClass)) {
+			throw (new EntityNotAccessibleException(MessageFormat.format("Logged in user {0} has no permission for entity {1}",
+					loggedInUser.getUserName(), entityClass.getName())));
+		}
 	}
 
 }

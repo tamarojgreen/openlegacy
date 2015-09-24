@@ -79,7 +79,7 @@ public class TerminalActions {
 
 		private static final long serialVersionUID = 1L;
 	}
-	
+
 	public static NULL NULL() {
 		return new NULL();
 	}
@@ -300,6 +300,12 @@ public class TerminalActions {
 		return new PAGE_UP();
 	}
 
+	public static class SHOW extends SimpleTerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
+
+	}
+
 	/**
 	 * Retrieve a command value which is mapped to the given keyboradKey Used for parsing JavaScript keyboard actions, sent via
 	 * http request
@@ -333,12 +339,12 @@ public class TerminalActions {
 			if (keyboardActionParts.length == 2) {
 				keyboardKey = keyboardActionParts[1];
 				String keyboardKeyClass = MessageFormat.format("{0}${1}", TerminalActions.class.getName(), keyboardKey);
-				keyboardClazz = (Class<? extends TerminalAction>)Class.forName(keyboardKeyClass);
+				keyboardClazz = (Class<? extends TerminalAction>) Class.forName(keyboardKeyClass);
 				additionalKey = AdditionalKey.valueOf(keyboardActionParts[0]);
-				terminalAction = (TerminalAction)TerminalActions.combined(additionalKey, keyboardClazz);
+				terminalAction = (TerminalAction) TerminalActions.combined(additionalKey, keyboardClazz);
 			} else {
 				String keyboardKeyClass = MessageFormat.format("{0}${1}", TerminalActions.class.getName(), keyboardKey);
-				keyboardClazz = (Class<? extends TerminalAction>)Class.forName(keyboardKeyClass);
+				keyboardClazz = (Class<? extends TerminalAction>) Class.forName(keyboardKeyClass);
 				terminalAction = keyboardClazz.newInstance();
 			}
 		} catch (Exception e) {
@@ -357,7 +363,7 @@ public class TerminalActions {
 				if (actionName.equals(clazz.getSimpleName())) {
 					ctor.setAccessible(true);
 					try {
-						action = (TerminalAction)ctor.newInstance();
+						action = (TerminalAction) ctor.newInstance();
 					} catch (Exception e) {
 						throw new TerminalActionException(MessageFormat.format("Cannot instantiate an action with name {0}",
 								actionName));

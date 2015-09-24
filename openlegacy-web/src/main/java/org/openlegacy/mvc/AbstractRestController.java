@@ -22,10 +22,12 @@ import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.json.EntitySerializationUtils;
+import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.modules.navigation.Navigation;
+import org.openlegacy.modules.roles.Roles;
 import org.openlegacy.support.SimpleEntityWrapper;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.UrlUtil;
@@ -172,6 +174,10 @@ public abstract class AbstractRestController {
 			throw (new EntityNotFoundException("No entity found"));
 		}
 		entity = ProxyUtil.getTargetObject(entity, children);
+		Roles rolesModule = getSession().getModule(Roles.class);
+		if (rolesModule != null) {
+			rolesModule.populateEntity(entity, getSession().getModule(Login.class));
+		}
 		Navigation navigationModule = getSession().getModule(Navigation.class);
 		boolean isWindow = getEntitiesRegistry().get(entity.getClass()).isWindow();
 		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(entity, navigationModule != null ? navigationModule.getPaths()
@@ -396,7 +402,7 @@ public abstract class AbstractRestController {
 
 		try {
 			InputSource inputSource = new InputSource(new ByteArrayInputStream(xml.getBytes()));
-			LoginObject login = (LoginObject)Unmarshaller.unmarshal(LoginObject.class, inputSource);
+			LoginObject login = (LoginObject) Unmarshaller.unmarshal(LoginObject.class, inputSource);
 			getSession().getModule(org.openlegacy.modules.login.Login.class).login(login.getUser(), login.getPassword());
 		} catch (LoginException e) {
 			getSession().disconnect();

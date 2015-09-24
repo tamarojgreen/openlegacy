@@ -54,7 +54,7 @@ public class DbActionsTest {
 	@Test
 	public void testActions() {
 		DbEntityDefinition entityDefinition = assertEntityExists(DbDummyEntity.class);
-		Assert.assertEquals(4, entityDefinition.getActions().size());
+		Assert.assertEquals(5, entityDefinition.getActions().size());
 	}
 
 	@Test
@@ -69,14 +69,14 @@ public class DbActionsTest {
 		List<ActionDefinition> actions = entityDefinition.getActions();
 		for (ActionDefinition actionDefinition : actions) {
 			if (actionDefinition.getActionName().equals(READ.class.getSimpleName())) {
-				returnedObject = dbSession.doAction((DbAction)actionDefinition.getAction(), dummyEntity, dummyEntity.getId());
+				returnedObject = dbSession.doAction((DbAction) actionDefinition.getAction(), dummyEntity, dummyEntity.getId());
 				break;
 			}
 		}
 
 		Assert.assertNotNull(returnedObject);
 		Assert.assertTrue(returnedObject instanceof DbDummyEntity);
-		DbDummyEntity entity = (DbDummyEntity)returnedObject;
+		DbDummyEntity entity = (DbDummyEntity) returnedObject;
 		Assert.assertEquals(1, entity.getId().intValue());
 		Assert.assertEquals("description", entity.getDescription());
 	}
@@ -95,13 +95,13 @@ public class DbActionsTest {
 		List<ActionDefinition> actions = entityDefinition.getActions();
 		for (ActionDefinition actionDefinition : actions) {
 			if (actionDefinition.getActionName().equals(CREATE.class.getSimpleName())) {
-				returnedObject = dbSession.doAction((DbAction)actionDefinition.getAction(), dummyEntity);
+				returnedObject = dbSession.doAction((DbAction) actionDefinition.getAction(), dummyEntity);
 				break;
 			}
 		}
 		Assert.assertNotNull(returnedObject);
 		Assert.assertTrue(returnedObject instanceof DbDummyEntity);
-		DbDummyEntity entity = (DbDummyEntity)returnedObject;
+		DbDummyEntity entity = (DbDummyEntity) returnedObject;
 		Assert.assertEquals(2, entity.getId().intValue());
 		Assert.assertEquals("description 2", entity.getDescription());
 
@@ -123,14 +123,14 @@ public class DbActionsTest {
 		List<ActionDefinition> actions = entityDefinition.getActions();
 		for (ActionDefinition actionDefinition : actions) {
 			if (actionDefinition.getActionName().equals(UPDATE.class.getSimpleName())) {
-				returnedObject = dbSession.doAction((DbAction)actionDefinition.getAction(), dummyEntity, dummyEntity.getId());
+				returnedObject = dbSession.doAction((DbAction) actionDefinition.getAction(), dummyEntity, dummyEntity.getId());
 				break;
 			}
 		}
 
 		Assert.assertNotNull(returnedObject);
 		Assert.assertTrue(returnedObject instanceof DbDummyEntity);
-		DbDummyEntity entity = (DbDummyEntity)returnedObject;
+		DbDummyEntity entity = (DbDummyEntity) returnedObject;
 		Assert.assertEquals(1, entity.getId().intValue());
 		Assert.assertEquals("changed description", entity.getDescription());
 		DbDummyEntity mergedEntity = entityManager.find(DbDummyEntity.class, entity.getId());
@@ -147,7 +147,7 @@ public class DbActionsTest {
 
 		DbSession dbSession = applicationContext.getBean(DbSession.class);
 		// get entity
-		DbDummyEntity fromDb = (DbDummyEntity)dbSession.doAction(DbActions.READ(), dummyEntity, dummyEntity.getId());
+		DbDummyEntity fromDb = (DbDummyEntity) dbSession.doAction(DbActions.READ(), dummyEntity, dummyEntity.getId());
 		Assert.assertNotNull(fromDb);
 
 		DbEntityDefinition entityDefinition = assertEntityExists(DbDummyEntity.class);
@@ -155,7 +155,7 @@ public class DbActionsTest {
 		List<ActionDefinition> actions = entityDefinition.getActions();
 		for (ActionDefinition actionDefinition : actions) {
 			if (actionDefinition.getActionName().equals(DELETE.class.getSimpleName())) {
-				dbSession.doAction((DbAction)actionDefinition.getAction(), fromDb);
+				dbSession.doAction((DbAction) actionDefinition.getAction(), fromDb);
 				break;
 			}
 		}

@@ -12,6 +12,9 @@ package org.openlegacy.terminal.support.proxy;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.roles.Roles;
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
@@ -38,6 +41,14 @@ public class ScreenEntityMethodInterceptor implements MethodInterceptor, Seriali
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
+
+		Object object = invocation.getThis();
+		if (object instanceof ScreenEntity) {
+			Roles rolesModule = terminalSession.getModule(Roles.class);
+			if (rolesModule != null) {
+				rolesModule.populateEntity(object, terminalSession.getModule(Login.class));
+			}
+		}
 
 		Class<?> returnType = invocation.getMethod().getReturnType();
 

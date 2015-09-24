@@ -16,6 +16,8 @@ import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
 import org.openlegacy.annotations.screen.Action;
 
+import java.util.List;
+
 /**
  * A generic session action meta-data definition. Stored within {@link EntityDefinition} in {@link EntitiesRegistry}. <br/>
  * Loaded from {@link Action} annotation for screen entities.
@@ -76,4 +78,8 @@ public interface ActionDefinition {
 	String getWhen();
 
 	boolean isSubmitForm();
+
+	boolean isRolesRequired();
+
+	List<String> getRoles();
 }

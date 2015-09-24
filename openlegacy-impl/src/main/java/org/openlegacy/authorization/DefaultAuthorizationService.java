@@ -1,24 +1,18 @@
 package org.openlegacy.authorization;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.openlegacy.EntitiesRegistry;
-import org.openlegacy.EntityDefinition;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.User;
 import org.openlegacy.modules.menu.MenuItem;
+import org.openlegacy.modules.roles.Roles;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import javax.inject.Inject;
 
 public class DefaultAuthorizationService implements AuthorizationService {
 
-	@Inject
-	private EntitiesRegistry<?, ?, ?> entitiesRegistry;
+	private Roles rolesModule;
 
 	private boolean allowNullUser = true;
 
@@ -30,7 +24,7 @@ public class DefaultAuthorizationService implements AuthorizationService {
 		checkNullUser(user);
 		MenuItem userMenu = rootMenu.clone();
 		if (user != null) {
-			String userRole = (String)user.getProperties().get(Login.USER_ROLE_PROPERTY);
+			String userRole = (String) user.getProperties().get(Login.USER_ROLE_PROPERTY);
 			if (userRole != null) {
 				List<MenuItem> userItems = new ArrayList<MenuItem>();
 				userItems.add(userMenu);
@@ -52,7 +46,7 @@ public class DefaultAuthorizationService implements AuthorizationService {
 		checkNullUser(user);
 		List<MenuItem> userFlatMenus1 = clone(flatMenus);
 		if (user != null) {
-			String userRole = (String)user.getProperties().get(Login.USER_ROLE_PROPERTY);
+			String userRole = (String) user.getProperties().get(Login.USER_ROLE_PROPERTY);
 			if (userRole != null) {
 				// have working copy for the user
 				String[] userRoles = userRole.split(",");
@@ -66,11 +60,9 @@ public class DefaultAuthorizationService implements AuthorizationService {
 		MenuItem[] items = menuItems.toArray(new MenuItem[menuItems.size()]);
 		for (MenuItem menuItem : items) {
 			String targetEntityName = menuItem.getTargetEntityName();
-			EntityDefinition<?> entityDefinition = entitiesRegistry.get(targetEntityName);
-			if (entityDefinition.getRoles() != null && entityDefinition.getRoles().size() > 0) {
-				if (!CollectionUtils.containsAny(entityDefinition.getRoles(), Arrays.asList(userRoles))) {
-					menuItems.remove(menuItem);
-				}
+
+			if (!rolesModule.isEntityPermitted(targetEntityName, userRoles)) {
+				menuItems.remove(menuItem);
 			}
 			filterMenuItems(userRoles, menuItem.getMenuItems());
 		}
@@ -91,15 +83,11 @@ public class DefaultAuthorizationService implements AuthorizationService {
 		if (user == null) {
 			return true;
 		}
-		String userRole = (String)user.getProperties().get(Login.USER_ROLE_PROPERTY);
+		String userRole = (String) user.getProperties().get(Login.USER_ROLE_PROPERTY);
 		if (userRole == null) {
 			return true;
 		}
-		EntityDefinition<?> entityDefinition = entitiesRegistry.get(entityClass);
-		if (entityDefinition.getRoles() != null && entityDefinition.getRoles().size() > 0) {
-			return entityDefinition.getRoles().contains(userRole);
-		}
-		return true;
+		return rolesModule.isEntityPermitted(entityClass, new String[] { userRole });
 	}
 
 	@Override
@@ -123,4 +111,10 @@ public class DefaultAuthorizationService implements AuthorizationService {
 	public void setAllowNullUser(boolean allowNullUser) {
 		this.allowNullUser = allowNullUser;
 	}
+
+	/* Will be set by Spring configuration */
+	public void setRolesModule(Roles rolesModule) {
+		this.rolesModule = rolesModule;
+	}
+
 }

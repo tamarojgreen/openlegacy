@@ -15,6 +15,7 @@ import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.FieldTypeDefinition;
 
 import java.io.Serializable;
+import java.util.List;
 
 public abstract class AbstractFieldDefinition<D extends FieldDefinition> implements FieldDefinition, Serializable {
 
@@ -38,11 +39,6 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 	// @author Ivan Bort, refs assembla #112
 	private String fieldTypeName;
 
-	/**
-	 * for serialization purpose only
-	 */
-	public AbstractFieldDefinition() {}
-
 	private Class<?> javaType;
 	private String javaTypeName;
 
@@ -62,6 +58,13 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 	private boolean required = false;
 	private String invalidMessage = "";
 	protected boolean isHidden;
+
+	private List<String> roles;
+
+	/**
+	 * for serialization purpose only
+	 */
+	public AbstractFieldDefinition() {}
 
 	public AbstractFieldDefinition(String name, Class<? extends FieldType> type) {
 		this.name = name;
@@ -292,4 +295,14 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 	public boolean isHidden() {
 		return this.isHidden;
 	}
+
+	@Override
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+
 }

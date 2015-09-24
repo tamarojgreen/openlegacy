@@ -15,6 +15,8 @@ import net.sf.cglib.proxy.Enhancer;
 import org.aopalliance.intercept.Interceptor;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.aop.TargetClassAware;
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.framework.ProxyFactory;
@@ -36,6 +38,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 public class ProxyUtil {
+
+	private final static Log logger = LogFactory.getLog(PropertyUtil.class);
 
 	public static <T> T getTargetObject(Object proxy) {
 		return getTargetObject(proxy, false);
@@ -67,7 +71,7 @@ public class ProxyUtil {
 						}
 					}
 				}
-				proxy = ((Advised)proxy).getTargetSource().getTarget();
+				proxy = ((Advised) proxy).getTargetSource().getTarget();
 			} catch (Exception e) {
 				throw (new IllegalStateException(e));
 			}
@@ -88,7 +92,7 @@ public class ProxyUtil {
 				}
 			}
 		}
-		return (T)proxy;
+		return (T) proxy;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -98,11 +102,11 @@ public class ProxyUtil {
 			Dehibernator dehibernator = new Dehibernator();
 			proxy = getTargetJpaObject(proxy, children, dehibernator, processed);
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
-		return (T)proxy;
+		return (T) proxy;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -113,11 +117,11 @@ public class ProxyUtil {
 		}
 
 		if (proxy instanceof Collection) {
-			for (Object object : (Collection)proxy) {
+			for (Object object : (Collection) proxy) {
 				object = fetchLazyObject(object, dehibernator, children, processed);
 			}
 		} else if (proxy instanceof Map) {
-			Collection collection = ((Map)proxy).values();
+			Collection collection = ((Map) proxy).values();
 			for (Object object : collection) {
 				object = fetchLazyObject(object, dehibernator, children, processed);
 			}
@@ -125,7 +129,7 @@ public class ProxyUtil {
 			proxy = fetchLazyObject(proxy, dehibernator, children, processed);
 		}
 
-		return (T)proxy;
+		return (T) proxy;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -148,7 +152,7 @@ public class ProxyUtil {
 			}
 
 		}
-		return (T)proxy;
+		return (T) proxy;
 	}
 
 	private static void processField(Field field, Object proxy, Dehibernator dehibernator, boolean children,
@@ -178,7 +182,7 @@ public class ProxyUtil {
 	}
 
 	private static void setFieldValue(Field field, Object proxy, Object value) throws IllegalAccessException,
-	IllegalArgumentException {
+			IllegalArgumentException {
 		field.setAccessible(true);
 		field.set(proxy, value);
 
@@ -186,7 +190,7 @@ public class ProxyUtil {
 
 	public static Class<?> getObjectRealClass(Object object) {
 		while (object instanceof TargetClassAware) {
-			object = ((TargetClassAware)object).getTargetClass();
+			object = ((TargetClassAware) object).getTargetClass();
 		}
 		return object.getClass();
 	}
