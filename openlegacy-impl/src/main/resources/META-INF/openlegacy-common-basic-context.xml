@@ -22,4 +22,6 @@
 		</property>
 	</bean>
 
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" />
+
 </beans>
