@@ -14,7 +14,6 @@ package org.openlegacy.services.cache;
 public class ServiceCacheData {
 
 	long expirationTime;
-	int dataSize;
 	Object data;
 
 	public long getExpirationTime() {
@@ -23,14 +22,6 @@ public class ServiceCacheData {
 
 	public void setExpirationTime(long expirationTime) {
 		this.expirationTime = expirationTime;
-	}
-
-	public int getDataSize() {
-		return dataSize;
-	}
-
-	public void setDataSize(int dataSize) {
-		this.dataSize = dataSize;
 	}
 
 	public Object getData() {

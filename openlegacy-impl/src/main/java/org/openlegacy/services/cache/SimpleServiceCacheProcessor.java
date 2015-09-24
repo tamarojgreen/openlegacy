@@ -25,6 +25,7 @@ import org.openlegacy.services.definitions.SimpleServiceMethodDefinition;
 import org.openlegacy.utils.ThreadWorkSeparatorUtil.OnRun;
 import org.openlegacy.utils.XmlSerializationUtil;
 import org.openlegacy.utils.ZipUtil;
+import org.springframework.context.ApplicationContext;
 
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
@@ -52,11 +53,13 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 
 	public static SimpleServiceCacheProcessor INSTANCE;
 
-	@Inject
 	private CacheManager cacheManager;
 
 	@Inject
 	private ServicesRegistry wsRegistry;
+
+	@Inject
+	private ApplicationContext applicationContext;
 
 	private static class BackGroundOperation {
 
@@ -167,6 +170,14 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		Method origin = invocation.getMethod();
 
+		if (cacheManager == null) {
+			cacheManager = (CacheManager)applicationContext.getBean("cacheManager");
+			if (cacheManager == null) {
+				lastError = ServiceCacheError.ENGINE_INIT_ERROR;
+				return invocation.proceed();
+			}
+		}
+
 		if (origin.getReturnType() == void.class) {
 			return invocation.proceed();
 		}
@@ -221,7 +232,7 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 			ServiceCacheData cacheData = new ServiceCacheData();
 			cacheData.setData(beforeCache(obj, false));
 			cacheData.setExpirationTime(System.currentTimeMillis() + methodDefinition.getCacheDuration());
-			getCache(getCacheNameFromKey(key)).put(key, beforeCache(cacheData, true),
+			getCache(getCacheNameForKey(key)).put(key, beforeCache(cacheData, true),
 					(int)(methodDefinition.getCacheDuration() / 1000));
 			unlock(key);
 			if (logger.isDebugEnabled()) {
@@ -239,8 +250,8 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 		return (Cache<String, Object>)(result == null ? cacheManager.createCache(name) : result);
 	}
 
-	private String getCacheNameFromKey(String key) {
-		return key.split("\\.")[0];
+	private String getCacheNameForKey(String key) {
+		return key.split("\\.")[0] + "Service";
 	}
 
 	@Override
@@ -249,7 +260,7 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 			return null;
 		}
 		try {
-			Object cached = getCache(getCacheNameFromKey(key)).get(key);
+			Object cached = getCache(getCacheNameForKey(key)).get(key);
 			if (cached == null) {
 				return null;
 			}
@@ -275,7 +286,7 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 		if (hasErrors()) {
 			return;
 		}
-		getCache(getCacheNameFromKey(key)).remove(key);
+		getCache(getCacheNameForKey(key)).remove(key);
 		blockedKeys.remove(key);
 	}
 
@@ -407,7 +418,7 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 				blockedKeys.removeAll(info.getKeys());
 			}
 		} else {
-			CacheInfo<String> info = getCache(getCacheNameFromKey(keyMask)).getInfo();
+			CacheInfo<String> info = getCache(getCacheNameForKey(keyMask)).getInfo();
 			if (clearCache) {
 				blockedKeys.addAll(info.getKeys());
 				cacheManager.getCache(info.getName()).clear();
