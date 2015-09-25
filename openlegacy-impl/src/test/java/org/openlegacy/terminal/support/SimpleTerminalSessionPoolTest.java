@@ -61,9 +61,8 @@ public class SimpleTerminalSessionPoolTest {
 		session.getSnapshot();
 		Assert.assertFalse(CleanupDummyAction.isCalled());
 		terminalSessionPool.returnSession(session);
-		Thread.sleep(4000);
+		Thread.sleep(10000);
 		Assert.assertTrue(CleanupDummyAction.isCalled());
-
 	}
 
 	public static class CleanupDummyAction implements TerminalAction {
