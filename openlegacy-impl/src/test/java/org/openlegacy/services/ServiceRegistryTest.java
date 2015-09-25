@@ -90,7 +90,7 @@ public class ServiceRegistryTest {
 
 	@Test
 	public void testCache() throws Exception {
-		logger.info("Service cache test will run ~40 seconds");
+		logger.info("Service cache test will run ~45 seconds");
 		Assert.assertTrue(ClassUtils.getAllSuperclasses(service.getClass()).contains(Proxy.class));
 		if (cacheProcessor.getLastError() != ServiceCacheError.ALL_OK) {
 			cacheProcessor.fix();
@@ -152,6 +152,7 @@ public class ServiceRegistryTest {
 		while (!exit) {
 			synchronized (error) {
 				if (error.getCause() != null) {
+					logger.error(error.getCause().getMessage());
 					throw new Exception(error.getCause());
 				}
 			}
@@ -161,7 +162,7 @@ public class ServiceRegistryTest {
 		}
 		Long newDuration = 20000L;
 		Assert.assertTrue(cacheManager.getCacheStats().get(0).getElementsCount() > 0);
-		Thread.sleep(100);
+		Thread.sleep(5000);// wait for background work in cache processor
 		cacheProcessor.updateCacheDuration("WebService", "getItem", newDuration);
 		Thread.sleep(9000);
 		Assert.assertTrue(cacheManager.getCacheStats().get(0).getElementsCount() == 0);
