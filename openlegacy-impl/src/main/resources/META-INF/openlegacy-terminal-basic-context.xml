@@ -24,8 +24,6 @@
  
  	<bean id="registryLoader" class="org.openlegacy.terminal.support.DefaultScreensRegistryLoader"/>
  	
- 	<bean id="registryLoader" class="org.openlegacy.terminal.support.DefaultScreensRegistryLoader"/>
- 	
  	<bean class="org.openlegacy.support.ServiceAnnotationProcessor">
 	    <property name="loadersPackages">
 	        <list>
