@@ -371,9 +371,16 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 				requests.put(key, semaphore);
 				lock.release(1);
 				semaphore.acquire(1);
+				if (logger.isDebugEnabled()) {
+					logger.debug("CACHE acquire " + key);
+				}
 			} else {
 				lock.release(1);
+				long time = System.currentTimeMillis();
 				semaphore.tryAcquire(1, semaphoreWaitTimeOut, TimeUnit.SECONDS);
+				if (logger.isDebugEnabled()) {
+					logger.debug(String.format("CACHE try acquire %s %d", key, System.currentTimeMillis() - time));
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -389,6 +396,9 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 					requests.remove(key);
 				}
 				semaphore.release(1);
+				if (logger.isDebugEnabled()) {
+					logger.debug("CACHE release " + key);
+				}
 			}
 			unlock.release(1);
 		} catch (Exception e) {
@@ -464,5 +474,9 @@ public class SimpleServiceCacheProcessor implements ServiceCacheProcessor, Metho
 	@Override
 	public void clear(String keyMask, boolean clearCache) {
 		addBackGroundOperation(CLEAR, keyMask, clearCache);
+	}
+
+	public void setSemaphoreWaitTimeout(int semaphoreWaitTimeout) {
+		this.semaphoreWaitTimeOut = semaphoreWaitTimeout;
 	}
 }
