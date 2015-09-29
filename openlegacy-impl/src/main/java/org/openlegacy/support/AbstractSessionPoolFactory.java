@@ -18,6 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Semaphore;
 
 public abstract class AbstractSessionPoolFactory<S extends Session, A extends SessionAction<S>> implements SessionFactory<S, A>, InitializingBean, DisposableBean {
 
@@ -47,6 +48,8 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 
 	protected boolean stopThreads = false;
 
+	protected Semaphore keepAliveSemaphore = new Semaphore(1, true);
+
 	public void setStopThreads(boolean stopThreads) {
 		this.stopThreads = stopThreads;
 	}
@@ -69,6 +72,7 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 		logger.debug("New session requested");
 		if (blockingQueue.size() == 0 && actives.size() < maxConnections) {
 			try {
+				lockKeepAliceSemaphore();
 				initSession();
 			} catch (SessionInitException e) {
 				logger.debug(e.getMessage());
@@ -81,6 +85,7 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 	private S waitForSession() {
 		try {
 			S session = blockingQueue.take();
+			unlockKeepAliveSemaphore();
 			actives.add(session);
 			logger.debug(MessageFormat.format("Session {0} pulled from blocking queue, and added to active sessions", session));
 			return session;
@@ -165,6 +170,23 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 			for (SessionPoolListner listener : listeners) {
 				listener.endSession();
 			}
+		}
+	}
+
+	protected void lockKeepAliceSemaphore() {
+		try {
+			keepAliveSemaphore.acquire(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	protected void unlockKeepAliveSemaphore() {
+		try {
+			keepAliveSemaphore.release(1);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

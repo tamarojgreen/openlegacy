@@ -25,8 +25,7 @@ import java.text.MessageFormat;
 
 import javax.inject.Inject;
 
-public class SimpleTerminalSessionPoolFactory extends AbstractSessionPoolFactory<TerminalSession, TerminalAction> implements
-		TerminalSessionFactory {
+public class SimpleTerminalSessionPoolFactory extends AbstractSessionPoolFactory<TerminalSession, TerminalAction> implements TerminalSessionFactory {
 
 	private static final Log logger = LogFactory.getLog(SimpleTerminalSessionPoolFactory.class);
 
@@ -50,7 +49,9 @@ public class SimpleTerminalSessionPoolFactory extends AbstractSessionPoolFactory
 						}
 						TerminalAction keepAliveAction1 = ReflectionUtil.newInstance(keepAliveAction);
 
+						lockKeepAliceSemaphore();
 						TerminalSession[] sessions = blockingQueue.toArray(new TerminalSession[blockingQueue.size()]);
+						unlockKeepAliveSemaphore();
 
 						logger.debug(sessions.length + " sessions found in queue during keep alive");
 						for (TerminalSession session : sessions) {
@@ -106,7 +107,7 @@ public class SimpleTerminalSessionPoolFactory extends AbstractSessionPoolFactory
 		logger.debug(MessageFormat.format("New session {0} created for pool", terminalSession));
 		if (initAction != null) {
 			initAction.perform(terminalSession, null);
-			//			ReflectionUtil.newInstance(initAction).perform(terminalSession, null);
+			// ReflectionUtil.newInstance(initAction).perform(terminalSession, null);
 			logger.debug(MessageFormat.format("New session {0} init action {1} performed", terminalSession,
 					initAction.getClass().getSimpleName()));
 		}
