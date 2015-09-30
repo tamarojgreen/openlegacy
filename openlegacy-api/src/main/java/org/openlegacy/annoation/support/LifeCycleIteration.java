@@ -11,7 +11,7 @@
 
 package org.openlegacy.annoation.support;
 
-public enum LifeCycle {
+public enum LifeCycleIteration {
 	ACTIVE,
 	PAUSED,
 	INVALID,

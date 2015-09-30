@@ -29,6 +29,6 @@ public class LifeCycleAnnotationLoader extends AbstractClassAnnotationLoader {
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 		LifeCycle lifeCycleAnnotation = (LifeCycle)annotation;
 		AbstractEntityDefinition<?> entityDefinition = (AbstractEntityDefinition<?>)entitiesRegistry.get(containingClass);
-		entityDefinition.setLifeCycle(lifeCycleAnnotation.value);
+		entityDefinition.setLifeCycle(lifeCycleAnnotation.value());
 	}
 }

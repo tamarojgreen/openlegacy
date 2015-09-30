@@ -61,7 +61,8 @@ public class RpcEntityAnnotationLoader extends AbstractClassAnnotationLoader {
 		rpcEntitiesRegistry.add(rpcEntityDefinition);
 	}
 
-	private static void loadSourceCode(Class<?> containingClass, String rpcEntityName, SimpleRpcEntityDefinition rpcEntityDefinition) {
+	private static void loadSourceCode(Class<?> containingClass, String rpcEntityName,
+			SimpleRpcEntityDefinition rpcEntityDefinition) {
 		String srcResourceName = MessageFormat.format("{0}-resources/{1}.src", rpcEntityName, containingClass.getSimpleName());
 		URL srcResource = containingClass.getResource(srcResourceName);
 		if (srcResource != null) {

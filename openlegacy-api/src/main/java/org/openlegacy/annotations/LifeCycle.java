@@ -11,6 +11,8 @@
 
 package org.openlegacy.annotations;
 
+import org.openlegacy.annoation.support.LifeCycleIteration;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -20,5 +22,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface LifeCycle {
 
-	org.openlegacy.annoation.support.LifeCycle value = null;
+	LifeCycleIteration value();
 }
