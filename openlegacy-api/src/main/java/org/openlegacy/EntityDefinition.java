@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.openlegacy;
 
-import org.openlegacy.annoation.support.LifeCycleIteration;
+import org.openlegacy.annoations.entity.support.Status;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
@@ -139,5 +139,5 @@ public interface EntityDefinition<D extends FieldDefinition> {
 
 	boolean isEmpty();
 
-	LifeCycleIteration getLifeCycle();
+	Status getStatus();
 }

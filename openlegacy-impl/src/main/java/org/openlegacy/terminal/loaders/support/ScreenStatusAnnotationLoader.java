@@ -9,11 +9,12 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy.annoation.support;
+package org.openlegacy.terminal.loaders.support;
 
-public enum LifeCycleIteration {
-	ACTIVE,
-	PAUSED,
-	INVALID,
-	DEPRECATED
+import org.openlegacy.entity.loaders.support.StatusAnnotationLoader;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ScreenStatusAnnotationLoader extends StatusAnnotationLoader {
+
 }
