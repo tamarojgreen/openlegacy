@@ -9,12 +9,10 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy.rpc.loaders.support;
+package org.openlegacy.db.loaders.support;
 
-import org.openlegacy.entity.loaders.support.LifeCycleAnnotationLoader;
-import org.springframework.stereotype.Component;
+import org.openlegacy.entity.loaders.support.StatusAnnotationLoader;
 
-@Component
-public class RpcLifeCycleAnnotationLoader extends LifeCycleAnnotationLoader {
+public class DbStatusAnnotationLoader extends StatusAnnotationLoader {
 
 }

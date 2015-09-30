@@ -9,9 +9,9 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy.annotations;
+package org.openlegacy.annotations.entity;
 
-import org.openlegacy.annoation.support.LifeCycleIteration;
+import org.openlegacy.annoations.entity.support.Status;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface LifeCycle {
+public @interface Invalid {
 
-	LifeCycleIteration value();
+	Status value();
 }
