@@ -11,8 +11,6 @@
 
 package org.openlegacy.annotations.entity;
 
-import org.openlegacy.annoations.entity.support.Status;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -21,6 +19,4 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Invalid {
-
-	Status value();
 }
