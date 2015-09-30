@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy;
 
+import org.openlegacy.annoation.support.LifeCycle;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
@@ -137,4 +138,6 @@ public interface EntityDefinition<D extends FieldDefinition> {
 	List<String> getRoles();
 
 	boolean isEmpty();
+
+	LifeCycle getLifeCycle();
 }
