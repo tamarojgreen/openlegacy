@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.EntityType;
 import org.openlegacy.FieldType;
-import org.openlegacy.annoation.support.LifeCycle;
+import org.openlegacy.annoation.support.LifeCycleIteration;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
@@ -60,7 +60,7 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 
 	private List<String> roles;
 
-	private LifeCycle lifeCycle;
+	private LifeCycleIteration lifeCycle;
 
 	public AbstractEntityDefinition() {
 		// for serialization purposes
@@ -254,11 +254,11 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 	}
 
 	@Override
-	public LifeCycle getLifeCycle() {
+	public LifeCycleIteration getLifeCycle() {
 		return lifeCycle;
 	}
 
-	public void setLifeCycle(LifeCycle lifeCycle) {
+	public void setLifeCycle(LifeCycleIteration lifeCycle) {
 		this.lifeCycle = lifeCycle;
 	}
 }
