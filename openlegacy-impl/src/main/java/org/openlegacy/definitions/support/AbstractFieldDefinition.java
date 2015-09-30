@@ -13,6 +13,7 @@ package org.openlegacy.definitions.support;
 import org.openlegacy.FieldType;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.FieldTypeDefinition;
+import org.openlegacy.utils.StringUtil;
 
 import java.io.Serializable;
 import java.util.List;
@@ -129,7 +130,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 	}
 
 	public void setHelpText(String helpText) {
-		this.helpText = helpText;
+		this.helpText = StringUtil.escapingQuotes(helpText);
 	}
 
 	@Override
