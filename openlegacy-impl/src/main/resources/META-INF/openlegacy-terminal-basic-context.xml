@@ -171,7 +171,28 @@
 
 	<bean id="mockTerminalConnectionFactory" class="org.openlegacy.terminal.mock.MockStateMachineTerminalConnectionFactory"
 		p:verifySend="true" p:exactCursor="false" p:exactFields="false" p:exactCommand="true" />
-
+		
+	<!-- Session Entity Status checking  -->
+	<bean id = "sessionEntityStatusProcessor" class = "org.openlegacy.support.SessionEntityStatusProcessor"/>	
+	<bean id = "sessionProxyChecker" class = "org.openlegacy.aop.session.SeessionProxyChecker"/>
+	<bean id = "sessionProxy" class = "org.openlegacy.aop.session.SessionBeanNameAutoProxyCreator">
+		<property name="checker" ref="sessionProxyChecker"/>
+		<property name="beanNames">
+			<list>
+				<value>*Session</value>
+				<value>*Session*</value>
+				<value>*session</value>
+				<value>*session*</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>sessionEntityStatusProcessor</value>
+			</list>
+		</property>
+	</bean>
+	<!-- Session Entity Status checking  -->
+	
 	<beans profile="default">
 		<!-- Providers may override the default beans -->
 		<import resource="classpath*:/META-INF/*-openlegacy-terminal-provider.xml" />
@@ -181,5 +202,7 @@
 	<beans profile="omitProvidersImport">
 		<context:annotation-config />
 	</beans>
+	
+	
 
 </beans>

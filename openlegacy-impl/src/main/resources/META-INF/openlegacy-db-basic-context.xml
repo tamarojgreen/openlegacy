@@ -83,6 +83,27 @@
 
 	<bean id="menuBuilder" class="org.openlegacy.db.modules.menu.DefaultMenuBuilder" />
 	<bean id="pageBuilder" class="org.openlegacy.db.layout.support.DefaultDbPageBuilder" />
+	
+	<!-- Session Entity Status checking  -->
+	<bean id = "sessionEntityStatusProcessor" class = "org.openlegacy.support.SessionEntityStatusProcessor"/>	
+	<bean id = "sessionProxyChecker" class = "org.openlegacy.aop.session.SeessionProxyChecker"/>
+	<bean id = "sessionProxy" class = "org.openlegacy.aop.session.SessionBeanNameAutoProxyCreator">
+		<property name="checker" ref="sessionProxyChecker"/>
+		<property name="beanNames">
+			<list>
+				<value>*Session</value>
+				<value>*Session*</value>
+				<value>*session</value>
+				<value>*session*</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>sessionEntityStatusProcessor</value>
+			</list>
+		</property>
+	</bean>
+	<!-- Session Entity Status checking  -->	
 
 	<context:annotation-config />
 

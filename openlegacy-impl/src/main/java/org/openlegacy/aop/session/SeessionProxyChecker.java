@@ -9,12 +9,17 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy.rpc.loaders.support;
+package org.openlegacy.aop.session;
 
-import org.openlegacy.entity.loaders.support.StatusAnnotationLoader;
-import org.springframework.stereotype.Component;
+import org.apache.commons.lang.ClassUtils;
+import org.openlegacy.Session;
+import org.openlegacy.aop.BeanProxyChecker;
 
-@Component
-public class RpcStatuseAnnotationLoader extends StatusAnnotationLoader {
+public class SeessionProxyChecker implements BeanProxyChecker {
+
+	@Override
+	public boolean needToProxy(Class<?> clazz) {
+		return ClassUtils.getAllInterfaces(clazz).contains(Session.class);
+	}
 
 }
