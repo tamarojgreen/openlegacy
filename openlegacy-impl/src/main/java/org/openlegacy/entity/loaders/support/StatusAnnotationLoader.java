@@ -14,6 +14,7 @@ package org.openlegacy.entity.loaders.support;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annoations.entity.support.Status;
 import org.openlegacy.annotations.entity.Active;
+import org.openlegacy.annotations.entity.Deprecated;
 import org.openlegacy.annotations.entity.Invalid;
 import org.openlegacy.annotations.entity.Paused;
 import org.openlegacy.definitions.support.AbstractEntityDefinition;

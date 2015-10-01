@@ -9,12 +9,10 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy.db.loaders.support;
+package org.openlegacy.aop.session;
 
-import org.openlegacy.entity.loaders.support.StatusAnnotationLoader;
-import org.springframework.stereotype.Component;
+import org.openlegacy.aop.OpenLegacyBeanNameAutoProxyCreator;
 
-@Component
-public class DbStatusAnnotationLoader extends StatusAnnotationLoader {
+public class SessionBeanNameAutoProxyCreator extends OpenLegacyBeanNameAutoProxyCreator {
 
 }
