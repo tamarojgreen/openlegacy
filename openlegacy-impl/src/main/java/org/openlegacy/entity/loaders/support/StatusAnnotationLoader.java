@@ -27,8 +27,11 @@ import java.util.List;
 public class StatusAnnotationLoader extends AbstractClassAnnotationLoader {
 
 	@SuppressWarnings("unchecked")
-	private static final List<Class<? extends Annotation>> SUPPORTED = new ArrayList<Class<? extends Annotation>>(Arrays.asList(
+	public static final List<Class<? extends Annotation>> SUPPORTED = new ArrayList<Class<? extends Annotation>>(Arrays.asList(
 			Active.class, Deprecated.class, Invalid.class, Paused.class));
+
+	public static final List<String> SUPPORTED_NAMES = new ArrayList<String>(Arrays.asList(Active.class.getSimpleName(),
+			Deprecated.class.getSimpleName(), Invalid.class.getSimpleName(), Paused.class.getSimpleName()));
 
 	@Override
 	public boolean match(Annotation annotation) {
@@ -38,24 +41,37 @@ public class StatusAnnotationLoader extends AbstractClassAnnotationLoader {
 	@Override
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 		AbstractEntityDefinition<?> entityDefinition = (AbstractEntityDefinition<?>)entitiesRegistry.get(containingClass);
-		Status status = entityDefinition.getStatus();
+		setEntityStatus(entityDefinition, annotation);
+	}
+
+	public static void setEntityStatus(AbstractEntityDefinition<?> entityDef, Annotation annotation) {
+		Status status = entityDef.getStatus();
 		if (!status.isDefault()) {
 			return;
 		}
-		switch (SUPPORTED.indexOf(annotation.annotationType())) {
-			case 0:
-				status = Status.ACTIVE;
-				break;
-			case 1:
-				status = Status.DEPRECATED;
-				break;
-			case 2:
-				status = Status.INVALID;
-				break;
-			case 3:
-				status = Status.PAUSED;
-				break;
+		entityDef.setStatus(getStatus(SUPPORTED.indexOf(annotation.annotationType())));
+	}
+
+	public static void setEntityStatus(AbstractEntityDefinition<?> entityDef, String annotation) {
+		Status status = entityDef.getStatus();
+		if (!status.isDefault()) {
+			return;
 		}
-		entityDefinition.setStatus(status);
+		entityDef.setStatus(getStatus(SUPPORTED_NAMES.indexOf(annotation)));
+	}
+
+	public static Status getStatus(int idx) {
+		switch (idx) {
+			case 0:
+				return Status.ACTIVE;
+			case 1:
+				return Status.DEPRECATED;
+			case 2:
+				return Status.INVALID;
+			case 3:
+				return Status.PAUSED;
+			default:
+				return Status.DEFAULT;
+		}
 	}
 }
