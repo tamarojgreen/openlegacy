@@ -463,4 +463,8 @@ public class StringUtil {
 		}
 	}
 
+	public static String escapingQuotes(String value) {
+		return value == null ? value : value.replaceAll("\"", "\\\\\"");
+	}
+
 }
