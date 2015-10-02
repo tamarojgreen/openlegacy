@@ -24,6 +24,7 @@ import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.exceptions.EntityNotAccessibleException;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.log.ApiLogger;
 import org.openlegacy.modules.SessionModule;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.Login.LoginEntity;
@@ -84,6 +85,9 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	@Inject
 	private AuthorizationService authorizationService;
+
+	@Inject
+	private ApiLogger apiLogger;
 
 	@Override
 	public Object getDelegate() {
@@ -171,9 +175,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		Assert.notNull(rpcConnection, "RPC connection bean has not been found");
 	}
 
-	@SuppressWarnings("unchecked")
 	public RpcEntity doRpcAction(RpcAction action, RpcEntity rpcEntity) {
-
 		Roles rolesModule = getModule(Roles.class);
 		if (rolesModule != null) {
 			Login loginModule = getModule(Login.class);
@@ -206,38 +208,51 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public RpcEntity doAction(final RpcAction action, final RpcEntity rpcEntity) {
 		CacheModule cacheModule = getModule(CacheModule.class);
 
-		if (cacheModule != null) {
-			return (RpcEntity) cacheModule.doStuff(action.getClass(), rpcEntity.getClass(), new ObtainEntityCallback() {
+		RpcEntity entity = null;
 
-				@Override
-				public Object obtainEntity() {
-					return doRpcAction(action, rpcEntity);
-				}
+		try {
+			Class<? extends RpcEntity> entityClass = rpcEntity.getClass();
 
-				@Override
-				public List<Object> getEntityKeys() {
+			RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(entityClass);
+			List<? extends FieldDefinition> keysDefinitions = rpcDefinition.getKeys();
 
-					Class<? extends RpcEntity> entityClass = rpcEntity.getClass();
+			final List<Object> entityKeys = new ArrayList<Object>();
+			HierarchyRpcPojoFieldAccessor fieldAccesor = new SimpleHierarchyRpcPojoFieldAccessor(rpcEntity);
+			for (FieldDefinition fieldDefinition : keysDefinitions) {
+				RpcPojoFieldAccessor f = fieldAccesor.getPartAccessor(fieldDefinition.getName());
+				entityKeys.add(f.getFieldValue(StringUtil.removeNamespace(fieldDefinition.getName())));
+			}
 
-					RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(entityClass);
-					List<? extends FieldDefinition> keysDefinitions = rpcDefinition.getKeys();
 
-					List<Object> entityKeys = new ArrayList<Object>();
-					HierarchyRpcPojoFieldAccessor fieldAccesor = new SimpleHierarchyRpcPojoFieldAccessor(rpcEntity);
-					for (FieldDefinition fieldDefinition : keysDefinitions) {
-						RpcPojoFieldAccessor f = fieldAccesor.getPartAccessor(fieldDefinition.getName());
-						entityKeys.add(f.getFieldValue(StringUtil.removeNamespace(fieldDefinition.getName())));
+			if (cacheModule != null) {
+				entity = (RpcEntity) cacheModule.doStuff(action.getClass(), rpcEntity.getClass(), new ObtainEntityCallback() {
+
+					@Override
+					public Object obtainEntity() {
+						return doRpcAction(action, rpcEntity);
 					}
-					return entityKeys;
-				}
-			});
-		} else {
-			return doRpcAction(action, rpcEntity);
+
+					@Override
+					public List<Object> getEntityKeys() {
+						return entityKeys;
+					}
+				});
+			} else {
+				entity = doRpcAction(action, rpcEntity);
+			}
+
+			apiLogger.log(action.getClass(), entity, entityKeys);
+		} catch (Exception e) {
+			apiLogger.error(e, action.getClass(), entity);
+			throw new RuntimeException(e);
 		}
+
+		return entity;
 	}
 
 	final protected RpcResult invoke(SimpleRpcInvokeAction rpcAction, String entityName) {

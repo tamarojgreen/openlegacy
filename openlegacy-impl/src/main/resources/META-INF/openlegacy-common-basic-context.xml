@@ -28,5 +28,6 @@
 		ignore-unresolvable="true" location="classpath*:/*.properties" />
 	
 	<aop:config proxy-target-class="true"/>	
+	<bean id="apiLogger" class="org.openlegacy.log.ApiLoggerImpl" />
 
 </beans>

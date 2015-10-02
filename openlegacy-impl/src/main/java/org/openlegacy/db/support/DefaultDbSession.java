@@ -14,10 +14,10 @@ package org.openlegacy.db.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.ApplicationConnection;
-import org.openlegacy.cache.modules.CacheModule;
-import org.openlegacy.cache.modules.CacheModule.ObtainEntityCallback;
 import org.openlegacy.SessionPropertiesProvider;
 import org.openlegacy.authorization.AuthorizationService;
+import org.openlegacy.cache.modules.CacheModule;
+import org.openlegacy.cache.modules.CacheModule.ObtainEntityCallback;
 import org.openlegacy.db.DbSession;
 import org.openlegacy.db.actions.DbAction;
 import org.openlegacy.db.actions.DbActions;
@@ -30,6 +30,7 @@ import org.openlegacy.exceptions.EntityNotAccessibleException;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.log.ApiLogger;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.Login.LoginEntity;
 import org.openlegacy.modules.login.User;
@@ -38,10 +39,10 @@ import org.openlegacy.support.AbstractSession;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.StringUtil;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.text.MessageFormat;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -65,6 +66,9 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 
 	@Inject
 	private SessionPropertiesProvider sessionPropertiesProvider;
+
+	@Inject
+	private ApiLogger apiLogger;
 
 	@Override
 	public Object getDelegate() {
@@ -135,7 +139,7 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 
 	@Override
 	public void login(String user, String password) {
-		//required to fill properties (such as roles etc.)
+		// required to fill properties (such as roles etc.)
 		try {
 			User loggedInUser = getModule(Login.class).getLoggedInUser();
 			loggedInUser.getProperties().putAll(sessionPropertiesProvider.getSessionProperties().getProperties());
@@ -155,8 +159,9 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 		DbEntityDefinition definitions = dbEntitiesRegistry.get(entityClass);
 		User loggedInUser = getModule(Login.class).getLoggedInUser();
 		if (definitions.getType() != LoginEntity.class && !authorizationService.isAuthorized(loggedInUser, entityClass)) {
-			throw (new EntityNotAccessibleException(MessageFormat.format("Logged in user {0} has no permission for entity {1}",
-					loggedInUser.getUserName(), entityClass.getName())));
+			throw (new EntityNotAccessibleException(MessageFormat.format(
+					"Logged in user {0} has no permission for entity {1}", loggedInUser.getUserName(),
+					entityClass.getName())));
 		}
 	}
 
@@ -164,23 +169,33 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 	public Object doAction(final DbAction action, final Object dbEntity, final Object... keys) {
 		CacheModule cacheModule = getModule(CacheModule.class);
 
-		if (cacheModule != null) {
-			return cacheModule.doStuff(action.getClass(), dbEntity.getClass(), new ObtainEntityCallback() {
+		Object entity = null;
+		try {
+			final List<Object> entityKeys = new ArrayList<Object>(Arrays.asList(keys));
 
-				@Override
-				public Object obtainEntity() {
-					return doDbAction(action, dbEntity, keys);
-				}
+			if (cacheModule != null) {
+				entity = cacheModule.doStuff(action.getClass(), dbEntity.getClass(), new ObtainEntityCallback() {
 
-				@Override
-				public List<Object> getEntityKeys() {
-					return new ArrayList<Object>(Arrays.asList(keys));
-				}
-			});
-		} else {
-			return doDbAction(action, dbEntity, keys);
+					@Override
+					public Object obtainEntity() {
+						return doDbAction(action, dbEntity, keys);
+					}
+
+					@Override
+					public List<Object> getEntityKeys() {
+						return entityKeys;
+					}
+				});
+			} else {
+				entity = doDbAction(action, dbEntity, keys);
+			}
+			apiLogger.log(action.getClass(), entity, entityKeys);
+		} catch (Exception e) {
+			apiLogger.error(e, action.getClass(), entity);
+			throw new RuntimeException(e);
 		}
-	}
 
+		return entity;
+	}
 
 }
