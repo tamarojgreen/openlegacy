@@ -16,6 +16,8 @@ import org.openlegacy.Session;
 import org.openlegacy.db.DbSession;
 import org.openlegacy.db.services.DbEntitiesRegistry;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.roles.Roles;
 import org.openlegacy.mvc.AbstractRestController;
 
 import java.util.List;
@@ -55,7 +57,11 @@ public class AbstractDbRestController extends AbstractRestController {
 
 	@Override
 	protected Object sendEntity(Object entity, String action) {
-		return null;
+		Roles rolesModule = dbSession.getModule(Roles.class);
+		if (rolesModule != null) {
+			rolesModule.populateEntity(entity, dbSession.getModule(Login.class));
+		}
+		return entity;
 	}
 
 }

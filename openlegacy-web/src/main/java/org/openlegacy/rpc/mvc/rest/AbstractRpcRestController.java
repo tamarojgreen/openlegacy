@@ -14,6 +14,8 @@ package org.openlegacy.rpc.mvc.rest;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.Session;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.roles.Roles;
 import org.openlegacy.mvc.AbstractRestController;
 import org.openlegacy.rpc.RpcSession;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
@@ -55,7 +57,11 @@ public class AbstractRpcRestController extends AbstractRestController {
 
 	@Override
 	protected Object sendEntity(Object entity, String action) {
-		return null;
+		Roles rolesModule = rpcSession.getModule(Roles.class);
+		if (rolesModule != null) {
+			rolesModule.populateEntity(entity, rpcSession.getModule(Login.class));
+		}
+		return entity;
 	}
 
 }

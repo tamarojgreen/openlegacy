@@ -605,6 +605,7 @@ public class DefaultDbRestController extends AbstractDbRestController {
 	@Override
 	@Transactional
 	public Object sendEntity(Object entity, String action) {
+		entity = super.sendEntity(entity, action);
 		Object resultEntity = null;
 		if (action == "") {
 			try {

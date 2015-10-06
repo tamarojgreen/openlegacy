@@ -1,6 +1,8 @@
 package org.openlegacy.terminal.mvc.rest;
 
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.roles.Roles;
 import org.openlegacy.mvc.AbstractRestController;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
@@ -42,7 +44,11 @@ public abstract class AbstractScreensRestController extends AbstractRestControll
 
 	@Override
 	protected Object sendEntity(Object entity, String action) {
-		TerminalActionDefinition actionDefinition = screenEntityUtils.findAction((ScreenEntity)entity, action);
-		return terminalSession.doAction((TerminalAction)actionDefinition.getAction(), (ScreenEntity)entity);
+		TerminalActionDefinition actionDefinition = screenEntityUtils.findAction((ScreenEntity) entity, action);
+		Roles rolesModule = terminalSession.getModule(Roles.class);
+		if (rolesModule != null) {
+			rolesModule.populateEntity(entity, terminalSession.getModule(Login.class));
+		}
+		return terminalSession.doAction((TerminalAction) actionDefinition.getAction(), (ScreenEntity) entity);
 	}
 }

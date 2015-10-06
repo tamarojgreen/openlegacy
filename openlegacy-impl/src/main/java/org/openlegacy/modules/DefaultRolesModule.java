@@ -96,23 +96,21 @@ public class DefaultRolesModule extends SessionModuleAdapter<Session> implements
 			return;
 		}
 		String userRole = (String) loginModule.getLoggedInUser().getProperties().get(Login.USER_ROLE_PROPERTY);
-		if (userRole != null) {
-			String[] userRoles = userRole.split(",");
-			if (Collection.class.isAssignableFrom(entity.getClass())) {
-				Collection<?> collection = (Collection<?>) entity;
-				for (Object item : collection) {
-					populateEntity(item, userRoles);
-				}
-			} else if (Map.class.isAssignableFrom(entity.getClass())) {
-				Map<?, ?> map = (Map<?, ?>) entity;
-				for (Object item : map.values()) {
-					populateEntity(item, userRoles);
-				}
-			} else {
-				populateEntity(entity, userRoles);
+		String[] userRoles = userRole != null ? userRole.split(",") : new String[] {};
+		if (Collection.class.isAssignableFrom(entity.getClass())) {
+			Collection<?> collection = (Collection<?>) entity;
+			for (Object item : collection) {
+				populateEntity(item, userRoles);
 			}
-
+		} else if (Map.class.isAssignableFrom(entity.getClass())) {
+			Map<?, ?> map = (Map<?, ?>) entity;
+			for (Object item : map.values()) {
+				populateEntity(item, userRoles);
+			}
+		} else {
+			populateEntity(entity, userRoles);
 		}
+
 	}
 
 	@SuppressWarnings("unchecked")

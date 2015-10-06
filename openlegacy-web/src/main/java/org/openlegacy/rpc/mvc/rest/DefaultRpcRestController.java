@@ -19,7 +19,6 @@ import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.modules.trail.TrailUtil;
-import org.openlegacy.mvc.AbstractRestController;
 import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcSession;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
@@ -51,7 +50,7 @@ import javax.servlet.http.HttpServletResponse;
  * 
  */
 @Controller
-public class DefaultRpcRestController extends AbstractRestController {
+public class DefaultRpcRestController extends AbstractRpcRestController {
 
 	private static final String USER = "user";
 	private static final String PASSWORD = "password";
@@ -116,14 +115,14 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntityJson(@PathVariable("entity") String entityName,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
-					throws IOException {
+			throws IOException {
 		return super.postEntityJson(entityName, action, false, json, response);
 	}
 
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntityJsonWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
-					throws IOException {
+			throws IOException {
 		return super.postEntityJsonWithKey(entityName, key, action, false, json, response);
 	}
 
@@ -131,7 +130,7 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXmlWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-					throws IOException {
+			throws IOException {
 		return super.postEntityXmlWithKey(entityName, key, action, xml, response);
 	}
 
@@ -139,13 +138,14 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXml(@PathVariable("entity") String entityName,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-					throws IOException {
+			throws IOException {
 		return super.postEntityXml(entityName, action, xml, response);
 	}
 
 	@Override
 	protected Object sendEntity(Object entity, String action) {
-		return rpcEntityUtils.sendEntity(rpcSession, (RpcEntity)entity, action);
+		entity = super.sendEntity(entity, action);
+		return rpcEntityUtils.sendEntity(rpcSession, (RpcEntity) entity, action);
 	}
 
 	@Override
@@ -201,7 +201,7 @@ public class DefaultRpcRestController extends AbstractRestController {
 	// export to excel
 	@RequestMapping(value = "/{entity}/excel", method = RequestMethod.GET)
 	public void excel(@PathVariable("entity") String entityName, HttpServletResponse response) throws IOException {
-		RpcEntity rpcEntity = (RpcEntity)getSession().getEntity(entityName); // should be dynamic from controller
+		RpcEntity rpcEntity = (RpcEntity) getSession().getEntity(entityName); // should be dynamic from controller
 		RpcEntityDefinition rpcEntityDefinition = rpcEntitiesRegistry.get(rpcEntity.getClass());
 		List<? extends Object> parts = RpcTableUtil.findTopPartList(rpcEntity, rpcEntityDefinition);
 
