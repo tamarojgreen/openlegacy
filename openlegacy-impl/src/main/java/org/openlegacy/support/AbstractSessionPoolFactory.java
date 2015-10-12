@@ -85,8 +85,8 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 	private S waitForSession() {
 		try {
 			S session = blockingQueue.take();
-			unlockKeepAliveSemaphore();
 			actives.add(session);
+			unlockKeepAliveSemaphore();
 			logger.debug(MessageFormat.format("Session {0} pulled from blocking queue, and added to active sessions", session));
 			return session;
 		} catch (Exception e) {
