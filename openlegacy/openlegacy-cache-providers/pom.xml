@@ -18,5 +18,6 @@
 	<modules>
 		<module>openlegacy-cache-ehcache</module>
 		<module>openlegacy-cache-memcached</module>
+		<module>openlegacy-cache-tests</module>
 	</modules>
 </project>
