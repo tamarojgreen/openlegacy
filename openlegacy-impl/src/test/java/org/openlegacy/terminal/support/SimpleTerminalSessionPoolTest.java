@@ -1,5 +1,7 @@
 package org.openlegacy.terminal.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.terminal.TerminalSession;
@@ -56,6 +58,7 @@ public class SimpleTerminalSessionPoolTest {
 
 	@Test
 	public void testKeepAlive() throws InterruptedException {
+		Assert.assertFalse(CleanupDummyAction.isCalled());
 		SimpleTerminalSessionPoolFactory terminalSessionPool = applicationContext.getBean(SimpleTerminalSessionPoolFactory.class);
 		TerminalSession session = terminalSessionPool.getSession();
 		session.getSnapshot();
@@ -67,14 +70,22 @@ public class SimpleTerminalSessionPoolTest {
 
 	public static class CleanupDummyAction implements TerminalAction {
 
+		private static final Log logger = LogFactory.getLog(CleanupDummyAction.class);
+
 		private static boolean called = false;
 
 		@Override
 		public void perform(TerminalSession session, Object entity, Object... keys) {
+			logger.debug("");
+			logger.debug(">>>>>>>>>>>> perform() : called is " + Boolean.toString(called));
+			logger.debug("");
 			called = true;
 		}
 
 		public static boolean isCalled() {
+			logger.debug("");
+			logger.debug(">>>>>>>>>>>> isCalled() : called is " + Boolean.toString(called));
+			logger.debug("");
 			return called;
 		}
 
