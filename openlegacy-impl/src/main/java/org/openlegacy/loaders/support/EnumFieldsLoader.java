@@ -16,6 +16,7 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.definitions.EnumGetValue;
 import org.openlegacy.definitions.FieldDefinition;
+import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.definitions.support.SimpleEnumFieldTypeDefinition;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.loaders.FieldLoader;
@@ -43,26 +44,34 @@ public class EnumFieldsLoader implements FieldLoader {
 	public void load(EntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass, int fieldOrder) {
 
 		EntityDefinition entityDefintion = entitiesRegistry.get(containingClass);
-		if (entityDefintion == null) {
+		if (entityDefintion != null) {
+			FieldDefinition fieldDefinition = (FieldDefinition) entityDefintion.getFieldsDefinitions().get(field.getName());
+			loadFieldDefinition(fieldDefinition, field);
 			return;
 		}
-		FieldDefinition fieldDefinition = (FieldDefinition)entityDefintion.getFieldsDefinitions().get(field.getName());
-		loadFieldDefinition(fieldDefinition, field);
+		PartEntityDefinition partEntityDefinition = entitiesRegistry.getPart(containingClass);
+		if (partEntityDefinition != null) {
+			String fieldName = MessageFormat.format("{0}.{1}", partEntityDefinition.getPartName(), field.getName());
+			FieldDefinition fieldDefinition = (FieldDefinition) partEntityDefinition.getFieldsDefinitions().get(fieldName);
+			if (fieldDefinition != null) {
+				loadFieldDefinition(fieldDefinition, field);
+			}
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	protected void loadFieldDefinition(FieldDefinition fieldDefinition, Field field) {
-		SimpleEnumFieldTypeDefinition enumFieldTypeDefinition = (SimpleEnumFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
+		SimpleEnumFieldTypeDefinition enumFieldTypeDefinition = (SimpleEnumFieldTypeDefinition) fieldDefinition.getFieldTypeDefinition();
 		// fieldDefinition.setFieldTypeDefinition(enumFieldTypeDefinition);
 		Object[] enumValues = field.getType().getEnumConstants();
 		for (int i = 0; i < enumValues.length; i++) {
 			Object enumValue = enumValues[i];
 			// getValue & toString() are generated method for OpenLegacy enum's
 			String value = null;
-			Class<? extends Enum<?>> enumClass = (Class<? extends Enum<?>>)field.getType();
+			Class<? extends Enum<?>> enumClass = (Class<? extends Enum<?>>) field.getType();
 			try {
 				if (EnumGetValue.class.isAssignableFrom(enumClass)) {
-					value = (String)ReflectionUtil.invoke(enumValue, "getValue");
+					value = (String) ReflectionUtil.invoke(enumValue, "getValue");
 				} else {
 					// use 1 based value - very common
 					int ordinal = i + 1;

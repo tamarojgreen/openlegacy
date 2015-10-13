@@ -40,6 +40,9 @@ public class ScreenEntityPartsBinder implements ScreenEntityBinder, Serializable
 	@Inject
 	private ScreenBinderLogic screenBinderLogic;
 
+	@Inject
+	private EnumFieldsBinder enumFieldsBinder;
+
 	@Override
 	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) {
 
@@ -51,15 +54,17 @@ public class ScreenEntityPartsBinder implements ScreenEntityBinder, Serializable
 				screenEntity.getClass()).getPartsDefinitions();
 		Set<String> fieldPartNames = partsDefinitions.keySet();
 		for (String fieldPartName : fieldPartNames) {
-			ScreenPartEntityDefinition screenPartEntityDefinition = (ScreenPartEntityDefinition)partsDefinitions.get(fieldPartName);
+			ScreenPartEntityDefinition screenPartEntityDefinition = (ScreenPartEntityDefinition) partsDefinitions.get(fieldPartName);
 			Object partObject = ReflectionUtil.newInstance(screenPartEntityDefinition.getPartClass());
 			fieldAccessor.setFieldValue(fieldPartName, partObject);
 
 			SimpleScreenPojoFieldAccessor partFieldAccessor = new SimpleScreenPojoFieldAccessor(partObject);
 			Collection<ScreenFieldDefinition> fieldMappingDefinitions = screenPartEntityDefinition.getFieldsDefinitions().values();
 			screenBinderLogic.populatedFields(partFieldAccessor, terminalSnapshot, fieldMappingDefinitions);
-		}
 
+			// populate enum fields
+			enumFieldsBinder.populateEntity(partObject, terminalSnapshot);
+		}
 	}
 
 	@Override
