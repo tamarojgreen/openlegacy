@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.openlegacy;
 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
 /**
  * Represent an connection to an abstract application. Currently implemented for
  * {@link org.openlegacy.terminal.TerminalConnection}.
@@ -24,19 +27,19 @@ package org.openlegacy;
  *            The type of send action used
  */
 @SuppressWarnings("rawtypes")
-public interface ApplicationConnection<S extends Snapshot, A extends RemoteAction> {
+public interface ApplicationConnection<S extends Snapshot, A extends RemoteAction> extends Remote {
 
-	S getSnapshot();
+	S getSnapshot() throws RemoteException;
 
-	S fetchSnapshot();
+	S fetchSnapshot() throws RemoteException;
 
-	Object getDelegate();
+	Object getDelegate() throws RemoteException;
 
-	boolean isConnected();
+	boolean isConnected() throws RemoteException;
 
-	void disconnect();
+	void disconnect() throws RemoteException;
 
-	void doAction(A sendAction);
+	void doAction(A sendAction) throws RemoteException;
 
-	Integer getSequence();
+	Integer getSequence() throws RemoteException;
 }

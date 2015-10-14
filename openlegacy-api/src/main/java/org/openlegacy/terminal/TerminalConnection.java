@@ -12,6 +12,8 @@ package org.openlegacy.terminal;
 
 import org.openlegacy.ApplicationConnection;
 
+import java.rmi.RemoteException;
+
 /**
  * Emulation providers needs to implement this class
  */
@@ -26,7 +28,7 @@ public interface TerminalConnection extends ApplicationConnection<TerminalSnapsh
 	@Override
 	void doAction(TerminalSendAction terminalSendAction);
 
-	void flip();
+	void flip() throws RemoteException;
 
-	boolean isRightToLeftState();
+	boolean isRightToLeftState() throws RemoteException;
 }

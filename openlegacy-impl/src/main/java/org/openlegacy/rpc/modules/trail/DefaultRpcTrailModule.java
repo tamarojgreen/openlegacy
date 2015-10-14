@@ -13,6 +13,7 @@ package org.openlegacy.rpc.modules.trail;
 import org.openlegacy.ApplicationConnection;
 import org.openlegacy.RemoteAction;
 import org.openlegacy.Snapshot;
+import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.rpc.RpcConnection;
@@ -21,6 +22,8 @@ import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.RpcSnapshot;
 import org.openlegacy.rpc.persistance.RpcPersistedSnapshot;
 import org.openlegacy.rpc.support.RpcSessionModuleAdapter;
+
+import java.rmi.RemoteException;
 
 public class DefaultRpcTrailModule extends RpcSessionModuleAdapter implements Trail {
 
@@ -40,8 +43,13 @@ public class DefaultRpcTrailModule extends RpcSessionModuleAdapter implements Tr
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result, String entityName) {
-		sessionTrail.appendSnapshot(new RpcPersistedSnapshot((RpcInvokeAction)action, (RpcResult)result,
-				connection.getSequence(), entityName));
+		try {
+			sessionTrail.appendSnapshot(new RpcPersistedSnapshot((RpcInvokeAction)action, (RpcResult)result,
+					connection.getSequence(), entityName));
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
+
 	}
 
 	public void setSessionTrail(SessionTrail<RpcSnapshot> sessionTrail) {

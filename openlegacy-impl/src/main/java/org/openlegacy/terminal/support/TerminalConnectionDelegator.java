@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.ConnectionPropertiesProvider;
@@ -31,6 +32,7 @@ import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -135,7 +137,11 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 	@Override
 	public Object getDelegate() {
 		lazyConnect();
-		return terminalConnection.getDelegate();
+		try {
+			return terminalConnection.getDelegate();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	private void lazyConnect() {
@@ -184,7 +190,11 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 
 	@Override
 	public boolean isConnected() {
-		return terminalConnection != null && terminalConnection.isConnected();
+		try {
+			return terminalConnection != null && terminalConnection.isConnected();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	@Override
@@ -206,7 +216,11 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 		if (!isConnected()) {
 			return 0;
 		}
-		return terminalConnection.getSequence();
+		try {
+			return terminalConnection.getSequence();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	public Object readResolve() {
@@ -216,7 +230,11 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 
 	@Override
 	public void flip() {
-		terminalConnection.flip();
+		try {
+			terminalConnection.flip();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	@Override
@@ -224,6 +242,10 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 		if (terminalConnection == null) {
 			return false;
 		}
-		return terminalConnection.isRightToLeftState();
+		try {
+			return terminalConnection.isRightToLeftState();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 }

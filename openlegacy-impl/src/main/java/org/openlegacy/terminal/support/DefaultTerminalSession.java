@@ -22,6 +22,7 @@ import org.openlegacy.cache.modules.CacheModule.ObtainEntityCallback;
 import org.openlegacy.exceptions.EntityNotAccessibleException;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.modules.SessionModule;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.Login.LoginEntity;
@@ -61,6 +62,7 @@ import org.openlegacy.utils.StringUtil;
 import org.springframework.context.ApplicationContext;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -161,9 +163,11 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		ScreenEntityDefinition definitions = getScreenEntitiesRegistry().get(screenEntityClass);
 
 		if (keys.length > definitions.getKeys().size()) {
-			throw (new EntityNotAccessibleException(MessageFormat.format(
-					"Requested entity {0} with keys {1} doesnt matches the defined entity keys count: {2}. Verify key is defined for {3}",
-					screenEntityClass, ArrayUtils.toString(keys), definitions.getKeys().size(), screenEntityClass.getName())));
+			throw (new EntityNotAccessibleException(
+					MessageFormat.format(
+							"Requested entity {0} with keys {1} doesnt matches the defined entity keys count: {2}. Verify key is defined for {3}",
+							screenEntityClass, ArrayUtils.toString(keys), definitions.getKeys().size(),
+							screenEntityClass.getName())));
 		}
 		sessionNavigator.navigate(this, screenEntityClass, keys);
 		return (S)getEntity();
@@ -235,9 +239,13 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 		ScreenEntityDefinition screenEntityDefinition = getScreenEntitiesRegistry().get(matchedScreenEntity);
 
-		if (screenEntityDefinition.isRightToLeft() != getConnection().isRightToLeftState()) {
-			flip();
-			terminalSnapshot = getSnapshot();
+		try {
+			if (screenEntityDefinition.isRightToLeft() != getConnection().isRightToLeftState()) {
+				flip();
+				terminalSnapshot = getSnapshot();
+			}
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
 		}
 
 		if (screenEntityDefinition.isPerformDefaultBinding()) {
@@ -296,8 +304,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	}
 
 	@Override
-	public synchronized <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction, S screenEntity,
-			Class<R> expectedEntity) {
+	public synchronized <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction,
+			S screenEntity, Class<R> expectedEntity) {
 		actionClass = getActionClassFromAction(terminalAction);
 		try {
 			@SuppressWarnings("unchecked")
@@ -311,8 +319,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public synchronized <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction, S screenEntity,
-			WaitCondition... waitConditions) {
+	public synchronized <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction,
+			S screenEntity, WaitCondition... waitConditions) {
 		actionClass = getActionClassFromAction(terminalAction);
 
 		// verify screens are synch
@@ -391,37 +399,45 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	@Override
 	public synchronized TerminalSnapshot getSnapshot() {
-
-		// clear the snapshot sequence is different from the session, clear it so it will re-build
-		if (snapshot != null && snapshot.getSequence() != null
-				&& !terminalConnection.getSequence().equals(snapshot.getSequence())) {
-			snapshot = null;
-		}
-
-		if (snapshot != null) {
-			return snapshot;
-		}
-
-		boolean newSession = false;
-		if (!terminalConnection.isConnected()) {
-			notifyModulesBeforeConnect();
-			newSession = true;
-
-			if (!enableConnectWithoutDevice && getConnectionProperties().getDeviceName() == null) {
-				throw (new LoginException("Device cannot be empty"));
+		try {
+			// clear the snapshot sequence is different from the session, clear it so it will re-build
+			if (snapshot != null && snapshot.getSequence() != null
+					&& !terminalConnection.getSequence().equals(snapshot.getSequence())) {
+				snapshot = null;
 			}
-		}
-		snapshot = terminalConnection.getSnapshot();
 
-		if (newSession) {
-			notifyModulesAfterConnect();
+			if (snapshot != null) {
+				return snapshot;
+			}
+
+			boolean newSession = false;
+			if (!terminalConnection.isConnected()) {
+				notifyModulesBeforeConnect();
+				newSession = true;
+
+				if (!enableConnectWithoutDevice && getConnectionProperties().getDeviceName() == null) {
+					throw (new LoginException("Device cannot be empty"));
+				}
+			}
+			snapshot = terminalConnection.getSnapshot();
+
+			if (newSession) {
+				notifyModulesAfterConnect();
+			}
+			return snapshot;
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
 		}
-		return snapshot;
+
 	}
 
 	@Override
 	public Object getDelegate() {
-		return terminalConnection.getDelegate();
+		try {
+			return terminalConnection.getDelegate();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	public void setConnection(TerminalConnection terminalConnection) {
@@ -436,12 +452,20 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		}
 		setProperties(null);
 		resetEntity();
-		terminalConnection.disconnect();
+		try {
+			terminalConnection.disconnect();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	@Override
 	public boolean isConnected() {
-		return terminalConnection.isConnected();
+		try {
+			return terminalConnection.isConnected();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	public void setInterceptor(ScreenEntityMethodInterceptor interceptor) {
@@ -472,8 +496,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			resetEntity();
 			while (waitCondition.continueWait(this) && totalWait < waitCondition.getWaitTimeout()) {
 				if (logger.isDebugEnabled()) {
-					logger.debug(MessageFormat.format("Waiting for {0}ms. Current screen is:{1}", waitCondition.getWaitInterval(),
-							fetchSnapshot()));
+					logger.debug(MessageFormat.format("Waiting for {0}ms. Current screen is:{1}",
+							waitCondition.getWaitInterval(), fetchSnapshot()));
 				}
 				try {
 					Thread.sleep(waitCondition.getWaitInterval());
@@ -524,8 +548,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	private void logScreenBefore(TerminalSendAction sendAction) {
 		if (logger.isDebugEnabled()) {
-			logger.debug(
-					MessageFormat.format("\nAction:{0}, Cursor:{1}\n", sendAction.getCommand(), sendAction.getCursorPosition()));
+			logger.debug(MessageFormat.format("\nAction:{0}, Cursor:{1}\n", sendAction.getCommand(),
+					sendAction.getCursorPosition()));
 			logger.debug("\nScreen before\n(* abc * marks a modified field, [ abc ] mark an input field, # mark cursor):\n\n"
 					+ getSnapshot());
 		}
@@ -577,8 +601,11 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	@Override
 	public Integer getSequence() {
-		Integer seq = terminalConnection.getSequence();
-		return seq;
+		try {
+			return terminalConnection.getSequence();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	public <R extends ScreenEntity> void setEntity(R entity) {
@@ -622,7 +649,11 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	@Override
 	public void flip() {
-		terminalConnection.flip();
+		try {
+			terminalConnection.flip();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 		// force update
 		terminalConnection.fetchSnapshot();
 		lastSequence = getSequence();

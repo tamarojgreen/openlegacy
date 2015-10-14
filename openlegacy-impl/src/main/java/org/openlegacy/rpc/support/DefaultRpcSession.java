@@ -24,6 +24,7 @@ import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.exceptions.EntityNotAccessibleException;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.modules.SessionModule;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.Login.LoginEntity;
@@ -54,6 +55,7 @@ import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.util.Assert;
 
+import java.rmi.RemoteException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -250,19 +252,22 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		// clone to avoid modifications by connection of fields collection
 		SimpleRpcInvokeAction clonedRpcAction = (SimpleRpcInvokeAction)SerializationUtils.clone(rpcAction);
 
-		// Determine if any fields need to be removed.
-		// Some calculated fields do not have a corresponding field on the actual RPC Call
-		final List<RpcField> fieldsToRemove = new ArrayList<RpcField>();
-		for (RpcField rpcField : rpcAction.getFields()) {
-			if (rpcField.getDirection() == Direction.NONE) {
-				fieldsToRemove.add(rpcField);
+			// Determine if any fields need to be removed.
+			// Some calculated fields do not have a corresponding field on the actual RPC Call
+			final List<RpcField> fieldsToRemove = new ArrayList<RpcField>();
+			for (RpcField rpcField : rpcAction.getFields()) {
+				if (rpcField.getDirection() == Direction.NONE) {
+					fieldsToRemove.add(rpcField);
+				}
 			}
-		}
-		rpcAction.getFields().removeAll(fieldsToRemove);
+			rpcAction.getFields().removeAll(fieldsToRemove);
 
-		RpcResult rpcResult = rpcConnection.invoke(rpcAction);
-		notifyModulesAfterSend(clonedRpcAction, rpcResult, entityName);
-		return rpcResult;
+			RpcResult rpcResult = rpcConnection.invoke(rpcAction);
+			notifyModulesAfterSend(clonedRpcAction, rpcResult, entityName);
+			return rpcResult;
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	private void notifyModulesAfterSend(SimpleRpcInvokeAction rpcAction, RpcResult rpcResult, String entityName) {
@@ -316,9 +321,13 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	@Override
 	public void login(String user, String password) {
-		notifyModulesBeforeConnect();
-		rpcConnection.login(user, password);
-		notifyModulesAfterConnect();
+		try {
+			notifyModulesBeforeConnect();
+			rpcConnection.login(user, password);
+			notifyModulesAfterConnect();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	public void setForceAuthorization(boolean forceAuthorization) {

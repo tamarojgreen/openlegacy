@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 OpenLegacy Inc.
+ * Copyright (c) 2015 OpenLegacy Inc.
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,19 +8,15 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy;
 
-import java.io.Serializable;
+package org.openlegacy.exceptions;
 
-/**
- * Represent a generic application connection snapshot. Depending on the implementation, returns a snapshot from an application
- * connection
- * 
- * @see ApplicationConnection
- * 
- * @author Roi Mor
- * 
- */
-public interface Snapshot extends Serializable {
+public class OpenlegacyRemoteRuntimeException extends OpenLegacyRuntimeException {
+
+	private static final long serialVersionUID = -2120666222606072407L;
+
+	public OpenlegacyRemoteRuntimeException(Exception e) {
+		super(e);
+	}
 
 }

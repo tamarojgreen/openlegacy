@@ -15,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.LiveTerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalConnection;
@@ -29,6 +30,7 @@ import org.tn5250j.TN5250jConstants;
 import org.tn5250j.framework.common.SessionManager;
 
 import java.io.File;
+import java.rmi.RemoteException;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Properties;
@@ -103,7 +105,11 @@ public class Tn5250jTerminalConnectionFactory implements LiveTerminalConnectionF
 
 	@Override
 	public void disconnect(TerminalConnection terminalConnection) {
-		((Session5250)terminalConnection.getDelegate()).disconnect();
+		try {
+			((Session5250)terminalConnection.getDelegate()).disconnect();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	public void setWaitPauses(int waitPauses) {

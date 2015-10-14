@@ -8,6 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
+import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,7 +21,7 @@ public class RpcMockItemsConnectionTest {
 	RpcConnectionFactory rpcConnectionFactory;
 
 	@Test
-	public void testMockupConnectionForItems() {
+	public void testMockupConnectionForItems() throws RemoteException {
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
 		Assert.assertNotNull(rpcConnection);
 		RpcInvokeAction rpcAction = new SimpleRpcInvokeAction("test");

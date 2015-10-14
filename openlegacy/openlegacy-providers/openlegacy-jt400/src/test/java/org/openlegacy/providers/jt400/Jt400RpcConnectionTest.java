@@ -21,6 +21,7 @@ import org.openlegacy.rpc.support.SimpleRpcStructureListField;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,7 +34,7 @@ public class Jt400RpcConnectionTest {
 	private RpcConnectionFactory rpcConnectionFactory;
 
 	@Test
-	public void testJt400RpcConnection() {
+	public void testJt400RpcConnection() throws RemoteException {
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
 		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction();
 		rpcInvokeAction.setAction("roi");
@@ -67,7 +68,7 @@ public class Jt400RpcConnectionTest {
 	// test not working prior to my changes, disabling
 	@Ignore
 	@Test
-	public void testJt400RpcConnectionWithNumber() {
+	public void testJt400RpcConnectionWithNumber() throws RemoteException {
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
 		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction();
 		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
@@ -107,7 +108,7 @@ public class Jt400RpcConnectionTest {
 	}
 
 	@Test
-	public void jT400flatFieldConnectionTest() {
+	public void jT400flatFieldConnectionTest() throws RemoteException {
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
 		String resultName = "cobol_flat";
 		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction();
@@ -125,7 +126,7 @@ public class Jt400RpcConnectionTest {
 	}
 
 	@Test
-	public void jT400flatFieldReuseConnectionTest() {
+	public void jT400flatFieldReuseConnectionTest() throws RemoteException {
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
 		String resultName = "cobol_flat";
 		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction();
@@ -149,7 +150,7 @@ public class Jt400RpcConnectionTest {
 	}
 
 	@Test
-	public void jT400SimpleStructConnectionTest() {
+	public void jT400SimpleStructConnectionTest() throws RemoteException {
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
 		String resultName = "cobol_structure";
 
@@ -182,7 +183,7 @@ public class Jt400RpcConnectionTest {
 	}
 
 	@Test
-	public void jT400ArrayStructConnectionTest() {
+	public void jT400ArrayStructConnectionTest() throws RemoteException {
 
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
 		String resultName = "tree_array";

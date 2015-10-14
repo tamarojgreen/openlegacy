@@ -19,6 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
+import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,7 +34,7 @@ public class StoredProcRpcConnectionITCase {
 	RpcConnection connection;
 
 	@Before
-	public void before() {
+	public void before() throws RemoteException {
 		connection = factory.getConnection();
 		connection.login("rpc_test", "password");
 	}
@@ -44,7 +45,7 @@ public class StoredProcRpcConnectionITCase {
 	}
 
 	@Test
-	public void intParamsTest() {
+	public void intParamsTest() throws RemoteException {
 		SimpleRpcInvokeAction action = new SimpleRpcInvokeAction();
 		action.setRpcPath("doStuffWithTwoNumbers");
 
@@ -99,7 +100,7 @@ public class StoredProcRpcConnectionITCase {
 	}
 
 	@Test
-	public void intParamsWithOutParamsTest() {
+	public void intParamsWithOutParamsTest() throws RemoteException {
 		SimpleRpcInvokeAction action = new SimpleRpcInvokeAction();
 		action.setRpcPath("doStuffWithTwoNumbersIntoParams");
 
@@ -125,7 +126,7 @@ public class StoredProcRpcConnectionITCase {
 	}
 
 	@Test
-	public void stringParamsTest() {
+	public void stringParamsTest() throws RemoteException {
 		SimpleRpcInvokeAction action = new SimpleRpcInvokeAction();
 		action.setRpcPath("sayHello");
 
@@ -163,7 +164,7 @@ public class StoredProcRpcConnectionITCase {
 	}
 
 	@Test
-	public void stringOutputParamTest() {
+	public void stringOutputParamTest() throws RemoteException {
 		SimpleRpcInvokeAction action = new SimpleRpcInvokeAction();
 		action.setRpcPath("sayHelloIntoParam");
 
@@ -179,7 +180,7 @@ public class StoredProcRpcConnectionITCase {
 	}
 
 	@Test
-	public void hierarchyDataTest() {
+	public void hierarchyDataTest() throws RemoteException {
 		SimpleRpcInvokeAction action = new SimpleRpcInvokeAction();
 		action.setRpcPath("getItemDetails");
 
@@ -206,7 +207,7 @@ public class StoredProcRpcConnectionITCase {
 	}
 
 	@Test
-	public void arraysTest() {
+	public void arraysTest() throws RemoteException {
 		SimpleRpcInvokeAction action = new SimpleRpcInvokeAction();
 		action.setRpcPath("getAllItems");
 

@@ -14,6 +14,7 @@ import org.h3270.logicalunit.LogicalUnitPoolFactory;
 import org.h3270.render.H3270Configuration;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.LiveTerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalConnection;
@@ -31,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Properties;
@@ -64,9 +66,13 @@ public class H3270TerminalConnectionFactory implements LiveTerminalConnectionFac
 
 	@Override
 	public void disconnect(TerminalConnection terminalConnection) {
-		S3270 delegate = (S3270) terminalConnection.getDelegate();
-		releaseLogicalUnit(delegate.getLogicalUnit());
-		delegate.disconnect();
+		try {
+			S3270 delegate = (S3270)terminalConnection.getDelegate();
+			releaseLogicalUnit(delegate.getLogicalUnit());
+			delegate.disconnect();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	private String leaseLogicalUnit() throws LogicalUnitException {

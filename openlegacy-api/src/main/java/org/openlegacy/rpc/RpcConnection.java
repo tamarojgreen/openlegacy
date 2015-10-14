@@ -12,6 +12,8 @@ package org.openlegacy.rpc;
 
 import org.openlegacy.ApplicationConnection;
 
+import java.rmi.RemoteException;
+
 public interface RpcConnection extends ApplicationConnection<RpcSnapshot, RpcInvokeAction> {
 
 	@Override
@@ -23,7 +25,7 @@ public interface RpcConnection extends ApplicationConnection<RpcSnapshot, RpcInv
 	@Override
 	void disconnect();
 
-	RpcResult invoke(RpcInvokeAction rpcInvokeAction);
+	RpcResult invoke(RpcInvokeAction rpcInvokeAction) throws RemoteException;
 
-	void login(String user, String password);
+	void login(String user, String password) throws RemoteException;
 }

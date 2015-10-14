@@ -20,6 +20,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
+import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,7 +33,7 @@ public class MfRpcConnectionTest {
 	private RpcConnectionFactory rpcConnectionFactory;
 
 	@Test
-	public void testCICSRpcConnectionFlat() {
+	public void testCICSRpcConnectionFlat() throws RemoteException {
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
 		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction();
 		rpcInvokeAction.setAction("RPC");
@@ -85,7 +86,7 @@ public class MfRpcConnectionTest {
 	}
 
 	@Test
-	public void testCICSRpcConnection() {
+	public void testCICSRpcConnection() throws RemoteException {
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
 		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction();
 		rpcInvokeAction.setAction("RPC");
@@ -150,7 +151,7 @@ public class MfRpcConnectionTest {
 	}
 
 	@Test
-	public void testOccursCICSRpcConnection() {
+	public void testOccursCICSRpcConnection() throws RemoteException {
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
 		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction();
 		rpcInvokeAction.setAction("RPC");

@@ -13,12 +13,15 @@ package org.openlegacy.terminal.modules.trail;
 import org.openlegacy.ApplicationConnection;
 import org.openlegacy.RemoteAction;
 import org.openlegacy.Snapshot;
+import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.support.SimpleTerminalOutgoingSnapshot;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
+
+import java.rmi.RemoteException;
 
 public class DefaultTerminalTrailModule extends TerminalSessionModuleAdapter implements Trail {
 
@@ -38,20 +41,32 @@ public class DefaultTerminalTrailModule extends TerminalSessionModuleAdapter imp
 
 	@Override
 	public void afterConnect(ApplicationConnection<?, ?> terminalConnection) {
-		sessionTrail.appendSnapshot((TerminalSnapshot)terminalConnection.getSnapshot());
+		try {
+			sessionTrail.appendSnapshot((TerminalSnapshot)terminalConnection.getSnapshot());
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void beforeAction(ApplicationConnection<?, ?> terminalConnection, RemoteAction terminalSendAction) {
-		sessionTrail.appendSnapshot(new SimpleTerminalOutgoingSnapshot((TerminalSnapshot)terminalConnection.getSnapshot(),
-				(TerminalSendAction)terminalSendAction));
+		try {
+			sessionTrail.appendSnapshot(new SimpleTerminalOutgoingSnapshot((TerminalSnapshot)terminalConnection.getSnapshot(),
+					(TerminalSendAction)terminalSendAction));
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result) {
-		sessionTrail.appendSnapshot((TerminalSnapshot)connection.getSnapshot());
+		try {
+			sessionTrail.appendSnapshot((TerminalSnapshot)connection.getSnapshot());
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	public void setSessionTrail(SessionTrail<TerminalSnapshot> sessionTrail) {

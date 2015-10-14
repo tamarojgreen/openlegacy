@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.rpc.LiveRpcConnectionFactory;
 import org.openlegacy.rpc.MockRpcConnectionFactory;
@@ -26,6 +27,7 @@ import org.openlegacy.rpc.RpcSnapshot;
 import org.springframework.context.ApplicationContext;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 
 import javax.inject.Inject;
 
@@ -43,26 +45,29 @@ public class RpcConnectionDelegator implements RpcConnection, Serializable {
 
 	@Override
 	public RpcSnapshot getSnapshot() {
+		try {
+			lazyConnect();
 
-		lazyConnect();
+			if (!isConnected()) {
+				disconnect();
+				throw (new OpenLegacyRuntimeException("Session is not connected"));
+			}
 
-		if (!isConnected()) {
-			disconnect();
-			throw (new OpenLegacyRuntimeException("Session is not connected"));
+			// clear the snapshot sequence is different from the session, clear it so it will re-build
+			if (rpcSnapshot != null && rpcSnapshot.getSequence() != null
+					&& !rpcConnection.getSequence().equals(rpcSnapshot.getSequence())) {
+				rpcSnapshot = null;
+			}
+
+			rpcSnapshot = rpcConnection.fetchSnapshot();
+
+			if (rpcSnapshot == null) {
+				throw (new OpenLegacyProviderException("Current rpc result is empty"));
+			}
+			return rpcSnapshot;
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
 		}
-
-		// clear the snapshot sequence is different from the session, clear it so it will re-build
-		if (rpcSnapshot != null && rpcSnapshot.getSequence() != null
-				&& !rpcConnection.getSequence().equals(rpcSnapshot.getSequence())) {
-			rpcSnapshot = null;
-		}
-
-		rpcSnapshot = rpcConnection.fetchSnapshot();
-
-		if (rpcSnapshot == null) {
-			throw (new OpenLegacyProviderException("Current rpc result is empty"));
-		}
-		return rpcSnapshot;
 	}
 
 	@Override
@@ -75,7 +80,12 @@ public class RpcConnectionDelegator implements RpcConnection, Serializable {
 	public void doAction(RpcInvokeAction rpcInvokeAction) {
 		lazyConnect();
 		rpcSnapshot = null;
-		rpcConnection.doAction(rpcInvokeAction);
+		try {
+			rpcConnection.doAction(rpcInvokeAction);
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
+
 	}
 
 	@Override
@@ -83,7 +93,11 @@ public class RpcConnectionDelegator implements RpcConnection, Serializable {
 		if (!isConnected()) {
 			return 0;
 		}
-		return rpcConnection.getSequence();
+		try {
+			return rpcConnection.getSequence();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	@Override
@@ -114,14 +128,21 @@ public class RpcConnectionDelegator implements RpcConnection, Serializable {
 	@Override
 	public RpcResult invoke(RpcInvokeAction rpcInvokeAction) {
 		lazyConnect();
-		return rpcConnection.invoke(rpcInvokeAction);
+		try {
+			return rpcConnection.invoke(rpcInvokeAction);
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	@Override
 	public void login(String user, String password) {
 		lazyConnect();
-		rpcConnection.login(user, password);
-
+		try {
+			rpcConnection.login(user, password);
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	private void lazyConnect() {
