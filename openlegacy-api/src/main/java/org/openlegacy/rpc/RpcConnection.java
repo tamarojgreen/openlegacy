@@ -17,13 +17,13 @@ import java.rmi.RemoteException;
 public interface RpcConnection extends ApplicationConnection<RpcSnapshot, RpcInvokeAction> {
 
 	@Override
-	Object getDelegate();
+	Object getDelegate() throws RemoteException;
 
 	@Override
-	boolean isConnected();
+	boolean isConnected() throws RemoteException;
 
 	@Override
-	void disconnect();
+	void disconnect() throws RemoteException;
 
 	RpcResult invoke(RpcInvokeAction rpcInvokeAction) throws RemoteException;
 

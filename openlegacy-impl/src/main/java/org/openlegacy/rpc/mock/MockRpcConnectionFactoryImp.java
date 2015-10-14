@@ -12,6 +12,7 @@ package org.openlegacy.rpc.mock;
 
 import org.apache.commons.lang.SerializationUtils;
 import org.openlegacy.OpenLegacyProperties;
+import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.rpc.MockRpcConnectionFactory;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcSnapshot;
@@ -20,6 +21,7 @@ import org.openlegacy.utils.XmlSerializationUtil;
 import org.springframework.util.Assert;
 
 import java.io.InputStream;
+import java.rmi.RemoteException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +83,11 @@ public class MockRpcConnectionFactoryImp implements MockRpcConnectionFactory {
 
 	@Override
 	public void disconnect(RpcConnection rpcConnection) {
-		rpcConnection.disconnect();
+		try {
+			rpcConnection.disconnect();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	public void setRoot(String root) {

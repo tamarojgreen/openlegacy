@@ -20,13 +20,13 @@ import java.rmi.RemoteException;
 public interface TerminalConnection extends ApplicationConnection<TerminalSnapshot, TerminalSendAction> {
 
 	@Override
-	TerminalSnapshot getSnapshot();
+	TerminalSnapshot getSnapshot() throws RemoteException;
 
 	@Override
-	TerminalSnapshot fetchSnapshot();
+	TerminalSnapshot fetchSnapshot() throws RemoteException;
 
 	@Override
-	void doAction(TerminalSendAction terminalSendAction);
+	void doAction(TerminalSendAction terminalSendAction) throws RemoteException;
 
 	void flip() throws RemoteException;
 

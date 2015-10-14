@@ -17,6 +17,7 @@ import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.exceptions.SessionEndedException;
+import org.openlegacy.remote.securedgateway.SecuredGatewayUtils;
 import org.openlegacy.rpc.LiveRpcConnectionFactory;
 import org.openlegacy.rpc.MockRpcConnectionFactory;
 import org.openlegacy.rpc.RpcConnection;
@@ -103,12 +104,20 @@ public class RpcConnectionDelegator implements RpcConnection, Serializable {
 	@Override
 	public Object getDelegate() {
 		lazyConnect();
-		return rpcConnection.getDelegate();
+		try {
+			return rpcConnection.getDelegate();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	@Override
 	public boolean isConnected() {
-		return rpcConnection != null && rpcConnection.isConnected();
+		try {
+			return rpcConnection != null && rpcConnection.isConnected();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	@Override
@@ -119,7 +128,11 @@ public class RpcConnectionDelegator implements RpcConnection, Serializable {
 			logger.debug("Session not connected");
 			return;
 		}
-		rpcConnection.disconnect();
+		try {
+			rpcConnection.disconnect();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 		rpcConnection = null;
 		rpcSnapshot = null;
 
@@ -161,9 +174,11 @@ public class RpcConnectionDelegator implements RpcConnection, Serializable {
 		boolean isLiveSession = olProperties.isLiveSession();
 		RpcConnectionFactory rpcConnectionFactory;
 		if (isLiveSession) {
-			rpcConnectionFactory = applicationContext.getBean(LiveRpcConnectionFactory.class);
+			rpcConnectionFactory = (RpcConnectionFactory)SecuredGatewayUtils.getProxyBeanByType(LiveRpcConnectionFactory.class,
+					applicationContext);
 		} else {
-			rpcConnectionFactory = applicationContext.getBean(MockRpcConnectionFactory.class);
+			rpcConnectionFactory = (RpcConnectionFactory)SecuredGatewayUtils.getProxyBeanByType(MockRpcConnectionFactory.class,
+					applicationContext);
 		}
 		return rpcConnectionFactory;
 	}

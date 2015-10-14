@@ -18,6 +18,7 @@ import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.exceptions.SessionEndedException;
+import org.openlegacy.remote.securedgateway.SecuredGatewayUtils;
 import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.ConnectionPropertiesProvider;
 import org.openlegacy.terminal.LiveTerminalConnectionFactory;
@@ -76,7 +77,11 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 		int timer = 0;
 		do {
 			if (terminalSnapshot == null) {
-				terminalSnapshot = terminalConnection.fetchSnapshot();
+				try {
+					terminalSnapshot = terminalConnection.fetchSnapshot();
+				} catch (RemoteException e) {
+					throw (new OpenlegacyRemoteRuntimeException(e));
+				}
 			}
 
 			if (terminalSnapshot.getFields().size() == 0) {
@@ -98,7 +103,11 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 		lazyConnect();
 		terminalSnapshot = null;
 		handleRightAdjust(terminalSendAction);
-		terminalConnection.doAction(terminalSendAction);
+		try {
+			terminalConnection.doAction(terminalSendAction);
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 		handleSleep(terminalSendAction);
 	}
 
@@ -163,9 +172,11 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 		boolean isLiveSession = olProperties.isLiveSession();
 		TerminalConnectionFactory terminalConnectionFactory;
 		if (isLiveSession) {
-			terminalConnectionFactory = applicationContext.getBean(LiveTerminalConnectionFactory.class);
+			terminalConnectionFactory = (TerminalConnectionFactory)SecuredGatewayUtils.getProxyBeanByType(
+					LiveTerminalConnectionFactory.class, applicationContext);
 		} else {
-			terminalConnectionFactory = applicationContext.getBean(MockTerminalConnectionFactory.class);
+			terminalConnectionFactory = (TerminalConnectionFactory)SecuredGatewayUtils.getProxyBeanByType(
+					MockTerminalConnectionFactory.class, applicationContext);
 		}
 		return terminalConnectionFactory;
 	}

@@ -155,12 +155,20 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	@Override
 	public void disconnect() {
-		rpcConnection.disconnect();
+		try {
+			rpcConnection.disconnect();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	@Override
 	public boolean isConnected() {
-		return rpcConnection.isConnected();
+		try {
+			return rpcConnection.isConnected();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	@Override

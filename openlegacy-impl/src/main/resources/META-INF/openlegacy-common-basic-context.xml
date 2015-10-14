@@ -28,5 +28,8 @@
 		ignore-unresolvable="true" location="classpath*:/*.properties" />
 	
 	<aop:config proxy-target-class="true"/>	
-
+	
+	<bean class="org.openlegacy.remote.securedgateway.SecuredGatewayPostProcessor" />
+	
+	<context:property-override location="classpath:securedGateway.properties" ignore-unresolvable="true" ignore-resource-not-found="true" />
 </beans>
