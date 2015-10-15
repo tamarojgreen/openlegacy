@@ -15,10 +15,13 @@ import com.ibm.as400.access.Trace;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.rpc.LiveRpcConnectionFactory;
 import org.openlegacy.rpc.RpcConnection;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
+
+import java.rmi.RemoteException;
 
 import javax.inject.Inject;
 
@@ -39,7 +42,11 @@ public class Jt400RpcConnectionFactory implements LiveRpcConnectionFactory, Init
 
 	@Override
 	public void disconnect(RpcConnection rpcConnection) {
-		rpcConnection.disconnect();
+		try {
+			rpcConnection.disconnect();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 
 	}
 

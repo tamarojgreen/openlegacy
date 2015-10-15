@@ -19,6 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 import javax.inject.Inject;
 
@@ -57,7 +58,7 @@ public class Tn5250jTerminalSessionSystemTest extends AbstractAS400TerminalSessi
 	}
 
 	@Test
-	public void testDisconnect() throws InterruptedException {
+	public void testDisconnect() throws InterruptedException, RemoteException {
 		TerminalConnection connection = terminalConnectionFactory.getConnection(new SimpleConnectionProperties());
 		while (true) {
 			TerminalSendAction action = new SimpleTerminalSendAction("[enter]");

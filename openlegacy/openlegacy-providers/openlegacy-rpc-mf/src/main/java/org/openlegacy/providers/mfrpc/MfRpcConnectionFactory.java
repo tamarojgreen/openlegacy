@@ -13,10 +13,13 @@ package org.openlegacy.providers.mfrpc;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.HttpClient;
+import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.rpc.LiveRpcConnectionFactory;
 import org.openlegacy.rpc.RpcConnection;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
+
+import java.rmi.RemoteException;
 
 import javax.inject.Inject;
 
@@ -59,7 +62,11 @@ public class MfRpcConnectionFactory implements LiveRpcConnectionFactory, Initial
 	}
 
 	public void disconnect(RpcConnection rpcConnection) {
-		rpcConnection.disconnect();
+		try {
+			rpcConnection.disconnect();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 
 	}
 

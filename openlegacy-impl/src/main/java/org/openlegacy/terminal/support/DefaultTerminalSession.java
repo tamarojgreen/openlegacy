@@ -520,7 +520,11 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 		notifyModulesBeforeSend(sendAction);
 
-		terminalConnection.doAction(sendAction);
+		try {
+			terminalConnection.doAction(sendAction);
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 		snapshot = null;
 
 		lastSequence = getSequence();
@@ -564,7 +568,11 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	@Override
 	public synchronized TerminalSnapshot fetchSnapshot() {
-		snapshot = terminalConnection.fetchSnapshot();
+		try {
+			snapshot = terminalConnection.fetchSnapshot();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 		return snapshot;
 	}
 
@@ -655,7 +663,11 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			throw (new OpenlegacyRemoteRuntimeException(e));
 		}
 		// force update
-		terminalConnection.fetchSnapshot();
+		try {
+			terminalConnection.fetchSnapshot();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 		lastSequence = getSequence();
 		notifyModulesAfterAction(null);
 	}

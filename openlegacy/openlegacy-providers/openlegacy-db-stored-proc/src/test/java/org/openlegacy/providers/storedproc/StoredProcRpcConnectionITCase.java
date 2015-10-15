@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.annotations.rpc.Direction;
+import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFields;
@@ -41,7 +42,11 @@ public class StoredProcRpcConnectionITCase {
 
 	@After
 	public void after() {
-		connection.disconnect();
+		try {
+			connection.disconnect();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	@Test

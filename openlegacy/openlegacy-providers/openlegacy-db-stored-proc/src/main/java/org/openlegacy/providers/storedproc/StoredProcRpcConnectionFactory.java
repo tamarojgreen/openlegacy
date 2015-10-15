@@ -1,8 +1,11 @@
 package org.openlegacy.providers.storedproc;
 
+import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.rpc.LiveRpcConnectionFactory;
 import org.openlegacy.rpc.RpcConnection;
 import org.springframework.beans.factory.InitializingBean;
+
+import java.rmi.RemoteException;
 
 public class StoredProcRpcConnectionFactory implements LiveRpcConnectionFactory, InitializingBean {
 
@@ -16,7 +19,11 @@ public class StoredProcRpcConnectionFactory implements LiveRpcConnectionFactory,
 
 	@Override
 	public void disconnect(RpcConnection rpcConnection) {
-		rpcConnection.disconnect();
+		try {
+			rpcConnection.disconnect();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 	public String getDbUrl() {
