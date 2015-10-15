@@ -31,14 +31,7 @@ public class SecuredGatewayConnectionFactoryInterceptor implements MethodInterce
 		Object result = null;
 
 		if (invocation.getMethod().getName().equals(GET_CONNECTION)) {
-			result = invocation.proceed();
-			try {
-				Remote remoteConnection = UnicastRemoteObject.exportObject((Remote)result, 0);
-				connectionMap.put(remoteConnection, result);
-				return remoteConnection;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			return getRemote((Remote)invocation.proceed());
 		} else if (invocation.getMethod().getName().equals(DISCONNECT)) {
 			Object remote = invocation.getArguments()[0];
 			invocation.getArguments()[0] = connectionMap.get(remote);// avoid call through network from remote app =)
@@ -50,4 +43,19 @@ public class SecuredGatewayConnectionFactoryInterceptor implements MethodInterce
 		return result;
 	}
 
+	public Remote getRemote(Remote result) {
+		for (Remote remote : connectionMap.keySet()) {
+			if (System.identityHashCode(connectionMap.get(remote)) == System.identityHashCode(result.hashCode())) {
+				return remote;
+			}
+		}
+		try {
+			Remote remoteConnection = UnicastRemoteObject.exportObject((Remote)result, 0);
+			connectionMap.put(remoteConnection, result);
+			return remoteConnection;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

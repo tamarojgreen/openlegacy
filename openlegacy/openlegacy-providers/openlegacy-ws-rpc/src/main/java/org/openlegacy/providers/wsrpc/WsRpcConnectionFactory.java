@@ -1,7 +1,10 @@
 package org.openlegacy.providers.wsrpc;
 
+import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.rpc.LiveRpcConnectionFactory;
 import org.openlegacy.rpc.RpcConnection;
+
+import java.rmi.RemoteException;
 
 public class WsRpcConnectionFactory implements LiveRpcConnectionFactory {
 
@@ -27,7 +30,11 @@ public class WsRpcConnectionFactory implements LiveRpcConnectionFactory {
 
 	@Override
 	public void disconnect(RpcConnection rpcConnection) {
-		rpcConnection.disconnect();
+		try {
+			rpcConnection.disconnect();
+		} catch (RemoteException e) {
+			throw (new OpenlegacyRemoteRuntimeException(e));
+		}
 	}
 
 }
