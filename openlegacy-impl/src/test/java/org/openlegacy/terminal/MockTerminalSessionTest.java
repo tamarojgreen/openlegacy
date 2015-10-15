@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.support.MockupTerminalSession;
+import org.openlegacy.utils.ProxyUtil;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -24,7 +25,8 @@ public class MockTerminalSessionTest extends AbstractTest {
 
 		TerminalSession terminalSession = newTerminalSession();
 		Assert.assertNotNull(terminalSession);
-		Assert.assertEquals(MockupTerminalSession.class, terminalSession.getClass());
+
+		Assert.assertTrue(ProxyUtil.isSameClass(terminalSession, MockupTerminalSession.class));
 
 		ItemDetails1 itemDetails1 = terminalSession.getEntity(ItemDetails1.class, 2000);
 		Assert.assertNotNull(itemDetails1);

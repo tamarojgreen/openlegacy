@@ -71,8 +71,7 @@ public class DefaultSessionsManagerTest {
 
 	@Test
 	public void testSessionTrail() {
-
-		DefaultTerminalSession session1 = (DefaultTerminalSession)applicationContext.getBean(TerminalSession.class);
+		TerminalSession session1 = (TerminalSession)applicationContext.getBean(TerminalSession.class);
 
 		session1.doAction(TerminalActions.ENTER());
 

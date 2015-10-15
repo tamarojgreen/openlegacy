@@ -20,6 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.aop.TargetClassAware;
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.DirectFieldAccessor;
 import org.springframework.util.Assert;
 
@@ -71,7 +72,7 @@ public class ProxyUtil {
 						}
 					}
 				}
-				proxy = ((Advised) proxy).getTargetSource().getTarget();
+				proxy = ((Advised)proxy).getTargetSource().getTarget();
 			} catch (Exception e) {
 				throw (new IllegalStateException(e));
 			}
@@ -92,7 +93,7 @@ public class ProxyUtil {
 				}
 			}
 		}
-		return (T) proxy;
+		return (T)proxy;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -106,7 +107,7 @@ public class ProxyUtil {
 		} catch (InvocationTargetException e) {
 			logger.error(e.getMessage(), e);
 		}
-		return (T) proxy;
+		return (T)proxy;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -117,11 +118,11 @@ public class ProxyUtil {
 		}
 
 		if (proxy instanceof Collection) {
-			for (Object object : (Collection) proxy) {
+			for (Object object : (Collection)proxy) {
 				object = fetchLazyObject(object, dehibernator, children, processed);
 			}
 		} else if (proxy instanceof Map) {
-			Collection collection = ((Map) proxy).values();
+			Collection collection = ((Map)proxy).values();
 			for (Object object : collection) {
 				object = fetchLazyObject(object, dehibernator, children, processed);
 			}
@@ -129,7 +130,7 @@ public class ProxyUtil {
 			proxy = fetchLazyObject(proxy, dehibernator, children, processed);
 		}
 
-		return (T) proxy;
+		return (T)proxy;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -152,7 +153,7 @@ public class ProxyUtil {
 			}
 
 		}
-		return (T) proxy;
+		return (T)proxy;
 	}
 
 	private static void processField(Field field, Object proxy, Dehibernator dehibernator, boolean children,
@@ -190,7 +191,7 @@ public class ProxyUtil {
 
 	public static Class<?> getObjectRealClass(Object object) {
 		while (object instanceof TargetClassAware) {
-			object = ((TargetClassAware) object).getTargetClass();
+			object = ((TargetClassAware)object).getTargetClass();
 		}
 		return object.getClass();
 	}
@@ -231,5 +232,9 @@ public class ProxyUtil {
 		Object entityProxy = proxyFactory.getProxy();
 
 		return entityProxy;
+	}
+
+	public static boolean isSameClass(Object object, Class<?> target) {
+		return AopUtils.isJdkDynamicProxy(object) ? getTargetObject(object).getClass() == target : object.getClass() == target;
 	}
 }

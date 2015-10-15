@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<import resource="test-rpc-mock-session-context.xml" />
+	<!-- Session Entity Status checking  -->
+	<bean id = "sessionEntityStatusProcessor" class = "org.openlegacy.support.SessionEntityStatusProcessor"/>	
+	<bean id = "sessionProxyChecker" class = "org.openlegacy.aop.session.SeessionProxyChecker"/>
+	<bean id = "sessionProxy" class = "org.openlegacy.aop.session.SessionBeanNameAutoProxyCreator">
+		<property name="checker" ref="sessionProxyChecker"/>
+		<property name="beanNames">
+			<list>
+				<value>*Session</value>
+				<value>*Session*</value>
+				<value>*session</value>
+				<value>*session*</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>sessionEntityStatusProcessor</value>
+			</list>
+		</property>
+	</bean>
+	<!-- Session Entity Status checking  -->
+</beans>
