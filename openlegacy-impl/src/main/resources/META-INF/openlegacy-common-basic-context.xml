@@ -24,7 +24,8 @@
 		</property>
 	</bean>
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" />
+	<context:property-placeholder
+		ignore-unresolvable="true" location="classpath*:/*.properties" />
 	
 	<aop:config proxy-target-class="true"/>	
 
