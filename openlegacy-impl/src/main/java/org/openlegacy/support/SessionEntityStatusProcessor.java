@@ -90,12 +90,13 @@ public class SessionEntityStatusProcessor implements MethodInterceptor {
 	}
 
 	@SuppressWarnings("unchecked")
-	private AbstractEntityDefinition<?> getEntityDefinition(Object firstArgument) {
-		if (firstArgument instanceof Object) {
-			return (AbstractEntityDefinition<?>)registry.get(firstArgument.getClass());
+	private AbstractEntityDefinition<?> getEntityDefinition(Object argument) {
+		if (argument instanceof Class) {
+			return (AbstractEntityDefinition<?>)registry.get((Class<?>)argument);
+		} else if (argument instanceof String) {
+			return (AbstractEntityDefinition<?>)registry.get((String)argument);
 		} else {
-			return (AbstractEntityDefinition<?>)(firstArgument instanceof Class ? registry.get((Class<?>)firstArgument)
-					: registry.get((String)firstArgument));
+			return (AbstractEntityDefinition<?>)registry.get(argument.getClass());
 		}
 	}
 

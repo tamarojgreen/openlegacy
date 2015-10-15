@@ -16,7 +16,7 @@
 		</constructor-arg>
 	</bean>
 	
-	<bean id="terminalSessionPool" scope="prototype" p:keepAliveAction="org.openlegacy.terminal.support.SimpleTerminalSessionPoolTest.CleanupDummyAction" p:keepAliveInterval="2000"
+	<bean id="terminalSessionPool" scope="prototype" p:keepAliveAction="org.openlegacy.terminal.support.SimpleTerminalSessionPoolTest.CleanupDummyAction" p:keepAliveInterval="4000"
 		class="org.openlegacy.terminal.support.SimpleTerminalSessionPoolFactory" p:maxConnections="2" />
 
 	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession"
