@@ -13,6 +13,7 @@ package org.openlegacy.terminal.support.providers;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
+import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.providers.ScreenFieldsDefinitionProvider;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.utils.SpringUtil;
@@ -38,6 +39,10 @@ public class RegistryBasedFieldMappingsProvider implements ScreenFieldsDefinitio
 	public Collection<ScreenFieldDefinition> getFieldsMappingDefinitions(TerminalSnapshot terminalSnapshot, Class<?> screenEntity) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(screenEntity);
+		if (screenEntityDefinition == null) {
+			ScreenPartEntityDefinition screenPartEntityDefinition = screenEntitiesRegistry.getPart(screenEntity);
+			return screenPartEntityDefinition.getFieldsDefinitions().values();
+		}
 		return screenEntityDefinition.getAllFieldsDefinitions().values();
 	}
 }
