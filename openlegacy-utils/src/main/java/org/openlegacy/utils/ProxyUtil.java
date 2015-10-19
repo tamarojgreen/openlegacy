@@ -42,6 +42,8 @@ public class ProxyUtil {
 
 	private final static Log logger = LogFactory.getLog(PropertyUtil.class);
 
+	private static final Map<Class<?>, Class<?>> proxyMap = new HashMap<Class<?>, Class<?>>();
+
 	public static <T> T getTargetObject(Object proxy) {
 		return getTargetObject(proxy, false);
 	}
@@ -237,4 +239,22 @@ public class ProxyUtil {
 	public static boolean isSameClass(Object object, Class<?> target) {
 		return AopUtils.isJdkDynamicProxy(object) ? getTargetObject(object).getClass() == target : object.getClass() == target;
 	}
+
+	public static void registerProxyClassPartity(Class<?> orig, Class<?> proxy) {
+		proxyMap.put(orig, proxy);
+	}
+
+	public static Class<?> getProxyClassPartity(Class<?> orig) {
+		Class<?> result = proxyMap.get(orig);
+		if (result == null) {
+			for (Class<?> key : proxyMap.keySet()) {
+				if (orig.isAssignableFrom(key)) {
+					result = proxyMap.get(key);
+					break;
+				}
+			}
+		}
+		return result == null ? orig : result;
+	}
+
 }

@@ -17,7 +17,6 @@ import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.exceptions.SessionEndedException;
-import org.openlegacy.remote.securedgateway.SecuredGatewayUtils;
 import org.openlegacy.rpc.LiveRpcConnectionFactory;
 import org.openlegacy.rpc.MockRpcConnectionFactory;
 import org.openlegacy.rpc.RpcConnection;
@@ -25,6 +24,7 @@ import org.openlegacy.rpc.RpcConnectionFactory;
 import org.openlegacy.rpc.RpcInvokeAction;
 import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.RpcSnapshot;
+import org.openlegacy.utils.ProxyUtil;
 import org.springframework.context.ApplicationContext;
 
 import java.io.Serializable;
@@ -172,15 +172,8 @@ public class RpcConnectionDelegator implements RpcConnection, Serializable {
 	private RpcConnectionFactory getConnectionFactory() {
 		final OpenLegacyProperties olProperties = applicationContext.getBean(OpenLegacyProperties.class);
 		boolean isLiveSession = olProperties.isLiveSession();
-		RpcConnectionFactory rpcConnectionFactory;
-		if (isLiveSession) {
-			rpcConnectionFactory = (RpcConnectionFactory)SecuredGatewayUtils.getProxyBeanByType(LiveRpcConnectionFactory.class,
-					applicationContext);
-		} else {
-			rpcConnectionFactory = (RpcConnectionFactory)SecuredGatewayUtils.getProxyBeanByType(MockRpcConnectionFactory.class,
-					applicationContext);
-		}
-		return rpcConnectionFactory;
+		return (RpcConnectionFactory)applicationContext.getBean(ProxyUtil.getProxyClassPartity(isLiveSession ? LiveRpcConnectionFactory.class
+				: MockRpcConnectionFactory.class));
 	}
 
 }

@@ -30,11 +30,8 @@
 	<bean id = "connectionFactoryProxy" class = "org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
 	<property name="beanNames">
 			<list>
-				<value>mockTerminalConnectionFactory</value>				
-				<value>liveHostTerminalConnectionFactory</value>				
-				<value>terminalConnectionFactory</value>				
-				<value>mockRpcConnectionFactory</value>				
-				<value>rpcConnectionFactory</value>				
+				<value>*ConnectionFactory</value>
+				<value>*ConnectionFactory*</value>
 			</list>
 		</property>
 		<property name="interceptorNames">

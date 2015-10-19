@@ -18,7 +18,6 @@ import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.exceptions.SessionEndedException;
-import org.openlegacy.remote.securedgateway.SecuredGatewayUtils;
 import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.ConnectionPropertiesProvider;
 import org.openlegacy.terminal.LiveTerminalConnectionFactory;
@@ -29,6 +28,7 @@ import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
 
@@ -170,15 +170,8 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 	private TerminalConnectionFactory getConnectionFactory() {
 		final OpenLegacyProperties olProperties = applicationContext.getBean(OpenLegacyProperties.class);
 		boolean isLiveSession = olProperties.isLiveSession();
-		TerminalConnectionFactory terminalConnectionFactory;
-		if (isLiveSession) {
-			terminalConnectionFactory = (TerminalConnectionFactory)SecuredGatewayUtils.getProxyBeanByType(
-					LiveTerminalConnectionFactory.class, applicationContext);
-		} else {
-			terminalConnectionFactory = (TerminalConnectionFactory)SecuredGatewayUtils.getProxyBeanByType(
-					MockTerminalConnectionFactory.class, applicationContext);
-		}
-		return terminalConnectionFactory;
+		return (TerminalConnectionFactory)applicationContext.getBean(ProxyUtil.getProxyClassPartity(isLiveSession ? LiveTerminalConnectionFactory.class
+				: MockTerminalConnectionFactory.class));
 	}
 
 	@Override

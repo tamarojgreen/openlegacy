@@ -12,6 +12,7 @@
 package org.openlegacy.remote.securedgateway;
 
 import org.openlegacy.rpc.RpcConnectionFactory;
+import org.openlegacy.utils.ProxyUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -36,6 +37,7 @@ public class SecuredGatewayPostProcessor implements BeanPostProcessor {
 			if (properties.getConnectionFactory().isAssignableFrom(bean.getClass())) {
 				Object remote = getSecuredGatewayConnectionFactory();
 				if (remote != null) {
+					ProxyUtil.registerProxyClassPartity(bean.getClass(), remote.getClass());
 					return remote;
 				}
 			}
