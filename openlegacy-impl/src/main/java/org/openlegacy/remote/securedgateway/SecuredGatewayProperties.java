@@ -20,15 +20,17 @@ import org.openlegacy.terminal.MockTerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Properties;
+
 @Component
 public class SecuredGatewayProperties {
 
 	public static final String RPC = "rpc";
 	public static final String TERMINAL = "terminal";
 
-	public static final String PROPERTY_PREFIX = "securedGateway.";
 	private static final String LIVE = "RemoteLiveConnectionFactory";
 	private static final String MOCK = "RemoteMockConnectionFactory";
+	public static final String FILE_NAME = "securedGateway.properties";
 
 	private String host = null;
 	private boolean liveSession = false;
@@ -77,5 +79,13 @@ public class SecuredGatewayProperties {
 
 	public String getRemoteConnectionFactoryBeanName() {
 		return solution + (liveSession ? LIVE : MOCK);
+	}
+
+	public Properties toProperties() {
+		Properties result = new Properties();
+		result.put("securedGatewayProperties.host", host);
+		result.put("securedGatewayProperties.liveSession", liveSession);
+		result.put("securedGatewayProperties.solution", solution);
+		return result;
 	}
 }
