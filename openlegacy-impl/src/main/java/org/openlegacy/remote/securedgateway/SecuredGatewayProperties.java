@@ -11,6 +11,7 @@
 
 package org.openlegacy.remote.securedgateway;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.rpc.LiveRpcConnectionFactory;
 import org.openlegacy.rpc.MockRpcConnectionFactory;
@@ -20,6 +21,7 @@ import org.openlegacy.terminal.MockTerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.util.Properties;
 
 @Component
@@ -30,7 +32,7 @@ public class SecuredGatewayProperties {
 
 	private static final String LIVE = "RemoteLiveConnectionFactory";
 	private static final String MOCK = "RemoteMockConnectionFactory";
-	public static final String FILE_NAME = "securedGateway.properties";
+	public static final String FILE_PATH = "/src/main/resources/securedGateway.properties";
 
 	private String host = null;
 	private boolean liveSession = false;
@@ -84,8 +86,20 @@ public class SecuredGatewayProperties {
 	public Properties toProperties() {
 		Properties result = new Properties();
 		result.put("securedGatewayProperties.host", host);
-		result.put("securedGatewayProperties.liveSession", liveSession);
+		result.put("securedGatewayProperties.liveSession", String.valueOf(liveSession));
 		result.put("securedGatewayProperties.solution", solution);
 		return result;
+	}
+
+	public void saveTo(File file) {
+		try {
+			PropertiesConfiguration config = new PropertiesConfiguration(file);
+			config.setProperty("securedGatewayProperties.host", host);
+			config.setProperty("securedGatewayProperties.liveSession", String.valueOf(liveSession));
+			config.setProperty("securedGatewayProperties.solution", solution);
+			config.save();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
