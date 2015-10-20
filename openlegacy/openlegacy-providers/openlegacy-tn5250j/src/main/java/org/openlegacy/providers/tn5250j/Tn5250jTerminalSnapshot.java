@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.providers.tn5250j;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
@@ -289,6 +290,7 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		}
 	}
 
+	@JsonIgnore
 	public Object getDelegate() {
 		return screen;
 	}

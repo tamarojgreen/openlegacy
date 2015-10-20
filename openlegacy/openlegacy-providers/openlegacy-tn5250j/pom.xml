@@ -45,5 +45,10 @@
 			<artifactId>jt400-full</artifactId>
 			<version>6.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.3</version>
+		</dependency>
 	</dependencies>
 </project>
