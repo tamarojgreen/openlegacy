@@ -1,30 +1,39 @@
 /*******************************************************************************
  * Copyright (c) 2014 OpenLegacy Inc.
- * All rights reserved. This program and the accompanying materials 
+ * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 package org.openlegacy.rpc.mvc.rest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.EntityDefinition;
+import org.openlegacy.EntityDescriptor;
 import org.openlegacy.Session;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
+import org.openlegacy.modules.navigation.Navigation;
+import org.openlegacy.modules.roles.Roles;
 import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.modules.trail.TrailUtil;
 import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcSession;
+import org.openlegacy.rpc.actions.RpcActions;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.modules.table.RpcTableUtil;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.openlegacy.rpc.utils.RpcEntityUtils;
+import org.openlegacy.support.SimpleEntityWrapper;
+import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,9 +54,9 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * OpenLegacy default REST API RPC controller. Handles GET/POST requests in the format of JSON or XML. Also handles login /logoff
  * of the host session
- * 
+ *
  * @author Roi Mor
- * 
+ *
  */
 @Controller
 public class DefaultRpcRestController extends AbstractRpcRestController {
@@ -88,15 +97,24 @@ public class DefaultRpcRestController extends AbstractRpcRestController {
 	}
 
 	@RequestMapping(value = "/{entity}", method = RequestMethod.GET, consumes = { JSON, XML })
-	public ModelAndView getEntity(@PathVariable("entity") String entityName, HttpServletResponse response) throws IOException {
-		return super.getEntity(entityName, false, response);
+	public ModelAndView getEntity(@PathVariable("entity") String entityName,
+			@RequestParam(value = ACTION, required = false) String action, HttpServletResponse response) throws IOException {
+		if (action != null && StringUtils.equalsIgnoreCase("execute", action)) {
+			return execute(entityName, null, false, response);
+		} else {
+			return super.getEntity(entityName, false, response);
+		}
 	}
 
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[:-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.GET, consumes = { JSON,
 			XML })
 	public ModelAndView getEntityWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
-			HttpServletResponse response) throws IOException {
-		return super.getEntityWithKey(entityName, key, false, response);
+			@RequestParam(value = ACTION, required = false) String action, HttpServletResponse response) throws IOException {
+		if (action != null && StringUtils.equalsIgnoreCase("execute", action)) {
+			return execute(entityName, key, false, response);
+		} else {
+			return super.getEntityWithKey(entityName, key, false, response);
+		}
 	}
 
 	@Override
@@ -191,6 +209,75 @@ public class DefaultRpcRestController extends AbstractRpcRestController {
 	@Override
 	protected Object postApiEntity(String entityName, Class<?> entityClass, String key) {
 		return ReflectionUtil.newInstance(entityClass);
+	}
+
+	protected ModelAndView execute(String entityName, String key, boolean children, HttpServletResponse response)
+			throws IOException {
+		try {
+			return getEntityRequest(entityName, key, children, true, response);
+		} catch (RuntimeException e) {
+			return handleException(response, e);
+		}
+	}
+
+	@Override
+	protected ModelAndView getEntityRequest(String entityName, String key, boolean children,
+			HttpServletResponse response) throws IOException {
+		return getEntityRequest(entityName, key, children, false, response);
+	}
+
+	protected ModelAndView getEntityRequest(String entityName, String key, boolean children, boolean execute,
+			HttpServletResponse response) throws IOException {
+
+		if (!authenticate(response)) {
+			return null;
+		}
+
+		try {
+			EntityDefinition<?> entityDefinition = getEntitiesRegistry().get(entityName);
+
+			// check for EXECUTE action
+			List<ActionDefinition> actions = entityDefinition.getActions();
+			boolean hasExecuteAction = false;
+
+			if (!execute) {
+				for (ActionDefinition a : actions) {
+					if (a.getAction() instanceof RpcActions.EXECUTE) {
+						hasExecuteAction = true;
+					}
+				}
+			}
+
+			Object entity = null;
+
+			if (!hasExecuteAction) {
+				entity = getApiEntity(entityName, key);
+				if (entity == null) {
+					throw (new EntityNotFoundException("No entity found"));
+				}
+				entity = ProxyUtil.getTargetObject(entity, children);
+				Roles rolesModule = getSession().getModule(Roles.class);
+				if (rolesModule != null) {
+					rolesModule.populateEntity(entity, getSession().getModule(Login.class));
+				}
+			}
+
+			Navigation navigationModule = getSession().getModule(Navigation.class);
+			List<EntityDescriptor> paths = (navigationModule != null) ? navigationModule.getPaths() : null;
+			boolean isWindow = entityDefinition.isWindow();
+			SimpleEntityWrapper wrapper = new SimpleEntityWrapper(entity, paths, actions, isWindow);
+			if (wrapper.getEntityName() == null) {
+				wrapper.setEntityName(entityName);
+			}
+
+			return new ModelAndView(MODEL, MODEL, wrapper);
+		} catch (EntityNotFoundException e) {
+			logger.fatal(e, e);
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+			return null;
+		}
+
+//		return super.getEntityRequest(entityName, key, children, response);
 	}
 
 	@Override

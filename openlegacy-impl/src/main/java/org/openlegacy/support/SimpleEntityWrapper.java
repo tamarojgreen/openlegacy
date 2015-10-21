@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Copyright (c) 2014 OpenLegacy Inc.
- * All rights reserved. This program and the accompanying materials 
+ * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
@@ -62,6 +62,10 @@ public class SimpleEntityWrapper implements EntityWrapper {
 		return entityName;
 	}
 
+	public void setEntityName(String entityName) {
+		this.entityName = entityName;
+	}
+
 	@Override
 	public List<EntityDescriptor> getPaths() {
 		return paths;
@@ -74,7 +78,7 @@ public class SimpleEntityWrapper implements EntityWrapper {
 	public Integer getPageCount() {
 		return pageCount;
 	}
-	
+
 	public boolean isWindow() {
 		return isWindow;
 	}
