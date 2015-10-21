@@ -18,9 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
-import org.springframework.stereotype.Component;
 
-@Component
 public class SecuredGatewayPostProcessor implements BeanPostProcessor {
 
 	@Autowired(required = false)
@@ -33,7 +31,7 @@ public class SecuredGatewayPostProcessor implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		if (properties.getHost() != null) {
+		if (properties != null && properties.getHost() != null) {
 			if (properties.getConnectionFactory().isAssignableFrom(bean.getClass())) {
 				Object remote = getSecuredGatewayConnectionFactory();
 				if (remote != null) {
