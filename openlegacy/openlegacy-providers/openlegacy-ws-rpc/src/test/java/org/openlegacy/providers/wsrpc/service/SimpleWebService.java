@@ -1,5 +1,7 @@
 package org.openlegacy.providers.wsrpc.service;
 
+import java.math.BigDecimal;
+
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -34,5 +36,11 @@ public class SimpleWebService {
 	public Structure[] callBackStructureArray() {
 		Structure struct = new Structure().setName("Vlad").setLastName("Drake");
 		return new Structure[] { struct };
+	}
+
+	@WebMethod
+	@WebResult(partName = "callBackResult")
+	public BigDecimal callBackDecimal(@WebParam(name = "callBackValue") BigDecimal callBackValue) {
+		return callBackValue;
 	}
 }

@@ -7,6 +7,7 @@ import org.openlegacy.rpc.RpcFlatField;
 import org.openlegacy.types.BinaryArray;
 
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.xml.soap.SOAPElement;
@@ -22,6 +23,9 @@ public class FieldUtil extends org.openlegacy.utils.FieldUtil {
 				BinaryArray arr = (BinaryArray)field.getType().newInstance();
 				arr.setValue(value.getValue());
 				field.setValue(arr);
+			} else if (clazz == BigDecimal.class) {
+				// http://stackoverflow.com/a/3752626
+				field.setValue(new BigDecimal(value.getValue().replaceAll(",", "")));
 			} else if (clazz != String.class) {
 				Method valueOf = clazz.getMethod(VALUE_OF, String.class);
 				field.setValue(valueOf.invoke(null, value.getValue()));

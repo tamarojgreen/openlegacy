@@ -54,6 +54,7 @@ public class WsRpcConnectionTest {
 		intTest();
 		// intArrayTest();
 		structureTest();
+		decimalTest();
 		endpoint.stop();
 	}
 
@@ -287,6 +288,55 @@ public class WsRpcConnectionTest {
 		Assert.assertEquals("Drake", val);
 		val = (String)((SimpleRpcFlatField)((SimpleRpcStructureListField)outputValues.getChildrens().get(0)).getChildren(0).get(1)).getValue();
 		Assert.assertEquals("Vlad", val);
+	}
+
+	public void decimalTest() {
+		BigDecimal callBackValue = new BigDecimal(100500);
+		// int callBackValue = 100500;
+		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
+		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction();
+
+		rpcInvokeAction.setAction("callBackInteger");
+
+		Map<QName, String> p = getProps();
+		p.put(new QName(WsRpcActionUtil.METHOD_INPUT_NAME), "callBackDecimal");
+		p.put(new QName(WsRpcActionUtil.METHOD_OUTPUT_NAME), "callBackDecimalResponse");
+		rpcInvokeAction.setProperties(p);
+
+		SimpleRpcStructureField inputValues = new SimpleRpcStructureField();
+		inputValues.setName(WsRpcActionUtil.INPUT);
+		inputValues.setOriginalName("callBackDecimal");
+
+		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
+		rpcField.setName("callBackValue");
+		rpcField.setOriginalName("callBackValue");
+		rpcField.setValue(callBackValue);
+		rpcField.setLength(String.valueOf(callBackValue).length());
+		rpcField.setDirection(Direction.INPUT);
+
+		inputValues.getChildrens().add(rpcField);
+		rpcInvokeAction.getFields().add(inputValues);
+
+		SimpleRpcStructureField outputValues = new SimpleRpcStructureField();
+		outputValues.setName(WsRpcActionUtil.OUTPUT);
+		outputValues.setOriginalName("callBackDecimalResponse");
+
+		rpcField = new SimpleRpcFlatField();
+		rpcField.setName("callBackResult");
+		rpcField.setOriginalName("callBackResult");
+		rpcField.setLength(4);
+		rpcField.setType(int.class);
+		rpcField.setDirection(Direction.OUTPUT);
+
+		outputValues.getChildrens().add(rpcField);
+		rpcInvokeAction.getFields().add(outputValues);
+
+		rpcInvokeAction.setRpcPath("");
+
+		RpcResult rpcResult = localInvoke(rpcConnection, rpcInvokeAction);
+
+		outputValues = (SimpleRpcStructureField)rpcResult.getRpcFields().get(1);
+		Assert.assertEquals(callBackValue, ((RpcFlatField)outputValues.getChildrens().get(0)).getValue());
 	}
 
 	public RpcResult localInvoke(RpcConnection rpcConnection, RpcInvokeAction rpcInvokeAction) {
