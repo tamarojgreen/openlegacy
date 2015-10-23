@@ -45,8 +45,8 @@ public class ScreenEntityAnnotationLoader extends AbstractClassAnnotationLoader 
 	@SuppressWarnings("rawtypes")
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 
-		ScreenEntity screenEntity = (ScreenEntity)annotation;
-		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
+		ScreenEntity screenEntity = (ScreenEntity) annotation;
+		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry) entitiesRegistry;
 
 		String screenEntityName = screenEntity.name().length() > 0 ? screenEntity.name() : containingClass.getSimpleName();
 		String displayName = screenEntity.displayName().length() > 0 ? screenEntity.displayName()
@@ -64,7 +64,8 @@ public class ScreenEntityAnnotationLoader extends AbstractClassAnnotationLoader 
 
 		screenEntityDefinition.setScreenSize(new SimpleScreenSize(screenEntity.rows(), screenEntity.columns()));
 
-		if (!screenEntity.roles()[0].equals(AnnotationConstants.NULL)) {
+		if (screenEntity.roles() != null && screenEntity.roles().length > 0
+				&& !screenEntity.roles()[0].equals(AnnotationConstants.NULL)) {
 			screenEntityDefinition.setRoles(Arrays.asList(screenEntity.roles()));
 		}
 		loadSnapshot(containingClass, screenEntityName, screenEntityDefinition);
