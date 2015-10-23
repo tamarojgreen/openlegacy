@@ -71,7 +71,7 @@ public class WsRpcConnection implements RpcConnection {
 			connectionFactory = SOAPConnectionFactory.newInstance();
 			messageFactory = MessageFactory.newInstance();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage(), e);
 		}
 	}
 

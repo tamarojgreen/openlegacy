@@ -1,4 +1,6 @@
-package org.openlegacy.providers.wsrpc.example;
+package org.openlegacy.providers.wsrpc.service;
+
+import java.math.BigDecimal;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -9,7 +11,7 @@ import javax.jws.soap.SOAPBinding.Style;
 
 @WebService(name = "SimpleWebService", targetNamespace = "http://SimpleWebService/")
 @SOAPBinding(style = Style.RPC)
-public class SimpleWebService<E> {
+public class SimpleWebService {
 
 	@WebMethod
 	@WebResult(partName = "callBackResult")
@@ -34,5 +36,11 @@ public class SimpleWebService<E> {
 	public Structure[] callBackStructureArray() {
 		Structure struct = new Structure().setName("Vlad").setLastName("Drake");
 		return new Structure[] { struct };
+	}
+
+	@WebMethod
+	@WebResult(partName = "callBackResult")
+	public BigDecimal callBackDecimal(@WebParam(name = "callBackValue") BigDecimal callBackValue) {
+		return callBackValue;
 	}
 }

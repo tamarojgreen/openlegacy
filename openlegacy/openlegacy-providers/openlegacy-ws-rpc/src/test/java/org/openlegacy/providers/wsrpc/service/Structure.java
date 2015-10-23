@@ -1,4 +1,4 @@
-package org.openlegacy.providers.wsrpc.example;
+package org.openlegacy.providers.wsrpc.service;
 
 public class Structure {
 

@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.providers.wsrpc.service.SimpleWebService;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcFlatField;
 import org.openlegacy.rpc.RpcInvokeAction;
@@ -23,6 +24,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
+import javax.xml.ws.Endpoint;
 
 import junit.framework.Assert;
 
@@ -46,6 +48,16 @@ public class WsRpcConnectionTest {
 	}
 
 	@Test
+	public void testAll() {
+		Endpoint endpoint = Endpoint.publish("http://localhost:9191/", new SimpleWebService());
+		stringTest();
+		intTest();
+		// intArrayTest();
+		structureTest();
+		decimalTest();
+		endpoint.stop();
+	}
+
 	public void stringTest() {
 		String callBackValue = "Vlad Drake";
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
@@ -89,16 +101,15 @@ public class WsRpcConnectionTest {
 		outputValues.getChildrens().add(rpcField);
 		rpcInvokeAction.getFields().add(outputValues);
 
-		rpcInvokeAction.setRpcPath("/WsRpcConnectorExampleService/");
+		rpcInvokeAction.setRpcPath("");
 
 		RpcResult rpcResult = localInvoke(rpcConnection, rpcInvokeAction);
 
-		outputValues = (SimpleRpcStructureField) rpcResult.getRpcFields().get(1);
+		outputValues = (SimpleRpcStructureField)rpcResult.getRpcFields().get(1);
 
-		Assert.assertEquals(callBackValue, ((RpcFlatField) outputValues.getChildrens().get(0)).getValue());
+		Assert.assertEquals(callBackValue, ((RpcFlatField)outputValues.getChildrens().get(0)).getValue());
 	}
 
-	@Test
 	public void intTest() {
 		int callBackValue = 100500;
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
@@ -139,12 +150,12 @@ public class WsRpcConnectionTest {
 		outputValues.getChildrens().add(rpcField);
 		rpcInvokeAction.getFields().add(outputValues);
 
-		rpcInvokeAction.setRpcPath("/WsRpcConnectorExampleService/");
+		rpcInvokeAction.setRpcPath("");
 
 		RpcResult rpcResult = localInvoke(rpcConnection, rpcInvokeAction);
 
-		outputValues = (SimpleRpcStructureField) rpcResult.getRpcFields().get(1);
-		Assert.assertEquals(BigDecimal.valueOf(callBackValue), ((RpcFlatField) outputValues.getChildrens().get(0)).getValue());
+		outputValues = (SimpleRpcStructureField)rpcResult.getRpcFields().get(1);
+		Assert.assertEquals(BigDecimal.valueOf(callBackValue), ((RpcFlatField)outputValues.getChildrens().get(0)).getValue());
 	}
 
 	// @Test primitive arrays doesn`t support now
@@ -199,22 +210,21 @@ public class WsRpcConnectionTest {
 		outputValues.getChildrens().add(rpcArrayField);
 		rpcInvokeAction.getFields().add(outputValues);
 
-		rpcInvokeAction.setRpcPath("/WsRpcConnectorExampleService/");
+		rpcInvokeAction.setRpcPath("");
 
 		RpcResult rpcResult = localInvoke(rpcConnection, rpcInvokeAction);
 
-		rpcArrayField = (SimpleRpcStructureListField) ((SimpleRpcStructureField) rpcResult.getRpcFields().get(1)).getChildrens().get(
+		rpcArrayField = (SimpleRpcStructureListField)((SimpleRpcStructureField)rpcResult.getRpcFields().get(1)).getChildrens().get(
 				0);
 
-		fields = (SimpleRpcFields) rpcArrayField.getChildrens().get(0);
+		fields = (SimpleRpcFields)rpcArrayField.getChildrens().get(0);
 
 		Assert.assertEquals(Integer.valueOf(arrayCount), Integer.valueOf(fields.getFields().size()));
-		Assert.assertEquals(BigDecimal.valueOf(callBackValue), ((RpcFlatField) fields.getFields().get(0)).getValue());
-		Assert.assertEquals(BigDecimal.valueOf(callBackValue + 1), ((RpcFlatField) fields.getFields().get(1)).getValue());
-		Assert.assertEquals(BigDecimal.valueOf(callBackValue + 2), ((RpcFlatField) fields.getFields().get(2)).getValue());
+		Assert.assertEquals(BigDecimal.valueOf(callBackValue), ((RpcFlatField)fields.getFields().get(0)).getValue());
+		Assert.assertEquals(BigDecimal.valueOf(callBackValue + 1), ((RpcFlatField)fields.getFields().get(1)).getValue());
+		Assert.assertEquals(BigDecimal.valueOf(callBackValue + 2), ((RpcFlatField)fields.getFields().get(2)).getValue());
 	}
 
-	@Test
 	public void structureTest() {
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
 		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction();
@@ -250,7 +260,7 @@ public class WsRpcConnectionTest {
 
 		rpcArrayField.setName("item");
 		rpcArrayField.setOriginalName("item");
-		//		rpcArrayField.setListElementName("structureArray");
+		// rpcArrayField.setListElementName("structureArray");
 
 		SimpleRpcFields fields = new SimpleRpcFields();
 
@@ -268,17 +278,65 @@ public class WsRpcConnectionTest {
 		outputValues.getChildrens().add(rpcArrayField);
 		rpcInvokeAction.getFields().add(outputValues);
 
-		rpcInvokeAction.setRpcPath("/WsRpcConnectorExampleService/");
+		rpcInvokeAction.setRpcPath("");
 
 		RpcResult rpcResult = localInvoke(rpcConnection, rpcInvokeAction);
-		outputValues = (SimpleRpcStructureField) rpcResult.getRpcFields().get(1);
+		outputValues = (SimpleRpcStructureField)rpcResult.getRpcFields().get(1);
 
-		String val = (String) ((SimpleRpcFlatField) ((SimpleRpcStructureListField) outputValues.getChildrens().get(0)).getChildren(
-				0).get(0)).getValue();
+		String val = (String)((SimpleRpcFlatField)((SimpleRpcStructureListField)outputValues.getChildrens().get(0)).getChildren(0).get(
+				0)).getValue();
 		Assert.assertEquals("Drake", val);
-		val = (String) ((SimpleRpcFlatField) ((SimpleRpcStructureListField) outputValues.getChildrens().get(0)).getChildren(0).get(
-				1)).getValue();
+		val = (String)((SimpleRpcFlatField)((SimpleRpcStructureListField)outputValues.getChildrens().get(0)).getChildren(0).get(1)).getValue();
 		Assert.assertEquals("Vlad", val);
+	}
+
+	public void decimalTest() {
+		BigDecimal callBackValue = new BigDecimal(100500);
+		// int callBackValue = 100500;
+		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
+		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction();
+
+		rpcInvokeAction.setAction("callBackInteger");
+
+		Map<QName, String> p = getProps();
+		p.put(new QName(WsRpcActionUtil.METHOD_INPUT_NAME), "callBackDecimal");
+		p.put(new QName(WsRpcActionUtil.METHOD_OUTPUT_NAME), "callBackDecimalResponse");
+		rpcInvokeAction.setProperties(p);
+
+		SimpleRpcStructureField inputValues = new SimpleRpcStructureField();
+		inputValues.setName(WsRpcActionUtil.INPUT);
+		inputValues.setOriginalName("callBackDecimal");
+
+		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
+		rpcField.setName("callBackValue");
+		rpcField.setOriginalName("callBackValue");
+		rpcField.setValue(callBackValue);
+		rpcField.setLength(String.valueOf(callBackValue).length());
+		rpcField.setDirection(Direction.INPUT);
+
+		inputValues.getChildrens().add(rpcField);
+		rpcInvokeAction.getFields().add(inputValues);
+
+		SimpleRpcStructureField outputValues = new SimpleRpcStructureField();
+		outputValues.setName(WsRpcActionUtil.OUTPUT);
+		outputValues.setOriginalName("callBackDecimalResponse");
+
+		rpcField = new SimpleRpcFlatField();
+		rpcField.setName("callBackResult");
+		rpcField.setOriginalName("callBackResult");
+		rpcField.setLength(4);
+		rpcField.setType(int.class);
+		rpcField.setDirection(Direction.OUTPUT);
+
+		outputValues.getChildrens().add(rpcField);
+		rpcInvokeAction.getFields().add(outputValues);
+
+		rpcInvokeAction.setRpcPath("");
+
+		RpcResult rpcResult = localInvoke(rpcConnection, rpcInvokeAction);
+
+		outputValues = (SimpleRpcStructureField)rpcResult.getRpcFields().get(1);
+		Assert.assertEquals(callBackValue, ((RpcFlatField)outputValues.getChildrens().get(0)).getValue());
 	}
 
 	public RpcResult localInvoke(RpcConnection rpcConnection, RpcInvokeAction rpcInvokeAction) {
