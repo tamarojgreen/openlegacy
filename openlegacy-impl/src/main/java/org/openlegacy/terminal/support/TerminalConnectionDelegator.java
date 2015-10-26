@@ -158,7 +158,7 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 			TerminalConnectionFactory terminalConnectionFactory = getConnectionFactory();
 			ConnectionPropertiesProvider connectionPropertiesProvider = applicationContext.getBean(ConnectionPropertiesProvider.class);
 			ConnectionProperties connectionProperties = connectionPropertiesProvider.getConnectionProperties();
-			terminalConnection = terminalConnectionFactory.getConnection(connectionProperties);
+			terminalConnection = terminalConnectionFactory.getConnection(SimpleConnectionProperties.clone(connectionProperties));
 			logger.info("Opened new session");
 		}
 		if (!isConnected()) {

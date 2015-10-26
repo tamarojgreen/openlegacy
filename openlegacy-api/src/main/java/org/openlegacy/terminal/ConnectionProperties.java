@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.openlegacy.terminal;
 
-public interface ConnectionProperties {
+import java.io.Serializable;
+
+public interface ConnectionProperties extends Serializable {
 
 	String getDeviceName();
 

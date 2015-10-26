@@ -26,9 +26,20 @@ public class SimpleConnectionProperties implements ConnectionProperties {
 		this.deviceName = deviceName;
 	}
 
+	public void setCodePage(String codePage) {
+		this.codePage = codePage;
+	}
+
 	@Override
 	public String getCodePage() {
 		return codePage;
+	}
+
+	public static SimpleConnectionProperties clone(ConnectionProperties connectionProeprties) {
+		SimpleConnectionProperties result = new SimpleConnectionProperties();
+		result.setDeviceName(connectionProeprties.getDeviceName());
+		result.setCodePage(connectionProeprties.getCodePage());
+		return result;
 	}
 
 }
