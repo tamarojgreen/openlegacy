@@ -14,6 +14,8 @@ import org.openlegacy.terminal.ConnectionProperties;
 
 public class SimpleConnectionProperties implements ConnectionProperties {
 
+	private static final long serialVersionUID = 1L;
+
 	private String deviceName;
 	private String codePage;
 

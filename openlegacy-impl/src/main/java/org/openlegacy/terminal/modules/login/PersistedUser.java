@@ -17,6 +17,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PersistedUser implements User {
 
+	private static final long serialVersionUID = 1L;
+
 	@XmlAttribute
 	private String userName;
 
