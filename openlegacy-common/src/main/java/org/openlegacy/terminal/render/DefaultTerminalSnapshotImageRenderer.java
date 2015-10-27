@@ -55,6 +55,8 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 
 	private boolean hidePasswordFields = true;
 
+	private Color colorHolder = null;
+
 	@Override
 	public void render(TerminalSnapshot terminalSnapshot, OutputStream output) {
 
@@ -110,7 +112,8 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 			for (int i = 0; i < text.length(); i++) {
 				// text is 0 based, columns are 1 based
 				TerminalField currentField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(rowNumber, i + 1));
-				if (currentField != null && currentField.getBackColor() != org.openlegacy.terminal.Color.BLACK) {
+				if (currentField != null && currentField.getBackColor() != org.openlegacy.terminal.Color.BLACK
+						&& imageDefaultTextColor == SnapshotUtils.convertColor(currentField.getColor())) {
 					graphics.setColor(imageBackgroundColor);
 				} else {
 					if (currentField != null) {
@@ -151,10 +154,11 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 			}
 			int rowHeight = toHeight(1);
 			if (terminalField.getBackColor() != org.openlegacy.terminal.Color.BLACK) {
-				graphics.setColor(SnapshotUtils.convertColor(terminalField.getBackColor()));
+				storeAndSetColor(graphics, SnapshotUtils.convertColor(terminalField.getBackColor()));
 				//
 				graphics.fillRect(startX, toHeight(position.getRow() - 1) + topPixelsOffset, toWidth(terminalField.getLength()),
 						rowHeight);
+				restoreColor(graphics);
 			}
 		}
 
@@ -165,6 +169,20 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 				graphics.drawString("^", toWidth(terminalPosition.getColumn() - 1 + leftColumnsOffset),
 						toHeight(terminalPosition.getRow()));
 			}
+		}
+	}
+
+	private void storeAndSetColor(Graphics graphics, Color color) {
+		if (color != null) {
+			colorHolder = graphics.getColor();
+			graphics.setColor(color);
+		}
+	}
+
+	private void restoreColor(Graphics graphics) {
+		if (colorHolder != null) {
+			graphics.setColor(colorHolder);
+			colorHolder = null;
 		}
 	}
 
@@ -267,11 +285,11 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 
 	public double fromHeight(int row) {
 
-		return (double)row / heightProportion;
+		return (double) row / heightProportion;
 	}
 
 	public double fromWidth(int col) {
-		return (double)col / widthProportion;
+		return (double) col / widthProportion;
 	}
 
 }

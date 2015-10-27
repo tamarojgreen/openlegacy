@@ -258,13 +258,31 @@ public class SnapshotUtils {
 			return Color.GREEN;
 		}
 		switch (color) {
+			case BLACK:
+				return Color.BLACK;
 			case BLUE:
+			case LIGHT_BLUE:
 				return new Color(0x0586F7);
+			case AQUA:
+			case LIGHT_AQUA:
+				return Color.CYAN;
 			case RED:
-			case LIGHT_RED:
 				return Color.RED;
+			case LIGHT_RED:
+				return new Color(0xff3333);
+			case PURPLE:
+				return new Color(0x800080);
+			case BROWN:
+				return new Color(0xa52a2a);
+			case WHITE:
 			case LIGHT_WHITE:
 				return Color.WHITE;
+			case GRAY:
+				return Color.GRAY;
+			case PINK:
+				return Color.PINK;
+			case YELLOW:
+				return Color.YELLOW;
 			default:
 				return Color.GREEN;
 		}
