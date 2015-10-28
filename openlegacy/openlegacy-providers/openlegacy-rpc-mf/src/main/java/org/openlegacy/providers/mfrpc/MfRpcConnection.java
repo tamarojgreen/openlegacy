@@ -120,7 +120,7 @@ public class MfRpcConnection implements RpcConnection {
 			invokeActionToMFBin.deserilize(rpcInvokeAction.getFields(), result, codePage, 0);
 
 		} catch (IOException e) {
-			return null;
+			throw new OpenLegacyRuntimeException("Fail to connect server ");
 		}
 
 		SimpleRpcResult rpcResult = new SimpleRpcResult();
