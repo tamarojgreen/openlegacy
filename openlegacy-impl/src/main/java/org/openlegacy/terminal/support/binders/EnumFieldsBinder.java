@@ -72,7 +72,7 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 			if (fieldAccessor == null) {
 				fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 			}
-			EnumFieldTypeDefinition fieldTypeDefinition = (EnumFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
+			EnumFieldTypeDefinition fieldTypeDefinition = (EnumFieldTypeDefinition) fieldDefinition.getFieldTypeDefinition();
 			TerminalPosition position = ScreenBinderLogic.retrievePosition(fieldDefinition, terminalSnapshot);
 			;
 
@@ -110,7 +110,7 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 
 		Assert.isTrue(entity instanceof ScreenEntity, "screen entity must implement ScreenEntity interface");
 
-		ScreenEntity screenEntity = (ScreenEntity)entity;
+		ScreenEntity screenEntity = (ScreenEntity) entity;
 
 		Collection<ScreenFieldDefinition> fieldDefinitions = fieldMappingsProvider.getFieldsMappingDefinitions(terminalSnapshot,
 				screenEntity.getClass());
@@ -134,7 +134,7 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 			if (!fieldDefinition.isEditable()) {
 				continue;
 			}
-			EnumFieldTypeDefinition fieldTypeDefinition = (EnumFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
+			EnumFieldTypeDefinition fieldTypeDefinition = (EnumFieldTypeDefinition) fieldDefinition.getFieldTypeDefinition();
 			TerminalPosition position = ScreenBinderLogic.retrievePosition(fieldDefinition, terminalSnapshot);
 			TerminalField enumField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(position.getRow(),
 					position.getColumn()));
@@ -143,9 +143,9 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 
 			Collection<Object> enums = fieldTypeDefinition.getDisplayValues().keySet();
 			for (Object enumValue : enums) {
-				if (enumValue.equals(fieldValue) && fieldDefinition.isEditable()) {
+				if (enumValue.equals(fieldValue) && fieldDefinition.isEditable() && enumField.isEditable()) {
 					// once enum from the POJO is found, find the associated host value
-					enumField.setValue((String)ReflectionUtil.invoke(enumValue, "getValue"));
+					enumField.setValue((String) ReflectionUtil.invoke(enumValue, "getValue"));
 					sendAction.getFields().add(enumField);
 				}
 			}
