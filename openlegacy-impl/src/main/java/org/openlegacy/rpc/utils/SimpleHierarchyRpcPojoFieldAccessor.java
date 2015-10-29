@@ -5,8 +5,10 @@ import org.openlegacy.rpc.RpcPojoFieldAccessor;
 public class SimpleHierarchyRpcPojoFieldAccessor implements HierarchyRpcPojoFieldAccessor {
 
 	private RpcPojoFieldAccessor topLevelAccessor;
+	protected Object entity;
 
 	public SimpleHierarchyRpcPojoFieldAccessor(Object entity) {
+		this.entity = entity;
 		topLevelAccessor = new SimpleRpcPojoFieldAccessor(entity);
 	}
 
