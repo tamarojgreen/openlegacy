@@ -38,7 +38,7 @@ import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.openlegacy.rpc.support.binders.RpcFieldsExpressionBinder;
 import org.openlegacy.rpc.utils.HierarchyRpcPojoFieldAccessor;
-import org.openlegacy.rpc.utils.SimpleHierarchyRpcPojoFieldAccessor;
+import org.openlegacy.rpc.utils.KeyPartFieldAccessor;
 import org.openlegacy.support.AbstractSession;
 import org.openlegacy.types.BinaryArray;
 import org.openlegacy.utils.ReflectionUtil;
@@ -76,6 +76,8 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		return rpcConnection;
 	}
 
+	private List<Object> processedFields = new ArrayList<Object>();
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T getEntity(Class<T> entityClass, Object... keys) throws EntityNotFoundException {
@@ -99,9 +101,12 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		}
 
 		List<? extends FieldDefinition> keysDefinitions = rpcDefinition.getKeys();
-		Assert.isTrue(keysDefinitions.size() == keys.length, MessageFormat.format(
-				"Provided keys {0} doesnt match entity {1} keys", StringUtils.join(keys, "-"), rpcDefinition.getEntityName()));
-		HierarchyRpcPojoFieldAccessor fieldAccesor = new SimpleHierarchyRpcPojoFieldAccessor(entity);
+		Assert.isTrue(
+				keysDefinitions.size() == keys.length,
+				MessageFormat.format("Provided keys {0} doesnt match entity {1} keys", StringUtils.join(keys, "-"),
+						rpcDefinition.getEntityName()));
+		// HierarchyRpcPojoFieldAccessor fieldAccesor = new SimpleHierarchyRpcPojoFieldAccessor(entity);
+		HierarchyRpcPojoFieldAccessor fieldAccesor = new KeyPartFieldAccessor(entity);
 		int index = 0;
 		for (FieldDefinition fieldDefinition : keysDefinitions) {
 
@@ -121,6 +126,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 			index++;
 		}
 
+		processedFields.clear();
 		return (T)doAction(actionAdapter, (RpcEntity)entity);
 	}
 
@@ -227,8 +233,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	}
 
-	final protected void populateRpcFields(RpcEntity rpcEntity, RpcEntityDefinition rpcEntityDefinition,
-			RpcInvokeAction rpcAction) {
+	final protected void populateRpcFields(RpcEntity rpcEntity, RpcEntityDefinition rpcEntityDefinition, RpcInvokeAction rpcAction) {
 		for (RpcEntityBinder rpcEntityBinder : rpcEntityBinders) {
 			rpcEntityBinder.populateAction(rpcAction, rpcEntity);
 		}
