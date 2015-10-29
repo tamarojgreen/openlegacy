@@ -1,0 +1,15 @@
+<snapshot type="INCOMING">
+    <cursor row="6" column="53" />
+    <row rowNumber="1">
+        <field value="Enum bind title" column="30" />
+    </row>
+    <row rowNumber="3">
+        <field column="1"/>
+        <field column="2" value="Stock Group . . . . . . . . ."/>
+        <field column="32"/>
+        <field column="33" value="SG" length="3" editable="false"/>
+        <field column="37" value="SG=Standard group CG=Custom Group"/>
+        <field column="78" value="   "/>
+    </row>
+    <size rows="24" columns="80"/>
+</snapshot>
