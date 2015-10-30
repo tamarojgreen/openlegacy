@@ -72,7 +72,7 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 		logger.debug("New session requested");
 		if (blockingQueue.size() == 0 && actives.size() < maxConnections) {
 			try {
-				lockKeepAliceSemaphore();
+				lockKeepAliveSemaphore();
 				initSession();
 			} catch (SessionInitException e) {
 				logger.debug(e.getMessage());
@@ -154,12 +154,16 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 				ReflectionUtil.newInstance(cleanupAction).perform(session, null);
 				logger.debug(MessageFormat.format("Session {0} cleanup action {1} performed", session, cleanupAction));
 			}
+			lockKeepAliveSemaphore();
 			blockingQueue.offer(session);
+			unlockKeepAliveSemaphore();
 			logger.debug(MessageFormat.format("Session {0} offered to queue", session));
 		} else {
 			endSession();
 			logger.debug(MessageFormat.format("Session {0} removed from queue as session is not connected", session));
+			lockKeepAliveSemaphore();
 			blockingQueue.remove(session);
+			unlockKeepAliveSemaphore();
 		}
 		actives.remove(session);
 		logger.debug(MessageFormat.format("Session {0} removed from active sessions", session));
@@ -173,7 +177,7 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 		}
 	}
 
-	protected void lockKeepAliceSemaphore() {
+	protected void lockKeepAliveSemaphore() {
 		try {
 			keepAliveSemaphore.acquire(1);
 		} catch (Exception e) {

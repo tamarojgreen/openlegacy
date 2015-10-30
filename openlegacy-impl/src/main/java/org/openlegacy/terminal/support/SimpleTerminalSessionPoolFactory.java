@@ -49,7 +49,7 @@ public class SimpleTerminalSessionPoolFactory extends AbstractSessionPoolFactory
 						}
 						TerminalAction keepAliveAction1 = ReflectionUtil.newInstance(keepAliveAction);
 
-						lockKeepAliceSemaphore();
+						lockKeepAliveSemaphore();
 						TerminalSession[] sessions = blockingQueue.toArray(new TerminalSession[blockingQueue.size()]);
 						unlockKeepAliveSemaphore();
 
