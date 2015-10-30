@@ -130,11 +130,11 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 			if (ClassUtils.getAllSuperclasses(fieldDefinition.getJavaType()).contains(BinaryArray.class)) {
 				BinaryArray array = null;
 				try {
-					array = (BinaryArray) fieldDefinition.getJavaType().newInstance();
+					array = (BinaryArray)fieldDefinition.getJavaType().newInstance();
 				} catch (Exception e) {
 					throw (new OpenLegacyRuntimeException(e));
 				}
-				array.setValue((String) keys[index]);
+				array.setValue((String)keys[index]);
 				directFieldAccessor.setFieldValue(StringUtil.removeNamespace(fieldDefinition.getName()), array);
 			} else {
 				directFieldAccessor.setFieldValue(StringUtil.removeNamespace(fieldDefinition.getName()), keys[index]);
@@ -142,7 +142,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 			index++;
 		}
 
-		return (T) doAction(actionAdapter, (RpcEntity) entity);
+		return (T)doAction(actionAdapter, (RpcEntity)entity);
 	}
 
 	@Override
@@ -190,7 +190,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		}
 
 		RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(rpcEntity.getClass());
-		RpcActionDefinition actionDefinition = (RpcActionDefinition) rpcDefinition.getAction(action.getClass());
+		RpcActionDefinition actionDefinition = (RpcActionDefinition)rpcDefinition.getAction(action.getClass());
 
 		SimpleRpcInvokeAction rpcAction = new SimpleRpcInvokeAction();
 		rpcAction.setAction(actionDefinition.getActionName());
@@ -200,7 +200,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		converToLegacyFields(rpcAction);
 
 		if (actionDefinition.getTargetEntity() != null) {
-			return (RpcEntity) getEntity(actionDefinition.getTargetEntity());
+			return (RpcEntity)getEntity(actionDefinition.getTargetEntity());
 		} else {
 			RpcResult rpcResult = invoke(rpcAction, rpcEntity.getClass().getSimpleName());
 			RpcResult rpcResultCopy = rpcResult.clone();
@@ -216,7 +216,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		CacheModule cacheModule = getModule(CacheModule.class);
 
 		if (cacheModule != null) {
-			return (RpcEntity) cacheModule.doStuff(action.getClass(), rpcEntity.getClass(), new ObtainEntityCallback() {
+			return (RpcEntity)cacheModule.doStuff(action.getClass(), rpcEntity.getClass(), new ObtainEntityCallback() {
 
 				@Override
 				public Object obtainEntity() {
@@ -232,7 +232,8 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 					List<? extends FieldDefinition> keysDefinitions = rpcDefinition.getKeys();
 
 					List<Object> entityKeys = new ArrayList<Object>();
-					HierarchyRpcPojoFieldAccessor fieldAccesor = new SimpleHierarchyRpcPojoFieldAccessor(rpcEntity);
+
+					HierarchyRpcPojoFieldAccessor fieldAccesor = new KeyPartFieldAccessor(rpcEntity);
 					for (FieldDefinition fieldDefinition : keysDefinitions) {
 						RpcPojoFieldAccessor f = fieldAccesor.getPartAccessor(fieldDefinition.getName());
 						entityKeys.add(f.getFieldValue(StringUtil.removeNamespace(fieldDefinition.getName())));
@@ -247,7 +248,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	final protected RpcResult invoke(SimpleRpcInvokeAction rpcAction, String entityName) {
 		// clone to avoid modifications by connection of fields collection
-		SimpleRpcInvokeAction clonedRpcAction = (SimpleRpcInvokeAction) SerializationUtils.clone(rpcAction);
+		SimpleRpcInvokeAction clonedRpcAction = (SimpleRpcInvokeAction)SerializationUtils.clone(rpcAction);
 
 		// Determine if any fields need to be removed.
 		// Some calculated fields do not have a corresponding field on the actual RPC Call
@@ -268,7 +269,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		Collection<? extends SessionModule> modulesList = getSessionModules().getModules();
 		for (SessionModule sessionModule : modulesList) {
 			if (sessionModule instanceof ApplicationConnectionListener) {
-				((ApplicationConnectionListener) sessionModule).afterAction(getConnection(), rpcAction, rpcResult, entityName);
+				((ApplicationConnectionListener)sessionModule).afterAction(getConnection(), rpcAction, rpcResult, entityName);
 			}
 		}
 	}
