@@ -71,7 +71,7 @@ public class SimpleTerminalSessionPoolFactory extends AbstractSessionPoolFactory
 			keepAliveThread.start();
 		}
 		if (cleanupAction != null) {
-			cachedThreadPool.submit(new Runnable() {
+			returnSessionsThread = new Thread() {
 
 				@Override
 				public void run() {
@@ -89,8 +89,8 @@ public class SimpleTerminalSessionPoolFactory extends AbstractSessionPoolFactory
 						}
 					}
 				}
-			});
-			cachedThreadPool.shutdown();
+			};
+			returnSessionsThread.start();
 		}
 	}
 

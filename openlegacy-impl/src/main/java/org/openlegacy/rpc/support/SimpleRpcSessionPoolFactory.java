@@ -60,7 +60,7 @@ public class SimpleRpcSessionPoolFactory extends AbstractSessionPoolFactory<RpcS
 			keepAliveThread.start();
 		}
 		if (cleanupAction != null) {
-			cachedThreadPool.submit(new Runnable() {
+			returnSessionsThread = new Thread() {
 
 				@Override
 				public void run() {
@@ -78,8 +78,8 @@ public class SimpleRpcSessionPoolFactory extends AbstractSessionPoolFactory<RpcS
 						}
 					}
 				}
-			});
-			cachedThreadPool.shutdown();
+			};
+			returnSessionsThread.start();
 		}
 
 	}
