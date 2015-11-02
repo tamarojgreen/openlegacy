@@ -18,6 +18,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public abstract class AbstractSessionPoolFactory<S extends Session, A extends SessionAction<S>> implements SessionFactory<S, A>,
 		InitializingBean, DisposableBean {
@@ -44,9 +46,9 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 
 	protected Thread keepAliveThread;
 
-	protected Thread returnSessionsThread;
-
 	protected boolean stopThreads = false;
+
+	protected ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
 
 	@Autowired(required = false)
 	private List<SessionPoolListner> listeners;
@@ -64,7 +66,7 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 	@Override
 	public S getSession() {
 		logger.debug("New session requested");
-		if (blockingQueue.size() == 0 && actives.size() < maxConnections) {
+		if (blockingQueue.size() == 0 && actives.size() + dirties.size() < maxConnections) {
 			try {
 				initSession();
 			} catch (SessionInitException e) {
