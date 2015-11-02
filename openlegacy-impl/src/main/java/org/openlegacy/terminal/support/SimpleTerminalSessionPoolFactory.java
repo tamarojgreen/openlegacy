@@ -25,7 +25,8 @@ import java.text.MessageFormat;
 
 import javax.inject.Inject;
 
-public class SimpleTerminalSessionPoolFactory extends AbstractSessionPoolFactory<TerminalSession, TerminalAction> implements TerminalSessionFactory {
+public class SimpleTerminalSessionPoolFactory extends AbstractSessionPoolFactory<TerminalSession, TerminalAction> implements
+		TerminalSessionFactory {
 
 	private static final Log logger = LogFactory.getLog(SimpleTerminalSessionPoolFactory.class);
 
@@ -72,7 +73,7 @@ public class SimpleTerminalSessionPoolFactory extends AbstractSessionPoolFactory
 			keepAliveThread.start();
 		}
 		if (cleanupAction != null) {
-			returnSessionsThread = new Thread() {
+			cachedThreadPool.execute(new Runnable() {
 
 				@Override
 				public void run() {
@@ -90,8 +91,8 @@ public class SimpleTerminalSessionPoolFactory extends AbstractSessionPoolFactory
 						}
 					}
 				}
-			};
-			returnSessionsThread.start();
+			});
+			cachedThreadPool.shutdown();
 		}
 	}
 
