@@ -51,7 +51,9 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 
 	protected Semaphore keepAliveSemaphore = new Semaphore(1, true);
 
-	protected ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+	protected Thread returnSessionsThread;
+
+	private ExecutorService cleanupThreadPool = Executors.newCachedThreadPool();
 
 	public void setStopThreads(boolean stopThreads) {
 		this.stopThreads = stopThreads;
@@ -73,7 +75,9 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 	@Override
 	public S getSession() {
 		logger.debug("New session requested");
-		if (blockingQueue.size() == 0 && actives.size() + dirties.size() < maxConnections) {
+		logger.debug("blockingQueue: " + blockingQueue.size() + " active sessions: " + actives.size() + " maxConnections: "
+				+ maxConnections);
+		if (blockingQueue.size() == 0 && actives.size() < maxConnections) {
 			try {
 				lockKeepAliveSemaphore();
 				initSession();
@@ -154,8 +158,14 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 	protected void returnSessionInner(final S session) {
 		if (session.isConnected()) {
 			if (cleanupAction != null) {
-				ReflectionUtil.newInstance(cleanupAction).perform(session, null);
-				logger.debug(MessageFormat.format("Session {0} cleanup action {1} performed", session, cleanupAction));
+				cleanupThreadPool.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						ReflectionUtil.newInstance(cleanupAction).perform(session, null);
+						logger.debug(MessageFormat.format("Session {0} cleanup action {1} performed", session, cleanupAction));
+					}
+				});
 			}
 			lockKeepAliveSemaphore();
 			blockingQueue.offer(session);
@@ -178,6 +188,7 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 				listener.endSession();
 			}
 		}
+		cleanupThreadPool.shutdown();
 	}
 
 	protected void lockKeepAliveSemaphore() {
