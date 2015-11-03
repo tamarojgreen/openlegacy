@@ -16,12 +16,12 @@ import com.sabratec.applinx.baseobject.GXIClientBaseObject;
 
 import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.terminal.ConnectionProperties;
+import org.openlegacy.terminal.LiveTerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalConnection;
-import org.openlegacy.terminal.TerminalConnectionFactory;
 
 import javax.inject.Inject;
 
-public class ApxTerminalConnctionFactory implements TerminalConnectionFactory {
+public class ApxTerminalConnctionFactory implements LiveTerminalConnectionFactory {
 
 	@Inject
 	private ApxServerLoader apxServerLoader;
