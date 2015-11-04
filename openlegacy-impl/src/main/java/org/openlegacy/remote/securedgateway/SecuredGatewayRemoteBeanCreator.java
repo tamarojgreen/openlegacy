@@ -36,7 +36,7 @@ public class SecuredGatewayRemoteBeanCreator implements BeanFactoryPostProcessor
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		properties = (SecuredGatewayProperties)beanFactory.getBean("securedGatewayProperties");
-		createRemoteBeanDefinition(beanFactory, SecuredGatewayUtils.getBeanNameForType(properties.getConnectionFactory()));
+		// createRemoteBeanDefinition(beanFactory, SecuredGatewayUtils.getBeanNameForType(properties.getConnectionFactory()));
 	}
 
 	protected void createRemoteBeanDefinition(ConfigurableListableBeanFactory beanFactory, String beanName) {

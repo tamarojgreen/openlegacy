@@ -242,6 +242,7 @@ public class ProxyUtil {
 
 	public static void registerProxyClassPartity(Class<?> orig, Class<?> proxy) {
 		proxyMap.put(orig, proxy);
+		logger.info(String.format("Put classes: %s, %s", orig.getName(), proxy.getName()));
 	}
 
 	public static Class<?> getProxyClassPartity(Class<?> orig) {

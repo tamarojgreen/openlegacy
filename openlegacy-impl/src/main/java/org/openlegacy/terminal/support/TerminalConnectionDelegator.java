@@ -28,7 +28,6 @@ import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
 
@@ -170,8 +169,12 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 	private TerminalConnectionFactory getConnectionFactory() {
 		final OpenLegacyProperties olProperties = applicationContext.getBean(OpenLegacyProperties.class);
 		boolean isLiveSession = olProperties.isLiveSession();
-		return (TerminalConnectionFactory)applicationContext.getBean(ProxyUtil.getProxyClassPartity(isLiveSession ? LiveTerminalConnectionFactory.class
-				: MockTerminalConnectionFactory.class));
+
+		return (TerminalConnectionFactory)applicationContext.getBean(isLiveSession ? LiveTerminalConnectionFactory.class
+				: MockTerminalConnectionFactory.class);
+		// return (TerminalConnectionFactory)applicationContext.getBean(ProxyUtil.getProxyClassPartity(isLiveSession ?
+		// LiveTerminalConnectionFactory.class
+		// : MockTerminalConnectionFactory.class));
 	}
 
 	@Override

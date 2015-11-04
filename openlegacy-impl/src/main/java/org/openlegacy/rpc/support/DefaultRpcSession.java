@@ -259,7 +259,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 	final protected RpcResult invoke(SimpleRpcInvokeAction rpcAction, String entityName) {
 		// clone to avoid modifications by connection of fields collection
 		SimpleRpcInvokeAction clonedRpcAction = (SimpleRpcInvokeAction)SerializationUtils.clone(rpcAction);
-
+		try {
 			// Determine if any fields need to be removed.
 			// Some calculated fields do not have a corresponding field on the actual RPC Call
 			final List<RpcField> fieldsToRemove = new ArrayList<RpcField>();

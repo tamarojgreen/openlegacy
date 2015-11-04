@@ -11,6 +11,7 @@
 
 package org.openlegacy.remote.securedgateway;
 
+import org.openlegacy.exceptions.OpenlegacyRemoteRuntimeException;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +52,7 @@ public class SecuredGatewayPostProcessor implements BeanPostProcessor {
 			factoryBean.afterPropertiesSet();
 			return factoryBean.getObject();
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			throw (new OpenlegacyRemoteRuntimeException(e));
 		}
 	}
 
