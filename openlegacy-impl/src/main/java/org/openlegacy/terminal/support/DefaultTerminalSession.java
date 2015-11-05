@@ -321,6 +321,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		if (snapshot != null && snapshot.getSequence() != null
 				&& !terminalConnection.getSequence().equals(snapshot.getSequence())) {
 			snapshot = null;
+			terminalConnection.fetchSnapshot();
 		}
 
 		if (snapshot != null) {
