@@ -133,6 +133,7 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 	@Override
 	public void destroy() throws Exception {
 		stopThreads = true;
+		cleanupThreadPool.shutdown();
 	}
 
 	@Override
@@ -175,7 +176,6 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 				listener.endSession();
 			}
 		}
-		cleanupThreadPool.shutdown();
 	}
 
 }
