@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.exceptions.TerminalActionException;
@@ -25,6 +27,7 @@ public abstract class AbstractTerminalField implements ModifiableTerminalField, 
 	private TerminalPosition position;
 	private TerminalPosition endPosition;
 	private Integer length;
+	private final static Log logger = LogFactory.getLog(AbstractTerminalField.class);
 
 	@Override
 	public String getValue() {
@@ -124,6 +127,7 @@ public abstract class AbstractTerminalField implements ModifiableTerminalField, 
 		if (isEditable()) {
 			modifiedValue = value;
 		} else {
+			logger.warn("An attempt to update a readonly field:" + this);
 			throw (new TerminalActionException("An attempt to update a readonly field:" + this));
 		}
 	}
