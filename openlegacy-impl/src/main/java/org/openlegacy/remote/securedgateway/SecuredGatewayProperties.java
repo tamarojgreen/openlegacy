@@ -15,10 +15,8 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.rpc.LiveRpcConnectionFactory;
 import org.openlegacy.rpc.MockRpcConnectionFactory;
-import org.openlegacy.rpc.RpcConnectionFactory;
 import org.openlegacy.terminal.LiveTerminalConnectionFactory;
 import org.openlegacy.terminal.MockTerminalConnectionFactory;
-import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -30,8 +28,13 @@ public class SecuredGatewayProperties {
 	public static final String RPC = "rpc";
 	public static final String TERMINAL = "terminal";
 
-	private static final String LIVE = "RemoteLiveConnectionFactory";
-	private static final String MOCK = "RemoteMockConnectionFactory";
+	public static final String ENDPOINT_BEAN_NAME = "remoteConnectionFactory";
+
+	public static final String TERMINAL_MOCK_BEAN_NAME = "mockTerminalConnectionFactory";
+	public static final String TERMINAl_LIVE_BEAN_NAME = "liveHostTerminalConnectionFactory";
+	public static final String RPC_MOCK_BEAN_NAME = "mockRpcConnectionFactory";
+	public static final String RPC_LIVE_BEAN_NAME = "rpcConnectionFactory";
+
 	public static final String FILE_PATH = "/src/main/resources/securedGateway.properties";
 
 	private String host = null;
@@ -72,7 +75,11 @@ public class SecuredGatewayProperties {
 	}
 
 	public Class<?> getConnectionFactoryInterface() {
-		return isRpc() ? RpcConnectionFactory.class : TerminalConnectionFactory.class;
+		if (isRpc()) {
+			return isLiveSession() ? LiveRpcConnectionFactory.class : MockRpcConnectionFactory.class;
+		} else {
+			return isLiveSession() ? LiveTerminalConnectionFactory.class : MockTerminalConnectionFactory.class;
+		}
 	}
 
 	public String getRemoteConnectionFactoryUrl() {
@@ -80,7 +87,15 @@ public class SecuredGatewayProperties {
 	}
 
 	public String getRemoteConnectionFactoryBeanName() {
-		return solution + (liveSession ? LIVE : MOCK);
+		return ENDPOINT_BEAN_NAME;
+	}
+
+	public String getConnectionFactoryBeanName() {
+		if (isRpc()) {
+			return isLiveSession() ? RPC_LIVE_BEAN_NAME : RPC_MOCK_BEAN_NAME;
+		} else {
+			return isLiveSession() ? TERMINAl_LIVE_BEAN_NAME : TERMINAL_MOCK_BEAN_NAME;
+		}
 	}
 
 	public Properties toProperties() {
@@ -101,5 +116,9 @@ public class SecuredGatewayProperties {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static String getSecuredGatewayProjectName(String name) {
+		return String.format("_%s-secured-gateway", name);
 	}
 }

@@ -42,8 +42,4 @@
 	</bean>
 	
 	<bean id = "connectionFactoryInterceptor" class = "org.openlegacy.remote.securedgateway.SecuredGatewayConnectionFactoryInterceptor"/>
-	
-	<bean id = "remoteBeanCreator" class = "org.openlegacy.remote.securedgateway.SecuredGatewayRemoteBeanCreator" />
-	
-	<context:property-override location="classpath:securedGateway.properties" ignore-unresolvable="true" ignore-resource-not-found="true" />
 </beans>

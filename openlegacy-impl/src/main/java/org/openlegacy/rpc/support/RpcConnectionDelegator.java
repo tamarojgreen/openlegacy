@@ -24,7 +24,6 @@ import org.openlegacy.rpc.RpcConnectionFactory;
 import org.openlegacy.rpc.RpcInvokeAction;
 import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.RpcSnapshot;
-import org.openlegacy.utils.ProxyUtil;
 import org.springframework.context.ApplicationContext;
 
 import java.io.Serializable;
@@ -172,8 +171,8 @@ public class RpcConnectionDelegator implements RpcConnection, Serializable {
 	private RpcConnectionFactory getConnectionFactory() {
 		final OpenLegacyProperties olProperties = applicationContext.getBean(OpenLegacyProperties.class);
 		boolean isLiveSession = olProperties.isLiveSession();
-		return (RpcConnectionFactory)applicationContext.getBean(ProxyUtil.getProxyClassPartity(isLiveSession ? LiveRpcConnectionFactory.class
-				: MockRpcConnectionFactory.class));
+		return (RpcConnectionFactory)applicationContext.getBean(isLiveSession ? LiveRpcConnectionFactory.class
+				: MockRpcConnectionFactory.class);
 	}
 
 }

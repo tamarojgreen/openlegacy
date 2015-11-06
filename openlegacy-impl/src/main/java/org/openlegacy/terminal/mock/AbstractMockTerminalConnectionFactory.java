@@ -17,6 +17,7 @@ import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
 import org.openlegacy.terminal.modules.trail.TerminalPersistedTrail;
 import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
 import org.openlegacy.utils.XmlSerializationUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 import java.io.InputStream;
@@ -24,7 +25,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
 
 public abstract class AbstractMockTerminalConnectionFactory implements MockTerminalConnectionFactory {
@@ -34,7 +34,7 @@ public abstract class AbstractMockTerminalConnectionFactory implements MockTermi
 	private List<TerminalSnapshot> snapshots = null;
 	private boolean verifySend;
 	private String trailName;
-	@Inject
+	@Autowired(required = true)
 	private OpenLegacyProperties openLegacyProperties;
 
 	/**
