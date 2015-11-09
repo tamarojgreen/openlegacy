@@ -70,6 +70,8 @@ public class StoredProcRpcConnection implements RpcConnection {
 	public boolean isConnected() {
 		try {
 			return dbConnection != null && dbConnection.isValid(10000);
+		} catch (AbstractMethodError abstractMethodError) {
+			return true;
 		} catch (SQLException e) {
 			throw new OpenLegacyRuntimeException(e);
 		}
