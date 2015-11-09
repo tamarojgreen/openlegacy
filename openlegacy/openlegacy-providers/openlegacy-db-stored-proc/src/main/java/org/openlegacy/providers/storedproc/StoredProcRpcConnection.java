@@ -1,5 +1,7 @@
 package org.openlegacy.providers.storedproc;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.rpc.RpcConnection;
@@ -26,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StoredProcRpcConnection implements RpcConnection {
+
+	private final static Log logger = LogFactory.getLog(StoredProcRpcConnection.class);
 
 	private Integer sequence = 0;
 
@@ -130,6 +134,7 @@ public class StoredProcRpcConnection implements RpcConnection {
 
 	@Override
 	public RpcResult invoke(RpcInvokeAction rpcInvokeAction) {
+		StringBuilder inputSb = new StringBuilder(), outputSb = new StringBuilder();
 		String procName = rpcInvokeAction.getRpcPath();
 
 		List<RpcField> inputFields = new ArrayList<RpcField>();
@@ -150,8 +155,8 @@ public class StoredProcRpcConnection implements RpcConnection {
 
 			if (f instanceof RpcStructureField) {
 				if (f.getName().equals("results") || f.getDirection() == Direction.OUTPUT) {
-					if (((RpcStructureField) f).getChildrens().size() > 0) {
-						RpcField ff = ((RpcStructureField) f).getChildrens().get(0);
+					if (((RpcStructureField)f).getChildrens().size() > 0) {
+						RpcField ff = ((RpcStructureField)f).getChildrens().get(0);
 						if (ff instanceof RpcStructureListField) {
 							resultsFields.add(ff);
 						} else {
@@ -176,12 +181,14 @@ public class StoredProcRpcConnection implements RpcConnection {
 		sb.append(")}");
 
 		try {
+			logger.debug(String.format("Call statement: %s", sb.toString()));
 			CallableStatement cs = dbConnection.prepareCall(sb.toString());
 
 			for (int i = 0; i < inputFields.size(); ++i) {
-				RpcFlatField field = (RpcFlatField) inputFields.get(i);
+				RpcFlatField field = (RpcFlatField)inputFields.get(i);
 				if (field.getDirection() == Direction.INPUT || field.getDirection() == Direction.INPUT_OUTPUT) {
 					cs.setObject(field.getOrder() + 1, field.getValue());
+					inputSb.append(String.format("%s = %s; ", field.getName(), String.valueOf(field.getValue())));
 				}
 
 				if (field.getDirection() == Direction.INPUT_OUTPUT || field.getDirection() == Direction.OUTPUT) {
@@ -189,19 +196,21 @@ public class StoredProcRpcConnection implements RpcConnection {
 				}
 			}
 
+			logger.debug(String.format("Input params: %s", inputSb.toString()));
+
 			cs.execute();
 
 			// fetch values for output params
 
 			for (RpcField f : outputFields) {
-				((RpcFlatField) f).setValue(cs.getObject(f.getOrder() + 1));
+				((RpcFlatField)f).setValue(cs.getObject(f.getOrder() + 1));
+				outputSb.append(String.format("%s = %s; ", f.getName(), String.valueOf(((RpcFlatField)f).getValue())));
 			}
-
 			// fetch result set
 
 			for (RpcField resultField : resultsFields) {
 				if (resultField instanceof RpcStructureListField) {
-					SimpleRpcStructureListField lf = (SimpleRpcStructureListField) resultField;
+					SimpleRpcStructureListField lf = (SimpleRpcStructureListField)resultField;
 					lf.getChildrens().clear();
 				}
 			}
@@ -214,26 +223,36 @@ public class StoredProcRpcConnection implements RpcConnection {
 					while (rs.next()) {
 						for (RpcField resultField : resultsFields) {
 							if (resultField instanceof RpcStructureListField) {
-								SimpleRpcStructureListField lf = (SimpleRpcStructureListField) resultField;
+								SimpleRpcStructureListField lf = (SimpleRpcStructureListField)resultField;
 
 								SimpleRpcFields ffs = new SimpleRpcFields();
 
 								ResultSetMetaData md = rs.getMetaData();
+								outputSb.append(String.format("%s [", lf.getName()));
 								for (int i = 1; i <= md.getColumnCount(); ++i) {
-									ffs.add(FieldsUtils.makeField(md.getColumnLabel(i), rs.getObject(i)));
+									RpcFlatField field = FieldsUtils.makeField(md.getColumnLabel(i), rs.getObject(i));
+									ffs.add(field);
+									outputSb.append(String.format("%s = %s; ", field.getName(), String.valueOf(field.getValue())));
 								}
-
+								outputSb.append("]; ");
 								lf.getChildrens().add(ffs);
 							} else if (firstRecord && (resultField instanceof RpcStructureField)) {
 								ResultSetMetaData md = rs.getMetaData();
 
-								for (RpcField f : ((RpcStructureField) resultField).getChildrens()) {
+								outputSb.append(String.format("%s [", ((RpcStructureField)resultField).getName()));
+
+								for (RpcField f : ((RpcStructureField)resultField).getChildrens()) {
 									for (int i = 1; i <= md.getColumnCount(); ++i) {
 										if (md.getColumnLabel(i).equalsIgnoreCase(f.getName())) {
-											((SimpleRpcFlatField) f).setValue(rs.getObject(i));
+											((SimpleRpcFlatField)f).setValue(rs.getObject(i));
+
+											outputSb.append(String.format("%s = %s; ", f.getName(),
+													String.valueOf(((SimpleRpcFlatField)f).getValue())));
 										}
 									}
 								}
+
+								outputSb.append("]; ");
 
 							}
 						}
@@ -249,6 +268,8 @@ public class StoredProcRpcConnection implements RpcConnection {
 		} catch (SQLException e) {
 			throw new OpenLegacyRuntimeException(e);
 		}
+
+		logger.debug(String.format("Output params: %s", outputSb.toString()));
 
 		SimpleRpcResult rpcResult = new SimpleRpcResult();
 		rpcResult.setRpcFields(rpcInvokeAction.getFields());
