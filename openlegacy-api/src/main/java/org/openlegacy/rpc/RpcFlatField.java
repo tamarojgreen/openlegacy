@@ -89,4 +89,6 @@ public interface RpcFlatField extends RpcField {
 
 	public String getOriginalName();
 
+	String getLegacyType();
+
 }
