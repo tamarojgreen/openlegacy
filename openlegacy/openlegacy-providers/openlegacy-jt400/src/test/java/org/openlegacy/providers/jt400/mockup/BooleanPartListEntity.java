@@ -7,8 +7,10 @@ import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.annotations.rpc.RpcPartList;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.READ;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RpcEntity(name = "BooleanPartListEntity")
@@ -40,5 +42,10 @@ public class BooleanPartListEntity implements org.openlegacy.rpc.RpcEntity {
 		public void setBool(Boolean bool) {
 			this.bool = bool;
 		}
+	}
+
+	@Override
+	public List<RpcActionDefinition> getActions() {
+		return new ArrayList<RpcActionDefinition>();
 	}
 }

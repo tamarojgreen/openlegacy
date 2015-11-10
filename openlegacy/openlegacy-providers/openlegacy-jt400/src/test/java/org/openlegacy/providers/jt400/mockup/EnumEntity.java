@@ -5,7 +5,11 @@ import org.openlegacy.annotations.rpc.RpcActions;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.definitions.EnumGetValue;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.READ;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RpcEntity(name = "EnumEntity")
 @RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ENUMTEST.PGM") })
@@ -56,4 +60,8 @@ public class EnumEntity implements org.openlegacy.rpc.RpcEntity {
 		this.secondColor = secondColor;
 	}
 
+	@Override
+	public List<RpcActionDefinition> getActions() {
+		return new ArrayList<RpcActionDefinition>();
+	}
 }

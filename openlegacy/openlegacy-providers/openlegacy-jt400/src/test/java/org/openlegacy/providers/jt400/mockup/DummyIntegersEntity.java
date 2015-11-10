@@ -6,7 +6,11 @@ import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcNumericField;
 import org.openlegacy.annotations.rpc.RpcPart;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.READ;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RpcEntity(name = "DummyIntegersEntity")
 @RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/GROUPTEST.PGM", global = false), })
@@ -109,5 +113,10 @@ public class DummyIntegersEntity implements org.openlegacy.rpc.RpcEntity {
 		@RpcField(length = 2, originalName = "GROUP2CHILD2")
 		private Integer group2child2;
 
+	}
+
+	@Override
+	public List<RpcActionDefinition> getActions() {
+		return new ArrayList<RpcActionDefinition>();
 	}
 }

@@ -6,7 +6,11 @@ import org.openlegacy.annotations.rpc.RpcBooleanField;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcPart;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.READ;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RpcEntity(name = "BooleanPartEntity")
 @RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/BOOLPART.PGM") })
@@ -36,5 +40,10 @@ public class BooleanPartEntity implements org.openlegacy.rpc.RpcEntity {
 		public void setBool(Boolean bool) {
 			this.bool = bool;
 		}
+	}
+
+	@Override
+	public List<RpcActionDefinition> getActions() {
+		return new ArrayList<RpcActionDefinition>();
 	}
 }

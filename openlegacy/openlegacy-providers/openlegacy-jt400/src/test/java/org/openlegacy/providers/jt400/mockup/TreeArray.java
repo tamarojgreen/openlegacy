@@ -7,8 +7,10 @@ import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcNumericField;
 import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.annotations.rpc.RpcPartList;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.READ;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RpcEntity(name = "TreeArray")
@@ -67,5 +69,10 @@ public class TreeArray implements org.openlegacy.rpc.RpcEntity {
 
 		}
 
+	}
+
+	@Override
+	public List<RpcActionDefinition> getActions() {
+		return new ArrayList<RpcActionDefinition>();
 	}
 }

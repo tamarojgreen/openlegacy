@@ -8,8 +8,10 @@ import org.openlegacy.annotations.rpc.RpcNavigation;
 import org.openlegacy.annotations.rpc.RpcNumericField;
 import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.annotations.rpc.RpcPartList;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.READ;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ITEMS10.PGM", global = false) })
@@ -20,7 +22,8 @@ public class Items implements org.openlegacy.rpc.RpcEntity {
 	@RpcPartList(count = 8)
 	private List<InnerRecord> innerRecord;
 
-	@RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ITEMDETAIL.PGM", displayName = "View", targetEntity = ItemDetails.class, alias = "display") })
+	@RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ITEMDETAIL.PGM", displayName = "View",
+			targetEntity = ItemDetails.class, alias = "display") })
 	@RpcPart(name = "InnerRecord", legacyContainerName = "Top")
 	public static class InnerRecord {
 
@@ -66,5 +69,10 @@ public class Items implements org.openlegacy.rpc.RpcEntity {
 
 	public void setInnerRecord(List<InnerRecord> innerRecord) {
 		this.innerRecord = innerRecord;
+	}
+
+	@Override
+	public List<RpcActionDefinition> getActions() {
+		return new ArrayList<RpcActionDefinition>();
 	}
 }

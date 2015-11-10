@@ -5,7 +5,11 @@ import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.annotations.rpc.RpcActions;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.READ;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RpcEntity
 @RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/RPGSTRNUM.PGM") })
@@ -53,5 +57,10 @@ public class RpgStrNum implements org.openlegacy.rpc.RpcEntity {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	@Override
+	public List<RpcActionDefinition> getActions() {
+		return new ArrayList<RpcActionDefinition>();
 	}
 }

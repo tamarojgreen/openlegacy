@@ -6,8 +6,11 @@ import org.openlegacy.annotations.rpc.RpcBooleanField;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcPart;
+import org.openlegacy.definitions.RpcActionDefinition;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RpcEntity
 @RpcActions(actions = { @Action(action = org.openlegacy.rpc.actions.RpcActions.READ.class, path = "/QSYS.lib/QSYRUSRI.pgm") })
@@ -240,4 +243,8 @@ public class Qsyrusri implements org.openlegacy.rpc.RpcEntity {
 		this.errorCode = errorCode;
 	}
 
+	@Override
+	public List<RpcActionDefinition> getActions() {
+		return new ArrayList<RpcActionDefinition>();
+	}
 }

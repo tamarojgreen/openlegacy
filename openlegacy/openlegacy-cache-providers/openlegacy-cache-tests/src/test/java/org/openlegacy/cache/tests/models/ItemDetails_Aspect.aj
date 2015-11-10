@@ -5,10 +5,18 @@ package org.openlegacy.cache.tests.models;
 
 import org.openlegacy.cache.tests.models.ItemDetails.ItemRecord;
 import org.openlegacy.cache.tests.models.ItemDetails.Shipping;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.RpcEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
 	declare parents: ItemDetails implements RpcEntity;
+
+	public List<RpcActionDefinition> ItemDetails.getActions() {
+		return new ArrayList<RpcActionDefinition>();
+	}
 
 	public Integer ItemDetails.getItemNum() {
 		return this.itemNum;

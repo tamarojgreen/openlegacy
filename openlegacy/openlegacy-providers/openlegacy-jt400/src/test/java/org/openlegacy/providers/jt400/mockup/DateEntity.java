@@ -5,9 +5,12 @@ import org.openlegacy.annotations.rpc.RpcActions;
 import org.openlegacy.annotations.rpc.RpcDateField;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.READ;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RpcEntity(name = "DateEntity")
 @RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/DATETEST.PGM") })
@@ -37,4 +40,8 @@ public class DateEntity implements org.openlegacy.rpc.RpcEntity {
 		this.dateOut = dateOut;
 	}
 
+	@Override
+	public List<RpcActionDefinition> getActions() {
+		return new ArrayList<RpcActionDefinition>();
+	}
 }
