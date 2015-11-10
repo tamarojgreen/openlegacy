@@ -80,10 +80,10 @@ public class Jt400RpcConnection implements RpcConnection {
 		if (rpcInvokeAction.getAction() == null) {
 			((SimpleRpcInvokeAction)rpcInvokeAction).setAction(actionAlias);
 		}
-		String action = rpcInvokeAction.getAction();
+		String action = actionAlias;
 
 		ProgramCallDocument programCallDocument = null;
-		if (actionCache.containsKey(action)) {
+		if (actionCache.containsKey(actionAlias)) {
 			programCallDocument = (ProgramCallDocument)actionCache.get(action).clone();
 		} else {
 

@@ -62,7 +62,9 @@ public class SimpleRpcStructureListField extends AbstractRpcStructure implements
 
 			length += (rpcField.getLength());
 		}
-		return length * childrens.size();
+		length *= childrens.size();
+
+		return length;
 	}
 
 	@Override
