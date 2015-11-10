@@ -7,8 +7,12 @@ import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcNavigation;
 import org.openlegacy.annotations.rpc.RpcPart;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.READ;
 import org.openlegacy.rpc.actions.RpcActions.SHOW;
+
+import java.util.Collections;
+import java.util.List;
 
 @RpcEntity(displayName = "Dummy Entity")
 @RpcActions(actions = { @Action(action = READ.class, path = "/dir/program_name"),
@@ -76,5 +80,10 @@ public class RpcDummyEntity implements org.openlegacy.rpc.RpcEntity {
 			return partName;
 		}
 
+	}
+
+	@Override
+	public List<RpcActionDefinition> getActions() {
+		return Collections.emptyList();
 	}
 }

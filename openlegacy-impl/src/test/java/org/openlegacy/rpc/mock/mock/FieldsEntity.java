@@ -7,7 +7,9 @@ import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcNumericField;
 import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.annotations.rpc.RpcPartList;
+import org.openlegacy.definitions.RpcActionDefinition;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -110,5 +112,10 @@ public class FieldsEntity implements org.openlegacy.rpc.RpcEntity {
 		public void setTextField(String textField) {
 			this.textField = textField;
 		}
+	}
+
+	@Override
+	public List<RpcActionDefinition> getActions() {
+		return Collections.emptyList();
 	}
 }

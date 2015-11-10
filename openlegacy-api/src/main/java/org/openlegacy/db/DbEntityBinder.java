@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 OpenLegacy Inc.
+ * Copyright (c) 2015 OpenLegacy Inc.
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,17 +11,10 @@
 
 package org.openlegacy.db;
 
-import org.openlegacy.db.definitions.DbActionDefinition;
-
-import java.util.List;
-
 /**
  * @author Ivan Bort
- * 
  */
-public interface DbEntity {
+public interface DbEntityBinder {
 
-	Object getId();
-
-	List<DbActionDefinition> getActions();
+	void populateEntity(Object entity);
 }

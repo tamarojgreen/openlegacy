@@ -4,8 +4,10 @@ import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.annotations.rpc.RpcPartList;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.definitions.mock.RpcTreeEntity.WPart1.NestedPart;
 
+import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings("unused")
@@ -77,6 +79,11 @@ public class RpcTreeEntity implements org.openlegacy.rpc.RpcEntity {
 
 		@RpcField(length = 20)
 		String innerVariable;
+	}
+
+	@Override
+	public List<RpcActionDefinition> getActions() {
+		return Collections.emptyList();
 	}
 
 }

@@ -18,21 +18,32 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
+import org.openlegacy.db.DbEntity;
+import org.openlegacy.db.actions.DbActions;
+import org.openlegacy.db.definitions.DbActionDefinition;
 import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.User;
 import org.openlegacy.modules.roles.Roles;
+import org.openlegacy.rpc.RpcEntity;
+import org.openlegacy.rpc.actions.RpcActions;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.support.SessionModuleAdapter;
+import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.beans.DirectFieldAccessor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +56,8 @@ public class DefaultRolesModule extends SessionModuleAdapter<Session> implements
 
 	private static final long serialVersionUID = 1L;
 	private final static Log logger = LogFactory.getLog(DefaultRolesModule.class);
+
+	private Map<String, Object> populatedEntities = new HashMap<String, Object>();
 
 	@Inject
 	private EntitiesRegistry<?, ?, ?> entitiesRegistry;
@@ -110,7 +123,7 @@ public class DefaultRolesModule extends SessionModuleAdapter<Session> implements
 		} else {
 			populateEntity(entity, userRoles);
 		}
-
+		populatedEntities.clear();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -122,7 +135,13 @@ public class DefaultRolesModule extends SessionModuleAdapter<Session> implements
 		if (entityDefinition == null) {
 			return;
 		}
-
+		String hashCode = String.valueOf(System.identityHashCode(entity));
+		if (populatedEntities.containsKey(hashCode)) {
+			entity = populatedEntities.get(hashCode);
+			return;
+		} else {
+			populatedEntities.put(hashCode, entity);
+		}
 		Collection<?> fieldDefinitions = (Collection<?>) entityDefinition.getFieldsDefinitions().values();
 
 		if (entityDefinition instanceof DbEntityDefinition) {
@@ -197,6 +216,15 @@ public class DefaultRolesModule extends SessionModuleAdapter<Session> implements
 				}
 			}
 		}
+
+		// remove actions
+		if (entity instanceof ScreenEntity) {
+			removeScreenActions((ScreenEntity) entity, entityDefinition, userRoles);
+		} else if (entity instanceof RpcEntity) {
+			removeRpcActions((RpcEntity) entity, entityDefinition, userRoles);
+		} else if (entity instanceof DbEntity) {
+			removeDbActions((DbEntity) entity, entityDefinition, userRoles);
+		}
 	}
 
 	private boolean isEntityPermitted(EntityDefinition<?> entityDefinition, String[] userRoles) {
@@ -219,6 +247,73 @@ public class DefaultRolesModule extends SessionModuleAdapter<Session> implements
 			}
 		}
 		return true;
+	}
+
+	private void removeScreenActions(ScreenEntity entity, EntityDefinition<?> definition, String[] userRoles) {
+		List<ActionDefinition> definitionsToRemove = getActionDefinitionsToRemove(definition, userRoles);
+		List<ActionDefinition> toRemove = new ArrayList<ActionDefinition>();
+		List<TerminalActionDefinition> actions = entity.getActions();
+		for (ActionDefinition actionDefinition : actions) {
+			if (TerminalActions.SHOW.class.isAssignableFrom(actionDefinition.getAction().getClass())) {
+				toRemove.add(actionDefinition);
+				continue;
+			}
+			for (ActionDefinition actionDefinition2 : definitionsToRemove) {
+				if (actionDefinition2.getAction().getClass().isAssignableFrom(actionDefinition.getAction().getClass())) {
+					toRemove.add(actionDefinition);
+				}
+			}
+		}
+		actions.removeAll(toRemove);
+	}
+
+	private void removeRpcActions(RpcEntity entity, EntityDefinition<?> definition, String[] userRoles) {
+		List<ActionDefinition> definitionsToRemove = getActionDefinitionsToRemove(definition, userRoles);
+		List<ActionDefinition> toRemove = new ArrayList<ActionDefinition>();
+		List<RpcActionDefinition> actions = entity.getActions();
+		for (ActionDefinition actionDefinition : actions) {
+			if (RpcActions.SHOW.class.isAssignableFrom(actionDefinition.getAction().getClass())) {
+				toRemove.add(actionDefinition);
+				continue;
+			}
+			for (ActionDefinition actionDefinition2 : definitionsToRemove) {
+				if (actionDefinition2.getAction().getClass().isAssignableFrom(actionDefinition.getAction().getClass())) {
+					toRemove.add(actionDefinition);
+				}
+			}
+		}
+		actions.removeAll(toRemove);
+	}
+
+	private void removeDbActions(DbEntity entity, EntityDefinition<?> definition, String[] userRoles) {
+		List<ActionDefinition> definitionsToRemove = getActionDefinitionsToRemove(definition, userRoles);
+		List<ActionDefinition> toRemove = new ArrayList<ActionDefinition>();
+		List<DbActionDefinition> actions = entity.getActions();
+		for (ActionDefinition actionDefinition : actions) {
+			if (DbActions.SHOW.class.isAssignableFrom(actionDefinition.getAction().getClass())) {
+				toRemove.add(actionDefinition);
+				continue;
+			}
+			for (ActionDefinition actionDefinition2 : definitionsToRemove) {
+				if (actionDefinition2.getAction().getClass().isAssignableFrom(actionDefinition.getAction().getClass())) {
+					toRemove.add(actionDefinition);
+				}
+			}
+		}
+		actions.removeAll(toRemove);
+	}
+
+	private List<ActionDefinition> getActionDefinitionsToRemove(EntityDefinition<?> definition, String[] userRoles) {
+		List<ActionDefinition> list = new ArrayList<ActionDefinition>();
+		for (ActionDefinition actionDefinition : definition.getActions()) {
+			List<String> roles = actionDefinition.getRoles();
+			if (roles != null && !roles.isEmpty()) {
+				if (!CollectionUtils.containsAny(roles, Arrays.asList(userRoles))) {
+					list.add(actionDefinition);
+				}
+			}
+		}
+		return list;
 	}
 
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 OpenLegacy Inc.
+ * Copyright (c) 2015 OpenLegacy Inc.
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.rpc.modules.menu;
 
+import org.openlegacy.authorization.AuthorizationService;
+import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuBuilder;
 import org.openlegacy.modules.menu.MenuItem;
@@ -27,12 +29,18 @@ public class DefaultRpcMenuModule extends RpcSessionModuleAdapter implements Men
 	@Inject
 	private MenuBuilder menuBuilder;
 
+	@Inject
+	private AuthorizationService authorizationService;
+
+	private List<MenuItem> userFlatMenus;
+
 	private MenuItem userMenu;
-	
+
 	@Override
 	public MenuItem getMenuTree() {
-		if (userMenu == null){
+		if (userMenu == null) {
 			userMenu = menuBuilder.getMenuTree();
+			userMenu = authorizationService.filterMenu(getSession().getModule(Login.class).getLoggedInUser(), userMenu);
 		}
 		return userMenu;
 	}
@@ -44,7 +52,12 @@ public class DefaultRpcMenuModule extends RpcSessionModuleAdapter implements Men
 
 	@Override
 	public List<MenuItem> getFlatMenuEntries() {
-		return menuBuilder.getFlatMenuEntries();
+		if (userFlatMenus == null) {
+			List<MenuItem> flatMenuEntries = menuBuilder.getFlatMenuEntries();
+			userFlatMenus = authorizationService.filterMenus(getSession().getModule(Login.class).getLoggedInUser(),
+					flatMenuEntries);
+		}
+		return userFlatMenus;
 	}
 
 	public static class RpcMenuItem {

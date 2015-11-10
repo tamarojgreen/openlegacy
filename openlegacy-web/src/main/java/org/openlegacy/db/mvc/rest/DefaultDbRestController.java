@@ -20,6 +20,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.db.DbSession;
 import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.db.services.DbService;
 import org.openlegacy.db.services.DbService.TableDbObject;
@@ -370,6 +371,8 @@ public class DefaultDbRestController extends AbstractDbRestController {
 		} else {
 			entity = ProxyUtil.getTargetJpaObject(entity, children);
 		}
+		((DbSession) getSession()).applyBinders(entity);
+
 		Roles rolesModule = getSession().getModule(Roles.class);
 		if (rolesModule != null) {
 			rolesModule.populateEntity(entity, getSession().getModule(Login.class));

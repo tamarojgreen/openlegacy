@@ -19,4 +19,6 @@ public interface DbSession extends Session {
 	public void login(String user, String password);
 
 	public Object doAction(DbAction action, Object dbEntity, Object... keys);
+
+	public void applyBinders(Object dbEntity);
 }

@@ -6,7 +6,11 @@ import org.openlegacy.annotations.rpc.RpcActions;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcPart;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.READ;
+
+import java.util.Collections;
+import java.util.List;
 
 @RpcEntity(displayName = "Inner key Entity")
 @RpcActions(actions = { @Action(action = READ.class, path = "/dir/InnerKeyEntity") })
@@ -81,5 +85,11 @@ public class InnerKeyEntity implements org.openlegacy.rpc.RpcEntity {
 
 		}
 
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RpcActionDefinition> getActions() {
+		return Collections.EMPTY_LIST;
 	}
 }

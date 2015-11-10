@@ -105,6 +105,8 @@
 	</bean>
 	<!-- Session Entity Status checking  -->	
 
+	<bean class="org.openlegacy.db.support.binders.DbEntityActionsBinder"/>
+
 	<context:annotation-config />
 
 </beans>

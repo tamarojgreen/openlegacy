@@ -6,8 +6,12 @@ import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcNumericField;
 import org.openlegacy.annotations.rpc.RpcPart;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.READ;
 import org.openlegacy.rpc.actions.RpcActions.UPDATE;
+
+import java.util.Collections;
+import java.util.List;
 
 @RpcEntity(name = "ItemDetails")
 @RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM", global = false),
@@ -21,26 +25,30 @@ public class ItemDetails implements org.openlegacy.rpc.RpcEntity {
 	private ItemRecord itemRecord;
 	private Shipping shipping;
 
-    public Integer getItemNum(){
-    	return this.itemNum;
-    }
-    public void setItemNum(Integer itemNum){
-    	this.itemNum = itemNum;
-    }
-    public ItemRecord getItemRecord(){
-    	return this.itemRecord;
-    }
-    public void setItemRecord(ItemRecord itemRecord){
-    	this.itemRecord = itemRecord;
-    }
-    public Shipping getShipping(){
-    	return this.shipping;
-    }
-    public void setShipping(Shipping shipping){
-    	this.shipping = shipping;
-    }
-    
-	
+	public Integer getItemNum() {
+		return this.itemNum;
+	}
+
+	public void setItemNum(Integer itemNum) {
+		this.itemNum = itemNum;
+	}
+
+	public ItemRecord getItemRecord() {
+		return this.itemRecord;
+	}
+
+	public void setItemRecord(ItemRecord itemRecord) {
+		this.itemRecord = itemRecord;
+	}
+
+	public Shipping getShipping() {
+		return this.shipping;
+	}
+
+	public void setShipping(Shipping shipping) {
+		this.shipping = shipping;
+	}
+
 	@RpcPart(name = "ItemRecord")
 	public static class ItemRecord {
 
@@ -57,13 +65,15 @@ public class ItemDetails implements org.openlegacy.rpc.RpcEntity {
 		public String getItemName() {
 			return itemName;
 		}
+
 		public String getDescription() {
 			return description;
 		}
+
 		public Integer getWeight() {
 			return weight;
 		}
-		
+
 	}
 
 	@RpcPart(name = "Shipping")
@@ -79,8 +89,15 @@ public class ItemDetails implements org.openlegacy.rpc.RpcEntity {
 		public String getShippingMethod() {
 			return shippingMethod;
 		}
+
 		public Integer getDays() {
 			return days;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RpcActionDefinition> getActions() {
+		return Collections.EMPTY_LIST;
 	}
 }
