@@ -9,7 +9,7 @@ import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.READ;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/BOOLEAN.PGM", global = false) })
@@ -86,7 +86,7 @@ public class BooleanRpcEntity implements org.openlegacy.rpc.RpcEntity {
 
 	@Override
 	public List<RpcActionDefinition> getActions() {
-		return Collections.emptyList();
+		return new ArrayList<RpcActionDefinition>();
 	}
 
 }

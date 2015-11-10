@@ -8,7 +8,7 @@ import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.READ;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class RpcDateEntity implements org.openlegacy.rpc.RpcEntity {
 
 	@Override
 	public List<RpcActionDefinition> getActions() {
-		return Collections.emptyList();
+		return new ArrayList<RpcActionDefinition>();
 	}
 
 }

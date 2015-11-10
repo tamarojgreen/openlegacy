@@ -11,7 +11,7 @@ import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.READ;
 import org.openlegacy.rpc.actions.RpcActions.SHOW;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @RpcEntity(displayName = "Dummy Entity")
@@ -84,6 +84,6 @@ public class RpcDummyEntity implements org.openlegacy.rpc.RpcEntity {
 
 	@Override
 	public List<RpcActionDefinition> getActions() {
-		return Collections.emptyList();
+		return new ArrayList<RpcActionDefinition>();
 	}
 }

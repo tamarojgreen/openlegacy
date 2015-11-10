@@ -9,7 +9,7 @@ import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.READ;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @RpcEntity(displayName = "Inner key Entity")
@@ -87,9 +87,8 @@ public class InnerKeyEntity implements org.openlegacy.rpc.RpcEntity {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<RpcActionDefinition> getActions() {
-		return Collections.EMPTY_LIST;
+		return new ArrayList<RpcActionDefinition>();
 	}
 }

@@ -12,7 +12,7 @@ import org.openlegacy.db.actions.DbActions.SHOW;
 import org.openlegacy.db.actions.DbActions.UPDATE;
 import org.openlegacy.db.definitions.DbActionDefinition;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -58,9 +58,8 @@ public class DbDummyEntity implements org.openlegacy.db.DbEntity {
 		this.description = description;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<DbActionDefinition> getActions() {
-		return Collections.EMPTY_LIST;
+		return new ArrayList<DbActionDefinition>();
 	}
 }

@@ -10,7 +10,7 @@ import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.READ;
 import org.openlegacy.rpc.actions.RpcActions.UPDATE;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @RpcEntity(name = "ItemDetails")
@@ -95,9 +95,8 @@ public class ItemDetails implements org.openlegacy.rpc.RpcEntity {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<RpcActionDefinition> getActions() {
-		return Collections.EMPTY_LIST;
+		return new ArrayList<RpcActionDefinition>();
 	}
 }

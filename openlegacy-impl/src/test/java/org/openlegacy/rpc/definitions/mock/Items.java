@@ -11,7 +11,7 @@ import org.openlegacy.annotations.rpc.RpcPartList;
 import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.READ;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ITEMS.PGM", global = false) })
@@ -59,10 +59,9 @@ public class Items implements org.openlegacy.rpc.RpcEntity {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<RpcActionDefinition> getActions() {
-		return Collections.EMPTY_LIST;
+		return new ArrayList<RpcActionDefinition>();
 	}
 
 }

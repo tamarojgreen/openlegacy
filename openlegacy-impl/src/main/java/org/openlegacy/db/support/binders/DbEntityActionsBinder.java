@@ -44,6 +44,9 @@ public class DbEntityActionsBinder implements DbEntityBinder {
 	}
 
 	private void calculateActions(Object entity) {
+		if (entity == null) {
+			return;
+		}
 		DbEntityDefinition entityDefinition = dbEntitesRegistry.get(entity.getClass());
 		if (entityDefinition == null) {
 			return;
