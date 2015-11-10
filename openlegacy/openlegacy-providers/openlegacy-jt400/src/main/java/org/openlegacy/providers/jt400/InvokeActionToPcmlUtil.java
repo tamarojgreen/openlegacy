@@ -50,6 +50,7 @@ public class InvokeActionToPcmlUtil {
 	private final String STRCTURE_POSTFIX = "_structure";
 	private final String INITIAL_ATTR_NAME = "init";
 	private final String COUNT_ATTR_NAME = "count";
+	private final String PRECISION_ATTR_NAME = "precision";
 
 	// static private Map<String, String> typeTable = new HashMap<String, String>();
 	static private Map<Direction, String> directionTable = new HashMap<Direction, String>();
@@ -71,8 +72,8 @@ public class InvokeActionToPcmlUtil {
 		directionTable.put(Direction.OUTPUT, "output");
 	}
 
-	public byte[] serilize(RpcInvokeAction rpcInvokeAction, String pcmlName) throws ParserConfigurationException,
-			TransformerException {
+	public byte[] serilize(RpcInvokeAction rpcInvokeAction, String pcmlName)
+			throws ParserConfigurationException, TransformerException {
 		Document doc = work(rpcInvokeAction, pcmlName);
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
@@ -86,8 +87,8 @@ public class InvokeActionToPcmlUtil {
 		return outputStream.toByteArray();
 	}
 
-	public void save(RpcInvokeAction rpcInvokeAction, String dir, String pcmlName) throws ParserConfigurationException,
-			TransformerException {
+	public void save(RpcInvokeAction rpcInvokeAction, String dir, String pcmlName)
+			throws ParserConfigurationException, TransformerException {
 
 		Document doc = work(rpcInvokeAction, pcmlName);
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -167,7 +168,12 @@ public class InvokeActionToPcmlUtil {
 	private Element createFlatField(Document doc, org.openlegacy.rpc.RpcFlatField rpcFlatField) {
 		Element struct = doc.createElement(DATA_NODE);
 		struct.setAttribute(NAME_ATTR_NAME, rpcFlatField.getName());
-		struct.setAttribute(TYPE_ATTR_NAME, "char");
+		if (rpcFlatField.getLegacyType() == null || rpcFlatField.getLegacyType().equals("")) {
+			struct.setAttribute(TYPE_ATTR_NAME, "char");
+		} else {
+			struct.setAttribute(TYPE_ATTR_NAME, "packed");
+			struct.setAttribute(PRECISION_ATTR_NAME, rpcFlatField.getDecimalPlaces().toString());
+		}
 		struct.setAttribute(LENGTH_ATTR_NAME, rpcFlatField.getLength().toString());
 		struct.setAttribute(USAGE_ATTR_NAME, directionTable.get(rpcFlatField.getDirection()));
 		if (rpcFlatField.getDefaultValue() != null && !("".equals(rpcFlatField.getDefaultValue()))) {

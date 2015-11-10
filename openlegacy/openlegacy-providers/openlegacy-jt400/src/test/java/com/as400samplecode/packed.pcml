@@ -1,0 +1,5 @@
+<pcml version="4.0">
+<program name="packed" path="/QSYS.LIB/RMR2L1.LIB/PACKCBL.PGM">
+<data length="4" name="child1" type="packed" precision="2" usage="inputoutput"/>
+</program>
+</pcml>

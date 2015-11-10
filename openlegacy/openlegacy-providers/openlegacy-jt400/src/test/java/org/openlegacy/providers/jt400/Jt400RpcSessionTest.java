@@ -22,6 +22,7 @@ import org.openlegacy.providers.jt400.mockup.EnumEntity;
 import org.openlegacy.providers.jt400.mockup.EnumEntity.ColorGroup;
 import org.openlegacy.providers.jt400.mockup.ItemDetails;
 import org.openlegacy.providers.jt400.mockup.MixedOrderEntity;
+import org.openlegacy.providers.jt400.mockup.PackedDecimal;
 import org.openlegacy.providers.jt400.mockup.TreeArray;
 import org.openlegacy.rpc.RpcSession;
 import org.openlegacy.rpc.actions.RpcActions;
@@ -230,4 +231,17 @@ public class Jt400RpcSessionTest {
 		Assert.assertEquals(ColorGroup.Red, enumeEntity.getSecondColor());
 	}
 
+	@Test
+	public void testPacked() {
+		RpcSession rpcSession = applicationContext.getBean(RpcSession.class);
+		PackedDecimal packedEntity = new PackedDecimal();
+		packedEntity.setPacked(11.11);
+		packedEntity = rpcSession.doAction(RpcActions.READ(), packedEntity);
+		Assert.assertEquals(new Double(12.11), packedEntity.getPacked());
+
+		// negative
+		packedEntity.setPacked(-11.11);
+		packedEntity = rpcSession.doAction(RpcActions.READ(), packedEntity);
+		Assert.assertEquals(new Double(-10.11), packedEntity.getPacked());
+	}
 }

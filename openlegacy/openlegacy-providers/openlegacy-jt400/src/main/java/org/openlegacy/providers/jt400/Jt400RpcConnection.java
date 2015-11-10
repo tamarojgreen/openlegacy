@@ -192,6 +192,10 @@ public class Jt400RpcConnection implements RpcConnection {
 
 			String imageName = "%0" + field.getLength() + "d";
 			return String.format(imageName, Integer.parseInt(String.valueOf(result)));
+
+		} else if (clazz == Double.class) {
+			String imageName = "%0" + field.getLength() + "f";
+			return String.format(imageName, Double.parseDouble(String.valueOf(result)));
 		} else if (clazz == BigInteger.class) {
 			String imageName = "%" + field.getLength() + "s";
 
