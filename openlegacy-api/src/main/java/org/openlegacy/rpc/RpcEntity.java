@@ -10,9 +10,22 @@
  *******************************************************************************/
 package org.openlegacy.rpc;
 
+import org.openlegacy.definitions.RpcActionDefinition;
+
+import java.util.Collections;
+import java.util.List;
+
 public interface RpcEntity {
 
+	List<RpcActionDefinition> getActions();
+
 	public class NONE implements RpcEntity {
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public List<RpcActionDefinition> getActions() {
+			return Collections.EMPTY_LIST;
+		}
 
 	}
 

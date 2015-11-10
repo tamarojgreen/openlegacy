@@ -14,10 +14,11 @@ package org.openlegacy.db.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.ApplicationConnection;
-import org.openlegacy.cache.modules.CacheModule;
-import org.openlegacy.cache.modules.CacheModule.ObtainEntityCallback;
 import org.openlegacy.SessionPropertiesProvider;
 import org.openlegacy.authorization.AuthorizationService;
+import org.openlegacy.cache.modules.CacheModule;
+import org.openlegacy.cache.modules.CacheModule.ObtainEntityCallback;
+import org.openlegacy.db.DbEntityBinder;
 import org.openlegacy.db.DbSession;
 import org.openlegacy.db.actions.DbAction;
 import org.openlegacy.db.actions.DbActions;
@@ -38,10 +39,10 @@ import org.openlegacy.support.AbstractSession;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.StringUtil;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.text.MessageFormat;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -65,6 +66,9 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 
 	@Inject
 	private SessionPropertiesProvider sessionPropertiesProvider;
+
+	@Inject
+	private List<DbEntityBinder> dbEntityBinders;
 
 	@Override
 	public Object getDelegate() {
@@ -126,6 +130,9 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 			}
 		}
 		Object object = action.perform(getEntityManager(), dbEntity, keys);
+
+		applyBinders(object);
+
 		if (rolesModule != null) {
 			rolesModule.populateEntity(object, getModule(Login.class));
 		}
@@ -182,5 +189,11 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 		}
 	}
 
+	@Override
+	public void applyBinders(Object dbEntity) {
+		for (DbEntityBinder dbEntityBinder : dbEntityBinders) {
+			dbEntityBinder.populateEntity(dbEntity);
+		}
+	}
 
 }

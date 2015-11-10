@@ -7,10 +7,10 @@ import org.openlegacy.annotations.rpc.RpcBooleanField;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcPart;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.READ;
-import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/EXPRESSION.PGM", global = false) })
@@ -79,11 +79,6 @@ public class ExpressionRpcEntity implements org.openlegacy.rpc.RpcEntity {
 
 	public void setFocusField(String focusField) {}
 
-	@SuppressWarnings("unchecked")
-	public List<TerminalActionDefinition> getActions() {
-		return Collections.EMPTY_LIST;
-	}
-
 	public String getExpression1() {
 		return expression1;
 	}
@@ -130,5 +125,10 @@ public class ExpressionRpcEntity implements org.openlegacy.rpc.RpcEntity {
 
 	public void setIntExpression1and2(Integer intExpression1and2) {
 		this.intExpression1and2 = intExpression1and2;
+	}
+
+	@Override
+	public List<RpcActionDefinition> getActions() {
+		return new ArrayList<RpcActionDefinition>();
 	}
 }

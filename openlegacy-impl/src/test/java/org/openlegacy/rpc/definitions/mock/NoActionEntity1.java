@@ -3,6 +3,10 @@ package org.openlegacy.rpc.definitions.mock;
 import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
+import org.openlegacy.definitions.RpcActionDefinition;
+
+import java.util.Collections;
+import java.util.List;
 
 @RpcEntity(displayName = "Dummy Entity without action 1")
 public class NoActionEntity1 implements org.openlegacy.rpc.RpcEntity {
@@ -16,6 +20,11 @@ public class NoActionEntity1 implements org.openlegacy.rpc.RpcEntity {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+
+	@Override
+	public List<RpcActionDefinition> getActions() {
+		return Collections.emptyList();
 	}
 
 }

@@ -4,7 +4,9 @@ import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcListField;
 import org.openlegacy.annotations.rpc.RpcNumericField;
+import org.openlegacy.definitions.RpcActionDefinition;
 
+import java.util.Collections;
 import java.util.List;
 
 @RpcEntity(name = "RpcList")
@@ -33,5 +35,10 @@ public class RpcListEntity implements org.openlegacy.rpc.RpcEntity {
 
 	public void setField2(List<Integer> field2) {
 		this.field2 = field2;
+	}
+
+	@Override
+	public List<RpcActionDefinition> getActions() {
+		return Collections.emptyList();
 	}
 }

@@ -5,6 +5,10 @@ import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcNavigation;
 import org.openlegacy.annotations.rpc.RpcNumericField;
+import org.openlegacy.definitions.RpcActionDefinition;
+
+import java.util.Collections;
+import java.util.List;
 
 @RpcEntity(name = "SimpleEntity")
 @RpcNavigation(category = "Tree1")
@@ -43,6 +47,11 @@ public class RpcSimpleEntity implements org.openlegacy.rpc.RpcEntity {
 
 	public void setParam3(String param3) {
 		this.param3 = param3;
+	}
+
+	@Override
+	public List<RpcActionDefinition> getActions() {
+		return Collections.emptyList();
 	}
 
 }
