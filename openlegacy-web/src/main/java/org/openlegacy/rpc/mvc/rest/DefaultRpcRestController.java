@@ -239,18 +239,23 @@ public class DefaultRpcRestController extends AbstractRpcRestController {
 			// check for EXECUTE action
 			List<ActionDefinition> actions = entityDefinition.getActions();
 			boolean hasExecuteAction = false;
+			boolean hasReadAction = false;
 
 			if (!execute) {
 				for (ActionDefinition a : actions) {
 					if (a.getAction() instanceof RpcActions.EXECUTE) {
 						hasExecuteAction = true;
 					}
+
+					if (a.getAction() instanceof RpcActions.READ) {
+						hasReadAction = true;
+					}
 				}
 			}
 
 			Object entity = null;
 
-			if (!hasExecuteAction) {
+			if (hasReadAction || !hasExecuteAction) {
 				entity = getApiEntity(entityName, key);
 				if (entity == null) {
 					throw (new EntityNotFoundException("No entity found"));
