@@ -4,12 +4,12 @@
 	<parent>
 		<artifactId>openlegacy</artifactId>
 		<groupId>org.openlegacy</groupId>
-		<version>2.2.0-RELEASE</version>
+		<version>2.3.0-RELEASE</version>
 		<relativePath>../openlegacy/pom.xml</relativePath>
 	</parent>
 	<artifactId>openlegacy-web</artifactId>
 	<name>OpenLegacy web components</name>
-	<description>OpenLegacy web components provides a set of tools for building web,REST and mobile application using OpenLegacy API</description>	
+	<description>OpenLegacy web components provides a set of tools for building web,REST and mobile application using OpenLegacy API</description>
 
 	<properties>
 		<org.slf4j-version>1.7.7</org.slf4j-version>
@@ -49,13 +49,13 @@
 			<scope>provided</scope>
 			<version>2.5</version>
 		</dependency>
-        <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>jsp-api</artifactId>
-            <version>2.1</version>
-            <scope>provided</scope>
-            <classifier/>
-        </dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+			<classifier />
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
@@ -77,19 +77,19 @@
 			<version>1.0.0.RELEASE</version>
 		</dependency>
 		<dependency>
-		   <groupId>org.codehaus.jackson</groupId>
-		   <artifactId>jackson-mapper-asl</artifactId>
-		   <version>1.9.3</version>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.3</version>
 		</dependency>
 		<dependency>
-		   <groupId>org.springframework</groupId>
-		   <artifactId>spring-oxm</artifactId>
- 		   <version>${spring.framework.version}</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>${spring.framework.version}</version>
 		</dependency>
 		<dependency>
-		   <groupId>org.codehaus.castor</groupId>
-		   <artifactId>castor-xml</artifactId>
-		   <version>1.3.3</version>
+			<groupId>org.codehaus.castor</groupId>
+			<artifactId>castor-xml</artifactId>
+			<version>1.3.3</version>
 		</dependency>
 		<!--  for parsing user agent -->
 		<dependency>

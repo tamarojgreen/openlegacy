@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.openlegacy.providers</groupId>
 		<artifactId>openlegacy-providers</artifactId>
-		<version>2.2.0-RELEASE</version>
+		<version>2.3.0-RELEASE</version>
 	</parent>
 	<artifactId>openlegacy-jt400</artifactId>
 
