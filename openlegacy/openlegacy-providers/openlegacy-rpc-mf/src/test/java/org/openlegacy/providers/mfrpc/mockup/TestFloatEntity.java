@@ -8,11 +8,7 @@ import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcNavigation;
 import org.openlegacy.annotations.rpc.RpcNumericField;
 import org.openlegacy.annotations.rpc.RpcPart;
-import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.EXECUTE;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RpcEntity(name = "TestFloatEntity", language = Languages.COBOL)
 @RpcActions(actions = { @Action(action = EXECUTE.class, path = "TNUM2", displayName = "Execute", alias = "execute") })
@@ -60,10 +56,6 @@ public class TestFloatEntity implements org.openlegacy.rpc.RpcEntity {
 			this.tnum2 = tnum2;
 		}
 
-		@Override
-		public List<RpcActionDefinition> getActions() {
-			return new ArrayList<RpcActionDefinition>();
-		}
 	}
 
 	public Dfhcommarea getDfhcommarea() {
@@ -74,8 +66,4 @@ public class TestFloatEntity implements org.openlegacy.rpc.RpcEntity {
 		this.dfhcommarea = dfhcommarea;
 	}
 
-	@Override
-	public List<RpcActionDefinition> getActions() {
-		return new ArrayList<RpcActionDefinition>();
-	}
 }

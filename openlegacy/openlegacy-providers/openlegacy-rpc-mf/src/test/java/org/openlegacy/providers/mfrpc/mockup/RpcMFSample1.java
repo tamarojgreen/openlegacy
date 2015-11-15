@@ -6,11 +6,7 @@ import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcNavigation;
 import org.openlegacy.annotations.rpc.RpcNumericField;
-import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.actions.RpcActions.EXECUTE;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RpcNavigation(category = "")
 @RpcEntity(name = "Rpc")
@@ -63,8 +59,4 @@ public class RpcMFSample1 implements org.openlegacy.rpc.RpcEntity {
 		this.caSalary = caSalary;
 	}
 
-	@Override
-	public List<RpcActionDefinition> getActions() {
-		return new ArrayList<RpcActionDefinition>();
-	}
 }
