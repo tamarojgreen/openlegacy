@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.openlegacy.providers</groupId>
+		<artifactId>openlegacy-providers</artifactId>
+		<version>3.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>openlegacy-rpc-mf</artifactId>
+	<repositories>
+	  <repository>
+	   <id>openlegacy-providers</id>
+	   <url>http://maven.openlegacy.org/maven2/providers</url>
+	  </repository>
+	 </repositories>
+	<dependencies>
+		<dependency>
+			<groupId>org.openlegacy</groupId>
+			<artifactId>openlegacy-impl</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>jrecord</groupId>
+			<artifactId>jrecord</artifactId>
+			<version>0.80.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.2.1</version>
+		</dependency>
+	
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.framework.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+</project>
