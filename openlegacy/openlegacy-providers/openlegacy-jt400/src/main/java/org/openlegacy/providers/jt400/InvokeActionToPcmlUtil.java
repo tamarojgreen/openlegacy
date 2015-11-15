@@ -168,7 +168,7 @@ public class InvokeActionToPcmlUtil {
 	private Element createFlatField(Document doc, org.openlegacy.rpc.RpcFlatField rpcFlatField) {
 		Element struct = doc.createElement(DATA_NODE);
 		struct.setAttribute(NAME_ATTR_NAME, rpcFlatField.getName());
-		if (rpcFlatField.getLegacyType() == null || rpcFlatField.getLegacyType().equals("")) {
+		if (rpcFlatField.getLegacyType() == null || !rpcFlatField.getLegacyType().equals("packed")) {
 			struct.setAttribute(TYPE_ATTR_NAME, "char");
 		} else {
 			struct.setAttribute(TYPE_ATTR_NAME, "packed");
