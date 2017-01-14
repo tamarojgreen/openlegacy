@@ -12,22 +12,12 @@
 	<description>OpenLegacy web components provides a set of tools for building web,REST and mobile application using OpenLegacy API</description>	
 
 	<properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
 		<org.slf4j-version>1.7.7</org.slf4j-version>
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.openlegacy</groupId>
-			<artifactId>openlegacy-impl</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.openlegacy</groupId>
-			<artifactId>openlegacy-test-apps</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>net.sf.flexjson</groupId>
 			<artifactId>flexjson</artifactId>
@@ -56,7 +46,7 @@
             <scope>provided</scope>
             <classifier/>
         </dependency>
-		<dependency>
+		<!--dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>${spring.framework.version}</version>
@@ -90,7 +80,13 @@
 		   <groupId>org.codehaus.castor</groupId>
 		   <artifactId>castor-xml</artifactId>
 		   <version>1.3.3</version>
-		</dependency>
+		</dependency-->
+<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.10 -->
+<dependency>
+    <groupId>org.apache.spark</groupId>
+    <artifactId>spark-core_2.10</artifactId>
+    <version>2.1.0</version>
+</dependency>
 		<!--  for parsing user agent -->
 		<dependency>
 			<groupId>net.sf.uadetector</groupId>
@@ -169,4 +165,18 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.6.0</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
